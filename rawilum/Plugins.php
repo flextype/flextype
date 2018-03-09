@@ -48,11 +48,7 @@ class Plugins
 
         if (is_array($this->rawilum['config']->get('site.plugins')) && count($this->rawilum['config']->get('site.plugins')) > 0) {
             foreach ($this->rawilum['config']->get('site.plugins') as $plugin_id => $plugin_name) {
-                //echo '@@@'.$plugins;
-                //if ($this->rawilum['config']->get('plugins.'.$plugin_name.'.enabled')) {
-//echo  $plugin_name;
                 include_once PLUGINS_PATH .'/'. $plugin_name .'/'. $plugin_name . '.php';
-
             }
         }
     }
