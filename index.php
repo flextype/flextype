@@ -10,20 +10,14 @@
 
 namespace Rawilum;
 
-// Register the auto-loader.
-$autoload = __DIR__ . '/vendor/autoload.php';
+// Check PHP Version
+version_compare($ver = PHP_VERSION, $req = '7.1.3', '<') and exit(sprintf('You are running PHP %s, but Rawilum needs at least <strong>PHP %s</strong> to run.', $ver, $req));
 
-// Ensure vendor libraries exist
-!is_file($autoload) and exit("Please run: <i>composer install</i>");
+// Ensure vendor libraries exist and Register The Auto Loader
+!is_file($autoload = __DIR__ . '/vendor/autoload.php') and exit("Please run: <i>composer install</i>");
 
 // Register the auto-loader.
 $loader = require_once $autoload;
 
-// Check PHP Version
-version_compare($ver = PHP_VERSION, $req = '7.1.3', '<') and exit(sprintf('You are running PHP %s, but Rawilum needs at least <strong>PHP %s</strong> to run.', $ver, $req));
-
-// Get Rawilum Instance
-$app = Rawilum::instance();
-
 // Run Rawilum Application
-$app->run();
+$rawilum = Rawilum::instance()->run();

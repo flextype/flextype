@@ -60,10 +60,6 @@ class Rawilum extends Container
             return new Config($c);
         };
 
-        $container['router'] = function ($c) {
-            return new \Klein\Klein();
-        };
-
         // Start the session
         //\Session::start();
 
@@ -92,8 +88,6 @@ class Rawilum extends Container
         $container['themes'] = function ($c) {
             return new Themes($c);
         };
-
-        $container['router']->dispatch();
 
         return $container;
     }
