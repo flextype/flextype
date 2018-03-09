@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /rawilum/
+Disallow: /site/plugins/
+Disallow: /site/config/
+Disallow: /vendor/

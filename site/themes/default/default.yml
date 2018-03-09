@@ -1,0 +1,13 @@
+name: Default
+version: 1.0.0
+description: Default Rawilum theme
+author:
+  name: Sergey Romanenko
+  email: awilum@msn.com
+  url: https://github.com/Awilum
+homepage: https://github.com/Rawilum/Rawilum
+bugs: https://github.com/Rawilum/Rawilum/issues
+license: MIT
+
+# Theme settings
+enabled: true

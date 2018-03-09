@@ -1,0 +1,28 @@
+# Site configuration
+
+title: 'Rawilum'
+description: 'Modern Open Source Flat-File Content Management System'
+author:
+  email: ''
+
+
+# System Configuration
+
+timezone: UTC
+charset: UTF-8
+
+theme: default
+
+plugins:
+
+pages:
+  flush_cache: false
+
+errors:
+  display: false
+
+cache:
+  enabled: false
+  prefix: Rawilum
+  driver: auto
+  lifetime: 604800

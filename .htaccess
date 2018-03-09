@@ -1,0 +1,63 @@
+#
+# This file is part of the Rawilum.
+#
+# (c) Romanenko Sergey / Awilum <awilum@msn.com>
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+
+# Set default charset utf-8
+AddDefaultCharset UTF-8
+
+# PHP 5, Apache 1 and 2.
+<IfModule mod_php5.c>
+	php_flag magic_quotes_gpc                 off
+	php_flag magic_quotes_sybase              off
+	php_flag register_globals                 off
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+
+	## Begin - Rewrite rules to block out some common exploits.
+	# If you experience problems on your site block out the operations listed below
+	# This attempts to block the most common type of exploit `attempts` to Rawilum
+	#
+	# Block out any script trying to base64_encode data within the URL.
+	RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
+	# Block out any script that includes a <script> tag in URL.
+	RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+	# Block out any script trying to set a PHP GLOBALS variable via URL.
+	RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+	# Block out any script trying to modify a _REQUEST variable via URL.
+	RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+	# Return 403 Forbidden header and show the content of the root homepage
+	RewriteRule .* index.php [F]
+	#
+	## End - Rewrite rules to block out some common exploits.
+
+	## Begin - Rewrite rules for Rawilum
+	RewriteBase /rawilum/
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*)$ index.php [QSA,L]
+	## End - Rewrite rules for Rawilum
+
+	## Begin - Rewrite rules for SEO improvements.
+	# RewriteCond %{HTTP_HOST} ^www.example.org [NC]
+ 	# RewriteRule ^(.*)$ http://example.org/$1 [R=301,L]
+	# Redirect 301 /index http://example.org/
+	## End - Rewrite rules for SEO improvements.
+
+</IfModule>
+
+# Prevent visitors from viewing files directly.
+<FilesMatch "(^#.*#|\.(md|txt|html|tpl|yml|yaml)|~)$">
+	Order allow,deny
+	Deny from all
+	Satisfy All
+</FilesMatch>
+
+# Don't show directory listings for URLs which map to a directory.
+Options -Indexes
