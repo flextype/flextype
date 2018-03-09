@@ -107,8 +107,14 @@ class Rawilum extends Container
         // Set default timezone
         date_default_timezone_set($this['config']->get('site.timezone'));
 
-        // Render page
+        // The page is not processed and not sent to the display.
+        $this['events']->dispatch('onPageBeforeRender');
+
+        // Render the page
         $this['pages']->renderPage($this['pages']->getPage(\Url::getUriString()));
+
+        // The page has been fully processed and sent to the display.
+        $this['events']->dispatch('onPageAfterRender');
 
         // Flush (send) the output buffer and turn off output buffering
         ob_end_flush();
