@@ -29,6 +29,8 @@ class Themes
     {
         $template_ext = '.php';
 
+        $page = $this->rawilum['pages']->page;
+
         include THEMES_PATH . '/' . $this->rawilum['config']->get('site.theme') . '/' . $template_name . $template_ext;
     }
 
