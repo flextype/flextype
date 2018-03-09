@@ -80,7 +80,7 @@ class Pages
         if ($this->rawilum['filesystem']->exists($template_path)) {
             include $template_path;
         } else {
-            throw new RuntimeException("Rawilum site config file does not exist.");
+            throw new RuntimeException("Template does not exist.");
         }
     }
 
