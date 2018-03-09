@@ -31,7 +31,13 @@ class Themes
 
         $page = $this->rawilum['pages']->page;
 
-        include THEMES_PATH . '/' . $this->rawilum['config']->get('site.theme') . '/' . $template_name . $template_ext;
+        $template_path = THEMES_PATH . '/' . $this->rawilum['config']->get('site.theme') . '/' . $template_name . $template_ext;
+
+        if ($this->rawilum['filesystem']->exists($template_path)) {
+            include $template_path;
+        } else {
+            throw new RuntimeException("Template does not exist.");
+        }
     }
 
 }
