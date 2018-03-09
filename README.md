@@ -1,5 +1,6 @@
-# Rawilum
-[![Join the chat at https://gitter.im/Rawilum/Rawilum](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Rawilum/Rawilum?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+<p align="center">
+    <img src="https://github.com/rawilum/rawilum/blob/dev/rawilum-logo-big.jpg?raw=true" alt="Rawilum" width="25%" height="25%" />
+</p>
 
 Rawilum is Modern Open Source Flat-File Content Management site.  
 Content in Rawilum is just a simple files written with markdown syntax in pages folder.   
