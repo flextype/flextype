@@ -107,8 +107,6 @@ class Filter
         $priority        = (int) $priority;
         $accepted_args   = (int) $accepted_args;
 
-        //die($function_to_add);
-
         // Check that we don't already have the same filter at the same priority. Thanks to WP :)
         if (isset(static::$filters[$filter_name]["$priority"])) {
             foreach (static::$filters[$filter_name]["$priority"] as $filter) {
