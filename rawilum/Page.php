@@ -104,10 +104,16 @@ class Page
      */
     public function renderPage($page)
     {
-        $template_ext = '.php';
+        $template_ext  = '.php';
         $template_name = empty($page['template']) ? 'index' : $page['template'];
+        $site_theme    = $this->rawilum['config']->get('site.theme');
+        $template_path = THEMES_PATH . '/' . $site_theme . '/' . $template_name . $template_ext;
 
-        include THEMES_PATH . '/' . $this->rawilum['config']->get('site.theme') . '/' . $template_name . $template_ext;
+        if ($this->rawilum['filesystem']->exists($template_path)) {
+            include $template_path;
+        } else {
+            throw new RuntimeException("Rawilum site config file does not exist.");
+        }
     }
 
     /**
