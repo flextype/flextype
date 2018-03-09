@@ -6,7 +6,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\Event;
-use \Klein\Klein;
 use ParsedownExtra;
 
 /**
@@ -60,9 +59,6 @@ class Rawilum extends Container
             return new Config($c);
         };
 
-        // Start the session
-        //\Session::start();
-
         $container['events'] = function ($c) {
             return new EventDispatcher();
         };
@@ -71,15 +67,15 @@ class Rawilum extends Container
             return new Filter($c);
         };
 
+        $container['markdown'] = function ($c) {
+            return new ParsedownExtra();
+        };
+
         $container['plugins'] = function ($c) {
             return new Plugins($c);
         };
 
         $container['plugins']->init();
-
-        $container['markdown'] = function ($c) {
-            return new ParsedownExtra();
-        };
 
         $container['pages'] = function ($c) {
           return new Pages($c);
