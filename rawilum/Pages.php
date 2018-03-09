@@ -22,6 +22,9 @@ class Pages
      */
     protected $rawilum;
 
+    /**
+     * @var Page
+     */
     public $page;
 
     /**
@@ -30,28 +33,6 @@ class Pages
     public function __construct(Rawilum $c)
     {
         $this->rawilum = $c;
-    }
-
-    /**
-     * Get page
-     */
-    public function getPage($url = '', $raw = false, $url_abs = false)
-    {
-
-        $file = $this->finder($url, $url_abs);
-
-        if ($raw) {
-            $page = trim(file_get_contents($file));
-            $this->page = $page;
-            $this->rawilum['events']->dispatch('onPageContentRawAfter');
-        } else {
-            $page = $this->parse($file);
-            $this->page = $page;
-            $this->page['content'] = $this->rawilum['filters']->dispatch('content', $this->rawilum['markdown']->text($this->page['content']));
-            $this->rawilum['events']->dispatch('onPageContentAfter');
-        }
-
-        return $this->page;
     }
 
     /**
@@ -126,6 +107,29 @@ class Pages
         $frontmatter['slug'] = basename($file, '.md');
 
         return ['frontmatter' => $frontmatter, 'content' => $content];
+    }
+
+
+    /**
+     * Get page
+     */
+    public function getPage($url = '', $raw = false, $url_abs = false)
+    {
+
+        $file = $this->finder($url, $url_abs);
+
+        if ($raw) {
+            $page = trim(file_get_contents($file));
+            $this->page = $page;
+            $this->rawilum['events']->dispatch('onPageContentRawAfter');
+        } else {
+            $page = $this->parse($file);
+            $this->page = $page;
+            $this->page['content'] = $this->rawilum['filters']->dispatch('content', $this->rawilum['markdown']->text($this->page['content']));
+            $this->rawilum['events']->dispatch('onPageContentAfter');
+        }
+
+        return $this->page;
     }
 
     /**
