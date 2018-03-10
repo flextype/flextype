@@ -34,10 +34,12 @@ class Rawilum extends Container
      *
      * @var string
      */
-    const VERSION = 'X.X.X alfa';
+    const VERSION = 'X.X.X';
 
     /**
      * Init Rawilum Application
+     *
+     * @access protected
      */
     protected static function init()
     {
@@ -90,6 +92,8 @@ class Rawilum extends Container
 
     /**
      * Run Rawilum Application
+     *
+     * @access public
      */
     public function run()
     {
