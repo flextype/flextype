@@ -42,7 +42,7 @@ class Plugins
                     $plugin_manifest = Yaml::parse(file_get_contents($_plugin_manifest));
                 }
 
-                $_plugins_config[basename($_plugin_manifest)] = array_merge($plugin_manifest, $plugin_settings);
+                $_plugins_config[basename($_plugin_manifest)] = $plugin_manifest;
             }
         }
 
