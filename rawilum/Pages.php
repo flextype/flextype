@@ -29,7 +29,9 @@ class Pages
     public $page;
 
     /**
-     * Construct
+     * Constructor
+     *
+     * @param Rawilum $rawilum
      */
     public function __construct(Rawilum $c)
     {
