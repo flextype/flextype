@@ -73,7 +73,7 @@ class Pages
     public function renderPage($page)
     {
         $template_ext  = '.php';
-        $template_name = empty($page['template']) ? 'index' : $page['template'];
+        $template_name = empty($page['frontmatter']['template']) ? 'index' : $page['frontmatter']['template'];
         $site_theme    = $this->rawilum['config']->get('site.theme');
         $template_path = THEMES_PATH . '/' . $site_theme . '/' . $template_name . $template_ext;
 
