@@ -4,6 +4,7 @@ namespace Rawilum;
 use Arr;
 use Url;
 use Response;
+use Shortcode;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -125,11 +126,19 @@ class Pages
         } else {
             $page = $this->parse($file);
             $this->page = $page;
-            $this->page['content'] = $this->rawilum['filters']->dispatch('content', $this->rawilum['markdown']->text($this->page['content']));
+            $this->page['content'] = $this->rawilum['filters']->dispatch('content', $this->parseContent($this->page['content']));
             $this->rawilum['events']->dispatch('onPageContentAfter');
         }
 
         return $this->page;
+    }
+
+    public function parseContent($content)
+    {
+        $content = Shortcode::parse($content);
+        $content = $this->rawilum['markdown']->text($content);
+
+        return $content;
     }
 
     /**
