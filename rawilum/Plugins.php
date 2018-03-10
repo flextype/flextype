@@ -24,9 +24,16 @@ class Plugins
     public function __construct(Rawilum $c)
     {
         $this->rawilum = $c;
+    }
 
-        $rawilum = $this->rawilum;
-
+    /**
+     * Init Plugins
+     *
+     * @access public
+     * @return mixed
+     */
+    public function init() {
+        // Plugin manifest
         $plugin_manifest = [];
 
         // Get Plugins List
@@ -46,14 +53,12 @@ class Plugins
             }
         }
 
+        $rawilum = $this->rawilum;
+
         if (is_array($this->rawilum['config']->get('site.plugins')) && count($this->rawilum['config']->get('site.plugins')) > 0) {
             foreach ($this->rawilum['config']->get('site.plugins') as $plugin_id => $plugin_name) {
                 include_once PLUGINS_PATH .'/'. $plugin_name .'/'. $plugin_name . '.php';
             }
         }
-    }
-
-    public function init() {
-
     }
 }
