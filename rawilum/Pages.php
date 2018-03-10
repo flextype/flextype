@@ -46,13 +46,13 @@ class Pages
           if ($url) {
               $file = $url;
           } else {
-              $file = CONTENT_PATH . '/pages/' . $this->rawilum['config']->get('site.pages.main') . '/' . 'index.md';
+              $file = PAGES_PATH . '/pages/' . $this->rawilum['config']->get('site.pages.main') . '/' . 'index.md';
           }
         } else {
           if ($url) {
-              $file = CONTENT_PATH . '/pages/' . $url . '/index.md';
+              $file = PAGES_PATH . '/pages/' . $url . '/index.md';
           } else {
-              $file = CONTENT_PATH . '/pages/' . $this->rawilum['config']->get('site.pages.main') . '/' . 'index.md';
+              $file = PAGES_PATH . '/pages/' . $this->rawilum['config']->get('site.pages.main') . '/' . 'index.md';
           }
         }
 
@@ -60,7 +60,7 @@ class Pages
         if ($this->rawilum['filesystem']->exists($file)) {
             $file = $file;
         } else {
-            $file = CONTENT_PATH . '/pages/404/index.md';
+            $file = PAGES_PATH . '/pages/404/index.md';
             Response::status(404);
         }
 
@@ -97,7 +97,7 @@ class Pages
         $content = $page[2];
 
         // @TODO fix this!
-        $url = str_replace(CONTENT_PATH . '/pages', Url::getBase(), $file);
+        $url = str_replace(PAGES_PATH . '/pages', Url::getBase(), $file);
         $url = str_replace('index.md', '', $url);
         $url = str_replace('.md', '', $url);
         $url = str_replace('\\', '/', $url);
@@ -138,7 +138,7 @@ class Pages
     public function getPages($url = '', $raw = false, $order_by = 'date', $order_type = 'DESC', $ignore = ['404', 'index'], $limit = null)
     {
         // Get pages list for current $url
-        $pages_list = $this->rawilum['finder']->files()->name('*.md')->in(CONTENT_PATH . '/pages/' . $url);
+        $pages_list = $this->rawilum['finder']->files()->name('*.md')->in(PAGES_PATH . '/pages/' . $url);
 
         // Go trough pages list
         foreach ($pages_list as $key => $page) {
