@@ -25,6 +25,13 @@ class Themes
         $this->rawilum = $c;
     }
 
+    /**
+     * Get Themes template
+     *
+     * @access public
+     * @param  string $template_name Template name
+     * @return mixed
+     */
     public function getTemplate($template_name)
     {
         $template_ext = '.php';
