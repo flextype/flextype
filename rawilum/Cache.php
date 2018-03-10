@@ -224,19 +224,4 @@ class Cache
         }
         return static::$lifetime;
     }
-
-    /**
-     * Initialize Rawilum Cache
-     *
-     *  <code>
-     *      Cache::init();
-     *  </code>
-     *
-     * @access public
-     * @return object
-     */
-    public function init()
-    {
-
-    }
 }
