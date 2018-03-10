@@ -29,3 +29,6 @@ define('CONFIG_PATH', SITE_PATH . '/config');
 
 // Define the path to the cache directory (without trailing slash).
 define('CACHE_PATH', SITE_PATH . '/cache');
+
+// Define the path to the logs directory (without trailing slash).
+define('LOGS_PATH', SITE_PATH . '/logs');

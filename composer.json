@@ -31,6 +31,7 @@
         "force/arr" : "*",
         "force/http" : "*",
         "force/token" : "*",
+        "force/errorhandler" : "*",
         "force/url" : "*"
     },
     "autoload": {

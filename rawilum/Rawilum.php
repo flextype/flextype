@@ -101,12 +101,23 @@ class Rawilum extends Container
         ob_start();
 
         // Display Errors
-        $this['config']->get('site.errors.display') and error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+        if ($this['config']->get('site.errors.display')) {
+            define('DEVELOPMENT', true);
+            error_reporting(-1);
+        } else {
+            define('DEVELOPMENT', false);
+            error_reporting(0);
+        }
 
         // Set internal encoding
         function_exists('mb_language') and mb_language('uni');
         function_exists('mb_regex_encoding') and mb_regex_encoding($this['config']->get('site.charset'));
         function_exists('mb_internal_encoding') and mb_internal_encoding($this['config']->get('site.charset'));
+
+        // Set Error handler
+        set_error_handler('ErrorHandler::error');
+        register_shutdown_function('ErrorHandler::fatal');
+        set_exception_handler('ErrorHandler::exception');
 
         // Set default timezone
         date_default_timezone_set($this['config']->get('site.timezone'));
