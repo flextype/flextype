@@ -10,9 +10,7 @@
 
 namespace Rawilum;
 
-/**
- * Define the application's minimum supported PHP version.
- */
+// Define the application minimum supported PHP version.
 define('RAWILUM_MINIMUM_PHP', '7.1.3');
 
 // Check PHP Version
