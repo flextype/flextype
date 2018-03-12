@@ -46,17 +46,17 @@ class Pages
 
         // If url is empty that its a homepage
         if ($url_abs) {
-          if ($url) {
-              $file = $url;
-          } else {
-              $file = PAGES_PATH . '/' . $this->rawilum['config']->get('site.pages.main') . '/' . 'index.md';
-          }
+            if ($url) {
+                $file = $url;
+            } else {
+                $file = PAGES_PATH . '/' . $this->rawilum['config']->get('site.pages.main') . '/' . 'index.md';
+            }
         } else {
-          if ($url) {
-              $file = PAGES_PATH . '/' . $url . '/index.md';
-          } else {
-              $file = PAGES_PATH . '/' . $this->rawilum['config']->get('site.pages.main') . '/' . 'index.md';
-          }
+            if ($url) {
+                $file = PAGES_PATH . '/' . $url . '/index.md';
+            } else {
+                $file = PAGES_PATH . '/' . $this->rawilum['config']->get('site.pages.main') . '/' . 'index.md';
+            }
         }
 
         // Get 404 page if file not exists
@@ -83,7 +83,8 @@ class Pages
         $template_path = THEMES_PATH . '/' . $site_theme . '/' . $template_name . $template_ext;
 
         if ($this->rawilum['filesystem']->exists($template_path)) {
-            include $template_path;
+            $this->rawilum['themes']->renderPage($page);
+        //include $template_path;
         } else {
             throw new RuntimeException("Template {$template_name} does not exist.");
         }
@@ -123,7 +124,6 @@ class Pages
      */
     public function getPage($url = '', $raw = false, $url_abs = false)
     {
-
         $file = $this->finder($url, $url_abs);
 
         if ($raw) {

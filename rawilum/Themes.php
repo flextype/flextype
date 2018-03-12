@@ -46,5 +46,4 @@ class Themes
             throw new RuntimeException("Template {$template_name} does not exist.");
         }
     }
-
 }

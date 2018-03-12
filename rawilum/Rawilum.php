@@ -84,7 +84,7 @@ class Rawilum extends Container
         };
 
         $container['pages'] = function ($c) {
-          return new Pages($c);
+            return new Pages($c);
         };
 
         $container['themes'] = function ($c) {

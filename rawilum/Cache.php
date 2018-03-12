@@ -104,15 +104,19 @@ class Cache
                 break;
             case 'memcache':
                 $memcache = new \Memcache();
-                $memcache->connect($this->rawilum['config']->get('site.cache.memcache.server', 'localhost'),
-                                   $this->rawilum['config']->get('site.cache.memcache.port', 11211));
+                $memcache->connect(
+                    $this->rawilum['config']->get('site.cache.memcache.server', 'localhost'),
+                                   $this->rawilum['config']->get('site.cache.memcache.port', 11211)
+                );
                 $driver = new \Doctrine\Common\Cache\MemcacheCache();
                 $driver->setMemcache($memcache);
                 break;
             case 'redis':
                 $redis = new \Redis();
-                $redis->connect($this->rawilum['config']->get('site.cache.redis.server', 'localhost'),
-                                $this->rawilum['config']->get('site.cache.redis.port', 6379));
+                $redis->connect(
+                    $this->rawilum['config']->get('site.cache.redis.server', 'localhost'),
+                                $this->rawilum['config']->get('site.cache.redis.port', 6379)
+                );
                 $driver = new \Doctrine\Common\Cache\RedisCache();
                 $driver->setRedis($redis);
                 break;

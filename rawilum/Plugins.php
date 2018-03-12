@@ -32,7 +32,8 @@ class Plugins
      * @access public
      * @return mixed
      */
-    public function init() {
+    public function init()
+    {
         // Plugin manifest
         $plugin_manifest = [];
 
