@@ -44,6 +44,7 @@ class Rawilum extends Container
      */
     protected static function init()
     {
+        // Create container
         $container = new static();
 
         $container['filesystem'] = function ($c) {
@@ -74,22 +75,32 @@ class Rawilum extends Container
             return new ParsedownExtra();
         };
 
+        $container['i18n'] = function ($c) {
+            return new I18n($c);
+        };
+
         $container['plugins'] = function ($c) {
             return new Plugins($c);
         };
-
-        $container['plugins']->init();
 
         $container['pages'] = function ($c) {
           return new Pages($c);
         };
 
-        $container['pages']->getPage(Url::getUriString());
-
         $container['themes'] = function ($c) {
             return new Themes($c);
         };
 
+        // Init I18n
+        $container['i18n']->init();
+
+        // Init Plugins
+        $container['plugins']->init();
+
+        // Get current page
+        $container['pages']->getPage(Url::getUriString());
+
+        // Return container
         return $container;
     }
 
@@ -128,7 +139,7 @@ class Rawilum extends Container
         // The page is not processed and not sent to the display.
         $this['events']->dispatch('onPageBeforeRender');
 
-        // Render the page
+        // Render current page
         $this['pages']->renderPage();
 
         // The page has been fully processed and sent to the display.
