@@ -83,8 +83,7 @@ class Pages
         $template_path = THEMES_PATH . '/' . $site_theme . '/' . $template_name . $template_ext;
 
         if ($this->rawilum['filesystem']->exists($template_path)) {
-            $this->rawilum['themes']->renderPage($page);
-        //include $template_path;
+            include $template_path;
         } else {
             throw new RuntimeException("Template {$template_name} does not exist.");
         }
