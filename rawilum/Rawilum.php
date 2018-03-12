@@ -7,6 +7,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\Event;
 use ParsedownExtra;
+use Url;
 
 /**
   * Rawilum
@@ -83,6 +84,8 @@ class Rawilum extends Container
           return new Pages($c);
         };
 
+        $container['pages']->getPage(Url::getUriString());
+
         $container['themes'] = function ($c) {
             return new Themes($c);
         };
@@ -126,7 +129,7 @@ class Rawilum extends Container
         $this['events']->dispatch('onPageBeforeRender');
 
         // Render the page
-        $this['pages']->renderPage($this['pages']->getPage(\Url::getUriString()));
+        $this['pages']->renderPage();
 
         // The page has been fully processed and sent to the display.
         $this['events']->dispatch('onPageAfterRender');
