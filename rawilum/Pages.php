@@ -73,10 +73,12 @@ class Pages
     /**
      * Render page
      */
-    public function renderPage($page)
+    public function renderPage()
     {
+        $page = $this->page ;
+
         $template_ext  = '.php';
-        $template_name = empty($page['frontmatter']['template']) ? 'index' : $page['frontmatter']['template'];
+        $template_name = empty($page['template']) ? 'index' : $page['template'];
         $site_theme    = $this->rawilum['config']->get('site.theme');
         $template_path = THEMES_PATH . '/' . $site_theme . '/' . $template_name . $template_ext;
 
@@ -109,7 +111,10 @@ class Pages
         $frontmatter['url']  = $url;
         $frontmatter['slug'] = basename($file, '.md');
 
-        return ['frontmatter' => $frontmatter, 'content' => $content];
+        $result_page = $frontmatter;
+        $result_page['content'] = $content;
+
+        return $result_page;
     }
 
 
@@ -146,7 +151,7 @@ class Pages
     /**
      * getPage
      */
-    public function getPages($url = '', $raw = false, $order_by = 'date', $order_type = 'DESC', $ignore = ['404', 'index'], $limit = null)
+    public function getPages($url = '', $raw = false, $order_by = 'title', $order_type = 'DESC', $ignore = ['404', 'index'], $limit = null)
     {
         // Get pages list for current $url
         $pages_list = $this->rawilum['finder']->files()->name('*.md')->in(PAGES_PATH . '/' . $url);
