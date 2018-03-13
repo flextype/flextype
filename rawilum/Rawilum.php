@@ -4,8 +4,6 @@ namespace Rawilum;
 use Pimple\Container as Container;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\Event;
 use ParsedownExtra;
 use Url;
 
@@ -64,11 +62,11 @@ class Rawilum extends Container
         };
 
         $container['events'] = function ($c) {
-            return new EventDispatcher();
+            return new Events($c);
         };
 
         $container['filters'] = function ($c) {
-            return new Filter($c);
+            return new Filters($c);
         };
 
         $container['markdown'] = function ($c) {
