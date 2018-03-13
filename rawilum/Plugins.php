@@ -40,7 +40,6 @@ class Plugins
         // Get Plugins List
         $plugins_list = $this->rawilum['config']->get('site.plugins');
 
-        // @TODO THIS with cache then
         // If Plugins List isnt empty
         if (is_array($plugins_list) && count($plugins_list) > 0) {
 
