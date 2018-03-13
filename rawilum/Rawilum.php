@@ -11,7 +11,7 @@ use Url;
   * Rawilum
   *
   * @package Rawilum
-  * @author Romanenko Sergey / Awilum <awilum@msn.com>
+  * @author Romanenko Sergey / Awilum <awilum@yandex.ru>
   * @link http://rawilum.org
   *
   * For the full copyright and license information, please view the LICENSE
