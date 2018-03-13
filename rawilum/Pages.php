@@ -36,6 +36,16 @@ class Pages
     public function __construct(Rawilum $c)
     {
         $this->rawilum = $c;
+
+        // Register page shortcodes
+        $this->pageShortcodes();
+    }
+
+    protected function pageShortcodes() {
+        // {url}
+        $this->rawilum['shortcodes']->add('url', function() {
+            return Url::getBase();
+        });
     }
 
     /**
@@ -101,15 +111,8 @@ class Pages
         $frontmatter = Yaml::parse($page[1]);
         $content = $page[2];
 
-        // @TODO fix this!
-        $url = str_replace(PAGES_PATH, Url::getBase(), $file);
-        $url = str_replace('index.md', '', $url);
-        $url = str_replace('.md', '', $url);
-        $url = str_replace('\\', '/', $url);
-        $url = rtrim($url, '/');
-
-        $frontmatter['url']  = $url;
-        $frontmatter['slug'] = basename($file, '.md');
+        //$frontmatter['url']  = $url;
+        //$frontmatter['slug'] = basename($file, '.md');
 
         $result_page = $frontmatter;
         $result_page['content'] = $content;
