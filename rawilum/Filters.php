@@ -11,7 +11,7 @@ namespace Rawilum;
  */
 
 
-class Filter
+class Filters
 {
 
     /**
