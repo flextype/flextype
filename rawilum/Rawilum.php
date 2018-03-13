@@ -45,6 +45,10 @@ class Rawilum extends Container
         // Create container
         $container = new static();
 
+        $container['markdown'] = function ($c) {
+            return new ParsedownExtra();
+        };
+
         $container['filesystem'] = function ($c) {
             return new Filesystem();
         };
@@ -61,16 +65,16 @@ class Rawilum extends Container
             return new Config($c);
         };
 
+        $container['shortcodes'] = function ($c) {
+            return new Shortcodes($c);
+        };
+
         $container['events'] = function ($c) {
             return new Events($c);
         };
 
         $container['filters'] = function ($c) {
             return new Filters($c);
-        };
-
-        $container['markdown'] = function ($c) {
-            return new ParsedownExtra();
         };
 
         $container['i18n'] = function ($c) {

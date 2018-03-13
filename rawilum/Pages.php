@@ -141,7 +141,7 @@ class Pages
 
     public function parseContent($content)
     {
-        $content = Shortcode::parse($content);
+        $content = $this->rawilum['shortcodes']->parse($content);
         $content = $this->rawilum['markdown']->text($content);
 
         return $content;
