@@ -20,7 +20,6 @@ trait RawilumTrait
         return self::$rawilum;
     }
 
-
     /**
      * @param Rawilum $rawilum
      */
