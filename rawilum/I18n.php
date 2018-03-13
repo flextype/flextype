@@ -83,14 +83,16 @@ class I18n
         // Get Plugins and Site Locales list
         (array) $plugins_list = $this->rawilum['config']->get('site.plugins');
         (array) $locales = $this->rawilum['config']->get('site.locales');
+        (array) $dictionary = [];
 
         // Create dictionary
-        foreach ($locales as $locale) {
-            foreach ($plugins_list as $plugin) {
-                $language_file = PLUGINS_PATH . '/' . $plugin . '/languages/' . $locale . '.yml';
-
-                if (file_exists($language_file)) {
-                    $dictionary[$plugin][$locale] = Yaml::parse(file_get_contents($language_file));
+        if (is_array($plugins_list) && count($plugins_list) > 0) {
+            foreach ($locales as $locale) {
+                foreach ($plugins_list as $plugin) {
+                    $language_file = PLUGINS_PATH . '/' . $plugin . '/languages/' . $locale . '.yml';
+                    if (file_exists($language_file)) {
+                        $dictionary[$plugin][$locale] = Yaml::parse(file_get_contents($language_file));
+                    }
                 }
             }
         }
