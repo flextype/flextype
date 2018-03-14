@@ -6,18 +6,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-		<?php Action::run('theme_meta'); ?>
+	<?php $this->rawilum['events']->dispatch('theme_meta'); ?>
 
-		<link rel="shortcut icon" href="<?php echo Url::getBase(); ?>/favicon.ico">
+	<link rel="shortcut icon" href="<?php echo Url::getBase(); ?>/favicon.ico">
 
-		<title><?php echo Config::get('site.title'); ?> | <?php echo Pages::getCurrentPage()['title']; ?></title>
+	<title><?php echo $this->rawilum['config']->get('site.title'); ?> | <?php echo $page['title']; ?></title>
 
     <!-- Bootstrap core CSS -->
-		<link href="<?php echo Url::getBase(); ?>/site/themes/<?php echo Config::get('site.theme'); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="<?php echo Url::getBase(); ?>/site/themes/<?php echo $this->rawilum['config']->get('site.theme'); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-		<link href="<?php echo Url::getBase(); ?>/site/themes/<?php echo Config::get('site.theme'); ?>/assets/css/theme.css" rel="stylesheet">
-		<?php Action::run('theme_header'); ?>
+	<link href="<?php echo Url::getBase(); ?>/site/themes/<?php echo $this->rawilum['config']->get('site.theme'); ?>/assets/css/theme.css" rel="stylesheet">
+	<?php $this->rawilum['events']->dispatch('theme_header'); ?>
   </head>
   <body>
-  <?php Theme::getTemplate('partials/navigation'); ?>
+  <?php $this->rawilum['themes']->getTemplate('partials/navigation'); ?>
+  <main role="main" class="container content">
