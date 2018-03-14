@@ -1,5 +1,4 @@
-<?php
-namespace Rawilum;
+<?php namespace Rawilum;
 
 use Pimple\Container as Container;
 use Symfony\Component\Filesystem\Filesystem;
@@ -7,10 +6,9 @@ use Symfony\Component\Finder\Finder;
 use ParsedownExtra;
 use Url;
 
-/**
-  * Rawilum
-  *
+ /**
   * @package Rawilum
+  *
   * @author Romanenko Sergey / Awilum <awilum@yandex.ru>
   * @link http://rawilum.org
   *
@@ -33,7 +31,7 @@ class Rawilum extends Container
      *
      * @var string
      */
-    const VERSION = 'X.X.X';
+    const VERSION = '0.0.0';
 
     /**
      * Init Rawilum Application
@@ -45,50 +43,62 @@ class Rawilum extends Container
         // Create container
         $container = new static();
 
+        // Define markdown service
         $container['markdown'] = function ($c) {
             return new ParsedownExtra();
         };
 
+        // Define filesystem service
         $container['filesystem'] = function ($c) {
             return new Filesystem();
         };
 
+        // Define finder service
         $container['finder'] = function ($c) {
             return new Finder();
         };
 
+        // Define cache service
         $container['cache'] = function ($c) {
             return new Cache($c);
         };
 
+        // Define config service
         $container['config'] = function ($c) {
             return new Config($c);
         };
 
+        // Define shortcodes service
         $container['shortcodes'] = function ($c) {
             return new Shortcodes($c);
         };
 
+        // Define events service
         $container['events'] = function ($c) {
             return new Events($c);
         };
 
+        // Define filters service
         $container['filters'] = function ($c) {
             return new Filters($c);
         };
 
+        // Define i18n service
         $container['i18n'] = function ($c) {
             return new I18n($c);
         };
 
+        // Define plugins service
         $container['plugins'] = function ($c) {
             return new Plugins($c);
         };
 
+        // Define pages service
         $container['pages'] = function ($c) {
             return new Pages($c);
         };
 
+        // Define themes service
         $container['themes'] = function ($c) {
             return new Themes($c);
         };

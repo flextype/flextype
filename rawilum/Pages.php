@@ -1,5 +1,4 @@
-<?php
-namespace Rawilum;
+<?php namespace Rawilum;
 
 use Arr;
 use Url;
@@ -8,9 +7,10 @@ use Shortcode;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * This file is part of the Rawilum.
+ * @package Rawilum
  *
- * (c) Romanenko Sergey / Awilum <awilum@yandex.ru>
+ * @author Sergey Romanenko <awilum@yandex.ru>
+ * @link http://rawilum.org
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
