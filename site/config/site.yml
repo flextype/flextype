@@ -15,8 +15,12 @@ theme: default
 
 plugins:
 
+locale: "en"
+locales: [en]
+
 pages:
   flush_cache: false
+  main: home
 
 errors:
   display: false
