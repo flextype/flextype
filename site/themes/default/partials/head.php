@@ -12,6 +12,8 @@
 
 	<title><?php echo $this->rawilum['config']->get('site.title'); ?> | <?php echo $page['title']; ?></title>
 
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css'>
+
     <!-- Bootstrap core CSS -->
 	<link href="<?php echo Url::getBase(); ?>/site/themes/<?php echo $this->rawilum['config']->get('site.theme'); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
