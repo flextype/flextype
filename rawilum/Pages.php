@@ -105,17 +105,10 @@ class Pages
     public function parse($file)
     {
         $page = trim(file_get_contents($file));
-
         $page = explode('---', $page, 3);
-
-        $frontmatter = Yaml::parse($page[1]);
-        $content = $page[2];
-
-        //$frontmatter['url']  = $url;
-        //$frontmatter['slug'] = basename($file, '.md');
-
-        $result_page = $frontmatter;
-        $result_page['content'] = $content;
+        
+        $result_page = Yaml::parse($page[1]);
+        $result_page['content'] = $page[2];
 
         return $result_page;
     }
