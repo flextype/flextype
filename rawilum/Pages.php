@@ -42,8 +42,8 @@ class Pages
     }
 
     protected function pageShortcodes() {
-        // {url}
-        $this->rawilum['shortcodes']->add('url', function() {
+        // {site_url}
+        $this->rawilum['shortcodes']->add('site_url', function() {
             return Url::getBase();
         });
     }
@@ -106,8 +106,9 @@ class Pages
     {
         $page = trim(file_get_contents($file));
         $page = explode('---', $page, 3);
-        
-        $result_page = Yaml::parse($page[1]);
+
+        $frontmatter = $this->rawilum['shortcodes']->parse($page[1]);
+        $result_page = Yaml::parse($frontmatter);
         $result_page['content'] = $page[2];
 
         return $result_page;
