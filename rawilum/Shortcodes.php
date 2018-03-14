@@ -22,7 +22,7 @@ class Shortcodes
      *
      * @var shortcode_tags
      */
-    protected $shortcode_tags = array();
+    protected $shortcode_tags = [];
 
     /**
      * Construct

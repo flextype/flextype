@@ -26,7 +26,7 @@ class Config
      * @var array
      * @access  protected
      */
-    protected static $config = [];
+    protected $config = [];
 
     /**
      * Constructor.
@@ -38,7 +38,7 @@ class Config
         $this->rawilum = $c;
 
         if ($this->rawilum['filesystem']->exists($site_config = CONFIG_PATH . '/' . 'site.yml')) {
-            self::$config['site'] = Yaml::parse(file_get_contents($site_config));
+            $this->config['site'] = Yaml::parse(file_get_contents($site_config));
         } else {
             throw new RuntimeException("Rawilum site config file does not exist.");
         }
@@ -53,7 +53,7 @@ class Config
      */
     public function set($key, $value)
     {
-        Arr::set(self::$config, $key, $value);
+        Arr::set($this->config, $key, $value);
     }
 
     /**
@@ -66,7 +66,7 @@ class Config
      */
     public function get($key, $default = null)
     {
-        return Arr::get(self::$config, $key, $default);
+        return Arr::get($this->config, $key, $default);
     }
 
     /**
@@ -77,6 +77,6 @@ class Config
      */
     public function getConfig()
     {
-        return self::$config;
+        return $this->config;
     }
 }

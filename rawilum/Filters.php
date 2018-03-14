@@ -24,7 +24,7 @@ class Filters
      * @var array
      * @access protected
      */
-    protected static $filters = [];
+    protected $filters = [];
 
     /**
      * Construct
@@ -53,11 +53,11 @@ class Filters
 
         $args = array_slice(func_get_args(), 2);
 
-        if (! isset(static::$filters[$filter_name])) {
+        if (! isset($this->filters[$filter_name])) {
             return $value;
         }
 
-        foreach (static::$filters[$filter_name] as $priority => $functions) {
+        foreach ($this->filters[$filter_name] as $priority => $functions) {
             if (! is_null($functions)) {
                 foreach ($functions as $function) {
                     $all_args = array_merge(array($value), $args);
@@ -107,18 +107,18 @@ class Filters
         $accepted_args   = (int) $accepted_args;
 
         // Check that we don't already have the same filter at the same priority. Thanks to WP :)
-        if (isset(static::$filters[$filter_name]["$priority"])) {
-            foreach (static::$filters[$filter_name]["$priority"] as $filter) {
+        if (isset($this->filters[$filter_name]["$priority"])) {
+            foreach ($this->filters[$filter_name]["$priority"] as $filter) {
                 if ($filter['function'] == $function_to_add) {
                     return true;
                 }
             }
         }
 
-        static::$filters[$filter_name]["$priority"][] = array('function' => $function_to_add, 'accepted_args' => $accepted_args);
+        $this->filters[$filter_name]["$priority"][] = array('function' => $function_to_add, 'accepted_args' => $accepted_args);
 
         // Sort
-        ksort(static::$filters[$filter_name]["$priority"]);
+        ksort($this->filters[$filter_name]["$priority"]);
 
         return true;
     }
