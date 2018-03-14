@@ -14,7 +14,7 @@
 define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
 
 // Define the path to the site directory (without trailing slash).
-define('SITE_PATH', ROOT_DIR . '/site-katerinasitnikova');
+define('SITE_PATH', ROOT_DIR . '/site');
 
 // Define the path to the pages directory (without trailing slash).
 define('PAGES_PATH', SITE_PATH . '/pages');
