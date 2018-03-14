@@ -1,12 +1,11 @@
+#
 # Site configuration
+#
 
-title: 'Rawilum'
-description: 'Modern Open Source Flat-File Content Management System'
+title: "Rawilum"
+description: "Modern Open Source Flat-File Content Management System"
 author:
-  email: ''
-
-
-# System Configuration
+  email: ""
 
 timezone: UTC
 charset: UTF-8
