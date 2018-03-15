@@ -34,7 +34,7 @@
     },
     "autoload": {
         "classmap": [
-            "Rawilum"
+            "rawilum"
         ],
         "files": [
             "rawilum/boot/defines.php"
