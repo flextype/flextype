@@ -26,6 +26,8 @@ class Pages
     protected static $instance = null;
 
     /**
+     * Page
+     *
      * @var Page
      */
     public static $page;
@@ -125,7 +127,7 @@ class Pages
     /**
      * Get page
      */
-    public static function getPage($url = '', $raw = false, $url_abs = false)
+    public static function getPage(string $url = '', bool $raw = false, bool $url_abs = false)
     {
         $file = static::finder($url, $url_abs);
 
@@ -143,7 +145,7 @@ class Pages
         return static::$page;
     }
 
-    public static function parseContent($content)
+    public static function parseContent(string $content) : string
     {
         $content = Shortcodes::parse($content);
         $content = Markdown::parse($content);

@@ -56,7 +56,7 @@ class Plugins
     }
 
     /**
-     * Initialize Rawilum I18n
+     * Initialize Rawilum Plugins
      *
      *  <code>
      *      Plugins::init();

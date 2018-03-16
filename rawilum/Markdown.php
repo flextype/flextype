@@ -33,7 +33,7 @@ class Markdown
      * @param  string $content Content to parse
      * @return string Formatted content
      */
-    public static function parse($content)
+    public static function parse(string $content) : string
     {
         !static::$markdown and static::$markdown = new ParsedownExtra();
 

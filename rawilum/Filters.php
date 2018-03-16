@@ -99,7 +99,7 @@ class Filters
      * @return boolean
      */
     public static function addListener($filter_name, $function_to_add, $priority = 10, $accepted_args = 1)
-    {   
+    {
         // Redefine arguments
         $filter_name     = (string) $filter_name;
         $function_to_add = $function_to_add;

@@ -18,16 +18,28 @@ use Session;
 class Rawilum
 {
     /**
-     * An instance of the Fansoro class
+     * An instance of the Rawilum class
      *
      * @var object
      * @access protected
      */
     protected static $instance = null;
 
+    /**
+     * Filesystem
+     *
+     * @var object
+     * @access public
+     */
     public static $filesystem = null;
+
+    /**
+     * Finder
+     *
+     * @var object
+     * @access public
+     */
     public static $finder = null;
-    public static $parsedown = null;
 
     /**
      * Protected clone method to enforce singleton behavior.
@@ -45,89 +57,6 @@ class Rawilum
      * @var string
      */
     const VERSION = '0.0.0';
-
-    /**
-     * Init Rawilum Application
-     *
-     * @access protected
-     */
-    /*protected static function init()
-    {
-        // Create container
-        $container = new static();
-
-        // Define markdown service
-        $container['markdown'] = function ($c) {
-            return new ParsedownExtra();
-        };
-
-        // Define filesystem service
-        $container['filesystem'] = function ($c) {
-            return new Filesystem();
-        };
-
-        // Define finder service
-        $container['finder'] = function ($c) {
-            return new Finder();
-        };
-
-        // Define cache service
-        $container['cache'] = function ($c) {
-            return new Cache($c);
-        };
-
-        // Define config service
-        $container['config'] = function ($c) {
-            return new Config($c);
-        };
-
-        // Define shortcodes service
-        $container['shortcodes'] = function ($c) {
-            return new Shortcodes($c);
-        };
-
-        // Define events service
-        $container['events'] = function ($c) {
-            return new Events($c);
-        };
-
-        // Define filters service
-        $container['filters'] = function ($c) {
-            return new Filters($c);
-        };
-
-        // Define i18n service
-        $container['i18n'] = function ($c) {
-            return new I18n($c);
-        };
-
-        // Define plugins service
-        $container['plugins'] = function ($c) {
-            return new Plugins($c);
-        };
-
-        // Define pages service
-        $container['pages'] = function ($c) {
-            return new Pages($c);
-        };
-
-        // Define themes service
-        $container['themes'] = function ($c) {
-            return new Themes($c);
-        };
-
-        // Init I18n
-        $container['i18n']->init();
-
-        // Init Plugins
-        $container['plugins']->init();
-
-        // Get current page
-        $container['pages']->getPage(Url::getUriString());
-
-        // Return container
-        return $container;
-    }*/
 
     /**
      * Constructor.
