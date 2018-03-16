@@ -22,5 +22,5 @@ version_compare($ver = PHP_VERSION, $req = RAWILUM_MINIMUM_PHP, '<') and exit(sp
 // Register the auto-loader.
 $loader = require_once $autoload;
 
-// Run Rawilum Application
-$rawilum = Rawilum::instance()->run();
+// Initialize Rawilum Application
+Rawilum::init();
