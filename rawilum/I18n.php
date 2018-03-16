@@ -15,11 +15,18 @@ use Symfony\Component\Yaml\Yaml;
 class I18n
 {
     /**
+     * An instance of the Cache class
+     *
+     * @var object
+     */
+    protected static $instance = null;
+
+    /**
      * Locales array
      *
      * @var array
      */
-    public $locales = array(
+    public static $locales = [
         'ar' => 'العربية',
         'bg' => 'Български',
         'ca' => 'Català',
@@ -52,38 +59,35 @@ class I18n
         'tr' => 'Türkçe',
         'uk' => 'Українська',
         'zh-cn' => '简体中文',
-    );
-
-    /**
-     * @var Rawilum
-     */
-    protected $rawilum;
+    ];
 
     /**
      * Dictionary
      *
      * @var array
      */
-    public $dictionary = array();
+    public static $dictionary = [];
+
+    /**
+     * Protected clone method to enforce singleton behavior.
+     *
+     * @access  protected
+     */
+    protected function __clone()
+    {
+        // Nothing here.
+    }
 
     /**
      * Construct
      */
-    public function __construct(Rawilum $c)
-    {
-        $this->rawilum = $c;
-    }
-
-    /**
-     * Init
-     */
-    public function init()
+    protected function __construct()
     {
 
         // Get Plugins and Site Locales list
-        (array) $plugins_list = $this->rawilum['config']->get('site.plugins');
-        (array) $locales = $this->rawilum['config']->get('site.locales');
-        (array) $dictionary = [];
+        (array) $plugins_list = Config::get('site.plugins');
+        (array) $locales      = Config::get('site.locales');
+        (array) $dictionary   = [];
 
         // Create dictionary
         if (is_array($plugins_list) && count($plugins_list) > 0) {
@@ -98,7 +102,7 @@ class I18n
         }
 
         // Save dictionary
-        $this->dictionary = $dictionary;
+        static::$dictionary = $dictionary;
     }
 
     /**
@@ -110,11 +114,11 @@ class I18n
      * @param  string $locale    Locale
      * @return string
      */
-    public function find(string $string, string $namespace, string $locale, array $values = []) : string
+    public static function find(string $string, string $namespace, string $locale, array $values = []) : string
     {
         // Search current string to translate in the Dictionary
-        if (isset($this->dictionary[$namespace][$locale][$string])) {
-            $string = $this->dictionary[$namespace][$locale][$string];
+        if (isset(static::$dictionary[$namespace][$locale][$string])) {
+            $string = static::$dictionary[$namespace][$locale][$string];
             $string = empty($values) ? $string : strtr($string, $values);
         } else {
             $string = $string;
@@ -122,5 +126,20 @@ class I18n
 
         // Return translation of a string
         return $string;
+    }
+
+    /**
+     * Initialize Rawilum I18n
+     *
+     *  <code>
+     *      I18n::init();
+     *  </code>
+     *
+     * @access public
+     * @return object
+     */
+    public static function init()
+    {
+        return !isset(self::$instance) and self::$instance = new I18n();
     }
 }

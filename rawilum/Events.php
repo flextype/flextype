@@ -14,10 +14,6 @@ use Arr;
 
 class Events
 {
-    /**
-     * @var Rawilum
-     */
-    protected $rawilum;
 
     /**
      * Events
@@ -25,14 +21,16 @@ class Events
      * @var array
      * @access protected
      */
-    protected $events = [];
+    protected static $events = [];
 
     /**
-     * Construct
+     * Protected constructor since this is a static class.
+     *
+     * @access protected
      */
-    public function __construct(Rawilum $c)
+    protected function __construct()
     {
-        $this->rawilum = $c;
+        // Nothing here
     }
 
     /**
@@ -44,11 +42,11 @@ class Events
      * @param integer $priority       Priority. Default is 10
      * @param array   $args           Arguments
      */
-    public function addListener(string $event_name, $added_function, int $priority = 10, array $args = null)
+    public static function addListener(string $event_name, $added_function, int $priority = 10, array $args = null)
     {
         // Hooks a function on to a specific event.
-        $this->events[] = array(
-                        'event_name' => $event_name,
+        static::$events[] = array(
+                        'event_name'  => $event_name,
                         'function'    => $added_function,
                         'priority'    => $priority,
                         'args'        => $args
@@ -64,17 +62,17 @@ class Events
      * @param boolean $return      Return data or not. Default is false
      * @return mixed
      */
-    public function dispatch(string $event_name, array $args = [], bool $return = false)
+    public static function dispatch(string $event_name, array $args = [], bool $return = false)
     {
         // Redefine arguments
         $event_name  =  $event_name;
         $return      =  $return;
 
         // Run event
-        if (count($this->events) > 0) {
+        if (count(static::$events) > 0) {
 
             // Sort actions by priority
-            $events = Arr::subvalSort($this->events, 'priority');
+            $events = Arr::subvalSort(static::$events, 'priority');
 
             // Loop through $events array
             foreach ($events as $action) {

@@ -24,21 +24,24 @@ class Filters
      * @var array
      * @access protected
      */
-    protected $filters = [];
+    protected static $filters = [];
+
 
     /**
-     * Construct
+     * Protected constructor since this is a static class.
+     *
+     * @access  protected
      */
-    public function __construct(Rawilum $c)
+    protected function __construct()
     {
-        $this->rawilum = $c;
+        // Nothing here
     }
 
     /**
-     * Apply filters
+     * Dispatch filters
      *
      *  <code>
-     *      Filter::apply('content', $content);
+     *      Filter::dispatch('content', $content);
      *  </code>
      *
      * @access  public
@@ -46,18 +49,15 @@ class Filters
      * @param  mixed  $value       The value on which the filters hooked.
      * @return mixed
      */
-    public function dispatch($filter_name, $value)
+    public static function dispatch(string $filter_name, $value)
     {
-        // Redefine arguments
-        $filter_name = (string) $filter_name;
-
         $args = array_slice(func_get_args(), 2);
 
-        if (! isset($this->filters[$filter_name])) {
+        if (! isset(static::$filters[$filter_name])) {
             return $value;
         }
 
-        foreach ($this->filters[$filter_name] as $priority => $functions) {
+        foreach (static::$filters[$filter_name] as $priority => $functions) {
             if (! is_null($functions)) {
                 foreach ($functions as $function) {
                     $all_args = array_merge(array($value), $args);
@@ -98,8 +98,8 @@ class Filters
      * @param  integer $accepted_args   The number of arguments the function accept default is 1.
      * @return boolean
      */
-    public function addListener($filter_name, $function_to_add, $priority = 10, $accepted_args = 1)
-    {
+    public static function addListener($filter_name, $function_to_add, $priority = 10, $accepted_args = 1)
+    {   
         // Redefine arguments
         $filter_name     = (string) $filter_name;
         $function_to_add = $function_to_add;
@@ -107,18 +107,18 @@ class Filters
         $accepted_args   = (int) $accepted_args;
 
         // Check that we don't already have the same filter at the same priority. Thanks to WP :)
-        if (isset($this->filters[$filter_name]["$priority"])) {
-            foreach ($this->filters[$filter_name]["$priority"] as $filter) {
+        if (isset(static::$filters[$filter_name]["$priority"])) {
+            foreach (static::$filters[$filter_name]["$priority"] as $filter) {
                 if ($filter['function'] == $function_to_add) {
                     return true;
                 }
             }
         }
 
-        $this->filters[$filter_name]["$priority"][] = array('function' => $function_to_add, 'accepted_args' => $accepted_args);
+        static::$filters[$filter_name]["$priority"][] = array('function' => $function_to_add, 'accepted_args' => $accepted_args);
 
         // Sort
-        ksort($this->filters[$filter_name]["$priority"]);
+        ksort(static::$filters[$filter_name]["$priority"]);
 
         return true;
     }

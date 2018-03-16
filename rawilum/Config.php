@@ -15,10 +15,14 @@ use Symfony\Component\Yaml\Yaml;
 
 class Config
 {
+
     /**
-     * @var Rawilum
+     * An instance of the Config class
+     *
+     * @var object
+     * @access  protected
      */
-    protected $rawilum;
+    protected static $instance = null;
 
     /**
      * Config
@@ -26,19 +30,27 @@ class Config
      * @var array
      * @access  protected
      */
-    protected $config = [];
+    protected static $config = [];
+
+    /**
+     * Protected clone method to enforce singleton behavior.
+     *
+     * @access  protected
+     */
+    protected function __clone()
+    {
+        // Nothing here.
+    }
 
     /**
      * Constructor.
      *
      * @access  protected
      */
-    public function __construct(Rawilum $c)
+    protected function __construct()
     {
-        $this->rawilum = $c;
-
-        if ($this->rawilum['filesystem']->exists($site_config = CONFIG_PATH . '/' . 'site.yml')) {
-            $this->config['site'] = Yaml::parse(file_get_contents($site_config));
+        if (Rawilum::$filesystem->exists($site_config = CONFIG_PATH . '/' . 'site.yml')) {
+            static::$config['site'] = Yaml::parse(file_get_contents($site_config));
         } else {
             throw new RuntimeException("Rawilum site config file does not exist.");
         }
@@ -51,9 +63,9 @@ class Config
      * @param string $key   Key
      * @param mixed  $value Value
      */
-    public function set($key, $value)
+    public static function set($key, $value)
     {
-        Arr::set($this->config, $key, $value);
+        Arr::set(static::$config, $key, $value);
     }
 
     /**
@@ -64,19 +76,37 @@ class Config
      * @param  mixed  $default Default value
      * @return mixed
      */
-    public function get($key, $default = null)
+    public static function get($key, $default = null)
     {
-        return Arr::get($this->config, $key, $default);
+        return Arr::get(static::$config, $key, $default);
     }
 
     /**
      * Get config array
      *
+     *  <code>
+     *      $config = Config::getConfig();
+     *  </code>
+     *
      * @access  public
      * @return array
      */
-    public function getConfig()
+    public static function getConfig()
     {
-        return $this->config;
+        return static::$config;
+    }
+
+    /**
+     * Initialize Rawilum Config
+     *
+     *  <code>
+     *      Config::init();
+     *  </code>
+     *
+     * @access  public
+     */
+    public static function init()
+    {
+        return !isset(self::$instance) and self::$instance = new Config();
     }
 }

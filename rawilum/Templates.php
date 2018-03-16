@@ -10,19 +10,17 @@
  * file that was distributed with this source code.
  */
 
-class Themes
+class Templates
 {
-    /**
-     * @var Rawilum
-     */
-    protected $rawilum;
 
     /**
-     * __construct
+     * Protected constructor since this is a static class.
+     *
+     * @access  protected
      */
-    public function __construct(Rawilum $c)
+    protected function __construct()
     {
-        $this->rawilum = $c;
+        // Nothing here
     }
 
     /**
@@ -32,15 +30,15 @@ class Themes
      * @param  string $template_name Template name
      * @return mixed
      */
-    public function getTemplate($template_name)
+    public static function display(string $template_name)
     {
         $template_ext = '.php';
 
-        $page = $this->rawilum['pages']->page;
+        $page = Pages::$page;
 
-        $template_path = THEMES_PATH . '/' . $this->rawilum['config']->get('site.theme') . '/' . $template_name . $template_ext;
+        $template_path = THEMES_PATH . '/' . Config::get('site.theme') . '/' . $template_name . $template_ext;
 
-        if ($this->rawilum['filesystem']->exists($template_path)) {
+        if (Rawilum::$filesystem->exists($template_path)) {
             include $template_path;
         } else {
             throw new RuntimeException("Template {$template_name} does not exist.");

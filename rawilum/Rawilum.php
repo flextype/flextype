@@ -1,10 +1,9 @@
 <?php namespace Rawilum;
 
-use Pimple\Container as Container;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use ParsedownExtra;
 use Url;
+use Session;
 
  /**
   * @package Rawilum
@@ -16,15 +15,29 @@ use Url;
   * file that was distributed with this source code.
   */
 
-class Rawilum extends Container
+class Rawilum
 {
     /**
-     * An instance of the Rawilum class
+     * An instance of the Fansoro class
      *
      * @var object
      * @access protected
      */
-    protected static $instance;
+    protected static $instance = null;
+
+    public static $filesystem = null;
+    public static $finder = null;
+    public static $parsedown = null;
+
+    /**
+     * Protected clone method to enforce singleton behavior.
+     *
+     * @access protected
+     */
+    protected function __clone()
+    {
+        // Nothing here.
+    }
 
     /**
      * The version of Rawilum
@@ -38,7 +51,7 @@ class Rawilum extends Container
      *
      * @access protected
      */
-    protected static function init()
+    /*protected static function init()
     {
         // Create container
         $container = new static();
@@ -114,20 +127,27 @@ class Rawilum extends Container
 
         // Return container
         return $container;
-    }
+    }*/
 
     /**
-     * Run Rawilum Application
+     * Constructor.
      *
-     * @access public
+     * @access protected
      */
-    public function run()
+    protected function __construct()
     {
+
+        static::$finder     = new Finder();
+        static::$filesystem = new Filesystem();
+
+        // Init Config
+        Config::init();
+
         // Turn on output buffering
         ob_start();
 
         // Display Errors
-        if ($this['config']->get('site.errors.display')) {
+        if (Config::get('site.errors.display')) {
             define('DEVELOPMENT', true);
             error_reporting(-1);
         } else {
@@ -137,8 +157,8 @@ class Rawilum extends Container
 
         // Set internal encoding
         function_exists('mb_language') and mb_language('uni');
-        function_exists('mb_regex_encoding') and mb_regex_encoding($this['config']->get('site.charset'));
-        function_exists('mb_internal_encoding') and mb_internal_encoding($this['config']->get('site.charset'));
+        function_exists('mb_regex_encoding') and mb_regex_encoding(Config::get('site.charset'));
+        function_exists('mb_internal_encoding') and mb_internal_encoding(Config::get('site.charset'));
 
         // Set Error handler
         set_error_handler('ErrorHandler::error');
@@ -146,33 +166,39 @@ class Rawilum extends Container
         set_exception_handler('ErrorHandler::exception');
 
         // Set default timezone
-        date_default_timezone_set($this['config']->get('site.timezone'));
+        date_default_timezone_set(Config::get('site.timezone'));
 
-        // The page is not processed and not sent to the display.
-        $this['events']->dispatch('onPageBeforeRender');
+        // Start the session
+        Session::start();
+
+        // Init Cache
+        Cache::init();
+
+        // Init I18n
+        I18n::init();
+
+        // Init Plugins
+        Plugins::init();
 
         // Render current page
-        $this['pages']->renderPage();
-
-        // The page has been fully processed and sent to the display.
-        $this['events']->dispatch('onPageAfterRender');
+        Pages::init();
 
         // Flush (send) the output buffer and turn off output buffering
         ob_end_flush();
     }
 
     /**
-     * Get Rawilum Application Instance
-     *
-     * @access public
-     * @return object
-     */
-    public static function instance()
-    {
-        if (!self::$instance) {
-            self::$instance = static::init();
-            RawilumTrait::setRawilum(self::$instance);
-        }
-        return self::$instance;
-    }
+      * Initialize Rawilum Application
+      *
+      *  <code>
+      *      Rawium::init();
+      *  </code>
+      *
+      * @access public
+      * @return object
+      */
+     public static function init()
+     {
+         return !isset(self::$instance) and self::$instance = new Rawilum();
+     }
 }

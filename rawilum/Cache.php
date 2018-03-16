@@ -13,73 +13,69 @@
 class Cache
 {
     /**
-     * @var Rawilum
+     * An instance of the Cache class
+     *
+     * @var object
      */
-    protected $rawilum;
-
+    protected static $instance = null;
     /**
      * Unique cache key
      *
      * @var string Cache key.
      */
     protected static $key;
-
     /**
      * Lifetime
      *
      * @var int Lifetime.
      */
     protected static $lifetime;
-
     /**
      * Current time
      *
      * @var int Current time.
      */
     protected static $now;
-
     /**
      * Cache Driver
      *
      * @var DoctrineCache
      */
     protected static $driver;
-
+    /**
+     * Protected clone method to enforce singleton behavior.
+     *
+     * @access  protected
+     */
+    protected function __clone()
+    {
+        // Nothing here.
+    }
     /**
      * Constructor.
      *
      * @access  protected
      */
-    public function __construct(Rawilum $c)
+    protected function __construct()
     {
-        $this->rawilum = $c;
-
         // Set current time
         static::$now = time();
-
         // Cache key allows us to invalidate all cache on configuration changes.
-        static::$key = ($this->rawilum['config']->get('site.cache.prefix') ? $this->rawilum['config']->get('site.cache.prefix') : 'rawilum') . '-' . md5(ROOT_DIR . 'Rawilum::VERSION');
-
+        static::$key = (Config::get('site.cache.prefix') ? Config::get('site.cache.prefix') : 'fansoro') . '-' . md5(ROOT_DIR . 'Fansoro::VERSION');
         // Get Cache Driver
-        static::$driver = $this->getCacheDriver();
-
+        static::$driver = static::getCacheDriver();
         // Set the cache namespace to our unique key
         static::$driver->setNamespace(static::$key);
-
-        // Return
-        return static::$driver;
     }
-
     /**
      * Get Cache Driver
      *
      * @access public
      * @return object
      */
-    public function getCacheDriver()
+    public static function getCacheDriver()
     {
-        $driver_name = $this->rawilum['config']->get('site.cache.driver');
-
+        $driver_name = Config::get('site.cache.driver');
         if (!$driver_name || $driver_name == 'auto') {
             if (extension_loaded('apc')) {
                 $driver_name = 'apc';
@@ -91,7 +87,6 @@ class Cache
         } else {
             $driver_name = 'file';
         }
-
         switch ($driver_name) {
             case 'apc':
                 $driver = new \Doctrine\Common\Cache\ApcCache();
@@ -104,29 +99,24 @@ class Cache
                 break;
             case 'memcache':
                 $memcache = new \Memcache();
-                $memcache->connect(
-                    $this->rawilum['config']->get('site.cache.memcache.server', 'localhost'),
-                                   $this->rawilum['config']->get('site.cache.memcache.port', 11211)
-                );
+                $memcache->connect(Config::get('site.cache.memcache.server', 'localhost'),
+                                   Config::get('site.cache.memcache.port', 11211));
                 $driver = new \Doctrine\Common\Cache\MemcacheCache();
                 $driver->setMemcache($memcache);
                 break;
             case 'redis':
                 $redis = new \Redis();
-                $redis->connect(
-                    $this->rawilum['config']->get('site.cache.redis.server', 'localhost'),
-                                $this->rawilum['config']->get('site.cache.redis.port', 6379)
-                );
+                $redis->connect(Config::get('site.cache.redis.server', 'localhost'),
+                                Config::get('site.cache.redis.port', 6379));
                 $driver = new \Doctrine\Common\Cache\RedisCache();
                 $driver->setRedis($redis);
                 break;
             default:
                 // Create doctrine cache directory if its not exists
-                !$this->rawilum['filesystem']->exists($cache_directory = CACHE_PATH . '/doctrine/') and $this->rawilum['filesystem']->mkdir($cache_directory);
+                !Rawilum::$filesystem->exists($cache_directory = CACHE_PATH . '/doctrine/') and Rawilum::$filesystem->mkdir($cache_directory);
                 $driver = new \Doctrine\Common\Cache\FilesystemCache($cache_directory);
                 break;
         }
-
         return $driver;
     }
 
@@ -136,22 +126,20 @@ class Cache
      * @access public
      * @return object
      */
-    public function driver()
+    public static function driver()
     {
         return static::$driver;
     }
-
     /**
      * Get cache key.
      *
      * @access public
      * @return string
      */
-    public function getKey()
+    public static function getKey()
     {
         return static::$key;
     }
-
     /**
      * Fetches an entry from the cache.
      *
@@ -161,13 +149,12 @@ class Cache
      */
     public function fetch($id)
     {
-        if ($this->rawilum['config']->get('site.cache.enabled')) {
+        if (Config::get('site.cache.enabled')) {
             return static::$driver->fetch($id);
         } else {
             return false;
         }
     }
-
     /**
      * Puts data into the cache.
      *
@@ -180,52 +167,61 @@ class Cache
      */
     public function save($id, $data, $lifetime = null)
     {
-        if ($this->rawilum['config']->get('site.cache.enabled')) {
+        if (Config::get('site.cache.enabled')) {
             if ($lifetime === null) {
                 $lifetime = static::getLifetime();
             }
             static::$driver->save($id, $data, $lifetime);
         }
     }
-
     /**
      * Clear Cache
      */
-    public function clear()
+    public static function clear()
     {
-        $this->rawilum['filesystem']->remove(CACHE_PATH . '/doctrine/');
+        Rawilum::$filesystem->remove(CACHE_PATH . '/doctrine/');
     }
-
     /**
      * Set the cache lifetime.
      *
      * @access public
      * @param int $future timestamp
      */
-    public function setLifetime($future)
+    public static function setLifetime($future)
     {
         if (!$future) {
             return;
         }
-
         $interval = $future - $this->now;
-
         if ($interval > 0 && $interval < static::getLifetime()) {
             static::$lifetime = $interval;
         }
     }
-
     /**
      * Retrieve the cache lifetime (in seconds)
      *
      * @access public
      * @return mixed
      */
-    public function getLifetime()
+    public static function getLifetime()
     {
         if (static::$lifetime === null) {
-            static::$lifetime = $this->rawilum['config']->get('site.cache.lifetime') ?: 604800;
+            static::$lifetime = Config::get('site.cache.lifetime') ?: 604800;
         }
         return static::$lifetime;
+    }
+    /**
+     * Initialize Fansoro Cache
+     *
+     *  <code>
+     *      Cache::init();
+     *  </code>
+     *
+     * @access public
+     * @return object
+     */
+    public static function init()
+    {
+        return !isset(self::$instance) and self::$instance = new Cache();
     }
 }

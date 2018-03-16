@@ -12,24 +12,22 @@
 
 class Shortcodes
 {
-    /**
-     * @var Rawilum
-     */
-    protected $rawilum;
 
     /**
      * Shortcode tags array
      *
      * @var shortcode_tags
      */
-    protected $shortcode_tags = [];
+    protected static $shortcode_tags = [];
 
     /**
-     * Construct
+     * Protected constructor since this is a static class.
+     *
+     * @access  protected
      */
-    public function __construct(Rawilum $c)
+    protected function __construct()
     {
-        $this->rawilum = $c;
+        // Nothing here
     }
 
     /**
@@ -38,11 +36,11 @@ class Shortcodes
      * @param string $shortcode         Shortcode tag to be searched in content.
      * @param string $callback_function The callback function to replace the shortcode with.
      */
-    public function add(string $shortcode, $callback_function)
+    public static function add(string $shortcode, $callback_function)
     {
         // Add new shortcode
         if (is_callable($callback_function)) {
-            $this->shortcode_tags[$shortcode] = $callback_function;
+            static::$shortcode_tags[$shortcode] = $callback_function;
         }
     }
 
@@ -51,11 +49,11 @@ class Shortcodes
      *
      * @param string $shortcode Shortcode tag.
      */
-    public function delete(string $shortcode)
+    public static function delete(string $shortcode)
     {
         // Delete shortcode
-        if ($this->exists($shortcode)) {
-            unset($this->shortcode_tags[$shortcode]);
+        if (static::exists($shortcode)) {
+            unset(static::$shortcode_tags[$shortcode]);
         }
     }
 
@@ -67,9 +65,9 @@ class Shortcodes
      *  </code>
      *
      */
-    public function clear()
+    public static function clear()
     {
-        $this->shortcode_tags = array();
+        static::$shortcode_tags = array();
     }
 
     /**
@@ -77,10 +75,10 @@ class Shortcodes
      *
      * @param string $shortcode Shortcode tag.
      */
-    public function exists(string $shortcode)
+    public static function exists(string $shortcode)
     {
         // Check shortcode
-        return array_key_exists($shortcode, $this->shortcode_tags);
+        return array_key_exists($shortcode, static::$shortcode_tags);
     }
 
     /**
@@ -89,13 +87,13 @@ class Shortcodes
      * @param  string $content Content
      * @return string
      */
-    public function parse(string $content)
+    public static function parse(string $content)
     {
-        if (! $this->shortcode_tags) {
+        if (! static::$shortcode_tags) {
             return $content;
         }
 
-        $shortcodes = implode('|', array_map('preg_quote', array_keys($this->shortcode_tags)));
+        $shortcodes = implode('|', array_map('preg_quote', array_keys(static::$shortcode_tags)));
         $pattern    = "/(.?)\{([$shortcodes]+)(.*?)(\/)?\}(?(4)|(?:(.+?)\{\/\s*\\2\s*\}))?(.?)/s";
 
         return preg_replace_callback($pattern, array($this, '_handle'), $content);
@@ -104,7 +102,7 @@ class Shortcodes
     /**
      * _handle()
      */
-    protected function _handle($matches)
+    protected static function _handle($matches)
     {
         $prefix    = $matches[1];
         $suffix    = $matches[6];
@@ -128,6 +126,6 @@ class Shortcodes
         }
 
         // Check if this shortcode realy exists then call user function else return empty string
-        return (isset($this->shortcode_tags[$shortcode])) ? $prefix . call_user_func($this->shortcode_tags[$shortcode], $attributes, $matches[5], $shortcode) . $suffix : '';
+        return (isset(static::$shortcode_tags[$shortcode])) ? $prefix . call_user_func(static::$shortcode_tags[$shortcode], $attributes, $matches[5], $shortcode) . $suffix : '';
     }
 }

@@ -15,17 +15,11 @@ use Symfony\Component\Yaml\Yaml;
 class Plugins
 {
     /**
-     * @var Rawilum
+     * An instance of the Cache class
+     *
+     * @var object
      */
-    protected $rawilum;
-
-    /**
-     * __construct
-     */
-    public function __construct(Rawilum $c)
-    {
-        $this->rawilum = $c;
-    }
+    protected static $instance = null;
 
     /**
      * Init Plugins
@@ -33,13 +27,13 @@ class Plugins
      * @access public
      * @return mixed
      */
-    public function init()
+    protected function __construct()
     {
         // Plugin manifest
         $plugin_manifest = [];
 
         // Get Plugins List
-        $plugins_list = $this->rawilum['config']->get('site.plugins');
+        $plugins_list = Config::get('site.plugins');
 
         // If Plugins List isnt empty
         if (is_array($plugins_list) && count($plugins_list) > 0) {
@@ -54,12 +48,25 @@ class Plugins
             }
         }
 
-        $rawilum = $this->rawilum;
-
-        if (is_array($this->rawilum['config']->get('site.plugins')) && count($this->rawilum['config']->get('site.plugins')) > 0) {
-            foreach ($this->rawilum['config']->get('site.plugins') as $plugin_id => $plugin_name) {
+        if (is_array(Config::get('site.plugins')) && count(Config::get('site.plugins')) > 0) {
+            foreach (Config::get('site.plugins') as $plugin_id => $plugin_name) {
                 include_once PLUGINS_PATH .'/'. $plugin_name .'/'. $plugin_name . '.php';
             }
         }
+    }
+
+    /**
+     * Initialize Rawilum I18n
+     *
+     *  <code>
+     *      Plugins::init();
+     *  </code>
+     *
+     * @access public
+     * @return object
+     */
+    public static function init()
+    {
+        return !isset(self::$instance) and self::$instance = new Plugins();
     }
 }
