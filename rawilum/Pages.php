@@ -52,13 +52,6 @@ class Pages
         Events::dispatch('onPageAfterRender');
     }
 
-    protected static function pageShortcodes() {
-        // {site_url}
-        $this->rawilum['shortcodes']->add('site_url', function() {
-            return Url::getBase();
-        });
-    }
-
     /**
      * Page finder
      */
