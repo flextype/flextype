@@ -35,7 +35,9 @@
             "rawilum"
         ],
         "files": [
-            "rawilum/boot/defines.php"
+            "rawilum/boot/defines.php",
+            "rawilum/boot/shortcodes.php",
+            "rawilum/boot/events.php"
         ]
     }
 }
