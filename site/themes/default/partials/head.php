@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-	<?php Rawilum\Events::dispatch('theme_meta'); ?>
+	<?php Rawilum\Events::dispatch('onThemeMeta'); ?>
 
 	<link rel="shortcut icon" href="<?php echo Url::getBase(); ?>/favicon.ico">
 
@@ -19,7 +19,7 @@
 
     <!-- Custom styles for this template -->
 	<link href="<?php echo Url::getBase(); ?>/site/themes/<?php echo Rawilum\Config::get('site.theme'); ?>/assets/css/theme.css" rel="stylesheet">
-	<?php Rawilum\Events::dispatch('theme_header'); ?>
+	<?php Rawilum\Events::dispatch('onThemeHeader'); ?>
   </head>
   <body>
   <?php Rawilum\Templates::display('partials/navigation'); ?>
