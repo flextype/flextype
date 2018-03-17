@@ -1,4 +1,4 @@
-<?php
+<?php namespace Rawilum;
 
 /**
  * @package Rawilum
