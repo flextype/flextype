@@ -83,6 +83,8 @@ class Plugins
                 }
             }
         }
+
+        Events::dispatch('onPluginsInitialized');
     }
 
     /**
