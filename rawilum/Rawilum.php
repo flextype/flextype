@@ -106,6 +106,9 @@ class Rawilum
         // Init I18n
         I18n::init();
 
+        // Init Themes
+        Themes::init();
+
         // Init Plugins
         Plugins::init();
 
