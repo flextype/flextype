@@ -96,7 +96,7 @@ class Shortcodes
         $shortcodes = implode('|', array_map('preg_quote', array_keys(static::$shortcode_tags)));
         $pattern    = "/(.?)\{([$shortcodes]+)(.*?)(\/)?\}(?(4)|(?:(.+?)\{\/\s*\\2\s*\}))?(.?)/s";
 
-        return preg_replace_callback($pattern, array($this, '_handle'), $content);
+        return preg_replace_callback($pattern, 'static::_handle', $content);
     }
 
     /**

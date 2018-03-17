@@ -1,5 +1,7 @@
 <?php namespace Rawilum;
 
+use Url;
+
 /**
  * @package Rawilum
  *
