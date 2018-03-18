@@ -111,6 +111,21 @@ class Pages
 
         $frontmatter = Shortcodes::parse($page[1]);
         $result_page = Yaml::parse($frontmatter);
+
+        // Get page url
+        $url = str_replace(PAGES_PATH, Url::getBase(), $file);
+        $url = str_replace('index.md', '', $url);
+        $url = str_replace('.md', '', $url);
+        $url = str_replace('\\', '/', $url);
+        $url = rtrim($url, '/');
+        $result_page['url'] = $url;
+
+        // Get page slug
+        $url = str_replace(Url::getBase(), '', $url);
+        $url = ltrim($url, '/');
+        $url = rtrim($url, '/');
+        $result_page['slug'] = str_replace(Url::getBase(), '', $url);
+
         $result_page['content'] = $page[2];
 
         return $result_page;
@@ -149,14 +164,18 @@ class Pages
     /**
      * getPage
      */
-    public static function getPages($url = '', $raw = false, $order_by = 'title', $order_type = 'DESC', $ignore = ['404', 'index'], $limit = null)
+    public static function getPages($url = '', $raw = false, $order_by = 'title', $order_type = 'DESC', $limit = null)
     {
         // Get pages list for current $url
         $pages_list = Rawilum::$finder->files()->name('*.md')->in(PAGES_PATH . '/' . $url);
 
         // Go trough pages list
         foreach ($pages_list as $key => $page) {
-            $pages[$key] = static::getPage($page->getPathname(), $raw, true);
+            if (strpos($page->getPathname(), $url.'/index.md') !== false) {
+
+            } else {
+                $pages[$key] = static::getPage($page->getPathname(), $raw, true);
+            }
         }
 
         // Sort and Slice pages if !$raw
