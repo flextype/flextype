@@ -26,6 +26,11 @@ p {
     line-height: 26px;
 }
 
+pre {
+    background: #f0f0f0;
+    padding-left: 10px;
+}
+
 
 .content {
     padding-top: 40px;
