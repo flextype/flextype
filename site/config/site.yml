@@ -13,7 +13,6 @@ charset: UTF-8
 theme: default
 
 plugins:
-    - highlight
 
 locale: "en"
 locales: [en]
