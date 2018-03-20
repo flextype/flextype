@@ -51,6 +51,7 @@ class Cache
     {
         // Nothing here.
     }
+
     /**
      * Constructor.
      *
@@ -60,13 +61,17 @@ class Cache
     {
         // Set current time
         static::$now = time();
+
         // Cache key allows us to invalidate all cache on configuration changes.
-        static::$key = (Config::get('site.cache.prefix') ? Config::get('site.cache.prefix') : 'fansoro') . '-' . md5(ROOT_DIR . 'Fansoro::VERSION');
+        static::$key = (Config::get('site.cache.prefix') ? Config::get('site.cache.prefix') : 'flextype') . '-' . md5(ROOT_DIR);
+
         // Get Cache Driver
         static::$driver = static::getCacheDriver();
+
         // Set the cache namespace to our unique key
         static::$driver->setNamespace(static::$key);
     }
+
     /**
      * Get Cache Driver
      *
@@ -130,6 +135,7 @@ class Cache
     {
         return static::$driver;
     }
+
     /**
      * Get cache key.
      *
@@ -140,6 +146,7 @@ class Cache
     {
         return static::$key;
     }
+
     /**
      * Fetches an entry from the cache.
      *
@@ -155,6 +162,7 @@ class Cache
             return false;
         }
     }
+
     /**
      * Puts data into the cache.
      *
@@ -174,6 +182,7 @@ class Cache
             static::$driver->save($id, $data, $lifetime);
         }
     }
+    
     /**
      * Clear Cache
      */
@@ -181,6 +190,7 @@ class Cache
     {
         Flextype::$filesystem->remove(CACHE_PATH . '/doctrine/');
     }
+
     /**
      * Set the cache lifetime.
      *
@@ -197,6 +207,7 @@ class Cache
             static::$lifetime = $interval;
         }
     }
+
     /**
      * Retrieve the cache lifetime (in seconds)
      *
@@ -210,8 +221,9 @@ class Cache
         }
         return static::$lifetime;
     }
+
     /**
-     * Initialize Fansoro Cache
+     * Initialize Flextype Cache
      *
      *  <code>
      *      Cache::init();
