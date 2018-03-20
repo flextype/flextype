@@ -1,0 +1,31 @@
+#
+# Site configuration
+#
+
+title: "Flextype"
+description: "Modern Open Source Flat-File Content Management System"
+author:
+  email: ""
+
+timezone: UTC
+charset: UTF-8
+
+theme: default
+
+plugins:
+
+locale: "en"
+locales: [en]
+
+pages:
+  flush_cache: false
+  main: home
+
+errors:
+  display: true
+
+cache:
+  enabled: false
+  prefix: Flextype
+  driver: auto
+  lifetime: 604800

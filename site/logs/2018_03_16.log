@@ -1,0 +1,84 @@
+[16-Mar-2018 09:50:07] ParseError: syntax error, unexpected '->' (T_OBJECT_OPERATOR), expecting ',' or ';' in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 3
+[16-Mar-2018 09:50:29] Error: Call to a member function process() on null in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 3
+[16-Mar-2018 09:51:35] Error: Call to a member function process() on null in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 3
+[16-Mar-2018 09:51:49] Pimple\Exception\UnknownIdentifierException: Identifier "ProtectEmail" is not defined. in /Applications/MAMP/htdocs/flextype/vendor/pimple/pimple/src/Pimple/Container.php at line 101
+[16-Mar-2018 11:16:30] Error: Class 'Flextype\Session' not found in /Applications/MAMP/htdocs/flextype/Flextype/Flextype.php at line 219
+[16-Mar-2018 11:19:40] Error: Call to undefined method Flextype\Cache::init() in /Applications/MAMP/htdocs/flextype/Flextype/Flextype.php at line 223
+[16-Mar-2018 11:20:16] Error: Call to undefined method Flextype\Cache::init() in /Applications/MAMP/htdocs/flextype/Flextype/Flextype.php at line 223
+[16-Mar-2018 11:20:28] Error: Call to undefined method Flextype\Cache::init() in /Applications/MAMP/htdocs/flextype/Flextype/Flextype.php at line 223
+[16-Mar-2018 11:23:55] Error: Class 'Flextype\Fansoro' not found in /Applications/MAMP/htdocs/flextype/Flextype/Cache.php at line 64
+[16-Mar-2018 11:25:14] Error: Class 'Flextype\Fansoro' not found in /Applications/MAMP/htdocs/flextype/Flextype/Cache.php at line 64
+[16-Mar-2018 11:25:42] Error: Class 'Flextype\Dir' not found in /Applications/MAMP/htdocs/flextype/Flextype/Cache.php at line 116
+[16-Mar-2018 11:27:54] ErrorException: Unknown Error: Non-static method Flextype\I18n::init() should not be called statically in /Applications/MAMP/htdocs/flextype/Flextype/Flextype.php at line 226
+[16-Mar-2018 11:35:20] ErrorException: Unknown Error: Non-static method Flextype\Plugins::init() should not be called statically in /Applications/MAMP/htdocs/flextype/Flextype/Flextype.php at line 229
+[16-Mar-2018 11:54:49] ErrorException: Notice: Undefined property: Flextype\Plugins::$flextype in /Applications/MAMP/htdocs/flextype/Flextype/Plugins.php at line 51
+[16-Mar-2018 11:55:29] ErrorException: Unknown Error: Non-static method Flextype\Pages::getPage() should not be called statically in /Applications/MAMP/htdocs/flextype/Flextype/Flextype.php at line 232
+[16-Mar-2018 12:16:11] ErrorException: Unknown Error: Non-static method Flextype\Events::dispatch() should not be called statically in /Applications/MAMP/htdocs/flextype/Flextype/Pages.php at line 41
+[16-Mar-2018 12:18:43] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/Flextype/Events.php at line 72
+[16-Mar-2018 12:18:55] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/Flextype/Pages.php at line 131
+[16-Mar-2018 12:19:51] ErrorException: Notice: Undefined variable: finder in /Applications/MAMP/htdocs/flextype/Flextype/Pages.php at line 131
+[16-Mar-2018 12:20:29] Error: Call to undefined method Symfony\Component\Finder\Finder::finder() in /Applications/MAMP/htdocs/flextype/Flextype/Pages.php at line 131
+[16-Mar-2018 12:20:41] Error: Call to undefined method Symfony\Component\Finder\Finder::find() in /Applications/MAMP/htdocs/flextype/Flextype/Pages.php at line 131
+[16-Mar-2018 12:21:23] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/Flextype/Pages.php at line 77
+[16-Mar-2018 12:23:40] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/Flextype/Pages.php at line 82
+[16-Mar-2018 12:23:53] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/Flextype/Pages.php at line 138
+[16-Mar-2018 12:24:34] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/Flextype/Pages.php at line 138
+[16-Mar-2018 12:25:20] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/Flextype/Pages.php at line 138
+[16-Mar-2018 12:26:02] ErrorException: Notice: Undefined variable: frontmatter in /Applications/MAMP/htdocs/flextype/Flextype/Pages.php at line 119
+[16-Mar-2018 12:36:35] ErrorException: Notice: Undefined variable: frontmatter in /Applications/MAMP/htdocs/flextype/flextype/Pages.php at line 119
+[16-Mar-2018 12:36:57] ErrorException: Unknown Error: Non-static method Flextype\Shortcodes::parse() should not be called statically in /Applications/MAMP/htdocs/flextype/flextype/Pages.php at line 118
+[16-Mar-2018 12:36:58] ErrorException: Unknown Error: Non-static method Flextype\Shortcodes::parse() should not be called statically in /Applications/MAMP/htdocs/flextype/flextype/Pages.php at line 118
+[16-Mar-2018 12:47:09] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/flextype/Pages.php at line 139
+[16-Mar-2018 12:50:59] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/flextype/Pages.php at line 139
+[16-Mar-2018 12:52:10] ErrorException: Unknown Error: Non-static method Flextype\Filters::dispatch() should not be called statically in /Applications/MAMP/htdocs/flextype/flextype/Pages.php at line 140
+[16-Mar-2018 12:52:30] Error: Class 'Flextype\Shorcodes' not found in /Applications/MAMP/htdocs/flextype/flextype/Pages.php at line 149
+[16-Mar-2018 12:52:49] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/flextype/Pages.php at line 144
+[16-Mar-2018 12:53:01] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/flextype/Pages.php at line 100
+[16-Mar-2018 12:53:26] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 1
+[16-Mar-2018 13:21:09] Error: Class 'Templates' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 1
+[16-Mar-2018 13:24:27] Error: Class 'Templates' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 1
+[16-Mar-2018 13:24:29] Error: Class 'Templates' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 1
+[16-Mar-2018 13:24:32] Error: Class 'Templates' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 1
+[16-Mar-2018 13:24:56] Error: Class 'Templates' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 1
+[16-Mar-2018 13:25:34] Error: Class 'Templates' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 1
+[16-Mar-2018 13:25:44] Error: Class 'Templates' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 1
+[16-Mar-2018 13:26:05] Error: Class 'Templates' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 1
+[16-Mar-2018 13:27:09] Error: Class 'Shortcodes' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 1
+[16-Mar-2018 13:28:07] Error: Class 'Pages' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 1
+[16-Mar-2018 13:28:47] Error: Class 'Flextype' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 2
+[16-Mar-2018 13:28:53] Error: Class 'Flextype' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 2
+[16-Mar-2018 13:28:58] ParseError: syntax error, unexpected '/', expecting end of file in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 2
+[16-Mar-2018 13:31:21] Error: Class 'Flextype\Shortcode' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 3
+[16-Mar-2018 13:31:54] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/site/themes/default/partials/head.php at line 9
+[16-Mar-2018 13:32:45] Error: Class 'Templates' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 2
+[16-Mar-2018 13:32:50] ErrorException: Notice: Use of undefined constant Flextype - assumed 'Flextype' in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 2
+[16-Mar-2018 13:32:58] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/site/themes/default/partials/head.php at line 9
+[16-Mar-2018 13:34:24] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/site/themes/default/partials/head.php at line 13
+[16-Mar-2018 13:35:06] ErrorException: Notice: Undefined variable: page in /Applications/MAMP/htdocs/flextype/site/themes/default/partials/head.php at line 13
+[16-Mar-2018 13:35:40] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/site/themes/default/partials/head.php at line 18
+[16-Mar-2018 13:36:32] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/site/themes/default/partials/head.php at line 25
+[16-Mar-2018 13:36:53] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/site/themes/default/partials/navigation.php at line 3
+[16-Mar-2018 13:38:02] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/site/themes/default/partials/footer.php at line 2
+[16-Mar-2018 13:38:28] Error: Using $this when not in object context in /Applications/MAMP/htdocs/flextype/site/themes/default/partials/tail.php at line 1
+[16-Mar-2018 13:46:16] ErrorException: Warning: include_once(/Applications/MAMP/htdocs/flextype/site/plugins/protect-email/protect-email.php): failed to open stream: No such file or directory in /Applications/MAMP/htdocs/flextype/flextype/Plugins.php at line 54
+[16-Mar-2018 13:49:48] ErrorException: Notice: Undefined variable: plugin_name in /Applications/MAMP/htdocs/flextype/flextype/Plugins.php at line 43
+[16-Mar-2018 13:49:57] ErrorException: Warning: include_once(/Applications/MAMP/htdocs/flextype/site/plugins/protect-email/protect-email.php): failed to open stream: No such file or directory in /Applications/MAMP/htdocs/flextype/flextype/Plugins.php at line 53
+[16-Mar-2018 13:55:52] Error: Class 'ProtectEmail' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 3
+[16-Mar-2018 14:05:23] Error: Class 'Flextype\ProtectEmail' not found in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 3
+[16-Mar-2018 14:05:53] Error: Call to undefined function redirect() in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 3
+[16-Mar-2018 14:07:52] Error: Class 'Flextype\Arr' not found in /Applications/MAMP/htdocs/flextype/site/plugins/redirect/Redirect.php at line 15
+[16-Mar-2018 14:07:59] ErrorException: Notice: Undefined variable: page in /Applications/MAMP/htdocs/flextype/site/plugins/redirect/Redirect.php at line 17
+[16-Mar-2018 14:08:11] Error: Class 'Flextype\Request' not found in /Applications/MAMP/htdocs/flextype/site/plugins/redirect/Redirect.php at line 18
+[16-Mar-2018 14:08:19] Error: Class 'Flextype\Request' not found in /Applications/MAMP/htdocs/flextype/site/plugins/redirect/Redirect.php at line 18
+[16-Mar-2018 14:08:30] Error: Call to undefined function Flextype\redirect() in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 3
+[16-Mar-2018 14:09:53] ErrorException: Notice: Undefined property: Flextype\Plugins::$flextype in /Applications/MAMP/htdocs/flextype/site/plugins/redirect/Redirect.php at line 24
+[16-Mar-2018 14:32:51] ErrorException: Notice: Undefined variable: flextype in /Applications/MAMP/htdocs/flextype/site/plugins/summary/summary.php at line 37
+[16-Mar-2018 14:34:56] ParseError: syntax error, unexpected end of file in /Applications/MAMP/htdocs/flextype/site/plugins/summary/summary.php at line 27
+[16-Mar-2018 14:35:00] ErrorException: Notice: Undefined property: Flextype\Plugins::$flextype in /Applications/MAMP/htdocs/flextype/site/plugins/summary/summary.php at line 19
+[16-Mar-2018 14:36:09] ErrorException: Notice: Undefined property: Flextype\Plugins::$flextype in /Applications/MAMP/htdocs/flextype/site/plugins/summary/summary.php at line 22
+[16-Mar-2018 14:36:35] ErrorException: Notice: Undefined index: summary in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 2
+[16-Mar-2018 14:36:47] ErrorException: Notice: Undefined index: summary in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 2
+[16-Mar-2018 14:36:48] ErrorException: Notice: Undefined index: summary in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 2
+[16-Mar-2018 15:01:08] ErrorException: Notice: Undefined index: summary in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 2
+[16-Mar-2018 15:06:21] Error: Call to undefined function readingTime() in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 3
+[16-Mar-2018 15:07:41] ErrorException: Notice: Use of undefined constant content - assumed 'content' in /Applications/MAMP/htdocs/flextype/site/themes/default/index.php at line 3

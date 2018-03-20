@@ -1,0 +1,13 @@
+name: Redirect
+version: 1.0.1
+description: "Simple redirect plugin for Flextype. It allows you to create a redirects from your pages."
+author:
+  name: Sergey Romanenko
+  email: awilum@yandex.ru
+  url: http://flextype.org
+homepage: https://github.com/flextype-plugins/redirect
+bugs: https://github.com/flextype-plugins/redirect/issues
+license: MIT
+
+# Plugin settings
+enabled: true
