@@ -1,8 +1,8 @@
 ##
-# @package Rawilum
+# @package Flextype
 #
 # @author Sergey Romanenko <awilum@yandex.ru>
-# @link http://rawilum.org
+# @link http://flextype.org
 #
 # For the full copyright and license information, please view the LICENSE
 # file that was distributed with this source code.
@@ -12,11 +12,11 @@
 
 RewriteEngine On
 
-RewriteBase /rawilum/
+RewriteBase /flextype/
 
 ## Begin - Exploits
 # If you experience problems on your site block out the operations listed below
-# This attempts to block the most common type of exploit `attempts` to Rawilum
+# This attempts to block the most common type of exploit `attempts` to Flextype
 #
 # Block out any script trying to base64_encode data within the URL.
 RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
@@ -45,9 +45,9 @@ RewriteRule .* index.php [L]
 
 ## Begin - Security
 # Block all direct access for these folders
-RewriteRule ^(\.git|rawilum)/(.*) error [F]
+RewriteRule ^(\.git|flextype)/(.*) error [F]
 # Block access to specific file types for these system folders
-RewriteRule ^(rawilum|vendor)/(.*)\.(txt|xml|md|html|yaml|yml|php|pl|py|cgi|sh|bat)$ error [F]
+RewriteRule ^(flextype|vendor)/(.*)\.(txt|xml|md|html|yaml|yml|php|pl|py|cgi|sh|bat)$ error [F]
 # Block access to specific file types for these user folders
 RewriteRule ^(site)/(.*)\.(txt|md|yaml|yml|php|pl|py|cgi|sh|bat)$ error [F]
 # Block all direct access to .md files:

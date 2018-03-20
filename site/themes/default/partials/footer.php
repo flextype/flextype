@@ -1,8 +1,8 @@
 
-    <?php Rawilum\Templates::display('partials/tail'); ?>
+    <?php Flextype\Templates::display('partials/tail'); ?>
 
     <div class="powered">
-      Powered by <a href="http://rawilum.org">Rawilum</a>
+      Powered by <a href="http://flextype.org">Flextype</a>
     </div>
     </main>
   </body>

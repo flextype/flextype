@@ -1,12 +1,12 @@
 name: Default
 version: 1.0.0
-description: Default Rawilum theme
+description: Default Flextype theme
 author:
   name: Sergey Romanenko
   email: awilum@yandex.ru
   url: https://github.com/Awilum
-homepage: https://github.com/rawilum/rawilum
-bugs: https://github.com/rawilum/rawilum/issues
+homepage: https://github.com/flextype/flextype
+bugs: https://github.com/flextype/flextype/issues
 license: MIT
 
 # Theme settings

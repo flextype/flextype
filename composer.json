@@ -1,9 +1,9 @@
 {
-    "name": "rawilum/rawilum",
+    "name": "flextype/flextype",
     "type": "library",
-    "description": "Rawilum is Modern Open Source Flat-File Content Management System",
-    "keywords": ["Rawilum", "php", "cms", "flat-file", "markdown"],
-    "homepage": "http://rawilum.org",
+    "description": "Flextype is Modern Open Source Flat-File Content Management System",
+    "keywords": ["Flextype", "php", "cms", "flat-file", "markdown"],
+    "homepage": "http://flextype.org",
     "license": "MIT",
     "authors": [
         {
@@ -13,7 +13,7 @@
         }
     ],
     "support": {
-      "issues": "https://github.com/rawilum/rawilum/issues"
+      "issues": "https://github.com/flextype/flextype/issues"
     },
     "require": {
         "php": ">=7.1.3",
@@ -32,12 +32,12 @@
     },
     "autoload": {
         "classmap": [
-            "rawilum"
+            "flextype"
         ],
         "files": [
-            "rawilum/boot/defines.php",
-            "rawilum/boot/shortcodes.php",
-            "rawilum/boot/events.php"
+            "flextype/boot/defines.php",
+            "flextype/boot/shortcodes.php",
+            "flextype/boot/events.php"
         ]
     }
 }

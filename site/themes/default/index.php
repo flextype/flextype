@@ -1,3 +1,3 @@
-<?php Rawilum\Templates::display('partials/head'); ?>
+<?php Flextype\Templates::display('partials/head'); ?>
 <?php echo $page['content']; ?>
-<?php Rawilum\Templates::display('partials/footer'); ?>
+<?php Flextype\Templates::display('partials/footer'); ?>
