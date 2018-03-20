@@ -12,7 +12,7 @@
 
 RewriteEngine On
 
-RewriteBase /flextype/
+RewriteBase /
 
 ## Begin - Exploits
 # If you experience problems on your site block out the operations listed below
