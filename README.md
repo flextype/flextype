@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/flextype/flextype/blob/dev/flextype-logo-big.jpg?raw=true" alt="Flextype" width="40%" height="40%" />
+    <img src="https://github.com/flextype/flextype/blob/dev/flextype.jpg?raw=true" alt="Flextype" width="40%" height="40%" />
 </p>
 
 Flextype is Modern Open Source Flat-File Content Management site.  
