@@ -1,0 +1,8 @@
+{
+  "name": "flextype",
+  "version": "1.0.0",
+  "devDependencies": {
+    "bootstrap": "^4.0.0",
+    "jquery": "^3.3.1"
+  }
+}
