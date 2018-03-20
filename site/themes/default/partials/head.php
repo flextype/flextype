@@ -1,14 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="<?php echo Flextype\Config::get('site.locale'); ?>">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
+    <meta name="description" content="<?php echo Flextype\Config::get('site.description'); ?>">
     <meta name="author" content="">
 
 	<?php Flextype\Events::dispatch('onThemeMeta'); ?>
-
-	<link rel="shortcut icon" href="<?php echo Url::getBase(); ?>/favicon.ico">
 
 	<title><?php echo $page['title']; ?> | <?php echo Flextype\Config::get('site.title'); ?></title>
 
