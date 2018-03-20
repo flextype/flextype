@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-<p align="center">
-    <img src="https://github.com/rawilum/rawilum/blob/dev/rawilum-logo-big.jpg?raw=true" alt="Rawilum" width="40%" height="40%" />
-</p>
-=======
 # Flextype
 ![version](https://img.shields.io/badge/version-0.1.0-brightgreen.svg?style=flat-square "Version")
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
@@ -45,4 +40,3 @@ composer create-project flextype/flextype
 
 ## License
 See [LICENSE](https://github.com/flextype/flextype/blob/master/LICENSE.md)
->>>>>>> origin/dev
