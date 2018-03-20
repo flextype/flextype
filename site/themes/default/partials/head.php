@@ -10,7 +10,7 @@
 
 	<link rel="shortcut icon" href="<?php echo Url::getBase(); ?>/favicon.ico">
 
-	<title><?php echo Flextype\Config::get('site.title'); ?> | <?php echo $page['title']; ?></title>
+	<title><?php echo $page['title']; ?> | <?php echo Flextype\Config::get('site.title'); ?></title>
 
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css'>
 
