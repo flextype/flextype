@@ -102,9 +102,9 @@ class Pages
     }
 
     /**
-     * Page parser
+     * Page page file
      */
-    public static function parse($file)
+    public static function parseFile($file)
     {
         $page = trim(file_get_contents($file));
         $page = explode('---', $page, 3);
@@ -144,7 +144,7 @@ class Pages
             static::$page = $page;
             Events::dispatch('onPageContentRawAfter');
         } else {
-            $page = static::parse($file);
+            $page = static::parseFile($file);
             static::$page = $page;
             static::$page['content'] = Filters::dispatch('content', static::parseContent(static::$page['content']));
             Events::dispatch('onPageContentAfter');
@@ -153,6 +153,9 @@ class Pages
         return static::$page;
     }
 
+    /**
+     * Parse Cntent
+     */
     public static function parseContent(string $content) : string
     {
         $content = Shortcodes::parse($content);
@@ -162,7 +165,7 @@ class Pages
     }
 
     /**
-     * getPage
+     * Get Pages
      */
     public static function getPages($url = '', $raw = false, $order_by = 'title', $order_type = 'DESC', $limit = null)
     {
