@@ -1,6 +1,4 @@
-<?php namespace Flextype;
-
-use Symfony\Component\Yaml\Yaml;
+<?php
 
 /**
  * @package Flextype
@@ -11,6 +9,10 @@ use Symfony\Component\Yaml\Yaml;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+namespace Flextype;
+
+use Symfony\Component\Yaml\Yaml;
 
 class Themes
 {
@@ -35,7 +37,7 @@ class Themes
         // Get current theme
         $theme = Config::get('site.theme');
 
-        if (Flextype::$filesystem->exists($theme_manifest_file = THEMES_PATH . '/' . $theme . '/' . $theme . '.yml')) {
+        if (Flextype::filesystem()->exists($theme_manifest_file = THEMES_PATH . '/' . $theme . '/' . $theme . '.yml')) {
             $theme_manifest = Yaml::parseFile($theme_manifest_file);
             Config::set('themes.'.Config::get('site.theme'), $theme_manifest);
         }
@@ -43,10 +45,6 @@ class Themes
 
     /**
      * Initialize Flextype Themes
-     *
-     *  <code>
-     *      Themes::init();
-     *  </code>
      *
      * @access public
      * @return object

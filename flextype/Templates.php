@@ -1,4 +1,4 @@
-<?php namespace Flextype;
+<?php
 
 /**
  * @package Flextype
@@ -9,6 +9,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+namespace Flextype;
 
 class Templates
 {
@@ -38,7 +40,7 @@ class Templates
 
         $template_path = THEMES_PATH . '/' . Config::get('site.theme') . '/' . $template_name . $template_ext;
 
-        if (Flextype::$filesystem->exists($template_path)) {
+        if (Flextype::filesystem()->exists($template_path)) {
             include $template_path;
         } else {
             throw new RuntimeException("Template {$template_name} does not exist.");

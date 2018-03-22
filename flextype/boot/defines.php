@@ -1,4 +1,4 @@
-<?php namespace Flextype;
+<?php
 
 /**
  * @package Flextype
@@ -9,6 +9,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+namespace Flextype;
 
 // Define the path to the root directory (without trailing slash).
 define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));

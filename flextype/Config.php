@@ -1,7 +1,4 @@
-<?php namespace Flextype;
-
-use Arr;
-use Symfony\Component\Yaml\Yaml;
+<?php
 
 /**
  * @package Flextype
@@ -12,6 +9,11 @@ use Symfony\Component\Yaml\Yaml;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+namespace Flextype;
+
+use Arr;
+use Symfony\Component\Yaml\Yaml;
 
 class Config
 {
@@ -49,7 +51,7 @@ class Config
      */
     protected function __construct()
     {
-        if (Flextype::$filesystem->exists($site_config = CONFIG_PATH . '/' . 'site.yml')) {
+        if (Flextype::filesystem()->exists($site_config = CONFIG_PATH . '/' . 'site.yml')) {
             static::$config['site'] = Yaml::parse(file_get_contents($site_config));
         } else {
             throw new RuntimeException("Flextype site config file does not exist.");
@@ -84,10 +86,6 @@ class Config
     /**
      * Get config array
      *
-     *  <code>
-     *      $config = Config::getConfig();
-     *  </code>
-     *
      * @access  public
      * @return array
      */
@@ -98,10 +96,6 @@ class Config
 
     /**
      * Initialize Flextype Config
-     *
-     *  <code>
-     *      Config::init();
-     *  </code>
      *
      * @access  public
      */

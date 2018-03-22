@@ -1,8 +1,8 @@
 {
     "name": "flextype/flextype",
-    "type": "library",
+    "type": "project",
     "description": "Flextype is Modern Open Source Flat-File Content Management System",
-    "keywords": ["Flextype", "php", "cms", "flat-file", "markdown"],
+    "keywords": ["Flextype", "php", "cms", "flat-file cms", "flat cms", "flatfile cms", "markdown"],
     "homepage": "http://flextype.org",
     "license": "MIT",
     "authors": [
@@ -23,6 +23,7 @@
         "symfony/yaml": "4.0.4",
         "symfony/filesystem": "4.0.4",
         "symfony/finder": "4.0.4",
+        "thunderer/shortcode": "0.6.5",
         "force/session" : "*",
         "force/arr" : "*",
         "force/http" : "*",
@@ -35,9 +36,7 @@
             "flextype"
         ],
         "files": [
-            "flextype/boot/defines.php",
-            "flextype/boot/shortcodes.php",
-            "flextype/boot/events.php"
+            "flextype/boot/defines.php"
         ]
     }
 }

@@ -1,19 +1,21 @@
-<?php namespace Flextype;
+<?php
+
+/**
+ * @package Flextype
+ *
+ * @author Romanenko Sergey / Awilum <awilum@yandex.ru>
+ * @link http://flextype.org
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Flextype;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Url;
 use Session;
-
- /**
-  * @package Flextype
-  *
-  * @author Romanenko Sergey / Awilum <awilum@yandex.ru>
-  * @link http://flextype.org
-  *
-  * For the full copyright and license information, please view the LICENSE
-  * file that was distributed with this source code.
-  */
 
 class Flextype
 {
@@ -26,7 +28,7 @@ class Flextype
     protected static $instance = null;
 
     /**
-     * Filesystem
+     * Filesystem object
      *
      * @var object
      * @access public
@@ -34,7 +36,7 @@ class Flextype
     public static $filesystem = null;
 
     /**
-     * Finder
+     * Finder object
      *
      * @var object
      * @access public
@@ -56,7 +58,7 @@ class Flextype
      *
      * @var string
      */
-    const VERSION = '0.1.0';
+    const VERSION = '0.2.0';
 
     /**
      * Constructor.
@@ -65,8 +67,20 @@ class Flextype
      */
     protected function __construct()
     {
+        static::app();
+    }
 
+    /**
+     * Application.
+     *
+     * @access protected
+     */
+    protected static function app()
+    {
+        // Init Finder
         static::$finder     = new Finder();
+
+        // Init Filesystem
         static::$filesystem = new Filesystem();
 
         // Init Config
@@ -106,13 +120,16 @@ class Flextype
         // Init I18n
         I18n::init();
 
+        // Init Shortcodes
+        Shortcodes::init();
+
         // Init Themes
         Themes::init();
 
         // Init Plugins
         Plugins::init();
 
-        // Render current page
+        // Init Pages
         Pages::init();
 
         // Flush (send) the output buffer and turn off output buffering
@@ -120,11 +137,29 @@ class Flextype
     }
 
     /**
+     * Returns filesystem object
+     *
+     * @access public
+     * @return object
+     */
+    public static function filesystem()
+    {
+        return static::$filesystem;
+    }
+
+    /**
+     * Returns finder object
+     *
+     * @access public
+     * @return object
+     */
+    public static function finder()
+    {
+        return static::$finder;
+    }
+
+    /**
       * Initialize Flextype Application
-      *
-      *  <code>
-      *      Rawium::init();
-      *  </code>
       *
       * @access public
       * @return object

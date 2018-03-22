@@ -1,4 +1,4 @@
-<?php namespace Flextype;
+<?php
 
 /**
  * @package Flextype
@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+namespace Flextype;
+
 class Cache
 {
     /**
@@ -18,30 +20,35 @@ class Cache
      * @var object
      */
     protected static $instance = null;
+
     /**
      * Unique cache key
      *
      * @var string Cache key.
      */
     protected static $key;
+
     /**
      * Lifetime
      *
      * @var int Lifetime.
      */
     protected static $lifetime;
+
     /**
      * Current time
      *
      * @var int Current time.
      */
     protected static $now;
+
     /**
      * Cache Driver
      *
      * @var DoctrineCache
      */
     protected static $driver;
+
     /**
      * Protected clone method to enforce singleton behavior.
      *
@@ -63,7 +70,7 @@ class Cache
         static::$now = time();
 
         // Cache key allows us to invalidate all cache on configuration changes.
-        static::$key = (Config::get('site.cache.prefix') ? Config::get('site.cache.prefix') : 'flextype') . '-' . md5(ROOT_DIR);
+        static::$key = (Config::get('site.cache.prefix') ? Config::get('site.cache.prefix') : 'flextype') . '-' . md5(ROOT_DIR . Flextype::VERSION);
 
         // Get Cache Driver
         static::$driver = static::getCacheDriver();
@@ -118,7 +125,7 @@ class Cache
                 break;
             default:
                 // Create doctrine cache directory if its not exists
-                !Flextype::$filesystem->exists($cache_directory = CACHE_PATH . '/doctrine/') and Flextype::$filesystem->mkdir($cache_directory);
+                !Flextype::filesystem()->exists($cache_directory = CACHE_PATH . '/doctrine/') and Flextype::filesystem()->mkdir($cache_directory);
                 $driver = new \Doctrine\Common\Cache\FilesystemCache($cache_directory);
                 break;
         }
@@ -182,13 +189,13 @@ class Cache
             static::$driver->save($id, $data, $lifetime);
         }
     }
-    
+
     /**
      * Clear Cache
      */
     public static function clear()
     {
-        Flextype::$filesystem->remove(CACHE_PATH . '/doctrine/');
+        Flextype::filesystem()->remove(CACHE_PATH . '/doctrine/');
     }
 
     /**
@@ -224,10 +231,6 @@ class Cache
 
     /**
      * Initialize Flextype Cache
-     *
-     *  <code>
-     *      Cache::init();
-     *  </code>
      *
      * @access public
      * @return object

@@ -1,6 +1,4 @@
-<?php namespace Flextype;
-
-use Arr;
+<?php
 
 /**
  * @package Flextype
@@ -11,6 +9,10 @@ use Arr;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+ 
+namespace Flextype;
+
+use Arr;
 
 class Events
 {

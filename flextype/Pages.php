@@ -1,10 +1,4 @@
-<?php namespace Flextype;
-
-use Arr;
-use Url;
-use Response;
-use Shortcode;
-use Symfony\Component\Yaml\Yaml;
+<?php
 
 /**
  * @package Flextype
@@ -15,6 +9,13 @@ use Symfony\Component\Yaml\Yaml;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+namespace Flextype;
+
+use Arr;
+use Url;
+use Response;
+use Symfony\Component\Yaml\Yaml;
 
 class Pages
 {
@@ -74,7 +75,7 @@ class Pages
         }
 
         // Get 404 page if file not exists
-        if (Flextype::$filesystem->exists($file)) {
+        if (Flextype::filesystem()->exists($file)) {
             $file = $file;
         } else {
             $file = PAGES_PATH . '/404/index.md';
@@ -94,7 +95,7 @@ class Pages
         $site_theme    = Config::get('site.theme');
         $template_path = THEMES_PATH . '/' . $site_theme . '/' . $template_name . $template_ext;
 
-        if (Flextype::$filesystem->exists($template_path)) {
+        if (Flextype::filesystem()->exists($template_path)) {
             include $template_path;
         } else {
             throw new RuntimeException("Template {$template_name} does not exist.");
@@ -109,7 +110,7 @@ class Pages
         $page = trim(file_get_contents($file));
         $page = explode('---', $page, 3);
 
-        $frontmatter = Shortcodes::parse($page[1]);
+        $frontmatter = Shortcodes::driver()->process($page[1]);
         $result_page = Yaml::parse($frontmatter);
 
         // Get page url
@@ -154,11 +155,11 @@ class Pages
     }
 
     /**
-     * Parse Cntent
+     * Parse Content
      */
     public static function parseContent(string $content) : string
     {
-        $content = Shortcodes::parse($content);
+        $content = Shortcodes::driver()->process($content);
         $content = Markdown::parse($content);
 
         return $content;
@@ -170,7 +171,7 @@ class Pages
     public static function getPages($url = '', $raw = false, $order_by = 'title', $order_type = 'DESC', $limit = null)
     {
         // Get pages list for current $url
-        $pages_list = Flextype::$finder->files()->name('*.md')->in(PAGES_PATH . '/' . $url);
+        $pages_list = Flextype::finder()->files()->name('*.md')->in(PAGES_PATH . '/' . $url);
 
         // Go trough pages list
         foreach ($pages_list as $key => $page) {
@@ -195,10 +196,6 @@ class Pages
 
     /**
      * Initialize Flextype Pages
-     *
-     *  <code>
-     *      Pages::init();
-     *  </code>
      *
      * @access public
      * @return object
