@@ -60,7 +60,7 @@ class Shortcodes
     /**
      * Register default shortcodes
      *
-     * @access public
+     * @access protected
      */
     protected static function registerDefaultShortcodes()
     {

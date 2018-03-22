@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
- 
+
 namespace Flextype;
 
 use Arr;
@@ -86,10 +86,6 @@ class Config
     /**
      * Get config array
      *
-     *  <code>
-     *      $config = Config::getConfig();
-     *  </code>
-     *
      * @access  public
      * @return array
      */
@@ -100,10 +96,6 @@ class Config
 
     /**
      * Initialize Flextype Config
-     *
-     *  <code>
-     *      Config::init();
-     *  </code>
      *
      * @access  public
      */

@@ -27,10 +27,6 @@ class Markdown
     /**
      * Markdown parser
      *
-     *  <code>
-     *      $content = Markdown::parse($content);
-     *  </code>
-     *
      * @access  public
      * @param  string $content Content to parse
      * @return string Formatted content

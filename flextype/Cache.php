@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
- 
+
 namespace Flextype;
 
 class Cache
@@ -231,10 +231,6 @@ class Cache
 
     /**
      * Initialize Flextype Cache
-     *
-     *  <code>
-     *      Cache::init();
-     *  </code>
      *
      * @access public
      * @return object

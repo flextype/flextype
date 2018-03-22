@@ -92,10 +92,6 @@ class Plugins
     /**
      * Initialize Flextype Plugins
      *
-     *  <code>
-     *      Plugins::init();
-     *  </code>
-     *
      * @access public
      * @return object
      */

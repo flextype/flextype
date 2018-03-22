@@ -42,10 +42,6 @@ class Filters
     /**
      * Dispatch filters
      *
-     *  <code>
-     *      Filter::dispatch('content', $content);
-     *  </code>
-     *
      * @access  public
      * @param  string $filter_name The name of the filter hook.
      * @param  mixed  $value       The value on which the filters hooked.
@@ -84,14 +80,6 @@ class Filters
 
     /**
      * Add filter
-     *
-     *  <code>
-     *      Filter::add('content', 'replacer');
-     *
-     *      function replacer($content) {
-     *          return preg_replace(array('/\[b\](.*?)\[\/b\]/ms'), array('<strong>\1</strong>'), $content);
-     *      }
-     *  </code>
      *
      * @access  public
      * @param  string  $filter_name     The name of the filter to hook the $function_to_add to.

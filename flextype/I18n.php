@@ -133,10 +133,6 @@ class I18n
     /**
      * Initialize Flextype I18n
      *
-     *  <code>
-     *      I18n::init();
-     *  </code>
-     *
      * @access public
      * @return object
      */

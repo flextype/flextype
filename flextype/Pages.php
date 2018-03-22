@@ -197,10 +197,6 @@ class Pages
     /**
      * Initialize Flextype Pages
      *
-     *  <code>
-     *      Pages::init();
-     *  </code>
-     *
      * @access public
      * @return object
      */
