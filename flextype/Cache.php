@@ -125,7 +125,7 @@ class Cache
                 break;
             default:
                 // Create doctrine cache directory if its not exists
-                !Flextype::$filesystem->exists($cache_directory = CACHE_PATH . '/doctrine/') and Flextype::$filesystem->mkdir($cache_directory);
+                !Flextype::filesystem()->exists($cache_directory = CACHE_PATH . '/doctrine/') and Flextype::filesystem()->mkdir($cache_directory);
                 $driver = new \Doctrine\Common\Cache\FilesystemCache($cache_directory);
                 break;
         }
@@ -195,7 +195,7 @@ class Cache
      */
     public static function clear()
     {
-        Flextype::$filesystem->remove(CACHE_PATH . '/doctrine/');
+        Flextype::filesystem()->remove(CACHE_PATH . '/doctrine/');
     }
 
     /**

@@ -51,7 +51,7 @@ class Config
      */
     protected function __construct()
     {
-        if (Flextype::$filesystem->exists($site_config = CONFIG_PATH . '/' . 'site.yml')) {
+        if (Flextype::filesystem()->exists($site_config = CONFIG_PATH . '/' . 'site.yml')) {
             static::$config['site'] = Yaml::parse(file_get_contents($site_config));
         } else {
             throw new RuntimeException("Flextype site config file does not exist.");

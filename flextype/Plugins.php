@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
- 
+
 namespace Flextype;
 
 use Symfony\Component\Yaml\Yaml;
@@ -45,7 +45,7 @@ class Plugins
 
             // Go through...
             foreach ($plugins_list as $plugin) {
-                if (Flextype::$filesystem->exists($_plugin = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yml')) {
+                if (Flextype::filesystem()->exists($_plugin = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yml')) {
                     $plugins_cache_id .= filemtime($_plugin);
                 }
             }
@@ -65,7 +65,7 @@ class Plugins
                 // Go through...
                 foreach ($plugins_list as $plugin) {
 
-                    if (Flextype::$filesystem->exists($_plugin_manifest = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yml')) {
+                    if (Flextype::filesystem()->exists($_plugin_manifest = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yml')) {
                         $plugin_manifest = Yaml::parseFile($_plugin_manifest);
                     }
 

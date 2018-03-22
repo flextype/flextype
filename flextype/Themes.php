@@ -37,7 +37,7 @@ class Themes
         // Get current theme
         $theme = Config::get('site.theme');
 
-        if (Flextype::$filesystem->exists($theme_manifest_file = THEMES_PATH . '/' . $theme . '/' . $theme . '.yml')) {
+        if (Flextype::filesystem()->exists($theme_manifest_file = THEMES_PATH . '/' . $theme . '/' . $theme . '.yml')) {
             $theme_manifest = Yaml::parseFile($theme_manifest_file);
             Config::set('themes.'.Config::get('site.theme'), $theme_manifest);
         }
