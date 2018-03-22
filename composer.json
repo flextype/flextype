@@ -23,6 +23,7 @@
         "symfony/yaml": "4.0.4",
         "symfony/filesystem": "4.0.4",
         "symfony/finder": "4.0.4",
+        "thunderer/shortcode": "0.6.5",
         "force/session" : "*",
         "force/arr" : "*",
         "force/http" : "*",
@@ -36,7 +37,6 @@
         ],
         "files": [
             "flextype/boot/defines.php",
-            "flextype/boot/shortcodes.php",
             "flextype/boot/events.php"
         ]
     }
