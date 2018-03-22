@@ -68,7 +68,7 @@ class Cache
         static::$now = time();
 
         // Cache key allows us to invalidate all cache on configuration changes.
-        static::$key = (Config::get('site.cache.prefix') ? Config::get('site.cache.prefix') : 'flextype') . '-' . md5(ROOT_DIR);
+        static::$key = (Config::get('site.cache.prefix') ? Config::get('site.cache.prefix') : 'flextype') . '-' . md5(ROOT_DIR . Flextype::VERSION);
 
         // Get Cache Driver
         static::$driver = static::getCacheDriver();
