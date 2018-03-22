@@ -3,7 +3,6 @@
 use Arr;
 use Url;
 use Response;
-use Shortcode;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -109,7 +108,7 @@ class Pages
         $page = trim(file_get_contents($file));
         $page = explode('---', $page, 3);
 
-        $frontmatter = Shortcodes::parse($page[1]);
+        $frontmatter = Shortcodes::driver()->process($page[1]);
         $result_page = Yaml::parse($frontmatter);
 
         // Get page url
@@ -158,7 +157,7 @@ class Pages
      */
     public static function parseContent(string $content) : string
     {
-        $content = Shortcodes::parse($content);
+        $content = Shortcodes::driver()->process($content);
         $content = Markdown::parse($content);
 
         return $content;

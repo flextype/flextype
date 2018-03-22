@@ -1,5 +1,8 @@
 <?php namespace Flextype;
 
+use Thunder\Shortcode\ShortcodeFacade;
+use Url;
+
 /**
  * @package Flextype
  *
@@ -14,11 +17,18 @@ class Shortcodes
 {
 
     /**
-     * Shortcode tags array
+     * An instance of the Shortcodes class
      *
-     * @var shortcode_tags
+     * @var object
      */
-    protected static $shortcode_tags = [];
+    protected static $instance = null;
+
+    /**
+     * ShortcodeFacade Driver
+     *
+     * @var ShortcodeFacade
+     */
+    protected static $driver;
 
     /**
      * Protected constructor since this is a static class.
@@ -27,105 +37,44 @@ class Shortcodes
      */
     protected function __construct()
     {
-        // Nothing here
+        // Set driver
+        static::$driver = new ShortcodeFacade();
+
+        // Register Default Shortcodes
+        static::registerDefaultShortcodes();
     }
 
     /**
-     * Add new shortcode
+     * Returns driver variable
      *
-     * @param string $shortcode         Shortcode tag to be searched in content.
-     * @param string $callback_function The callback function to replace the shortcode with.
+     * @access public
+     * @return object
      */
-    public static function add(string $shortcode, $callback_function)
+    public static function driver()
     {
-        // Add new shortcode
-        if (is_callable($callback_function)) {
-            static::$shortcode_tags[$shortcode] = $callback_function;
-        }
+        return static::$driver;
     }
 
     /**
-     * Remove a specific registered shortcode.
+     * Register default shortcodes
      *
-     * @param string $shortcode Shortcode tag.
+     * @access public
      */
-    public static function delete(string $shortcode)
+    protected static function registerDefaultShortcodes()
     {
-        // Delete shortcode
-        if (static::exists($shortcode)) {
-            unset(static::$shortcode_tags[$shortcode]);
-        }
+        static::driver()->addHandler('site_url', function() {
+            return Url::getBase();
+        });
     }
 
     /**
-     * Remove all registered shortcodes.
+     * Initialize Flextype Shortcodes
      *
-     *  <code>
-     *      Shortcode::clear();
-     *  </code>
-     *
+     * @access public
+     * @return object
      */
-    public static function clear()
+    public static function init()
     {
-        static::$shortcode_tags = array();
-    }
-
-    /**
-     * Check if a shortcode has been registered.
-     *
-     * @param string $shortcode Shortcode tag.
-     */
-    public static function exists(string $shortcode)
-    {
-        // Check shortcode
-        return array_key_exists($shortcode, static::$shortcode_tags);
-    }
-
-    /**
-     * Parse a string, and replace any registered shortcodes within it with the result of the mapped callback.
-     *
-     * @param  string $content Content
-     * @return string
-     */
-    public static function parse(string $content)
-    {
-        if (! static::$shortcode_tags) {
-            return $content;
-        }
-
-        $shortcodes = implode('|', array_map('preg_quote', array_keys(static::$shortcode_tags)));
-        $pattern    = "/(.?)\{([$shortcodes]+)(.*?)(\/)?\}(?(4)|(?:(.+?)\{\/\s*\\2\s*\}))?(.?)/s";
-
-        return preg_replace_callback($pattern, 'static::_handle', $content);
-    }
-
-    /**
-     * _handle()
-     */
-    protected static function _handle($matches)
-    {
-        $prefix    = $matches[1];
-        $suffix    = $matches[6];
-        $shortcode = $matches[2];
-
-        // Allow for escaping shortcodes by enclosing them in {{shortcode}}
-        if ($prefix == '{' && $suffix == '}') {
-            return substr($matches[0], 1, -1);
-        }
-
-        $attributes = array(); // Parse attributes into into this array.
-
-        if (preg_match_all('/(\w+) *= *(?:([\'"])(.*?)\\2|([^ "\'>]+))/', $matches[3], $match, PREG_SET_ORDER)) {
-            foreach ($match as $attribute) {
-                if (! empty($attribute[4])) {
-                    $attributes[strtolower($attribute[1])] = $attribute[4];
-                } elseif (! empty($attribute[3])) {
-                    $attributes[strtolower($attribute[1])] = $attribute[3];
-                }
-            }
-        }
-
-        // Check if this shortcode realy exists then call user function else return empty string
-        return (isset(static::$shortcode_tags[$shortcode])) ? $prefix . call_user_func(static::$shortcode_tags[$shortcode], $attributes, $matches[5], $shortcode) . $suffix : '';
+        return !isset(self::$instance) and self::$instance = new Shortcodes();
     }
 }

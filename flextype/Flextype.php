@@ -106,6 +106,9 @@ class Flextype
         // Init I18n
         I18n::init();
 
+        // Init Shortcodes
+        Shortcodes::init();
+
         // Init Themes
         Themes::init();
 
