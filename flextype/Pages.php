@@ -155,7 +155,7 @@ class Pages
     }
 
     /**
-     * Parse Cntent
+     * Parse Content
      */
     public static function parseContent(string $content) : string
     {
