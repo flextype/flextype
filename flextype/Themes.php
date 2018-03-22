@@ -1,6 +1,4 @@
-<?php namespace Flextype;
-
-use Symfony\Component\Yaml\Yaml;
+<?php
 
 /**
  * @package Flextype
@@ -11,6 +9,10 @@ use Symfony\Component\Yaml\Yaml;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+namespace Flextype;
+
+use Symfony\Component\Yaml\Yaml;
 
 class Themes
 {
@@ -43,10 +45,6 @@ class Themes
 
     /**
      * Initialize Flextype Themes
-     *
-     *  <code>
-     *      Themes::init();
-     *  </code>
      *
      * @access public
      * @return object
