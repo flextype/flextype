@@ -18,30 +18,35 @@ class Cache
      * @var object
      */
     protected static $instance = null;
+
     /**
      * Unique cache key
      *
      * @var string Cache key.
      */
     protected static $key;
+
     /**
      * Lifetime
      *
      * @var int Lifetime.
      */
     protected static $lifetime;
+
     /**
      * Current time
      *
      * @var int Current time.
      */
     protected static $now;
+
     /**
      * Cache Driver
      *
      * @var DoctrineCache
      */
     protected static $driver;
+
     /**
      * Protected clone method to enforce singleton behavior.
      *
@@ -182,7 +187,7 @@ class Cache
             static::$driver->save($id, $data, $lifetime);
         }
     }
-    
+
     /**
      * Clear Cache
      */
