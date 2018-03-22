@@ -36,8 +36,7 @@
             "flextype"
         ],
         "files": [
-            "flextype/boot/defines.php",
-            "flextype/boot/events.php"
+            "flextype/boot/defines.php"
         ]
     }
 }
