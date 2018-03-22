@@ -1,4 +1,4 @@
-# Flextype 0.2.0, 2018-03-XX
+# Flextype 0.2.0, 2018-03-23
 * Thunderer Shortcode Framework - added
 * Cache Flextype::VERSION for cache key - added
 * flextype/boot/shortcodes.php	- removed
