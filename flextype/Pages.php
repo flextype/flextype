@@ -56,7 +56,7 @@ class Pages
     /**
      * Page finder
      */
-    public static function finder($url = '', $url_abs = false)
+    public static function finder(string $url = '', bool $url_abs = false) : string
     {
 
         // If url is empty that its a homepage
@@ -88,7 +88,7 @@ class Pages
     /**
      * Render page
      */
-    public static function renderPage($page)
+    public static function renderPage(array $page)
     {
         $template_ext  = '.php';
         $template_name = empty($page['template']) ? 'index' : $page['template'];
@@ -105,7 +105,7 @@ class Pages
     /**
      * Page page file
      */
-    public static function parseFile($file)
+    public static function parseFile(string $file) : array
     {
         $page = trim(file_get_contents($file));
         $page = explode('---', $page, 3);
@@ -118,6 +118,9 @@ class Pages
         $url = str_replace('index.md', '', $url);
         $url = str_replace('.md', '', $url);
         $url = str_replace('\\', '/', $url);
+        $url = str_replace('//', '/', $url);
+        $url = str_replace('http:/', 'http://', $url);
+        $url = str_replace('https:/', 'https://', $url);
         $url = rtrim($url, '/');
         $result_page['url'] = $url;
 
@@ -127,8 +130,13 @@ class Pages
         $url = rtrim($url, '/');
         $result_page['slug'] = str_replace(Url::getBase(), '', $url);
 
+        // Set page date
+        $result_page['date'] = $result_page['date'] ?? date(Config::get('site.date_format'), filemtime($file));
+
+        // Set page content
         $result_page['content'] = $page[2];
 
+        // Return page
         return $result_page;
     }
 
@@ -136,7 +144,7 @@ class Pages
     /**
      * Get page
      */
-    public static function getPage(string $url = '', bool $raw = false, bool $url_abs = false)
+    public static function getPage(string $url = '', bool $raw = false, bool $url_abs = false) : array
     {
         $file = static::finder($url, $url_abs);
 
@@ -168,13 +176,17 @@ class Pages
     /**
      * Get Pages
      */
-    public static function getPages($url = '', $raw = false, $order_by = 'title', $order_type = 'DESC', $limit = null)
+    public static function getPages($url = '', $raw = false, $order_by = 'date', $order_type = 'DESC', $limit = null) : array
     {
         // Get pages list for current $url
         $pages_list = Flextype::finder()->files()->name('*.md')->in(PAGES_PATH . '/' . $url);
 
+        // Pages
+        $pages = [];
+
         // Go trough pages list
         foreach ($pages_list as $key => $page) {
+            $pages[$key] = static::getPage($page->getPathname(), $raw, true);
             if (strpos($page->getPathname(), $url.'/index.md') !== false) {
 
             } else {
