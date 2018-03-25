@@ -20,7 +20,7 @@ class Markdown
      * Parsedown Extra Object
      *
      * @var object
-     * @access  protected
+     * @access protected
      */
     protected static $markdown;
 

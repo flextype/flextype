@@ -52,7 +52,7 @@ class Shortcodes
      * @access public
      * @return object
      */
-    public static function driver()
+    public static function driver() : ShortcodeFacade
     {
         return static::$driver;
     }
@@ -62,7 +62,7 @@ class Shortcodes
      *
      * @access protected
      */
-    protected static function registerDefaultShortcodes()
+    protected static function registerDefaultShortcodes() : void
     {
         static::driver()->addHandler('site_url', function() {
             return Url::getBase();

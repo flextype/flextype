@@ -12,8 +12,7 @@
 
 namespace Flextype;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
+use Symfony\Component\{Filesystem\Filesystem, Finder\Finder};
 use Url;
 use Session;
 
@@ -30,7 +29,7 @@ class Flextype
     /**
      * Filesystem object
      *
-     * @var object
+     * @var Filesystem
      * @access public
      */
     public static $filesystem = null;
@@ -38,7 +37,7 @@ class Flextype
     /**
      * Finder object
      *
-     * @var object
+     * @var Finder
      * @access public
      */
     public static $finder = null;
@@ -75,7 +74,7 @@ class Flextype
      *
      * @access protected
      */
-    protected static function app()
+    protected static function app() : void
     {
         // Init Finder
         static::$finder     = new Finder();
@@ -140,9 +139,9 @@ class Flextype
      * Returns filesystem object
      *
      * @access public
-     * @return object
+     * @return Filesystem
      */
-    public static function filesystem()
+    public static function filesystem() : Filesystem
     {
         return static::$filesystem;
     }
@@ -151,9 +150,9 @@ class Flextype
      * Returns finder object
      *
      * @access public
-     * @return object
+     * @return Finder
      */
-    public static function finder()
+    public static function finder() : Finder
     {
         return static::$finder;
     }

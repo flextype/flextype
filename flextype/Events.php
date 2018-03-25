@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
- 
+
 namespace Flextype;
 
 use Arr;
@@ -43,8 +43,9 @@ class Events
      * @param mixed   $added_function Added function
      * @param integer $priority       Priority. Default is 10
      * @param array   $args           Arguments
+     * @return void
      */
-    public static function addListener(string $event_name, $added_function, int $priority = 10, array $args = null)
+    public static function addListener(string $event_name, $added_function, int $priority = 10, array $args = null) : void
     {
         // Hooks a function on to a specific event.
         static::$events[] = array(
