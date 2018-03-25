@@ -58,7 +58,6 @@ class Pages
      */
     public static function finder(string $url = '', bool $url_abs = false) : string
     {
-
         // If url is empty that its a homepage
         if ($url_abs) {
             if ($url) {
@@ -118,9 +117,11 @@ class Pages
         $url = str_replace('index.md', '', $url);
         $url = str_replace('.md', '', $url);
         $url = str_replace('\\', '/', $url);
+        $url = str_replace('///', '/', $url);
         $url = str_replace('//', '/', $url);
         $url = str_replace('http:/', 'http://', $url);
         $url = str_replace('https:/', 'https://', $url);
+        $url = str_replace('/'.Config::get('site.pages.main'), '', $url);
         $url = rtrim($url, '/');
         $result_page['url'] = $url;
 
@@ -144,7 +145,7 @@ class Pages
     /**
      * Get page
      */
-    public static function getPage(string $url = '', bool $raw = false, bool $url_abs = false) : array
+    public static function getPage(string $url = '', bool $raw = false, bool $url_abs = false)
     {
         $file = static::finder($url, $url_abs);
 
@@ -164,6 +165,9 @@ class Pages
 
     /**
      * Parse Content
+     *
+     * @param $content Сontent to parse
+     * @return string
      */
     public static function parseContent(string $content) : string
     {
@@ -176,33 +180,49 @@ class Pages
     /**
      * Get Pages
      */
-    public static function getPages($url = '', $raw = false, $order_by = 'date', $order_type = 'DESC', $limit = null) : array
+    public static function getPages(string $url = '', bool $raw = false, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null)
     {
-        // Get pages list for current $url
-        $pages_list = Flextype::finder()->files()->name('*.md')->in(PAGES_PATH . '/' . $url);
-
-        // Pages
+        // Pages array where founded pages will stored
         $pages = [];
 
-        // Go trough pages list
-        foreach ($pages_list as $key => $page) {
-            $pages[$key] = static::getPage($page->getPathname(), $raw, true);
-            if (strpos($page->getPathname(), $url.'/index.md') !== false) {
+        // Get pages for $url
+        // If $url is empty then we want to have a list of pages for /pages dir.
+        if ($url == '') {
 
-            } else {
+            // Get pages list
+            $pages_list = Flextype::finder()->files()->name('*.md')->in(PAGES_PATH);
+
+            // Create pages array from pages list
+            foreach ($pages_list as $key => $page) {
                 $pages[$key] = static::getPage($page->getPathname(), $raw, true);
             }
+
+        } else {
+
+            // Get pages list
+            $pages_list = Flextype::finder()->files()->name('*.md')->in(PAGES_PATH . '/' . $url);
+
+            // Create pages array from pages list and ignore current requested page
+            foreach ($pages_list as $key => $page) {
+                if (strpos($page->getPathname(), $url.'/index.md') !== false) {
+                    // ignore ...
+                } else {
+                    $pages[$key] = static::getPage($page->getPathname(), $raw, true);
+                }
+            }
+
         }
 
-        // Sort and Slice pages if !$raw
+        // Sort and Slice pages if $raw === false
         if (!$raw) {
             $pages = Arr::subvalSort($pages, $order_by, $order_type);
 
-            if ($limit != null) {
-                $pages = array_slice($_pages, null, $limit);
+            if ($offset !== null && $length !== null) {
+                $pages = array_slice($pages, $offset, $length);
             }
         }
 
+        // Return pages array
         return $pages;
     }
 
