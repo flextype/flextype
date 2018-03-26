@@ -65,7 +65,7 @@ class Config
      * @param string $key   Key
      * @param mixed  $value Value
      */
-    public static function set($key, $value)
+    public static function set($key, $value) : void
     {
         Arr::set(static::$config, $key, $value);
     }
@@ -89,7 +89,7 @@ class Config
      * @access  public
      * @return array
      */
-    public static function getConfig()
+    public static function getConfig() : array
     {
         return static::$config;
     }

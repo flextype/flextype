@@ -28,7 +28,6 @@ class Filters
      */
     protected static $filters = [];
 
-
     /**
      * Protected constructor since this is a static class.
      *
@@ -37,6 +36,41 @@ class Filters
     protected function __construct()
     {
         // Nothing here
+    }
+
+    /**
+     * Add filter
+     *
+     * @access  public
+     * @param  string  $filter_name     The name of the filter to hook the $function_to_add to.
+     * @param  string  $function_to_add The name of the function to be called when the filter is applied.
+     * @param  integer $priority        Function to add priority - default is 10.
+     * @param  integer $accepted_args   The number of arguments the function accept default is 1.
+     * @return bool
+     */
+    public static function addListener($filter_name, $function_to_add, $priority = 10, $accepted_args = 1) : bool
+    {
+        // Redefine arguments
+        $filter_name     = (string) $filter_name;
+        $function_to_add = $function_to_add;
+        $priority        = (int) $priority;
+        $accepted_args   = (int) $accepted_args;
+
+        // Check that we don't already have the same filter at the same priority. Thanks to WP :)
+        if (isset(static::$filters[$filter_name]["$priority"])) {
+            foreach (static::$filters[$filter_name]["$priority"] as $filter) {
+                if ($filter['function'] == $function_to_add) {
+                    return true;
+                }
+            }
+        }
+
+        static::$filters[$filter_name]["$priority"][] = array('function' => $function_to_add, 'accepted_args' => $accepted_args);
+
+        // Sort
+        ksort(static::$filters[$filter_name]["$priority"]);
+
+        return true;
     }
 
     /**
@@ -76,40 +110,5 @@ class Filters
         }
 
         return $value;
-    }
-
-    /**
-     * Add filter
-     *
-     * @access  public
-     * @param  string  $filter_name     The name of the filter to hook the $function_to_add to.
-     * @param  string  $function_to_add The name of the function to be called when the filter is applied.
-     * @param  integer $priority        Function to add priority - default is 10.
-     * @param  integer $accepted_args   The number of arguments the function accept default is 1.
-     * @return boolean
-     */
-    public static function addListener($filter_name, $function_to_add, $priority = 10, $accepted_args = 1)
-    {
-        // Redefine arguments
-        $filter_name     = (string) $filter_name;
-        $function_to_add = $function_to_add;
-        $priority        = (int) $priority;
-        $accepted_args   = (int) $accepted_args;
-
-        // Check that we don't already have the same filter at the same priority. Thanks to WP :)
-        if (isset(static::$filters[$filter_name]["$priority"])) {
-            foreach (static::$filters[$filter_name]["$priority"] as $filter) {
-                if ($filter['function'] == $function_to_add) {
-                    return true;
-                }
-            }
-        }
-
-        static::$filters[$filter_name]["$priority"][] = array('function' => $function_to_add, 'accepted_args' => $accepted_args);
-
-        // Sort
-        ksort(static::$filters[$filter_name]["$priority"]);
-
-        return true;
     }
 }

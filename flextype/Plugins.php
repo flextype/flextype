@@ -27,7 +27,6 @@ class Plugins
      * Init Plugins
      *
      * @access public
-     * @return mixed
      */
     protected function __construct()
     {

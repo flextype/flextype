@@ -17,7 +17,7 @@ use Symfony\Component\Yaml\Yaml;
 class I18n
 {
     /**
-     * An instance of the Cache class
+     * An instance of the I18n class
      *
      * @var object
      */

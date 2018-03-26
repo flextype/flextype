@@ -36,7 +36,7 @@ class Pages
     /**
      * Constructor
      *
-     * @param Flextype $flextype
+     * @access  protected
      */
     protected function __construct()
     {
@@ -55,10 +55,12 @@ class Pages
 
     /**
      * Page finder
+     *
+     * @param string $url
+     * @param bool   $url_abs
      */
-    public static function finder($url = '', $url_abs = false)
+    public static function finder(string $url = '', bool $url_abs = false) : string
     {
-
         // If url is empty that its a homepage
         if ($url_abs) {
             if ($url) {
@@ -88,7 +90,7 @@ class Pages
     /**
      * Render page
      */
-    public static function renderPage($page)
+    public static function renderPage(array $page)
     {
         $template_ext  = '.php';
         $template_name = empty($page['template']) ? 'index' : $page['template'];
@@ -105,7 +107,7 @@ class Pages
     /**
      * Page page file
      */
-    public static function parseFile($file)
+    public static function parseFile(string $file) : array
     {
         $page = trim(file_get_contents($file));
         $page = explode('---', $page, 3);
@@ -118,6 +120,11 @@ class Pages
         $url = str_replace('index.md', '', $url);
         $url = str_replace('.md', '', $url);
         $url = str_replace('\\', '/', $url);
+        $url = str_replace('///', '/', $url);
+        $url = str_replace('//', '/', $url);
+        $url = str_replace('http:/', 'http://', $url);
+        $url = str_replace('https:/', 'https://', $url);
+        $url = str_replace('/'.Config::get('site.pages.main'), '', $url);
         $url = rtrim($url, '/');
         $result_page['url'] = $url;
 
@@ -127,8 +134,13 @@ class Pages
         $url = rtrim($url, '/');
         $result_page['slug'] = str_replace(Url::getBase(), '', $url);
 
+        // Set page date
+        $result_page['date'] = $result_page['date'] ?? date(Config::get('site.date_format'), filemtime($file));
+
+        // Set page content
         $result_page['content'] = $page[2];
 
+        // Return page
         return $result_page;
     }
 
@@ -156,6 +168,9 @@ class Pages
 
     /**
      * Parse Content
+     *
+     * @param $content Сontent to parse
+     * @return string
      */
     public static function parseContent(string $content) : string
     {
@@ -168,29 +183,49 @@ class Pages
     /**
      * Get Pages
      */
-    public static function getPages($url = '', $raw = false, $order_by = 'title', $order_type = 'DESC', $limit = null)
+    public static function getPages(string $url = '', bool $raw = false, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null)
     {
-        // Get pages list for current $url
-        $pages_list = Flextype::finder()->files()->name('*.md')->in(PAGES_PATH . '/' . $url);
+        // Pages array where founded pages will stored
+        $pages = [];
 
-        // Go trough pages list
-        foreach ($pages_list as $key => $page) {
-            if (strpos($page->getPathname(), $url.'/index.md') !== false) {
+        // Get pages for $url
+        // If $url is empty then we want to have a list of pages for /pages dir.
+        if ($url == '') {
 
-            } else {
+            // Get pages list
+            $pages_list = Flextype::finder()->files()->name('*.md')->in(PAGES_PATH);
+
+            // Create pages array from pages list
+            foreach ($pages_list as $key => $page) {
                 $pages[$key] = static::getPage($page->getPathname(), $raw, true);
             }
+
+        } else {
+
+            // Get pages list
+            $pages_list = Flextype::finder()->files()->name('*.md')->in(PAGES_PATH . '/' . $url);
+
+            // Create pages array from pages list and ignore current requested page
+            foreach ($pages_list as $key => $page) {
+                if (strpos($page->getPathname(), $url.'/index.md') !== false) {
+                    // ignore ...
+                } else {
+                    $pages[$key] = static::getPage($page->getPathname(), $raw, true);
+                }
+            }
+
         }
 
-        // Sort and Slice pages if !$raw
+        // Sort and Slice pages if $raw === false
         if (!$raw) {
             $pages = Arr::subvalSort($pages, $order_by, $order_type);
 
-            if ($limit != null) {
-                $pages = array_slice($_pages, null, $limit);
+            if ($offset !== null && $length !== null) {
+                $pages = array_slice($pages, $offset, $length);
             }
         }
 
+        // Return pages array
         return $pages;
     }
 
