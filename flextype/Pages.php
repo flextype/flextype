@@ -36,7 +36,7 @@ class Pages
     /**
      * Constructor
      *
-     * @param Flextype $flextype
+     * @access  protected
      */
     protected function __construct()
     {
@@ -55,6 +55,9 @@ class Pages
 
     /**
      * Page finder
+     *
+     * @param string $url
+     * @param bool   $url_abs
      */
     public static function finder(string $url = '', bool $url_abs = false) : string
     {
