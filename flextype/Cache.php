@@ -228,7 +228,7 @@ class Cache
         @clearstatcache();
 
         // Clear opcache
-        function_exists('opcache_reset')) and @opcache_reset();
+        function_exists('opcache_reset') and @opcache_reset();
 
         // Remove cache dir
         Flextype::filesystem()->remove(CACHE_PATH . '/doctrine/');
