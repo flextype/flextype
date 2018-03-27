@@ -12,6 +12,8 @@
 
 namespace Flextype;
 
+use \Doctrine\Common\Cache as DoctrineCache;
+
 class Cache
 {
     /**
@@ -69,8 +71,8 @@ class Cache
         // Set current time
         static::$now = time();
 
-        // Cache key allows us to invalidate all cache on configuration changes.
-        static::$key = (Config::get('site.cache.prefix') ? Config::get('site.cache.prefix') : 'flextype') . '-' . md5(ROOT_DIR . Flextype::VERSION);
+        // Create cache key to allow invalidate all cache on configuration changes.
+        static::$key = (Config::get('site.cache.prefix') ?? 'flextype') . '-' . md5(ROOT_DIR . Flextype::VERSION);
 
         // Get Cache Driver
         static::$driver = static::getCacheDriver();
@@ -88,8 +90,11 @@ class Cache
     public static function getCacheDriver()
     {
         $driver_name = Config::get('site.cache.driver');
+
         if (!$driver_name || $driver_name == 'auto') {
-            if (extension_loaded('apc')) {
+            if (extension_loaded('apcu')) {
+                $driver_name = 'apcu';
+            } elseif (extension_loaded('apc')) {
                 $driver_name = 'apc';
             } elseif (extension_loaded('wincache')) {
                 $driver_name = 'wincache';
@@ -99,34 +104,58 @@ class Cache
         } else {
             $driver_name = 'file';
         }
+
         switch ($driver_name) {
             case 'apc':
-                $driver = new \Doctrine\Common\Cache\ApcCache();
-                break;
+               $driver = new DoctrineCache\ApcCache();
+               break;
+            case 'apcu':
+               $driver = new DoctrineCache\ApcuCache();
+               break;
             case 'wincache':
-                $driver = new \Doctrine\Common\Cache\WinCacheCache();
-                break;
+               $driver = new DoctrineCache\WinCacheCache();
+               break;
             case 'xcache':
-                $driver = new \Doctrine\Common\Cache\XcacheCache();
-                break;
+               $driver = new DoctrineCache\XcacheCache();
+               break;
             case 'memcache':
                 $memcache = new \Memcache();
                 $memcache->connect(Config::get('site.cache.memcache.server', 'localhost'),
                                    Config::get('site.cache.memcache.port', 11211));
-                $driver = new \Doctrine\Common\Cache\MemcacheCache();
+                $driver = new DoctrineCache\MemcacheCache();
                 $driver->setMemcache($memcache);
                 break;
+            case 'memcached':
+                $memcached = new \Memcached();
+                $memcached->addServer(Config::get('site.cache.memcached.server', 'localhost'),
+                                      Config::get('site.cache.memcache.port', 11211));
+                $driver = new DoctrineCache\MemcachedCache();
+                $driver->setMemcached($memcached);
+                break;
             case 'redis':
-                $redis = new \Redis();
-                $redis->connect(Config::get('site.cache.redis.server', 'localhost'),
-                                Config::get('site.cache.redis.port', 6379));
-                $driver = new \Doctrine\Common\Cache\RedisCache();
+                $redis    = new \Redis();
+                $socket   = Config::get('site.cache.redis.socket', false);
+                $password = Config::get('site.cache.redis.password', false);
+
+                if ($socket) {
+                    $redis->connect($socket);
+                } else {
+                    $redis->connect(Config::get('site.cache.redis.server', 'localhost'),
+                                    Config::get('site.cache.redis.port', 6379));
+                }
+
+                // Authenticate with password if set
+                if ($password && !$redis->auth($password)) {
+                    throw new \RedisException('Redis authentication failed');
+                }
+
+                $driver = new DoctrineCache\RedisCache();
                 $driver->setRedis($redis);
                 break;
             default:
                 // Create doctrine cache directory if its not exists
                 !Flextype::filesystem()->exists($cache_directory = CACHE_PATH . '/doctrine/') and Flextype::filesystem()->mkdir($cache_directory);
-                $driver = new \Doctrine\Common\Cache\FilesystemCache($cache_directory);
+                $driver = new DoctrineCache\FilesystemCache($cache_directory);
                 break;
         }
         return $driver;
@@ -149,7 +178,7 @@ class Cache
      * @access public
      * @return string
      */
-    public static function getKey()
+    public static function getKey() : string
     {
         return static::$key;
     }
@@ -161,7 +190,7 @@ class Cache
      * @param string $id The id of the cache entry to fetch.
      * @return mixed The cached data or FALSE, if no cache entry exists for the given id.
      */
-    public function fetch($id)
+    public function fetch(string $id)
     {
         if (Config::get('site.cache.enabled')) {
             return static::$driver->fetch($id);
@@ -180,7 +209,7 @@ class Cache
      *                         If zero (the default), the entry never expires (although it may be deleted from the cache
      *                         to make place for other entries).
      */
-    public function save($id, $data, $lifetime = null)
+    public function save(string $id, $data, $lifetime = null)
     {
         if (Config::get('site.cache.enabled')) {
             if ($lifetime === null) {
@@ -193,8 +222,15 @@ class Cache
     /**
      * Clear Cache
      */
-    public static function clear()
+    public static function clear() : void
     {
+        // Clear stat cache
+        @clearstatcache();
+
+        // Clear opcache
+        function_exists('opcache_reset')) and @opcache_reset();
+
+        // Remove cache dir
         Flextype::filesystem()->remove(CACHE_PATH . '/doctrine/');
     }
 
@@ -204,12 +240,14 @@ class Cache
      * @access public
      * @param int $future timestamp
      */
-    public static function setLifetime($future)
+    public static function setLifetime(int $future)
     {
         if (!$future) {
             return;
         }
-        $interval = $future - $this->now;
+
+        $interval = $future - static::$now;
+
         if ($interval > 0 && $interval < static::getLifetime()) {
             static::$lifetime = $interval;
         }
@@ -226,6 +264,7 @@ class Cache
         if (static::$lifetime === null) {
             static::$lifetime = Config::get('site.cache.lifetime') ?: 604800;
         }
+
         return static::$lifetime;
     }
 
