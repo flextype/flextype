@@ -16,7 +16,6 @@ theme: default
 plugins:
 
 locale: "en"
-locales: [en]
 
 pages:
   flush_cache: false

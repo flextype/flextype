@@ -88,12 +88,11 @@ class I18n
 
         // Get Plugins and Site Locales list
         (array) $plugins_list = Config::get('site.plugins');
-        (array) $locales      = Config::get('site.locales');
         (array) $dictionary   = [];
 
         // Create dictionary
         if (is_array($plugins_list) && count($plugins_list) > 0) {
-            foreach ($locales as $locale) {
+            foreach (static::$locales as $locale => $locale_title) {
                 foreach ($plugins_list as $plugin) {
                     $language_file = PLUGINS_PATH . '/' . $plugin . '/languages/' . $locale . '.yml';
                     if (file_exists($language_file)) {
