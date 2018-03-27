@@ -81,9 +81,22 @@ class I18n
     }
 
     /**
-     * Construct
+     * Protected constructor since this is a static class.
+     *
+     * @access  protected
      */
     protected function __construct()
+    {
+        static::init();
+    }
+
+    /**
+     * Init I18n
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function init() : void
     {
 
         // Get Plugins and Site Locales list
@@ -130,12 +143,13 @@ class I18n
     }
 
     /**
-     * Initialize Flextype I18n
+     * Return the I18n instance.
+     * Create it if it's not already created.
      *
      * @access public
      * @return object
      */
-    public static function init()
+    public static function instance()
     {
         return !isset(self::$instance) and self::$instance = new I18n();
     }

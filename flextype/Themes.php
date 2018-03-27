@@ -24,12 +24,22 @@ class Themes
     protected static $instance = null;
 
     /**
-     * Init Themes
+     * Protected constructor since this is a static class.
      *
-     * @access public
-     * @return mixed
+     * @access  protected
      */
     protected function __construct()
+    {
+        static::init();
+    }
+
+    /**
+     * Init Themes
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function init() : void
     {
         // Theme Manifest
         $theme_manifest = [];
@@ -55,12 +65,13 @@ class Themes
     }
 
     /**
-     * Initialize Flextype Themes
+     * Return the Themes instance.
+     * Create it if it's not already created.
      *
      * @access public
      * @return object
      */
-    public static function init()
+    public static function instance()
     {
         return !isset(self::$instance) and self::$instance = new Themes();
     }

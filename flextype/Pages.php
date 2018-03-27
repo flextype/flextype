@@ -34,11 +34,22 @@ class Pages
     public static $page;
 
     /**
-     * Constructor
+     * Protected constructor since this is a static class.
      *
      * @access  protected
      */
     protected function __construct()
+    {
+        static::init();
+    }
+
+    /**
+     * Init Pages
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function init() : void
     {
         // The page is not processed and not sent to the display.
         Events::dispatch('onPageBeforeRender');
@@ -230,12 +241,13 @@ class Pages
     }
 
     /**
-     * Initialize Flextype Pages
+     * Return the Pages instance.
+     * Create it if it's not already created.
      *
      * @access public
      * @return object
      */
-    public static function init()
+    public static function instance()
     {
         return !isset(self::$instance) and self::$instance = new Pages();
     }

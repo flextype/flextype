@@ -39,6 +39,17 @@ class Shortcodes
      */
     protected function __construct()
     {
+        static::init();
+    }
+
+    /**
+     * Init Shortcodes
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function init() : void
+    {
         // Set driver
         static::$driver = new ShortcodeFacade();
 
@@ -70,12 +81,13 @@ class Shortcodes
     }
 
     /**
-     * Initialize Flextype Shortcodes
+     * Return the Shortcodes instance.
+     * Create it if it's not already created.
      *
      * @access public
      * @return object
      */
-    public static function init()
+    public static function instance()
     {
         return !isset(self::$instance) and self::$instance = new Shortcodes();
     }

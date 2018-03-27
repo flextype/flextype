@@ -45,11 +45,22 @@ class Config
     }
 
     /**
-     * Constructor.
+     * Protected constructor since this is a static class.
      *
      * @access  protected
      */
     protected function __construct()
+    {
+        static::init();
+    }
+
+    /**
+     * Init Config
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function init() : void
     {
         if (Flextype::filesystem()->exists($site_config = CONFIG_PATH . '/' . 'site.yml')) {
             static::$config['site'] = Yaml::parse(file_get_contents($site_config));
@@ -95,11 +106,13 @@ class Config
     }
 
     /**
-     * Initialize Flextype Config
+     * Return the Config instance.
+     * Create it if it's not already created.
      *
-     * @access  public
+     * @access public
+     * @return object
      */
-    public static function init()
+    public static function instance()
     {
         return !isset(self::$instance) and self::$instance = new Config();
     }

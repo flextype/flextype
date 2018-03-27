@@ -62,11 +62,22 @@ class Cache
     }
 
     /**
-     * Constructor.
+     * Protected constructor since this is a static class.
      *
      * @access  protected
      */
     protected function __construct()
+    {
+        static::init();
+    }
+
+    /**
+     * Init Cache
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function init() : void
     {
         // Set current time
         static::$now = time();
@@ -269,12 +280,13 @@ class Cache
     }
 
     /**
-     * Initialize Flextype Cache
+     * Return the Cache instance.
+     * Create it if it's not already created.
      *
      * @access public
      * @return object
      */
-    public static function init()
+    public static function instance()
     {
         return !isset(self::$instance) and self::$instance = new Cache();
     }

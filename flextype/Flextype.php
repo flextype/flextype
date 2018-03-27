@@ -76,14 +76,14 @@ class Flextype
      */
     protected static function app() : void
     {
-        // Init Finder
+        // Create Finder Instance
         static::$finder     = new Finder();
 
-        // Init Filesystem
+        // Create Filesystem Instance
         static::$filesystem = new Filesystem();
 
-        // Init Config
-        Config::init();
+        // Create Cache Instance
+        Config::instance();
 
         // Turn on output buffering
         ob_start();
@@ -113,23 +113,23 @@ class Flextype
         // Start the session
         Session::start();
 
-        // Init Cache
-        Cache::init();
+        // Create Cache Instance
+        Cache::instance();
 
-        // Init I18n
-        I18n::init();
+        // Create I18n Instance
+        I18n::instance();
 
-        // Init Shortcodes
-        Shortcodes::init();
+        // Create Shortcodes Instance
+        Shortcodes::instance();
 
-        // Init Themes
-        Themes::init();
+        // Create Themes Instance
+        Themes::instance();
 
-        // Init Plugins
-        Plugins::init();
+        // Create Plugins Instance
+        Plugins::instance();
 
-        // Init Pages
-        Pages::init();
+        // Create Pages Instance
+        Pages::instance();
 
         // Flush (send) the output buffer and turn off output buffering
         ob_end_flush();
