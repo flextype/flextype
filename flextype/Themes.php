@@ -34,12 +34,23 @@ class Themes
         // Theme Manifest
         $theme_manifest = [];
 
+        // Theme cache id
+        $theme_cache_id = '';
+
         // Get current theme
         $theme = Config::get('site.theme');
 
-        if (Flextype::filesystem()->exists($theme_manifest_file = THEMES_PATH . '/' . $theme . '/' . $theme . '.yml')) {
-            $theme_manifest = Yaml::parseFile($theme_manifest_file);
-            Config::set('themes.'.Config::get('site.theme'), $theme_manifest);
+        // Create Unique Cache ID for Theme
+        $theme_cache_id = md5('theme' . THEMES_PATH . $theme);
+
+        if (Cache::driver()->contains($theme_cache_id)) {
+            Config::set('themes.'.Config::get('site.theme'), Cache::driver()->fetch($theme_cache_id));
+        } else {
+            if (Flextype::filesystem()->exists($theme_manifest_file = THEMES_PATH . '/' . $theme . '/' . $theme . '.yml')) {
+                $theme_manifest = Yaml::parseFile($theme_manifest_file);
+                Config::set('themes.'.Config::get('site.theme'), $theme_manifest);
+                Cache::driver()->save($theme_cache_id, $theme_manifest);
+            }
         }
     }
 
