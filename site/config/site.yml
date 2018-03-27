@@ -27,6 +27,6 @@ errors:
 
 cache:
   enabled: false
-  prefix: Flextype
+  prefix: flextype
   driver: auto
   lifetime: 604800
