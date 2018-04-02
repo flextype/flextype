@@ -1,0 +1,13 @@
+name: Admin
+version: 0.0.0
+description: "Admin plugin for Flextype"
+author:
+  name: Sergey Romanenko
+  email: awilum@yandex.ru
+  url: http://flextype.org
+homepage: https://github.com/flextype/flextype
+bugs: https://github.com/flextype/flextype/issues
+license: MIT
+
+# Plugin settings
+enabled: true
