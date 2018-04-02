@@ -38,6 +38,12 @@ class Admin {
      */
     protected static $instance = null;
 
+    /**
+     * Is logged in
+     *
+     * @var bool
+     * @access  protected
+     */
     protected static $isLoggedIn = true;
 
     /**
