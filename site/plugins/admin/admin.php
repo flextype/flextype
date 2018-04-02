@@ -38,6 +38,8 @@ class Admin {
      */
     protected static $instance = null;
 
+    protected static $isLoggedIn = true;
+
     /**
      * Protected clone method to enforce singleton behavior.
      *
@@ -61,17 +63,52 @@ class Admin {
     protected static function init()
     {
         if (static::isLoggedIn()) {
-            echo 'ADMIN AREA';
+            static::getAdminPage();
         } else {
-            echo 'LOGIN AREA';
+            static::getAuthPage();
         }
 
         Request::shutdown();
     }
 
-    protected static function isLoggedIn() : bool
+    protected static function getAdminPage()
     {
-        return false;
+        switch (Url::getUriSegment(1)) {
+            case 'pages':
+                static::getPagesManagerPage();
+            break;
+            case 'settings':
+                static::getSettingsPage();
+            break;
+            default:
+                static::getDashboardPage();
+            break;
+        }
+    }
+
+    protected static function getPagesManagerPage()
+    {
+        include 'views/pages.php';
+    }
+
+    protected static function getSettingsPage()
+    {
+        include 'views/settings.php';
+    }
+
+    protected static function getDashboardPage()
+    {
+        include 'views/dashboard.php';
+    }
+
+    protected static function getAuthPage()
+    {
+        include 'views/login.php';
+    }
+
+    public static function isLoggedIn() : bool
+    {
+        return static::$isLoggedIn;
     }
 
     /**
