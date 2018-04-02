@@ -14,6 +14,7 @@ charset: UTF-8
 theme: default
 
 plugins:
+    - admin
 
 locale: "en"
 
