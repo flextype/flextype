@@ -44,7 +44,7 @@ class Admin {
      * @var bool
      * @access  protected
      */
-    protected static $isLoggedIn = true;
+    protected static $isLoggedIn = false;
 
     /**
      * Protected clone method to enforce singleton behavior.
@@ -109,6 +109,10 @@ class Admin {
 
     protected static function getAuthPage()
     {
+        if (Request::post('login_submit')) {
+
+        }
+
         include 'views/login.php';
     }
 
