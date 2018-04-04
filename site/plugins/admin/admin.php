@@ -17,6 +17,7 @@ use Url;
 use Arr;
 use Response;
 use Request;
+use Symfony\Component\Yaml\Yaml;
 
 //
 // Add listner for onPageBeforeRender event
@@ -109,8 +110,17 @@ class Admin {
 
     protected static function getAuthPage()
     {
-        if (Request::post('login_submit')) {
 
+        $login = Request::post('login');
+
+        if (isset($login)) {
+            if (Flextype::filesystem()->exists($_user_file = ACCOUNTS_PATH . '/' . Request::post('username') . '.yml')) {
+                $user_file = Yaml::parseFile($_user_file);
+
+                
+            }
+
+            var_dump($user_file);
         }
 
         include 'views/login.php';
