@@ -13,7 +13,7 @@
 namespace Flextype;
 
 use Symfony\Component\{Filesystem\Filesystem, Finder\Finder};
-use Flextype\Component\{Url\Url, Session\Session};
+use Flextype\Component\{Http\Http, Session\Session};
 
 class Flextype
 {
@@ -157,12 +157,13 @@ class Flextype
     }
 
     /**
-      * Initialize Flextype Application
-      *
-      * @access public
-      * @return object
-      */
-     public static function init()
+     * Return the Flextype instance.
+     * Create it if it's not already created.
+     *
+     * @access public
+     * @return object
+     */
+     public static function instance()
      {
          return !isset(self::$instance) and self::$instance = new Flextype();
      }

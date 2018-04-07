@@ -26,4 +26,5 @@ Creating a new page is very simple in Flextype.
 
 2. Save this file in the `/site/pages/my-new-page/` folder as `index.md` and its will be available by this url: [site_url]/my-new-page
 
+
 That is it!

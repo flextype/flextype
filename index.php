@@ -25,4 +25,4 @@ version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(s
 $loader = require_once $autoload;
 
 // Init Flextype
-Flextype::init();
+Flextype::instance();

@@ -13,13 +13,12 @@
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css'>
 
     <!-- Bootstrap core CSS -->
-	<link href="<?php echo Flextype\Component\Url\Url::getBase(); ?>/site/themes/<?php echo Flextype\Config::get('site.theme'); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="<?php echo Flextype\Component\Http\Http::getBaseUrl(); ?>/site/themes/<?php echo Flextype\Config::get('site.theme'); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-	<link href="<?php echo Flextype\Component\Url\Url::getBase(); ?>/site/themes/<?php echo Flextype\Config::get('site.theme'); ?>/assets/css/theme.css" rel="stylesheet">
+	<link href="<?php echo Flextype\Component\Http\Http::getBaseUrl(); ?>/site/themes/<?php echo Flextype\Config::get('site.theme'); ?>/assets/css/theme.css" rel="stylesheet">
 	<?php Flextype\Events::dispatch('onThemeHeader'); ?>
   </head>
   <body>
   <?php Flextype\Templates::display('partials/navigation'); ?>
   <main role="main" class="container content">
-<?php Flextype\Component\Http\Request\Request::redirect('test'); ?>

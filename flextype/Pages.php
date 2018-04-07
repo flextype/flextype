@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Arr\Arr, Url\Url, Response\Response};
+use Flextype\Component\{Arr\Arr, Http\Http};
 use Symfony\Component\Yaml\Yaml;
 
 class Pages
@@ -53,7 +53,7 @@ class Pages
         Events::dispatch('onPageBeforeRender');
 
         // Get current page
-        static::$page = static::getPage(Url::getUriString());
+        static::$page = static::getPage(Http::getUriString());
 
         // Display page for current requested url
         static::renderPage(static::$page);
@@ -90,7 +90,7 @@ class Pages
             $file = $file;
         } else {
             $file = PAGES_PATH . '/404/index.md';
-            Response::status(404);
+            Http::setResponseStatus(404);
         }
 
         return $file;
@@ -125,7 +125,7 @@ class Pages
         $result_page = Yaml::parse($frontmatter);
 
         // Get page url
-        $url = str_replace(PAGES_PATH, Url::getBase(), $file);
+        $url = str_replace(PAGES_PATH, Http::getBaseUrl(), $file);
         $url = str_replace('index.md', '', $url);
         $url = str_replace('.md', '', $url);
         $url = str_replace('\\', '/', $url);
@@ -138,10 +138,10 @@ class Pages
         $result_page['url'] = $url;
 
         // Get page slug
-        $url = str_replace(Url::getBase(), '', $url);
+        $url = str_replace(Http::getBaseUrl(), '', $url);
         $url = ltrim($url, '/');
         $url = rtrim($url, '/');
-        $result_page['slug'] = str_replace(Url::getBase(), '', $url);
+        $result_page['slug'] = str_replace(Http::getBaseUrl(), '', $url);
 
         // Set page date
         $result_page['date'] = $result_page['date'] ?? date(Config::get('site.date_format'), filemtime($file));

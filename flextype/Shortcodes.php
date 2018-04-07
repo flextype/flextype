@@ -13,7 +13,7 @@
 namespace Flextype;
 
 use Thunder\Shortcode\ShortcodeFacade;
-use Flextype\Component\Url\Url;
+use Flextype\Component\Http\Http;
 
 class Shortcodes
 {
@@ -76,7 +76,7 @@ class Shortcodes
     protected static function registerDefaultShortcodes() : void
     {
         static::driver()->addHandler('site_url', function() {
-            return Url::getBase();
+            return Http::getBaseUrl();
         });
     }
 
