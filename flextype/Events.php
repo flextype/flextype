@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-use Arr;
+use Flextype\Component\Arr\Arr;
 
 class Events
 {

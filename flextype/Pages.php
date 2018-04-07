@@ -12,9 +12,7 @@
 
 namespace Flextype;
 
-use Arr;
-use Url;
-use Response;
+use Flextype\Component\{Arr\Arr, Url\Url, Response\Response};
 use Symfony\Component\Yaml\Yaml;
 
 class Pages

@@ -13,8 +13,7 @@
 namespace Flextype;
 
 use Symfony\Component\{Filesystem\Filesystem, Finder\Finder};
-use Url;
-use Session;
+use Flextype\Component\{Url\Url, Session\Session};
 
 class Flextype
 {
@@ -103,9 +102,9 @@ class Flextype
         function_exists('mb_internal_encoding') and mb_internal_encoding(Config::get('site.charset'));
 
         // Set Error handler
-        set_error_handler('ErrorHandler::error');
-        register_shutdown_function('ErrorHandler::fatal');
-        set_exception_handler('ErrorHandler::exception');
+        //set_error_handler('ErrorHandler::error');
+        //register_shutdown_function('ErrorHandler::fatal');
+        //set_exception_handler('ErrorHandler::exception');
 
         // Set default timezone
         date_default_timezone_set(Config::get('site.timezone'));

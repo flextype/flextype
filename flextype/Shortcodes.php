@@ -13,7 +13,7 @@
 namespace Flextype;
 
 use Thunder\Shortcode\ShortcodeFacade;
-use Url;
+use Flextype\Component\Url\Url;
 
 class Shortcodes
 {

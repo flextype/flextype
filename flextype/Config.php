@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-use Arr;
+use Flextype\Component\Arr\Arr;
 use Symfony\Component\Yaml\Yaml;
 
 class Config
