@@ -24,12 +24,9 @@
         "symfony/filesystem": "4.0.4",
         "symfony/finder": "4.0.4",
         "thunderer/shortcode": "0.6.5",
-        "force/session" : "*",
-        "force/arr" : "*",
-        "force/http" : "*",
-        "force/token" : "*",
-        "force/errorhandler" : "*",
-        "force/url" : "*"
+        "flextype-components/arr" : "1.*",
+        "flextype-components/http" : "1.*",
+        "flextype-components/token" : "1.*"
     },
     "autoload": {
         "classmap": [
