@@ -12,6 +12,7 @@
 
 namespace Flextype;
 
+use Flextype\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 class I18n
@@ -108,8 +109,8 @@ class I18n
             foreach (static::$locales as $locale => $locale_title) {
                 foreach ($plugins_list as $plugin) {
                     $language_file = PLUGINS_PATH . '/' . $plugin . '/languages/' . $locale . '.yml';
-                    if (file_exists($language_file)) {
-                        $dictionary[$plugin][$locale] = Yaml::parse(file_get_contents($language_file));
+                    if (Filesystem::fileExists($language_file)) {
+                        $dictionary[$plugin][$locale] = Yaml::parseFile($language_file);
                     }
                 }
             }

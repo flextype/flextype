@@ -12,6 +12,7 @@
 
 namespace Flextype;
 
+use Flextype\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 class Themes
@@ -56,7 +57,7 @@ class Themes
         if (Cache::driver()->contains($theme_cache_id)) {
             Config::set('themes.'.Config::get('site.theme'), Cache::driver()->fetch($theme_cache_id));
         } else {
-            if (Flextype::filesystem()->exists($theme_manifest_file = THEMES_PATH . '/' . $theme . '/' . $theme . '.yml')) {
+            if (Filesystem::fileExists($theme_manifest_file = THEMES_PATH . '/' . $theme . '/' . $theme . '.yml')) {
                 $theme_manifest = Yaml::parseFile($theme_manifest_file);
                 Config::set('themes.'.Config::get('site.theme'), $theme_manifest);
                 Cache::driver()->save($theme_cache_id, $theme_manifest);

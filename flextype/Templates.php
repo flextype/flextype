@@ -12,6 +12,8 @@
 
 namespace Flextype;
 
+use Flextype\Component\Filesystem\Filesystem;
+
 class Templates
 {
 
@@ -40,7 +42,7 @@ class Templates
 
         $template_path = THEMES_PATH . '/' . Config::get('site.theme') . '/' . $template_name . $template_ext;
 
-        if (Flextype::filesystem()->exists($template_path)) {
+        if (Filesystem::fileExists($template_path)) {
             include $template_path;
         } else {
             throw new RuntimeException("Template {$template_name} does not exist.");

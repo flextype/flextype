@@ -12,6 +12,7 @@
 
 namespace Flextype;
 
+use Flextype\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 class Plugins
@@ -55,7 +56,7 @@ class Plugins
 
             // Go through...
             foreach ($plugins_list as $plugin) {
-                if (Flextype::filesystem()->exists($_plugin = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yml')) {
+                if (Filesystem::fileExists($_plugin = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yml')) {
                     $plugins_cache_id .= filemtime($_plugin);
                 }
             }
@@ -75,7 +76,7 @@ class Plugins
                 // Go through...
                 foreach ($plugins_list as $plugin) {
 
-                    if (Flextype::filesystem()->exists($_plugin_manifest = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yml')) {
+                    if (Filesystem::fileExists($_plugin_manifest = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yml')) {
                         $plugin_manifest = Yaml::parseFile($_plugin_manifest);
                     }
 

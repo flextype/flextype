@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-use Flextype\Component\Arr\Arr;
+use Flextype\Component\{Arr\Arr, Filesystem\Filesystem};
 use Symfony\Component\Yaml\Yaml;
 
 class Config
@@ -62,8 +62,8 @@ class Config
      */
     protected static function init() : void
     {
-        if (Flextype::filesystem()->exists($site_config = CONFIG_PATH . '/' . 'site.yml')) {
-            static::$config['site'] = Yaml::parse(file_get_contents($site_config));
+        if (Filesystem::fileExists($site_config = CONFIG_PATH . '/' . 'site.yml')) {
+            static::$config['site'] = Yaml::parseFile($site_config);
         } else {
             throw new RuntimeException("Flextype site config file does not exist.");
         }

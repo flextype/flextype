@@ -12,6 +12,7 @@
 
 namespace Flextype;
 
+use Flextype\Component\Filesystem\Filesystem;
 use \Doctrine\Common\Cache as DoctrineCache;
 
 class Cache
@@ -165,7 +166,7 @@ class Cache
                 break;
             default:
                 // Create doctrine cache directory if its not exists
-                !Flextype::filesystem()->exists($cache_directory = CACHE_PATH . '/doctrine/') and Flextype::filesystem()->mkdir($cache_directory);
+                !Filesystem::fileExists($cache_directory = CACHE_PATH . '/doctrine/') and Filesystem::createDir($cache_directory);
                 $driver = new DoctrineCache\FilesystemCache($cache_directory);
                 break;
         }
@@ -242,7 +243,7 @@ class Cache
         function_exists('opcache_reset') and @opcache_reset();
 
         // Remove cache dir
-        Flextype::filesystem()->remove(CACHE_PATH . '/doctrine/');
+        Filesystem::deleteDir(CACHE_PATH . '/doctrine/');
     }
 
     /**
