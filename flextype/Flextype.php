@@ -12,7 +12,6 @@
 
 namespace Flextype;
 
-use Symfony\Component\{Filesystem\Filesystem, Finder\Finder};
 use Flextype\Component\{Http\Http, Session\Session};
 
 class Flextype
@@ -24,22 +23,6 @@ class Flextype
      * @access protected
      */
     protected static $instance = null;
-
-    /**
-     * Filesystem object
-     *
-     * @var Filesystem
-     * @access public
-     */
-    public static $filesystem = null;
-
-    /**
-     * Finder object
-     *
-     * @var Finder
-     * @access public
-     */
-    public static $finder = null;
 
     /**
      * Protected clone method to enforce singleton behavior.
@@ -75,12 +58,6 @@ class Flextype
      */
     protected static function app() : void
     {
-        // Create Finder Instance
-        static::$finder     = new Finder();
-
-        // Create Filesystem Instance
-        static::$filesystem = new Filesystem();
-
         // Create Cache Instance
         Config::instance();
 
@@ -132,28 +109,6 @@ class Flextype
 
         // Flush (send) the output buffer and turn off output buffering
         ob_end_flush();
-    }
-
-    /**
-     * Returns filesystem object
-     *
-     * @access public
-     * @return Filesystem
-     */
-    public static function filesystem() : Filesystem
-    {
-        return static::$filesystem;
-    }
-
-    /**
-     * Returns finder object
-     *
-     * @access public
-     * @return Finder
-     */
-    public static function finder() : Finder
-    {
-        return static::$finder;
     }
 
     /**
