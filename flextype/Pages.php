@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Arr\Arr, Http\Http};
+use Flextype\Component\{Arr\Arr, Http\Http, Filesystem\Filesystem};
 use Symfony\Component\Yaml\Yaml;
 
 class Pages
@@ -86,7 +86,7 @@ class Pages
         }
 
         // Get 404 page if file not exists
-        if (Flextype::filesystem()->exists($file)) {
+        if (Filesystem::fileExists($file)) {
             $file = $file;
         } else {
             $file = PAGES_PATH . '/404/index.md';
@@ -106,7 +106,7 @@ class Pages
         $site_theme    = Config::get('site.theme');
         $template_path = THEMES_PATH . '/' . $site_theme . '/' . $template_name . $template_ext;
 
-        if (Flextype::filesystem()->exists($template_path)) {
+        if (Filesystem::fileExists($template_path)) {
             include $template_path;
         } else {
             throw new RuntimeException("Template {$template_name} does not exist.");
@@ -118,7 +118,7 @@ class Pages
      */
     public static function parseFile(string $file) : array
     {
-        $page = trim(file_get_contents($file));
+        $page = trim(Filesystem::getFileContent($file));
         $page = explode('---', $page, 3);
 
         $frontmatter = Shortcodes::driver()->process($page[1]);
@@ -162,7 +162,7 @@ class Pages
         $file = static::finder($url, $url_abs);
 
         if ($raw) {
-            $page = trim(file_get_contents($file));
+            $page = trim(Filesystem::getFileContent($file));
             static::$page = $page;
             Events::dispatch('onPageContentRawAfter');
         } else {
@@ -202,7 +202,7 @@ class Pages
         if ($url == '') {
 
             // Get pages list
-            $pages_list = Flextype::finder()->files()->name('*.md')->in(PAGES_PATH);
+            $pages_list = Filesystem::getFilesList(PAGES_PATH, 'md');
 
             // Create pages array from pages list
             foreach ($pages_list as $key => $page) {
@@ -212,7 +212,7 @@ class Pages
         } else {
 
             // Get pages list
-            $pages_list = Flextype::finder()->files()->name('*.md')->in(PAGES_PATH . '/' . $url);
+            $pages_list = Filesystem::getFilesList(PAGES_PATH . '/' . $url, 'md');
 
             // Create pages array from pages list and ignore current requested page
             foreach ($pages_list as $key => $page) {
