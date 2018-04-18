@@ -101,16 +101,9 @@ class Pages
      */
     public static function renderPage(array $page)
     {
-        $template_ext  = '.php';
-        $template_name = empty($page['template']) ? 'index' : $page['template'];
-        $site_theme    = Config::get('site.theme');
-        $template_path = THEMES_PATH . '/' . $site_theme . '/' . $template_name . $template_ext;
-
-        if (Filesystem::fileExists($template_path)) {
-            include $template_path;
-        } else {
-            throw new RuntimeException("Template {$template_name} does not exist.");
-        }
+        View::factory(empty($page['template']) ? 'index' : $page['template'])
+            ->assign('page', $page, true)
+            ->display();
     }
 
     /**
