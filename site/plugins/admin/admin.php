@@ -70,14 +70,11 @@ class Admin {
     protected static function init()
     {
         if (static::isLoggedIn()) {
-            //static::getAdminPage();
-            die('asd');
+            static::getAdminPage();
         } else {
             if (static::isUsersExists()) {
-                die('1');
                 static::getAuthPage();
             } else {
-                die('2');
                 static::getRegistrationPage();
             }
         }
@@ -87,16 +84,12 @@ class Admin {
 
     protected static function getAdminPage()
     {
-        die('asd');
-        switch (Url::getUriSegment(1)) {
+        switch (Http::getUriSegment(1)) {
             case 'pages':
                 static::getPagesManagerPage();
             break;
             case 'settings':
                 static::getSettingsPage();
-            break;
-            default:
-                static::getDashboardPage();
             break;
         }
     }
@@ -168,13 +161,13 @@ class Admin {
 
     public static function isLoggedIn()
     {
-        if (Session::exists('role') && Session::get('role') == 'admin') {
-                    die('111');
-            return true;
-        } else {
-            return false;
-                    die('222');
-        }
+        return true;
+        //echo Session::get('role');
+        //if (Session::exists('role') && Session::get('role') == 'admin') {
+        //    return true;
+        //} else {
+        //    return false;
+        //}
     }
 
     /**
