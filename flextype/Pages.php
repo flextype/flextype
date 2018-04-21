@@ -101,7 +101,7 @@ class Pages
      */
     public static function renderPage(array $page)
     {
-        View::factory(empty($page['template']) ? 'index' : $page['template'])
+        View::factory(empty($page['template']) ? 'default' : $page['template'])
             ->assign('page', $page, true)
             ->display();
     }
