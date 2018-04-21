@@ -1,3 +1,8 @@
+# Flextype 0.3.0, 2018-04-30
+* View Class added for plugins and themes instead of Templates Class
+* Using Flextype Components instead Symphony Components
+
+
 # Flextype 0.2.1, 2018-03-26
 * date_format setting added to /site/config.site.yml
 * Pages: Fixed bug with pages sort and slice in getPages() method
