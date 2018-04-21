@@ -20,5 +20,5 @@
 	<?php Flextype\Events::dispatch('onThemeHeader'); ?>
   </head>
   <body>
-  <?php Flextype\Templates::display('partials/navigation'); ?>
+  <?php Flextype\View::factory('partials/navigation')->display(); ?>
   <main role="main" class="container content">

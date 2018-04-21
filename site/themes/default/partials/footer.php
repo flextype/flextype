@@ -1,5 +1,5 @@
 
-    <?php Flextype\Templates::display('partials/tail'); ?>
+    <?php Flextype\View::factory('partials/tail')->display(); ?>
 
     <div class="powered">
       Powered by <a href="http://flextype.org">Flextype</a>

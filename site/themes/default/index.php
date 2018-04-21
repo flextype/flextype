@@ -1,3 +1,3 @@
-<?php Flextype\Templates::display('partials/head'); ?>
+<?php Flextype\View::factory('partials/head')->display(); ?>
 <?php echo $page['content']; ?>
-<?php Flextype\Templates::display('partials/footer'); ?>
+<?php Flextype\View::factory('partials/footer')->display(); ?>
