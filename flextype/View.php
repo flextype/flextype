@@ -66,7 +66,7 @@ class View
     {
         // Set view file
         // From current theme folder or from plugin folder
-        if (Filesystem::fileExists($theme_view_file = THEMES_PATH . '/' . Config::get('site.theme') . '/' . $view . '.php')) {
+        if (Filesystem::fileExists($theme_view_file = THEMES_PATH . '/' . Config::get('site.theme') . '/templates/' . $view . '.php')) {
             $this->view_file = $theme_view_file;
         } else {
             $this->view_file = PLUGINS_PATH . '/' . $view . '.php';
