@@ -96,7 +96,56 @@ class Admin {
 
     protected static function getPagesManagerPage()
     {
-        include 'views/pages.php';
+        switch (Http::getUriSegment(2)) {
+            case 'delete':
+
+            break;
+            case 'add':
+
+                $create_page = Http::post('create_page');
+
+                if (isset($create_page)) {
+                    if (Filesystem::setFileContent(PAGES_PATH . '/' . Http::post('slug') . '/index.md',
+                                              '---'."\n".
+                                              'title: '.Http::post('title')."\n".
+                                              '---'."\n")) {
+
+                                        Http::redirect('admin/views/pages/');
+                    }
+                }
+
+                View::factory('admin/views/pages/add')
+                    ->display();
+            break;
+            case 'edit':
+
+                $save_page = Http::post('save_page');
+
+                if (isset($save_page)) {
+                    Filesystem::setFileContent(PAGES_PATH . '/' . Http::post('slug') . '/index.md',
+                                              '---'."\n".
+                                              Http::post('frontmatter').
+                                              '---'."\n".
+                                              Http::post('editor'));
+                }
+
+                $page = trim(Filesystem::getFileContent(PAGES_PATH . '/' . Http::get('page') . '/index.md'));
+                $page = explode('---', $page, 3);
+
+                View::factory('admin/views/pages/editor')
+                    ->assign('page_slug', Http::get('page'))
+                    ->assign('page_frontmatter', $page[1])
+                    ->assign('page_content', $page[2])
+                    ->display();
+            break;
+            default:
+                $pages_list = Pages::getPages('', false , 'title');
+
+                View::factory('admin/views/pages/index')
+                    ->assign('pages_list', $pages_list)
+                    ->display();
+            break;
+        }
     }
 
     protected static function getSettingsPage()

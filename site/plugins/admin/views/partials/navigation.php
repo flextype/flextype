@@ -12,6 +12,12 @@
       <li class="nav-item">
         <a class="nav-link <?php if (Flextype\Component\Http\Http::getUriSegment(1) == 'settings') echo 'active'; ?>" href="<?php echo Flextype\Component\Http\Http::getBaseUrl(); ?>/admin/settings">Settings</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo Flextype\Component\Http\Http::getBaseUrl(); ?>/admin/pages">View Site</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo Flextype\Component\Http\Http::getBaseUrl(); ?>/admin/pages">Logout</a>
+      </li>
     </ul>
   </div>
 </div>
