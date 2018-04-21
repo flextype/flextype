@@ -1,0 +1,67 @@
+html,
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+
+    height: 100%;
+
+    color: black;
+    background: white;
+}
+
+body,
+button,
+input,
+select,
+textarea,
+p {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+
+    color: black;
+}
+
+body,
+p {
+    line-height: 26px;
+}
+
+pre {
+    background: #f0f0f0;
+    padding-left: 10px;
+}
+
+a {
+    color: #000;
+}
+
+a:hover,
+a:focus {
+    text-decoration: none;
+    color: #333;
+}
+
+.page-heading {
+    margin-bottom: 40px;
+}
+
+.content {
+    padding-top: 40px;
+}
+
+.navbar-brand {
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.table thead th,
+.table td,
+.table th {
+    border-top: none;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.powered {
+    padding-top: 30px;
+    font-size: 12px;
+}
