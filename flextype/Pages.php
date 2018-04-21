@@ -199,7 +199,7 @@ class Pages
 
             // Create pages array from pages list
             foreach ($pages_list as $key => $page) {
-                $pages[$key] = static::getPage($page->getPathname(), $raw, true);
+                $pages[$key] = static::getPage($page, $raw, true);
             }
 
         } else {
@@ -209,10 +209,10 @@ class Pages
 
             // Create pages array from pages list and ignore current requested page
             foreach ($pages_list as $key => $page) {
-                if (strpos($page->getPathname(), $url.'/index.md') !== false) {
+                if (strpos($page, $url.'/index.md') !== false) {
                     // ignore ...
                 } else {
-                    $pages[$key] = static::getPage($page->getPathname(), $raw, true);
+                    $pages[$key] = static::getPage($page, $raw, true);
                 }
             }
 
