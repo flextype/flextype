@@ -105,7 +105,7 @@ class Admin {
                 $create_page = Http::post('create_page');
 
                 if (isset($create_page)) {
-                    if (Filesystem::setFileContent(PAGES_PATH . '/' . Http::post('slug') . '/index.md',
+                    if (Filesystem::setFileContent(PAGES_PATH . '/' . Http::post('slug') . '/page.md',
                                               '---'."\n".
                                               'title: '.Http::post('title')."\n".
                                               '---'."\n")) {
@@ -122,14 +122,14 @@ class Admin {
                 $save_page = Http::post('save_page');
 
                 if (isset($save_page)) {
-                    Filesystem::setFileContent(PAGES_PATH . '/' . Http::post('slug') . '/index.md',
+                    Filesystem::setFileContent(PAGES_PATH . '/' . Http::post('slug') . '/page.md',
                                               '---'."\n".
                                               Http::post('frontmatter').
                                               '---'."\n".
                                               Http::post('editor'));
                 }
 
-                $page = trim(Filesystem::getFileContent(PAGES_PATH . '/' . Http::get('page') . '/index.md'));
+                $page = trim(Filesystem::getFileContent(PAGES_PATH . '/' . Http::get('page') . '/page.md'));
                 $page = explode('---', $page, 3);
 
                 View::factory('admin/views/pages/editor')

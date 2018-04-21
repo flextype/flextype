@@ -75,13 +75,13 @@ class Pages
             if ($url) {
                 $file = $url;
             } else {
-                $file = PAGES_PATH . '/' . Config::get('site.pages.main') . '/' . 'index.md';
+                $file = PAGES_PATH . '/' . Config::get('site.pages.main') . '/' . 'page.md';
             }
         } else {
             if ($url) {
-                $file = PAGES_PATH . '/' . $url . '/index.md';
+                $file = PAGES_PATH . '/' . $url . '/page.md';
             } else {
-                $file = PAGES_PATH . '/' . Config::get('site.pages.main') . '/' . 'index.md';
+                $file = PAGES_PATH . '/' . Config::get('site.pages.main') . '/' . 'page.md';
             }
         }
 
@@ -89,7 +89,7 @@ class Pages
         if (Filesystem::fileExists($file)) {
             $file = $file;
         } else {
-            $file = PAGES_PATH . '/404/index.md';
+            $file = PAGES_PATH . '/404/page.md';
             Http::setResponseStatus(404);
         }
 
@@ -119,7 +119,7 @@ class Pages
 
         // Get page url
         $url = str_replace(PAGES_PATH, Http::getBaseUrl(), $file);
-        $url = str_replace('index.md', '', $url);
+        $url = str_replace('page.md', '', $url);
         $url = str_replace('.md', '', $url);
         $url = str_replace('\\', '/', $url);
         $url = str_replace('///', '/', $url);
@@ -209,7 +209,7 @@ class Pages
 
             // Create pages array from pages list and ignore current requested page
             foreach ($pages_list as $key => $page) {
-                if (strpos($page, $url.'/index.md') !== false) {
+                if (strpos($page, $url.'/page.md') !== false) {
                     // ignore ...
                 } else {
                     $pages[$key] = static::getPage($page, $raw, true);
