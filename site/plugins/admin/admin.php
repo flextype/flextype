@@ -98,14 +98,20 @@ class Admin {
     {
         switch (Http::getUriSegment(2)) {
             case 'delete':
-
+                if (Http::get('page') != '') {
+                    Filesystem::deleteDir(PAGES_PATH . '/' . Http::get('page'));
+                    Http::redirect('admin/views/pages/');
+                }
             break;
             case 'add':
+
+
+                $pages_list = Pages::getPages('', false , 'slug');
 
                 $create_page = Http::post('create_page');
 
                 if (isset($create_page)) {
-                    if (Filesystem::setFileContent(PAGES_PATH . '/' . Http::post('slug') . '/page.md',
+                    if (Filesystem::setFileContent(PAGES_PATH . '/' . Http::post('parent_page') . '/' . Http::post('slug') . '/page.md',
                                               '---'."\n".
                                               'title: '.Http::post('title')."\n".
                                               '---'."\n")) {
@@ -115,6 +121,7 @@ class Admin {
                 }
 
                 View::factory('admin/views/pages/add')
+                    ->assign('pages_list', $pages_list)
                     ->display();
             break;
             case 'edit':
