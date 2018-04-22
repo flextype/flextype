@@ -15,6 +15,15 @@
           <label for="formGroupPageTitleInput">Page slug (url)</label>
           <input type="text" name="slug" class="form-control" id="formGroupPageTitleInput" placeholder="">
         </div>
+        <div class="form-group">
+           <label for="formGroupParentPageInput">Parent page</label>
+           <select class="form-control" id="formGroupParentPageInput" name="parent_page">
+             <option value="">/</option>
+             <?php foreach($pages_list as $page) { ?>
+             <option value="<?php echo $page['slug']; ?>"><?php echo $page['slug']; ?></option>
+             <?php } ?>
+           </select>
+         </div>
       </div>
     </div>
     <br>
