@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Filesystem\Filesystem, Event\Event};
+use Flextype\Component\{Filesystem\Filesystem, Event\Event, I18n\I18n};
 use Symfony\Component\Yaml\Yaml;
 
 class Plugins
