@@ -92,9 +92,6 @@ class Flextype
         // Create Cache Instance
         Cache::instance();
 
-        // Create I18n Instance
-        I18n::instance();
-
         // Create Shortcodes Instance
         Shortcodes::instance();
 
