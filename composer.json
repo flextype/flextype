@@ -27,7 +27,8 @@
         "flextype-components/token" : "1.*",
         "flextype-components/filesystem" : "1.*",
         "flextype-components/event" : "1.*",
-        "flextype-components/view" : "1.*"
+        "flextype-components/view" : "1.*",
+        "flextype-components/i18n" : "dev-master"
     },
     "autoload": {
         "classmap": [

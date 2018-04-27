@@ -25,6 +25,46 @@ class Plugins
     protected static $instance = null;
 
     /**
+     * Locales array
+     *
+     * @var array
+     */
+    public static $locales = [
+        'ar' => 'العربية',
+        'bg' => 'Български',
+        'ca' => 'Català',
+        'cs' => 'Česky',
+        'da' => 'Dansk',
+        'de' => 'Deutsch',
+        'el' => 'Ελληνικά',
+        'en' => 'English',
+        'es' => 'Español',
+        'fa' => 'Farsi',
+        'fi' => 'Suomi',
+        'fr' => 'Français',
+        'gl' => 'Galego',
+        'ka-ge' => 'Georgian',
+        'hu' => 'Magyar',
+        'it' => 'Italiano',
+        'id' => 'Bahasa Indonesia',
+        'ja' => '日本語',
+        'lt' => 'Lietuvių',
+        'nl' => 'Nederlands',
+        'no' => 'Norsk',
+        'pl' => 'Polski',
+        'pt' => 'Português',
+        'pt-br' => 'Português do Brasil',
+        'ru' => 'Русский',
+        'sk' => 'Slovenčina',
+        'sl' => 'Slovenščina',
+        'sv' => 'Svenska',
+        'sr' => 'Srpski',
+        'tr' => 'Türkçe',
+        'uk' => 'Українська',
+        'zh-cn' => '简体中文',
+    ];
+
+    /**
      * Protected constructor since this is a static class.
      *
      * @access  protected
@@ -85,6 +125,18 @@ class Plugins
 
                 Config::set('plugins', $_plugins_config);
                 Cache::driver()->save($plugins_cache_id, $_plugins_config);
+            }
+        }
+
+        // Create dictionary
+        if (is_array($plugins_list) && count($plugins_list) > 0) {
+            foreach (static::$locales as $locale => $locale_title) {
+                foreach ($plugins_list as $plugin) {
+                    $language_file = PLUGINS_PATH . '/' . $plugin . '/languages/' . $locale . '.yml';
+                    if (Filesystem::fileExists($language_file)) {
+                        I18n::add($plugin, $locale, Yaml::parseFile($language_file));
+                    }
+                }
             }
         }
 
