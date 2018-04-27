@@ -25,7 +25,9 @@
         "flextype-components/arr" : "1.*",
         "flextype-components/http" : "1.*",
         "flextype-components/token" : "1.*",
-        "flextype-components/filesystem" : "1.*"
+        "flextype-components/filesystem" : "1.*",
+        "flextype-components/event" : "1.*",
+        "flextype-components/view" : "1.*"
     },
     "autoload": {
         "classmap": [
