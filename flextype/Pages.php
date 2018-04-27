@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Arr\Arr, Http\Http, Filesystem\Filesystem};
+use Flextype\Component\{Arr\Arr, Http\Http, Filesystem\Filesystem, Event\Event};
 use Symfony\Component\Yaml\Yaml;
 
 class Pages
@@ -50,7 +50,10 @@ class Pages
     protected static function init() : void
     {
         // The page is not processed and not sent to the display.
-        Events::dispatch('onPageBeforeRender');
+        Event::dispatch('onPageBeforeRender');
+
+        // Add parseContent on content event
+        Event::addListener('content', 'Flextype\Pages::parseContent');
 
         // Get current page
         static::$page = static::getPage(Http::getUriString());
@@ -59,7 +62,7 @@ class Pages
         static::renderPage(static::$page);
 
         // The page has been fully processed and sent to the display.
-        Events::dispatch('onPageAfterRender');
+        Event::dispatch('onPageAfterRender');
     }
 
     /**
@@ -101,7 +104,7 @@ class Pages
      */
     public static function renderPage(array $page)
     {
-        View::factory(empty($page['template']) ? 'default' : $page['template'])
+        Themes::template(empty($page['template']) ? 'default' : $page['template'])
             ->assign('page', $page, true)
             ->display();
     }
@@ -157,12 +160,12 @@ class Pages
         if ($raw) {
             $page = trim(Filesystem::getFileContent($file));
             static::$page = $page;
-            Events::dispatch('onPageContentRawAfter');
+            Event::dispatch('onPageContentRawAfter');
         } else {
             $page = static::parseFile($file);
             static::$page = $page;
-            static::$page['content'] = Filters::dispatch('content', static::parseContent(static::$page['content']));
-            Events::dispatch('onPageContentAfter');
+            static::$page['content'] = Event::dispatch('content', ['content' => static::$page['content']], true);
+            Event::dispatch('onPageContentAfter');
         }
 
         return static::$page;
@@ -220,7 +223,7 @@ class Pages
 
         // Sort and Slice pages if $raw === false
         if (!$raw) {
-            $pages = Arr::subvalSort($pages, $order_by, $order_type);
+            $pages = Arr::sort($pages, $order_by, $order_type);
 
             if ($offset !== null && $length !== null) {
                 $pages = array_slice($pages, $offset, $length);

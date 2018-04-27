@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-use Flextype\Component\Filesystem\Filesystem;
+use Flextype\Component\{Filesystem\Filesystem, Event\Event};
 use Symfony\Component\Yaml\Yaml;
 
 class Plugins
@@ -97,7 +97,7 @@ class Plugins
             }
         }
 
-        Events::dispatch('onPluginsInitialized');
+        Event::dispatch('onPluginsInitialized');
     }
 
     /**

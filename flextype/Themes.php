@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-use Flextype\Component\Filesystem\Filesystem;
+use Flextype\Component\{Filesystem\Filesystem, View\View};
 use Symfony\Component\Yaml\Yaml;
 
 class Themes
@@ -63,6 +63,29 @@ class Themes
                 Cache::driver()->save($theme_cache_id, $theme_manifest);
             }
         }
+    }
+
+    /**
+     * Return the Themes instance.
+     * Create it if it's not already created.
+     *
+     * @param  string $template  Template file
+     * @param  string $variables Variables
+     * @access public
+     * @return object
+     */
+    public static function template(string $template, array $variables = [])
+    {
+        // Set view file
+        // From current theme folder or from plugin folder
+        if (Filesystem::fileExists(THEMES_PATH . '/' . Config::get('site.theme') . '/templates/' . $template . View::$view_ext)) {
+            $template = THEMES_PATH . '/' . Config::get('site.theme') . '/templates/' . $template;
+        } else {
+            $template = PLUGINS_PATH . '/' . $template;
+        }
+
+        // Return template
+        return new View($template, $variables);
     }
 
     /**
