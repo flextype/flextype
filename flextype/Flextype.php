@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Http\Http, Session\Session};
+use Flextype\Component\{Http\Http, Session\Session, ErrorHandler\ErrorHandler};
 
 class Flextype
 {
@@ -79,9 +79,9 @@ class Flextype
         function_exists('mb_internal_encoding') and mb_internal_encoding(Config::get('site.charset'));
 
         // Set Error handler
-        //set_error_handler('ErrorHandler::error');
-        //register_shutdown_function('ErrorHandler::fatal');
-        //set_exception_handler('ErrorHandler::exception');
+        set_error_handler('Flextype\Component\ErrorHandler\ErrorHandler::error');
+        register_shutdown_function('Flextype\Component\ErrorHandler\ErrorHandler::fatal');
+        set_exception_handler('Flextype\Component\ErrorHandler\ErrorHandler::exception');
 
         // Set default timezone
         date_default_timezone_set(Config::get('site.timezone'));
