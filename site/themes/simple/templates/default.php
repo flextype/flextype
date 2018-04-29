@@ -1,3 +1,4 @@
-<?php Flextype\Themes::template('partials/head')->display(); ?>
+<?php namespace Flextype; ?>
+<?php Themes::template('partials/head')->display(); ?>
 <?php echo $page['content']; ?>
-<?php Flextype\Themes::template('partials/footer')->display(); ?>
+<?php Themes::template('partials/footer')->display(); ?>
