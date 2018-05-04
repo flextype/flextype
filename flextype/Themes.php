@@ -78,10 +78,10 @@ class Themes
     {
         // Set view file
         // From current theme folder or from plugin folder
-        if (Filesystem::fileExists(THEMES_PATH . '/' . Config::get('site.theme') . '/templates/' . $template . View::$view_ext)) {
-            $template = THEMES_PATH . '/' . Config::get('site.theme') . '/templates/' . $template;
+        if (Filesystem::fileExists(THEMES_PATH . '/' . Config::get('site.theme') . '/views/' . $template . View::$view_ext)) {
+            $template = THEMES_PATH . '/' . Config::get('site.theme') . '/views/' . $template;
         } else {
-            $template = PLUGINS_PATH . '/' . $template;
+            $template = PLUGINS_PATH . '/views/' . $template;
         }
 
         // Return template
