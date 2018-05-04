@@ -104,7 +104,7 @@ class Pages
      */
     public static function renderPage(array $page)
     {
-        Themes::template(empty($page['template']) ? 'default' : $page['template'])
+        Themes::template(empty($page['template']) ? 'templates/default' : 'templates/' . $page['template'])
             ->assign('page', $page, true)
             ->display();
     }
