@@ -23,12 +23,22 @@
         "symfony/yaml": "4.*",
         "thunderer/shortcode": "0.*",
         "flextype-components/arr" : "1.*",
-        "flextype-components/http" : "1.*",
-        "flextype-components/token" : "1.*",
-        "flextype-components/filesystem" : "1.*",
+        "flextype-components/assets" : "1.*",
+        "flextype-components/cookie" : "1.*",
+        "flextype-components/date" : "1.*",
+        "flextype-components/debug" : "1.*",
         "flextype-components/event" : "1.*",
+        "flextype-components/errorhandler" : "1.*",
+        "flextype-components/filesystem" : "1.*",
+        "flextype-components/i18n" : "1.*",
+        "flextype-components/http" : "1.*",
+        "flextype-components/html" : "1.*",
+        "flextype-components/number" : "1.*",
+        "flextype-components/notification" : "1.*",
+        "flextype-components/registry" : "1.*",
+        "flextype-components/token" : "1.*",
         "flextype-components/view" : "1.*",
-        "flextype-components/i18n" : "dev-master"
+        "flextype-components/text" : "1.*"
     },
     "autoload": {
         "classmap": [
