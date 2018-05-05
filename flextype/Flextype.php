@@ -12,7 +12,8 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Http\Http, Session\Session, ErrorHandler\ErrorHandler};
+use Flextype\Component\{Http\Http, Session\Session, ErrorHandler\ErrorHandler, Registry\Registry, Filesystem\Filesystem};
+use Symfony\Component\Yaml\Yaml;
 
 class Flextype
 {
@@ -48,24 +49,31 @@ class Flextype
      */
     protected function __construct()
     {
-        static::app();
+        static::init();
     }
 
     /**
-     * Application.
+     * Init Application
      *
      * @access protected
      */
-    protected static function app() : void
+    protected static function init() : void
     {
-        // Create Cache Instance
-        Config::instance();
-
         // Turn on output buffering
         ob_start();
 
+        // Set empty site item
+        Registry::set('site', []);
+
+        // Set site items if site config exists
+        if (Filesystem::fileExists($site_config = CONFIG_PATH . '/' . 'site.yml')) {
+            Registry::set('site', Yaml::parseFile($site_config));
+        } else {
+            throw new \RuntimeException("Flextype site config file does not exist.");
+        }
+
         // Display Errors
-        if (Config::get('site.errors.display')) {
+        if (Registry::get('site.errors.display')) {
             define('DEVELOPMENT', true);
             error_reporting(-1);
         } else {
@@ -75,8 +83,8 @@ class Flextype
 
         // Set internal encoding
         function_exists('mb_language') and mb_language('uni');
-        function_exists('mb_regex_encoding') and mb_regex_encoding(Config::get('site.charset'));
-        function_exists('mb_internal_encoding') and mb_internal_encoding(Config::get('site.charset'));
+        function_exists('mb_regex_encoding') and mb_regex_encoding(Registry::get('site.charset'));
+        function_exists('mb_internal_encoding') and mb_internal_encoding(Registry::get('site.charset'));
 
         // Set Error handler
         set_error_handler('Flextype\Component\ErrorHandler\ErrorHandler::error');
@@ -84,7 +92,7 @@ class Flextype
         set_exception_handler('Flextype\Component\ErrorHandler\ErrorHandler::exception');
 
         // Set default timezone
-        date_default_timezone_set(Config::get('site.timezone'));
+        date_default_timezone_set(Registry::get('site.timezone'));
 
         // Start the session
         Session::start();
