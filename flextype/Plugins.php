@@ -99,7 +99,7 @@ class Plugins
 
             // Go through...
             foreach ($plugins_list as $plugin) {
-                if (Filesystem::fileExists($_plugin = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yml')) {
+                if (Filesystem::fileExists($_plugin = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yaml')) {
                     $plugins_cache_id .= filemtime($_plugin);
                 }
             }
@@ -119,11 +119,11 @@ class Plugins
                 // Go through...
                 foreach ($plugins_list as $plugin) {
 
-                    if (Filesystem::fileExists($_plugin_manifest = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yml')) {
+                    if (Filesystem::fileExists($_plugin_manifest = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yaml')) {
                         $plugin_manifest = Yaml::parseFile($_plugin_manifest);
                     }
 
-                    $_plugins_config[basename($_plugin_manifest, '.yml')] = $plugin_manifest;
+                    $_plugins_config[basename($_plugin_manifest, '.yaml')] = $plugin_manifest;
                 }
 
                 Registry::set('plugins', $_plugins_config);
@@ -135,7 +135,7 @@ class Plugins
         if (is_array($plugins_list) && count($plugins_list) > 0) {
             foreach (static::$locales as $locale => $locale_title) {
                 foreach ($plugins_list as $plugin) {
-                    $language_file = PLUGINS_PATH . '/' . $plugin . '/languages/' . $locale . '.yml';
+                    $language_file = PLUGINS_PATH . '/' . $plugin . '/languages/' . $locale . '.yaml';
                     if (Filesystem::fileExists($language_file)) {
                         I18n::add($plugin, $locale, Yaml::parseFile($language_file));
                     }

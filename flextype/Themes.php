@@ -60,7 +60,7 @@ class Themes
         if (Cache::driver()->contains($theme_cache_id)) {
             Registry::set('themes.'.Registry::get('site.theme'), Cache::driver()->fetch($theme_cache_id));
         } else {
-            if (Filesystem::fileExists($theme_manifest_file = THEMES_PATH . '/' . $theme . '/' . $theme . '.yml')) {
+            if (Filesystem::fileExists($theme_manifest_file = THEMES_PATH . '/' . $theme . '/' . $theme . '.yaml')) {
                 $theme_manifest = Yaml::parseFile($theme_manifest_file);
                 Registry::set('themes.'.Registry::get('site.theme'), $theme_manifest);
                 Cache::driver()->save($theme_cache_id, $theme_manifest);
