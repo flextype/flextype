@@ -12,9 +12,7 @@
 
 namespace Flextype;
 
-use Arr;
-use Url;
-use Response;
+use Flextype\Component\{Arr\Arr, Http\Http, Filesystem\Filesystem, Event\Event, Registry\Registry};
 use Symfony\Component\Yaml\Yaml;
 
 class Pages
@@ -34,23 +32,37 @@ class Pages
     public static $page;
 
     /**
-     * Constructor
+     * Protected constructor since this is a static class.
      *
      * @access  protected
      */
     protected function __construct()
     {
+        static::init();
+    }
+
+    /**
+     * Init Pages
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function init() : void
+    {
         // The page is not processed and not sent to the display.
-        Events::dispatch('onPageBeforeRender');
+        Event::dispatch('onPageBeforeRender');
+
+        // Add parseContent on content event
+        Event::addListener('content', 'Flextype\Pages::parseContent');
 
         // Get current page
-        static::$page = static::getPage(Url::getUriString());
+        static::$page = static::getPage(Http::getUriString());
 
         // Display page for current requested url
         static::renderPage(static::$page);
 
         // The page has been fully processed and sent to the display.
-        Events::dispatch('onPageAfterRender');
+        Event::dispatch('onPageAfterRender');
     }
 
     /**
@@ -66,22 +78,22 @@ class Pages
             if ($url) {
                 $file = $url;
             } else {
-                $file = PAGES_PATH . '/' . Config::get('site.pages.main') . '/' . 'index.md';
+                $file = PAGES_PATH . '/' . Registry::get('site.pages.main') . '/' . 'page.md';
             }
         } else {
             if ($url) {
-                $file = PAGES_PATH . '/' . $url . '/index.md';
+                $file = PAGES_PATH . '/' . $url . '/page.md';
             } else {
-                $file = PAGES_PATH . '/' . Config::get('site.pages.main') . '/' . 'index.md';
+                $file = PAGES_PATH . '/' . Registry::get('site.pages.main') . '/' . 'page.md';
             }
         }
 
         // Get 404 page if file not exists
-        if (Flextype::filesystem()->exists($file)) {
+        if (Filesystem::fileExists($file)) {
             $file = $file;
         } else {
-            $file = PAGES_PATH . '/404/index.md';
-            Response::status(404);
+            $file = PAGES_PATH . '/404/page.md';
+            Http::setResponseStatus(404);
         }
 
         return $file;
@@ -92,16 +104,9 @@ class Pages
      */
     public static function renderPage(array $page)
     {
-        $template_ext  = '.php';
-        $template_name = empty($page['template']) ? 'index' : $page['template'];
-        $site_theme    = Config::get('site.theme');
-        $template_path = THEMES_PATH . '/' . $site_theme . '/' . $template_name . $template_ext;
-
-        if (Flextype::filesystem()->exists($template_path)) {
-            include $template_path;
-        } else {
-            throw new RuntimeException("Template {$template_name} does not exist.");
-        }
+        Themes::template(empty($page['template']) ? 'templates/default' : 'templates/' . $page['template'])
+            ->assign('page', $page, true)
+            ->display();
     }
 
     /**
@@ -109,33 +114,33 @@ class Pages
      */
     public static function parseFile(string $file) : array
     {
-        $page = trim(file_get_contents($file));
+        $page = trim(Filesystem::getFileContent($file));
         $page = explode('---', $page, 3);
 
         $frontmatter = Shortcodes::driver()->process($page[1]);
         $result_page = Yaml::parse($frontmatter);
 
         // Get page url
-        $url = str_replace(PAGES_PATH, Url::getBase(), $file);
-        $url = str_replace('index.md', '', $url);
+        $url = str_replace(PAGES_PATH, Http::getBaseUrl(), $file);
+        $url = str_replace('page.md', '', $url);
         $url = str_replace('.md', '', $url);
         $url = str_replace('\\', '/', $url);
         $url = str_replace('///', '/', $url);
         $url = str_replace('//', '/', $url);
         $url = str_replace('http:/', 'http://', $url);
         $url = str_replace('https:/', 'https://', $url);
-        $url = str_replace('/'.Config::get('site.pages.main'), '', $url);
+        $url = str_replace('/'.Registry::get('site.pages.main'), '', $url);
         $url = rtrim($url, '/');
         $result_page['url'] = $url;
 
         // Get page slug
-        $url = str_replace(Url::getBase(), '', $url);
+        $url = str_replace(Http::getBaseUrl(), '', $url);
         $url = ltrim($url, '/');
         $url = rtrim($url, '/');
-        $result_page['slug'] = str_replace(Url::getBase(), '', $url);
+        $result_page['slug'] = str_replace(Http::getBaseUrl(), '', $url);
 
         // Set page date
-        $result_page['date'] = $result_page['date'] ?? date(Config::get('site.date_format'), filemtime($file));
+        $result_page['date'] = $result_page['date'] ?? date(Registry::get('site.date_format'), filemtime($file));
 
         // Set page content
         $result_page['content'] = $page[2];
@@ -153,14 +158,14 @@ class Pages
         $file = static::finder($url, $url_abs);
 
         if ($raw) {
-            $page = trim(file_get_contents($file));
+            $page = trim(Filesystem::getFileContent($file));
             static::$page = $page;
-            Events::dispatch('onPageContentRawAfter');
+            Event::dispatch('onPageContentRawAfter');
         } else {
             $page = static::parseFile($file);
             static::$page = $page;
-            static::$page['content'] = Filters::dispatch('content', static::parseContent(static::$page['content']));
-            Events::dispatch('onPageContentAfter');
+            static::$page['content'] = Event::dispatch('content', ['content' => static::$page['content']], true);
+            Event::dispatch('onPageContentAfter');
         }
 
         return static::$page;
@@ -193,24 +198,24 @@ class Pages
         if ($url == '') {
 
             // Get pages list
-            $pages_list = Flextype::finder()->files()->name('*.md')->in(PAGES_PATH);
+            $pages_list = Filesystem::getFilesList(PAGES_PATH, 'md');
 
             // Create pages array from pages list
             foreach ($pages_list as $key => $page) {
-                $pages[$key] = static::getPage($page->getPathname(), $raw, true);
+                $pages[$key] = static::getPage($page, $raw, true);
             }
 
         } else {
 
             // Get pages list
-            $pages_list = Flextype::finder()->files()->name('*.md')->in(PAGES_PATH . '/' . $url);
+            $pages_list = Filesystem::getFilesList(PAGES_PATH . '/' . $url, 'md');
 
             // Create pages array from pages list and ignore current requested page
             foreach ($pages_list as $key => $page) {
-                if (strpos($page->getPathname(), $url.'/index.md') !== false) {
+                if (strpos($page, $url.'/page.md') !== false) {
                     // ignore ...
                 } else {
-                    $pages[$key] = static::getPage($page->getPathname(), $raw, true);
+                    $pages[$key] = static::getPage($page, $raw, true);
                 }
             }
 
@@ -218,7 +223,7 @@ class Pages
 
         // Sort and Slice pages if $raw === false
         if (!$raw) {
-            $pages = Arr::subvalSort($pages, $order_by, $order_type);
+            $pages = Arr::sort($pages, $order_by, $order_type);
 
             if ($offset !== null && $length !== null) {
                 $pages = array_slice($pages, $offset, $length);
@@ -230,12 +235,13 @@ class Pages
     }
 
     /**
-     * Initialize Flextype Pages
+     * Return the Pages instance.
+     * Create it if it's not already created.
      *
      * @access public
      * @return object
      */
-    public static function init()
+    public static function instance()
     {
         return !isset(self::$instance) and self::$instance = new Pages();
     }

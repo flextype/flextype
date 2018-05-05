@@ -12,6 +12,7 @@
 
 namespace Flextype;
 
+use Flextype\Component\{Filesystem\Filesystem, Event\Event, I18n\I18n, Registry\Registry};
 use Symfony\Component\Yaml\Yaml;
 
 class Plugins
@@ -24,11 +25,62 @@ class Plugins
     protected static $instance = null;
 
     /**
-     * Init Plugins
+     * Locales array
      *
-     * @access public
+     * @var array
+     */
+    public static $locales = [
+        'ar' => 'العربية',
+        'bg' => 'Български',
+        'ca' => 'Català',
+        'cs' => 'Česky',
+        'da' => 'Dansk',
+        'de' => 'Deutsch',
+        'el' => 'Ελληνικά',
+        'en' => 'English',
+        'es' => 'Español',
+        'fa' => 'Farsi',
+        'fi' => 'Suomi',
+        'fr' => 'Français',
+        'gl' => 'Galego',
+        'ka-ge' => 'Georgian',
+        'hu' => 'Magyar',
+        'it' => 'Italiano',
+        'id' => 'Bahasa Indonesia',
+        'ja' => '日本語',
+        'lt' => 'Lietuvių',
+        'nl' => 'Nederlands',
+        'no' => 'Norsk',
+        'pl' => 'Polski',
+        'pt' => 'Português',
+        'pt-br' => 'Português do Brasil',
+        'ru' => 'Русский',
+        'sk' => 'Slovenčina',
+        'sl' => 'Slovenščina',
+        'sv' => 'Svenska',
+        'sr' => 'Srpski',
+        'tr' => 'Türkçe',
+        'uk' => 'Українська',
+        'zh-cn' => '简体中文',
+    ];
+
+    /**
+     * Protected constructor since this is a static class.
+     *
+     * @access  protected
      */
     protected function __construct()
+    {
+        static::init();
+    }
+
+    /**
+     * Init Plugins
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function init() : void
     {
         // Plugin manifest
         $plugin_manifest = [];
@@ -37,14 +89,17 @@ class Plugins
         $plugins_cache_id = '';
 
         // Get Plugins List
-        $plugins_list = Config::get('site.plugins');
+        $plugins_list = Registry::get('site.plugins');
+
+        // Set empty plugins item
+        Registry::set('plugins', []);
 
         // If Plugins List isnt empty then create plugin cache ID
         if (is_array($plugins_list) && count($plugins_list) > 0) {
 
             // Go through...
             foreach ($plugins_list as $plugin) {
-                if (Flextype::filesystem()->exists($_plugin = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yml')) {
+                if (Filesystem::fileExists($_plugin = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yaml')) {
                     $plugins_cache_id .= filemtime($_plugin);
                 }
             }
@@ -55,7 +110,7 @@ class Plugins
 
         // Get plugins list from cache or scan plugins folder and create new plugins cache item
         if (Cache::driver()->contains($plugins_cache_id)) {
-            Config::set('plugins', Cache::driver()->fetch($plugins_cache_id));
+            Registry::set('plugins', Cache::driver()->fetch($plugins_cache_id));
         } else {
 
             // If Plugins List isnt empty
@@ -64,37 +119,50 @@ class Plugins
                 // Go through...
                 foreach ($plugins_list as $plugin) {
 
-                    if (Flextype::filesystem()->exists($_plugin_manifest = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yml')) {
+                    if (Filesystem::fileExists($_plugin_manifest = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yaml')) {
                         $plugin_manifest = Yaml::parseFile($_plugin_manifest);
                     }
 
-                    $_plugins_config[basename($_plugin_manifest, '.yml')] = $plugin_manifest;
+                    $_plugins_config[basename($_plugin_manifest, '.yaml')] = $plugin_manifest;
                 }
 
-                Config::set('plugins', $_plugins_config);
+                Registry::set('plugins', $_plugins_config);
                 Cache::driver()->save($plugins_cache_id, $_plugins_config);
             }
         }
 
+        // Create dictionary
+        if (is_array($plugins_list) && count($plugins_list) > 0) {
+            foreach (static::$locales as $locale => $locale_title) {
+                foreach ($plugins_list as $plugin) {
+                    $language_file = PLUGINS_PATH . '/' . $plugin . '/languages/' . $locale . '.yaml';
+                    if (Filesystem::fileExists($language_file)) {
+                        I18n::add($plugin, $locale, Yaml::parseFile($language_file));
+                    }
+                }
+            }
+        }
+
         // Include enabled plugins
-        if (is_array(Config::get('plugins')) && count(Config::get('plugins')) > 0) {
-            foreach (Config::get('plugins') as $plugin_name => $plugin) {
-                if (Config::get('plugins.'.$plugin_name.'.enabled')) {
+        if (is_array(Registry::get('plugins')) && count(Registry::get('plugins')) > 0) {
+            foreach (Registry::get('plugins') as $plugin_name => $plugin) {
+                if (Registry::get('plugins.'.$plugin_name.'.enabled')) {
                     include_once PLUGINS_PATH .'/'. $plugin_name .'/'. $plugin_name . '.php';
                 }
             }
         }
 
-        Events::dispatch('onPluginsInitialized');
+        Event::dispatch('onPluginsInitialized');
     }
 
     /**
-     * Initialize Flextype Plugins
+     * Return the Plugins instance.
+     * Create it if it's not already created.
      *
      * @access public
      * @return object
      */
-    public static function init()
+    public static function instance()
     {
         return !isset(self::$instance) and self::$instance = new Plugins();
     }

@@ -12,9 +12,8 @@
 
 namespace Flextype;
 
-use Symfony\Component\{Filesystem\Filesystem, Finder\Finder};
-use Url;
-use Session;
+use Flextype\Component\{Http\Http, Session\Session, ErrorHandler\ErrorHandler, Registry\Registry, Filesystem\Filesystem};
+use Symfony\Component\Yaml\Yaml;
 
 class Flextype
 {
@@ -25,22 +24,6 @@ class Flextype
      * @access protected
      */
     protected static $instance = null;
-
-    /**
-     * Filesystem object
-     *
-     * @var Filesystem
-     * @access public
-     */
-    public static $filesystem = null;
-
-    /**
-     * Finder object
-     *
-     * @var Finder
-     * @access public
-     */
-    public static $finder = null;
 
     /**
      * Protected clone method to enforce singleton behavior.
@@ -66,30 +49,31 @@ class Flextype
      */
     protected function __construct()
     {
-        static::app();
+        static::init();
     }
 
     /**
-     * Application.
+     * Init Application
      *
      * @access protected
      */
-    protected static function app() : void
+    protected static function init() : void
     {
-        // Init Finder
-        static::$finder     = new Finder();
-
-        // Init Filesystem
-        static::$filesystem = new Filesystem();
-
-        // Init Config
-        Config::init();
-
         // Turn on output buffering
         ob_start();
 
+        // Set empty site item
+        Registry::set('site', []);
+
+        // Set site items if site config exists
+        if (Filesystem::fileExists($site_config = CONFIG_PATH . '/' . 'site.yaml')) {
+            Registry::set('site', Yaml::parseFile($site_config));
+        } else {
+            throw new \RuntimeException("Flextype site config file does not exist.");
+        }
+
         // Display Errors
-        if (Config::get('site.errors.display')) {
+        if (Registry::get('site.errors.display')) {
             define('DEVELOPMENT', true);
             error_reporting(-1);
         } else {
@@ -99,71 +83,47 @@ class Flextype
 
         // Set internal encoding
         function_exists('mb_language') and mb_language('uni');
-        function_exists('mb_regex_encoding') and mb_regex_encoding(Config::get('site.charset'));
-        function_exists('mb_internal_encoding') and mb_internal_encoding(Config::get('site.charset'));
+        function_exists('mb_regex_encoding') and mb_regex_encoding(Registry::get('site.charset'));
+        function_exists('mb_internal_encoding') and mb_internal_encoding(Registry::get('site.charset'));
 
         // Set Error handler
-        set_error_handler('ErrorHandler::error');
-        register_shutdown_function('ErrorHandler::fatal');
-        set_exception_handler('ErrorHandler::exception');
+        set_error_handler('Flextype\Component\ErrorHandler\ErrorHandler::error');
+        register_shutdown_function('Flextype\Component\ErrorHandler\ErrorHandler::fatal');
+        set_exception_handler('Flextype\Component\ErrorHandler\ErrorHandler::exception');
 
         // Set default timezone
-        date_default_timezone_set(Config::get('site.timezone'));
+        date_default_timezone_set(Registry::get('site.timezone'));
 
         // Start the session
         Session::start();
 
-        // Init Cache
-        Cache::init();
+        // Create Cache Instance
+        Cache::instance();
 
-        // Init I18n
-        I18n::init();
+        // Create Shortcodes Instance
+        Shortcodes::instance();
 
-        // Init Shortcodes
-        Shortcodes::init();
+        // Create Themes Instance
+        Themes::instance();
 
-        // Init Themes
-        Themes::init();
+        // Create Plugins Instance
+        Plugins::instance();
 
-        // Init Plugins
-        Plugins::init();
-
-        // Init Pages
-        Pages::init();
+        // Create Pages Instance
+        Pages::instance();
 
         // Flush (send) the output buffer and turn off output buffering
         ob_end_flush();
     }
 
     /**
-     * Returns filesystem object
+     * Return the Flextype instance.
+     * Create it if it's not already created.
      *
      * @access public
-     * @return Filesystem
+     * @return object
      */
-    public static function filesystem() : Filesystem
-    {
-        return static::$filesystem;
-    }
-
-    /**
-     * Returns finder object
-     *
-     * @access public
-     * @return Finder
-     */
-    public static function finder() : Finder
-    {
-        return static::$finder;
-    }
-
-    /**
-      * Initialize Flextype Application
-      *
-      * @access public
-      * @return object
-      */
-     public static function init()
+     public static function instance()
      {
          return !isset(self::$instance) and self::$instance = new Flextype();
      }

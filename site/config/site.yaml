@@ -11,12 +11,11 @@ timezone: UTC
 date_format: "F d Y H:i:s."
 charset: UTF-8
 
-theme: default
+theme: simple
 
 plugins:
 
 locale: "en"
-locales: [en]
 
 pages:
   flush_cache: false
