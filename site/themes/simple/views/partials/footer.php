@@ -1,6 +1,4 @@
-<?php
-    namespace Flextype;
-?>
+<?php namespace Flextype; ?>
 
     <?php Themes::template('partials/tail')->display(); ?>
 
