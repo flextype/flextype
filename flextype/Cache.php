@@ -12,6 +12,7 @@
 
 namespace Flextype;
 
+use Flextype\Component\{Filesystem\Filesystem, Registry\Registry};
 use \Doctrine\Common\Cache as DoctrineCache;
 
 class Cache
@@ -62,17 +63,28 @@ class Cache
     }
 
     /**
-     * Constructor.
+     * Protected constructor since this is a static class.
      *
      * @access  protected
      */
     protected function __construct()
     {
+        static::init();
+    }
+
+    /**
+     * Init Cache
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function init() : void
+    {
         // Set current time
         static::$now = time();
 
         // Create cache key to allow invalidate all cache on configuration changes.
-        static::$key = (Config::get('site.cache.prefix') ?? 'flextype') . '-' . md5(ROOT_DIR . Flextype::VERSION);
+        static::$key = (Registry::get('site.cache.prefix') ?? 'flextype') . '-' . md5(ROOT_DIR . Flextype::VERSION);
 
         // Get Cache Driver
         static::$driver = static::getCacheDriver();
@@ -89,7 +101,7 @@ class Cache
      */
     public static function getCacheDriver()
     {
-        $driver_name = Config::get('site.cache.driver');
+        $driver_name = Registry::get('site.cache.driver');
 
         if (!$driver_name || $driver_name == 'auto') {
             if (extension_loaded('apcu')) {
@@ -120,28 +132,28 @@ class Cache
                break;
             case 'memcache':
                 $memcache = new \Memcache();
-                $memcache->connect(Config::get('site.cache.memcache.server', 'localhost'),
-                                   Config::get('site.cache.memcache.port', 11211));
+                $memcache->connect(Registry::get('site.cache.memcache.server', 'localhost'),
+                                   Registry::get('site.cache.memcache.port', 11211));
                 $driver = new DoctrineCache\MemcacheCache();
                 $driver->setMemcache($memcache);
                 break;
             case 'memcached':
                 $memcached = new \Memcached();
-                $memcached->addServer(Config::get('site.cache.memcached.server', 'localhost'),
-                                      Config::get('site.cache.memcache.port', 11211));
+                $memcached->addServer(Registry::get('site.cache.memcached.server', 'localhost'),
+                                      Registry::get('site.cache.memcache.port', 11211));
                 $driver = new DoctrineCache\MemcachedCache();
                 $driver->setMemcached($memcached);
                 break;
             case 'redis':
                 $redis    = new \Redis();
-                $socket   = Config::get('site.cache.redis.socket', false);
-                $password = Config::get('site.cache.redis.password', false);
+                $socket   = Registry::get('site.cache.redis.socket', false);
+                $password = Registry::get('site.cache.redis.password', false);
 
                 if ($socket) {
                     $redis->connect($socket);
                 } else {
-                    $redis->connect(Config::get('site.cache.redis.server', 'localhost'),
-                                    Config::get('site.cache.redis.port', 6379));
+                    $redis->connect(Registry::get('site.cache.redis.server', 'localhost'),
+                                    Registry::get('site.cache.redis.port', 6379));
                 }
 
                 // Authenticate with password if set
@@ -154,7 +166,7 @@ class Cache
                 break;
             default:
                 // Create doctrine cache directory if its not exists
-                !Flextype::filesystem()->exists($cache_directory = CACHE_PATH . '/doctrine/') and Flextype::filesystem()->mkdir($cache_directory);
+                !Filesystem::fileExists($cache_directory = CACHE_PATH . '/doctrine/') and Filesystem::createDir($cache_directory);
                 $driver = new DoctrineCache\FilesystemCache($cache_directory);
                 break;
         }
@@ -192,7 +204,7 @@ class Cache
      */
     public function fetch(string $id)
     {
-        if (Config::get('site.cache.enabled')) {
+        if (Registry::get('site.cache.enabled')) {
             return static::$driver->fetch($id);
         } else {
             return false;
@@ -211,7 +223,7 @@ class Cache
      */
     public function save(string $id, $data, $lifetime = null)
     {
-        if (Config::get('site.cache.enabled')) {
+        if (Registry::get('site.cache.enabled')) {
             if ($lifetime === null) {
                 $lifetime = static::getLifetime();
             }
@@ -231,7 +243,7 @@ class Cache
         function_exists('opcache_reset') and @opcache_reset();
 
         // Remove cache dir
-        Flextype::filesystem()->remove(CACHE_PATH . '/doctrine/');
+        Filesystem::deleteDir(CACHE_PATH . '/doctrine/');
     }
 
     /**
@@ -262,19 +274,20 @@ class Cache
     public static function getLifetime()
     {
         if (static::$lifetime === null) {
-            static::$lifetime = Config::get('site.cache.lifetime') ?: 604800;
+            static::$lifetime = Registry::get('site.cache.lifetime') ?: 604800;
         }
 
         return static::$lifetime;
     }
 
     /**
-     * Initialize Flextype Cache
+     * Return the Cache instance.
+     * Create it if it's not already created.
      *
      * @access public
      * @return object
      */
-    public static function init()
+    public static function instance()
     {
         return !isset(self::$instance) and self::$instance = new Cache();
     }
