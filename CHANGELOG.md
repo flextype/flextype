@@ -6,6 +6,7 @@
 * Themes structure is changed. From now main folder for all theme templates and partials is `views` inside theme folder.
 * Templates moved to `/simple/views/templates/` and partials moved to `/simple/views/partials/`
 * Default template changes from `index.php` to `default.php`
+* Plugins templates can be overridden by templates in themes folder.
 * For pages we will not use `index.md` anymore. From now page file will have a name `page.md`
 * Config class was removed, from now we will use simple powerful Registry Component to access configurations.
 * Event, Filter, View class was removed. From now we are using more powerful Flextype Components!
