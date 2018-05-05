@@ -1,8 +1,8 @@
 {
     "name": "flextype/flextype",
     "type": "project",
-    "description": "Flextype is Modern Open Source Flat-File Content Management System",
-    "keywords": ["Flextype", "php", "cms", "flat-file cms", "flat cms", "flatfile cms", "markdown"],
+    "description": "Flextype is The Best Open Source Flat-File Content Management System",
+    "keywords": ["flextype", "php", "cms", "flat-file cms", "flat cms", "flatfile cms", "markdown"],
     "homepage": "http://flextype.org",
     "license": "MIT",
     "authors": [
