@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Filesystem\Filesystem, View\View};
+use Flextype\Component\{Filesystem\Filesystem, View\View, Registry\Registry};
 use Symfony\Component\Yaml\Yaml;
 
 class Themes
@@ -49,17 +49,20 @@ class Themes
         $theme_cache_id = '';
 
         // Get current theme
-        $theme = Config::get('site.theme');
+        $theme = Registry::get('site.theme');
+
+        // Set empty theme item
+        Registry::set('theme', []);
 
         // Create Unique Cache ID for Theme
         $theme_cache_id = md5('theme' . THEMES_PATH . $theme);
 
         if (Cache::driver()->contains($theme_cache_id)) {
-            Config::set('themes.'.Config::get('site.theme'), Cache::driver()->fetch($theme_cache_id));
+            Registry::set('themes.'.Registry::get('site.theme'), Cache::driver()->fetch($theme_cache_id));
         } else {
             if (Filesystem::fileExists($theme_manifest_file = THEMES_PATH . '/' . $theme . '/' . $theme . '.yml')) {
                 $theme_manifest = Yaml::parseFile($theme_manifest_file);
-                Config::set('themes.'.Config::get('site.theme'), $theme_manifest);
+                Registry::set('themes.'.Registry::get('site.theme'), $theme_manifest);
                 Cache::driver()->save($theme_cache_id, $theme_manifest);
             }
         }
@@ -78,8 +81,8 @@ class Themes
     {
         // Set view file
         // From current theme folder or from plugin folder
-        if (Filesystem::fileExists(THEMES_PATH . '/' . Config::get('site.theme') . '/views/' . $template . View::$view_ext)) {
-            $template = THEMES_PATH . '/' . Config::get('site.theme') . '/views/' . $template;
+        if (Filesystem::fileExists(THEMES_PATH . '/' . Registry::get('site.theme') . '/views/' . $template . View::$view_ext)) {
+            $template = THEMES_PATH . '/' . Registry::get('site.theme') . '/views/' . $template;
         } else {
             $template = PLUGINS_PATH . '/views/' . $template;
         }
