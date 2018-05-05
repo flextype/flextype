@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Arr\Arr, Http\Http, Filesystem\Filesystem, Event\Event};
+use Flextype\Component\{Arr\Arr, Http\Http, Filesystem\Filesystem, Event\Event, Registry\Registry};
 use Symfony\Component\Yaml\Yaml;
 
 class Pages
@@ -78,13 +78,13 @@ class Pages
             if ($url) {
                 $file = $url;
             } else {
-                $file = PAGES_PATH . '/' . Config::get('site.pages.main') . '/' . 'page.md';
+                $file = PAGES_PATH . '/' . Registry::get('site.pages.main') . '/' . 'page.md';
             }
         } else {
             if ($url) {
                 $file = PAGES_PATH . '/' . $url . '/page.md';
             } else {
-                $file = PAGES_PATH . '/' . Config::get('site.pages.main') . '/' . 'page.md';
+                $file = PAGES_PATH . '/' . Registry::get('site.pages.main') . '/' . 'page.md';
             }
         }
 
@@ -129,7 +129,7 @@ class Pages
         $url = str_replace('//', '/', $url);
         $url = str_replace('http:/', 'http://', $url);
         $url = str_replace('https:/', 'https://', $url);
-        $url = str_replace('/'.Config::get('site.pages.main'), '', $url);
+        $url = str_replace('/'.Registry::get('site.pages.main'), '', $url);
         $url = rtrim($url, '/');
         $result_page['url'] = $url;
 
@@ -140,7 +140,7 @@ class Pages
         $result_page['slug'] = str_replace(Http::getBaseUrl(), '', $url);
 
         // Set page date
-        $result_page['date'] = $result_page['date'] ?? date(Config::get('site.date_format'), filemtime($file));
+        $result_page['date'] = $result_page['date'] ?? date(Registry::get('site.date_format'), filemtime($file));
 
         // Set page content
         $result_page['content'] = $page[2];
