@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Filesystem\Filesystem, Event\Event, I18n\I18n};
+use Flextype\Component\{Filesystem\Filesystem, Event\Event, I18n\I18n, Registry\Registry};
 use Symfony\Component\Yaml\Yaml;
 
 class Plugins
@@ -89,7 +89,10 @@ class Plugins
         $plugins_cache_id = '';
 
         // Get Plugins List
-        $plugins_list = Config::get('site.plugins');
+        $plugins_list = Registry::get('site.plugins');
+
+        // Set empty plugins item
+        Registry::set('plugins', []);
 
         // If Plugins List isnt empty then create plugin cache ID
         if (is_array($plugins_list) && count($plugins_list) > 0) {
@@ -107,7 +110,7 @@ class Plugins
 
         // Get plugins list from cache or scan plugins folder and create new plugins cache item
         if (Cache::driver()->contains($plugins_cache_id)) {
-            Config::set('plugins', Cache::driver()->fetch($plugins_cache_id));
+            Registry::set('plugins', Cache::driver()->fetch($plugins_cache_id));
         } else {
 
             // If Plugins List isnt empty
@@ -123,7 +126,7 @@ class Plugins
                     $_plugins_config[basename($_plugin_manifest, '.yml')] = $plugin_manifest;
                 }
 
-                Config::set('plugins', $_plugins_config);
+                Registry::set('plugins', $_plugins_config);
                 Cache::driver()->save($plugins_cache_id, $_plugins_config);
             }
         }
@@ -141,9 +144,9 @@ class Plugins
         }
 
         // Include enabled plugins
-        if (is_array(Config::get('plugins')) && count(Config::get('plugins')) > 0) {
-            foreach (Config::get('plugins') as $plugin_name => $plugin) {
-                if (Config::get('plugins.'.$plugin_name.'.enabled')) {
+        if (is_array(Registry::get('plugins')) && count(Registry::get('plugins')) > 0) {
+            foreach (Registry::get('plugins') as $plugin_name => $plugin) {
+                if (Registry::get('plugins.'.$plugin_name.'.enabled')) {
                     include_once PLUGINS_PATH .'/'. $plugin_name .'/'. $plugin_name . '.php';
                 }
             }
