@@ -29,7 +29,7 @@ class Plugins
      *
      * @var array
      */
-    public static $locales = [
+    private static $locales = [
         'ar' => 'العربية',
         'bg' => 'Български',
         'ca' => 'Català',
