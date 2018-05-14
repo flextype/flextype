@@ -51,12 +51,13 @@ class Themes
         // Get current theme
         $theme = Registry::get('site.theme');
 
-        // Set empty theme item
-        Registry::set('theme', []);
+        // Set empty themes items
+        Registry::set('themes', []);
 
         // Create Unique Cache ID for Theme
         $theme_cache_id = md5('theme' . THEMES_PATH . $theme);
 
+        // Get Theme mafifest file and write to site.themes array
         if (Cache::driver()->contains($theme_cache_id)) {
             Registry::set('themes.'.Registry::get('site.theme'), Cache::driver()->fetch($theme_cache_id));
         } else {
@@ -84,7 +85,7 @@ class Themes
         if (Filesystem::fileExists(THEMES_PATH . '/' . Registry::get('site.theme') . '/views/' . $template . View::$view_ext)) {
             $template = THEMES_PATH . '/' . Registry::get('site.theme') . '/views/' . $template;
         } else {
-            $template = PLUGINS_PATH . '/views/' . $template;
+            $template = PLUGINS_PATH . '/' . $template;
         }
 
         // Return template
