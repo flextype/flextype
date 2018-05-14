@@ -1,0 +1,27 @@
+//
+// Simple Theme main SCSS
+// (c) Sergey Romanenko <https://github.com/Awilum>
+//
+
+// Import Twitter Bootstrap
+@import "bootstrap";
+
+// Generic
+// Low-specificity, far-reaching rulesets
+@import "generic/variables";
+
+// Base
+// Unclassed HTML elements
+@import "base/main";
+
+// Objects
+// Abstractions, Objects and design patterns
+@import "objects/container";
+
+// Components
+// Discrete, complete chunks of UI
+@import "components/nav";
+@import "components/footer";
+
+// Thumps
+// High-specificity, very explicit selectors. Overrides and helper classes

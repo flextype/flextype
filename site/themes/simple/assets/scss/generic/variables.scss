@@ -1,0 +1,35 @@
+//
+// Variables
+//
+
+//
+// Base
+//
+$base-font-family:  Helvetica, arial, sans-serif;
+$base-font-color:   #606060;
+$base-font-size:    16px;
+$base-line-height:  24px;
+
+//
+// Colors Grayscale
+//
+$black:         #000000;
+$gray-darkest:  lighten($black, 13.5%);  // #222222
+$gray-darker:   lighten($black, 26.5%);  // #444444
+$gray-dark:     lighten($black, 46.7%);  // #777777
+$gray:          lighten($black, 66.5%);  // #aaaaaa
+$gray-light:    lighten($black, 87%);    // #dedede
+$gray-lighter:  lighten($black, 93.75%); // #efefef
+$gray-lightest: lighten($black, 97.25%); // #f8f8f8
+$white:         #ffffff;
+
+//
+// Scaffolding
+//
+$body-bg: #f2f4f5;
+
+//
+// Spacing
+//
+$base-spacing-unit: $base-font-size;
+$half-spacing-unit: $base-spacing-unit / 2;
