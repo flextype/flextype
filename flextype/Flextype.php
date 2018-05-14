@@ -109,8 +109,8 @@ class Flextype
         // Create Plugins Instance
         Plugins::instance();
 
-        // Create Pages Instance
-        Pages::instance();
+        // Create Content Instance
+        Content::instance();
 
         // Flush (send) the output buffer and turn off output buffering
         ob_end_flush();
