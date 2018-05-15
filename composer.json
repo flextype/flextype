@@ -44,9 +44,6 @@
     "autoload": {
         "classmap": [
             "flextype"
-        ],
-        "files": [
-            "flextype/boot/defines.php"
         ]
     }
 }
