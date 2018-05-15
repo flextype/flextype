@@ -144,15 +144,33 @@ class Content
     /**
      * Get page
      */
-    public static function getPage(string $url = '', bool $raw = false, bool $url_abs = false) : array
+    public static function getPage(string $url = '', bool $raw = false) : array
     {
-        $file = Content::pageFinder($url, $url_abs);
+        // if $url is empty then set path for defined main page
+        if ($url === '') {
+            $file_path = PATH['pages'] . '/' . Registry::get('site.pages.main') . '/page.md';
+        } else {
+            $file_path = PATH['pages'] . '/'  . $url . '/page.md';
+        }
 
+        // Get 404 page if page file is not exists
+        if (Filesystem::fileExists($file_path)) {
+            $file_path = $file_path;
+        } else {
+            if (Filesystem::fileExists($file_path = PATH['pages'] . '/404/page.md')) {
+                $file_path = $file_path;
+                Http::setResponseStatus(404);
+            } else {
+                throw new \RuntimeException("404 page file does not exist.");
+            }
+        }
+
+        // Get raw page if $raw is true
         if ($raw) {
-            Content::$page = Content::processPageRaw($file);
+            Content::$page = Content::processPage($file_path, true);
             Event::dispatch('onPageContentRawAfter');
         } else {
-            Content::$page = Content::processPage($file);
+            Content::$page = Content::processPage($file_path);
             Event::dispatch('onPageContentAfter');
         }
 
@@ -219,54 +237,55 @@ class Content
         return Content::$shortcode;
     }
 
-    public static function processPageRaw(string $file) : string
-    {
-        return trim(Filesystem::getFileContent($file));
-    }
-
-    public static function processPage(string $file) : array
+    public static function processPage(string $file, bool $raw = false)
     {
         // Get page from file
         $page = trim(Filesystem::getFileContent($file));
 
-        // Create $page_frontmatter and $page_content
-        $page = explode('---', $page, 3);
-        $page_frontmatter = $page[1];
-        $page_content     = $page[2];
+        // Return raw page if $raw is true
+        if ($raw) {
+            return $page;
+        } else {
 
-        // Create empty $_page
-        $_page = [];
+            // Create $page_frontmatter and $page_content
+            $page = explode('---', $page, 3);
+            $page_frontmatter = $page[1];
+            $page_content     = $page[2];
 
-        // Process $page_frontmatter with YAML and Shortcodes parsers
-        $_page = Yaml::parse(Content::processContentShortcodes($page_frontmatter));
+            // Create empty $_page
+            $_page = [];
 
-        // Create page url item
-        $url = str_replace(PATH['pages'] , Http::getBaseUrl(), $file);
-        $url = str_replace('page.md', '', $url);
-        $url = str_replace('.md', '', $url);
-        $url = str_replace('\\', '/', $url);
-        $url = str_replace('///', '/', $url);
-        $url = str_replace('//', '/', $url);
-        $url = str_replace('http:/', 'http://', $url);
-        $url = str_replace('https:/', 'https://', $url);
-        $url = str_replace('/'.Registry::get('site.pages.main'), '', $url);
-        $url = rtrim($url, '/');
-        $_page['url'] = $url;
+            // Process $page_frontmatter with YAML and Shortcodes parsers
+            $_page = Yaml::parse(Content::processContentShortcodes($page_frontmatter));
 
-        // Create page slug item
-        $url = str_replace(Http::getBaseUrl(), '', $url);
-        $url = ltrim($url, '/');
-        $url = rtrim($url, '/');
-        $_page['slug'] = str_replace(Http::getBaseUrl(), '', $url);
+            // Create page url item
+            $url = str_replace(PATH['pages'] , Http::getBaseUrl(), $file);
+            $url = str_replace('page.md', '', $url);
+            $url = str_replace('.md', '', $url);
+            $url = str_replace('\\', '/', $url);
+            $url = str_replace('///', '/', $url);
+            $url = str_replace('//', '/', $url);
+            $url = str_replace('http:/', 'http://', $url);
+            $url = str_replace('https:/', 'https://', $url);
+            $url = str_replace('/'.Registry::get('site.pages.main'), '', $url);
+            $url = rtrim($url, '/');
+            $_page['url'] = $url;
 
-        // Create page date item
-        $_page['date'] = $result_page['date'] ?? date(Registry::get('site.date_format'), filemtime($file));
+            // Create page slug item
+            $url = str_replace(Http::getBaseUrl(), '', $url);
+            $url = ltrim($url, '/');
+            $url = rtrim($url, '/');
+            $_page['slug'] = str_replace(Http::getBaseUrl(), '', $url);
 
-        // Create page content item with $page_content
-        $_page['content'] = Content::processContent($page_content);
+            // Create page date item
+            $_page['date'] = $result_page['date'] ?? date(Registry::get('site.date_format'), filemtime($file));
 
-        // Return page
-        return $_page;
+            // Create page content item with $page_content
+            $_page['content'] = Content::processContent($page_content);
+
+            // Return page
+            return $_page;
+        }
     }
 
     public static function processContentShortcodes(string $content) : string
