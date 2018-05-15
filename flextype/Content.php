@@ -94,6 +94,11 @@ class Content
 
     /**
      * Get current page
+     *
+     * $page = Content::getCurrentPage();
+     *
+     * @access  public
+     * @return  array
      */
     public static function getCurrentPage() : array
     {
@@ -101,13 +106,14 @@ class Content
     }
 
     /**
-     * Page finder
+     * Method for searhing pages in the system
      *
-     * @access  public
-     * @param string $url
-     * @param bool   $url_abs
+     * @access public
+     * @param  string $url
+     * @param  bool   $url_abs
+     * @return string
      */
-    public static function finder(string $url = '', bool $url_abs = false) : string
+    public static function pageFinder(string $url = '', bool $url_abs = false) : string
     {
         // If url is empty that its a homepage
         if ($url_abs) {
@@ -140,7 +146,7 @@ class Content
      */
     public static function getPage(string $url = '', bool $raw = false, bool $url_abs = false) : array
     {
-        $file = Content::finder($url, $url_abs);
+        $file = Content::pageFinder($url, $url_abs);
 
         if ($raw) {
             Content::$page = Content::processPageRaw($file);
