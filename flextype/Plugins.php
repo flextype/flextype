@@ -99,13 +99,13 @@ class Plugins
 
             // Go through...
             foreach ($plugins_list as $plugin) {
-                if (Filesystem::fileExists($_plugin = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yaml')) {
+                if (Filesystem::fileExists($_plugin = PATH['plugins'] . '/' . $plugin . '/' . $plugin . '.yaml')) {
                     $plugins_cache_id .= filemtime($_plugin);
                 }
             }
 
             // Create Unique Cache ID for Plugins
-            $plugins_cache_id = md5('plugins' . PLUGINS_PATH . $plugins_cache_id);
+            $plugins_cache_id = md5('plugins' . PATH['plugins'] . '/'  . $plugins_cache_id);
         }
 
         // Get plugins list from cache or scan plugins folder and create new plugins cache item
@@ -119,7 +119,7 @@ class Plugins
                 // Go through...
                 foreach ($plugins_list as $plugin) {
 
-                    if (Filesystem::fileExists($_plugin_manifest = PLUGINS_PATH . '/' . $plugin . '/' . $plugin . '.yaml')) {
+                    if (Filesystem::fileExists($_plugin_manifest = PATH['plugins'] . '/' . $plugin . '/' . $plugin . '.yaml')) {
                         $plugin_manifest = Yaml::parseFile($_plugin_manifest);
                     }
 
@@ -135,7 +135,7 @@ class Plugins
         if (is_array($plugins_list) && count($plugins_list) > 0) {
             foreach (static::$locales as $locale => $locale_title) {
                 foreach ($plugins_list as $plugin) {
-                    $language_file = PLUGINS_PATH . '/' . $plugin . '/languages/' . $locale . '.yaml';
+                    $language_file = PATH['plugins'] . '/' . $plugin . '/languages/' . $locale . '.yaml';
                     if (Filesystem::fileExists($language_file)) {
                         I18n::add($plugin, $locale, Yaml::parseFile($language_file));
                     }
@@ -147,7 +147,7 @@ class Plugins
         if (is_array(Registry::get('plugins')) && count(Registry::get('plugins')) > 0) {
             foreach (Registry::get('plugins') as $plugin_name => $plugin) {
                 if (Registry::get('plugins.'.$plugin_name.'.enabled')) {
-                    include_once PLUGINS_PATH .'/'. $plugin_name .'/'. $plugin_name . '.php';
+                    include_once PATH['plugins'] . '/' . $plugin_name .'/'. $plugin_name . '.php';
                 }
             }
         }

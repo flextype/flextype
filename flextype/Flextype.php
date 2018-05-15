@@ -66,7 +66,7 @@ class Flextype
         Registry::set('site', []);
 
         // Set site items if site config exists
-        if (Filesystem::fileExists($site_config = CONFIG_PATH . '/' . 'site.yaml')) {
+        if (Filesystem::fileExists($site_config = PATH['config'] . '/' . 'site.yaml')) {
             Registry::set('site', Yaml::parseFile($site_config));
         } else {
             throw new \RuntimeException("Flextype site config file does not exist.");

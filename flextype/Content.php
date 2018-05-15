@@ -114,13 +114,13 @@ class Content
             if ($url) {
                 $file = $url;
             } else {
-                $file = PAGES_PATH . '/' . Registry::get('site.pages.main') . '/' . 'page.md';
+                $file = PATH['pages'] . '/' . Registry::get('site.pages.main') . '/' . 'page.md';
             }
         } else {
             if ($url) {
-                $file = PAGES_PATH . '/' . $url . '/page.md';
+                $file = PATH['pages'] . '/'  . $url . '/page.md';
             } else {
-                $file = PAGES_PATH . '/' . Registry::get('site.pages.main') . '/' . 'page.md';
+                $file = PATH['pages'] . '/' . Registry::get('site.pages.main') . '/' . 'page.md';
             }
         }
 
@@ -128,7 +128,7 @@ class Content
         if (Filesystem::fileExists($file)) {
             $file = $file;
         } else {
-            $file = PAGES_PATH . '/404/page.md';
+            $file = PATH['pages'] . '/404/page.md';
             Http::setResponseStatus(404);
         }
 
@@ -166,7 +166,7 @@ class Content
         if ($url == '') {
 
             // Get pages list
-            $pages_list = Filesystem::getFilesList(PAGES_PATH, 'md');
+            $pages_list = Filesystem::getFilesList(PATH['pages'] . '/' , 'md');
 
             // Create pages array from pages list
             foreach ($pages_list as $key => $page) {
@@ -176,7 +176,7 @@ class Content
         } else {
 
             // Get pages list
-            $pages_list = Filesystem::getFilesList(PAGES_PATH . '/' . $url, 'md');
+            $pages_list = Filesystem::getFilesList(PATH['pages'] . '/' . $url, 'md');
 
             // Create pages array from pages list and ignore current requested page
             foreach ($pages_list as $key => $page) {
@@ -235,7 +235,7 @@ class Content
         $_page = Yaml::parse(Content::processContentShortcodes($page_frontmatter));
 
         // Create page url item
-        $url = str_replace(PAGES_PATH, Http::getBaseUrl(), $file);
+        $url = str_replace(PATH['pages'] , Http::getBaseUrl(), $file);
         $url = str_replace('page.md', '', $url);
         $url = str_replace('.md', '', $url);
         $url = str_replace('\\', '/', $url);
