@@ -106,39 +106,18 @@ class Content
     }
 
     /**
-     * Method for searhing pages in the system
+     * Update current page
      *
-     * @access public
-     * @param  string $url
-     * @param  bool   $url_abs
-     * @return string
+     * Content::updateCurrentPage('title', 'New page title');
+     *
+     * @access  public
+     * @param   string   $path   Array path
+     * @param   mixed    $value  Value to set
+     * @return  void
      */
-    public static function pageFinder(string $url = '', bool $url_abs = false) : string
+    public static function updateCurrentPage(string $path, $value) : void
     {
-        // If url is empty that its a homepage
-        if ($url_abs) {
-            if ($url) {
-                $file = $url;
-            } else {
-                $file = PATH['pages'] . '/' . Registry::get('site.pages.main') . '/' . 'page.md';
-            }
-        } else {
-            if ($url) {
-                $file = PATH['pages'] . '/'  . $url . '/page.md';
-            } else {
-                $file = PATH['pages'] . '/' . Registry::get('site.pages.main') . '/' . 'page.md';
-            }
-        }
-
-        // Get 404 page if file not exists
-        if (Filesystem::fileExists($file)) {
-            $file = $file;
-        } else {
-            $file = PATH['pages'] . '/404/page.md';
-            Http::setResponseStatus(404);
-        }
-
-        return $file;
+        Arr::set(Content::$page, $path, $value);
     }
 
     /**
@@ -172,6 +151,16 @@ class Content
         } else {
             Content::$page = Content::processPage($file_path);
             Event::dispatch('onPageContentAfter');
+
+            // Get 404 page if page is not published
+            if (isset(Content::$page['published']) && Content::$page['published'] === false) {
+                if (Filesystem::fileExists($file_path = PATH['pages'] . '/404/page.md')) {
+                    Content::$page = Content::processPage($file_path);
+                    Http::setResponseStatus(404);
+                } else {
+                    throw new \RuntimeException("404 page file does not exist.");
+                }
+            }
         }
 
         return Content::$page;
@@ -187,14 +176,14 @@ class Content
 
         // Get pages for $url
         // If $url is empty then we want to have a list of pages for /pages dir.
-        if ($url == '') {
+        if ($url === '') {
 
             // Get pages list
             $pages_list = Filesystem::getFilesList(PATH['pages'] . '/' , 'md');
 
             // Create pages array from pages list
             foreach ($pages_list as $key => $page) {
-                $pages[$key] = static::getPage($page, $raw, true);
+                $pages[$key] = Content::processPage($page, $raw);
             }
 
         } else {
@@ -204,10 +193,10 @@ class Content
 
             // Create pages array from pages list and ignore current requested page
             foreach ($pages_list as $key => $page) {
-                if (strpos($page, $url.'/page.md') !== false) {
+                if (strpos($page, $url . '/page.md') !== false) {
                     // ignore ...
                 } else {
-                    $pages[$key] = static::getPage($page, $raw, true);
+                    $pages[$key] = Content::processPage($page, $raw);
                 }
             }
 
