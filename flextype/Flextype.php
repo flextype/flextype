@@ -100,9 +100,6 @@ class Flextype
         // Create Cache Instance
         Cache::instance();
 
-        // Create Shortcodes Instance
-        Shortcodes::instance();
-
         // Create Themes Instance
         Themes::instance();
 
