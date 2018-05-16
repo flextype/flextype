@@ -122,8 +122,15 @@ class Content
 
     /**
      * Get page
+     *
+     * $page = Content::getPage('projects');
+     *
+     * @access  public
+     * @param   string   $url  Page url
+     * @param   bool     $raw  Raw or not raw content
+     * @return  array|string
      */
-    public static function getPage(string $url = '', bool $raw = false) : array
+    public static function getPage(string $url = '', bool $raw = false)
     {
         // if $url is empty then set path for defined main page
         if ($url === '') {
@@ -167,9 +174,19 @@ class Content
     }
 
     /**
-     * Get Pages
+     * Get pages
+     *
+     * $pages = Content::getPages('projects');
+     *
+     * @access  public
+     * @param   string  $url  Page url
+     * @param   bool    $raw  Raw or not raw content
+     * @param   string  $order_by  Order type
+     * @param   int     $offset  Offset
+     * @param   int     $length  Length
+     * @return  array
      */
-    public static function getPages(string $url = '', bool $raw = false, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null)
+    public static function getPages(string $url = '', bool $raw = false, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null) : array
     {
         // Pages array where founded pages will stored
         $pages = [];
@@ -226,10 +243,20 @@ class Content
         return Content::$shortcode;
     }
 
-    public static function processPage(string $file, bool $raw = false)
+    /**
+     * Process page
+     *
+     * $page = Content::processPage(PATH['pages'] . '/home/page.md');
+     *
+     * @access public
+     * @param  string $file_path File path
+     * @param  string $raw       Raw or not raw content
+     * @return array|string
+     */
+    public static function processPage(string $file_path, bool $raw = false)
     {
         // Get page from file
-        $page = trim(Filesystem::getFileContent($file));
+        $page = trim(Filesystem::getFileContent($file_path));
 
         // Return raw page if $raw is true
         if ($raw) {
@@ -245,10 +272,10 @@ class Content
             $_page = [];
 
             // Process $page_frontmatter with YAML and Shortcodes parsers
-            $_page = Yaml::parse(Content::processContentShortcodes($page_frontmatter));
+            $_page = Yaml::parse(Content::processShortcodes($page_frontmatter));
 
             // Create page url item
-            $url = str_replace(PATH['pages'] , Http::getBaseUrl(), $file);
+            $url = str_replace(PATH['pages'] , Http::getBaseUrl(), $file_path);
             $url = str_replace('page.md', '', $url);
             $url = str_replace('.md', '', $url);
             $url = str_replace('\\', '/', $url);
@@ -267,7 +294,7 @@ class Content
             $_page['slug'] = str_replace(Http::getBaseUrl(), '', $url);
 
             // Create page date item
-            $_page['date'] = $result_page['date'] ?? date(Registry::get('site.date_format'), filemtime($file));
+            $_page['date'] = $result_page['date'] ?? date(Registry::get('site.date_format'), filemtime($file_path));
 
             // Create page content item with $page_content
             $_page['content'] = Content::processContent($page_content);
@@ -277,20 +304,47 @@ class Content
         }
     }
 
-    public static function processContentShortcodes(string $content) : string
+    /**
+     * Process shortcodes
+     *
+     * $content = Content::processShortcodes($content);
+     *
+     * @access public
+     * @param  string $content Content to parse
+     * @return string
+     */
+    public static function processShortcodes(string $content) : string
     {
         return Content::shortcode()->process($content);
     }
 
-    public static function processContentMarkdown(string $content) : string
+    /**
+     * Process markdown
+     *
+     * $content = Content::processMarkdown($content);
+     *
+     * @access public
+     * @param  string $content Content to parse
+     * @return string
+     */
+    public static function processMarkdown(string $content) : string
     {
         return Content::$markdown->text($content);
     }
 
+    /**
+     * Process content with markdown and shortcodes processors
+     *
+     * $content = Content::processContent($content);
+     *
+     * @access public
+     * @param  string $content Content to parse
+     * @return string
+     */
     public static function processContent(string $content) : string
     {
-        $content = Content::processContentShortcodes($content);
-        $content = Content::processContentMarkdown($content);
+        $content = Content::processShortcodes($content);
+        $content = Content::processMarkdown($content);
 
         return $content;
     }
@@ -299,6 +353,7 @@ class Content
      * Register default shortcodes
      *
      * @access protected
+     * @return void
      */
     protected static function registerDefaultShortcodes() : void
     {
