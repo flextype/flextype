@@ -70,15 +70,14 @@ class Themes
     }
 
     /**
-     * Return the Themes instance.
-     * Create it if it's not already created.
+     * Get themes view
      *
      * @param  string $template  Template file
      * @param  string $variables Variables
      * @access public
      * @return object
      */
-    public static function template(string $template, array $variables = [])
+    public static function view(string $template, array $variables = [])
     {
         // Set view file
         // From current theme folder or from plugin folder

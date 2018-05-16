@@ -374,7 +374,7 @@ class Content
      */
     protected static function displayCurrentPage() : void
     {
-        Themes::template(empty(Content::$page['template']) ? 'templates/default' : 'templates/' . Content::$page['template'])
+        Themes::view(empty(Content::$page['template']) ? 'templates/default' : 'templates/' . Content::$page['template'])
             ->assign('page', Content::$page, true)
             ->display();
     }
