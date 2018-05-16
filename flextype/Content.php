@@ -382,6 +382,10 @@ class Content
         Content::shortcode()->addHandler('block', function(ShortcodeInterface $s) {
             return Content::getBlock($s->getParameter('name'));
         });
+
+        Content::shortcode()->addHandler('registry', function(ShortcodeInterface $s) {
+            return Registry::get($s->getParameter('item'));
+        });
     }
 
     /**
