@@ -139,38 +139,48 @@ class Content
             $file_path = PATH['pages'] . '/'  . $url . '/page.md';
         }
 
-        // Get 404 page if page file is not exists
-        if (Filesystem::fileExists($file_path)) {
-            $file_path = $file_path;
+        // Page cache id
+        $page_cache_id = md5('page' . filemtime($file_path) . (($raw === true) ? 'true' : 'false'));
+
+        // Try to get page from cache
+        if (Cache::driver()->contains($page_cache_id)) {
+            return Cache::driver()->fetch($page_cache_id);
         } else {
-            if (Filesystem::fileExists($file_path = PATH['pages'] . '/404/page.md')) {
+
+            // Get 404 page if page file is not exists
+            if (Filesystem::fileExists($file_path)) {
                 $file_path = $file_path;
-                Http::setResponseStatus(404);
             } else {
-                throw new \RuntimeException("404 page file does not exist.");
-            }
-        }
-
-        // Get raw page if $raw is true
-        if ($raw) {
-            Content::$page = Content::processPage($file_path, true);
-            Event::dispatch('onPageContentRawAfter');
-        } else {
-            Content::$page = Content::processPage($file_path);
-            Event::dispatch('onPageContentAfter');
-
-            // Get 404 page if page is not published
-            if (isset(Content::$page['published']) && Content::$page['published'] === false) {
                 if (Filesystem::fileExists($file_path = PATH['pages'] . '/404/page.md')) {
-                    Content::$page = Content::processPage($file_path);
+                    $file_path = $file_path;
                     Http::setResponseStatus(404);
                 } else {
                     throw new \RuntimeException("404 page file does not exist.");
                 }
             }
-        }
 
-        return Content::$page;
+            // Get raw page if $raw is true
+            if ($raw) {
+                Content::$page = Content::processPage($file_path, true);
+                Event::dispatch('onPageContentRawAfter');
+            } else {
+                Content::$page = Content::processPage($file_path);
+                Event::dispatch('onPageContentAfter');
+
+                // Get 404 page if page is not published
+                if (isset(Content::$page['published']) && Content::$page['published'] === false) {
+                    if (Filesystem::fileExists($file_path = PATH['pages'] . '/404/page.md')) {
+                        Content::$page = Content::processPage($file_path);
+                        Http::setResponseStatus(404);
+                    } else {
+                        throw new \RuntimeException("404 page file does not exist.");
+                    }
+                }
+            }
+
+            Cache::driver()->save($page_cache_id, Content::$page);
+            return Content::$page;
+        }
     }
 
     /**
@@ -188,48 +198,66 @@ class Content
      */
     public static function getPages(string $url = '', bool $raw = false, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null) : array
     {
-        // Pages array where founded pages will stored
-        $pages = [];
-
-        // Get pages for $url
-        // If $url is empty then we want to have a list of pages for /pages dir.
+        // if $url is empty then set path for defined main page
         if ($url === '') {
+            $file_path = PATH['pages'] . '/';
+        } else {
+            $file_path = PATH['pages'] . '/' . $url;
+        }
 
-            // Get pages list
-            $pages_list = Filesystem::getFilesList(PATH['pages'] . '/' , 'md');
+        // Page cache id
+        $pages_cache_id = md5('pages' . $file_path . (($raw === true) ? 'true' : 'false') . $order_by . $order_type . $offset . $length);
 
-            // Create pages array from pages list
-            foreach ($pages_list as $key => $page) {
-                $pages[$key] = Content::processPage($page, $raw);
-            }
-
+        // Try to get pages from cache
+        if (Cache::driver()->contains($pages_cache_id)) {
+            return Cache::driver()->fetch($pages_cache_id);
         } else {
 
-            // Get pages list
-            $pages_list = Filesystem::getFilesList(PATH['pages'] . '/' . $url, 'md');
+            // Pages array where founded pages will stored
+            $pages = [];
 
-            // Create pages array from pages list and ignore current requested page
-            foreach ($pages_list as $key => $page) {
-                if (strpos($page, $url . '/page.md') !== false) {
-                    // ignore ...
-                } else {
+            // Get pages for $url
+            // If $url is empty then we want to have a list of pages for /pages dir.
+            if ($url === '') {
+
+                // Get pages list
+                $pages_list = Filesystem::getFilesList($file_path , 'md');
+
+                // Create pages array from pages list
+                foreach ($pages_list as $key => $page) {
                     $pages[$key] = Content::processPage($page, $raw);
+                }
+
+            } else {
+
+                // Get pages list
+                $pages_list = Filesystem::getFilesList($file_path, 'md');
+
+                // Create pages array from pages list and ignore current requested page
+                foreach ($pages_list as $key => $page) {
+                    if (strpos($page, $url . '/page.md') !== false) {
+                        // ignore ...
+                    } else {
+                        $pages[$key] = Content::processPage($page, $raw);
+                    }
+                }
+
+            }
+
+            // Sort and Slice pages if $raw === false
+            if (!$raw) {
+                $pages = Arr::sort($pages, $order_by, $order_type);
+
+                if ($offset !== null && $length !== null) {
+                    $pages = array_slice($pages, $offset, $length);
                 }
             }
 
+            Cache::driver()->save($pages_cache_id, $pages);
+
+            // Return pages array
+            return $pages;
         }
-
-        // Sort and Slice pages if $raw === false
-        if (!$raw) {
-            $pages = Arr::sort($pages, $order_by, $order_type);
-
-            if ($offset !== null && $length !== null) {
-                $pages = array_slice($pages, $offset, $length);
-            }
-        }
-
-        // Return pages array
-        return $pages;
     }
 
     /**
@@ -239,14 +267,33 @@ class Content
      *
      * @access public
      * @param  string  $block_name  Block name
+     * @param  bool    $raw  Raw or not raw content
      * @return string
      */
-    public static function getBlock($block_name) : string
+    public static function getBlock($block_name, $raw = false) : string
     {
-        if (Filesystem::fileExists($block_path = PATH['blocks'] . '/' . $block_name . '.md')) {
-            return Content::processContent(Filesystem::getFileContent($block_path));
+        $block_path = PATH['blocks'] . '/' . $block_name . '.md';
+
+        // Block cache id
+        $block_cache_id = md5('block' . filemtime($block_path) . (($raw === true) ? 'true' : 'false'));
+
+        // Try to get block from cache
+        if (Cache::driver()->contains($block_cache_id)) {
+            return Cache::driver()->fetch($block_cache_id);
         } else {
-            throw new \RuntimeException("Block does not exist.");
+            if (Filesystem::fileExists($block_path)) {
+
+                $content = Filesystem::getFileContent($block_path);
+
+                if ($raw === false) {
+                    $content = Content::processContent($content);
+                }
+
+                Cache::driver()->save($block_cache_id, $content);
+                return $content;
+            } else {
+                throw new \RuntimeException("Block does not exist.");
+            }
         }
     }
 
@@ -380,7 +427,7 @@ class Content
         });
 
         Content::shortcode()->addHandler('block', function(ShortcodeInterface $s) {
-            return Content::getBlock($s->getParameter('name'));
+            return Content::getBlock($s->getParameter('name'), (($s->getParameter('raw') === 'true') ? true : false));
         });
 
         Content::shortcode()->addHandler('registry', function(ShortcodeInterface $s) {
