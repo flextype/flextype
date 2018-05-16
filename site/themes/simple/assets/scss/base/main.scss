@@ -5,8 +5,8 @@
 
 html,
 body {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 16px;
+    font-family: $base-font-family;
+    font-size: $base-font-size;
 
     height: 100%;
 
@@ -20,7 +20,7 @@ input,
 select,
 textarea,
 p {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: $base-font-family;
     font-weight: 400;
 
     color: black;
@@ -28,7 +28,7 @@ p {
 
 body,
 p {
-    line-height: 26px;
+    line-height: $base-line-height;
 }
 
 pre {
