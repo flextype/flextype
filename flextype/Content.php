@@ -14,9 +14,9 @@ namespace Flextype;
 
 use Flextype\Component\{Arr\Arr, Http\Http, Filesystem\Filesystem, Event\Event, Registry\Registry};
 use Symfony\Component\Yaml\Yaml;
-use ParsedownExtra as Markdown;
 use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
+use ParsedownExtra as Markdown;
 
 class Content
 {
@@ -45,7 +45,7 @@ class Content
     private static $shortcode = null;
 
     /**
-     * Current page array
+     * Current page data array
      *
      * @var array
      * @access protected
