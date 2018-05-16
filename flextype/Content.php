@@ -233,6 +233,24 @@ class Content
     }
 
     /**
+     * Get block
+     *
+     * $block = Content::getBlock('block-name');
+     *
+     * @access public
+     * @param  string  $block_name  Block name
+     * @return string
+     */
+    public static function getBlock($block_name) : string
+    {
+        if (Filesystem::fileExists($block_path = PATH['blocks'] . '/' . $block_name . '.md')) {
+            return Content::processContent(Filesystem::getFileContent($block_path));
+        } else {
+            throw new \RuntimeException("Block does not exist.");
+        }
+    }
+
+    /**
      * Returns $shortcode object
      *
      * @access public
@@ -362,7 +380,7 @@ class Content
         });
 
         Content::shortcode()->addHandler('block', function(ShortcodeInterface $s) {
-            return $s->getParameter('name');
+            return Content::getBlock($s->getParameter('name'));
         });
     }
 
