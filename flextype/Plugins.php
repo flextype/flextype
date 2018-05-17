@@ -100,59 +100,59 @@ class Plugins
             // Go through...
             foreach ($plugins_list as $plugin) {
                 if (Filesystem::fileExists($_plugin = PATH['plugins'] . '/' . $plugin . '/' . $plugin . '.yaml')) {
-                    $plugins_cache_id .= filemtime($_plugin);
+                    $_plugins_cache_id .= filemtime($_plugin);
                 }
             }
 
             // Create Unique Cache ID for Plugins
-            $plugins_cache_id = md5('plugins' . PATH['plugins'] . '/'  . $plugins_cache_id);
-        }
+            $plugins_cache_id = md5('plugins' . PATH['plugins'] . '/'  . $_plugins_cache_id);
 
-        // Get plugins list from cache or scan plugins folder and create new plugins cache item
-        if (Cache::driver()->contains($plugins_cache_id)) {
-            Registry::set('plugins', Cache::driver()->fetch($plugins_cache_id));
-        } else {
+            // Get plugins list from cache or scan plugins folder and create new plugins cache item
+            if (Cache::driver()->contains($plugins_cache_id)) {
+                Registry::set('plugins', Cache::driver()->fetch($plugins_cache_id));
+            } else {
 
-            // If Plugins List isnt empty
+                // If Plugins List isnt empty
+                if (is_array($plugins_list) && count($plugins_list) > 0) {
+
+                    // Go through...
+                    foreach ($plugins_list as $plugin) {
+
+                        if (Filesystem::fileExists($_plugin_manifest = PATH['plugins'] . '/' . $plugin . '/' . $plugin . '.yaml')) {
+                            $plugin_manifest = Yaml::parseFile($_plugin_manifest);
+                        }
+
+                        $_plugins_config[basename($_plugin_manifest, '.yaml')] = $plugin_manifest;
+                    }
+
+                    Registry::set('plugins', $_plugins_config);
+                    Cache::driver()->save($plugins_cache_id, $_plugins_config);
+                }
+            }
+
+            // Create Dictionary
             if (is_array($plugins_list) && count($plugins_list) > 0) {
-
-                // Go through...
-                foreach ($plugins_list as $plugin) {
-
-                    if (Filesystem::fileExists($_plugin_manifest = PATH['plugins'] . '/' . $plugin . '/' . $plugin . '.yaml')) {
-                        $plugin_manifest = Yaml::parseFile($_plugin_manifest);
-                    }
-
-                    $_plugins_config[basename($_plugin_manifest, '.yaml')] = $plugin_manifest;
-                }
-
-                Registry::set('plugins', $_plugins_config);
-                Cache::driver()->save($plugins_cache_id, $_plugins_config);
-            }
-        }
-
-        // Create dictionary
-        if (is_array($plugins_list) && count($plugins_list) > 0) {
-            foreach (static::$locales as $locale => $locale_title) {
-                foreach ($plugins_list as $plugin) {
-                    $language_file = PATH['plugins'] . '/' . $plugin . '/languages/' . $locale . '.yaml';
-                    if (Filesystem::fileExists($language_file)) {
-                        I18n::add($plugin, $locale, Yaml::parseFile($language_file));
+                foreach (static::$locales as $locale => $locale_title) {
+                    foreach ($plugins_list as $plugin) {
+                        $language_file = PATH['plugins'] . '/' . $plugin . '/languages/' . $locale . '.yaml';
+                        if (Filesystem::fileExists($language_file)) {
+                            I18n::add($plugin, $locale, Yaml::parseFile($language_file));
+                        }
                     }
                 }
             }
-        }
 
-        // Include enabled plugins
-        if (is_array(Registry::get('plugins')) && count(Registry::get('plugins')) > 0) {
-            foreach (Registry::get('plugins') as $plugin_name => $plugin) {
-                if (Registry::get('plugins.'.$plugin_name.'.enabled')) {
-                    include_once PATH['plugins'] . '/' . $plugin_name .'/'. $plugin_name . '.php';
+            // Include enabled plugins
+            if (is_array(Registry::get('plugins')) && count(Registry::get('plugins')) > 0) {
+                foreach (Registry::get('plugins') as $plugin_name => $plugin) {
+                    if (Registry::get('plugins.'.$plugin_name.'.enabled')) {
+                        include_once PATH['plugins'] . '/' . $plugin_name .'/'. $plugin_name . '.php';
+                    }
                 }
             }
-        }
 
-        Event::dispatch('onPluginsInitialized');
+            Event::dispatch('onPluginsInitialized');
+        }
     }
 
     /**
