@@ -87,6 +87,7 @@ class Plugins
 
         // Plugin cache id
         $plugins_cache_id = '';
+        $_plugins_cache_id = '';
 
         // Get Plugins List
         $plugins_list = Registry::get('site.plugins');
