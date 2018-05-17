@@ -2,7 +2,12 @@
   "name": "flextype",
   "version": "1.0.0",
   "devDependencies": {
-    "bootstrap": "^4.1.0",
+    "es6-promise": "^4.2.4",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-csso": "^3.0.1",
+    "gulp-sass": "^4.0.1",
+    "bootstrap": "^4.1.1",
     "jquery": "^3.3.1"
   }
 }

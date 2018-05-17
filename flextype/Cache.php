@@ -84,7 +84,7 @@ class Cache
         static::$now = time();
 
         // Create cache key to allow invalidate all cache on configuration changes.
-        static::$key = (Registry::get('site.cache.prefix') ?? 'flextype') . '-' . md5(ROOT_DIR . Flextype::VERSION);
+        static::$key = (Registry::get('site.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . Flextype::VERSION);
 
         // Get Cache Driver
         static::$driver = static::getCacheDriver();
@@ -166,7 +166,7 @@ class Cache
                 break;
             default:
                 // Create doctrine cache directory if its not exists
-                !Filesystem::fileExists($cache_directory = CACHE_PATH . '/doctrine/') and Filesystem::createDir($cache_directory);
+                !Filesystem::fileExists($cache_directory = PATH['cache'] . '/doctrine/') and Filesystem::createDir($cache_directory);
                 $driver = new DoctrineCache\FilesystemCache($cache_directory);
                 break;
         }
@@ -243,7 +243,7 @@ class Cache
         function_exists('opcache_reset') and @opcache_reset();
 
         // Remove cache dir
-        Filesystem::deleteDir(CACHE_PATH . '/doctrine/');
+        Filesystem::deleteDir(PATH['cache'] . '/doctrine/');
     }
 
     /**

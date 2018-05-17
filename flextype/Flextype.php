@@ -40,7 +40,7 @@ class Flextype
      *
      * @var string
      */
-    const VERSION = '0.3.0';
+    const VERSION = '0.4.0';
 
     /**
      * Constructor.
@@ -66,7 +66,7 @@ class Flextype
         Registry::set('site', []);
 
         // Set site items if site config exists
-        if (Filesystem::fileExists($site_config = CONFIG_PATH . '/' . 'site.yaml')) {
+        if (Filesystem::fileExists($site_config = PATH['config'] . '/' . 'site.yaml')) {
             Registry::set('site', Yaml::parseFile($site_config));
         } else {
             throw new \RuntimeException("Flextype site config file does not exist.");
@@ -100,17 +100,14 @@ class Flextype
         // Create Cache Instance
         Cache::instance();
 
-        // Create Shortcodes Instance
-        Shortcodes::instance();
-
         // Create Themes Instance
         Themes::instance();
 
         // Create Plugins Instance
         Plugins::instance();
 
-        // Create Pages Instance
-        Pages::instance();
+        // Create Content Instance
+        Content::instance();
 
         // Flush (send) the output buffer and turn off output buffering
         ob_end_flush();

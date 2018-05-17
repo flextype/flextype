@@ -51,16 +51,17 @@ class Themes
         // Get current theme
         $theme = Registry::get('site.theme');
 
-        // Set empty theme item
-        Registry::set('theme', []);
+        // Set empty themes items
+        Registry::set('themes', []);
 
         // Create Unique Cache ID for Theme
-        $theme_cache_id = md5('theme' . THEMES_PATH . $theme);
+        $theme_cache_id = md5('theme' . PATH['themes'] . $theme);
 
+        // Get Theme mafifest file and write to site.themes array
         if (Cache::driver()->contains($theme_cache_id)) {
             Registry::set('themes.'.Registry::get('site.theme'), Cache::driver()->fetch($theme_cache_id));
         } else {
-            if (Filesystem::fileExists($theme_manifest_file = THEMES_PATH . '/' . $theme . '/' . $theme . '.yaml')) {
+            if (Filesystem::fileExists($theme_manifest_file = PATH['themes'] . '/' . $theme . '/' . $theme . '.yaml')) {
                 $theme_manifest = Yaml::parseFile($theme_manifest_file);
                 Registry::set('themes.'.Registry::get('site.theme'), $theme_manifest);
                 Cache::driver()->save($theme_cache_id, $theme_manifest);
@@ -69,22 +70,21 @@ class Themes
     }
 
     /**
-     * Return the Themes instance.
-     * Create it if it's not already created.
+     * Get themes view
      *
      * @param  string $template  Template file
      * @param  string $variables Variables
      * @access public
      * @return object
      */
-    public static function template(string $template, array $variables = [])
+    public static function view(string $template, array $variables = [])
     {
         // Set view file
         // From current theme folder or from plugin folder
-        if (Filesystem::fileExists(THEMES_PATH . '/' . Registry::get('site.theme') . '/views/' . $template . View::$view_ext)) {
-            $template = THEMES_PATH . '/' . Registry::get('site.theme') . '/views/' . $template;
+        if (Filesystem::fileExists(PATH['themes'] . '/' . Registry::get('site.theme') . '/views/' . $template . View::$view_ext)) {
+            $template = PATH['themes'] . '/' . Registry::get('site.theme') . '/views/' . $template;
         } else {
-            $template = PLUGINS_PATH . '/views/' . $template;
+            $template = PATH['plugins'] . '/' . $template;
         }
 
         // Return template

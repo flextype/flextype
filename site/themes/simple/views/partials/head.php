@@ -16,13 +16,10 @@
 
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css'>
 
-    <!-- Bootstrap core CSS -->
-	<link href="<?php echo Http::getBaseUrl(); ?>/site/themes/<?php echo Registry::get('site.theme'); ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="<?php echo Http::getBaseUrl(); ?>/site/themes/<?php echo Registry::get('site.theme'); ?>/assets/dist/css/simple.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-	<link href="<?php echo Http::getBaseUrl(); ?>/site/themes/<?php echo Registry::get('site.theme'); ?>/assets/css/theme.css" rel="stylesheet">
-	<?php Event::dispatch('onThemeHeader'); ?>
+    <?php Event::dispatch('onThemeHeader'); ?>
   </head>
   <body>
-  <?php Themes::template('partials/navigation')->display(); ?>
+  <?php Themes::view('partials/navigation')->display(); ?>
   <main role="main" class="container content">

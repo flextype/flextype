@@ -1,3 +1,16 @@
+# Flextype 0.4.0, 2018-05-16
+* Using SCSS for Simple theme
+* Using Flextype Form Component
+* Themes: class bug fixes
+* Plugins: access for $locales changed to private
+* Plugins: cache bug fixes
+* New powerful Content class added for working with content instead of Pages, Shortcode, Markdown
+* Content: new page field: `published` added
+* Content: method for page blocks added
+* Content: cache added for pages and blocks
+* define CONSTANTS in PHP7 style
+* Themes: changing from template() to view()
+
 # Flextype 0.3.0, 2018-05-05
 * Using Flextype Components instead of Symphony Components
 * Available Flextype Components for developers: Arr, Assets, Cookie, Date, Debug, ErrorHandler, Event, Filesystem, Html, Http, I18n, Notification, Number, Registry, Session, Text, Token, View.
