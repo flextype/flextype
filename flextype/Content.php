@@ -139,8 +139,12 @@ class Content
             $file_path = PATH['pages'] . '/'  . $url . '/page.md';
         }
 
+        $page_cache_id = '';
+
         // Page cache id
-        $page_cache_id = md5('page' . filemtime($file_path) . (($raw === true) ? 'true' : 'false'));
+        if (Filesystem::fileExists($file_path)) {
+            $page_cache_id = md5('page' . filemtime($file_path) . (($raw === true) ? 'true' : 'false'));
+        }
 
         // Try to get page from cache
         if (Cache::driver()->contains($page_cache_id)) {
