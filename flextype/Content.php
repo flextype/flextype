@@ -143,7 +143,7 @@ class Content
 
         // Page cache id
         if (Filesystem::fileExists($file_path)) {
-            $page_cache_id = md5('page' . filemtime($file_path) . (($raw === true) ? 'true' : 'false'));
+            $page_cache_id = md5('page' . $file_path . filemtime($file_path) . (($raw === true) ? 'true' : 'false'));
         }
 
         // Try to get page from cache
@@ -282,7 +282,7 @@ class Content
         $block_cache_id = '';
 
         if (Filesystem::fileExists($block_path)) {
-            $block_cache_id = md5('block' . filemtime($block_path) . (($raw === true) ? 'true' : 'false'));
+            $block_cache_id = md5('block' . $block_path . filemtime($block_path) . (($raw === true) ? 'true' : 'false'));
         }
 
         // Try to get block from cache
