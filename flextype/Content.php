@@ -279,7 +279,11 @@ class Content
         $block_path = PATH['blocks'] . '/' . $block_name . '.md';
 
         // Block cache id
-        $block_cache_id = md5('block' . filemtime($block_path) . (($raw === true) ? 'true' : 'false'));
+        $block_cache_id = '';
+
+        if (Filesystem::fileExists($block_path)) {
+            $block_cache_id = md5('block' . filemtime($block_path) . (($raw === true) ? 'true' : 'false'));
+        }
 
         // Try to get block from cache
         if (Cache::driver()->contains($block_cache_id)) {
