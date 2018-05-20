@@ -1,3 +1,9 @@
+# Flextype 0.4.1, 2018-05-20
+* Fixing issues with cache for getPages() method.
+* Fixing issues with processPage() method.
+* Fixing issues with all public methods in Cache class, from now all methods are static.
+* Setting site.pages.flush_cache was removed from site.yaml file.
+
 # Flextype 0.4.0, 2018-05-16
 * Using SCSS for Simple theme
 * Using Flextype Form Component
