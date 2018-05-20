@@ -49,7 +49,7 @@ class Flextype
      */
     protected function __construct()
     {
-        static::init();
+        Flextype::init();
     }
 
     /**

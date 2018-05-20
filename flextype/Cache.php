@@ -69,7 +69,7 @@ class Cache
      */
     protected function __construct()
     {
-        static::init();
+        Cache::init();
     }
 
     /**
@@ -81,16 +81,16 @@ class Cache
     protected static function init() : void
     {
         // Set current time
-        static::$now = time();
+        Cache::$now = time();
 
         // Create cache key to allow invalidate all cache on configuration changes.
-        static::$key = (Registry::get('site.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . Flextype::VERSION);
+        Cache::$key = (Registry::get('site.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . Flextype::VERSION);
 
         // Get Cache Driver
-        static::$driver = static::getCacheDriver();
+        Cache::$driver = Cache::getCacheDriver();
 
         // Set the cache namespace to our unique key
-        static::$driver->setNamespace(static::$key);
+        Cache::$driver->setNamespace(Cache::$key);
     }
 
     /**
@@ -181,7 +181,7 @@ class Cache
      */
     public static function driver()
     {
-        return static::$driver;
+        return Cache::$driver;
     }
 
     /**
@@ -192,7 +192,7 @@ class Cache
      */
     public static function getKey() : string
     {
-        return static::$key;
+        return Cache::$key;
     }
 
     /**
@@ -202,10 +202,25 @@ class Cache
      * @param string $id The id of the cache entry to fetch.
      * @return mixed The cached data or FALSE, if no cache entry exists for the given id.
      */
-    public function fetch(string $id)
+    public static function fetch(string $id)
     {
         if (Registry::get('site.cache.enabled')) {
-            return static::$driver->fetch($id);
+            return Cache::$driver->fetch($id);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Returns a boolean state of whether or not the item exists in the cache based on id key
+     *
+     * @param string $id    the id of the cached data entry
+     * @return bool         true if the cached items exists
+     */
+    public static function contains($id)
+    {
+        if (Registry::get('site.cache.enabled')) {
+            return Cache::$driver->contains(($id));
         } else {
             return false;
         }
@@ -221,13 +236,13 @@ class Cache
      *                         If zero (the default), the entry never expires (although it may be deleted from the cache
      *                         to make place for other entries).
      */
-    public function save(string $id, $data, $lifetime = null)
+    public static function save(string $id, $data, $lifetime = null)
     {
         if (Registry::get('site.cache.enabled')) {
             if ($lifetime === null) {
-                $lifetime = static::getLifetime();
+                $lifetime = Cache::getLifetime();
             }
-            static::$driver->save($id, $data, $lifetime);
+            Cache::$driver->save($id, $data, $lifetime);
         }
     }
 
@@ -258,10 +273,10 @@ class Cache
             return;
         }
 
-        $interval = $future - static::$now;
+        $interval = $future - Cache::$now;
 
-        if ($interval > 0 && $interval < static::getLifetime()) {
-            static::$lifetime = $interval;
+        if ($interval > 0 && $interval < Cache::getLifetime()) {
+            Cache::$lifetime = $interval;
         }
     }
 
@@ -273,11 +288,11 @@ class Cache
      */
     public static function getLifetime()
     {
-        if (static::$lifetime === null) {
-            static::$lifetime = Registry::get('site.cache.lifetime') ?: 604800;
+        if (Cache::$lifetime === null) {
+            Cache::$lifetime = Registry::get('site.cache.lifetime') ?: 604800;
         }
 
-        return static::$lifetime;
+        return Cache::$lifetime;
     }
 
     /**

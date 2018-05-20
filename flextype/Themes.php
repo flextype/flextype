@@ -31,7 +31,7 @@ class Themes
      */
     protected function __construct()
     {
-        static::init();
+        Themes::init();
     }
 
     /**
@@ -58,13 +58,13 @@ class Themes
         $theme_cache_id = md5('theme' . PATH['themes'] . $theme);
 
         // Get Theme mafifest file and write to site.themes array
-        if (Cache::driver()->contains($theme_cache_id)) {
-            Registry::set('themes.'.Registry::get('site.theme'), Cache::driver()->fetch($theme_cache_id));
+        if (Cache::contains($theme_cache_id)) {
+            Registry::set('themes.'.Registry::get('site.theme'), Cache::fetch($theme_cache_id));
         } else {
             if (Filesystem::fileExists($theme_manifest_file = PATH['themes'] . '/' . $theme . '/' . $theme . '.yaml')) {
                 $theme_manifest = Yaml::parseFile($theme_manifest_file);
                 Registry::set('themes.'.Registry::get('site.theme'), $theme_manifest);
-                Cache::driver()->save($theme_cache_id, $theme_manifest);
+                Cache::save($theme_cache_id, $theme_manifest);
             }
         }
     }
