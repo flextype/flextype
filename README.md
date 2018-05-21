@@ -4,11 +4,33 @@
 
 Flextype is next generation of Legendary Monstra Engine it is also Open Source, fast and flexible file-based Content Management System. That's Easy to install, upgrade and use. Flextype provides amazing API's for plugins, themes and core developers! Content in Flextype is just a simple files written with markdown syntax in pages folder. You simply create markdown files in the pages folder and that becomes a page.
 
-## Requirements
+## FEATURES
+
+#### Simple
+Easy to install, upgrade and use.  
+No installation needed, just copy files to your server!  
+
+#### Fast
+Flextype is realy fast and lightweight!  
+No database required, flat files only!  
+
+#### Flexible
+Flextype provides amazing API for plugins, themes and core developers!  
+
+#### Markdown Syntax
+Use your favorite editor to write your content with plain Markdown syntax.  
+
+#### Dynamic Content Types
+The flat-file nature of Flextype lets you define custom fields for any of your pages.  
+
+#### Open Source
+Flextype is an open-source project licensed under the MIT LICENSE to set the world free!  
+
+## REQUIREMENTS
 PHP 7.1.3 or higher with PHP's [Multibyte String module](http://php.net/mbstring)   
 Apache with [Mod Rewrite](http://httpd.apache.org/docs/current/mod/mod_rewrite.html)  
 
-## Installation
+## INSTALLATION
 
 #### Using (S)FTP
 
@@ -32,18 +54,43 @@ cd /flextype/site/themes/simple
 npm install
 ```
 
-## Contributing
-1. Help on the [Forum.](http://forum.flextype.org)
-2. Develop a new plugin.
-3. Create a new theme.
-4. Find and [report issues.](https://github.com/flextype/flextype/issues)
-5. Link back to [Flextype](http://flextype.org).
 
-## Links
+## COMMUNITY
+Flextype is open source, community driven project, and maintained by community!
+
+* [Forum](http://forum.flextype.org)
+* [Github Repository](https://github.com/flextype/flextype)
+* [Gitter](https://gitter.im/flextype/flextype)
+
+
+## NO LIMITS
+With Flextype you can create any project you whant.
+
+* Business site
+* Landing page
+* Personal site
+* Portfolio
+* Product site
+* Documenation
+* Personal resume
+* Blog
+
+
+## CONTRIBUTE
+Flextype is an open source project and community contributions are essential to its growing and success. Contributing to the Flextype is easy and you can give as little or as much time as you want.   
+* Help on the [Forum.](http://forum.flextype.org)
+* Develop a new plugin.
+* Create a new theme.
+* Find and [report issues.](https://github.com/flextype/flextype/issues)
+* Link back to [Flextype](http://flextype.org).
+* [Donate to keep Flextype free.](http://flextype.org/about/sponsors)
+
+
+## LINKS
 - [Site](http://flextype.org)
 - [Forum](http://forum.flextype.org)
 - [Documentation](http://flextype.org/documentation)
-- [Github Repository](https://github.com/flextype/flextype)
 
-## License
+
+## LICENSE
 See [LICENSE](https://github.com/flextype/flextype/blob/master/LICENSE.md)
