@@ -18,7 +18,6 @@ plugins:
 locale: "en"
 
 pages:
-  flush_cache: false
   main: home
 
 errors:

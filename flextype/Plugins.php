@@ -71,7 +71,7 @@ class Plugins
      */
     protected function __construct()
     {
-        static::init();
+        Plugins::init();
     }
 
     /**
@@ -95,6 +95,7 @@ class Plugins
         // Set empty plugins item
         Registry::set('plugins', []);
 
+
         // If Plugins List isnt empty then create plugin cache ID
         if (is_array($plugins_list) && count($plugins_list) > 0) {
 
@@ -109,8 +110,8 @@ class Plugins
             $plugins_cache_id = md5('plugins' . PATH['plugins'] . '/'  . $_plugins_cache_id);
 
             // Get plugins list from cache or scan plugins folder and create new plugins cache item
-            if (Cache::driver()->contains($plugins_cache_id)) {
-                Registry::set('plugins', Cache::driver()->fetch($plugins_cache_id));
+            if (Cache::contains($plugins_cache_id)) {
+                Registry::set('plugins', Cache::fetch($plugins_cache_id));
             } else {
 
                 // If Plugins List isnt empty
@@ -127,13 +128,13 @@ class Plugins
                     }
 
                     Registry::set('plugins', $_plugins_config);
-                    Cache::driver()->save($plugins_cache_id, $_plugins_config);
+                    Cache::save($plugins_cache_id, $_plugins_config);
                 }
             }
 
             // Create Dictionary
             if (is_array($plugins_list) && count($plugins_list) > 0) {
-                foreach (static::$locales as $locale => $locale_title) {
+                foreach (Plugins::$locales as $locale => $locale_title) {
                     foreach ($plugins_list as $plugin) {
                         $language_file = PATH['plugins'] . '/' . $plugin . '/languages/' . $locale . '.yaml';
                         if (Filesystem::fileExists($language_file)) {

@@ -40,7 +40,7 @@ class Flextype
      *
      * @var string
      */
-    const VERSION = '0.4.0';
+    const VERSION = '0.4.1';
 
     /**
      * Constructor.
@@ -49,7 +49,7 @@ class Flextype
      */
     protected function __construct()
     {
-        static::init();
+        Flextype::init();
     }
 
     /**

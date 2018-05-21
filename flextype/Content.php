@@ -59,7 +59,7 @@ class Content
      */
     protected function __construct()
     {
-        static::init();
+        Content::init();
     }
 
     /**
@@ -147,8 +147,8 @@ class Content
         }
 
         // Try to get page from cache
-        if (Cache::driver()->contains($page_cache_id)) {
-            return Cache::driver()->fetch($page_cache_id);
+        if (Cache::contains($page_cache_id)) {
+            return Cache::fetch($page_cache_id);
         } else {
 
             // Get 404 page if page file is not exists
@@ -182,7 +182,7 @@ class Content
                 }
             }
 
-            Cache::driver()->save($page_cache_id, Content::$page);
+            Cache::save($page_cache_id, Content::$page);
             return Content::$page;
         }
     }
@@ -209,34 +209,52 @@ class Content
             $file_path = PATH['pages'] . '/' . $url;
         }
 
-        // Page cache id
-        $pages_cache_id = md5('pages' . $file_path . (($raw === true) ? 'true' : 'false') . $order_by . $order_type . $offset . $length);
+        // Pages array where founded pages will stored
+        $pages = [];
 
-        // Try to get pages from cache
-        if (Cache::driver()->contains($pages_cache_id)) {
-            return Cache::driver()->fetch($pages_cache_id);
-        } else {
+        // Pages cache id
+        $pages_cache_id = '';
 
-            // Pages array where founded pages will stored
-            $pages = [];
+        // Get pages for $url
+        // If $url is empty then we want to have a list of pages for /pages dir.
+        if ($url === '') {
 
-            // Get pages for $url
-            // If $url is empty then we want to have a list of pages for /pages dir.
-            if ($url === '') {
+            // Get pages list
+            $pages_list = Filesystem::getFilesList($file_path , 'md');
 
-                // Get pages list
-                $pages_list = Filesystem::getFilesList($file_path , 'md');
+            // Create pages cached id
+            foreach ($pages_list as $key => $page) {
+                $pages_cache_id .= md5('pages' . $page . filemtime($page) . (($raw === true) ? 'true' : 'false') . $order_by . $order_type . $offset . $length);
+            }
 
+            if (Cache::contains($pages_cache_id)) {
+                $pages = Cache::fetch($pages_cache_id);
+            } else {
                 // Create pages array from pages list
                 foreach ($pages_list as $key => $page) {
                     $pages[$key] = Content::processPage($page, $raw);
                 }
 
+                Cache::save($pages_cache_id, $pages);
+            }
+
+        } else {
+
+            // Get pages list
+            $pages_list = Filesystem::getFilesList($file_path, 'md');
+
+            // Create pages cached id
+            foreach ($pages_list as $key => $page) {
+                if (strpos($page, $url . '/page.md') !== false) {
+                    // ignore ...
+                } else {
+                    $pages_cache_id .= md5('pages' . $page . filemtime($page) . (($raw === true) ? 'true' : 'false') . $order_by . $order_type . $offset . $length);
+                }
+            }
+
+            if (Cache::contains($pages_cache_id)) {
+                $pages = Cache::fetch($pages_cache_id);
             } else {
-
-                // Get pages list
-                $pages_list = Filesystem::getFilesList($file_path, 'md');
-
                 // Create pages array from pages list and ignore current requested page
                 foreach ($pages_list as $key => $page) {
                     if (strpos($page, $url . '/page.md') !== false) {
@@ -246,22 +264,22 @@ class Content
                     }
                 }
 
+                Cache::save($pages_cache_id, $pages);
             }
-
-            // Sort and Slice pages if $raw === false
-            if (!$raw) {
-                $pages = Arr::sort($pages, $order_by, $order_type);
-
-                if ($offset !== null && $length !== null) {
-                    $pages = array_slice($pages, $offset, $length);
-                }
-            }
-
-            Cache::driver()->save($pages_cache_id, $pages);
-
-            // Return pages array
-            return $pages;
         }
+
+        // Sort and Slice pages if $raw === false
+        if (!$raw) {
+            $pages = Arr::sort($pages, $order_by, $order_type);
+
+            if ($offset !== null && $length !== null) {
+                $pages = array_slice($pages, $offset, $length);
+            }
+        }
+
+        // Return pages array
+        return $pages;
+
     }
 
     /**
@@ -286,8 +304,8 @@ class Content
         }
 
         // Try to get block from cache
-        if (Cache::driver()->contains($block_cache_id)) {
-            return Cache::driver()->fetch($block_cache_id);
+        if (Cache::contains($block_cache_id)) {
+            return Cache::fetch($block_cache_id);
         } else {
             if (Filesystem::fileExists($block_path)) {
 
@@ -297,7 +315,7 @@ class Content
                     $content = Content::processContent($content);
                 }
 
-                Cache::driver()->save($block_cache_id, $content);
+                Cache::save($block_cache_id, $content);
                 return $content;
             } else {
                 throw new \RuntimeException("Block does not exist.");
@@ -367,7 +385,7 @@ class Content
             $_page['slug'] = str_replace(Http::getBaseUrl(), '', $url);
 
             // Create page date item
-            $_page['date'] = $result_page['date'] ?? date(Registry::get('site.date_format'), filemtime($file_path));
+            $_page['date'] = $_page['date'] ?? date(Registry::get('site.date_format'), filemtime($file_path));
 
             // Create page content item with $page_content
             $_page['content'] = Content::processContent($page_content);
