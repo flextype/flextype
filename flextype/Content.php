@@ -73,14 +73,11 @@ class Content
         // Event: The page is not processed and not sent to the display.
         Event::dispatch('onPageBeforeRender');
 
-        // Create Markdown Parser object
-        Content::$markdown = new Markdown();
+        // Init Markdown
+        Content::initMarkdown();
 
-        // Create Shortcode Parser object
-        Content::$shortcode = new ShortcodeFacade();
-
-        // Register default shortcodes
-        Content::registerDefaultShortcodes();
+        // Init Shortcodes
+        Content::initShortcodes();
 
         // Set current requested page data to $page array
         Content::$page = Content::getPage(Http::getUriString());
@@ -324,6 +321,17 @@ class Content
     }
 
     /**
+     * Returns $markdown object
+     *
+     * @access public
+     * @return object
+     */
+    public static function markdown() : Markdown
+    {
+        return Content::$markdown;
+    }
+
+    /**
      * Returns $shortcode object
      *
      * @access public
@@ -459,6 +467,39 @@ class Content
         Content::shortcode()->addHandler('registry', function(ShortcodeInterface $s) {
             return Registry::get($s->getParameter('item'));
         });
+    }
+
+    /**
+     * Init Markdown
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function initMarkdown() : void
+    {
+        // Create Markdown Parser object
+        Content::$markdown = new Markdown();
+
+        // Event: Markdown initialized
+        Event::dispatch('onMarkdownInitialized');
+    }
+
+    /**
+     * Init Shortcodes
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function initShortcodes() : void
+    {
+        // Create Shortcode Parser object
+        Content::$shortcode = new ShortcodeFacade();
+
+        // Register default shortcodes
+        Content::registerDefaultShortcodes();
+
+        // Event: Shortcodes initialized and now we can add our custom shortcodes
+        Event::dispatch('onShortcodesInitialized');
     }
 
     /**
