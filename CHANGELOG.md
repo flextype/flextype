@@ -1,3 +1,8 @@
+# Flextype 0.4.2, 2018-05-22
+* Settings: cache.enabled is true from now
+* Content: new methods added: initShortcodes() initMarkdown() markdown()
+* Events: new events added: onMarkdownInitialized and onShortcodesInitialized
+
 # Flextype 0.4.1, 2018-05-20
 * Fixing issues with cache for getPages() method.
 * Fixing issues with processPage() method.
