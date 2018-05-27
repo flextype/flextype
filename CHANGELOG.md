@@ -1,3 +1,9 @@
+# Flextype 0.4.3, 2018-05-28
+* robots.txt file was removed, use Robots plugin instead
+* Content: processCurrentPage() method added
+* Content: event names changed: onPageBeforeRender to onCurrentPageBeforeProcessed
+* Content: event names changed: onPageAfterRender to onCurrentPageAfterProcessed
+
 # Flextype 0.4.2, 2018-05-22
 * Settings: cache.enabled is true from now
 * Content: new methods added: initShortcodes() initMarkdown() markdown()
