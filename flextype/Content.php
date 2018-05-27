@@ -63,7 +63,7 @@ class Content
     }
 
     /**
-     * Init Pages
+     * Init Content
      *
      * @access protected
      * @return void
@@ -74,7 +74,7 @@ class Content
     }
 
     /**
-     * Process Current Pages
+     * Process Current Page
      *
      * @access protected
      * @return void
