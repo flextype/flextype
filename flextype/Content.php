@@ -70,6 +70,17 @@ class Content
      */
     protected static function init() : void
     {
+        Content::processCurrentPage();
+    }
+
+    /**
+     * Process Current Pages
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function processCurrentPage() : void
+    {
         // Event: The page is not processed and not sent to the display.
         Event::dispatch('onPageBeforeRender');
 
