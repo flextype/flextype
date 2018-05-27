@@ -97,7 +97,7 @@ class Content
         Content::displayCurrentPage();
 
         // Event: The page has been fully processed and sent to the display.
-        Event::dispatch('onCurrentPageDisplayed');
+        Event::dispatch('onCurrentPageAfterProcessed');
     }
 
     /**
