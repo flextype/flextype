@@ -82,7 +82,7 @@ class Content
     protected static function processCurrentPage() : void
     {
         // Event: The page is not processed and not sent to the display.
-        Event::dispatch('onPageBeforeRender');
+        Event::dispatch('onCurrentPageBeforeProcessed');
 
         // Init Markdown
         Content::initMarkdown();
@@ -97,7 +97,7 @@ class Content
         Content::displayCurrentPage();
 
         // Event: The page has been fully processed and sent to the display.
-        Event::dispatch('onPageAfterRender');
+        Event::dispatch('onCurrentPageDisplayed');
     }
 
     /**
