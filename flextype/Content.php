@@ -93,6 +93,9 @@ class Content
         // Set current requested page data to $page array
         Content::$page = Content::getPage(Http::getUriString());
 
+        // Event: The page has been fully processed and not sent to the display.
+        Event::dispatch('onCurrentPageBeforeDisplayed');
+
         // Display page for current requested url
         Content::displayCurrentPage();
 
@@ -521,6 +524,7 @@ class Content
      */
     protected static function displayCurrentPage() : void
     {
+        Http::setRequestHeaders('Content-Type: text/html; charset='.Registry::get('site.charset'));
         Themes::view(empty(Content::$page['template']) ? 'templates/default' : 'templates/' . Content::$page['template'])
             ->assign('page', Content::$page, true)
             ->display();
