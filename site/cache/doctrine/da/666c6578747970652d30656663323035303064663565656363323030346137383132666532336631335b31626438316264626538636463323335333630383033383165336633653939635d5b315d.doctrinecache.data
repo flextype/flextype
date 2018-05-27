@@ -1,0 +1,22 @@
+1527849356
+a:7:{s:5:"title";s:7:"Welcome";s:11:"description";s:65:"Flextype is a simple and light-weighted Content Management System";s:8:"template";s:7:"default";s:3:"url";s:30:"http://localhost:8888/flextype";s:4:"slug";s:0:"";s:4:"date";s:21:"May 25 2018 10:35:56.";s:7:"content";s:1033:"<h2>Flextype is succesfully installed!</h2>
+<p>You can start editing the content and customising your site.</p>
+<h3>Edit this Page</h3>
+<p>To edit this page, simply go to the folder you installed Flextype, and then browse to the <code>/site/pages/home/</code> folder and open the <code>page.md</code> file in your editor.</p>
+<h3>Create a New page</h3>
+<p>Creating a new page is very simple in Flextype.  </p>
+<ol>
+<li>
+<p>Launch your text editor and paste this sample text:</p>
+<pre><code>---
+title: My New Page
+---
+# My New Page!
+
+This is the body of **My New Page**</code></pre>
+</li>
+<li>Save this file in the <code>/site/pages/my-new-page/</code> folder as <code>page.md</code> and its will be available by this url: <a href="http://localhost:8888/flextype/my-new-page">http://localhost:8888/flextype/my-new-page</a></li>
+</ol>
+<img src="http://lorempixel.com/g/400/200/sports/test" alt="Image">
+<p><img src="https://imgholder.ru/400x200/black/white.png&amp;text=&amp;font=roboto&amp;fz=12" alt="Image" /></p>
+<p>That is it!</p>";}

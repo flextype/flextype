@@ -1,0 +1,21 @@
+name: Imgholder
+version: 1.0.0
+description: "Imgholder plugin to create placeholder images for Flextype"
+author:
+  name: Sergey Romanenko
+  email: awilum@yandex.ru
+  url: http://flextype.org
+homepage: https://github.com/flextype-plugins/imgholder
+bugs: https://github.com/flextype-plugins/imgholder/issues
+license: MIT
+
+# Plugin settings
+enabled: true
+width: 400
+height: 200
+text: 'Imgholder'
+bg_color: black
+text_color: white
+ext: png
+font_name: roboto
+font_size: 50

@@ -1,0 +1,28 @@
+[25-May-2018 10:33:23] ParseError: syntax error, unexpected ')' in /Applications/MAMP/htdocs/flextype/site/plugins/imgholder/imgholder.php at line 32
+[25-May-2018 10:33:39] ErrorException: Compile Error: Redefinition of parameter $text_color in /Applications/MAMP/htdocs/flextype/site/plugins/imgholder/imgholder.php at line 46
+[25-May-2018 10:34:39] TypeError: Argument 1 passed to Flextype\imgholder() must be of the type string, null given, called in /Applications/MAMP/htdocs/flextype/site/plugins/imgholder/imgholder.php on line 31 in /Applications/MAMP/htdocs/flextype/site/plugins/imgholder/imgholder.php at line 46
+[25-May-2018 10:35:08] Error: Call to undefined function Flextype\pixel() in /Applications/MAMP/htdocs/flextype/site/themes/simple/views/templates/default.php at line 4
+[25-May-2018 13:31:48] ParseError: syntax error, unexpected '$rss_uri' (T_VARIABLE) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/feed.php at line 20
+[25-May-2018 13:31:55] Error: Class 'Flextype\Pages' not found in /Applications/MAMP/htdocs/flextype/site/plugins/feed/feed.php at line 31
+[25-May-2018 14:30:41] ErrorException: Notice: Undefined variable: uri_string in /Applications/MAMP/htdocs/flextype/site/plugins/feed/feed.php at line 28
+[25-May-2018 14:30:49] ErrorException: Notice: Undefined variable: uri_string in /Applications/MAMP/htdocs/flextype/site/plugins/feed/feed.php at line 28
+[25-May-2018 14:34:32] TypeError: Return value of Flextype\Content::shortcode() must be an instance of Thunder\Shortcode\ShortcodeFacade, null returned in /Applications/MAMP/htdocs/flextype/flextype/Content.php at line 342
+[25-May-2018 14:35:32] ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.php at line 1
+[25-May-2018 14:39:06] RuntimeException: Flextype\Component\View\View::__construct(): The '/Applications/MAMP/htdocs/flextype/site/plugins/maintenance/views/templates/rss' view does not exist. in /Applications/MAMP/htdocs/flextype/vendor/flextype-components/view/View.php at line 74
+[25-May-2018 14:39:18] ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.php at line 1
+[25-May-2018 14:40:22] ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.php at line 2
+[25-May-2018 14:40:26] ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.php at line 1
+[25-May-2018 14:42:29] ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.php at line 3
+[25-May-2018 14:44:25] ErrorException: Fatal Error: Method Flextype\Component\View\View::__toString() must not throw an exception, caught ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/feed.php at line 0
+[25-May-2018 14:45:07] ErrorException: Fatal Error: Method Flextype\Component\View\View::__toString() must not throw an exception, caught ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/feed.php at line 0
+[25-May-2018 14:45:15] ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.php at line 2
+[25-May-2018 14:45:25] ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.php at line 2
+[25-May-2018 14:45:34] ParseError: syntax error, unexpected '1.0' (T_DNUMBER), expecting ';' in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.php at line 3
+[25-May-2018 16:00:44] ParseError: syntax error, unexpected ',' in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.php at line 23
+[25-May-2018 16:01:00] ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.php at line 1
+[25-May-2018 16:01:17] ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.php at line 1
+[25-May-2018 16:04:00] ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.html at line 1
+[25-May-2018 16:04:01] ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.html at line 1
+[25-May-2018 16:04:10] RuntimeException: Flextype\Component\View\View::__construct(): The '/Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss' view does not exist. in /Applications/MAMP/htdocs/flextype/vendor/flextype-components/view/View.php at line 74
+[25-May-2018 16:04:19] ParseError: syntax error, unexpected 'version' (T_STRING) in /Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss.html at line 1
+[25-May-2018 16:07:03] RuntimeException: Flextype\Component\View\View::__construct(): The '/Applications/MAMP/htdocs/flextype/site/plugins/feed/views/templates/rss' view does not exist. in /Applications/MAMP/htdocs/flextype/vendor/flextype-components/view/View.php at line 74

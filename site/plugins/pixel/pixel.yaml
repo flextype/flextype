@@ -1,0 +1,17 @@
+name: Pixel
+version: 1.0.0
+description: "Pixel plugin to create placeholder images for Flextype"
+author:
+  name: Sergey Romanenko
+  email: awilum@yandex.ru
+  url: http://flextype.org
+homepage: https://github.com/flextype-plugins/pixel
+bugs: https://github.com/flextype-plugins/pixel/issues
+license: MIT
+
+# Plugin settings
+enabled: true
+width: 400
+height: 200
+category: sports
+text: ''

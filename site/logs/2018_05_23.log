@@ -1,0 +1,6 @@
+[23-May-2018 19:07:31] Error: Class 'Flextype\View' not found in /Applications/MAMP/htdocs/flextype/site/plugins/maintenance/maintenance.php at line 22
+[23-May-2018 19:10:04] Error: Class 'Flextype\Http' not found in /Applications/MAMP/htdocs/flextype/site/plugins/maintenance/maintenance.php at line 20
+[23-May-2018 20:43:46] Symfony\Component\Yaml\Exception\ParseException: Duplicate key "description" detected at line 16 (near "description: "Website will be available soon""). in /Applications/MAMP/htdocs/flextype/vendor/symfony/yaml/Parser.php at line 343
+[23-May-2018 20:45:06] Symfony\Component\Yaml\Exception\ParseException: Duplicate key "description" detected at line 16 (near "description: "Website will be available soon""). in /Applications/MAMP/htdocs/flextype/vendor/symfony/yaml/Parser.php at line 343
+[23-May-2018 20:45:46] Symfony\Component\Yaml\Exception\ParseException: Duplicate key "description" detected at line 16 (near "description: "Website will be available soon""). in /Applications/MAMP/htdocs/flextype/vendor/symfony/yaml/Parser.php at line 343
+[23-May-2018 20:46:53] RuntimeException: No item "plguins.maintenance.bg_img" exists in the registry. in /Applications/MAMP/htdocs/flextype/vendor/flextype-components/registry/Registry.php at line 71

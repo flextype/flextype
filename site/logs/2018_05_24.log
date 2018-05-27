@@ -1,0 +1,6 @@
+[24-May-2018 07:46:41] Error: Class 'Flextype\Shortcodes' not found in /Applications/MAMP/htdocs/flextype/site/plugins/pixel/pixel.php at line 23
+[24-May-2018 07:46:55] RuntimeException: No item "plugins.pixel.width" exists in the registry. in /Applications/MAMP/htdocs/flextype/vendor/flextype-components/registry/Registry.php at line 71
+[24-May-2018 07:48:18] RuntimeException: No item "plugins.pixel.width" exists in the registry. in /Applications/MAMP/htdocs/flextype/vendor/flextype-components/registry/Registry.php at line 71
+[24-May-2018 07:48:20] RuntimeException: No item "plugins.pixel.width" exists in the registry. in /Applications/MAMP/htdocs/flextype/vendor/flextype-components/registry/Registry.php at line 71
+[24-May-2018 07:51:24] TypeError: Return value of Flextype\Content::shortcode() must be an instance of Thunder\Shortcode\ShortcodeFacade, null returned in /Applications/MAMP/htdocs/flextype/flextype/Content.php at line 342
+[24-May-2018 08:23:08] TypeError: Argument 1 passed to Flextype\pixel() must be of the type string, null given, called in /Applications/MAMP/htdocs/flextype/site/plugins/pixel/pixel.php on line 28 in /Applications/MAMP/htdocs/flextype/site/plugins/pixel/pixel.php at line 33
