@@ -1,5 +1,6 @@
 # Flextype 0.4.3, 2018-05-28
 * robots.txt file was removed, use Robots plugin instead
+* Content: set text/html request headers for displayCurrentPage() method
 * Content: processCurrentPage() method added
 * Content: event names changed: onPageBeforeRender to onCurrentPageBeforeProcessed
 * Content: event names changed: onPageAfterRender to onCurrentPageAfterProcessed
