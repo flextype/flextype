@@ -63,7 +63,7 @@ class Content
     }
 
     /**
-     * Init Pages
+     * Init Content
      *
      * @access protected
      * @return void
@@ -74,7 +74,7 @@ class Content
     }
 
     /**
-     * Process Current Pages
+     * Process Current Page
      *
      * @access protected
      * @return void
@@ -82,7 +82,7 @@ class Content
     protected static function processCurrentPage() : void
     {
         // Event: The page is not processed and not sent to the display.
-        Event::dispatch('onPageBeforeRender');
+        Event::dispatch('onCurrentPageBeforeProcessed');
 
         // Init Markdown
         Content::initMarkdown();
@@ -93,11 +93,14 @@ class Content
         // Set current requested page data to $page array
         Content::$page = Content::getPage(Http::getUriString());
 
+        // Event: The page has been fully processed and not sent to the display.
+        Event::dispatch('onCurrentPageBeforeDisplayed');
+
         // Display page for current requested url
         Content::displayCurrentPage();
 
         // Event: The page has been fully processed and sent to the display.
-        Event::dispatch('onPageAfterRender');
+        Event::dispatch('onCurrentPageAfterProcessed');
     }
 
     /**
@@ -521,6 +524,7 @@ class Content
      */
     protected static function displayCurrentPage() : void
     {
+        Http::setRequestHeaders('Content-Type: text/html; charset='.Registry::get('site.charset'));
         Themes::view(empty(Content::$page['template']) ? 'templates/default' : 'templates/' . Content::$page['template'])
             ->assign('page', Content::$page, true)
             ->display();
