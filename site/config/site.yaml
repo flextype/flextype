@@ -14,7 +14,6 @@ charset: UTF-8
 theme: simple
 
 plugins:
-  - content-api
 
 locale: "en"
 
