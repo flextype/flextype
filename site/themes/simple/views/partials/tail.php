@@ -1,7 +1,9 @@
 <?php
     namespace Flextype;
-    use Flextype\Component\{Event\Event, Http\Http, Registry\Registry};
+    use Flextype\Component\{Event\Event, Http\Http, Registry\Registry, Assets\Assets};
 ?>
-<script src="<?php echo Http::getBaseUrl(); ?>/site/themes/<?php echo Registry::get('site.theme'); ?>/node_modules/jquery/dist/jquery.slim.min.js"></script>
-<script src="<?php echo Http::getBaseUrl(); ?>/site/themes/<?php echo Registry::get('site.theme'); ?>/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/themes/' . Registry::get('site.theme') . '/assets/dist/js/simple.min.js', 'site', 1); ?>
+<?php foreach (Assets::get('js', 'site') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
+    <script src="<?php echo $assets['asset']; ?>"></script>
+<?php } } ?>
 <?php Event::dispatch('onThemeFooter'); ?>
