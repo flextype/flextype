@@ -1,3 +1,8 @@
+# Flextype 0.4.4, 2018-05-29
+* Content: added abbility to work with CONTENT SECTIONS with help of shortcodes [section] and [section_create]
+* Content: getPage() method will only return data about requested page and will not insert them in global $page array.
+* Content: events: onPageContentAfter and onPageContentRawAfter was removed from getPage(), use event onCurrentPageBeforeDisplayed instead.
+
 # Flextype 0.4.3, 2018-05-28
 * Content: set text/html request headers for displayCurrentPage() method
 * Content: processCurrentPage() method added
