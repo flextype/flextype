@@ -6,7 +6,9 @@
 * Theme Simple: Using Assets Component for css and js
 * Theme Simple: New head meta added: description, keywords, robots, generator
 * Theme Simple: Meta charset getting from registry site.charset
-* Theme Simple: Fixed issue with broken paths for JS 
+* Theme Simple: Fixed issue with broken paths for JS
+* Theme Simple: gulpfile: build process updated
+* Theme Simple: package.json: added gulp-concat and gulp-sourcemaps
 
 # Flextype 0.4.3, 2018-05-28
 * Content: set text/html request headers for displayCurrentPage() method
