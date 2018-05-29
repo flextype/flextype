@@ -2,6 +2,11 @@
 * Content: added abbility to work with CONTENT SECTIONS with help of shortcodes [section] and [section_create]
 * Content: getPage() method will only return data about requested page and will not insert them in global $page array.
 * Content: events: onPageContentAfter and onPageContentRawAfter was removed from getPage(), use event onCurrentPageBeforeDisplayed instead.
+* Site Config: new items added: robots and description
+* Theme Simple: Using Assets Component for css and js
+* Theme Simple: New head meta added: description, keywords, robots, generator
+* Theme Simple: Meta charset getting from registry site.charset
+* Theme Simple: Fixed issue with broken paths for JS 
 
 # Flextype 0.4.3, 2018-05-28
 * Content: set text/html request headers for displayCurrentPage() method
