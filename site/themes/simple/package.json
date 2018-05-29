@@ -7,6 +7,8 @@
     "gulp-autoprefixer": "^5.0.0",
     "gulp-csso": "^3.0.1",
     "gulp-sass": "^4.0.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-sourcemaps": "^2.6.4",
     "bootstrap": "^4.1.1",
     "jquery": "^3.3.1"
   }
