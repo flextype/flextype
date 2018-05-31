@@ -23,11 +23,8 @@ define('PATH', ['site'     => ROOT_DIR . '/site',
                 'plugins'  => ROOT_DIR . '/site/plugins',
                 'themes'   => ROOT_DIR . '/site/themes',
                 'pages'    => ROOT_DIR . '/site/pages',
-                'blocks'   => ROOT_DIR . '/site/blocks',
-                'data'     => ROOT_DIR . '/site/data',
                 'config'   => ROOT_DIR . '/site/config',
-                'cache'    => ROOT_DIR . '/site/cache',
-                'accounts' => ROOT_DIR . '/site/accounts']);
+                'cache'    => ROOT_DIR . '/site/cache']);
 
 // Define the path to the logs directory (without trailing slash).
 define('LOGS_PATH', PATH['site'] . '/logs');
