@@ -92,11 +92,8 @@ class Content
         // Event: The page is not processed and not sent to the display.
         Event::dispatch('onCurrentPageBeforeProcessed');
 
-        // Init Markdown
-        Content::initMarkdown();
-
-        // Init Shortcodes
-        Content::initShortcodes();
+        // Init Parsers
+        Content::initParsers();
 
         // Set current requested page data to global $page array
         Content::$page = Content::getPage(Http::getUriString());
@@ -499,6 +496,21 @@ class Content
         Content::shortcode()->addHandler('section', function(ShortcodeInterface $s) {
             return Content::$sections[$s->getParameter('name')];
         });
+    }
+
+    /**
+     * Init Parsers
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function initParsers() : void
+    {
+        // Init Markdown
+        Content::initMarkdown();
+
+        // Init Shortcodes
+        Content::initShortcodes();
     }
 
     /**
