@@ -462,9 +462,8 @@ class Content
      */
     public static function processContent(string $content) : string
     {
-        $content = Content::processShortcodes($content);
         $content = Content::processMarkdown($content);
-
+        $content = Content::processShortcodes($content);
         return $content;
     }
 
