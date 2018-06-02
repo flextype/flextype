@@ -62,15 +62,7 @@ class Flextype
         // Turn on output buffering
         ob_start();
 
-        // Set empty site item
-        Registry::set('site', []);
-
-        // Set site items if site config exists
-        if (Filesystem::fileExists($site_config = PATH['config'] . '/' . 'site.yaml')) {
-            Registry::set('site', Yaml::parseFile($site_config));
-        } else {
-            throw new \RuntimeException("Flextype site config file does not exist.");
-        }
+        Flextype::setSiteConfig();
 
         // Set internal encoding
         function_exists('mb_language') and mb_language('uni');
@@ -125,6 +117,24 @@ class Flextype
         set_error_handler('Flextype\Component\ErrorHandler\ErrorHandler::error');
         register_shutdown_function('Flextype\Component\ErrorHandler\ErrorHandler::fatal');
         set_exception_handler('Flextype\Component\ErrorHandler\ErrorHandler::exception');
+    }
+
+    /**
+     * Set site config
+     *
+     * @access protected
+     */
+    protected static function setSiteConfig() : void
+    {
+        // Set empty site item
+        Registry::set('site', []);
+
+        // Set site items if site config exists
+        if (Filesystem::fileExists($site_config = PATH['config'] . '/' . 'site.yaml')) {
+            Registry::set('site', Yaml::parseFile($site_config));
+        } else {
+            throw new \RuntimeException("Flextype site config file does not exist.");
+        }
     }
 
     /**
