@@ -86,10 +86,8 @@ class Flextype
         function_exists('mb_regex_encoding') and mb_regex_encoding(Registry::get('site.charset'));
         function_exists('mb_internal_encoding') and mb_internal_encoding(Registry::get('site.charset'));
 
-        // Set Error handler
-        set_error_handler('Flextype\Component\ErrorHandler\ErrorHandler::error');
-        register_shutdown_function('Flextype\Component\ErrorHandler\ErrorHandler::fatal');
-        set_exception_handler('Flextype\Component\ErrorHandler\ErrorHandler::exception');
+        // Set error handler
+        Flextype::setErrorHandler();
 
         // Set default timezone
         date_default_timezone_set(Registry::get('site.timezone'));
@@ -111,6 +109,23 @@ class Flextype
 
         // Flush (send) the output buffer and turn off output buffering
         ob_end_flush();
+    }
+
+    /**
+     * Set error handler
+     *
+     * @access protected
+     */
+    protected static function setErrorHandler()
+    {
+        // Create directory for logs
+        !Filesystem::fileExists(LOGS_PATH) and Filesystem::createDir(LOGS_PATH);
+
+        // Set Error handler
+        set_error_handler('Flextype\Component\ErrorHandler\ErrorHandler::error');
+        register_shutdown_function('Flextype\Component\ErrorHandler\ErrorHandler::fatal');
+        set_exception_handler('Flextype\Component\ErrorHandler\ErrorHandler::exception');
+
     }
 
     /**
