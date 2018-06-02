@@ -72,15 +72,6 @@ class Flextype
             throw new \RuntimeException("Flextype site config file does not exist.");
         }
 
-        // Display Errors
-        if (Registry::get('site.errors.display')) {
-            define('DEVELOPMENT', true);
-            error_reporting(-1);
-        } else {
-            define('DEVELOPMENT', false);
-            error_reporting(0);
-        }
-
         // Set internal encoding
         function_exists('mb_language') and mb_language('uni');
         function_exists('mb_regex_encoding') and mb_regex_encoding(Registry::get('site.charset'));
@@ -116,8 +107,17 @@ class Flextype
      *
      * @access protected
      */
-    protected static function setErrorHandler()
+    protected static function setErrorHandler() : void
     {
+        // Display Errors
+        if (Registry::get('site.errors.display')) {
+            define('DEVELOPMENT', true);
+            error_reporting(-1);
+        } else {
+            define('DEVELOPMENT', false);
+            error_reporting(0);
+        }
+
         // Create directory for logs
         !Filesystem::fileExists(LOGS_PATH) and Filesystem::createDir(LOGS_PATH);
 
@@ -125,7 +125,6 @@ class Flextype
         set_error_handler('Flextype\Component\ErrorHandler\ErrorHandler::error');
         register_shutdown_function('Flextype\Component\ErrorHandler\ErrorHandler::fatal');
         set_exception_handler('Flextype\Component\ErrorHandler\ErrorHandler::exception');
-
     }
 
     /**
