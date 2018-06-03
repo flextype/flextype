@@ -1,5 +1,5 @@
 # Flextype
-![Version](https://img.shields.io/badge/version-0.4.4-brightgreen.svg?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.5.0-brightgreen.svg?style=flat-square)
 ![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 
 Flextype is next generation of Legendary Monstra Engine it is also Open Source, fast and flexible file-based Content Management System. That's Easy to install, upgrade and use. Flextype provides amazing API's for plugins, themes and core developers! Content in Flextype is just a simple files written with markdown syntax in pages folder. You simply create markdown files in the pages folder and that becomes a page.
@@ -52,6 +52,7 @@ Also you may need to install node_modules libs for default Simple Theme
 ```
 cd /flextype/site/themes/simple  
 npm install
+gulp
 ```
 
 

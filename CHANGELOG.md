@@ -1,3 +1,18 @@
+# Flextype 0.5.0, 2018-06-03
+* Delete folders: site/data and site/accounts
+* Delete folders: site/blocks and site/cache and site/logs
+* Constants: accounts, blocks, data - removed.
+* Flextype: new method setSiteConfig() added
+* Flextype: new method setErrorHandler() updates
+* Flextype: new method setErrorHandler() added
+* Content: new protected method initParsers()
+* Content: Blocks functionality removed - use Block Plugin
+* Content: Section shortcode removed - use Section plugin
+* Content: Site Url shortcode removed - use Site Url plugin
+* Content: Registry shotcode remobed - use Registry plugin
+* Content: Prevents automatic linking of URLs for Markdown parser
+* Content: Method registerDefaultShortcodes() removed
+
 # Flextype 0.4.4, 2018-05-29
 * Content: added ability to work with CONTENT SECTIONS with help of shortcodes [section] and [section_create]
 * Content: getPage() method will only return data about requested page and will not insert them in global $page array.

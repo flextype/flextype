@@ -53,14 +53,6 @@ class Content
     private static $page = [];
 
     /**
-     * Sections data array
-     *
-     * @var array
-     * @access protected
-     */
-    private static $sections = [];
-
-    /**
      * Protected constructor since this is a static class.
      *
      * @access  protected
@@ -92,11 +84,8 @@ class Content
         // Event: The page is not processed and not sent to the display.
         Event::dispatch('onCurrentPageBeforeProcessed');
 
-        // Init Markdown
-        Content::initMarkdown();
-
-        // Init Shortcodes
-        Content::initShortcodes();
+        // Init Parsers
+        Content::initParsers();
 
         // Set current requested page data to global $page array
         Content::$page = Content::getPage(Http::getUriString());
@@ -300,47 +289,6 @@ class Content
     }
 
     /**
-     * Get block
-     *
-     * $block = Content::getBlock('block-name');
-     *
-     * @access public
-     * @param  string  $block_name  Block name
-     * @param  bool    $raw  Raw or not raw content
-     * @return string
-     */
-    public static function getBlock($block_name, $raw = false) : string
-    {
-        $block_path = PATH['blocks'] . '/' . $block_name . '.md';
-
-        // Block cache id
-        $block_cache_id = '';
-
-        if (Filesystem::fileExists($block_path)) {
-            $block_cache_id = md5('block' . $block_path . filemtime($block_path) . (($raw === true) ? 'true' : 'false'));
-        }
-
-        // Try to get block from cache
-        if (Cache::contains($block_cache_id)) {
-            return Cache::fetch($block_cache_id);
-        } else {
-            if (Filesystem::fileExists($block_path)) {
-
-                $content = Filesystem::getFileContent($block_path);
-
-                if ($raw === false) {
-                    $content = Content::processContent($content);
-                }
-
-                Cache::save($block_cache_id, $content);
-                return $content;
-            } else {
-                throw new \RuntimeException("Block does not exist.");
-            }
-        }
-    }
-
-    /**
      * Returns $markdown object
      *
      * @access public
@@ -464,42 +412,22 @@ class Content
     {
         $content = Content::processShortcodes($content);
         $content = Content::processMarkdown($content);
-
         return $content;
     }
 
     /**
-     * Register default shortcodes
+     * Init Parsers
      *
      * @access protected
      * @return void
      */
-    protected static function registerDefaultShortcodes() : void
+    protected static function initParsers() : void
     {
-        // Shortcode: [site_url]
-        Content::shortcode()->addHandler('site_url', function() {
-            return Http::getBaseUrl();
-        });
+        // Init Markdown
+        Content::initMarkdown();
 
-        // Shortcode: [block name=block-name]
-        Content::shortcode()->addHandler('block', function(ShortcodeInterface $s) {
-            return Content::getBlock($s->getParameter('name'), (($s->getParameter('raw') === 'true') ? true : false));
-        });
-
-        // Shortcode: [registry item=site.title]
-        Content::shortcode()->addHandler('registry', function(ShortcodeInterface $s) {
-            return Registry::get($s->getParameter('item'));
-        });
-
-        // Shortcode: [section_create name=test]Section text here[/section_create]
-        Content::shortcode()->addHandler('section_create', function(ShortcodeInterface $s) {
-            Content::$sections[$s->getParameter('name')] = $s->getContent();
-        });
-
-        // Shortcode: [section name=test]
-        Content::shortcode()->addHandler('section', function(ShortcodeInterface $s) {
-            return Content::$sections[$s->getParameter('name')];
-        });
+        // Init Shortcodes
+        Content::initShortcodes();
     }
 
     /**
@@ -512,6 +440,9 @@ class Content
     {
         // Create Markdown Parser object
         Content::$markdown = new Markdown();
+
+        // Prevents automatic linking of URLs
+        Content::$markdown->setUrlsLinked(false);
 
         // Event: Markdown initialized
         Event::dispatch('onMarkdownInitialized');
@@ -527,9 +458,6 @@ class Content
     {
         // Create Shortcode Parser object
         Content::$shortcode = new ShortcodeFacade();
-
-        // Register default shortcodes
-        Content::registerDefaultShortcodes();
 
         // Event: Shortcodes initialized and now we can add our custom shortcodes
         Event::dispatch('onShortcodesInitialized');
