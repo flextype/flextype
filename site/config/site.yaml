@@ -3,7 +3,7 @@
 #
 
 title: "Flextype"
-description: "Best Open Source Flat-File Content Management System"
+description: "The Best Open Source Flat-File Content Management System"
 keywords: "flextype, php, cms, flat-file cms, flat cms, flatfile cms, markdown"
 robots: "index, follow"
 author:
@@ -23,7 +23,7 @@ pages:
   main: home
 
 errors:
-  display: true
+  display: false
 
 cache:
   enabled: true
