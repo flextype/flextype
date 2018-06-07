@@ -12,7 +12,7 @@
 
 RewriteEngine On
 
-RewriteBase /flextype/
+RewriteBase /
 
 ## Begin - Exploits
 # If you experience problems on your site block out the operations listed below
@@ -49,9 +49,9 @@ RewriteRule ^(\.git|flextype)/(.*) error [F]
 # Block access to specific file types for these system folders
 RewriteRule ^(flextype|vendor)/(.*)\.(txt|xml|md|html|yaml|yml|php|pl|py|cgi|sh|bat)$ error [F]
 # Block access to specific file types for these user folders
-RewriteRule ^(site)/(.*)\.(txt|md|yaml|yml|php|pl|py|cgi|sh|bat)$ error [F]
-# Block all direct access to .md files:
-RewriteRule \.md$ error [F]
+RewriteRule ^(site)/(.*)\.(txt|md|html|yaml|yml|php|pl|py|cgi|sh|bat)$ error [F]
+# Block all direct access to .html files:
+RewriteRule \.html$ error [F]
 # Block all direct access to files and folders beginning with a dot
 RewriteRule (^|/)\.(?!well-known) - [F]
 # Block access to specific files in the root folder

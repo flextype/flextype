@@ -2,7 +2,7 @@
     "name": "flextype/flextype",
     "type": "project",
     "description": "Flextype is The Best Open Source Flat-File Content Management System",
-    "keywords": ["flextype", "php", "cms", "flat-file cms", "flat cms", "flatfile cms", "markdown"],
+    "keywords": ["flextype", "php", "cms", "flat-file cms", "flat cms", "flatfile cms", "html"],
     "homepage": "http://flextype.org",
     "license": "MIT",
     "authors": [
@@ -17,8 +17,6 @@
     },
     "require": {
         "php": ">=7.1.3",
-        "erusev/parsedown": "1.7.0",
-        "erusev/parsedown-extra": "0.7.1",
         "doctrine/cache": "1.*",
         "symfony/yaml": "4.*",
         "thunderer/shortcode": "0.*",
