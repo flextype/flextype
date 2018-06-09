@@ -1,5 +1,5 @@
 # Flextype
-![Version](https://img.shields.io/badge/version-0.5.0-brightgreen.svg?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.6.0-brightgreen.svg?style=flat-square)
 ![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 
 Flextype is Open Source, fast and flexible file-based Content Management System.  
@@ -66,7 +66,7 @@ Flextype is open source, community driven project, and maintained by community!
 
 
 ## NO LIMITS
-With Flextype you can create any project you whant.
+With Flextype you can create any project you want.
 
 * Business site
 * Landing page
