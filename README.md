@@ -18,8 +18,8 @@ No database required, flat files only!
 #### Flexible
 Flextype provides amazing API for plugins, themes and core developers!  
 
-#### Markdown Syntax
-Use your favorite editor to write your content with plain Markdown syntax.  
+#### Easy editing
+Use your favorite editor to write your content with plain HTML and Flextype Shortcodes.  
 
 #### Dynamic Content Types
 The flat-file nature of Flextype lets you define custom fields for any of your pages.  
