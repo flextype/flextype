@@ -245,7 +245,7 @@ class Content
                 if (strpos($page, $url . '/page.html') !== false) {
                     // ignore ...
                 } else {
-                    $pages_cache_id .= html5('pages' . $page . filemtime($page) . (($raw === true) ? 'true' : 'false') . $order_by . $order_type . $offset . $length);
+                    $pages_cache_id .= md5('pages' . $page . filemtime($page) . (($raw === true) ? 'true' : 'false') . $order_by . $order_type . $offset . $length);
                 }
             }
 
