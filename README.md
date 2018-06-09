@@ -1,8 +1,9 @@
 # Flextype
-![Version](https://img.shields.io/badge/version-0.5.0-brightgreen.svg?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.6.0-brightgreen.svg?style=flat-square)
 ![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 
-Flextype is next generation of Legendary Monstra Engine it is also Open Source, fast and flexible file-based Content Management System. That's Easy to install, upgrade and use. Flextype provides amazing API's for plugins, themes and core developers! Content in Flextype is just a simple files written with markdown syntax in pages folder. You simply create markdown files in the pages folder and that becomes a page.
+Flextype is Open Source, fast and flexible file-based Content Management System.  
+That's Easy to install, upgrade and use. Flextype provides amazing API's for plugins, themes and core developers!
 
 ## FEATURES
 
@@ -17,8 +18,8 @@ No database required, flat files only!
 #### Flexible
 Flextype provides amazing API for plugins, themes and core developers!  
 
-#### Markdown Syntax
-Use your favorite editor to write your content with plain Markdown syntax.  
+#### Easy editing
+Use your favorite editor to write your content with plain HTML and Flextype Shortcodes.  
 
 #### Dynamic Content Types
 The flat-file nature of Flextype lets you define custom fields for any of your pages.  
@@ -65,7 +66,7 @@ Flextype is open source, community driven project, and maintained by community!
 
 
 ## NO LIMITS
-With Flextype you can create any project you whant.
+With Flextype you can create any project you want.
 
 * Business site
 * Landing page

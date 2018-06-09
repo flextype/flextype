@@ -20,7 +20,7 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 class Content
 {
     /**
-     * An instance of the Cache class
+     * An instance of the Content class
      *
      * @var object
      * @access protected
@@ -110,8 +110,8 @@ class Content
      * Content::updateCurrentPage('title', 'New page title');
      *
      * @access  public
-     * @param   string   $path   Array path
-     * @param   mixed    $value  Value to set
+     * @param   string $path  Array path
+     * @param   mixed  $value Value to set
      * @return  void
      */
     public static function updateCurrentPage(string $path, $value) : void
@@ -190,11 +190,11 @@ class Content
      * $pages = Content::getPages('projects');
      *
      * @access  public
-     * @param   string  $url  Page url
-     * @param   bool    $raw  Raw or not raw content
-     * @param   string  $order_by  Order type
-     * @param   int     $offset  Offset
-     * @param   int     $length  Length
+     * @param   string  $url      Page url
+     * @param   bool    $raw      Raw or not raw content
+     * @param   string  $order_by Order type
+     * @param   int     $offset   Offset
+     * @param   int     $length   Length
      * @return  array
      */
     public static function getPages(string $url = '', bool $raw = false, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null) : array
@@ -376,8 +376,7 @@ class Content
      */
     public static function processContent(string $content) : string
     {
-        $content = Content::processShortcodes($content);
-        return $content;
+        return Content::processShortcodes($content);
     }
 
     /**

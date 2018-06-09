@@ -18,6 +18,13 @@ use Symfony\Component\Yaml\Yaml;
 class Flextype
 {
     /**
+     * The version of Flextype
+     *
+     * @var string
+     */
+    const VERSION = '0.6.0';
+
+    /**
      * An instance of the Flextype class
      *
      * @var object
@@ -34,13 +41,6 @@ class Flextype
     {
         // Nothing here.
     }
-
-    /**
-     * The version of Flextype
-     *
-     * @var string
-     */
-    const VERSION = '0.5.0';
 
     /**
      * Constructor.
