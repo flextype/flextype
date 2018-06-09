@@ -3,3 +3,7 @@
 composer.phar
 composer.lock
 vendor
+site/cache
+site/themes/simple/nodejs
+site/themes/simple/node_modules
+site/themes/simple/assets/dist

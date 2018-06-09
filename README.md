@@ -48,14 +48,6 @@ You can easily install Flextype with Composer.
 composer create-project flextype/flextype
 ```
 
-Also you may need to install node_modules libs for default Simple Theme  
-
-```
-cd /flextype/site/themes/simple  
-npm install
-gulp
-```
-
 
 ## COMMUNITY
 Flextype is open source, community driven project, and maintained by community!
