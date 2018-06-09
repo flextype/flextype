@@ -2,7 +2,7 @@
 * Content: Markdown(Parsedown) parser removed! From now we are using plain HTML + Shortcodes
 * Theme Simple: Cross-site scripting Vulnerabilities fixes
 * Improving main .htaccess
-
+* Code cleanup and refactoring #5
 
 # Flextype 0.5.0, 2018-06-03
 * Delete folders: site/data and site/accounts
