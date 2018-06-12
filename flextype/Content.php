@@ -147,15 +147,15 @@ class Content
 
         // Try to get page from cache
         if (Cache::contains($page_cache_id)) {
+            if (!Filesystem::fileExists($file_path)) {
+                Http::setResponseStatus(404);
+            }
             return Cache::fetch($page_cache_id);
         } else {
 
             // Get 404 page if page file is not exists
-            if (Filesystem::fileExists($file_path)) {
-                $file_path = $file_path;
-            } else {
+            if (!Filesystem::fileExists($file_path)) {
                 if (Filesystem::fileExists($file_path = PATH['pages'] . '/404/page.html')) {
-                    $file_path = $file_path;
                     Http::setResponseStatus(404);
                 } else {
                     throw new \RuntimeException("404 page file does not exist.");
