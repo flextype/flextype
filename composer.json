@@ -37,11 +37,27 @@
         "flextype-components/registry" : "1.*",
         "flextype-components/token" : "1.*",
         "flextype-components/view" : "1.*",
-        "flextype-components/text" : "1.*"
+        "flextype-components/text" : "1.*",
+        "mouf/nodejs-installer": "^1.0"
     },
     "autoload": {
         "classmap": [
             "flextype"
+        ]
+    },
+    "extra": {
+        "mouf": {
+            "nodejs": {
+                "targetDir": "site/themes/simple/nodejs",
+                "forceLocal": false,
+                "includeBinInPath": true
+            }
+        }
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "cd site/themes/simple && npm i",
+            "cd site/themes/simple && ./node_modules/.bin/gulp"
         ]
     }
 }
