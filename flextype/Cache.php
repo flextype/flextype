@@ -21,8 +21,9 @@ class Cache
      * An instance of the Cache class
      *
      * @var object
+     * @access private
      */
-    protected static $instance = null;
+    private static $instance = null;
 
     /**
      * Unique cache key
@@ -53,21 +54,25 @@ class Cache
     protected static $driver;
 
     /**
-     * Protected clone method to enforce singleton behavior.
+     * Private clone method to enforce singleton behavior.
      *
-     * @access  protected
+     * @access private
      */
-    protected function __clone()
-    {
-        // Nothing here.
-    }
+    private function __clone() { }
 
     /**
-     * Protected constructor since this is a static class.
+     * Private wakeup method to enforce singleton behavior.
      *
-     * @access  protected
+     * @access private
      */
-    protected function __construct()
+    private function __wakeup() { }
+
+    /**
+     * Private construct method to enforce singleton behavior.
+     *
+     * @access private
+     */
+    private function __construct()
     {
         Cache::init();
     }
@@ -296,14 +301,17 @@ class Cache
     }
 
     /**
-     * Return the Cache instance.
-     * Create it if it's not already created.
+     * Get the Cache instance.
      *
      * @access public
      * @return object
      */
-    public static function instance()
-    {
-        return !isset(self::$instance) and self::$instance = new Cache();
-    }
+     public static function getInstance()
+     {
+        if (is_null(Cache::$instance)) {
+            Cache::$instance = new self;
+        }
+
+        return Cache::$instance;
+     }
 }

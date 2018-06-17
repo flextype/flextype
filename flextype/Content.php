@@ -23,9 +23,9 @@ class Content
      * An instance of the Content class
      *
      * @var object
-     * @access protected
+     * @access private
      */
-    protected static $instance = null;
+    private static $instance = null;
 
     /**
      * Shortcode object
@@ -39,16 +39,30 @@ class Content
      * Current page data array
      *
      * @var array
-     * @access protected
+     * @access private
      */
     private static $page = [];
 
     /**
-     * Protected constructor since this is a static class.
+     * Private clone method to enforce singleton behavior.
      *
-     * @access  protected
+     * @access private
      */
-    protected function __construct()
+    private function __clone() { }
+
+    /**
+     * Private wakeup method to enforce singleton behavior.
+     *
+     * @access private
+     */
+    private function __wakeup() { }
+
+    /**
+     * Private construct method to enforce singleton behavior.
+     *
+     * @access private
+     */
+    private function __construct()
     {
         Content::init();
     }
@@ -56,10 +70,10 @@ class Content
     /**
      * Init Content
      *
-     * @access protected
+     * @access private
      * @return void
      */
-    protected static function init() : void
+    private static function init() : void
     {
         Content::processCurrentPage();
     }
@@ -67,10 +81,10 @@ class Content
     /**
      * Process Current Page
      *
-     * @access protected
+     * @access private
      * @return void
      */
-    protected static function processCurrentPage() : void
+    private static function processCurrentPage() : void
     {
         // Event: The page is not processed and not sent to the display.
         Event::dispatch('onCurrentPageBeforeProcessed');
@@ -147,15 +161,15 @@ class Content
 
         // Try to get page from cache
         if (Cache::contains($page_cache_id)) {
+            if (!Filesystem::fileExists($file_path)) {
+                Http::setResponseStatus(404);
+            }
             return Cache::fetch($page_cache_id);
         } else {
 
             // Get 404 page if page file is not exists
-            if (Filesystem::fileExists($file_path)) {
-                $file_path = $file_path;
-            } else {
+            if (!Filesystem::fileExists($file_path)) {
                 if (Filesystem::fileExists($file_path = PATH['pages'] . '/404/page.html')) {
-                    $file_path = $file_path;
                     Http::setResponseStatus(404);
                 } else {
                     throw new \RuntimeException("404 page file does not exist.");
@@ -382,10 +396,10 @@ class Content
     /**
      * Init Parsers
      *
-     * @access protected
+     * @access private
      * @return void
      */
-    protected static function initParsers() : void
+    private static function initParsers() : void
     {
         // Init Shortcodes
         Content::initShortcodes();
@@ -394,10 +408,10 @@ class Content
     /**
      * Init Shortcodes
      *
-     * @access protected
+     * @access private
      * @return void
      */
-    protected static function initShortcodes() : void
+    private static function initShortcodes() : void
     {
         // Create Shortcode Parser object
         Content::$shortcode = new ShortcodeFacade();
@@ -409,10 +423,10 @@ class Content
     /**
      * Display current page
      *
-     * @access protected
+     * @access private
      * @return void
      */
-    protected static function displayCurrentPage() : void
+    private static function displayCurrentPage() : void
     {
         Http::setRequestHeaders('Content-Type: text/html; charset='.Registry::get('site.charset'));
         Themes::view(empty(Content::$page['template']) ? 'templates/default' : 'templates/' . Content::$page['template'])
@@ -421,14 +435,17 @@ class Content
     }
 
     /**
-     * Return the Content instance.
-     * Create it if it's not already created.
+     * Get the Content instance.
      *
      * @access public
      * @return object
      */
-    public static function instance()
-    {
-        return !isset(self::$instance) and self::$instance = new Content();
-    }
+     public static function getInstance()
+     {
+        if (is_null(Content::$instance)) {
+            Content::$instance = new self;
+        }
+
+        return Content::$instance;
+     }
 }

@@ -1,3 +1,9 @@
+# Flextype 0.6.1, 2018-06-17
+* Fixed issue with not found pages status code
+* Fixed Singleton classes and methods visibility changed from protected to private
+* Added require vendors versions in composer.json
+* Fixed Simple Theme styles
+
 # Flextype 0.6.0, 2018-06-09
 * Content: Markdown(Parsedown) parser removed! From now we are using plain HTML + Shortcodes
 * Theme Simple: Cross-site scripting Vulnerabilities fixes

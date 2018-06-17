@@ -22,14 +22,28 @@ class Themes
      *
      * @var object
      */
-    protected static $instance = null;
+    private static $instance = null;
 
     /**
-     * Protected constructor since this is a static class.
+     * Private clone method to enforce singleton behavior.
      *
-     * @access  protected
+     * @access private
      */
-    protected function __construct()
+    private function __clone() { }
+
+    /**
+     * Private wakeup method to enforce singleton behavior.
+     *
+     * @access private
+     */
+    private function __wakeup() { }
+
+    /**
+     * Private construct method to enforce singleton behavior.
+     *
+     * @access private
+     */
+    private function __construct()
     {
         Themes::init();
     }
@@ -37,10 +51,10 @@ class Themes
     /**
      * Init Themes
      *
-     * @access protected
+     * @access private
      * @return void
      */
-    protected static function init() : void
+    private static function init() : void
     {
         // Theme Manifest
         $theme_manifest = [];
@@ -92,14 +106,17 @@ class Themes
     }
 
     /**
-     * Return the Themes instance.
-     * Create it if it's not already created.
+     * Get the Themes instance.
      *
      * @access public
      * @return object
      */
-    public static function instance()
-    {
-        return !isset(self::$instance) and self::$instance = new Themes();
-    }
+     public static function getInstance()
+     {
+        if (is_null(Themes::$instance)) {
+            Themes::$instance = new self;
+        }
+
+        return Themes::$instance;
+     }
 }
