@@ -28,36 +28,40 @@ class Flextype
      * An instance of the Flextype class
      *
      * @var object
-     * @access protected
+     * @access private
      */
-    protected static $instance = null;
+    private static $instance = null;
 
     /**
-     * Protected clone method to enforce singleton behavior.
+     * Private clone method to enforce singleton behavior.
      *
-     * @access protected
+     * @access private
      */
-    protected function __clone()
-    {
-        // Nothing here.
-    }
+    private function __clone() { }
 
     /**
-     * Constructor.
+     * Private wakeup method to enforce singleton behavior.
      *
-     * @access protected
+     * @access private
      */
-    protected function __construct()
+    private function __wakeup() { }
+
+    /**
+     * Private construct method to enforce singleton behavior.
+     *
+     * @access private
+     */
+    private function __construct()
     {
         Flextype::init();
     }
 
     /**
-     * Init Application
+     * Init Flextype Application
      *
-     * @access protected
+     * @access private
      */
-    protected static function init() : void
+    private static function init() : void
     {
         // Turn on output buffering
         ob_start();
@@ -78,17 +82,17 @@ class Flextype
         // Start the session
         Session::start();
 
-        // Create Cache Instance
-        Cache::instance();
+        // Get Cache Instance
+        Cache::getInstance();
 
-        // Create Themes Instance
-        Themes::instance();
+        // Get Themes Instance
+        Themes::getInstance();
 
-        // Create Plugins Instance
-        Plugins::instance();
+        // Get Plugins Instance
+        Plugins::getInstance();
 
-        // Create Content Instance
-        Content::instance();
+        // Get Content Instance
+        Content::getInstance();
 
         // Flush (send) the output buffer and turn off output buffering
         ob_end_flush();
@@ -97,9 +101,9 @@ class Flextype
     /**
      * Set error handler
      *
-     * @access protected
+     * @access private
      */
-    protected static function setErrorHandler() : void
+    private static function setErrorHandler() : void
     {
         // Display Errors
         if (Registry::get('site.errors.display')) {
@@ -122,9 +126,9 @@ class Flextype
     /**
      * Set site config
      *
-     * @access protected
+     * @access private
      */
-    protected static function setSiteConfig() : void
+    private static function setSiteConfig() : void
     {
         // Set empty site item
         Registry::set('site', []);
@@ -138,14 +142,17 @@ class Flextype
     }
 
     /**
-     * Return the Flextype instance.
-     * Create it if it's not already created.
+     * Get the Flextype instance.
      *
      * @access public
      * @return object
      */
-     public static function instance()
+     public static function getInstance()
      {
-         return !isset(self::$instance) and self::$instance = new Flextype();
+        if (is_null(Flextype::$instance)) {
+            Flextype::$instance = new self;
+        }
+
+        return Flextype::$instance;
      }
 }

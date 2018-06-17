@@ -38,5 +38,5 @@ version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(s
 // Register The Auto Loader
 $loader = require_once $autoload;
 
-// Init Flextype Application
-Flextype::instance();
+// Get Flextype Instance
+$flextype = Flextype::getInstance();

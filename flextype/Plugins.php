@@ -21,8 +21,9 @@ class Plugins
      * An instance of the Cache class
      *
      * @var object
+     * @access private
      */
-    protected static $instance = null;
+    private static $instance = null;
 
     /**
      * Locales array
@@ -65,11 +66,25 @@ class Plugins
     ];
 
     /**
-     * Protected constructor since this is a static class.
+     * Private clone method to enforce singleton behavior.
      *
-     * @access  protected
+     * @access private
      */
-    protected function __construct()
+    private function __clone() { }
+
+    /**
+     * Private wakeup method to enforce singleton behavior.
+     *
+     * @access private
+     */
+    private function __wakeup() { }
+
+    /**
+     * Private construct method to enforce singleton behavior.
+     *
+     * @access private
+     */
+    private function __construct()
     {
         Plugins::init();
     }
@@ -77,10 +92,10 @@ class Plugins
     /**
      * Init Plugins
      *
-     * @access protected
+     * @access private
      * @return void
      */
-    protected static function init() : void
+    private static function init() : void
     {
         // Plugin manifest
         $plugin_manifest = [];
@@ -158,14 +173,17 @@ class Plugins
     }
 
     /**
-     * Return the Plugins instance.
-     * Create it if it's not already created.
+     * Get the Plugins instance.
      *
      * @access public
      * @return object
      */
-    public static function instance()
-    {
-        return !isset(self::$instance) and self::$instance = new Plugins();
-    }
+     public static function getInstance()
+     {
+        if (is_null(Plugins::$instance)) {
+            Plugins::$instance = new self;
+        }
+
+        return Plugins::$instance;
+     }
 }
