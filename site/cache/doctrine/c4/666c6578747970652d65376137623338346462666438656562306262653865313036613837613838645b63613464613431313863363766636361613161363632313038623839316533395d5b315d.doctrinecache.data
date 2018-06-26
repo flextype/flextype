@@ -1,2 +1,0 @@
-1530294118
-a:1:{s:5:"admin";a:8:{s:4:"name";s:5:"Admin";s:7:"version";s:5:"0.0.0";s:11:"description";s:25:"Admin plugin for Flextype";s:6:"author";a:3:{s:4:"name";s:16:"Sergey Romanenko";s:5:"email";s:16:"awilum@yandex.ru";s:3:"url";s:19:"http://flextype.org";}s:8:"homepage";s:36:"https://github.com/flextype/flextype";s:4:"bugs";s:43:"https://github.com/flextype/flextype/issues";s:7:"license";s:3:"MIT";s:7:"enabled";b:1;}}
