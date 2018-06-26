@@ -183,7 +183,7 @@ class Content
                 $page = Content::processPage($file_path);
 
                 // Get 404 page if page is not published
-                if (isset($page['published']) && $page['published'] === false) {
+                if (isset($page['visibility']) && $page['visibility'] === 'visible') {
                     if (Filesystem::fileExists($file_path = PATH['pages'] . '/404/page.html')) {
                         $page = Content::processPage($file_path);
                         Http::setResponseStatus(404);
