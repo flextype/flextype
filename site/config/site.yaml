@@ -16,6 +16,8 @@ charset: UTF-8
 theme: simple
 
 plugins:
+  - admin
+  - vimeo
 
 locale: "en"
 
@@ -23,10 +25,10 @@ pages:
   main: home
 
 errors:
-  display: false
+  display: true
 
 cache:
-  enabled: true
+  enabled: false
   prefix: flextype
   driver: auto
   lifetime: 604800

@@ -1,0 +1,15 @@
+[24-Jun-2018 13:54:19] Symfony\Component\Yaml\Exception\ParseException: Duplicate key "admin_save" detected at line 23 (near "admin_save: "Save""). in /Applications/MAMP/htdocs/flextype/vendor/symfony/yaml/Parser.php at line 343
+[24-Jun-2018 20:34:31] TypeError: Argument 1 passed to Flextype\Component\Arr\Arr::set() must be of the type array, null given, called in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php on line 133 in /Applications/MAMP/htdocs/flextype/vendor/flextype-components/arr/Arr.php at line 67
+[24-Jun-2018 20:34:46] TypeError: Argument 1 passed to Flextype\Component\Arr\Arr::set() must be of the type array, string given, called in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php on line 133 in /Applications/MAMP/htdocs/flextype/vendor/flextype-components/arr/Arr.php at line 67
+[24-Jun-2018 20:34:52] TypeError: Argument 1 passed to Flextype\Component\Arr\Arr::set() must be of the type array, string given, called in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php on line 133 in /Applications/MAMP/htdocs/flextype/vendor/flextype-components/arr/Arr.php at line 67
+[24-Jun-2018 20:35:26] Symfony\Component\Yaml\Exception\ParseException: Multiple documents are not supported at line 5 (near "---"). in /Applications/MAMP/htdocs/flextype/vendor/symfony/yaml/Parser.php at line 352
+[24-Jun-2018 20:36:16] Symfony\Component\Yaml\Exception\ParseException: Multiple documents are not supported at line 5 (near "---"). in /Applications/MAMP/htdocs/flextype/vendor/symfony/yaml/Parser.php at line 352
+[24-Jun-2018 20:36:38] ErrorException: Notice: Undefined variable: page in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 132
+[24-Jun-2018 20:36:45] ErrorException: Notice: Only variables should be passed by reference in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 134
+[24-Jun-2018 21:00:55] ErrorException: Notice: Undefined offset: 1 in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 131
+[24-Jun-2018 22:21:23] ErrorException: Notice: Undefined variable: page_keywords in /Applications/MAMP/htdocs/flextype/site/plugins/admin/views/templates/pages/editor.php at line 50
+[24-Jun-2018 22:22:22] ErrorException: Notice: Undefined index: keywords in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 152
+[24-Jun-2018 22:22:54] ParseError: syntax error, unexpected ';', expecting ',' or ')' in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 156
+[24-Jun-2018 22:23:02] ErrorException: Notice: Undefined index: description in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 153
+[24-Jun-2018 22:23:28] ErrorException: Notice: Undefined variable: page_keywords in /Applications/MAMP/htdocs/flextype/site/plugins/admin/views/templates/pages/editor.php at line 50
+[24-Jun-2018 23:45:03] ErrorException: Warning: include(templates/settings.php): failed to open stream: No such file or directory in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 173

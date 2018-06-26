@@ -1,0 +1,4 @@
+[25-Jun-2018 00:28:18] ErrorException: Notice: Undefined offset: 1 in /Applications/MAMP/htdocs/flextype/flextype/Content.php at line 329
+[25-Jun-2018 00:28:56] ErrorException: Notice: Undefined offset: 1 in /Applications/MAMP/htdocs/flextype/flextype/Content.php at line 329
+[25-Jun-2018 00:29:44] ErrorException: Notice: Undefined offset: 1 in /Applications/MAMP/htdocs/flextype/flextype/Content.php at line 329
+[25-Jun-2018 08:22:16] ParseError: syntax error, unexpected ''pages'' (T_CONSTANT_ENCAPSED_STRING), expecting ':' or ';' in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 89

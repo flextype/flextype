@@ -1,0 +1,18 @@
+[22-Jun-2018 17:41:45] Error: Class 'Flextype\Pages' not found in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 148
+[22-Jun-2018 17:41:45] Error: Class 'Flextype\Pages' not found in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 148
+[22-Jun-2018 17:41:58] Error: Class 'Flextype\Pages' not found in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 148
+[22-Jun-2018 17:41:59] Error: Class 'Flextype\Pages' not found in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 148
+[22-Jun-2018 17:42:06] Error: Class 'Flextype\Pages' not found in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 148
+[22-Jun-2018 17:42:41] TypeError: Return value of Flextype\Content::shortcode() must be an instance of Thunder\Shortcode\ShortcodeFacade, null returned in /Applications/MAMP/htdocs/flextype/flextype/Content.php at line 304
+[22-Jun-2018 17:43:37] Error: Call to undefined method Flextype\Themes::template() in /Applications/MAMP/htdocs/flextype/site/plugins/admin/views/templates/pages/list.php at line 6
+[22-Jun-2018 17:44:40] Error: Call to undefined method Flextype\Themes::template() in /Applications/MAMP/htdocs/flextype/site/plugins/admin/views/partials/head.php at line 46
+[22-Jun-2018 17:44:44] Error: Call to undefined method Flextype\Themes::template() in /Applications/MAMP/htdocs/flextype/site/plugins/admin/views/partials/head.php at line 46
+[22-Jun-2018 17:44:45] Error: Call to undefined method Flextype\Themes::template() in /Applications/MAMP/htdocs/flextype/site/plugins/admin/views/partials/head.php at line 46
+[22-Jun-2018 17:44:48] Error: Call to undefined method Flextype\Themes::template() in /Applications/MAMP/htdocs/flextype/site/plugins/admin/views/partials/head.php at line 46
+[22-Jun-2018 17:45:03] Error: Call to undefined method Flextype\Themes::template() in /Applications/MAMP/htdocs/flextype/site/plugins/admin/views/partials/footer.php at line 4
+[22-Jun-2018 17:45:15] Error: Class 'Flextype\Pages' not found in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 107
+[22-Jun-2018 17:45:18] ErrorException: Notice: Use of undefined constant PAGES_PATH - assumed 'PAGES_PATH' in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 137
+[22-Jun-2018 17:46:00] Error: Class 'Flextype\Pages' not found in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 107
+[22-Jun-2018 17:46:51] ErrorException: Notice: Use of undefined constant PAGES_PATH - assumed 'PAGES_PATH' in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 137
+[22-Jun-2018 17:47:18] ErrorException: Notice: Use of undefined constant PAGES_PATH - assumed 'PAGES_PATH' in /Applications/MAMP/htdocs/flextype/site/plugins/admin/admin.php at line 137
+[22-Jun-2018 18:50:45] ParseError: syntax error, unexpected '<', expecting end of file in /Applications/MAMP/htdocs/flextype/site/plugins/admin/views/templates/pages/editor.php at line 23
