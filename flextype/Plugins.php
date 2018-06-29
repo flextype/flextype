@@ -110,13 +110,14 @@ class Plugins
         // Set empty plugins item
         Registry::set('plugins', []);
 
+        $plugins_list = Filesystem::getDirList(PATH['plugins']);
 
         // If Plugins List isnt empty then create plugin cache ID
         if (is_array($plugins_list) && count($plugins_list) > 0) {
 
             // Go through...
             foreach ($plugins_list as $plugin) {
-                if (Filesystem::fileExists($_plugin = PATH['plugins'] . '/' . $plugin . '/' . $plugin . '.yaml')) {
+                if (Filesystem::fileExists($_plugin = PATH['plugins'] . '/' . $plugin . '/blueprints.yaml')) {
                     $_plugins_cache_id .= filemtime($_plugin);
                 }
             }
@@ -135,11 +136,15 @@ class Plugins
                     // Go through...
                     foreach ($plugins_list as $plugin) {
 
-                        if (Filesystem::fileExists($_plugin_manifest = PATH['plugins'] . '/' . $plugin . '/' . $plugin . '.yaml')) {
-                            $plugin_manifest = Yaml::parseFile($_plugin_manifest);
+                        if (Filesystem::fileExists($_plugin_blueprints = PATH['plugins'] . '/' . $plugin . '/blueprints.yaml')) {
+                            $plugin_blueprints = Yaml::parseFile($_plugin_blueprints);
                         }
 
-                        $_plugins_config[basename($_plugin_manifest, '.yaml')] = $plugin_manifest;
+                        if (Filesystem::fileExists($_plugin_config = PATH['plugins'] . '/' . $plugin . '/'. $plugin. '.yaml')) {
+                            $plugin_config = Yaml::parseFile($_plugin_config);
+                        }
+
+                        $_plugins_config[basename($_plugin_config, '.yaml')] = array_merge($plugin_blueprints, $plugin_config);
                     }
 
                     Registry::set('plugins', $_plugins_config);

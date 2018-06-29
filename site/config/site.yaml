@@ -15,8 +15,6 @@ charset: UTF-8
 
 theme: simple
 
-plugins:
-
 locale: "en"
 
 pages:
@@ -26,7 +24,7 @@ errors:
   display: true
 
 cache:
-  enabled: true
+  enabled: false
   prefix: flextype
   driver: auto
   lifetime: 604800
