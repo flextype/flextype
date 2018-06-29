@@ -112,8 +112,9 @@ class Plugins
 
             // Go through...
             foreach ($plugins_list as $plugin) {
-                if (Filesystem::fileExists($_plugin = PATH['plugins'] . '/' . $plugin . '/blueprints.yaml')) {
-                    $_plugins_cache_id .= filemtime($_plugin);
+                if (Filesystem::fileExists($_plugin_blueprints = PATH['plugins'] . '/' . $plugin . '/blueprints.yaml') and
+                    Filesystem::fileExists($_plugin_config = PATH['plugins'] . '/' . $plugin . '/'. $plugin .'.yaml')) {
+                    $_plugins_cache_id .= filemtime($_plugin_blueprints) . filemtime($_plugin_config);
                 }
             }
 
