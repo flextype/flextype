@@ -97,19 +97,14 @@ class Plugins
      */
     private static function init() : void
     {
-        // Plugin manifest
-        $plugin_manifest = [];
-
         // Plugin cache id
         $plugins_cache_id = '';
         $_plugins_cache_id = '';
 
-        // Get Plugins List
-        $plugins_list = Registry::get('site.plugins');
-
         // Set empty plugins item
         Registry::set('plugins', []);
 
+        // Get Plugins List
         $plugins_list = Filesystem::getDirList(PATH['plugins']);
 
         // If Plugins List isnt empty then create plugin cache ID

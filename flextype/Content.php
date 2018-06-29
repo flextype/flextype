@@ -147,7 +147,7 @@ class Content
     {
         // if $url is empty then set path for defined main page
         if ($url === '') {
-            $file_path = PATH['pages'] . '/' . Registry::get('site.pages.main') . '/page.html';
+            $file_path = PATH['pages'] . '/' . Registry::get('system.pages.main') . '/page.html';
         } else {
             $file_path = PATH['pages'] . '/'  . $url . '/page.html';
         }
@@ -344,7 +344,7 @@ class Content
             $url = str_replace('//', '/', $url);
             $url = str_replace('http:/', 'http://', $url);
             $url = str_replace('https:/', 'https://', $url);
-            $url = str_replace('/'.Registry::get('site.pages.main'), '', $url);
+            $url = str_replace('/'.Registry::get('system.pages.main'), '', $url);
             $url = rtrim($url, '/');
             $_page['url'] = $url;
 
@@ -355,7 +355,7 @@ class Content
             $_page['slug'] = str_replace(Http::getBaseUrl(), '', $url);
 
             // Create page date item
-            $_page['date'] = $_page['date'] ?? date(Registry::get('site.date_format'), filemtime($file_path));
+            $_page['date'] = $_page['date'] ?? date(Registry::get('system.date_format'), filemtime($file_path));
 
             // Create page content item with $page_content
             $_page['content'] = Content::processContent($page_content);
@@ -428,7 +428,7 @@ class Content
      */
     private static function displayCurrentPage() : void
     {
-        Http::setRequestHeaders('Content-Type: text/html; charset='.Registry::get('site.charset'));
+        Http::setRequestHeaders('Content-Type: text/html; charset='.Registry::get('system.charset'));
         Themes::view(empty(Content::$page['template']) ? 'templates/default' : 'templates/' . Content::$page['template'])
             ->assign('page', Content::$page, true)
             ->display();
