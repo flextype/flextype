@@ -1,3 +1,13 @@
+# Flextype 0.7.0, 2018-07-XX
+* Update Symfony YAML to 4.1.1
+* Content: field 'published' changed to 'visibility'
+* Plugins: from now no need to add plugin names manually to the site.yaml
+* Plugins: added ability to load plugins blueprints.yaml file
+* Plugins: from now plugins configurations stored in the plugin-name.yaml file
+* Add system.yaml config file and use it for system configurations
+* Themes: added ability to load themes blueprints.yaml file
+* Themes: from now themes configurations stored in the theme-name.yaml file
+
 # Flextype 0.6.1, 2018-06-17
 * Fixed issue with not found pages status code
 * Fixed Singleton classes and methods visibility changed from protected to private
