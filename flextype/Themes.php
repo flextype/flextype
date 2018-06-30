@@ -69,16 +69,20 @@ class Themes
         Registry::set('themes', []);
 
         // Create Unique Cache ID for Theme
-        $theme_cache_id = md5('theme' . PATH['themes'] . $theme);
+        $theme_cache_id = md5('theme' . filemtime(PATH['themes'] .'/'. $theme . '/' . 'blueprints.yaml') .
+                                        filemtime(PATH['themes'] .'/'. $theme . '/' . $theme . '.yaml'));
 
         // Get Theme mafifest file and write to site.themes array
         if (Cache::contains($theme_cache_id)) {
             Registry::set('themes.'.Registry::get('site.theme'), Cache::fetch($theme_cache_id));
         } else {
-            if (Filesystem::fileExists($theme_manifest_file = PATH['themes'] . '/' . $theme . '/' . $theme . '.yaml')) {
-                $theme_manifest = Yaml::parseFile($theme_manifest_file);
-                Registry::set('themes.'.Registry::get('system.theme'), $theme_manifest);
-                Cache::save($theme_cache_id, $theme_manifest);
+            if (Filesystem::fileExists($theme_blueprints = PATH['themes'] . '/' . $theme . '/' . 'blueprints.yaml') and
+                Filesystem::fileExists($theme_config = PATH['themes'] . '/' . $theme . '/' . $theme . '.yaml')) {
+                $theme_blueprints = Yaml::parseFile($theme_blueprints);
+                $theme_config = Yaml::parseFile($theme_config);
+                $_theme = array_merge($theme_blueprints, $theme_config);
+                Registry::set('themes.'.Registry::get('system.theme'), $_theme);
+                Cache::save($theme_cache_id, $_theme);
             }
         }
     }
