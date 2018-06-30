@@ -92,6 +92,9 @@ class Content
         // Init Parsers
         Content::initParsers();
 
+        // Event: The page has been not loaded.
+        Event::dispatch('onCurrentPageBeforeLoaded');
+
         // Set current requested page data to global $page array
         Content::$page = Content::getPage(Http::getUriString());
 
