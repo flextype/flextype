@@ -154,7 +154,7 @@ class Plugins
                     foreach ($plugins_list as $plugin) {
                         $language_file = PATH['plugins'] . '/' . $plugin . '/languages/' . $locale . '.yaml';
                         if (Filesystem::fileExists($language_file)) {
-                            I18n::add($plugin, $locale, Yaml::parseFile($language_file));
+                            I18n::add(Yaml::parseFile($language_file), $locale);
                         }
                     }
                 }
