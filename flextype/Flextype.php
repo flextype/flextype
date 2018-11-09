@@ -79,6 +79,7 @@ class Flextype
         // Set default timezone
         date_default_timezone_set(Registry::get('system.timezone'));
 
+
         // Start the session
         Session::start();
 
