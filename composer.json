@@ -29,7 +29,7 @@
         "flextype-components/errorhandler" : "1.0.4",
         "flextype-components/filesystem" : "1.1.1",
         "flextype-components/form" : "1.0.1",
-        "flextype-components/i18n" : "1.1.0",
+        "flextype-components/i18n" : "1.1.1",
         "flextype-components/http" : "1.1.1",
         "flextype-components/html" : "1.0.0",
         "flextype-components/number" : "1.0.0",
