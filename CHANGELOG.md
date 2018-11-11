@@ -1,4 +1,4 @@
-# Flextype 0.7.0, 2018-07-XX
+# Flextype 0.7.0, 2018-11-XX
 * Update Symfony YAML to 4.1.1
 * Content: field 'published' changed to 'visibility'
 * Plugins: from now no need to add plugin names manually to the site.yaml
