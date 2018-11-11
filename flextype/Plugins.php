@@ -112,9 +112,9 @@ class Plugins
 
             // Go through...
             foreach ($plugins_list as $plugin) {
-                if (Filesystem::fileExists($_plugin_blueprints = PATH['plugins'] . '/' . $plugin . '/blueprints.yaml') and
+                if (Filesystem::fileExists($_plugin_settings = PATH['plugins'] . '/' . $plugin . '/settings.yaml') and
                     Filesystem::fileExists($_plugin_config = PATH['plugins'] . '/' . $plugin . '/'. $plugin .'.yaml')) {
-                    $_plugins_cache_id .= filemtime($_plugin_blueprints) . filemtime($_plugin_config);
+                    $_plugins_cache_id .= filemtime($_plugin_settings) . filemtime($_plugin_config);
                 }
             }
 
@@ -132,15 +132,15 @@ class Plugins
                     // Go through...
                     foreach ($plugins_list as $plugin) {
 
-                        if (Filesystem::fileExists($_plugin_blueprints = PATH['plugins'] . '/' . $plugin . '/blueprints.yaml')) {
-                            $plugin_blueprints = Yaml::parseFile($_plugin_blueprints);
+                        if (Filesystem::fileExists($_plugin_settings = PATH['plugins'] . '/' . $plugin . '/settings.yaml')) {
+                            $plugin_settings = Yaml::parseFile($_plugin_settings);
                         }
 
                         if (Filesystem::fileExists($_plugin_config = PATH['plugins'] . '/' . $plugin . '/'. $plugin. '.yaml')) {
                             $plugin_config = Yaml::parseFile($_plugin_config);
                         }
 
-                        $_plugins_config[basename($_plugin_config, '.yaml')] = array_merge($plugin_blueprints, $plugin_config);
+                        $_plugins_config[basename($_plugin_config, '.yaml')] = array_merge($plugin_settings, $plugin_config);
                     }
 
                     Registry::set('plugins', $_plugins_config);
