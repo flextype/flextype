@@ -74,7 +74,7 @@ class Themes
 
         // Get Theme mafifest file and write to site.themes array
         if (Cache::contains($theme_cache_id)) {
-            Registry::set('themes.'.Registry::get('site.theme'), Cache::fetch($theme_cache_id));
+            Registry::set('themes.'.Registry::get('system.theme'), Cache::fetch($theme_cache_id));
         } else {
             if (Filesystem::fileExists($theme_blueprints = PATH['themes'] . '/' . $theme . '/' . 'blueprints.yaml') and
                 Filesystem::fileExists($theme_config = PATH['themes'] . '/' . $theme . '/' . $theme . '.yaml')) {
