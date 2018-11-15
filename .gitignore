@@ -1,5 +1,14 @@
-.idea
-.DS_Store
-composer.phar
-composer.lock
-vendor
+# Composer
+.composer
+vendor/*
+!*/vendor/*
+
+# OS Generated
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+*.swp
+
+# phpstorm
+.idea/*

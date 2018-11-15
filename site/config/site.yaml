@@ -1,32 +1,7 @@
-#
-# Site configuration
-#
-
-title: "Flextype"
-description: "The Best Open Source Flat-File Content Management System"
-keywords: "flextype, php, cms, flat-file cms, flat cms, flatfile cms, html"
-robots: "index, follow"
+title: 'Flextype'
+description: 'The Best Open Source Flat-File Content Management System'
+keywords: 'flextype, php, cms, flat-file cms, flat cms, flatfile cms, html'
+robots: 'index, follow'
 author:
-  email: ""
-
-timezone: UTC
-date_format: "F d Y H:i:s."
-charset: UTF-8
-
-theme: simple
-
-plugins:
-
-locale: "en"
-
-pages:
-  main: home
-
-errors:
-  display: false
-
-cache:
-  enabled: true
-  prefix: flextype
-  driver: auto
-  lifetime: 604800
+  name: ''
+  email: ''

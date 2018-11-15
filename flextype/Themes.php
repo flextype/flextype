@@ -63,22 +63,26 @@ class Themes
         $theme_cache_id = '';
 
         // Get current theme
-        $theme = Registry::get('site.theme');
+        $theme = Registry::get('system.theme');
 
         // Set empty themes items
         Registry::set('themes', []);
 
         // Create Unique Cache ID for Theme
-        $theme_cache_id = md5('theme' . PATH['themes'] . $theme);
+        $theme_cache_id = md5('theme' . filemtime(PATH['themes'] .'/'. $theme . '/' . 'settings.yaml') .
+                                        filemtime(PATH['themes'] .'/'. $theme . '/' . $theme . '.yaml'));
 
         // Get Theme mafifest file and write to site.themes array
         if (Cache::contains($theme_cache_id)) {
-            Registry::set('themes.'.Registry::get('site.theme'), Cache::fetch($theme_cache_id));
+            Registry::set('themes.'.Registry::get('system.theme'), Cache::fetch($theme_cache_id));
         } else {
-            if (Filesystem::fileExists($theme_manifest_file = PATH['themes'] . '/' . $theme . '/' . $theme . '.yaml')) {
-                $theme_manifest = Yaml::parseFile($theme_manifest_file);
-                Registry::set('themes.'.Registry::get('site.theme'), $theme_manifest);
-                Cache::save($theme_cache_id, $theme_manifest);
+            if (Filesystem::fileExists($theme_settings = PATH['themes'] . '/' . $theme . '/' . 'settings.yaml') and
+                Filesystem::fileExists($theme_config = PATH['themes'] . '/' . $theme . '/' . $theme . '.yaml')) {
+                $theme_settings = Yaml::parseFile($theme_settings);
+                $theme_config = Yaml::parseFile($theme_config);
+                $_theme = array_merge($theme_settings, $theme_config);
+                Registry::set('themes.'.Registry::get('system.theme'), $_theme);
+                Cache::save($theme_cache_id, $_theme);
             }
         }
     }
@@ -95,8 +99,8 @@ class Themes
     {
         // Set view file
         // From current theme folder or from plugin folder
-        if (Filesystem::fileExists(PATH['themes'] . '/' . Registry::get('site.theme') . '/views/' . $template . View::$view_ext)) {
-            $template = PATH['themes'] . '/' . Registry::get('site.theme') . '/views/' . $template;
+        if (Filesystem::fileExists(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/' . $template . View::$view_ext)) {
+            $template = PATH['themes'] . '/' . Registry::get('system.theme') . '/views/' . $template;
         } else {
             $template = PATH['plugins'] . '/' . $template;
         }

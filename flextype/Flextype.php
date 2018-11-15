@@ -22,7 +22,7 @@ class Flextype
      *
      * @var string
      */
-    const VERSION = '0.6.1';
+    const VERSION = '0.7.0';
 
     /**
      * An instance of the Flextype class
@@ -70,14 +70,15 @@ class Flextype
 
         // Set internal encoding
         function_exists('mb_language') and mb_language('uni');
-        function_exists('mb_regex_encoding') and mb_regex_encoding(Registry::get('site.charset'));
-        function_exists('mb_internal_encoding') and mb_internal_encoding(Registry::get('site.charset'));
+        function_exists('mb_regex_encoding') and mb_regex_encoding(Registry::get('system.charset'));
+        function_exists('mb_internal_encoding') and mb_internal_encoding(Registry::get('system.charset'));
 
         // Set error handler
         Flextype::setErrorHandler();
 
         // Set default timezone
-        date_default_timezone_set(Registry::get('site.timezone'));
+        date_default_timezone_set(Registry::get('system.timezone'));
+
 
         // Start the session
         Session::start();
@@ -106,7 +107,7 @@ class Flextype
     private static function setErrorHandler() : void
     {
         // Display Errors
-        if (Registry::get('site.errors.display')) {
+        if (Registry::get('system.errors.display')) {
             define('DEVELOPMENT', true);
             error_reporting(-1);
         } else {
@@ -138,6 +139,16 @@ class Flextype
             Registry::set('site', Yaml::parseFile($site_config));
         } else {
             throw new \RuntimeException("Flextype site config file does not exist.");
+        }
+
+        // Set empty system item
+        Registry::set('system', []);
+
+        // Set site items if system config exists
+        if (Filesystem::fileExists($system_config = PATH['config'] . '/' . 'system.yaml')) {
+            Registry::set('system', Yaml::parseFile($system_config));
+        } else {
+            throw new \RuntimeException("Flextype system config file does not exist.");
         }
     }
 

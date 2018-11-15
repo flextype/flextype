@@ -97,27 +97,24 @@ class Plugins
      */
     private static function init() : void
     {
-        // Plugin manifest
-        $plugin_manifest = [];
-
         // Plugin cache id
         $plugins_cache_id = '';
         $_plugins_cache_id = '';
 
-        // Get Plugins List
-        $plugins_list = Registry::get('site.plugins');
-
         // Set empty plugins item
         Registry::set('plugins', []);
 
+        // Get Plugins List
+        $plugins_list = Filesystem::getDirList(PATH['plugins']);
 
         // If Plugins List isnt empty then create plugin cache ID
         if (is_array($plugins_list) && count($plugins_list) > 0) {
 
             // Go through...
             foreach ($plugins_list as $plugin) {
-                if (Filesystem::fileExists($_plugin = PATH['plugins'] . '/' . $plugin . '/' . $plugin . '.yaml')) {
-                    $_plugins_cache_id .= filemtime($_plugin);
+                if (Filesystem::fileExists($_plugin_settings = PATH['plugins'] . '/' . $plugin . '/settings.yaml') and
+                    Filesystem::fileExists($_plugin_config = PATH['plugins'] . '/' . $plugin . '/'. $plugin .'.yaml')) {
+                    $_plugins_cache_id .= filemtime($_plugin_settings) . filemtime($_plugin_config);
                 }
             }
 
@@ -135,11 +132,15 @@ class Plugins
                     // Go through...
                     foreach ($plugins_list as $plugin) {
 
-                        if (Filesystem::fileExists($_plugin_manifest = PATH['plugins'] . '/' . $plugin . '/' . $plugin . '.yaml')) {
-                            $plugin_manifest = Yaml::parseFile($_plugin_manifest);
+                        if (Filesystem::fileExists($_plugin_settings = PATH['plugins'] . '/' . $plugin . '/settings.yaml')) {
+                            $plugin_settings = Yaml::parseFile($_plugin_settings);
                         }
 
-                        $_plugins_config[basename($_plugin_manifest, '.yaml')] = $plugin_manifest;
+                        if (Filesystem::fileExists($_plugin_config = PATH['plugins'] . '/' . $plugin . '/'. $plugin. '.yaml')) {
+                            $plugin_config = Yaml::parseFile($_plugin_config);
+                        }
+
+                        $_plugins_config[basename($_plugin_config, '.yaml')] = array_merge($plugin_settings, $plugin_config);
                     }
 
                     Registry::set('plugins', $_plugins_config);
@@ -153,7 +154,7 @@ class Plugins
                     foreach ($plugins_list as $plugin) {
                         $language_file = PATH['plugins'] . '/' . $plugin . '/languages/' . $locale . '.yaml';
                         if (Filesystem::fileExists($language_file)) {
-                            I18n::add($plugin, $locale, Yaml::parseFile($language_file));
+                            I18n::add(Yaml::parseFile($language_file), $locale);
                         }
                     }
                 }
