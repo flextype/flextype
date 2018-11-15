@@ -1,12 +1,17 @@
-# Flextype 0.7.0, 2018-11-XX
+# Flextype 0.7.0, 2018-11-16
 * Update Symfony YAML to 4.1.1
+* Update Text Component to 1.1.0
+* Update Session Component to 1.1.1
+* Update Doctrine Cache to 1.8.0
+* Update I18n Component to 1.1.0
+* Update Token Component to 1.2.0
 * Content: field 'published' changed to 'visibility'
 * Plugins: from now no need to add plugin names manually to the site.yaml
-* Plugins: added ability to load plugins blueprints.yaml file
-* Plugins: from now plugins configurations stored in the plugin-name.yaml file
+* Plugins: added ability to load plugins settings.yaml file
+* Plugins: from now plugins configurations stored in the plugin-name/settings.yaml file
 * Add system.yaml config file and use it for system configurations
-* Themes: added ability to load themes blueprints.yaml file
-* Themes: from now themes configurations stored in the theme-name.yaml file
+* Themes: added ability to load themes settings.yaml file
+* Themes: from now themes configurations stored in the theme-name/settings.yaml file
 
 # Flextype 0.6.1, 2018-06-17
 * Fixed issue with not found pages status code
