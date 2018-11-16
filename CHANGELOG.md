@@ -1,3 +1,7 @@
+# Flextype 0.7.1, 2018-11-17
+* Plugins: New method getLocales() added
+* Content: processPage() - ability to ignore content parsing - added.
+
 # Flextype 0.7.0, 2018-11-16
 * Update Symfony YAML to 4.1.1
 * Update Text Component to 1.1.0

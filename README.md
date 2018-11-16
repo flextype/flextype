@@ -1,5 +1,5 @@
 # Flextype
-![Version](https://img.shields.io/badge/version-0.7.0-brightgreen.svg?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.7.1-brightgreen.svg?style=flat-square)
 ![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 
 Flextype is Open Source, fast and flexible file-based Content Management System.  
@@ -60,7 +60,6 @@ gulp
 ## COMMUNITY
 Flextype is open source, community driven project, and maintained by community!
 
-* [Forum](http://forum.flextype.org)
 * [Github Repository](https://github.com/flextype/flextype)
 * [Gitter](https://gitter.im/flextype/flextype)
 
@@ -80,7 +79,6 @@ With Flextype you can create any project you want.
 
 ## CONTRIBUTE
 Flextype is an open source project and community contributions are essential to its growing and success. Contributing to the Flextype is easy and you can give as little or as much time as you want.   
-* Help on the [Forum.](http://forum.flextype.org)
 * Develop a new plugin.
 * Create a new theme.
 * Find and [report issues.](https://github.com/flextype/flextype/issues)
@@ -90,7 +88,6 @@ Flextype is an open source project and community contributions are essential to 
 
 ## LINKS
 - [Site](http://flextype.org)
-- [Forum](http://forum.flextype.org)
 - [Documentation](http://flextype.org/documentation)
 
 
