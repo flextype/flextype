@@ -174,6 +174,17 @@ class Plugins
     }
 
     /**
+     * Get locales.
+     *
+     * @access public
+     * @return object
+     */
+     public static function getLocales()
+     {
+        return Plugins::$locales;
+     }
+
+    /**
      * Get the Plugins instance.
      *
      * @access public
