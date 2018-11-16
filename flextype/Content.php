@@ -313,11 +313,12 @@ class Content
      * $page = Content::processPage(PATH['pages'] . '/home/page.html');
      *
      * @access public
-     * @param  string $file_path File path
-     * @param  string $raw       Raw or not raw content
+     * @param  string $file_path      File path
+     * @param  bool   $raw            Raw or not raw content
+     * @param  bool   $ignore_content Ignore content parsing
      * @return array|string
      */
-    public static function processPage(string $file_path, bool $raw = false)
+    public static function processPage(string $file_path, bool $raw = false, $ignore_content = false)
     {
         // Get page from file
         $page = trim(Filesystem::getFileContent($file_path));
@@ -361,7 +362,11 @@ class Content
             $_page['date'] = $_page['date'] ?? date(Registry::get('system.date_format'), filemtime($file_path));
 
             // Create page content item with $page_content
-            $_page['content'] = Content::processContent($page_content);
+            if ($ignore_content) {
+                $_page['content'] = $page_content;
+            } else {
+                $_page['content'] = Content::processContent($page_content);
+            }
 
             // Return page
             return $_page;
