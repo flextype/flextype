@@ -61,7 +61,9 @@ gulp
 Flextype is open source, community driven project, and maintained by community!
 
 * [Github Repository](https://github.com/flextype/flextype)
-* [Gitter](https://gitter.im/flextype/flextype)
+* [Discord](https://discord.gg/CCKPKVG)
+* [Vkontakte](https://vk.com/flextype)
+* [Twitter](https://twitter.com/getflextype)
 
 
 ## NO LIMITS
@@ -78,7 +80,9 @@ With Flextype you can create any project you want.
 
 
 ## CONTRIBUTE
-Flextype is an open source project and community contributions are essential to its growing and success. Contributing to the Flextype is easy and you can give as little or as much time as you want.   
+Flextype is an open source project and community contributions are essential to its growing and success. Contributing to the Flextype is easy and you can give as little or as much time as you want.
+
+* Help on the [Communities.](http://flextype.org/documentation/basics/getting-help)
 * Develop a new plugin.
 * Create a new theme.
 * Find and [report issues.](https://github.com/flextype/flextype/issues)
