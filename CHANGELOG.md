@@ -1,3 +1,7 @@
+# Flextype 0.7.2, 2018-11-24
+* Flextype Component - Cookie updated to 1.2.0
+* Flextype Component - Filesystem updated to 1.1.2
+
 # Flextype 0.7.1, 2018-11-17
 * Plugins: New method getLocales() added
 * Content: processPage() - ability to ignore content parsing - added.
