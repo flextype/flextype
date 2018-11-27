@@ -21,6 +21,7 @@
         "symfony/yaml": "4.1.1",
         "thunderer/shortcode": "0.6.5",
         "gregwar/image": "2.*",
+        "gajus/dindent": "2.0.2",
         "flextype-components/arr" : "1.2.3",
         "flextype-components/assets" : "1.0.1",
         "flextype-components/cookie" : "1.2.0",
