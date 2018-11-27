@@ -97,4 +97,4 @@ Flextype is an open source project and community contributions are essential to 
 
 
 ## LICENSE
-See [LICENSE](https://github.com/flextype/flextype/blob/master/LICENSE.md)
+See [LICENSE](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
