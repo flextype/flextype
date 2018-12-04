@@ -12,7 +12,8 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Filesystem\Filesystem, Registry\Registry};
+use Flextype\Component\Filesystem\Filesystem;
+use Flextype\Component\Registry\Registry;
 use \Doctrine\Common\Cache as DoctrineCache;
 
 class Cache
@@ -58,14 +59,18 @@ class Cache
      *
      * @access private
      */
-    private function __clone() { }
+    private function __clone()
+    {
+    }
 
     /**
      * Private wakeup method to enforce singleton behavior.
      *
      * @access private
      */
-    private function __wakeup() { }
+    private function __wakeup()
+    {
+    }
 
     /**
      * Private construct method to enforce singleton behavior.
@@ -137,15 +142,19 @@ class Cache
                break;
             case 'memcache':
                 $memcache = new \Memcache();
-                $memcache->connect(Registry::get('system.cache.memcache.server', 'localhost'),
-                                   Registry::get('system.cache.memcache.port', 11211));
+                $memcache->connect(
+                    Registry::get('system.cache.memcache.server', 'localhost'),
+                                   Registry::get('system.cache.memcache.port', 11211)
+                );
                 $driver = new DoctrineCache\MemcacheCache();
                 $driver->setMemcache($memcache);
                 break;
             case 'memcached':
                 $memcached = new \Memcached();
-                $memcached->addServer(Registry::get('system.cache.memcached.server', 'localhost'),
-                                      Registry::get('system.cache.memcache.port', 11211));
+                $memcached->addServer(
+                    Registry::get('system.cache.memcached.server', 'localhost'),
+                                      Registry::get('system.cache.memcache.port', 11211)
+                );
                 $driver = new DoctrineCache\MemcachedCache();
                 $driver->setMemcached($memcached);
                 break;
@@ -157,8 +166,10 @@ class Cache
                 if ($socket) {
                     $redis->connect($socket);
                 } else {
-                    $redis->connect(Registry::get('system.cache.redis.server', 'localhost'),
-                                    Registry::get('system.cache.redis.port', 6379));
+                    $redis->connect(
+                        Registry::get('system.cache.redis.server', 'localhost'),
+                                    Registry::get('system.cache.redis.port', 6379)
+                    );
                 }
 
                 // Authenticate with password if set
@@ -306,12 +317,12 @@ class Cache
      * @access public
      * @return object
      */
-     public static function getInstance()
-     {
+    public static function getInstance()
+    {
         if (is_null(Cache::$instance)) {
             Cache::$instance = new self;
         }
 
         return Cache::$instance;
-     }
+    }
 }

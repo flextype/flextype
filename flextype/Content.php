@@ -12,7 +12,11 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Arr\Arr, Http\Http, Filesystem\Filesystem, Event\Event, Registry\Registry};
+use Flextype\Component\Arr\Arr;
+use Flextype\Component\Http\Http;
+use Flextype\Component\Filesystem\Filesystem;
+use Flextype\Component\Event\Event;
+use Flextype\Component\Registry\Registry;
 use Symfony\Component\Yaml\Yaml;
 use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
@@ -48,14 +52,18 @@ class Content
      *
      * @access private
      */
-    private function __clone() { }
+    private function __clone()
+    {
+    }
 
     /**
      * Private wakeup method to enforce singleton behavior.
      *
      * @access private
      */
-    private function __wakeup() { }
+    private function __wakeup()
+    {
+    }
 
     /**
      * Private construct method to enforce singleton behavior.
@@ -234,7 +242,7 @@ class Content
         if ($url === '') {
 
             // Get pages list
-            $pages_list = Filesystem::getFilesList($file_path , 'html');
+            $pages_list = Filesystem::getFilesList($file_path, 'html');
 
             // Create pages cached id
             foreach ($pages_list as $key => $page) {
@@ -251,7 +259,6 @@ class Content
 
                 Cache::save($pages_cache_id, $pages);
             }
-
         } else {
 
             // Get pages list
@@ -293,7 +300,6 @@ class Content
 
         // Return pages array
         return $pages;
-
     }
 
     /**
@@ -340,7 +346,7 @@ class Content
             $_page = Yaml::parse(Content::processShortcodes($page_frontmatter));
 
             // Create page url item
-            $url = str_replace(PATH['pages'] , Http::getBaseUrl(), $file_path);
+            $url = str_replace(PATH['pages'], Http::getBaseUrl(), $file_path);
             $url = str_replace('page.html', '', $url);
             $url = str_replace('.html', '', $url);
             $url = str_replace('\\', '/', $url);
@@ -448,12 +454,12 @@ class Content
      * @access public
      * @return object
      */
-     public static function getInstance()
-     {
+    public static function getInstance()
+    {
         if (is_null(Content::$instance)) {
             Content::$instance = new self;
         }
 
         return Content::$instance;
-     }
+    }
 }

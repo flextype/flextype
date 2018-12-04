@@ -12,7 +12,10 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Filesystem\Filesystem, Event\Event, I18n\I18n, Registry\Registry};
+use Flextype\Component\Filesystem\Filesystem;
+use Flextype\Component\Event\Event;
+use Flextype\Component\I18n\I18n;
+use Flextype\Component\Registry\Registry;
 use Symfony\Component\Yaml\Yaml;
 
 class Plugins
@@ -70,14 +73,18 @@ class Plugins
      *
      * @access private
      */
-    private function __clone() { }
+    private function __clone()
+    {
+    }
 
     /**
      * Private wakeup method to enforce singleton behavior.
      *
      * @access private
      */
-    private function __wakeup() { }
+    private function __wakeup()
+    {
+    }
 
     /**
      * Private construct method to enforce singleton behavior.
@@ -131,7 +138,6 @@ class Plugins
 
                     // Go through...
                     foreach ($plugins_list as $plugin) {
-
                         if (Filesystem::fileExists($_plugin_settings = PATH['plugins'] . '/' . $plugin . '/settings.yaml')) {
                             $plugin_settings = Yaml::parseFile($_plugin_settings);
                         }
@@ -179,10 +185,10 @@ class Plugins
      * @access public
      * @return object
      */
-     public static function getLocales()
-     {
+    public static function getLocales()
+    {
         return Plugins::$locales;
-     }
+    }
 
     /**
      * Get the Plugins instance.
@@ -190,12 +196,12 @@ class Plugins
      * @access public
      * @return object
      */
-     public static function getInstance()
-     {
+    public static function getInstance()
+    {
         if (is_null(Plugins::$instance)) {
             Plugins::$instance = new self;
         }
 
         return Plugins::$instance;
-     }
+    }
 }

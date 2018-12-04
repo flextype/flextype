@@ -12,7 +12,11 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Http\Http, Session\Session, ErrorHandler\ErrorHandler, Registry\Registry, Filesystem\Filesystem};
+use Flextype\Component\Http\Http;
+use Flextype\Component\Session\Session;
+use Flextype\Component\ErrorHandler\ErrorHandler;
+use Flextype\Component\Registry\Registry;
+use Flextype\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 class Flextype
@@ -37,14 +41,18 @@ class Flextype
      *
      * @access private
      */
-    private function __clone() { }
+    private function __clone()
+    {
+    }
 
     /**
      * Private wakeup method to enforce singleton behavior.
      *
      * @access private
      */
-    private function __wakeup() { }
+    private function __wakeup()
+    {
+    }
 
     /**
      * Private construct method to enforce singleton behavior.
@@ -158,12 +166,12 @@ class Flextype
      * @access public
      * @return object
      */
-     public static function getInstance()
-     {
+    public static function getInstance()
+    {
         if (is_null(Flextype::$instance)) {
             Flextype::$instance = new self;
         }
 
         return Flextype::$instance;
-     }
+    }
 }

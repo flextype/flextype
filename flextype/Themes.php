@@ -12,7 +12,9 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Filesystem\Filesystem, View\View, Registry\Registry};
+use Flextype\Component\Filesystem\Filesystem;
+use Flextype\Component\View\View;
+use Flextype\Component\Registry\Registry;
 use Symfony\Component\Yaml\Yaml;
 
 class Themes
@@ -29,14 +31,18 @@ class Themes
      *
      * @access private
      */
-    private function __clone() { }
+    private function __clone()
+    {
+    }
 
     /**
      * Private wakeup method to enforce singleton behavior.
      *
      * @access private
      */
-    private function __wakeup() { }
+    private function __wakeup()
+    {
+    }
 
     /**
      * Private construct method to enforce singleton behavior.
@@ -115,12 +121,12 @@ class Themes
      * @access public
      * @return object
      */
-     public static function getInstance()
-     {
+    public static function getInstance()
+    {
         if (is_null(Themes::$instance)) {
             Themes::$instance = new self;
         }
 
         return Themes::$instance;
-     }
+    }
 }
