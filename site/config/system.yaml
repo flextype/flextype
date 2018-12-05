@@ -1,5 +1,5 @@
 timezone: UTC
-date_format: 'F d Y H:i:s.'
+date_format: 'F d Y H:i:s'
 charset: UTF-8
 
 theme: simple
