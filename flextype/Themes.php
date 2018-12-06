@@ -116,12 +116,12 @@ class Themes
     }
 
     /**
-     * Get theme templates
+     * Get templates for current theme
      *
      * @access public
      * @return array
      */
-    public static function getThemeTemplates() : array
+    public static function getTemplates() : array
     {
         $templates = [];
 
