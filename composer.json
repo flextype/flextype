@@ -20,7 +20,6 @@
         "doctrine/cache": "1.8.0",
         "symfony/yaml": "4.1.1",
         "thunderer/shortcode": "0.6.5",
-        "gajus/dindent": "2.0.2",
         "imagine/imagine": "1.1.0",
         "flextype-components/arr" : "1.2.3",
         "flextype-components/assets" : "1.0.1",
