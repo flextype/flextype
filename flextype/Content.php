@@ -324,7 +324,7 @@ class Content
      * @param  bool   $ignore_content Ignore content parsing
      * @return array|string
      */
-    public static function processPage(string $file_path, bool $raw = false, $ignore_content = false)
+    public static function processPage(string $file_path, bool $raw = false, bool $ignore_content = false)
     {
         // Get page from file
         $page = trim(Filesystem::getFileContent($file_path));
