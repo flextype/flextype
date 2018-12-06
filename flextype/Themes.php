@@ -143,6 +143,33 @@ class Themes
     }
 
     /**
+     * Get templates blueprints for current theme
+     *
+     * @access public
+     * @return array
+     */
+    public static function getTemplatesBlueprints() : array
+    {
+        $blueprints = [];
+
+        // Get blueprints files
+        $_blueprints = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/', 'yaml');
+
+        // If there is any template file then go...
+        if (count($_blueprints) > 0) {
+            foreach ($_blueprints as $blueprint) {
+                if (!is_bool(Themes::_strrevpos($blueprint, '/blueprints/'))) {
+                    $blueprint_name = str_replace('.php', '', substr($blueprint, Themes::_strrevpos($blueprint, '/blueprints/')+strlen('/blueprints/')));
+                    $blueprints[$blueprint_name] = $blueprint_name;
+                }
+            }
+        }
+
+        // return blueprints
+        return $blueprints;
+    }
+
+    /**
      * _strrevpos
      */
     private static function _strrevpos($instr, $needle)
