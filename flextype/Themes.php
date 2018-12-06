@@ -116,6 +116,33 @@ class Themes
     }
 
     /**
+     * Get theme templates
+     *
+     * @access public
+     * @return array
+     */
+    public static function getThemeTemplates() : array
+    {
+        $templates = [];
+
+        // Get templates files
+        $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/', 'php');
+
+        // If there is any template file then go...
+        if (count($_templates) > 0) {
+            foreach ($_templates as $template) {
+                if (!is_bool(Themes::_strrevpos($template, '/templates/'))) {
+                    $template_name = str_replace('.php', '', substr($template, Themes::_strrevpos($template, '/templates/')+strlen('/templates/')));
+                    $templates[$template_name] = $template_name;
+                }
+            }
+        }
+
+        // return templates
+        return $templates;
+    }
+
+    /**
      * _strrevpos
      */
     private static function _strrevpos($instr, $needle)
