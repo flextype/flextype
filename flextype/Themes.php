@@ -116,6 +116,19 @@ class Themes
     }
 
     /**
+     * _strrevpos
+     */
+    private static function _strrevpos($instr, $needle)
+    {
+        $rev_pos = strpos(strrev($instr), strrev($needle));
+        if ($rev_pos === false) {
+            return false;
+        } else {
+            return strlen($instr) - $rev_pos - strlen($needle);
+        }
+    }
+
+    /**
      * Get the Themes instance.
      *
      * @access public
