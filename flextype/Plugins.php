@@ -183,9 +183,9 @@ class Plugins
      * Get locales.
      *
      * @access public
-     * @return object
+     * @return array
      */
-    public static function getLocales()
+    public static function getLocales() : array
     {
         return Plugins::$locales;
     }
