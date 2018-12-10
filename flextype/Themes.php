@@ -159,7 +159,7 @@ class Themes
         if (count($_blueprints) > 0) {
             foreach ($_blueprints as $blueprint) {
                 if (!is_bool(Themes::_strrevpos($blueprint, '/blueprints/'))) {
-                    $blueprint_name = str_replace('.php', '', substr($blueprint, Themes::_strrevpos($blueprint, '/blueprints/')+strlen('/blueprints/')));
+                    $blueprint_name = str_replace('.yaml', '', substr($blueprint, Themes::_strrevpos($blueprint, '/blueprints/')+strlen('/blueprints/')));
                     $blueprints[$blueprint_name] = $blueprint_name;
                 }
             }
