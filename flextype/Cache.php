@@ -94,7 +94,7 @@ class Cache
         Cache::$now = time();
 
         // Create cache key to allow invalidate all cache on configuration changes.
-        Cache::$key = (Registry::get('system.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . Flextype::VERSION);
+        Cache::$key = (Registry::get('settings.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . Flextype::VERSION);
 
         // Get Cache Driver
         Cache::$driver = Cache::getCacheDriver();
@@ -111,7 +111,7 @@ class Cache
      */
     public static function getCacheDriver()
     {
-        $driver_name = Registry::get('system.cache.driver');
+        $driver_name = Registry::get('settings.cache.driver');
 
         if (!$driver_name || $driver_name == 'auto') {
             if (extension_loaded('apcu')) {
@@ -143,8 +143,8 @@ class Cache
             case 'memcache':
                 $memcache = new \Memcache();
                 $memcache->connect(
-                    Registry::get('system.cache.memcache.server', 'localhost'),
-                                   Registry::get('system.cache.memcache.port', 11211)
+                    Registry::get('settings.cache.memcache.server', 'localhost'),
+                                   Registry::get('settings.cache.memcache.port', 11211)
                 );
                 $driver = new DoctrineCache\MemcacheCache();
                 $driver->setMemcache($memcache);
@@ -152,23 +152,23 @@ class Cache
             case 'memcached':
                 $memcached = new \Memcached();
                 $memcached->addServer(
-                    Registry::get('system.cache.memcached.server', 'localhost'),
-                                      Registry::get('system.cache.memcache.port', 11211)
+                    Registry::get('settings.cache.memcached.server', 'localhost'),
+                                      Registry::get('settings.cache.memcache.port', 11211)
                 );
                 $driver = new DoctrineCache\MemcachedCache();
                 $driver->setMemcached($memcached);
                 break;
             case 'redis':
                 $redis    = new \Redis();
-                $socket   = Registry::get('system.cache.redis.socket', false);
-                $password = Registry::get('system.cache.redis.password', false);
+                $socket   = Registry::get('settings.cache.redis.socket', false);
+                $password = Registry::get('settings.cache.redis.password', false);
 
                 if ($socket) {
                     $redis->connect($socket);
                 } else {
                     $redis->connect(
-                        Registry::get('system.cache.redis.server', 'localhost'),
-                                    Registry::get('system.cache.redis.port', 6379)
+                        Registry::get('settings.cache.redis.server', 'localhost'),
+                                    Registry::get('settings.cache.redis.port', 6379)
                     );
                 }
 
@@ -220,7 +220,7 @@ class Cache
      */
     public static function fetch(string $id)
     {
-        if (Registry::get('system.cache.enabled')) {
+        if (Registry::get('settings.cache.enabled')) {
             return Cache::$driver->fetch($id);
         } else {
             return false;
@@ -235,7 +235,7 @@ class Cache
      */
     public static function contains($id)
     {
-        if (Registry::get('system.cache.enabled')) {
+        if (Registry::get('settings.cache.enabled')) {
             return Cache::$driver->contains(($id));
         } else {
             return false;
@@ -254,7 +254,7 @@ class Cache
      */
     public static function save(string $id, $data, $lifetime = null)
     {
-        if (Registry::get('system.cache.enabled')) {
+        if (Registry::get('settings.cache.enabled')) {
             if ($lifetime === null) {
                 $lifetime = Cache::getLifetime();
             }
@@ -305,7 +305,7 @@ class Cache
     public static function getLifetime()
     {
         if (Cache::$lifetime === null) {
-            Cache::$lifetime = Registry::get('system.cache.lifetime') ?: 604800;
+            Cache::$lifetime = Registry::get('settings.cache.lifetime') ?: 604800;
         }
 
         return Cache::$lifetime;

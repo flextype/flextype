@@ -69,7 +69,7 @@ class Themes
         $theme_cache_id = '';
 
         // Get current theme
-        $theme = Registry::get('system.theme');
+        $theme = Registry::get('settings.theme');
 
         // Set empty themes items
         Registry::set('themes', []);
@@ -78,16 +78,16 @@ class Themes
         $theme_cache_id = md5('theme' . filemtime(PATH['themes'] .'/'. $theme . '/' . 'settings.yaml') .
                                         filemtime(PATH['themes'] .'/'. $theme . '/' . $theme . '.yaml'));
 
-        // Get Theme mafifest file and write to site.themes array
+        // Get Theme mafifest file and write to settings.themes array
         if (Cache::contains($theme_cache_id)) {
-            Registry::set('themes.'.Registry::get('system.theme'), Cache::fetch($theme_cache_id));
+            Registry::set('themes.'.Registry::get('settings.theme'), Cache::fetch($theme_cache_id));
         } else {
             if (Filesystem::fileExists($theme_settings = PATH['themes'] . '/' . $theme . '/' . 'settings.yaml') and
                 Filesystem::fileExists($theme_config = PATH['themes'] . '/' . $theme . '/' . $theme . '.yaml')) {
                 $theme_settings = Yaml::parseFile($theme_settings);
                 $theme_config = Yaml::parseFile($theme_config);
                 $_theme = array_merge($theme_settings, $theme_config);
-                Registry::set('themes.'.Registry::get('system.theme'), $_theme);
+                Registry::set('themes.'.Registry::get('settings.theme'), $_theme);
                 Cache::save($theme_cache_id, $_theme);
             }
         }
@@ -105,8 +105,8 @@ class Themes
     {
         // Set view file
         // From current theme folder or from plugin folder
-        if (Filesystem::fileExists(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/' . $template . View::$view_ext)) {
-            $template = PATH['themes'] . '/' . Registry::get('system.theme') . '/views/' . $template;
+        if (Filesystem::fileExists(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $template . View::$view_ext)) {
+            $template = PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $template;
         } else {
             $template = PATH['plugins'] . '/' . $template;
         }
@@ -126,7 +126,7 @@ class Themes
         $templates = [];
 
         // Get templates files
-        $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/', 'php');
+        $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/', 'php');
 
         // If there is any template file then go...
         if (count($_templates) > 0) {
@@ -153,7 +153,7 @@ class Themes
         $blueprints = [];
 
         // Get blueprints files
-        $_blueprints = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/', 'yaml');
+        $_blueprints = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/', 'yaml');
 
         // If there is any template file then go...
         if (count($_blueprints) > 0) {
