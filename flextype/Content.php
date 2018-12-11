@@ -363,6 +363,9 @@ class Content
             $url = rtrim($url, '/');
             $_page['slug'] = str_replace(Http::getBaseUrl(), '', $url);
 
+            // Create page template item
+            $_page['template'] = $_page['template'] ?? 'default';
+
             // Create page date item
             $_page['date'] = $_page['date'] ?? date(Registry::get('settings.date_format'), filemtime($file_path));
 
