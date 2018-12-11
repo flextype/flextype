@@ -354,7 +354,6 @@ class Content
             $url = str_replace('//', '/', $url);
             $url = str_replace('http:/', 'http://', $url);
             $url = str_replace('https:/', 'https://', $url);
-            $url = str_replace('/'.Registry::get('settings.pages.main'), '', $url);
             $url = rtrim($url, '/');
             $_page['url'] = $url;
 
