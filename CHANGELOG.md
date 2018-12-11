@@ -1,5 +1,4 @@
 # Flextype 0.7.3, 2018-12-09
-* Use Gajus Dindent HTML indentation library
 * Use Imagine library for image manipulation
 * Flextype Component - I18n updated to 1.2.0
 * Flextype Component - Filesystem updated to 1.1.3
