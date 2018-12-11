@@ -1,0 +1,19 @@
+fields:
+  title:
+    title: "admin_pages_title"
+    type: text
+  content:
+    title: "admin_pages_content"
+    type: html
+  template:
+    title: "admin_pages_template"
+    type: template_select
+    size: col-4
+  visibility:
+    title: "admin_pages_visibility"
+    type: visibility_select
+    size: col-4
+  date:
+    title: "admin_pages_date"
+    type: text
+    size: col-4
