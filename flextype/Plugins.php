@@ -53,6 +53,7 @@ class Plugins
         'id' => 'Bahasa Indonesia',
         'ja' => '日本語',
         'lt' => 'Lietuvių',
+        'hr' => 'Hrvatski',
         'nl' => 'Nederlands',
         'no' => 'Norsk',
         'pl' => 'Polski',
