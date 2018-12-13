@@ -12,7 +12,11 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Http\Http, Session\Session, ErrorHandler\ErrorHandler, Registry\Registry, Filesystem\Filesystem};
+use Flextype\Component\Http\Http;
+use Flextype\Component\Session\Session;
+use Flextype\Component\ErrorHandler\ErrorHandler;
+use Flextype\Component\Registry\Registry;
+use Flextype\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 class Flextype
@@ -22,7 +26,7 @@ class Flextype
      *
      * @var string
      */
-    const VERSION = '0.7.2';
+    const VERSION = '0.7.3';
 
     /**
      * An instance of the Flextype class
@@ -37,14 +41,18 @@ class Flextype
      *
      * @access private
      */
-    private function __clone() { }
+    private function __clone()
+    {
+    }
 
     /**
      * Private wakeup method to enforce singleton behavior.
      *
      * @access private
      */
-    private function __wakeup() { }
+    private function __wakeup()
+    {
+    }
 
     /**
      * Private construct method to enforce singleton behavior.
@@ -66,19 +74,18 @@ class Flextype
         // Turn on output buffering
         ob_start();
 
-        Flextype::setSiteConfig();
+        Flextype::setConfig();
 
         // Set internal encoding
         function_exists('mb_language') and mb_language('uni');
-        function_exists('mb_regex_encoding') and mb_regex_encoding(Registry::get('system.charset'));
-        function_exists('mb_internal_encoding') and mb_internal_encoding(Registry::get('system.charset'));
+        function_exists('mb_regex_encoding') and mb_regex_encoding(Registry::get('settings.charset'));
+        function_exists('mb_internal_encoding') and mb_internal_encoding(Registry::get('settings.charset'));
 
         // Set error handler
         Flextype::setErrorHandler();
 
         // Set default timezone
-        date_default_timezone_set(Registry::get('system.timezone'));
-
+        date_default_timezone_set(Registry::get('settings.timezone'));
 
         // Start the session
         Session::start();
@@ -107,7 +114,7 @@ class Flextype
     private static function setErrorHandler() : void
     {
         // Display Errors
-        if (Registry::get('system.errors.display')) {
+        if (Registry::get('settings.errors.display')) {
             define('DEVELOPMENT', true);
             error_reporting(-1);
         } else {
@@ -125,30 +132,20 @@ class Flextype
     }
 
     /**
-     * Set site config
+     * Set config
      *
      * @access private
      */
-    private static function setSiteConfig() : void
+    private static function setConfig() : void
     {
         // Set empty site item
-        Registry::set('site', []);
+        Registry::set('settings', []);
 
-        // Set site items if site config exists
-        if (Filesystem::fileExists($site_config = PATH['config'] . '/' . 'site.yaml')) {
-            Registry::set('site', Yaml::parseFile($site_config));
+        // Set settings items if settings config exists
+        if (Filesystem::fileExists($settings_config = PATH['config'] . '/' . 'settings.yaml')) {
+            Registry::set('settings', Yaml::parseFile($settings_config));
         } else {
-            throw new \RuntimeException("Flextype site config file does not exist.");
-        }
-
-        // Set empty system item
-        Registry::set('system', []);
-
-        // Set site items if system config exists
-        if (Filesystem::fileExists($system_config = PATH['config'] . '/' . 'system.yaml')) {
-            Registry::set('system', Yaml::parseFile($system_config));
-        } else {
-            throw new \RuntimeException("Flextype system config file does not exist.");
+            throw new \RuntimeException("Flextype settings config file does not exist.");
         }
     }
 
@@ -158,12 +155,12 @@ class Flextype
      * @access public
      * @return object
      */
-     public static function getInstance()
-     {
+    public static function getInstance()
+    {
         if (is_null(Flextype::$instance)) {
             Flextype::$instance = new self;
         }
 
         return Flextype::$instance;
-     }
+    }
 }

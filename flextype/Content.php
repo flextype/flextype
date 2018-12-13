@@ -12,7 +12,11 @@
 
 namespace Flextype;
 
-use Flextype\Component\{Arr\Arr, Http\Http, Filesystem\Filesystem, Event\Event, Registry\Registry};
+use Flextype\Component\Arr\Arr;
+use Flextype\Component\Http\Http;
+use Flextype\Component\Filesystem\Filesystem;
+use Flextype\Component\Event\Event;
+use Flextype\Component\Registry\Registry;
 use Symfony\Component\Yaml\Yaml;
 use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
@@ -48,14 +52,18 @@ class Content
      *
      * @access private
      */
-    private function __clone() { }
+    private function __clone()
+    {
+    }
 
     /**
      * Private wakeup method to enforce singleton behavior.
      *
      * @access private
      */
-    private function __wakeup() { }
+    private function __wakeup()
+    {
+    }
 
     /**
      * Private construct method to enforce singleton behavior.
@@ -150,7 +158,7 @@ class Content
     {
         // if $url is empty then set path for defined main page
         if ($url === '') {
-            $file_path = PATH['pages'] . '/' . Registry::get('system.pages.main') . '/page.html';
+            $file_path = PATH['pages'] . '/' . Registry::get('settings.pages.main') . '/page.html';
         } else {
             $file_path = PATH['pages'] . '/'  . $url . '/page.html';
         }
@@ -186,7 +194,7 @@ class Content
                 $page = Content::processPage($file_path);
 
                 // Get 404 page if page is not published
-                if (isset($page['visibility']) && $page['visibility'] === 'draft') {
+                if (isset($page['visibility']) && ($page['visibility'] === 'draft' || $page['visibility'] === 'hidden')) {
                     if (Filesystem::fileExists($file_path = PATH['pages'] . '/404/page.html')) {
                         $page = Content::processPage($file_path);
                         Http::setResponseStatus(404);
@@ -234,7 +242,7 @@ class Content
         if ($url === '') {
 
             // Get pages list
-            $pages_list = Filesystem::getFilesList($file_path , 'html');
+            $pages_list = Filesystem::getFilesList($file_path, 'html');
 
             // Create pages cached id
             foreach ($pages_list as $key => $page) {
@@ -251,7 +259,6 @@ class Content
 
                 Cache::save($pages_cache_id, $pages);
             }
-
         } else {
 
             // Get pages list
@@ -293,7 +300,6 @@ class Content
 
         // Return pages array
         return $pages;
-
     }
 
     /**
@@ -318,7 +324,7 @@ class Content
      * @param  bool   $ignore_content Ignore content parsing
      * @return array|string
      */
-    public static function processPage(string $file_path, bool $raw = false, $ignore_content = false)
+    public static function processPage(string $file_path, bool $raw = false, bool $ignore_content = false)
     {
         // Get page from file
         $page = trim(Filesystem::getFileContent($file_path));
@@ -340,7 +346,7 @@ class Content
             $_page = Yaml::parse(Content::processShortcodes($page_frontmatter));
 
             // Create page url item
-            $url = str_replace(PATH['pages'] , Http::getBaseUrl(), $file_path);
+            $url = str_replace(PATH['pages'], Http::getBaseUrl(), $file_path);
             $url = str_replace('page.html', '', $url);
             $url = str_replace('.html', '', $url);
             $url = str_replace('\\', '/', $url);
@@ -348,7 +354,6 @@ class Content
             $url = str_replace('//', '/', $url);
             $url = str_replace('http:/', 'http://', $url);
             $url = str_replace('https:/', 'https://', $url);
-            $url = str_replace('/'.Registry::get('system.pages.main'), '', $url);
             $url = rtrim($url, '/');
             $_page['url'] = $url;
 
@@ -358,8 +363,11 @@ class Content
             $url = rtrim($url, '/');
             $_page['slug'] = str_replace(Http::getBaseUrl(), '', $url);
 
+            // Create page template item
+            $_page['template'] = $_page['template'] ?? 'default';
+
             // Create page date item
-            $_page['date'] = $_page['date'] ?? date(Registry::get('system.date_format'), filemtime($file_path));
+            $_page['date'] = $_page['date'] ?? date(Registry::get('settings.date_format'), filemtime($file_path));
 
             // Create page content item with $page_content
             if ($ignore_content) {
@@ -436,7 +444,7 @@ class Content
      */
     private static function displayCurrentPage() : void
     {
-        Http::setRequestHeaders('Content-Type: text/html; charset='.Registry::get('system.charset'));
+        Http::setRequestHeaders('Content-Type: text/html; charset='.Registry::get('settings.charset'));
         Themes::view(empty(Content::$page['template']) ? 'templates/default' : 'templates/' . Content::$page['template'])
             ->assign('page', Content::$page, true)
             ->display();
@@ -448,12 +456,12 @@ class Content
      * @access public
      * @return object
      */
-     public static function getInstance()
-     {
+    public static function getInstance()
+    {
         if (is_null(Content::$instance)) {
             Content::$instance = new self;
         }
 
         return Content::$instance;
-     }
+    }
 }

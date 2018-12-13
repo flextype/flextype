@@ -1,3 +1,11 @@
+# Flextype 0.7.3, 2018-12-13
+* Content: visibility hidden for pages - added
+* Settings merged into one settings.yaml file
+* Using Imagine library for image manipulation
+* Flextype Component - I18n updated to 1.2.0
+* Flextype Component - Filesystem updated to 1.1.3
+* Symfony YAML - updated to 4.2.1
+
 # Flextype 0.7.2, 2018-11-24
 * Flextype Component - Cookie updated to 1.2.0
 * Flextype Component - Filesystem updated to 1.1.2
