@@ -1,4 +1,4 @@
-# Flextype 0.7.3, 2018-12-14
+# Flextype 0.7.3, 2018-12-13
 * Content: visibility hidden for pages - added
 * Settings merged into one settings.yaml file
 * Using Imagine library for image manipulation
