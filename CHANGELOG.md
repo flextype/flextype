@@ -1,6 +1,7 @@
 # Flextype 0.7.4, 2018-12-14
 * Content: new frontMatterParser() - added
 * Config: set error reporting - false
+* Update theme simple according to the php template syntax guidelines
 * Super heavy "imagine/imagine": "1.2.0" - removed
 * Flextype Component - Errorhandler updated to 1.0.5
 
