@@ -1,21 +1,45 @@
-title: Flextype
-description: 'Modern Open Source Flat-File Content Management System'
-keywords: 'flextype, php, cms, flat-file cms, flat cms, flatfile cms, html'
-robots: 'index, follow'
+# The title of the website
+title: "Site title here"
+
+# The description of the website
+description: "Site description here"
+
+# The name and email address of the website author
 author:
-  name: ''
-  email: ''
+  email: ""
+  name: ""
+
+# Set the timezone to be used on the website. For a list of valid timezone
+# settings, see: http://php.net/manual/en/timezones.php
 timezone: UTC
-date_format: 'F d Y H:i:s'
+
+# Charset
 charset: UTF-8
-theme: nes
-locale: en
+
+# Date format
+date_format: "F d Y H:i:s."
+
+# The theme to use.
+#
+# Don't edit the provided theme templates directly, because they get updated
+# in next releases. If you wish to modify a default theme, copy its folder, and
+# change the name here accordingly.
+theme: simple
+
+# The locale that'll be used by the Flextype.
+locale: "en"
+
+# The default page to use for the homepage.
 pages:
   main: home
+
+# Errors
 errors:
   display: true
+
+# Cache
 cache:
   enabled: true
-  prefix: flextype
+  prefix: Flextype
   driver: auto
   lifetime: 604800
