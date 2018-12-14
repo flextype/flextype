@@ -138,15 +138,29 @@ class Flextype
      */
     private static function setConfig() : void
     {
-        // Set empty site item
+        // Set empty site settings array
         Registry::set('settings', []);
 
-        // Set settings items if settings config exists
-        if (Filesystem::fileExists($settings_config = PATH['config'] . '/' . 'settings.yaml')) {
-            Registry::set('settings', Yaml::parseFile($settings_config));
+        // Set settings files path
+        $default_settings_file_path = PATH['config']['default'] . '/settings.yaml';
+        $site_settings_file_path    = PATH['config']['site']    . '/settings.yaml';
+
+        // Set settings if Flextype settings and Site settings config files exist
+        if (Filesystem::fileExists($default_settings_file_path) && Filesystem::fileExists($site_settings_file_path)) {
+
+            // Get Flextype settings and Site settings
+            $default_settings = Yaml::parseFile($default_settings_file_path);
+            $site_settings    = Yaml::parseFile($site_settings_file_path);
+
+            // Merge settings
+            $settings = array_merge($default_settings, $site_settings);
+
+            // Set settings
+            Registry::set('settings', $settings);
         } else {
-            throw new \RuntimeException("Flextype settings config file does not exist.");
+            throw new \RuntimeException("Flextype settings and Site settings config files does not exist.");
         }
+
     }
 
     /**
