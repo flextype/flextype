@@ -314,6 +314,22 @@ class Content
     }
 
     /**
+     * Front matter parser
+     *
+     * @param  string $content Content to parse
+     * @access public
+     * @return array
+     */
+    public static function frontMatterParser(string $content) : array
+    {
+       $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL.ltrim($content));
+
+       if (count($parts) < 3) return ['matter' => [], 'body' => $content];
+
+       return ['matter' => trim($parts[1]), 'body' => implode(PHP_EOL.'---'.PHP_EOL, array_slice($parts, 2))];
+    }
+
+    /**
      * Process page
      *
      * $page = Content::processPage(PATH['pages'] . '/home/page.html');
@@ -335,9 +351,9 @@ class Content
         } else {
 
             // Create $page_frontmatter and $page_content
-            $page = explode('---', $page, 3);
-            $page_frontmatter = $page[1];
-            $page_content     = $page[2];
+            $page = Content::frontMatterParser($page);
+            $page_frontmatter = $page['matter'];
+            $page_content     = $page['body'];
 
             // Create empty $_page
             $_page = [];

@@ -13,7 +13,7 @@ locale: en
 pages:
   main: home
 errors:
-  display: true
+  display: false
 cache:
   enabled: true
   prefix: flextype

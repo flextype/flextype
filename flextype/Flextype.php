@@ -26,7 +26,7 @@ class Flextype
      *
      * @var string
      */
-    const VERSION = '0.7.3';
+    const VERSION = '0.7.4';
 
     /**
      * An instance of the Flextype class
