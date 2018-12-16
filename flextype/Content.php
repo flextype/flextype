@@ -212,7 +212,11 @@ class Content
     /**
      * Get pages
      *
+     * // Get list of subpages for page 'projects'
      * $pages = Content::getPages('projects');
+     *
+     * // Get list of subpages for page 'projects' and order by date and order type DESC
+     * $pages = Content::getPages('projects', false, 'date', 'DESC');
      *
      * @access  public
      * @param   string  $url      Page url
@@ -315,6 +319,8 @@ class Content
 
     /**
      * Front matter parser
+     *
+     * $content = Content::frontMatterParser($content);
      *
      * @param  string $content Content to parse
      * @access public
