@@ -17,7 +17,6 @@ use Flextype\Component\Session\Session;
 use Flextype\Component\ErrorHandler\ErrorHandler;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Filesystem\Filesystem;
-use Symfony\Component\Yaml\Yaml;
 
 class Flextype
 {
@@ -149,8 +148,8 @@ class Flextype
         if (Filesystem::fileExists($default_settings_file_path) && Filesystem::fileExists($site_settings_file_path)) {
 
             // Get Flextype settings and Site settings
-            $default_settings = Yaml::parseFile($default_settings_file_path);
-            $site_settings    = Yaml::parseFile($site_settings_file_path);
+            $default_settings = YamlParser::decode(Filesystem::getFileContent($default_settings_file_path));
+            $site_settings    = YamlParser::decode(Filesystem::getFileContent($site_settings_file_path));
 
             // Merge settings
             $settings = array_merge($default_settings, $site_settings);
