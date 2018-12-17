@@ -8,11 +8,20 @@
 # file that was distributed with this source code.
 ##
 
+## Common PHP Overrides
+#
+# Some of the most common settings that can (sometimes) be overridden.
+# php_value memory_limit 256M
+# php_value post_max_size 16M
+# php_value max_execution_time 90
+# php_value max_input_time 120
+# php_value upload_max_filesize 16M
+
 <IfModule mod_rewrite.c>
 
 RewriteEngine On
 
-RewriteBase /
+RewriteBase /flextype/
 
 ## Begin - Exploits
 # If you experience problems on your site block out the operations listed below
