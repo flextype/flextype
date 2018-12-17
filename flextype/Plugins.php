@@ -16,7 +16,6 @@ use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Event\Event;
 use Flextype\Component\I18n\I18n;
 use Flextype\Component\Registry\Registry;
-use Symfony\Component\Yaml\Yaml;
 
 class Plugins
 {
@@ -290,11 +289,11 @@ class Plugins
                     // Go through...
                     foreach ($plugins_list as $plugin) {
                         if (Filesystem::fileExists($_plugin_settings = PATH['plugins'] . '/' . $plugin . '/settings.yaml')) {
-                            $plugin_settings = Yaml::parseFile($_plugin_settings);
+                            $plugin_settings = YamlParser::decode(Filesystem::getFileContent($_plugin_settings));
                         }
 
                         if (Filesystem::fileExists($_plugin_config = PATH['plugins'] . '/' . $plugin . '/'. $plugin. '.yaml')) {
-                            $plugin_config = Yaml::parseFile($_plugin_config);
+                            $plugin_config = YamlParser::decode(Filesystem::getFileContent($_plugin_config));
                         }
 
                         $_plugins_config[basename($_plugin_config, '.yaml')] = array_merge($plugin_settings, $plugin_config);
@@ -311,7 +310,7 @@ class Plugins
                     foreach ($plugins_list as $plugin) {
                         $language_file = PATH['plugins'] . '/' . $plugin . '/languages/' . $locale . '.yaml';
                         if (Filesystem::fileExists($language_file)) {
-                            I18n::add(Yaml::parseFile($language_file), $locale);
+                            I18n::add(YamlParser::decode(Filesystem::getFileContent($language_file)), $locale);
                         }
                     }
                 }

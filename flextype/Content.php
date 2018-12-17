@@ -17,7 +17,6 @@ use Flextype\Component\Http\Http;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Event\Event;
 use Flextype\Component\Registry\Registry;
-use Symfony\Component\Yaml\Yaml;
 use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
@@ -365,7 +364,7 @@ class Content
             $_page = [];
 
             // Process $page_frontmatter with YAML and Shortcodes parsers
-            $_page = Yaml::parse(Content::processShortcodes($page_frontmatter));
+            $_page = YamlParser::decode(Content::processShortcodes($page_frontmatter));
 
             // Create page url item
             $url = str_replace(PATH['pages'], Http::getBaseUrl(), $file_path);

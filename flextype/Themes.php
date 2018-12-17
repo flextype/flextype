@@ -15,7 +15,6 @@ namespace Flextype;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\View\View;
 use Flextype\Component\Registry\Registry;
-use Symfony\Component\Yaml\Yaml;
 
 class Themes
 {
@@ -84,8 +83,8 @@ class Themes
         } else {
             if (Filesystem::fileExists($theme_settings = PATH['themes'] . '/' . $theme . '/' . 'settings.yaml') and
                 Filesystem::fileExists($theme_config = PATH['themes'] . '/' . $theme . '/' . $theme . '.yaml')) {
-                $theme_settings = Yaml::parseFile($theme_settings);
-                $theme_config = Yaml::parseFile($theme_config);
+                $theme_settings = YamlParser::decode(Filesystem::getFileContent($theme_settings));
+                $theme_config = YamlParser::decode(Filesystem::getFileContent($theme_config));
                 $_theme = array_merge($theme_settings, $theme_config);
                 Registry::set('themes.'.Registry::get('settings.theme'), $_theme);
                 Cache::save($theme_cache_id, $_theme);
