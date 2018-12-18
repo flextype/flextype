@@ -29,8 +29,8 @@ The flat-file nature of Flextype lets you define custom fields for any of your p
 Flextype is an open-source project licensed under the MIT LICENSE to set the world free!  
 
 ## REQUIREMENTS
-PHP 7.1.3 or higher with PHP's [Multibyte String module](http://php.net/mbstring)   
-Apache with [Mod Rewrite](http://httpd.apache.org/docs/current/mod/mod_rewrite.html)  
+PHP 7.1.3 or higher with PHP's [Multibyte String module](https://php.net/mbstring)   
+Apache with [Mod Rewrite](https://httpd.apache.org/docs/current/mod/mod_rewrite.html)  
 
 ## INSTALLATION
 
