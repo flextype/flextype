@@ -152,14 +152,13 @@ class Flextype
             $site_settings    = YamlParser::decode(Filesystem::getFileContent($site_settings_file_path));
 
             // Merge settings
-            $settings = array_merge($default_settings, $site_settings);
+            $settings = array_replace_recursive($default_settings, $site_settings);
 
             // Set settings
             Registry::set('settings', $settings);
         } else {
             throw new \RuntimeException("Flextype settings and Site settings config files does not exist.");
         }
-
     }
 
     /**
