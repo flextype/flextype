@@ -149,11 +149,12 @@ class Content
      * $page = Content::getPage('projects');
      *
      * @access  public
-     * @param   string   $url  Page url
-     * @param   bool     $raw  Raw or not raw content
+     * @param   string   $url    Page url
+     * @param   bool     $raw    Raw or not raw content
+     * @param   bool     $hidden Get hidden pages
      * @return  array|string
      */
-    public static function getPage(string $url = '', bool $raw = false)
+    public static function getPage(string $url = '', bool $raw = false, bool $hidden = false)
     {
         // if $url is empty then set path for defined main page
         if ($url === '') {
@@ -192,13 +193,16 @@ class Content
             } else {
                 $page = Content::processPage($file_path);
 
-                // Get 404 page if page is not published
-                if (isset($page['visibility']) && ($page['visibility'] === 'draft' || $page['visibility'] === 'hidden')) {
-                    if (Filesystem::fileExists($file_path = PATH['pages'] . '/404/page.html')) {
-                        $page = Content::processPage($file_path);
-                        Http::setResponseStatus(404);
-                    } else {
-                        throw new \RuntimeException("404 page file does not exist.");
+                // Don't proccess 404 page if we want to get hidden page.
+                if ($hidden === false) {
+                    // Get 404 page if page is not published
+                    if (isset($page['visibility']) && ($page['visibility'] === 'draft' || $page['visibility'] === 'hidden')) {
+                        if (Filesystem::fileExists($file_path = PATH['pages'] . '/404/page.html')) {
+                            $page = Content::processPage($file_path);
+                            Http::setResponseStatus(404);
+                        } else {
+                            throw new \RuntimeException("404 page file does not exist.");
+                        }
                     }
                 }
             }
