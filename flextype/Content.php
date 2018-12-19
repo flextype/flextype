@@ -156,60 +156,56 @@ class Content
      */
     public static function getPage(string $url = '', bool $raw = false, bool $hidden = false)
     {
-        // if $url is empty then set path for defined main page
+        // If $url is empty then set path for default main page
         if ($url === '') {
             $file_path = PATH['pages'] . '/' . Registry::get('settings.pages.main') . '/page.html';
         } else {
             $file_path = PATH['pages'] . '/'  . $url . '/page.html';
         }
 
-        $page_cache_id = '';
-
-        // Page cache id
+        // If page exist
         if (Filesystem::fileExists($file_path)) {
-            $page_cache_id = md5('page' . $file_path . filemtime($file_path) . (($raw === true) ? 'true' : 'false'));
-        }
+            $page_cache_id = md5('page' . $file_path . filemtime($file_path) . (($raw === true) ? 'true' : 'false') . (($hidden === true) ? 'true' : 'false'));
 
-        // Try to get page from cache
-        if (Cache::contains($page_cache_id)) {
-            if (!Filesystem::fileExists($file_path)) {
-                Http::setResponseStatus(404);
-            }
-            return Cache::fetch($page_cache_id);
-        } else {
-
-            // Get 404 page if page file is not exists
-            if (!Filesystem::fileExists($file_path)) {
-                if (Filesystem::fileExists($file_path = PATH['pages'] . '/404/page.html')) {
-                    Http::setResponseStatus(404);
-                } else {
-                    throw new \RuntimeException("404 page file does not exist.");
-                }
-            }
-
-            // Get raw page if $raw is true
-            if ($raw) {
-                $page = Content::processPage($file_path, true);
+            // Try to get the page from cache
+            if (Cache::contains($page_cache_id)) {
+                return Cache::fetch($page_cache_id);
             } else {
-                $page = Content::processPage($file_path);
 
-                // Don't proccess 404 page if we want to get hidden page.
-                if ($hidden === false) {
-                    // Get 404 page if page is not published
-                    if (isset($page['visibility']) && ($page['visibility'] === 'draft' || $page['visibility'] === 'hidden')) {
-                        if (Filesystem::fileExists($file_path = PATH['pages'] . '/404/page.html')) {
-                            $page = Content::processPage($file_path);
-                            Http::setResponseStatus(404);
-                        } else {
-                            throw new \RuntimeException("404 page file does not exist.");
+                // Get raw page if $raw is true
+                if ($raw) {
+                    $page = Content::processPage($file_path, true);
+                } else {
+                    $page = Content::processPage($file_path);
+
+                    // Don't proccess 404 page if we want to get hidden page.
+                    if ($hidden === false) {
+
+                        // Get 404 page if page is not published
+                        if (isset($page['visibility']) && ($page['visibility'] === 'draft' || $page['visibility'] === 'hidden')) {
+                            $page = Content::getError404Page();
                         }
                     }
                 }
-            }
 
-            Cache::save($page_cache_id, $page);
-            return $page;
+                Cache::save($page_cache_id, $page);
+                return $page;
+            }
+        } else {
+            return Content::getError404Page();
         }
+    }
+
+    private static function getError404Page() : array
+    {
+        Http::setResponseStatus(404);
+
+        $page['title']       = Registry::get('settings.pages.error404.title');
+        $page['description'] = Registry::get('settings.pages.error404.description');
+        $page['content']     = Registry::get('settings.pages.error404.content');
+        $page['template']    = Registry::get('settings.pages.error404.template');
+
+        return $page;
     }
 
     /**
