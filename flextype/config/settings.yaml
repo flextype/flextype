@@ -39,6 +39,12 @@ locale: "en"
 # The default page to use for the homepage.
 pages:
   main: home
+  error404:
+    title: "Error 404"
+    description: "We're sorry but the page you are looking for doesn't appear to exist!"
+    content: "We're sorry but the page you are looking for doesn't appear to exist!"
+    template: "default"
+
 
 # Display errors
 errors:
