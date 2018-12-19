@@ -1,3 +1,13 @@
+# Flextype 0.7.5, 2018-12-ХХ
+* Plugins: Locales array updated
+* Flextype: fallback functionality for settings - added
+* Settings: new item - accept_file_types
+* Updates: "flextype-components/form" : "1.0.2
+* Code refactoring and cleanup
+* .htaccess: Common PHP Overrides - added
+* Custom YamlParser with native support - added
+* Content: ability to get hidden pages for method getPage() - added.
+
 # Flextype 0.7.4, 2018-12-14
 * Content: new frontMatterParser() - added
 * Config: set error reporting - false
