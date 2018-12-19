@@ -1,7 +1,5 @@
 <?php namespace Flextype; ?>
-
-    <?php Themes::view('partials/tail')->display(); ?>
-
+    <?= Themes::view('partials/tail') ?>
     <div class="powered">
       Powered by <a href="http://flextype.org">Flextype</a>
     </div>

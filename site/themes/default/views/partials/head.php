@@ -29,5 +29,5 @@
     <?php Event::dispatch('onThemeHeader'); ?>
   </head>
   <body>
-  <?php Themes::view('partials/navigation')->display(); ?>
+  <?= Themes::view('partials/navigation') ?>
   <main role="main" class="container content">
