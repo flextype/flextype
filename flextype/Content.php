@@ -293,11 +293,13 @@ class Content
         }
 
         // Sort and Slice pages if $raw === false
-        if (!$raw) {
-            $pages = Arr::sort($pages, $order_by, $order_type);
+        if (count($pages) > 0) {
+            if (!$raw) {
+                $pages = Arr::sort($pages, $order_by, $order_type);
 
-            if ($offset !== null && $length !== null) {
-                $pages = array_slice($pages, $offset, $length);
+                if ($offset !== null && $length !== null) {
+                    $pages = array_slice($pages, $offset, $length);
+                }
             }
         }
 
