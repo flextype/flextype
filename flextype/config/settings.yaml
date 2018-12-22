@@ -37,7 +37,7 @@ theme: simple
 locale: "en"
 
 # The default page to use for the homepage.
-pages:
+entries:
   main: home
   error404:
     title: "Error 404"
