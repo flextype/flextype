@@ -20,7 +20,7 @@ use Flextype\Component\Registry\Registry;
 use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
-class Entry
+class Entries
 {
     /**
      * An instance of the Entry class
@@ -71,7 +71,7 @@ class Entry
      */
     private function __construct()
     {
-        Entry::init();
+        Entries::init();
     }
 
     /**
@@ -82,7 +82,7 @@ class Entry
      */
     private static function init() : void
     {
-        Entry::processCurrentEntry();
+        Entries::processCurrentEntry();
     }
 
     /**
@@ -97,19 +97,19 @@ class Entry
         Event::dispatch('onCurrentEntryBeforeProcessed');
 
         // Init Parsers
-        Entry::initParsers();
+        Entries::initParsers();
 
         // Event: The entry has been not loaded.
         Event::dispatch('onCurrentEntryBeforeLoaded');
 
         // Set current requested entry data to global $entry array
-        Entry::$entry = Entry::getEntry(Http::getUriString());
+        Entries::$entry = Entries::getEntry(Http::getUriString());
 
         // Event: The entry has been fully processed and not sent to the display.
         Event::dispatch('onCurrentEntryBeforeDisplayed');
 
         // Display entry for current requested url
-        Entry::displayCurrentEntry();
+        Entries::displayCurrentEntry();
 
         // Event: The entry has been fully processed and sent to the display.
         Event::dispatch('onCurrentEntryAfterProcessed');
@@ -118,20 +118,20 @@ class Entry
     /**
      * Get current entry
      *
-     * $entry = Entry::getCurrentPage();
+     * $entry = Entries::getCurrentPage();
      *
      * @access  public
      * @return  array
      */
     public static function getCurrentEntry() : array
     {
-        return Entry::$entry;
+        return Entries::$entry;
     }
 
     /**
      * Update current entry
      *
-     * Entry::updateCurrentPage('title', 'New entry title');
+     * Entries::updateCurrentPage('title', 'New entry title');
      *
      * @access  public
      * @param   string $path  Array path
@@ -140,13 +140,13 @@ class Entry
      */
     public static function updateCurrentEntry(string $path, $value) : void
     {
-        Arr::set(Entry::$entry, $path, $value);
+        Arr::set(Entries::$entry, $path, $value);
     }
 
     /**
      * Get entry
      *
-     * $entry = Entry::getEntry('projects');
+     * $entry = Entries::getEntry('projects');
      *
      * @access  public
      * @param   string   $url    Page url
@@ -174,16 +174,16 @@ class Entry
 
                 // Get raw entry if $raw is true
                 if ($raw) {
-                    $entry = Entry::processEntry($file_path, true);
+                    $entry = Entries::processEntry($file_path, true);
                 } else {
-                    $entry = Entry::processEntry($file_path);
+                    $entry = Entries::processEntry($file_path);
 
                     // Don't proccess 404 entry if we want to get hidden entry.
                     if ($hidden === false) {
 
                         // Get 404 entry if entry is not published
                         if (isset($entry['visibility']) && ($entry['visibility'] === 'draft' || $entry['visibility'] === 'hidden')) {
-                            $entry = Entry::getError404Entry();
+                            $entry = Entries::getError404Entry();
                         }
                     }
                 }
@@ -192,7 +192,7 @@ class Entry
                 return $entry;
             }
         } else {
-            return Entry::getError404Entry();
+            return Entries::getError404Entry();
         }
     }
 
@@ -212,10 +212,10 @@ class Entry
      * Get entries
      *
      * // Get list of subentries for entry 'projects'
-     * $entries = Entry::getEntries('projects');
+     * $entries = Entries::getEntries('projects');
      *
      * // Get list of subentries for entry 'projects' and order by date and order type DESC
-     * $entries = Entry::getEntries('projects', false, 'date', 'DESC');
+     * $entries = Entries::getEntries('projects', false, 'date', 'DESC');
      *
      * @access  public
      * @param   string  $url      Page url
@@ -257,7 +257,7 @@ class Entry
             } else {
                 // Create entries array from entries list
                 foreach ($entries_list as $key => $entry) {
-                    $entries[$key] = Entry::processEntry($entry, $raw);
+                    $entries[$key] = Entries::processEntry($entry, $raw);
                 }
 
                 Cache::save($entry_cache_id, $entries);
@@ -284,7 +284,7 @@ class Entry
                     if (strpos($entry, $url . '/entry.html') !== false) {
                         // ignore ...
                     } else {
-                        $entries[$key] = Entry::processEntry($entry, $raw);
+                        $entries[$key] = Entries::processEntry($entry, $raw);
                     }
                 }
 
@@ -315,13 +315,13 @@ class Entry
      */
     public static function shortcode() : ShortcodeFacade
     {
-        return Entry::$shortcode;
+        return Entries::$shortcode;
     }
 
     /**
      * Front matter parser
      *
-     * $content = Entry::frontMatterParser($content);
+     * $content = Entries::frontMatterParser($content);
      *
      * @param  string $content Content to parse
      * @access public
@@ -339,7 +339,7 @@ class Entry
     /**
      * Process entry
      *
-     * $entry = Entry::processEntry(PATH['entries'] . '/home/entry.html');
+     * $entry = Entries::processEntry(PATH['entries'] . '/home/entry.html');
      *
      * @access public
      * @param  string $file_path      File path
@@ -358,7 +358,7 @@ class Entry
         } else {
 
             // Create $entry_frontmatter and $entry_content
-            $entry = Entry::frontMatterParser($entry);
+            $entry = Entries::frontMatterParser($entry);
             $entry_frontmatter = $entry['matter'];
             $entry_content     = $entry['body'];
 
@@ -366,7 +366,7 @@ class Entry
             $_entry = [];
 
             // Process $entry_frontmatter with YAML and Shortcodes parsers
-            $_entry = YamlParser::decode(Entry::processShortcodes($entry_frontmatter));
+            $_entry = YamlParser::decode(Entries::processShortcodes($entry_frontmatter));
 
             // Create entry url item
             $url = str_replace(PATH['entries'], Http::getBaseUrl(), $file_path);
@@ -396,7 +396,7 @@ class Entry
             if ($ignore_content) {
                 $_entry['content'] = $entry_content;
             } else {
-                $_entry['content'] = Entry::processContent($entry_content);
+                $_entry['content'] = Entries::processContent($entry_content);
             }
 
             // Return entry
@@ -407,7 +407,7 @@ class Entry
     /**
      * Process shortcodes
      *
-     * $content = Entry::processShortcodes($content);
+     * $content = Entries::processShortcodes($content);
      *
      * @access public
      * @param  string $content Content to parse
@@ -415,13 +415,13 @@ class Entry
      */
     public static function processShortcodes(string $content) : string
     {
-        return Entry::shortcode()->process($content);
+        return Entries::shortcode()->process($content);
     }
 
     /**
      * Process content with markdown and shortcodes processors
      *
-     * $content = Entry::processContent($content);
+     * $content = Entries::processContent($content);
      *
      * @access public
      * @param  string $content Content to parse
@@ -429,7 +429,7 @@ class Entry
      */
     public static function processContent(string $content) : string
     {
-        return Entry::processShortcodes($content);
+        return Entries::processShortcodes($content);
     }
 
     /**
@@ -441,7 +441,7 @@ class Entry
     private static function initParsers() : void
     {
         // Init Shortcodes
-        Entry::initShortcodes();
+        Entries::initShortcodes();
     }
 
     /**
@@ -453,7 +453,7 @@ class Entry
     private static function initShortcodes() : void
     {
         // Create Shortcode Parser object
-        Entry::$shortcode = new ShortcodeFacade();
+        Entries::$shortcode = new ShortcodeFacade();
 
         // Event: Shortcodes initialized and now we can add our custom shortcodes
         Event::dispatch('onShortcodesInitialized');
@@ -468,8 +468,8 @@ class Entry
     private static function displayCurrentEntry() : void
     {
         Http::setRequestHeaders('Content-Type: text/html; charset='.Registry::get('settings.charset'));
-        Themes::view(empty(Entry::$entry['template']) ? 'templates/default' : 'templates/' . Entry::$entry['template'])
-            ->assign('entry', Entry::$entry, true)
+        Themes::view(empty(Entries::$entry['template']) ? 'templates/default' : 'templates/' . Entries::$entry['template'])
+            ->assign('entry', Entries::$entry, true)
             ->display();
     }
 
@@ -481,10 +481,10 @@ class Entry
      */
     public static function getInstance()
     {
-        if (is_null(Entry::$instance)) {
-            Entry::$instance = new self;
+        if (is_null(Entries::$instance)) {
+            Entries::$instance = new self;
         }
 
-        return Entry::$instance;
+        return Entries::$instance;
     }
 }
