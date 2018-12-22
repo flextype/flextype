@@ -225,7 +225,7 @@ class Content
      * @param   int     $length   Length
      * @return  array
      */
-    public static function getPages(string $url = '', bool $raw = false, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null) : array
+    public static function getPages(string $url = '', bool $raw = false, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null, bool $multilevel = true) : array
     {
         // if $url is empty then set path for defined main page
         if ($url === '') {
@@ -245,7 +245,7 @@ class Content
         if ($url === '') {
 
             // Get pages list
-            $pages_list = Filesystem::getFilesList($file_path, 'html');
+            $pages_list = Filesystem::getFilesList($file_path, 'html', true, $multilevel);
 
             // Create pages cached id
             foreach ($pages_list as $key => $page) {
@@ -265,7 +265,7 @@ class Content
         } else {
 
             // Get pages list
-            $pages_list = Filesystem::getFilesList($file_path, 'html');
+            $pages_list = Filesystem::getFilesList($file_path, 'html', true, $multilevel);
 
             // Create pages cached id
             foreach ($pages_list as $key => $page) {
