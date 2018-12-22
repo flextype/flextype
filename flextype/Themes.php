@@ -142,31 +142,31 @@ class Themes
     }
 
     /**
-     * Get templates blueprints for current theme
+     * Get Fieldsets for current theme
      *
      * @access public
      * @return array
      */
-    public static function getTemplatesBlueprints() : array
+    public static function getFieldsets() : array
     {
-        $blueprints = [];
+        $fieldsets = [];
 
-        // Get blueprints files
-        $_blueprints = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/', 'yaml');
+        // Get fieldsets files
+        $_fieldsets = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/', 'yaml');
 
         // If there is any template file then go...
-        if (count($_blueprints) > 0) {
-            foreach ($_blueprints as $blueprint) {
-                if (!is_bool(Themes::_strrevpos($blueprint, '/blueprints/'))) {
-                    $blueprint_name = str_replace('.yaml', '', substr($blueprint, Themes::_strrevpos($blueprint, '/blueprints/')+strlen('/blueprints/')));
-                    $blueprint = YamlParser::decode(Filesystem::getFileContent($blueprint));
-                    $blueprints[$blueprint_name] = $blueprint['title'];
+        if (count($_fieldsets) > 0) {
+            foreach ($_fieldsets as $fieldset) {
+                if (!is_bool(Themes::_strrevpos($fieldset, '/fieldsets/'))) {
+                    $fieldset_name = str_replace('.yaml', '', substr($fieldset, Themes::_strrevpos($fieldset, '/fieldsets/')+strlen('/fieldsets/')));
+                    $fieldset = YamlParser::decode(Filesystem::getFileContent($fieldset));
+                    $fieldsets[$fieldset_name] = $fieldset['title'];
                 }
             }
         }
 
-        // return blueprints
-        return $blueprints;
+        // return fieldsets
+        return $fieldsets;
     }
 
     /**
