@@ -22,7 +22,7 @@ define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
 define('PATH', ['site'     => ROOT_DIR . '/site',
                 'plugins'  => ROOT_DIR . '/site/plugins',
                 'themes'   => ROOT_DIR . '/site/themes',
-                'pages'    => ROOT_DIR . '/site/pages',
+                'entries'  => ROOT_DIR . '/site/entries',
                 'config'   => [
                                 'default' => ROOT_DIR . '/flextype/config',
                                 'site'    => ROOT_DIR . '/site/config'
