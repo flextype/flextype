@@ -98,8 +98,8 @@ class Flextype
         // Get Plugins Instance
         Plugins::getInstance();
 
-        // Get Entry Instance
-        Entry::getInstance();
+        // Get Entries Instance
+        Entries::getInstance();
 
         // Flush (send) the output buffer and turn off output buffering
         ob_end_flush();
