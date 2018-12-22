@@ -3,6 +3,7 @@
 * Flextype: fallback functionality for settings - added
 * Settings: new item - accept_file_types
 * Updates: "flextype-components/form" : "1.0.2
+* Flextype Component - Filesystem updated to 1.1.4
 * Code refactoring and cleanup
 * .htaccess: Common PHP Overrides - added
 * Custom YamlParser with native support - added
