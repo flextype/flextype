@@ -1,4 +1,4 @@
-<?php namespace Flextype; ?>
+<?php namespace Flextype ?>
     <?php Themes::view('partials/tail')->display() ?>
     <div class="powered">
       Powered by <a href="http://flextype.org">Flextype</a>
