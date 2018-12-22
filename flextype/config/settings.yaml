@@ -24,7 +24,7 @@ charset: UTF-8
 
 # Valid date format
 # see: http://php.net/manual/ru/function.date.php
-date_format: "F d Y H:i:s."
+date_format: "F d Y H:i:s"
 
 # The theme to use.
 #
