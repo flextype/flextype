@@ -196,18 +196,6 @@ class Entries
         }
     }
 
-    private static function getError404Entry() : array
-    {
-        Http::setResponseStatus(404);
-
-        $entry['title']       = Registry::get('settings.entries.error404.title');
-        $entry['description'] = Registry::get('settings.entries.error404.description');
-        $entry['content']     = Registry::get('settings.entries.error404.content');
-        $entry['template']    = Registry::get('settings.entries.error404.template');
-
-        return $entry;
-    }
-
     /**
      * Get entries
      *
@@ -305,6 +293,23 @@ class Entries
 
         // Return entries array
         return $entries;
+    }
+
+    /**
+     * Get Error404 entry
+     *
+     * @return  array
+     */
+    private static function getError404Entry() : array
+    {
+        Http::setResponseStatus(404);
+
+        $entry['title']       = Registry::get('settings.entries.error404.title');
+        $entry['description'] = Registry::get('settings.entries.error404.description');
+        $entry['content']     = Registry::get('settings.entries.error404.content');
+        $entry['template']    = Registry::get('settings.entries.error404.template');
+
+        return $entry;
     }
 
     /**

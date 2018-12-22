@@ -10,9 +10,9 @@
     <meta name="robots" content="<?= (isset($entry['robots']) ? $entry['robots'] : Registry::get('settings.robots')) ?>">
     <meta name="generator" content="Powered by Flextype <?= Flextype::VERSION ?>" />
 
-	<?php Event::dispatch('onThemeMeta'); ?>
+	<?php Event::dispatch('onThemeMeta') ?>
 
-	<title><?= Html::toText($entry['title']); ?> | <?= Html::toText(Registry::get('settings.title')); ?></title>
+	<title><?= Html::toText($entry['title']) ?> | <?= Html::toText(Registry::get('settings.title')) ?></title>
 
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css'>
 
@@ -24,7 +24,7 @@
         <?php endforeach ?>
     <?php endforeach ?>
 
-    <?php Event::dispatch('onThemeHeader'); ?>
+    <?php Event::dispatch('onThemeHeader') ?>
   </head>
   <body>
   <?php Themes::view('partials/navigation')->display() ?>

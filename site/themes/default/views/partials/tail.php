@@ -6,4 +6,4 @@
         <script src="<?= $assets['asset'] ?>"></script>
     <?php endforeach ?>
 <?php endforeach ?>
-<?php Event::dispatch('onThemeFooter'); ?>
+<?php Event::dispatch('onThemeFooter') ?>
