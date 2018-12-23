@@ -23,6 +23,7 @@ define('PATH', ['site'     => ROOT_DIR . '/site',
                 'plugins'  => ROOT_DIR . '/site/plugins',
                 'themes'   => ROOT_DIR . '/site/themes',
                 'entries'  => ROOT_DIR . '/site/entries',
+                'snippets' => ROOT_DIR . '/site/snippets',
                 'config'   => [
                                 'default' => ROOT_DIR . '/flextype/config',
                                 'site'    => ROOT_DIR . '/site/config'
