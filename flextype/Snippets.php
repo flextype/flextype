@@ -33,9 +33,10 @@ class Snippets
      *
      * @access public
      * @param  string  $snippet_name  Snippet name
-     * @return void
+     * @return string|bool Returns the contents of the output buffer and end output buffering.
+     *                     If output buffering isn't active then FALSE is returned.
      */
-    public static function get($snippet_name)
+    public static function get(string $snippet_name)
     {
         $snippet_path = PATH['snippets'] . '/' . $snippet_name . '.php';
 
