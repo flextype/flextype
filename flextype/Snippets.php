@@ -51,7 +51,7 @@ class Snippets
             // Output...
             return ob_get_clean();
         } else {
-            throw new \RuntimeException("Snippet {$snippet_path} does not exist.");
+            throw new \RuntimeException("Snippet {$snippet_name} does not exist.");
         }
     }
 }
