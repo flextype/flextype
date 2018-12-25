@@ -1,11 +1,10 @@
 title: default
 items:
-  home: 
+  home:
     title: 'Home'
     url: 'home'
     order: 1
-  about: 
+  about:
     title: 'About'
-    url: 'About'
+    url: 'about'
     order: 2
-
