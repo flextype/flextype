@@ -115,6 +115,33 @@ class Themes
     }
 
     /**
+     * Get partials for current theme
+     *
+     * @access public
+     * @return array
+     */
+    public static function getPartials() : array
+    {
+        $partials = [];
+
+        // Get templates files
+        $_partials = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/partials/', 'php');
+
+        // If there is any template file then go...
+        if (count($_partials) > 0) {
+            foreach ($_partials as $partial) {
+                if (!is_bool(Themes::_strrevpos($partial, '/partials/'))) {
+                    $partial_name = str_replace('.php', '', substr($partial, Themes::_strrevpos($partial, '/partials/')+strlen('/partials/')));
+                    $partials[$partial_name] = $partial_name;
+                }
+            }
+        }
+
+        // return partials
+        return $partials;
+    }
+
+    /**
      * Get templates for current theme
      *
      * @access public
