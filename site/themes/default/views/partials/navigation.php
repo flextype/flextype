@@ -1,5 +1,5 @@
 <?php namespace Flextype ?>
-<?php use Flextype\Component\{Http\Http, Registry\Registry} ?>
+<?php use Flextype\Component\{Http\Http, Registry\Registry, Arr\Arr} ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow">
 <div class="container">
   <a class="navbar-brand" href="<?= Http::getBaseUrl() ?>"><?= Registry::get('settings.title') ?></a>
@@ -8,9 +8,11 @@
   </button>
   <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link <?php if(Http::getUriSegment(0) == 'home' || Http::getUriSegment(0) == ''): ?>active<?php endif ?>" href="<?= Http::getBaseUrl() ?>">Home</a>
-      </li>
+        <?php foreach (Arr::sort(Menus::get('default')['items'], 'order') as $item): ?>
+        <li class="nav-item">
+            <a class="nav-link <?php if (Http::getUriString() == $item['url']): ?>active<?php endif ?>" href="<?= Http::getBaseUrl() . '/' . $item['url'] ?>"><?= $item['title'] ?></a>
+        </li>
+        <?php endforeach ?>
     </ul>
   </div>
 </div>
