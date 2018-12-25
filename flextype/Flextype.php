@@ -73,6 +73,7 @@ class Flextype
         // Turn on output buffering
         ob_start();
 
+        // Set Flextype config
         Flextype::setConfig();
 
         // Set internal encoding
