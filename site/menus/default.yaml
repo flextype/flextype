@@ -4,7 +4,11 @@ items:
     title: 'Home'
     url: 'home'
     order: 1
+  blog:
+    title: 'Blog'
+    url: 'blog'
+    order: 2    
   about:
     title: 'About'
     url: 'about'
-    order: 2
+    order: 3
