@@ -1,0 +1,14 @@
+title: 'Blog Post'
+fields:
+  title:
+    title: admin_title
+    type: text
+    size: col-12
+  summary: 
+    title: admin_summary
+    type: html
+    size: col-12
+  content:
+    title: admin_content
+    type: html
+    size: col-12
