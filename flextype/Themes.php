@@ -137,6 +137,9 @@ class Themes
             }
         }
 
+        // sort partials
+        sort($partials);
+
         // return partials
         return $partials;
     }
@@ -163,6 +166,9 @@ class Themes
                 }
             }
         }
+
+        // sort templates
+        sort($templates);
 
         // return templates
         return $templates;
@@ -191,6 +197,9 @@ class Themes
                 }
             }
         }
+
+        // sort fieldsets
+        sort($fieldsets);
 
         // return fieldsets
         return $fieldsets;
