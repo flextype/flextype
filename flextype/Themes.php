@@ -198,9 +198,6 @@ class Themes
             }
         }
 
-        // sort fieldsets
-        sort($fieldsets);
-
         // return fieldsets
         return $fieldsets;
     }
