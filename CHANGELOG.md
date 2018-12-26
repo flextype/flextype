@@ -1,23 +1,44 @@
 
 ## [0.8.0] - 2018-12-ХХ
 ### Added
+- Flextype Core: To improve engine flexibility was decided to use entity name Entries/Entry instead of entity name Pages/Page.
+- Flextype Core: New folder `/site/entries/` added.
+- Flextype Core: New entry variable `base_url` added.
+- Flextype Core: Snippets functionality added.
+- Flextype Core: New constant PATH['snippets'] added for Snippets.
+- Flextype Core: New folder `/site/snippets/` added.
+- Flextype Core: Menus functionality added.
+- Flextype Core: New folder `/site/menus/` added.
 - Flextype Core: Fallback functionality for settings added.
 - Flextype Core: New settings item `accept_file_types` added.
 - Flextype Core: Common PHP Overrides added to .htaccess
 - Flextype Core: Custom YamlParser with native support added.
 - Flextype Core: Ability to get hidden entries for method getEntries() added.
+- Flextype Core: New setting options `entries.error404` for error404 page added.
 - Admin Panel: Português locale added.
+- Flextype new Default Theme added.
 
 ### Changed
 - Flextype Core: Plugins - Locales Array updated.
 - Flextype Core: Form Components updated to 1.0.2.
 - Flextype Core: Filesystem Components updated to 1.1.5.
+- Flextype Core: Content - used new updated getFilesList() method.
+- Flextype Core: Updated order of params in getEntries() method.
 - Admin Panel: Settings Manager - display only available locales.
 - Admin Panel: Profile Manager - improvements for profile look and feel.
 - Admin Panel: Entries Manager - Form Genetator will not create labels for hidden inputs.
 - Admin Panel: General - trumbowyg editor styles updates.
 - Admin Panel: General - updates according to the php template syntax guidelines.
 - Admin Panel: Pages Manager - use defined file types (extensions to be exact) that are acceptable for upload.
+
+### Fixed
+- Flextype Core: Content - Issue with returned value of Arr::sort() fixed.
+
+### Removed
+- Flextype Core: Error404 page removed from `/site/entries/` folder.
+- Flextype Core: Folder `/site/pages/` removed.
+- Flextype Core: Dot from `date_format` setting removed.
+- Flextype Simple Theme removed.
 
 
 # Flextype 0.7.4, 2018-12-14
