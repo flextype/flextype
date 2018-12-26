@@ -2,9 +2,8 @@
 // Main
 //
 
-
-html,
-body {
+body,
+html {
     font-family: $base-font-family;
     font-size: $base-font-size;
 
@@ -17,13 +16,23 @@ body {
 body,
 button,
 input,
+p,
 select,
-textarea,
-p {
+textarea {
     font-family: $base-font-family;
     font-weight: 400;
 
     color: black;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+
+    &:hover {
+        text-decoration: underline;
+        color: black;
+    }
 }
 
 body,
@@ -34,4 +43,8 @@ p {
 pre {
     background: #f0f0f0;
     padding: 20px;
+}
+
+h1 {
+    font-size: 60px;
 }
