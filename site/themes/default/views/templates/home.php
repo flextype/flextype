@@ -8,5 +8,5 @@
         <div><?= $entry['date'] ?></div>
     </a>
 <?php endforeach ?>
-<a href="/blog" class="blog-read">Read the rest of the blog</a>
+<a href="./blog" class="blog-read">Read the rest of the blog</a>
 <?php Themes::view('partials/footer')->display() ?>
