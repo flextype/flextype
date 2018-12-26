@@ -37,9 +37,9 @@ Make sure your server meets the following requirements.
 
 - Webserver (Apache with Mod Rewrite)
 - PHP 7.1.3 or higher
-- PHP extensions
 
-#### Flextype needs the following PHP extensions to be enabled:
+#### PHP extensions
+Flextype needs the following PHP extensions to be enabled:
 
 - Multibyte String
 - SPL
@@ -77,14 +77,23 @@ You can easily install Flextype with Composer.
 composer create-project flextype/flextype
 ```
 
-Also you may need to install node_modules libs for default Simple Theme  
+Install vendor libs for Default Theme
 
 ```
-cd /flextype/site/themes/simple  
+composer install
+cd site/themes/default
 npm install
 gulp
 ```
 
+Install vendor libs for Admin Panel
+
+```
+cd site/plugins/admin
+composer install
+npm install
+gulp
+```
 
 ## COMMUNITY
 Flextype is open source, community driven project, and maintained by community!
