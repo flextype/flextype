@@ -5,6 +5,10 @@
     display: block;
     border-top: 1px solid #efefef;
 
+    &:first-of-type {
+        border-top: none;
+    }
+
     &:hover {
         text-decoration: none;
     }
