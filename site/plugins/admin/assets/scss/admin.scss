@@ -1,0 +1,49 @@
+// Admin Theme main SCSS
+// (c) Sergey Romanenko <https://github.com/Awilum>
+
+// Generic
+// Low-specificity, far-reaching rulesets
+@import "generic/variables";
+
+// Base
+// Unclassed HTML elements
+@import "base/main";
+
+// Objects
+// Abstractions, Objects and design patterns
+@import "objects/container";
+@import "objects/buttons";
+@import "objects/table";
+@import "objects/form-control";
+@import "objects/modal";
+
+// Components
+// Discrete, complete chunks of UI
+@import "components/nav";
+@import "components/sidebar";
+@import "components/panels";
+@import "components/media";
+@import "components/auth";
+@import "components/codemirror";
+@import "components/messenger";
+@import "components/trumbowyg";
+@import "components/users";
+
+// Thumps
+// High-specificity, very explicit selectors. Overrides and helper classes
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+.width-full {
+    width: 100%;
+}
+
+.float-center {
+    margin: 0 auto;
+}
