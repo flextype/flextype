@@ -15,7 +15,7 @@ use function Flextype\Component\I18n\__;
                                                 ],
                                 'entries_move' => [
                                                     'link' => Http::getBaseUrl() . '/admin/entries/move',
-                                                    'title' => __('admin_entries_move'),
+                                                    'title' => __('admin_type'),
                                                     'attributes' => ['class' => 'navbar-item active']
                                                 ]
                          ])
