@@ -4,7 +4,8 @@
 <?php foreach (Entries::getEntries('blog') as $entry): ?>
     <a href="<?= $entry['url'] ?>" class="blog-post">
         <h3><?= $entry['title'] ?></h3>
-        <?= $entry['summary'] ?>
+        <p><?= $entry['summary'] ?></p>
+        <div><?= $entry['date'] ?></div>
     </a>
 <?php endforeach ?>
 <?php Themes::view('partials/footer')->display() ?>
