@@ -1,7 +1,7 @@
 <?php namespace Flextype ?>
 <?php Themes::view('partials/head')->display() ?>
 <?php foreach (Entries::getEntries('blog') as $entry): ?>
-    <a href="<?= $entry['url'] ?>">
+    <a href="<?= $entry['url'] ?>" class="blog-post">
         <h3><?= $entry['title'] ?></h3>
         <?= $entry['summary'] ?>
     </a>
