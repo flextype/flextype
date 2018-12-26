@@ -66,7 +66,7 @@ Mobile
 
 [Download the latest version.](http://flextype.org/download)  
 
-Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, be sure to chmod the following directories (with containing files) to 777, so they are readable and writable by Flextype:  
+Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, be sure to chmod the following directories (with containing files) to 755(or 777), so they are readable and writable by Flextype:  
 * `site/`
 
 #### Using Composer
