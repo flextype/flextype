@@ -16,7 +16,7 @@
 - Flextype Core: Ability to get hidden entries for method getEntries() added.
 - Flextype Core: New setting options `entries.error404` for error404 page added.
 - Admin Panel: Português locale added.
-- Flextype new Default Theme added.
+- Flextype new Default Theme with predefined Fieldsets and Entries templates added.
 
 ### Changed
 - Flextype Core: Plugins - Locales Array updated.
