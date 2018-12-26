@@ -41,14 +41,14 @@
 - Flextype Simple Theme removed.
 
 
-# Flextype 0.7.4, 2018-12-14
+## [0.7.4] - 2018-12-14
 * Content: new frontMatterParser() - added
 * Config: set error reporting - false
 * Update theme simple according to the php template syntax guidelines
 * Super heavy "imagine/imagine": "1.2.0" - removed
 * Flextype Component - Errorhandler updated to 1.0.5
 
-# Flextype 0.7.3, 2018-12-13
+## [0.7.3] - 2018-12-13
 * Content: visibility hidden for pages - added
 * Settings merged into one settings.yaml file
 * Using Imagine library for image manipulation
@@ -56,15 +56,15 @@
 * Flextype Component - Filesystem updated to 1.1.3
 * Symfony YAML - updated to 4.2.1
 
-# Flextype 0.7.2, 2018-11-24
+## [0.7.2] - 2018-11-24
 * Flextype Component - Cookie updated to 1.2.0
 * Flextype Component - Filesystem updated to 1.1.2
 
-# Flextype 0.7.1, 2018-11-17
+## [0.7.1] - 2018-11-17
 * Plugins: New method getLocales() added
 * Content: processPage() - ability to ignore content parsing - added.
 
-# Flextype 0.7.0, 2018-11-16
+## [0.7.0] - 2018-11-16
 * Update Symfony YAML to 4.1.1
 * Update Text Component to 1.1.0
 * Update Session Component to 1.1.1
@@ -79,19 +79,19 @@
 * Themes: added ability to load themes settings.yaml file
 * Themes: from now themes configurations stored in the theme-name/settings.yaml file
 
-# Flextype 0.6.1, 2018-06-17
+## [0.6.1] - 2018-06-17
 * Fixed issue with not found pages status code
 * Fixed Singleton classes and methods visibility changed from protected to private
 * Added require vendors versions in composer.json
 * Fixed Simple Theme styles
 
-# Flextype 0.6.0, 2018-06-09
+## [0.6.0] - 2018-06-09
 * Content: Markdown(Parsedown) parser removed! From now we are using plain HTML + Shortcodes
 * Theme Simple: Cross-site scripting Vulnerabilities fixes
 * Improving main .htaccess
 * Code cleanup and refactoring #5
 
-# Flextype 0.5.0, 2018-06-03
+## [0.5.0] - 2018-06-03
 * Delete folders: site/data and site/accounts
 * Delete folders: site/blocks and site/cache and site/logs
 * Constants: accounts, blocks, data - removed.
@@ -106,7 +106,7 @@
 * Content: Prevents automatic linking of URLs for Markdown parser
 * Content: Method registerDefaultShortcodes() removed
 
-# Flextype 0.4.4, 2018-05-29
+## [0.4.4] - 2018-05-29
 * Content: added ability to work with CONTENT SECTIONS with help of shortcodes [section] and [section_create]
 * Content: getPage() method will only return data about requested page and will not insert them in global $page array.
 * Content: events: onPageContentAfter and onPageContentRawAfter was removed from getPage(), use event onCurrentPageBeforeDisplayed instead.
@@ -118,7 +118,7 @@
 * Theme Simple: gulpfile: build process updated
 * Theme Simple: package.json: added gulp-concat and gulp-sourcemaps
 
-# Flextype 0.4.3, 2018-05-28
+## [0.4.3] - 2018-05-28
 * Content: set text/html request headers for displayCurrentPage() method
 * Content: processCurrentPage() method added
 * Content: event names changed: onPageBeforeRender to onCurrentPageBeforeProcessed
@@ -126,18 +126,18 @@
 * robots.txt file was removed, use Robots plugin instead
 * Code cleanup and refactoring #5
 
-# Flextype 0.4.2, 2018-05-22
+## [0.4.2] - 2018-05-22
 * Settings: cache.enabled is true from now
 * Content: new methods added: initShortcodes() initMarkdown() markdown()
 * Events: new events added: onMarkdownInitialized and onShortcodesInitialized
 
-# Flextype 0.4.1, 2018-05-20
+## [0.4.1] - 2018-05-20
 * Fixing issues with cache for getPages() method.
 * Fixing issues with processPage() method.
 * Fixing issues with all public methods in Cache class, from now all methods are static.
 * Setting site.pages.flush_cache was removed from site.yaml file.
 
-# Flextype 0.4.0, 2018-05-16
+## [0.4.0] - 2018-05-16
 * Using SCSS for Simple theme
 * Using Flextype Form Component
 * Themes: class bug fixes
@@ -150,7 +150,7 @@
 * define CONSTANTS in PHP7 style
 * Themes: changing from template() to view()
 
-# Flextype 0.3.0, 2018-05-05
+## [0.3.0] - 2018-05-05
 * Using Flextype Components instead of Symphony Components
 * Available Flextype Components for developers: Arr, Assets, Cookie, Date, Debug, ErrorHandler, Event, Filesystem, Html, Http, I18n, Notification, Number, Registry, Session, Text, Token, View.
 * Using `.yaml` files instead of `.yml`
@@ -167,7 +167,7 @@
 * ErrorHandler added with errors logs.
 * Code cleanup and refactoring #5
 
-# Flextype 0.2.1, 2018-03-26
+## [0.2.1] - 2018-03-26
 * date_format setting added to /site/config.site.yml
 * Pages: Fixed bug with pages sort and slice in getPages() method
 * Pages: Fixed bug with pages list for /pages folder
@@ -175,12 +175,12 @@
 * Pages: Added ability to create date field automatically for pages if date field is not exists.
 * Code cleanup and refactoring #5
 
-# Flextype 0.2.0, 2018-03-23
+## [0.2.0] - 2018-03-23
 * Thunderer Shortcode Framework - added
 * Cache Flextype::VERSION for cache key - added
 * flextype/boot/shortcodes.php	- removed
 * flextype/boot/events.php - removed
 * Code cleanup and refactoring #5
 
-# Flextype 0.1.0, 2018-03-21
+## [0.1.0] - 2018-03-21
 * Initial Release
