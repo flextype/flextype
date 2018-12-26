@@ -213,7 +213,7 @@ class Entries
      * @param   int     $length   Length
      * @return  array
      */
-    public static function getEntries(string $url = '', bool $raw = false, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null, bool $multilevel = true) : array
+    public static function getEntries(string $url = '', string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null, bool $multilevel = false, bool $raw = false) : array
     {
         // if $url is empty then set path for defined main entry
         if ($url === '') {
