@@ -1,4 +1,4 @@
-![preview](preview.png)
+![preview](/site/plugins/admin/preview.png)
 
 # Flextype
 [![Discord](https://img.shields.io/discord/423097982498635778.svg?logo=discord&colorB=728ADA&label=Discord%20Chat&style=flat-square)](https://discordapp.com/invite/CCKPKVG)
