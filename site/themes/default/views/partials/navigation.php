@@ -10,7 +10,7 @@
     <ul class="navbar-nav">
         <?php foreach (Arr::sort(Menus::get('default')['items'], 'order') as $item): ?>
         <li class="nav-item">
-            <a class="nav-link <?php if (Http::getUriString() == $item['url']): ?>active<?php endif ?>" href="<?= Http::getBaseUrl() . '/' . $item['url'] ?>"><?= $item['title'] ?></a>
+            <a class="nav-link <?php if (strpos(Http::getUriString(), $item['url']) !== false): ?>active<?php endif ?>" href="<?= Http::getBaseUrl() . '/' . $item['url'] ?>"><?= $item['title'] ?></a>
         </li>
         <?php endforeach ?>
     </ul>
