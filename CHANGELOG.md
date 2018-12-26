@@ -1,21 +1,24 @@
-# Flextype 0.8.0, 2018-12-ХХ
-* Flextype Core: Plugins: Locales array updated
-* Flextype Core: Flextype: fallback functionality for settings - added
-* Flextype Core: Settings: new item - accept_file_types
-* Flextype Core: Updates: "flextype-components/form" : "1.0.2
-* Flextype Core: Flextype Component - Filesystem updated to 1.1.4
-* Flextype Core: Code refactoring and cleanup
-* Flextype Core: .htaccess: Common PHP Overrides - added
-* Flextype Core: Custom YamlParser with native support - added
-* Flextype Core: Content: ability to get hidden pages for method getPage() - added.
-* Admin Panel: System Manager: refactoring and improvements
-* Admin Panel: System Manager: display available locales only
-* Admin Panel: Profile: profile view - improved
-* Admin Panel: Pages Manager: don't create label for hidden inputs
-* Admin Panel: General: trumbowyg editor styles fixes
-* Admin Panel: General: Updates according to the php template syntax guidelines
-* Admin Panel: Pages Manager: use defined file types (extensions to be exact) that are acceptable for upload.
-* Admin Panel: Português locale - added
+
+## [0.8.0] - 2018-12-ХХ
+### Added
+- Flextype Core: Fallback functionality for settings added.
+- Flextype Core: New settings item `accept_file_types` added.
+- Flextype Core: Common PHP Overrides added to .htaccess
+- Flextype Core: Custom YamlParser with native support added.
+- Flextype Core: Ability to get hidden entries for method getEntries() added.
+- Admin Panel: Português locale added.
+
+### Changed
+- Flextype Core: Plugins - Locales Array updated.
+- Flextype Core: Form Components updated to 1.0.2.
+- Flextype Core: Filesystem Components updated to 1.1.5.
+- Admin Panel: Settings Manager - display only available locales.
+- Admin Panel: Profile Manager - improvements for profile look and feel.
+- Admin Panel: Entries Manager - Form Genetator will not create labels for hidden inputs.
+- Admin Panel: General - trumbowyg editor styles updates.
+- Admin Panel: General - updates according to the php template syntax guidelines.
+- Admin Panel: Pages Manager - use defined file types (extensions to be exact) that are acceptable for upload.
+
 
 # Flextype 0.7.4, 2018-12-14
 * Content: new frontMatterParser() - added
