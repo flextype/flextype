@@ -391,6 +391,9 @@ class Entries
             $url = rtrim($url, '/');
             $_entry['slug'] = str_replace(Http::getBaseUrl(), '', $url);
 
+            // Create entry base url
+            $_entry['base_url'] = Http::getBaseUrl() . '/site/entries/';
+
             // Create entry template item
             $_entry['template'] = $_entry['template'] ?? 'default';
 
