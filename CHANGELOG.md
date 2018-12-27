@@ -27,7 +27,6 @@
 
 ### Changed
 - Flextype Core: Plugins - Locales Array updated.
-- Admin Panel: Font Awesome updated to 5.6.3.
 - Flextype Core: Form Components updated to 1.0.2.
 - Flextype Core: Filesystem Components updated to 1.1.5.
 - Flextype Core: Content - used new updated getFilesList() method.
@@ -38,6 +37,7 @@
 - Admin Panel: Plugins Manager - Get More Plugins button moved to the right.
 - Admin Panel: General - trumbowyg editor styles updates.
 - Admin Panel: General - trumbowyg updated to 2.13.0
+- Admin Panel: Font Awesome updated to 5.6.3.
 - Admin Panel: General - Messenger moved to to the bottom.
 - Admin Panel: General - updates according to the php template syntax guidelines.
 - Admin Panel: Pages Manager - use defined file types (extensions to be exact) that are acceptable for upload.
