@@ -16,11 +16,14 @@
 - Flextype Core: Custom YamlParser with native support to increase system performance added.
 - Flextype Core: Ability to get hidden entries for method getEntries() added.
 - Flextype Core: New setting options `entries.error404` for error404 page added.
+- Admin Panel: Font Awesome updated to 5.6.3.
 - Admin Panel: Fieldsets Manager added.
 - Admin Panel: Menus Manager added.
 - Admin Panel: Snippets Manager added.
-- Admin Panel: Entries Manager added.
+- Admin Panel: Templates Manager added.
+- Admin Panel: Entries Manager with nice one level tree view for pages list added.
 - Admin Panel: Português locale added.
+- Admin Panel: General - trumbowyg - table plugin added.
 - Flextype new Default Theme with predefined Fieldsets and Entries templates added.
 
 ### Changed
@@ -32,15 +35,20 @@
 - Admin Panel: Settings Manager - display only available locales.
 - Admin Panel: Profile Manager - improvements for profile look and feel.
 - Admin Panel: Entries Manager - Form Genetator will not create labels for hidden inputs.
+- Admin Panel: Plugins Manager - Get More Plugins button moved to the right.
 - Admin Panel: General - trumbowyg editor styles updates.
+- Admin Panel: General - trumbowyg updated to 2.13.0
+- Admin Panel: General - Messenger moved to to the bottom.
 - Admin Panel: General - updates according to the php template syntax guidelines.
 - Admin Panel: Pages Manager - use defined file types (extensions to be exact) that are acceptable for upload.
 
 ### Fixed
 - Flextype Core: Content - Issue with returned value of Arr::sort() fixed.
+- Admin Panel: General - translates fixes.
 
 ### Removed
 - Flextype Core: Blueprints functionality removed.
+- Flextype Core: Pages functionality removed.
 - Flextype Core: Error404 page removed from `/site/entries/` folder.
 - Flextype Core: Folder `/site/pages/` removed.
 - Flextype Core: Dot from `date_format` setting removed.
