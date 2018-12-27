@@ -21,12 +21,8 @@ Themes::view('admin/views/partials/content-start')->display();
 <table class="table no-margin">
     <tbody>
         <tr>
-            <td width="200"><?= __('admin_flextype_core_version') ?></td>
+            <td width="200"><?= __('admin_flextype_version') ?></td>
             <td><?= Flextype::VERSION ?></td>
-        </tr>
-        <tr>
-            <td width="200"><?= __('admin_flextype_admin_version') ?></td>
-            <td><?= Registry::get('plugins.admin.version'); ?></td>
         </tr>
         <tr>
             <td><?= __('admin_debugging'); ?></td>
