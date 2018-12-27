@@ -303,7 +303,7 @@ class EntriesManager
                         }
 
                         // Fieldset for current entry template
-                        $fieldset_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . $entry['fieldset'] . '.yaml';
+                        $fieldset_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
                         $fieldset = YamlParser::decode(Filesystem::getFileContent($fieldset_path));
                         is_null($fieldset) and $fieldset = [];
 
