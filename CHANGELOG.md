@@ -9,12 +9,17 @@
 - Flextype Core: New folder `/site/snippets/` added.
 - Flextype Core: Menus functionality added.
 - Flextype Core: New folder `/site/menus/` added.
+- Flextype Core: Fieldsets functionality added.
 - Flextype Core: Fallback functionality for settings added.
 - Flextype Core: New settings item `accept_file_types` added.
 - Flextype Core: Common PHP Overrides added to .htaccess
-- Flextype Core: Custom YamlParser with native support added.
+- Flextype Core: Custom YamlParser with native support to increase system performance added.
 - Flextype Core: Ability to get hidden entries for method getEntries() added.
 - Flextype Core: New setting options `entries.error404` for error404 page added.
+- Admin Panel: Fieldsets Manager added.
+- Admin Panel: Menus Manager added.
+- Admin Panel: Snippets Manager added.
+- Admin Panel: Entries Manager added.
 - Admin Panel: Português locale added.
 - Flextype new Default Theme with predefined Fieldsets and Entries templates added.
 
@@ -35,6 +40,7 @@
 - Flextype Core: Content - Issue with returned value of Arr::sort() fixed.
 
 ### Removed
+- Flextype Core: Blueprints functionality removed.
 - Flextype Core: Error404 page removed from `/site/entries/` folder.
 - Flextype Core: Folder `/site/pages/` removed.
 - Flextype Core: Dot from `date_format` setting removed.
