@@ -164,6 +164,7 @@ class EntriesManager
                         Arr::delete($entry, 'content');
                         Arr::delete($entry, 'url');
                         Arr::delete($entry, 'slug');
+                        Arr::delete($entry, 'base_url');
 
                         $frontmatter = $_POST;
                         Arr::delete($frontmatter, 'token');
@@ -278,6 +279,7 @@ class EntriesManager
                                 Arr::delete($entry, 'content');
                                 Arr::delete($entry, 'url');
                                 Arr::delete($entry, 'slug');
+                                Arr::delete($entry, 'base_url');
 
                                 $frontmatter = $_POST;
                                 Arr::delete($frontmatter, 'token');
