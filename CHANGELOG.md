@@ -16,7 +16,6 @@
 - Flextype Core: Custom YamlParser with native support to increase system performance added.
 - Flextype Core: Ability to get hidden entries for method getEntries() added.
 - Flextype Core: New setting options `entries.error404` for error404 page added.
-- Admin Panel: Font Awesome updated to 5.6.3.
 - Admin Panel: Fieldsets Manager added.
 - Admin Panel: Menus Manager added.
 - Admin Panel: Snippets Manager added.
@@ -28,6 +27,7 @@
 
 ### Changed
 - Flextype Core: Plugins - Locales Array updated.
+- Admin Panel: Font Awesome updated to 5.6.3.
 - Flextype Core: Form Components updated to 1.0.2.
 - Flextype Core: Filesystem Components updated to 1.1.5.
 - Flextype Core: Content - used new updated getFilesList() method.
