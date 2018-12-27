@@ -8,7 +8,7 @@ Themes::view('admin/views/partials/head')->display();
 Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                         'information' => [
-                                            'link' => Http::getBaseUrl() . '/admin/information',
+                                            'link' => Http::getBaseUrl() . '/admin/profile',
                                             'title' => __('admin_menu_profile'),
                                             'attributes' => ['class' => 'navbar-item active']
                                          ],
