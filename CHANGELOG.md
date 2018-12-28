@@ -1,5 +1,5 @@
 
-## [0.8.0] - 2018-12-ХХ
+## [0.8.0] - 2018-12-28
 ### Added
 - Flextype Core: To improve engine flexibility was decided to use entity name Entries/Entry instead of entity name Pages/Page.
 - Flextype Core: New folder `/site/entries/` added.
