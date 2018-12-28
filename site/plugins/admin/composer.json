@@ -1,0 +1,27 @@
+{
+    "name": "flextype-plugins/admin",
+    "type": "project",
+    "description": "Admin plugin for Flextype",
+    "keywords": ["admin", "plugin", "manager", "panel", "flextype", "php", "html"],
+    "homepage": "https://github.com/flextype-plugins/admin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sergey Romanenko",
+            "email": "awilum@yandex.ru",
+            "homepage": "https://github.com/Awilum"
+        }
+    ],
+    "support": {
+      "issues": "https://github.com/flextype-plugins/admin/issues"
+    },
+    "require": {
+        "php": ">=7.1.3",
+        "gajus/dindent": "2.0.2"
+    },
+    "autoload": {
+        "classmap": [
+            "classes"
+        ]
+    }
+}

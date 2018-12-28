@@ -15,7 +15,6 @@ namespace Flextype;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\View\View;
 use Flextype\Component\Registry\Registry;
-use Symfony\Component\Yaml\Yaml;
 
 class Themes
 {
@@ -84,8 +83,8 @@ class Themes
         } else {
             if (Filesystem::fileExists($theme_settings = PATH['themes'] . '/' . $theme . '/' . 'settings.yaml') and
                 Filesystem::fileExists($theme_config = PATH['themes'] . '/' . $theme . '/' . $theme . '.yaml')) {
-                $theme_settings = Yaml::parseFile($theme_settings);
-                $theme_config = Yaml::parseFile($theme_config);
+                $theme_settings = YamlParser::decode(Filesystem::getFileContent($theme_settings));
+                $theme_config = YamlParser::decode(Filesystem::getFileContent($theme_config));
                 $_theme = array_merge($theme_settings, $theme_config);
                 Registry::set('themes.'.Registry::get('settings.theme'), $_theme);
                 Cache::save($theme_cache_id, $_theme);
@@ -116,6 +115,33 @@ class Themes
     }
 
     /**
+     * Get partials for current theme
+     *
+     * @access public
+     * @return array
+     */
+    public static function getPartials() : array
+    {
+        $partials = [];
+
+        // Get templates files
+        $_partials = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/partials/', 'php');
+
+        // If there is any template file then go...
+        if (count($_partials) > 0) {
+            foreach ($_partials as $partial) {
+                if (!is_bool(Themes::_strrevpos($partial, '/partials/'))) {
+                    $partial_name = str_replace('.php', '', substr($partial, Themes::_strrevpos($partial, '/partials/')+strlen('/partials/')));
+                    $partials[$partial_name] = $partial_name;
+                }
+            }
+        }
+
+        // return partials
+        return $partials;
+    }
+
+    /**
      * Get templates for current theme
      *
      * @access public
@@ -143,30 +169,31 @@ class Themes
     }
 
     /**
-     * Get templates blueprints for current theme
+     * Get Fieldsets for current theme
      *
      * @access public
      * @return array
      */
-    public static function getTemplatesBlueprints() : array
+    public static function getFieldsets() : array
     {
-        $blueprints = [];
+        $fieldsets = [];
 
-        // Get blueprints files
-        $_blueprints = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/', 'yaml');
+        // Get fieldsets files
+        $_fieldsets = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/', 'yaml');
 
         // If there is any template file then go...
-        if (count($_blueprints) > 0) {
-            foreach ($_blueprints as $blueprint) {
-                if (!is_bool(Themes::_strrevpos($blueprint, '/blueprints/'))) {
-                    $blueprint_name = str_replace('.yaml', '', substr($blueprint, Themes::_strrevpos($blueprint, '/blueprints/')+strlen('/blueprints/')));
-                    $blueprints[$blueprint_name] = $blueprint_name;
+        if (count($_fieldsets) > 0) {
+            foreach ($_fieldsets as $fieldset) {
+                if (!is_bool(Themes::_strrevpos($fieldset, '/fieldsets/'))) {
+                    $fieldset_name = str_replace('.yaml', '', substr($fieldset, Themes::_strrevpos($fieldset, '/fieldsets/')+strlen('/fieldsets/')));
+                    $fieldset = YamlParser::decode(Filesystem::getFileContent($fieldset));
+                    $fieldsets[$fieldset_name] = $fieldset['title'];
                 }
             }
         }
 
-        // return blueprints
-        return $blueprints;
+        // return fieldsets
+        return $fieldsets;
     }
 
     /**

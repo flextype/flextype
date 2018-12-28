@@ -1,0 +1,6 @@
+title: Blog
+fields:
+  title:
+    title: admin_title
+    type: text
+    size: col-12

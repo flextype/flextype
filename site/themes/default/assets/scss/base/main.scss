@@ -1,0 +1,54 @@
+//
+// Main
+//
+
+body,
+html {
+    font-family: $base-font-family;
+    font-size: $base-font-size;
+
+    height: 100%;
+
+    color: black;
+    background: white;
+}
+
+body,
+button,
+input,
+p,
+select,
+textarea {
+    font-family: $base-font-family;
+    font-weight: 400;
+
+    color: black;
+}
+
+img {
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+
+    &:hover {
+        text-decoration: underline;
+        color: black;
+    }
+}
+
+body,
+p {
+    line-height: $base-line-height;
+}
+
+pre {
+    background: #f0f0f0;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 60px;
+}

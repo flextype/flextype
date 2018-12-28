@@ -1,0 +1,14 @@
+title: About
+fields:
+  title:
+    title: admin_title
+    type: text
+    size: col-12
+  content:
+    title: admin_content
+    type: html
+    size: col-12
+  image: 
+    title: admin_entries_files
+    type: media_select
+    size: col-3

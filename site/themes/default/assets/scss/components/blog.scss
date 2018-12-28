@@ -1,0 +1,20 @@
+.blog-post {
+    color: #000;
+    margin-bottom: 40px;
+    padding-top: 40px;
+    display: block;
+    border-top: 1px solid #efefef;
+
+    &:first-of-type {
+        border-top: none;
+    }
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.blog-read {
+    text-align: center;
+    display: block;
+}

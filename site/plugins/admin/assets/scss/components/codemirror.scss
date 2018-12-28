@@ -1,0 +1,29 @@
+.CodeMirror {
+    height: auto;
+    margin: -15px -30px -30px;
+    font-size: 14px;
+    margin-top: 0;
+}
+
+.CodeMirror-sizer {
+    background: #292d34;
+}
+
+.cm-s-monokai .CodeMirror-gutters {
+    background: #292d34;
+    border-right: none;
+    color: #9ca4b2;
+}
+
+.cm-s-monokai .CodeMirror-linenumber {
+    color: #9ca4b2;
+}
+
+.cm-s-monokai .cm-meta,
+.cm-s-monokai.CodeMirror {
+    background: #292d34;
+}
+
+.CodeMirror pre {
+    padding: 0 14px;
+}

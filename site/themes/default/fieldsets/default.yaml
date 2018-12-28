@@ -1,0 +1,20 @@
+title: Default
+fields:
+  title:
+    title: admin_title
+    type: text
+  content:
+    title: admin_content
+    type: html
+  template:
+    title: admin_template
+    type: template_select
+    size: col-4
+  visibility:
+    title: admin_visibility
+    type: visibility_select
+    size: col-4
+  date:
+    title: admin_date
+    type: text
+    size: col-4

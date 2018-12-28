@@ -17,7 +17,6 @@ use Flextype\Component\Session\Session;
 use Flextype\Component\ErrorHandler\ErrorHandler;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Filesystem\Filesystem;
-use Symfony\Component\Yaml\Yaml;
 
 class Flextype
 {
@@ -26,7 +25,7 @@ class Flextype
      *
      * @var string
      */
-    const VERSION = '0.7.4';
+    const VERSION = '0.8.0';
 
     /**
      * An instance of the Flextype class
@@ -74,6 +73,7 @@ class Flextype
         // Turn on output buffering
         ob_start();
 
+        // Set Flextype config
         Flextype::setConfig();
 
         // Set internal encoding
@@ -99,8 +99,8 @@ class Flextype
         // Get Plugins Instance
         Plugins::getInstance();
 
-        // Get Content Instance
-        Content::getInstance();
+        // Get Entries Instance
+        Entries::getInstance();
 
         // Flush (send) the output buffer and turn off output buffering
         ob_end_flush();
@@ -138,14 +138,27 @@ class Flextype
      */
     private static function setConfig() : void
     {
-        // Set empty site item
+        // Set empty site settings array
         Registry::set('settings', []);
 
-        // Set settings items if settings config exists
-        if (Filesystem::fileExists($settings_config = PATH['config'] . '/' . 'settings.yaml')) {
-            Registry::set('settings', Yaml::parseFile($settings_config));
+        // Set settings files path
+        $default_settings_file_path = PATH['config']['default'] . '/settings.yaml';
+        $site_settings_file_path    = PATH['config']['site']    . '/settings.yaml';
+
+        // Set settings if Flextype settings and Site settings config files exist
+        if (Filesystem::fileExists($default_settings_file_path) && Filesystem::fileExists($site_settings_file_path)) {
+
+            // Get Flextype settings and Site settings
+            $default_settings = YamlParser::decode(Filesystem::getFileContent($default_settings_file_path));
+            $site_settings    = YamlParser::decode(Filesystem::getFileContent($site_settings_file_path));
+
+            // Merge settings
+            $settings = array_replace_recursive($default_settings, $site_settings);
+
+            // Set settings
+            Registry::set('settings', $settings);
         } else {
-            throw new \RuntimeException("Flextype settings config file does not exist.");
+            throw new \RuntimeException("Flextype settings and Site settings config files does not exist.");
         }
     }
 
