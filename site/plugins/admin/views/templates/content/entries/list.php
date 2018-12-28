@@ -33,8 +33,8 @@
         <?php foreach ($entries_list as $entry): ?>
         <tr>
             <td>
-                <a href="<?= Http::getBaseUrl() ?>/admin/entries/?entry=<?= $entry['slug'] ?>"><?= $entry['title'] ?></a>
                 <?php $count = count(Entries::getEntries($entry['slug'], 'slug', 'ASC')) ?>
+                <a href="<?php if ($count > 0): ?><?= Http::getBaseUrl() ?>/admin/entries/?entry=<?= $entry['slug'] ?><?php else: ?><?= Http::getBaseUrl() ?>/admin/entries/edit?entry=<?= $entry['slug'] ?><?php endif ?>"><?= $entry['title'] ?></a>
                 <?php if ($count > 0): ?>
                     (<?= $count ?>)
                 <?php endif ?>
