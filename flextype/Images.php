@@ -27,9 +27,9 @@ class Images
     private static $instance = null;
 
     /**
-     * Cache Driver
+     * Images Server
      *
-     * @var DoctrineCache
+     * @var
      */
     protected static $server;
 
@@ -62,7 +62,7 @@ class Images
     }
 
     /**
-     * Init Themes
+     * Init Images
      *
      * @access private
      * @return void
@@ -120,9 +120,30 @@ class Images
         Images::$server = $server;
     }
 
+    /**
+     * Get image
+     *
+     * Images::get('page-name/image.jpg', [w => '200']);
+     *
+     * @access public
+     * @param  string  $path    Image path
+     * @param  array   $params  Image params
+     * @return string Returns the image url
+     */
     public static function get($path, $params)
     {
         return Http::getBaseUrl().'/site/cache/glide/'.Images::$server->makeImage($path, $params);
+    }
+
+    /**
+     * Returns server variable
+     *
+     * @access public
+     * @return object
+     */
+    public static function server()
+    {
+        return Images::$server;
     }
 
     /**
