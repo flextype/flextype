@@ -93,6 +93,9 @@ class Flextype
         // Get Cache Instance
         Cache::getInstance();
 
+        // Get Images Instance
+        Images::getInstance();
+
         // Get Themes Instance
         Themes::getInstance();
 
