@@ -587,8 +587,8 @@ class EntriesManager
 
                         if ($filename === null) {
 
-                            // Use the default filename, with a timestamp pre-pended
-                            $filename = uniqid().'-'.$file['name'];
+                            // Use the default filename
+                            $filename = $file['name'];
                         }
 
                         if ($remove_spaces === true) {
