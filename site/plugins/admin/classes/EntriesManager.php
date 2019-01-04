@@ -16,6 +16,7 @@ use Flextype\Component\Form\Form;
 use Flextype\Component\Notification\Notification;
 use function Flextype\Component\I18n\__;
 use Gajus\Dindent\Indenter;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class EntriesManager
 {
@@ -463,6 +464,22 @@ class EntriesManager
                 $file = EntriesManager::uploadFile($_FILES['file'], $files_directory, Registry::get('settings.accept_file_types'), 17000000);
 
                 if($file !== false) {
+
+                    // open an image file
+                    $img = Image::make($file);
+
+                    // now you are able to resize the instance
+                    $img->resize(1600, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    });
+
+                    // finally we save the image as a new file
+                    $img->save($file, 70);
+
+                    // destroy
+                    $img->destroy();
+
                     Notification::set('success', __('admin_message_entry_file_uploaded'));
                     Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry').'&media=true');
                 } else {
