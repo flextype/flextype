@@ -14,6 +14,7 @@ namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Event\Event;
+use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Event: onShortcodesInitialized
 Event::addListener('onShortcodesInitialized', function () {
