@@ -46,7 +46,7 @@ use function Flextype\Component\I18n\__;
                     <a href="javascript:;"
                        <?php $file_ext = substr(strrchr($file, '.'), 1) ?>
                        <?php if(in_array($file_ext, ['jpeg', 'png', 'gif', 'jpg'])): ?>
-                       style="background-image: url('<?= Http::getBaseUrl() . '/site/entries/' . Http::get('entry') . '/' . basename($file) ?>')"
+                       style="background-image: url('<?= Images::get(Http::get('entry') . '/' . basename($file), ['w'=>'200']) ?>')"
                        <?php else: ?>
                        style="background: #000;"
                        <?php endif ?>
