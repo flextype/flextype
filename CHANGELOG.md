@@ -4,7 +4,7 @@
 
 ### Changed
 - Flextype Core: Thunderer Shortcode updated to 0.7.0 - over 10x performance and memory usage improvement!
-s
+
 ### Fixed
 - Admin Panel: Snippets Manager - shortcode issue - fixed.
 
