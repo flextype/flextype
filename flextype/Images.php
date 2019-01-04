@@ -121,13 +121,14 @@ class Images
      * Get image
      *
      * Images::get('page-name/image.jpg', [w => '200']);
+     * http://glide.thephpleague.com/1.0/api/quick-reference/
      *
      * @access public
      * @param  string  $path    Image path
      * @param  array   $params  Image params
      * @return string Returns the image url
      */
-    public static function get($path, $params)
+    public static function get($path, array $params)
     {
         return Http::getBaseUrl().'/site/cache/glide/'.Images::$server->makeImage($path, $params);
     }
