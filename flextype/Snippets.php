@@ -19,7 +19,7 @@ use Flextype\Component\Event\Event;
 Event::addListener('onShortcodesInitialized', function () {
 
     // Shortcode: [snippet name=snippet-name]
-    Content::shortcode()->addHandler('snippet', function(ShortcodeInterface $s) {
+    Entries::shortcode()->addHandler('snippet', function(ShortcodeInterface $s) {
         return Snippet::get($s->getParameter('name'));
     });
 });
