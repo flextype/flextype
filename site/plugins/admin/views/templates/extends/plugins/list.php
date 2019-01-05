@@ -83,7 +83,7 @@ Themes::view('admin/views/partials/content-start')->display();
           <p><b><?= __('admin_plugins_author_name') ?>: </b><span class="js-plugin-author-name-placeholder"></span></p>
           <p><b><?= __('admin_plugins_author_email') ?>: </b><span class="js-plugin-author-email-placeholder"></span></p>
           <p><b><?= __('admin_plugins_author_url') ?>: </b><span class="js-plugin-author-url-placeholder"></span></p>
-          <p><b><?= __('admin_plugins_homeentry') ?>: </b><span class="js-plugin-homepage-placeholder"></span></p>
+          <p><b><?= __('admin_plugins_homepage') ?>: </b><span class="js-plugin-homepage-placeholder"></span></p>
           <p><b><?= __('admin_plugins_bugs') ?>: </b><span class="js-plugin-bugs-placeholder"></span></p>
           <p><b><?= __('admin_plugins_license') ?>: </b><span class="js-plugin-license-placeholder"></span></p>
       </div>
