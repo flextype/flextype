@@ -57,7 +57,6 @@ gulp.task('js', function(){
                    'node_modules/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.js',
                    'node_modules/trumbowyg/dist/plugins/table/trumbowyg.table.js',
                    'node_modules/codemirror/lib/codemirror.js',
-                   'node_modules/codemirror/lib/codemirror.js',
                    'node_modules/codemirror/mode/htmlmixed/htmlmixed.js',
                    'node_modules/codemirror/mode/xml/xml.js',
                    'node_modules/codemirror/mode/javascript/javascript.js',
