@@ -35,7 +35,7 @@
             <?php foreach ($templates_list as $template): ?>
             <tr>
                 <td>
-                    <?= $template ?>
+                    <a href="<?= Http::getBaseUrl() ?>/admin/templates/edit?template=<?= $template ?>"><?= $template ?></a>
                 </td>
                 <td><?= Text::lowercase(__('admin_template')) ?></td>
                 <td class="text-right">
@@ -58,7 +58,7 @@
             <?php foreach ($partials_list as $partial): ?>
             <tr>
                 <td>
-                    <?= $partial ?>
+                    <a href="<?= Http::getBaseUrl() ?>/admin/templates/edit?template=<?= $partial ?>&type=partial"><?= $partial ?></a>
                 </td>
                 <td><?= Text::lowercase(__('admin_partial')) ?></td>
                 <td class="text-right">

@@ -33,7 +33,7 @@
         <?php foreach ($fieldsets_list as $name => $fieldset): ?>
         <tr>
             <td>
-                <?= $fieldset ?>
+                <a href="<?= Http::getBaseUrl() ?>/admin/fieldsets/edit?fieldset=<?= $name ?>"><?= $fieldset ?></a>
             </td>
             <td class="text-right">
                 <div class="btn-group">

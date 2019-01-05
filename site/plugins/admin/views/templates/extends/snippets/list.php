@@ -33,7 +33,7 @@
         <?php foreach ($snippets_list as $snippet): ?>
         <tr>
             <td>
-                <?= basename($snippet, '.php') ?>
+                <a href="<?= Http::getBaseUrl() ?>/admin/snippets/edit?snippet=<?= basename($snippet, '.php') ?>"><?= basename($snippet, '.php') ?></a>
             </td>
             <td class="text-right">
                 <div class="btn-group">
