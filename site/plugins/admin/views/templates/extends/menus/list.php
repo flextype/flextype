@@ -33,7 +33,7 @@
         <?php foreach ($menus_list as $name => $menu): ?>
         <tr>
             <td>
-                <?= $menu['title'] ?>
+                <a href="<?= Http::getBaseUrl() ?>/admin/menus/edit?menu=<?= $name ?>"><?= $menu['title'] ?></a>
             </td>
             <td class="text-right">
                 <div class="btn-group">
