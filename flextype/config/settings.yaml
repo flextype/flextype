@@ -39,6 +39,10 @@ locale: "en"
 # The default page to use for the homepage.
 entries:
   main: home
+  media:
+    upload_images_quality: 70
+    upload_images_width: 1600
+    upload_images_height: 0
   error404:
     title: "Error 404"
     description: "We're sorry but the page you are looking for doesn't appear to exist!"
@@ -61,3 +65,5 @@ cache:
 
 # Define the file types (extensions to be exact) that are acceptable for upload.
 accept_file_types: [ gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
+
+# Define settings for media

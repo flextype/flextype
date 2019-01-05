@@ -469,13 +469,25 @@ class EntriesManager
                     $img = Image::make($file);
 
                     // now you are able to resize the instance
-                    $img->resize(1600, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
+                    if (Registry::get('settings.entries.media.upload_images_width') > 0 && Registry::get('settings.entries.media.upload_images_height') > 0) {
+                        $img->resize(Registry::get('settings.entries.media.upload_images_width'), Registry::get('settings.entries.media.upload_images_height'), function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                    } elseif (Registry::get('settings.entries.media.upload_images_width') > 0) {
+                        $img->resize(Registry::get('settings.entries.media.upload_images_width'), null, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                    } elseif (Registry::get('settings.entries.media.upload_images_height') > 0) {
+                        $img->resize(null, Registry::get('settings.entries.media.upload_images_height'), function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                    }
 
                     // finally we save the image as a new file
-                    $img->save($file, 70);
+                    $img->save($file, Registry::get('settings.entries.media.upload_images_quality'));
 
                     // destroy
                     $img->destroy();
