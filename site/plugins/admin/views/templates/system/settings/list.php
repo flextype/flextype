@@ -104,7 +104,34 @@ Themes::view('admin/views/partials/content-start')->display();
 
     <div class="col-md-12">
         <br>
-        <h3 class="h3"><?=  __('admin_system_settings_error_404_page'); ?></h3>
+        <h3 class="h3"><?=  __('admin_system_settings_media'); ?></h3>
+        <hr>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('entries[media][upload_images_quality]', __('admin_system_settings_system_upload_images_quality'), ['for' => 'systemSettingsSystemTheme']) ?>
+            <?= Form::input('entries[media][upload_images_quality]', $settings['entries']['media']['upload_images_quality'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required']) ?>
+        </div>
+        <div class="form-group">
+            <?= Form::label('entries[media][accept_file_types]', __('admin_system_settings_system_upload_accept_file_types'), ['for' => 'systemSettingsSystemTheme']) ?>
+            <?= Form::input('entries[media][accept_file_types]', $settings['entries']['media']['accept_file_types'] , ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required']) ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('entries[media][upload_images_width]', __('admin_system_settings_system_upload_images_width'), ['for' => 'systemSettingsSystemTheme']) ?>
+            <?= Form::input('entries[media][upload_images_width]', $settings['entries']['media']['upload_images_width'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required']) ?>
+        </div>
+        <div class="form-group">
+            <?= Form::label('entries[media][upload_images_height]', __('admin_system_settings_system_upload_images_height'), ['for' => 'systemSettingsSystemEntriesMain']) ?>
+            <?= Form::input('entries[media][upload_images_height]', $settings['entries']['media']['upload_images_height'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesMain', 'required']) ?>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <br>
+        <h3 class="h3"><?= __('admin_system_settings_error_404_page'); ?></h3>
         <hr>
     </div>
 
