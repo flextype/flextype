@@ -100,6 +100,7 @@ admin_message_entry_created: "Успешно - Создана новая стр�
 admin_message_entry_deleted: "Удалена страница из списка"
 admin_message_entry_file_deleted: "Файл удален из списка"
 admin_message_entry_file_uploaded: "Успешно - загружен новый файл"
+admin_message_entry_file_not_uploaded: "Файл не был загружен"
 admin_message_entry_moved: "Страница перемещена"
 admin_message_entry_renamed: "Страница переименована"
 admin_message_fieldset_created: "Создать новое поле"
