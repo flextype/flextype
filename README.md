@@ -1,6 +1,6 @@
 # Flextype
 [![Discord](https://img.shields.io/discord/423097982498635778.svg?logo=discord&colorB=728ADA&label=Discord%20Chat&style=flat-square)](https://discordapp.com/invite/CCKPKVG)
-![Version](https://img.shields.io/badge/version-0.8.0-brightgreen.svg?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.8.1-brightgreen.svg?style=flat-square)
 ![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 
 ![preview](/site/plugins/admin/preview.png)
