@@ -218,7 +218,11 @@ class Images
      */
     public static function getImageUrl($path, array $params)
     {
-        return Http::getBaseUrl() . '/site/cache/glide/' . Images::$server->makeImage($path, $params);
+        if (file_exists(PATH['entries'] . $path)) {
+            return Http::getBaseUrl() . '/site/cache/glide/' . Images::$server->makeImage($path, $params);
+        } else {
+            return "File {$path} does not exist.";
+        }
     }
 
     /**
@@ -234,7 +238,11 @@ class Images
      */
     public static function getImage($path, array $params, array $attributes = [])
     {
-        return '<img '.Html::attributes($attributes).' src="'. Images::getImageUrl($path, $params) .'">';
+        if (file_exists(PATH['entries'] . $path)) {
+            return '<img '.Html::attributes($attributes).' src="'. Images::getImageUrl($path, $params) .'">';
+        } else {
+            return "File {$path} does not exist.";
+        }
     }
 
     /**
