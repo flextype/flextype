@@ -1,13 +1,23 @@
 ## [0.8.1] - 2019-01-XX
 ### Added
 - Flextype Core: Glide/Intervention Image Implemented for Image manipulation!
+- Flextype Core: Cache - ability to delete glide cache folder added.
 
 ### Changed
 - Flextype Core: Thunderer Shortcode updated to 0.7.0 - over 10x performance and memory usage improvement!
+- Flextype Core: Default settings updates.
+- Admin Panel: Media Manager - uploader improvements
+- Admin Panel: Menus Manager - menus name are clickable now.
+- Admin Panel: Fieldsets Manager - fieldsets name are clickable now.
+- Admin Panel: Templates Manager - templates and partials name are clickable now.
+- Admin Panel: Snippets Manager - snippets name are clickable now.
+- Admin Panel: Settings Manager - look and feel improvements.
 
 ### Fixed
 - Admin Panel: Snippets Manager - shortcode issue - fixed.
-
+- Admin Panel: gulpfile - issue with duplicated codemirror - fixed.
+- Admin Panel: Trumbowyg styles fixes.
+- Admin Panel: Plugins Manager - issue with broken homepage url in the Info Modal - fixed.
 
 ## [0.8.0] - 2018-12-28
 ### Added
