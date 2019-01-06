@@ -332,7 +332,7 @@ class EntriesManager
     {
         $files = [];
         foreach (array_diff(scandir(PATH['entries'] . '/' . $entry), ['..', '.']) as $file) {
-            if (in_array($file_ext = substr(strrchr($file, '.'), 1), Registry::get('settings.accept_file_types'))) {
+            if (strpos(Registry::get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($path) {
                         $files[Http::getBaseUrl().'/'.$entry.'/'.$file] = Http::getBaseUrl().'/'.$entry.'/'.$file;
@@ -461,7 +461,9 @@ class EntriesManager
 
         if (Http::post('upload_file')) {
             if (Token::check(Http::post('token'))) {
-                $file = EntriesManager::uploadFile($_FILES['file'], $files_directory, Registry::get('settings.accept_file_types'), 17000000);
+                //echo Registry::get('settings.entries.media.accept_file_types');
+
+                $file = EntriesManager::uploadFile($_FILES['file'], $files_directory, Registry::get('settings.entries.media.accept_file_types'), 17000000);
 
                 if($file !== false) {
 
@@ -512,7 +514,7 @@ class EntriesManager
      *
      * @param   array   $file             Uploaded file data
      * @param   string  $upload_directory Upload directory
-     * @param   array   $allowed          Allowed file extensions
+     * @param   string  $allowed          Allowed file extensions
      * @param   int     $max_size         Max file size in bytes
      * @param   string  $filename         New filename
      * @param   bool    $remove_spaces    Remove spaces from the filename
@@ -526,7 +528,7 @@ class EntriesManager
     public static function uploadFile(
         array $file,
                                       string $upload_directory,
-                                      array $allowed = ['jpeg', 'png', 'gif', 'jpg'],
+                                      string $allowed = 'jpeg, png, gif, jpg',
                                       int $max_size = 3000000,
                                       string $filename = null,
                                       bool $remove_spaces = true,
@@ -555,7 +557,7 @@ class EntriesManager
                 //
                 // Test if an uploaded file is an allowed file type, by extension.
                 //
-                if (in_array(strtolower(pathinfo($file['name'], PATHINFO_EXTENSION)), $allowed)) {
+                if (strpos($allowed, strtolower(pathinfo($file['name'], PATHINFO_EXTENSION))) !== false) {
 
                     //
                     // Validation rule to test if an uploaded file is allowed by file size.
