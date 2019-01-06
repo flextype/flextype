@@ -1,4 +1,4 @@
-## [0.8.1] - 2019-01-xx
+## [0.8.1] - 2019-01-07
 ### Added
 - Flextype Core: Glide/Intervention Image Implemented for Image manipulation!
 - Flextype Core: Cache - ability to delete glide cache folder added.
