@@ -10,6 +10,7 @@
     "gulp-concat": "^2.6.1",
     "gulp-sourcemaps": "^2.6.4",
     "bootstrap": "^4.2.1",
+    "popper.js": "^1.14.6",
     "jquery": "^3.3.1"
   }
 }
