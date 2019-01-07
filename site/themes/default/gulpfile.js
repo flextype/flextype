@@ -19,14 +19,14 @@ gulp.task('simple-css', function() {
             cascade: false
         }))
         .pipe(csso())
-        .pipe(concat('simple.min.css'))
+        .pipe(concat('default.min.css'))
         .pipe(gulp.dest('assets/dist/css/'));
 });
 
 gulp.task('js', function(){
   return gulp.src(['node_modules/jquery/dist/jquery.slim.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js'])
     .pipe(sourcemaps.init())
-    .pipe(concat('simple.min.js'))
+    .pipe(concat('default.min.js'))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('assets/dist/js/'));
 });

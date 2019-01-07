@@ -16,6 +16,7 @@ use Flextype\Component\Form\Form;
 use Flextype\Component\Notification\Notification;
 use function Flextype\Component\I18n\__;
 use Gajus\Dindent\Indenter;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class EntriesManager
 {
@@ -331,7 +332,7 @@ class EntriesManager
     {
         $files = [];
         foreach (array_diff(scandir(PATH['entries'] . '/' . $entry), ['..', '.']) as $file) {
-            if (in_array($file_ext = substr(strrchr($file, '.'), 1), Registry::get('settings.accept_file_types'))) {
+            if (strpos(Registry::get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($path) {
                         $files[Http::getBaseUrl().'/'.$entry.'/'.$file] = Http::getBaseUrl().'/'.$entry.'/'.$file;
@@ -460,12 +461,199 @@ class EntriesManager
 
         if (Http::post('upload_file')) {
             if (Token::check(Http::post('token'))) {
-                Filesystem::uploadFile($_FILES['file'], $files_directory, Registry::get('settings.accept_file_types'), 7000000);
-                Notification::set('success', __('admin_message_entry_file_uploaded'));
-                Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry').'&media=true');
+                //echo Registry::get('settings.entries.media.accept_file_types');
+
+                $file = EntriesManager::uploadFile($_FILES['file'], $files_directory, Registry::get('settings.entries.media.accept_file_types'), 17000000);
+
+                if($file !== false) {
+
+                    if (in_array(pathinfo($file)['extension'], ['jpg', 'jpeg', 'png', 'gif'])) {
+                        
+                        // open an image file
+                        $img = Image::make($file);
+
+                        // now you are able to resize the instance
+                        if (Registry::get('settings.entries.media.upload_images_width') > 0 && Registry::get('settings.entries.media.upload_images_height') > 0) {
+                            $img->resize(Registry::get('settings.entries.media.upload_images_width'), Registry::get('settings.entries.media.upload_images_height'), function ($constraint) {
+                                $constraint->aspectRatio();
+                                $constraint->upsize();
+                            });
+                        } elseif (Registry::get('settings.entries.media.upload_images_width') > 0) {
+                            $img->resize(Registry::get('settings.entries.media.upload_images_width'), null, function ($constraint) {
+                                $constraint->aspectRatio();
+                                $constraint->upsize();
+                            });
+                        } elseif (Registry::get('settings.entries.media.upload_images_height') > 0) {
+                            $img->resize(null, Registry::get('settings.entries.media.upload_images_height'), function ($constraint) {
+                                $constraint->aspectRatio();
+                                $constraint->upsize();
+                            });
+                        }
+
+                        // finally we save the image as a new file
+                        $img->save($file, Registry::get('settings.entries.media.upload_images_quality'));
+
+                        // destroy
+                        $img->destroy();
+                    }
+
+                    Notification::set('success', __('admin_message_entry_file_uploaded'));
+                    Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry').'&media=true');
+                } else {
+                    Notification::set('error', __('admin_message_entry_file_not_uploaded'));
+                    Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry').'&media=true');
+                }
+
             } else {
                 die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
             }
         }
     }
+
+    /**
+     * Upload files on the Server with several type of Validations!
+     *
+     * Entries::uploadFile($_FILES['file'], $files_directory);
+     *
+     * @param   array   $file             Uploaded file data
+     * @param   string  $upload_directory Upload directory
+     * @param   string  $allowed          Allowed file extensions
+     * @param   int     $max_size         Max file size in bytes
+     * @param   string  $filename         New filename
+     * @param   bool    $remove_spaces    Remove spaces from the filename
+     * @param   int     $max_width        Maximum width of image
+     * @param   int     $max_height       Maximum height of image
+     * @param   bool    $exact            Match width and height exactly?
+     * @param   int     $chmod            Chmod mask
+     * @return  string  on success, full path to new file
+     * @return  false   on failure
+     */
+    public static function uploadFile(
+        array $file,
+                                      string $upload_directory,
+                                      string $allowed = 'jpeg, png, gif, jpg',
+                                      int $max_size = 3000000,
+                                      string $filename = null,
+                                      bool $remove_spaces = true,
+                                      int $max_width = null,
+                                      int $max_height = null,
+                                      bool $exact = false,
+                                      int $chmod = 0644
+    ) {
+        //
+        // Tests if a successful upload has been made.
+        //
+        if (isset($file['error'])
+            and isset($file['tmp_name'])
+            and $file['error'] === UPLOAD_ERR_OK
+            and is_uploaded_file($file['tmp_name'])) {
+
+            //
+            // Tests if upload data is valid, even if no file was uploaded.
+            //
+            if (isset($file['error'])
+                    and isset($file['name'])
+                    and isset($file['type'])
+                    and isset($file['tmp_name'])
+                    and isset($file['size'])) {
+
+                //
+                // Test if an uploaded file is an allowed file type, by extension.
+                //
+                if (strpos($allowed, strtolower(pathinfo($file['name'], PATHINFO_EXTENSION))) !== false) {
+
+                    //
+                    // Validation rule to test if an uploaded file is allowed by file size.
+                    //
+                    if (($file['error'] != UPLOAD_ERR_INI_SIZE)
+                                  and ($file['error'] == UPLOAD_ERR_OK)
+                                  and ($file['size'] <= $max_size)) {
+
+                        //
+                        // Validation rule to test if an upload is an image and, optionally, is the correct size.
+                        //
+                        if (in_array(mime_content_type($file['tmp_name']), ['image/jpeg', 'image/jpg', 'image/png','image/gif'])) {
+                            function validateImage($file, $max_width, $max_height, $exact)
+                            {
+                                try {
+                                    // Get the width and height from the uploaded image
+                                    list($width, $height) = getimagesize($file['tmp_name']);
+                                } catch (ErrorException $e) {
+                                    // Ignore read errors
+                                }
+
+                                if (empty($width) or empty($height)) {
+                                    // Cannot get image size, cannot validate
+                                    return false;
+                                }
+
+                                if (! $max_width) {
+                                    // No limit, use the image width
+                                    $max_width = $width;
+                                }
+
+                                if (! $max_height) {
+                                    // No limit, use the image height
+                                    $max_height = $height;
+                                }
+
+                                if ($exact) {
+                                    // Check if dimensions match exactly
+                                    return ($width === $max_width and $height === $max_height);
+                                } else {
+                                    // Check if size is within maximum dimensions
+                                    return ($width <= $max_width and $height <= $max_height);
+                                }
+
+                                return false;
+                            }
+
+                            if (validateImage($file, $max_width, $max_height, $exact) === false) {
+                                return false;
+                            }
+                        }
+
+                        if (! isset($file['tmp_name']) or ! is_uploaded_file($file['tmp_name'])) {
+
+                            // Ignore corrupted uploads
+                            return false;
+                        }
+
+                        if ($filename === null) {
+
+                            // Use the default filename
+                            $filename = $file['name'];
+                        }
+
+                        if ($remove_spaces === true) {
+
+                            // Remove spaces from the filename
+                            $filename = Text::safeString(pathinfo($filename)['filename'], '-', true) . '.' . pathinfo($filename)['extension'];
+                        }
+
+                        if (! is_dir($upload_directory) or ! is_writable(realpath($upload_directory))) {
+                            throw new \RuntimeException("Directory {$upload_directory} must be writable");
+                        }
+
+                        // Make the filename into a complete path
+                        $filename = realpath($upload_directory).DIRECTORY_SEPARATOR.$filename;
+
+                        if (move_uploaded_file($file['tmp_name'], $filename)) {
+
+                            if ($chmod !== false) {
+                                // Set permissions on filename
+                                chmod($filename, $chmod);
+                            }
+
+                            // Return new file path
+                            return $filename;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
 }

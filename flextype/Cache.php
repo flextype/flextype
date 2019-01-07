@@ -273,8 +273,9 @@ class Cache
         // Clear opcache
         function_exists('opcache_reset') and @opcache_reset();
 
-        // Remove cache dir
+        // Remove cache dirs
         Filesystem::deleteDir(PATH['cache'] . '/doctrine/');
+        Filesystem::deleteDir(PATH['cache'] . '/glide/');
     }
 
     /**

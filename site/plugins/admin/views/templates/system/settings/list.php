@@ -32,6 +32,12 @@ Themes::view('admin/views/partials/content-start')->display();
 <?= Form::hidden('token', Token::generate()) ?>
 <?= Form::hidden('action', 'save-form') ?>
 <div class="row">
+
+    <div class="col-md-12">
+        <h3 class="h3"><?=  __('admin_system_settings_site'); ?></h3>
+        <hr>
+    </div>
+
     <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('title', __('admin_system_settings_site_title'), ['for' => 'systemSettingsSiteTitle']) ?>
@@ -39,12 +45,14 @@ Themes::view('admin/views/partials/content-start')->display();
         </div>
         <div class="form-group">
             <?= Form::label('description', __('admin_system_settings_site_description'), ['for' => 'systemSettingsSiteDescription']) ?>
-            <?= Form::textarea('description', $settings['description'], ['class' => 'form-control margin-hard-bottom', 'id' => 'systemSettingsSiteDescription']) ?>
+            <?= Form::input('description', $settings['description'], ['class' => 'form-control margin-hard-bottom', 'id' => 'systemSettingsSiteDescription']) ?>
         </div>
         <div class="form-group">
             <?= Form::label('keywords', __('admin_system_settings_site_keywords'), ['for' => 'systemSettingsSiteKeywords']) ?>
             <?= Form::input('keywords', $settings['keywords'], ['class' => 'form-control', 'id' => 'systemSettingsSiteKeywords', 'required']) ?>
         </div>
+    </div>
+    <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('robots', __('admin_system_settings_site_robots'), ['for' => 'systemSettingsSiteRobots']) ?>
             <?= Form::input('robots', $settings['robots'], ['class' => 'form-control', 'id' => 'systemSettingsSiteRobots', 'required']) ?>
@@ -58,6 +66,13 @@ Themes::view('admin/views/partials/content-start')->display();
             <?= Form::input('author[email]', $settings['author']['email'], ['class' => 'form-control', 'id' => 'systemSettingsSiteAuthorEmail', 'required']) ?>
         </div>
     </div>
+
+    <div class="col-md-12">
+        <br>
+        <h3 class="h3"><?=  __('admin_system_settings_general'); ?></h3>
+        <hr>
+    </div>
+
     <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('timezone', __('admin_system_settings_system_timezone'), ['for' => 'systemSettingsSystemTimezone']) ?>
@@ -71,6 +86,8 @@ Themes::view('admin/views/partials/content-start')->display();
             <?= Form::label('charset', __('admin_system_settings_system_charset'), ['for' => 'systemSettingsSystemCharset']) ?>
             <?= Form::input('charset', $settings['charset'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCharset', 'required']) ?>
         </div>
+    </div>
+    <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('theme', __('admin_system_settings_system_theme'), ['for' => 'systemSettingsSystemTheme']) ?>
             <?= Form::input('theme', $settings['theme'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required']) ?>
@@ -83,6 +100,42 @@ Themes::view('admin/views/partials/content-start')->display();
             <?= Form::label('entries[main]', __('admin_system_settings_system_entries_main'), ['for' => 'systemSettingsSystemEntriesMain']) ?>
             <?= Form::input('entries[main]', $settings['entries']['main'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesMain', 'required']) ?>
         </div>
+    </div>
+
+    <div class="col-md-12">
+        <br>
+        <h3 class="h3"><?=  __('admin_system_settings_media'); ?></h3>
+        <hr>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('entries[media][upload_images_quality]', __('admin_system_settings_system_upload_images_quality'), ['for' => 'systemSettingsSystemTheme']) ?>
+            <?= Form::input('entries[media][upload_images_quality]', $settings['entries']['media']['upload_images_quality'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required']) ?>
+        </div>
+        <div class="form-group">
+            <?= Form::label('entries[media][accept_file_types]', __('admin_system_settings_system_upload_accept_file_types'), ['for' => 'systemSettingsSystemTheme']) ?>
+            <?= Form::input('entries[media][accept_file_types]', $settings['entries']['media']['accept_file_types'] , ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required']) ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('entries[media][upload_images_width]', __('admin_system_settings_system_upload_images_width'), ['for' => 'systemSettingsSystemTheme']) ?>
+            <?= Form::input('entries[media][upload_images_width]', $settings['entries']['media']['upload_images_width'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required']) ?>
+        </div>
+        <div class="form-group">
+            <?= Form::label('entries[media][upload_images_height]', __('admin_system_settings_system_upload_images_height'), ['for' => 'systemSettingsSystemEntriesMain']) ?>
+            <?= Form::input('entries[media][upload_images_height]', $settings['entries']['media']['upload_images_height'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesMain', 'required']) ?>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <br>
+        <h3 class="h3"><?= __('admin_system_settings_error_404_page'); ?></h3>
+        <hr>
+    </div>
+
+    <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('entries[error404][title]', __('admin_system_settings_system_entries_error404_title'), ['for' => 'systemSettingsSystemEntriesError404Title']) ?>
             <?= Form::input('entries[error404][title]', $settings['entries']['error404']['title'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesError404Title', 'required']) ?>
@@ -91,6 +144,8 @@ Themes::view('admin/views/partials/content-start')->display();
             <?= Form::label('entries[error404][description]', __('admin_system_settings_system_entries_error404_description'), ['for' => 'systemSettingsSystemEntriesError404Description']) ?>
             <?= Form::input('entries[error404][description]', $settings['entries']['error404']['description'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesError404Description', 'required']) ?>
         </div>
+    </div>
+    <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('entries[error404][content]', __('admin_system_settings_system_entries_error404_content'), ['for' => 'systemSettingsSystemEntriesError404Content']) ?>
             <?= Form::input('entries[error404][content]', $settings['entries']['error404']['content'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesError404Content', 'required']) ?>
@@ -99,18 +154,39 @@ Themes::view('admin/views/partials/content-start')->display();
             <?= Form::label('entries[error404][template]', __('admin_system_settings_system_entries_error404_template'), ['for' => 'systemSettingsSystemEntriesError404Template']) ?>
             <?= Form::input('entries[error404][template]', $settings['entries']['error404']['template'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesError404Template', 'required']) ?>
         </div>
+    </div>
+
+    <div class="col-md-12">
+        <br>
+        <h3 class="h3"><?=  __('admin_system_settings_debuggig'); ?></h3>
+        <hr>
+    </div>
+
+    <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('errors[display]', __('admin_system_settings_system_errors_display'), ['for' => 'systemSettingsSystemErrorsDisplay']) ?>
-            <?= Form::select('errors[display]', [0 => 'false', 1 => 'true'], $settings['errors']['display'], ['class' => 'form-control', 'id' => 'systemSettingsSystemErrorsDisplay', 'required']) ?>
+            <?= Form::select('errors[display]', [0 => __('admin_system_settings_system_errors_enabled_false'), 1 => __('admin_system_settings_system_errors_enabled_true')], $settings['errors']['display'], ['class' => 'form-control', 'id' => 'systemSettingsSystemErrorsDisplay', 'required']) ?>
         </div>
+    </div>
+
+
+    <div class="col-md-12">
+        <br>
+        <h3 class="h3"><?=  __('admin_system_settings_cache'); ?></h3>
+        <hr>
+    </div>
+
+    <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('cache[enabled]', __('admin_system_settings_system_cache_enabled'), ['for' => 'systemSettingsSystemCacheEnabled']) ?>
-            <?= Form::select('cache[enabled]', [0 => 'false', 1 => 'true'], $settings['cache']['enabled'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheEnabled', 'required']) ?>
+            <?= Form::select('cache[enabled]', [0 => __('admin_system_settings_system_cache_enabled_false'), 1 => __('admin_system_settings_system_cache_enabled_true')], $settings['cache']['enabled'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheEnabled', 'required']) ?>
         </div>
         <div class="form-group">
             <?= Form::label('cache[prefix]', __('admin_system_settings_system_cache_prefix'), ['for' => 'systemSettingsSystemCachePrefix']) ?>
             <?= Form::input('cache[prefix]', $settings['cache']['prefix'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCachePrefix', 'required']) ?>
         </div>
+    </div>
+    <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('cache[driver]', __('admin_system_settings_system_cache_driver'), ['for' => 'systemSettingsSystemCacheDriver']) ?>
             <?= Form::input('cache[driver]', $settings['cache']['driver'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheDriver', 'required']) ?>

@@ -46,6 +46,9 @@ class SettingsManager
                 Arr::set($settings, 'errors.display', (Http::post('errors.display') == '1' ? true : false));
                 Arr::set($settings, 'cache.enabled', (Http::post('cache.enabled') == '1' ? true : false));
                 Arr::set($settings, 'cache.lifetime', (int) Http::post('cache.lifetime'));
+                Arr::set($settings, 'entries.media.upload_images_quality', (int) Http::post('entries.media.upload_images_quality'));
+                Arr::set($settings, 'entries.media.upload_images_width', (int) Http::post('entries.media.upload_images_width'));
+                Arr::set($settings, 'entries.media.upload_images_height', (int) Http::post('entries.media.upload_images_height'));
 
                 if (Filesystem::setFileContent(PATH['config']['site'] . '/settings.yaml', YamlParser::encode(array_merge(Registry::get('settings'), $settings)))) {
                     Notification::set('success', __('admin_message_settings_saved'));

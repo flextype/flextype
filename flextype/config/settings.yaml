@@ -1,8 +1,14 @@
 # The title of the website
-title: "Site title here"
+title: "Flextype"
 
 # The description of the website
-description: "Site description here"
+description: "Modern Open Source Flat-File Content Management System"
+
+# The keywords of the website
+keywords: "flextype, php, cms, flat-file cms, flat cms, flatfile cms, html"
+
+# The robots of the website
+robots: "index, follow"
 
 # The name and email address of the website author
 author:
@@ -31,33 +37,35 @@ date_format: "F d Y H:i:s"
 # Don't edit the provided theme templates directly, because they get updated
 # in next releases. If you wish to modify a default theme, copy its folder, and
 # change the name here accordingly.
-theme: simple
+theme: default
 
 # The locale that'll be used by the Flextype.
 locale: "en"
 
-# The default page to use for the homepage.
+# The entries settings
+# Define the file types (extensions to be exact) that are acceptable for upload.
 entries:
   main: home
+  media:
+    upload_images_quality: 70
+    upload_images_width: 1600
+    upload_images_height: 0
+    accept_file_types: "gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg"
   error404:
     title: "Error 404"
     description: "We're sorry but the page you are looking for doesn't appear to exist!"
     content: "We're sorry but the page you are looking for doesn't appear to exist!"
     template: "default"
 
-
 # Display errors
 errors:
-  display: true
+  display: false
 
 # Cache
 # available drivers: auto (will get one from installed cache drivers), apcu,
 # apc, wincache, xcache, memcache, memcached, redis, file.
 cache:
   enabled: true
-  prefix: Flextype
+  prefix: flextype
   driver: auto
   lifetime: 604800
-
-# Define the file types (extensions to be exact) that are acceptable for upload.
-accept_file_types: [ gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]

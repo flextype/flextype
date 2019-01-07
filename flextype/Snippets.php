@@ -14,12 +14,13 @@ namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Event\Event;
+use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Event: onShortcodesInitialized
 Event::addListener('onShortcodesInitialized', function () {
 
     // Shortcode: [snippet name=snippet-name]
-    Content::shortcode()->addHandler('snippet', function(ShortcodeInterface $s) {
+    Entries::shortcode()->addHandler('snippet', function(ShortcodeInterface $s) {
         return Snippet::get($s->getParameter('name'));
     });
 });

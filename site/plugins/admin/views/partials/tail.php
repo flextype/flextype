@@ -101,7 +101,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             $('.js-plugin-author-name-placeholder').html($(this).attr('data-author-name'));
             $('.js-plugin-author-email-placeholder').html($(this).attr('data-author-email'));
             $('.js-plugin-author-url-placeholder').html($(this).attr('data-author-url'));
-            $('.js-plugin-homeentry-placeholder').html($(this).attr('data-homeentry'));
+            $('.js-plugin-homepage-placeholder').html($(this).attr('data-homepage'));
             $('.js-plugin-bugs-placeholder').html($(this).attr('data-bugs'));
             $('.js-plugin-license-placeholder').html($(this).attr('data-license'));
         });
@@ -137,7 +137,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             theme: "monokai",
             styleActiveLine: true,
         });
-        
+
         editor.addKeyMap({
             "Tab": function (cm) {
                 if (cm.somethingSelected()) {
