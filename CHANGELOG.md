@@ -1,12 +1,17 @@
 ## [0.8.2] - 2019-01-XX
 ### Added
+- Admin Panel: Media Manager - Twitter Bootstrap File browser - added.
+- Admin Panel: Snippets Manager: Embeded code info modal added.
+- Admin Panel: ClipboardJS added!
 
 ### Changed
 - Flextype Core: Text Components updated to 1.1.2.
+- Admin Panel: Entries Manager - upload file size increased to 27000000 bytes.
 
 ### Fixed
 - Flextype Core: Default theme - issue with package.json - fixed.
-
+- Flextype Core: Code fixes according to the phpDocumentor.
+- Admin Panel: Translates fixes.
 
 ## [0.8.1] - 2019-01-07
 ### Added
