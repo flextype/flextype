@@ -14,6 +14,7 @@
 ### Fixed
 - Flextype Core: Default theme - issue with package.json - fixed.
 - Flextype Core: Code fixes according to the phpDocumentor.
+- Flextype Core: Default theme - settings and manifest - fixes.
 - Admin Panel: Translates fixes.
 
 ## [0.8.1] - 2019-01-07
