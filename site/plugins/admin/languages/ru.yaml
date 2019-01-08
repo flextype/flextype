@@ -223,3 +223,5 @@ admin_system_settings_system_upload_accept_file_types: "Допустимые т�
 admin_embeded_code: "Код для вставки"
 admin_shortcode: "Шорткод"
 admin_php_code: "PHP код"
+admin_entries_choose_files_to_upload: "Выбрать файл"
+admin_entries_browse_files: "Выбрать файл"

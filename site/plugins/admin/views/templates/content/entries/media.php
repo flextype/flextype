@@ -34,8 +34,8 @@ use function Flextype\Component\I18n\__;
 <?= Form::hidden('token', Token::generate()) ?>
 <div class="input-group">
   <div class="custom-file">
-    <input id="file" name="file" type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-    <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+    <input id="file" name="file" type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon">
+    <label class="custom-file-label" data-browse="<?= __('admin_entries_browse_files') ?>" for="inputGroupFileAddon"></label>
   </div>
   <div class="input-group-append">
     <?= Form::submit('upload_file', __('admin_entries_files_upload'), ['class' => 'btn btn-outline-secondary']) ?>
