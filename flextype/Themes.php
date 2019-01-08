@@ -198,6 +198,11 @@ class Themes
 
     /**
      * _strrevpos
+     *
+     * @param string $instr instr
+     * @param string $needle needle
+     *
+     * @return bool
      */
     private static function _strrevpos($instr, $needle)
     {
