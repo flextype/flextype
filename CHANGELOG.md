@@ -1,3 +1,13 @@
+## [0.8.2] - 2019-01-XX
+### Added
+
+### Changed
+- Flextype Core: Text Components updated to 1.1.2.
+
+### Fixed
+- Flextype Core: Default theme - issue with package.json - fixed.
+
+
 ## [0.8.1] - 2019-01-07
 ### Added
 - Flextype Core: Glide/Intervention Image Implemented for Image manipulation!
