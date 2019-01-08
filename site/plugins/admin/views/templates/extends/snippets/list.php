@@ -73,7 +73,7 @@
           <div class="alert alert-dark clipboard" role="alert">
               <span id="snippet">[snippet name="<span class="js-snippets-snippet-placeholder"></span>"]</span>
               <button class="js-clipboard-btn btn" data-clipboard-target="#snippet">
-                  copy
+                  <?= __('admin_copy') ?>
               </button>
           </div>
           <br>
@@ -81,7 +81,7 @@
            <div id="php" class="alert alert-dark clipboard" role="alert">
                <span id="php">&lt;?= Snippet::get("<span class="js-snippets-php-placeholder"></span>") ?&gt;</span>
                <button class="js-clipboard-btn btn" data-clipboard-target="#php">
-                   copy
+                    <?= __('admin_copy') ?>
                </button>
           </div>
       </div>
