@@ -74,11 +74,17 @@ class SettingsManager
             $entries[$entry['slug']] = $entry['title'];
         }
 
+        $themes = [];
+
+        foreach (Filesystem::getDirList(PATH['themes']) as $theme) {
+            $themes[$theme] = $theme;
+        }
+
         Themes::view('admin/views/templates/system/settings/list')
                 ->assign('settings', Registry::get('settings'))
                 ->assign('locales', $locales)
                 ->assign('entries', $entries)
-                ->assign('themes', Filesystem::getDirList(PATH['themes']))
+                ->assign('themes', $themes)
                 ->display();
     }
 }
