@@ -1,8 +1,10 @@
 ## [0.8.2] - 2019-01-XX
 ### Added
+- Admin Panel: ClipboardJS added!
 - Admin Panel: Media Manager - Twitter Bootstrap File browser - added.
 - Admin Panel: Snippets Manager: Embeded code info modal added.
-- Admin Panel: ClipboardJS added!
+- Admin Panel: Settings Manager - Select dropdown for default entry - added.
+- Admin Panel: Settings Manager - Select dropdown for timezones - added.
 
 ### Changed
 - Flextype Core: Text Components updated to 1.1.2.
