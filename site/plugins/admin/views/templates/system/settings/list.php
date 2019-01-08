@@ -1,6 +1,6 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Registry\Registry, Token\Token, Form\Form, Event\Event};
+use Flextype\Component\{Http\Http, Registry\Registry, Token\Token, Form\Form, Event\Event, Date\Date};
 use function Flextype\Component\I18n\__;
 
 Themes::view('admin/views/partials/head')->display();
@@ -76,7 +76,7 @@ Themes::view('admin/views/partials/content-start')->display();
     <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('timezone', __('admin_system_settings_system_timezone'), ['for' => 'systemSettingsSystemTimezone']) ?>
-            <?= Form::input('timezone', $settings['timezone'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTimezone', 'required']) ?>
+            <?= Form::select('timezone', Date::timezones(), $settings['timezone'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTimezone', 'required']) ?>
         </div>
         <div class="form-group">
             <?= Form::label('date_format', __('admin_system_settings_system_date_format'), ['for' => 'systemSettingsSystemDateFormat']) ?>
