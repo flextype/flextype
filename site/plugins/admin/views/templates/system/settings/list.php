@@ -98,7 +98,7 @@ Themes::view('admin/views/partials/content-start')->display();
         </div>
         <div class="form-group">
             <?= Form::label('entries[main]', __('admin_system_settings_system_entries_main'), ['for' => 'systemSettingsSystemEntriesMain']) ?>
-            <?= Form::input('entries[main]', $settings['entries']['main'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesMain', 'required']) ?>
+            <?= Form::select('entries[main]', $entries, $settings['entries']['main'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesMain', 'required']) ?>
         </div>
     </div>
 

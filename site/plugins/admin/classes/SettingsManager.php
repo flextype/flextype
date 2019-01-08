@@ -68,9 +68,16 @@ class SettingsManager
             $locales[basename($locale, '.yaml')] = $system_locales[basename($locale, '.yaml')];
         }
 
+        $entries = [];
+
+        foreach (Entries::getEntries('', 'date', 'DESC') as $entry) {
+            $entries[$entry['slug']] = $entry['title'];
+        }
+
         Themes::view('admin/views/templates/system/settings/list')
                 ->assign('settings', Registry::get('settings'))
                 ->assign('locales', $locales)
+                ->assign('entries', $entries)
                 ->display();
     }
 }
