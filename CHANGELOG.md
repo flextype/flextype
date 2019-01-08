@@ -5,6 +5,7 @@
 - Admin Panel: Snippets Manager: Embeded code info modal added.
 - Admin Panel: Settings Manager - Select dropdown for default entry - added.
 - Admin Panel: Settings Manager - Select dropdown for timezones - added.
+- Admin Panel: Settings Manager - Select dropdown for themes - added.
 
 ### Changed
 - Flextype Core: Text Components updated to 1.1.2.
