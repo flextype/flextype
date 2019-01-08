@@ -78,6 +78,7 @@ class SettingsManager
                 ->assign('settings', Registry::get('settings'))
                 ->assign('locales', $locales)
                 ->assign('entries', $entries)
+                ->assign('themes', Filesystem::getDirList(PATH['themes']))
                 ->display();
     }
 }

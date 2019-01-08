@@ -90,7 +90,7 @@ Themes::view('admin/views/partials/content-start')->display();
     <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('theme', __('admin_system_settings_system_theme'), ['for' => 'systemSettingsSystemTheme']) ?>
-            <?= Form::input('theme', $settings['theme'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required']) ?>
+            <?= Form::select('theme', $themes, $settings['theme'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required']) ?>
         </div>
         <div class="form-group">
             <?= Form::label('locale', __('admin_system_settings_system_locale'), ['for' => 'systemSettingsSystemLocale']) ?>
