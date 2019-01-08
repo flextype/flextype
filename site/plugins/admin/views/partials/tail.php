@@ -13,6 +13,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 <script>
 
     new ClipboardJS('.js-clipboard-btn');
+    bsCustomFileInput.init();
 
     Messenger.options = {
         extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',

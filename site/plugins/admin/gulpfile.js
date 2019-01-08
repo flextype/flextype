@@ -65,7 +65,8 @@ gulp.task('js', function(){
                    'node_modules/codemirror/mode/yaml/yaml.js',
                    'node_modules/messenger-hubspot/build/js/messenger.min.js',
                    'node_modules/messenger-hubspot/build/js/messenger-theme-flat.js',
-                   'node_modules/clipboard/dist/clipboard.min.js'
+                   'node_modules/clipboard/dist/clipboard.min.js',
+                   'node_modules/bs-custom-file-input/dist/bs-custom-file-input.min.js'
                 ])
     .pipe(sourcemaps.init())
     .pipe(concat('build.min.js'))

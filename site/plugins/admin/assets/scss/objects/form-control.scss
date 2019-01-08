@@ -205,6 +205,25 @@ fieldset[disabled] .form-control {
     }
 }
 
+.custom-file-label,
+.custom-file-label::after {
+    font-weight: 400;
+    padding: 8px 16px;
+    border: 1px solid black;
+    color: $btn-text-color;
+    background-color: $btn-background-color;
+    cursor: pointer;
+    margin-bottom: 5px;
+    font-size: .875rem;
+    line-height: 1.42857143;
+}
+
+.custom-file-label::after {
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+}
+
 //
 // Switches for Bootstrap 4.
 //
