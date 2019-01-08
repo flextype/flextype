@@ -1,6 +1,6 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Registry\Registry, Token\Token, Form\Form, Event\Event};
+use Flextype\Component\{Http\Http, Registry\Registry, Token\Token, Form\Form, Event\Event, Date\Date};
 use function Flextype\Component\I18n\__;
 
 Themes::view('admin/views/partials/head')->display();
@@ -76,7 +76,7 @@ Themes::view('admin/views/partials/content-start')->display();
     <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('timezone', __('admin_system_settings_system_timezone'), ['for' => 'systemSettingsSystemTimezone']) ?>
-            <?= Form::input('timezone', $settings['timezone'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTimezone', 'required']) ?>
+            <?= Form::select('timezone', Date::timezones(), $settings['timezone'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTimezone', 'required']) ?>
         </div>
         <div class="form-group">
             <?= Form::label('date_format', __('admin_system_settings_system_date_format'), ['for' => 'systemSettingsSystemDateFormat']) ?>
@@ -90,7 +90,7 @@ Themes::view('admin/views/partials/content-start')->display();
     <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('theme', __('admin_system_settings_system_theme'), ['for' => 'systemSettingsSystemTheme']) ?>
-            <?= Form::input('theme', $settings['theme'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required']) ?>
+            <?= Form::select('theme', $themes, $settings['theme'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required']) ?>
         </div>
         <div class="form-group">
             <?= Form::label('locale', __('admin_system_settings_system_locale'), ['for' => 'systemSettingsSystemLocale']) ?>
@@ -98,7 +98,7 @@ Themes::view('admin/views/partials/content-start')->display();
         </div>
         <div class="form-group">
             <?= Form::label('entries[main]', __('admin_system_settings_system_entries_main'), ['for' => 'systemSettingsSystemEntriesMain']) ?>
-            <?= Form::input('entries[main]', $settings['entries']['main'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesMain', 'required']) ?>
+            <?= Form::select('entries[main]', $entries, $settings['entries']['main'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesMain', 'required']) ?>
         </div>
     </div>
 

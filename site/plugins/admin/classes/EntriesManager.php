@@ -463,12 +463,12 @@ class EntriesManager
             if (Token::check(Http::post('token'))) {
                 //echo Registry::get('settings.entries.media.accept_file_types');
 
-                $file = EntriesManager::uploadFile($_FILES['file'], $files_directory, Registry::get('settings.entries.media.accept_file_types'), 17000000);
+                $file = EntriesManager::uploadFile($_FILES['file'], $files_directory, Registry::get('settings.entries.media.accept_file_types'), 27000000);
 
                 if($file !== false) {
 
                     if (in_array(pathinfo($file)['extension'], ['jpg', 'jpeg', 'png', 'gif'])) {
-                        
+
                         // open an image file
                         $img = Image::make($file);
 

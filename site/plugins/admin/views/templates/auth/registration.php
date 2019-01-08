@@ -16,7 +16,7 @@ Themes::view('admin/views/partials/content-start')->display();
 <form action="" method="post">
     <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
     <div class="row">
-        <div class="col-3 float-center">
+        <div class="col-4 float-center">
             <h3 class="h3 auth-header text-center"><?php echo __('admin_users_create_new'); ?></h3>
             <div class="form-group">
                 <label><?php echo __('admin_username'); ?></label>

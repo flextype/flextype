@@ -25,7 +25,7 @@ class Flextype
      *
      * @var string
      */
-    const VERSION = '0.8.1';
+    const VERSION = '0.8.2';
 
     /**
      * An instance of the Flextype class
@@ -95,6 +95,9 @@ class Flextype
 
         // Get Images Instance
         Images::getInstance();
+
+        // Get Snippets Instance
+        Snippets::getInstance();
 
         // Get Themes Instance
         Themes::getInstance();

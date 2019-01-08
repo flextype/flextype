@@ -248,7 +248,7 @@ class Cache
      * @access public
      * @param string $id       The cache id.
      * @param mixed  $data     The cache entry/data.
-     * @param int    $lifeTime The lifetime in number of seconds for this cache entry.
+     * @param int    $lifetime The lifetime in number of seconds for this cache entry.
      *                         If zero (the default), the entry never expires (although it may be deleted from the cache
      *                         to make place for other entries).
      */

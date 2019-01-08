@@ -214,7 +214,7 @@ class Images
      * @access public
      * @param  string  $path    Image path
      * @param  array   $params  Image params
-     * @return string Returns the image url
+     * @return string
      */
     public static function getImageUrl($path, array $params)
     {
@@ -232,9 +232,10 @@ class Images
      * http://glide.thephpleague.com/1.0/api/quick-reference/
      *
      * @access public
-     * @param  string  $path    Image path
-     * @param  array   $params  Image params
-     * @return string Returns the image url
+     * @param  string  $path        Image path
+     * @param  array   $params      Image params
+     * @param  array   $attributes  Image html attributes
+     * @return string
      */
     public static function getImage($path, array $params, array $attributes = [])
     {

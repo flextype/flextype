@@ -12,6 +12,9 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
 <script>
 
+    new ClipboardJS('.js-clipboard-btn');
+    bsCustomFileInput.init();
+
     Messenger.options = {
         extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
         theme: 'flat'
@@ -104,6 +107,12 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             $('.js-plugin-homepage-placeholder').html($(this).attr('data-homepage'));
             $('.js-plugin-bugs-placeholder').html($(this).attr('data-bugs'));
             $('.js-plugin-license-placeholder').html($(this).attr('data-license'));
+        });
+
+        $('.js-snippets-info').click(function () {
+            $('#snippetsInfoModal').modal();
+            $('.js-snippets-snippet-placeholder').html($(this).attr('data-name'));
+            $('.js-snippets-php-placeholder').html($(this).attr('data-name'));
         });
 
         $('.js-entries-image-preview').click(function () {

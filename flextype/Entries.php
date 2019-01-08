@@ -149,9 +149,9 @@ class Entries
      * $entry = Entries::getEntry('projects');
      *
      * @access  public
-     * @param   string   $url    Page url
-     * @param   bool     $raw    Raw or not raw content
-     * @param   bool     $hidden Get hidden entries
+     * @param   string   $url    Page url.
+     * @param   bool     $raw    Parse content or raw content without parsing.
+     * @param   bool     $hidden Get hidden entries.
      * @return  array|string
      */
     public static function getEntry(string $url = '', bool $raw = false, bool $hidden = false)
@@ -206,11 +206,13 @@ class Entries
      * $entries = Entries::getEntries('projects', false, 'date', 'DESC');
      *
      * @access  public
-     * @param   string  $url      Page url
-     * @param   bool    $raw      Raw or not raw content
-     * @param   string  $order_by Order type
-     * @param   int     $offset   Offset
-     * @param   int     $length   Length
+     * @param   string  $url        Page url.
+     * @param   string  $order_by   Order by specific entry field.
+     * @param   string  $order_type Order type: DESC or ASC
+     * @param   int     $offset     Offset
+     * @param   int     $length     Length
+     * @param   bool    $multilevel Get nested entries or not.
+     * @param   bool    $raw        Parse content or raw content without parsing.
      * @return  array
      */
     public static function getEntries(string $url = '', string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null, bool $multilevel = false, bool $raw = false) : array

@@ -1,5 +1,5 @@
 <?php namespace Flextype ?>
-<?php use Flextype\Component\{Http\Http, Registry\Registry, Filesystem\Filesystem, Token\Token, Text\Text} ?>
+<?php use Flextype\Component\{Http\Http, Registry\Registry, Filesystem\Filesystem, Token\Token, Text\Text, Form\Form} ?>
 <?php use function Flextype\Component\I18n\__; ?>
 <?php Themes::view('admin/views/partials/head')->display() ?>
 <?php Themes::view('admin/views/partials/navbar')
@@ -44,6 +44,7 @@
                   <div class="dropdown-menu">
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/snippets/rename?snippet=<?= basename($snippet, '.php') ?>"><?= __('admin_entries_rename') ?></a>
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/snippets/duplicate?snippet=<?= basename($snippet, '.php') ?>&token=<?= Token::generate() ?>"><?= __('admin_duplicate') ?></a>
+                    <a class="dropdown-item js-snippets-info" href="javascript:;"  data-toggle="modal" data-target="#snippetsInfoModal" data-name="<?= basename($snippet, '.php') ?>"><?= __('admin_embeded_code') ?></a>
                   </div>
                 </div>
                 <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/snippets/delete?snippet=<?= basename($snippet, '.php') ?>&token=<?= Token::generate() ?>"><?= __('admin_entries_delete') ?></a>
@@ -55,6 +56,38 @@
 <?php else: ?>
 
 <?php endif ?>
+
+
+<!-- Modal -->
+<div class="modal fade" id="snippetsInfoModal" tabindex="-1" role="dialog" aria-labelledby="snippetsInfoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="snippetsInfoModalLabel"><?= __('admin_embeded_code') ?></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <?= Form::label('shortcode', __('admin_shortcode'), ['for' => 'shortcode']) ?>
+          <div class="alert alert-dark clipboard" role="alert">
+              <span id="snippet">[snippet name="<span class="js-snippets-snippet-placeholder"></span>"]</span>
+              <button class="js-clipboard-btn btn" data-clipboard-target="#snippet">
+                  <?= __('admin_copy') ?>
+              </button>
+          </div>
+          <br>
+          <?= Form::label('php_code', __('admin_php_code'), ['for' => 'php_code']) ?>
+           <div id="php" class="alert alert-dark clipboard" role="alert">
+               <span id="php">&lt;?= Snippets::get("<span class="js-snippets-php-placeholder"></span>") ?&gt;</span>
+               <button class="js-clipboard-btn btn" data-clipboard-target="#php">
+                    <?= __('admin_copy') ?>
+               </button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <?php Themes::view('admin/views/partials/content-end')->display() ?>
 <?php Themes::view('admin/views/partials/footer')->display() ?>
