@@ -83,7 +83,7 @@ class Snippets
     /**
      * Get snippet
      *
-     * Snippet::get('snippet-name');
+     * Snippets::get('snippet-name');
      *
      * @access public
      * @param  string  $snippet_name  Snippet name
