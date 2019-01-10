@@ -1,3 +1,5 @@
+## [0.8.3] - 2019-01-XX
+
 ## [0.8.2] - 2019-01-09
 ### Added
 - Admin Panel: ClipboardJS added!
