@@ -175,12 +175,12 @@ a {
         background-color: $navbar-table-background-color-hover;
     }
 
-    > tbody,
+    > tfoot,
      > thead,
-    > tfoot {
+    > tbody {
         > tr {
-            > td,
-            > th {
+            > th,
+            > td {
                 border-color: $border-color;
                 color: $base-font-color;
             }
@@ -624,7 +624,7 @@ $switch-transition: .2s all !default;
     background: $body-bg;
 }
 
-span.cm-meta {
+.CodeMirror span.cm-meta {
     font-style: normal;
 }
 
