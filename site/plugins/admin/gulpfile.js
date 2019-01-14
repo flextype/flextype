@@ -25,6 +25,18 @@ gulp.task('admin-css', function() {
         .pipe(gulp.dest('assets/dist/css/'));
 });
 
+gulp.task('admin-light-css', function() {
+    return gulp.src('assets/scss/admin-light.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
+        .pipe(csso())
+        .pipe(concat('admin-light.min.css'))
+        .pipe(gulp.dest('assets/dist/css/'));
+});
+
 gulp.task('admin-css-clean', function() {
     return del('assets/dist/css/admin.min.css');
 });
@@ -35,7 +47,6 @@ gulp.task('build-css', function(){
                    'node_modules/trumbowyg/dist/ui/trumbowyg.min.css',
                    'node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css',
                    'node_modules/codemirror/lib/codemirror.css',
-                   'node_modules/codemirror/theme/monokai.css',
                    'node_modules/messenger-hubspot/build/css/messenger.css',
                    'node_modules/messenger-hubspot/build/css/messenger-theme-flat.css',
                    'assets/dist/css/admin.min.css'])
@@ -44,7 +55,7 @@ gulp.task('build-css', function(){
            cascade: false
        }))
     .pipe(sourcemaps.init())
-    .pipe(concat('build.min.css'))
+    .pipe(concat('admin-build.min.css'))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('assets/dist/css/'));
 });
@@ -69,9 +80,14 @@ gulp.task('js', function(){
                    'node_modules/bs-custom-file-input/dist/bs-custom-file-input.min.js'
                 ])
     .pipe(sourcemaps.init())
-    .pipe(concat('build.min.js'))
+    .pipe(concat('admin-build.min.js'))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('assets/dist/js/'));
+});
+
+gulp.task('trumbowyg-fonts', function(){
+  return gulp.src(['node_modules/trumbowyg/dist/ui/icons.svg'])
+    .pipe(gulp.dest('assets/dist/fonts/trumbowyg'));
 });
 
 gulp.task('trumbowyg-fonts', function(){
@@ -84,6 +100,16 @@ gulp.task('trumbowyg-langs', function(){
     .pipe(gulp.dest('assets/dist/langs/trumbowyg'));
 });
 
+gulp.task('codemirror-theme-monokai', function(){
+  return gulp.src(['node_modules/codemirror/theme/monokai.css'])
+    .pipe(gulp.dest('assets/dist/css/'));
+});
+
+gulp.task('codemirror-theme-elegant', function(){
+  return gulp.src(['node_modules/codemirror/theme/elegant.css'])
+    .pipe(gulp.dest('assets/dist/css/'));
+});
+
 gulp.task('default', function(callback) {
   runSequence('admin-css',
                         ['build-css',
@@ -91,5 +117,8 @@ gulp.task('default', function(callback) {
                         'trumbowyg-langs',
                         'js'],
               'admin-css-clean',
+              'admin-light-css',
+              'codemirror-theme-monokai',
+              'codemirror-theme-elegant',
               callback);
 });
