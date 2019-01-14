@@ -160,14 +160,6 @@
     color: #fff;
 }
 
-.form-control[disabled],
-.form-control[readonly],
-fieldset[disabled] .form-control {
-    background-color: #F5F5F5;
-    color: #888888;
-    cursor: not-allowed;
-}
-
 .form-group {
     label {
         font-size: 14px;
@@ -198,7 +190,7 @@ fieldset[disabled] .form-control {
 
     .btn {
         float: right;
-        margin-top: -10px;
+        margin-top: -9px;
         margin-right: -15px;
         background: transparent;
         border: none;

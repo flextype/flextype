@@ -32,12 +32,12 @@
         background-color: #3b404b;
     }
 
-    > tfoot,
+    > tbody,
      > thead,
-    > tbody {
+    > tfoot {
         > tr {
-            > th,
-            > td {
+            > td,
+            > th {
                 padding: 12.5px 20px;
                 vertical-align: middle;
                 border-color: #000;
