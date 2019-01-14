@@ -9,7 +9,7 @@ use function Flextype\Component\I18n\__;
 
 ?>
 <!doctype html>
-<html lang="<?php echo Registry::get('settings.locale'); ?>">
+<html lang="<?= Registry::get('settings.locale') ?>">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,7 +23,14 @@ use function Flextype\Component\I18n\__;
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
-    <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/build.min.css', 'admin', 8); ?>
+    <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/admin-build.min.css', 'admin', 8); ?>
+
+    <?php if (Registry::get('settings.admin_panel.theme') == 'light'): ?>
+        <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/elegant.css', 'admin', 9); ?>
+        <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/admin-light.min.css', 'admin', 10); ?>
+    <?php elseif (Registry::get('settings.admin_panel.theme') == 'dark'): ?>
+        <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/monokai.css', 'admin', 9); ?>
+    <?php endif ?>
 
     <?php foreach (Assets::get('css', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
         <link href="<?php echo $assets['asset']; ?>" rel="stylesheet">
