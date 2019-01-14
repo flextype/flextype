@@ -69,3 +69,8 @@ cache:
   prefix: flextype
   driver: auto
   lifetime: 604800
+
+# Admin Panel default settings
+# Available themes: dark, light
+admin_panel:
+    theme: dark
