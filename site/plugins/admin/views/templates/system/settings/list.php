@@ -196,6 +196,19 @@ Themes::view('admin/views/partials/content-start')->display();
             <?= Form::input('cache[lifetime]', $settings['cache']['lifetime'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheLifetime', 'required']) ?>
         </div>
     </div>
+
+    <div class="col-md-12">
+        <br>
+        <h3 class="h3"><?=  __('admin_system_settings_admin_panel'); ?></h3>
+        <hr>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('admin_panel[theme]', __('admin_system_settings_admin_panel_theme'), ['for' => 'systemSettingsSystemAdminPanelTheme']) ?>
+            <?= Form::select('admin_panel[theme]', ['light' => __('admin_system_settings_admin_panel_theme_light'), 'dark' => __('admin_system_settings_admin_panel_theme_dark')], $settings['admin_panel']['theme'], ['class' => 'form-control', 'id' => 'systemSettingsSystemAdminPanelTheme', 'required']) ?>
+        </div>
+    </div>
 </div>
 <?php echo Form::close(); ?>
 
