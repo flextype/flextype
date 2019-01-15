@@ -3,6 +3,7 @@
 - Admin Panel: New Gorgeous Light Theme for Admin panel!
 - Admin Panel: Settings Manager - ability to change admin panel theme - added.
 - Admin Panel: Settings Manager - Select dropdown for cache driver - added.
+- Flextype Core: Cache - new cache driver Array - added.
 
 ### Changed
 - Flextype Core: Symfony Yaml updated to 4.2.2.
