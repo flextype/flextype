@@ -8,6 +8,7 @@
 ### Changed
 - Flextype Core: Symfony Yaml updated to 4.2.2.
 - Admin Panel: Settings Manager - cache settings editing - improvements.
+- Flextype Core: default settings - refactoring.
 
 ### Fixed
 - Flextype Core: Cache - issue with selecting current driver_name - fixed.
