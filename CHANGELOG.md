@@ -1,4 +1,4 @@
-## [0.8.3] - 2019-01-XX
+## [0.8.3] - 2019-01-16
 ### Added
 - Admin Panel: New Gorgeous Light Theme for Admin panel!
 - Admin Panel: Settings Manager - ability to change admin panel theme - added.
