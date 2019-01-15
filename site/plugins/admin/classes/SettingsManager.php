@@ -89,6 +89,8 @@ class SettingsManager
                          'memcache' => 'Memcache',
                          'memcached' => 'Memcached',
                          'redis' => 'Redis',
+                         'sqlite3' => 'SQLite3',
+                         'zend' => 'Zend',
                          'array' => 'Array'];
 
         Themes::view('admin/views/templates/system/settings/list')

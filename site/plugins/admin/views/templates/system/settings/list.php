@@ -236,6 +236,18 @@ Themes::view('admin/views/partials/content-start')->display();
             <?= Form::input('cache[redis][port]', $settings['cache']['redis']['port'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheRedisPort', 'required']) ?>
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('cache[sqlite3][database]', __('admin_system_settings_cache_sqlite3_database'), ['for' => 'systemSettingsSystemCacheSQLite3Database']) ?>
+            <?= Form::input('cache[sqlite3][database]', $settings['cache']['sqlite3']['database'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheSQLite3Database', 'required']) ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('cache[sqlite3][table]', __('admin_system_settings_cache_sqlite3_table'), ['for' => 'systemSettingsSystemCacheSQLite3Table']) ?>
+            <?= Form::input('cache[sqlite3][table]', $settings['cache']['sqlite3']['table'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheSQLite3Table', 'required']) ?>
+        </div>
+    </div>
 
     <div class="col-md-12">
         <br>
