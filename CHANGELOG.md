@@ -8,6 +8,7 @@
 - Flextype Core: Symfony Yaml updated to 4.2.2.
 
 ### Fixed
+- Flextype Core: Cache - issue with selecting current driver_name - fixed.
 - Admin Panel: Dark Theme fixes.
 - Admin Panel: Translates fixes.
 - Admin Panel: Typo fixes.
