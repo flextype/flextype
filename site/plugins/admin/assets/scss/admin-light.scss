@@ -136,8 +136,16 @@ a {
         color: $navbar-item-text-color;
         border-bottom: 1px solid $border-color;
 
+        > .fa-external-link-alt {
+            color: #b3b3b3;
+        }
+
         &:focus,
         &:hover {
+            > .fa-external-link-alt {
+                color: $navbar-item-text-color;
+            }
+
             color: $navbar-item-text-color-hover;
         }
     }
@@ -175,12 +183,12 @@ a {
         background-color: $navbar-table-background-color-hover;
     }
 
-    > tfoot,
+    > tbody,
      > thead,
-    > tbody {
+    > tfoot {
         > tr {
-            > th,
-            > td {
+            > td,
+            > th {
                 border-color: $border-color;
                 color: $base-font-color;
             }
