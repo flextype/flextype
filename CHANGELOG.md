@@ -4,6 +4,8 @@
 - Admin Panel: Settings Manager - ability to change admin panel theme - added.
 - Admin Panel: Settings Manager - Select dropdown for cache driver - added.
 - Flextype Core: Cache - new cache driver Array - added.
+- Flextype Core: Cache - new cache driver SQLite3 - added.
+- Flextype Core: Cache - new cache driver Zend - added.
 
 ### Changed
 - Flextype Core: Symfony Yaml updated to 4.2.2.
