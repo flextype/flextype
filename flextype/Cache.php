@@ -144,7 +144,7 @@ class Cache
                 $memcache = new \Memcache();
                 $memcache->connect(
                     Registry::get('settings.cache.memcache.server', 'localhost'),
-                                   Registry::get('settings.cache.memcache.port', 11211)
+                    Registry::get('settings.cache.memcache.port', 11211)
                 );
                 $driver = new DoctrineCache\MemcacheCache();
                 $driver->setMemcache($memcache);
@@ -153,7 +153,7 @@ class Cache
                 $memcached = new \Memcached();
                 $memcached->addServer(
                     Registry::get('settings.cache.memcached.server', 'localhost'),
-                                      Registry::get('settings.cache.memcache.port', 11211)
+                    Registry::get('settings.cache.memcache.port', 11211)
                 );
                 $driver = new DoctrineCache\MemcachedCache();
                 $driver->setMemcached($memcached);
@@ -168,7 +168,7 @@ class Cache
                 } else {
                     $redis->connect(
                         Registry::get('settings.cache.redis.server', 'localhost'),
-                                    Registry::get('settings.cache.redis.port', 6379)
+                        Registry::get('settings.cache.redis.port', 6379)
                     );
                 }
 
