@@ -90,6 +90,9 @@ class Cache
      */
     protected static function init() : void
     {
+        // Create Cache Directory
+        !Filesystem::dirExists(PATH['cache']) and Filesystem::createDir(PATH['cache']);
+
         // Set current time
         Cache::$now = time();
 
@@ -112,6 +115,8 @@ class Cache
     public static function getCacheDriver()
     {
         $driver_name = Registry::get('settings.cache.driver');
+
+        $cache_directory = PATH['cache'] . '/doctrine/';
 
         if (!$driver_name || $driver_name == 'auto') {
             if (extension_loaded('apcu')) {
@@ -174,6 +179,19 @@ class Cache
                 $driver = new DoctrineCache\MemcachedCache();
                 $driver->setMemcached($memcached);
                 break;
+            // The SQLite3Cache driver stores the cache data in a SQLite database and depends on the sqlite3 extension
+            // http://php.net/manual/en/book.sqlite3.php
+            case 'sqlite3':
+                // Create doctrine cache directory if its not exists
+                !Filesystem::fileExists($cache_directory) and Filesystem::createDir($cache_directory);
+
+                $db = new \SQLite3($cache_directory . Registry::get('settings.cache.sqlite3.database', 'flextype') . '.db');
+                $driver = new DoctrineCache\SQLite3Cache($db, Registry::get('settings.cache.sqlite3.table', 'flextype'));
+                break;
+            // The ZendDataCache driver uses the Zend Data Cache API available in the Zend Platform.
+            case 'zend':
+                $driver = new DoctrineCache\ZendDataCache();
+                break;
             // The RedisCache driver stores the cache data in Redis and depends on the phpredis extension
             // https://github.com/phpredis/phpredis
             case 'redis':
@@ -200,7 +218,7 @@ class Cache
                 break;
             default:
                 // Create doctrine cache directory if its not exists
-                !Filesystem::fileExists($cache_directory = PATH['cache'] . '/doctrine/') and Filesystem::createDir($cache_directory);
+                !Filesystem::fileExists($cache_directory) and Filesystem::createDir($cache_directory);
                 $driver = new DoctrineCache\FilesystemCache($cache_directory);
                 break;
         }
