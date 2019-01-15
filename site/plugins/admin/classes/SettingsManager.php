@@ -88,7 +88,8 @@ class SettingsManager
                          'xcache' => 'Xcache',
                          'memcache' => 'Memcache',
                          'memcached' => 'Memcached',
-                         'redis' => 'Redis'];
+                         'redis' => 'Redis',
+                         'array' => 'Array'];
 
         Themes::view('admin/views/templates/system/settings/list')
                 ->assign('settings', Registry::get('settings'))
