@@ -76,7 +76,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
                 ['fullscreen']
             ],
             lang: '<?php echo Registry::get("settings.locale"); ?>',
-            autogrow: true,
+            autogrow: false,
             removeformatPasted: true
         });
 
