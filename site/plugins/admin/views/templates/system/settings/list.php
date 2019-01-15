@@ -189,7 +189,7 @@ Themes::view('admin/views/partials/content-start')->display();
     <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('cache[driver]', __('admin_system_settings_system_cache_driver'), ['for' => 'systemSettingsSystemCacheDriver']) ?>
-            <?= Form::input('cache[driver]', $settings['cache']['driver'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheDriver', 'required']) ?>
+            <?= Form::select('cache[driver]', $cache_driver, $settings['cache']['driver'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheDriver', 'required']) ?>
         </div>
         <div class="form-group">
             <?= Form::label('cache[lifetime]', __('admin_system_settings_system_cache_lifetime'), ['for' => 'systemSettingsSystemCacheLifetime']) ?>
@@ -210,7 +210,7 @@ Themes::view('admin/views/partials/content-start')->display();
         </div>
     </div>
 </div>
-<?php echo Form::close(); ?>
+<?= Form::close() ?>
 
 <?php
 Themes::view('admin/views/partials/content-end')->display();

@@ -80,8 +80,19 @@ class SettingsManager
             $themes[$theme] = $theme;
         }
 
+        $cache_driver = ['auto' => 'Auto Detect',
+                         'file' => 'File',
+                         'apc' => 'APC',
+                         'apcu' => 'APCu',
+                         'wincache' => 'WinCache',
+                         'xcache' => 'Xcache',
+                         'memcache' => 'Memcache',
+                         'memcached' => 'Memcached',
+                         'redis' => 'Redis'];
+
         Themes::view('admin/views/templates/system/settings/list')
                 ->assign('settings', Registry::get('settings'))
+                ->assign('cache_driver', $cache_driver)
                 ->assign('locales', $locales)
                 ->assign('entries', $entries)
                 ->assign('themes', $themes)
