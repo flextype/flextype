@@ -3,10 +3,13 @@
 - Admin Panel: New Gorgeous Light Theme for Admin panel!
 - Admin Panel: Settings Manager - ability to change admin panel theme - added.
 
+### Changed
+- Flextype Core: Symfony Yaml updated to 4.2.2.
+
 ### Fixed
 - Admin Panel: Dark Theme fixes.
 - Admin Panel: Translates fixes.
-
+- Admin Panel: Typo fixes.
 
 ## [0.8.2] - 2019-01-09
 ### Added
