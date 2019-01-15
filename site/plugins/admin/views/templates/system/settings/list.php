@@ -13,16 +13,16 @@ Themes::view('admin/views/partials/navbar')
                                           ]
                         ])
     ->assign('buttons', [
-                            'settings_clear_cache' => [
-                                                'link' => Http::getBaseUrl() . '/admin/settings?clear_cache=1&token='.Token::generate(),
-                                                'title' => __('admin_system_clear_cache'),
-                                                'attributes' => ['class' => 'float-right btn']
-                                          ],
                               'save' => [
                                                   'link'       => 'javascript:;',
                                                   'title'      => __('admin_save'),
                                                   'attributes' => ['class' => 'js-save-form-submit float-right btn']
-                                              ]
+                                              ],
+                              'settings_clear_cache' => [
+                                                  'link' => Http::getBaseUrl() . '/admin/settings?clear_cache=1&token='.Token::generate(),
+                                                  'title' => __('admin_system_clear_cache'),
+                                                  'attributes' => ['class' => 'float-right btn']
+                                            ]
                         ])
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
