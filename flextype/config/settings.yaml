@@ -90,6 +90,10 @@ errors:
 # - memcached.server Memcached server
 #
 # - memcached.port   Memcached port
+#
+# - sqlite3.database SQLite3 Database
+#
+# - sqlite3.table    SQLite3 Table
 cache:
   enabled: true
   prefix: flextype
@@ -106,6 +110,9 @@ cache:
     password: false
     server: 'localhost'
     port: 6379
+  sqlite3:
+    database: flextype
+    table: flextype
 
 # Admin Panel
 #
