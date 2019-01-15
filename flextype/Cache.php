@@ -122,24 +122,39 @@ class Cache
                 $driver_name = 'wincache';
             } elseif (extension_loaded('xcache')) {
                 $driver_name = 'xcache';
+            } else {
+                $driver_name = 'file';
             }
-        } else {
-            $driver_name = 'file';
         }
 
         switch ($driver_name) {
+            // The ApcCache driver uses the apc_fetch, apc_exists, etc. functions
+            // that come with PHP so no additional setup is required in order to use it.
             case 'apc':
                $driver = new DoctrineCache\ApcCache();
                break;
+            // The ApcuCache driver uses the apcu_fetch, apcu_exists, etc. functions
+            // that come with PHP so no additional setup is required in order to use it.
             case 'apcu':
                $driver = new DoctrineCache\ApcuCache();
                break;
+            // The ArrayCache driver stores the cache data in PHPs memory and is not persisted anywhere.
+            // This can be useful for caching things in memory for a single process when you don't need the cache to be persistent across processes.
+            case 'array':
+              $driver = new DoctrineCache\ArrayCache();
+              break;
+            // The WinCacheCache driver uses the wincache_ucache_get, wincache_ucache_exists, etc. functions
+            // that come with the wincache extension
+            // http://php.net/manual/en/book.wincache.php
             case 'wincache':
                $driver = new DoctrineCache\WinCacheCache();
                break;
+            // The XcacheCache driver uses functions that come with the xcache extension
+            // https://xcache.lighttpd.net
             case 'xcache':
                $driver = new DoctrineCache\XcacheCache();
                break;
+            // The MemcacheCache drivers stores the cache data in Memcache.
             case 'memcache':
                 $memcache = new \Memcache();
                 $memcache->connect(
@@ -149,6 +164,7 @@ class Cache
                 $driver = new DoctrineCache\MemcacheCache();
                 $driver->setMemcache($memcache);
                 break;
+            // The MemcachedCache drivers stores the cache data in Memcached.
             case 'memcached':
                 $memcached = new \Memcached();
                 $memcached->addServer(
@@ -158,6 +174,8 @@ class Cache
                 $driver = new DoctrineCache\MemcachedCache();
                 $driver->setMemcached($memcached);
                 break;
+            // The RedisCache driver stores the cache data in Redis and depends on the phpredis extension
+            // https://github.com/phpredis/phpredis
             case 'redis':
                 $redis    = new \Redis();
                 $socket   = Registry::get('settings.cache.redis.socket', false);
