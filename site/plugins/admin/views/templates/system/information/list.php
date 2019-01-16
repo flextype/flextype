@@ -8,7 +8,7 @@ Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                         'information' => [
                                             'link' => Http::getBaseUrl() . '/admin/information',
-                                            'title' => __('admin_menu_system_information'),
+                                            'title' => __('admin_information'),
                                             'attributes' => ['class' => 'navbar-item active']
                                          ],
                       ])
@@ -16,7 +16,7 @@ Themes::view('admin/views/partials/navbar')
 Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<h3 class="h3"><?= __('admin_system_settings_system') ?></h3>
+<h3 class="h3"><?= __('admin_system') ?></h3>
 
 <table class="table no-margin">
     <tbody>

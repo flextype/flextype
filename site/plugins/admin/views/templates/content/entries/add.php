@@ -13,12 +13,12 @@ Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                         'entries' => [
                                         'link' => Http::getBaseUrl() . '/admin/entries',
-                                        'title' => __('admin_entries_heading'),
+                                        'title' => __('admin_entries'),
                                         'attributes' => ['class' => 'navbar-item']
                                     ],
                        'entries_add' => [
                                         'link' => Http::getBaseUrl() . '/admin/entries/add?entry='.Http::get('entry'),
-                                        'title' => __('admin_entries_create_new'),
+                                        'title' => __('admin_create_new_entry'),
                                         'attributes' => ['class' => 'navbar-item active']
                                       ]
                       ])
@@ -32,11 +32,11 @@ Themes::view('admin/views/partials/content-start')->display();
         <?= Form::hidden('token', Token::generate()); ?>
         <?= Form::hidden('parent_entry', Http::get('entry')); ?>
         <div class="form-group">
-            <?= Form::label('title', __('admin_entries_title'), ['for' => 'entryTitle']) ?>
+            <?= Form::label('title', __('admin_title'), ['for' => 'entryTitle']) ?>
             <?= Form::input('title', '', ['class' => 'form-control', 'id' => 'entryTitle', 'required', 'data-validation' => 'length required', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_entries_error_title_empty_input')]) ?>
         </div>
         <div class="form-group">
-            <?= Form::label('slug', __('admin_entries_name'), ['for' => 'entrySlug']) ?>
+            <?= Form::label('slug', __('admin_name'), ['for' => 'entrySlug']) ?>
             <?= Form::input('slug', '', ['class' => 'form-control', 'id' => 'entrySlug', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_entries_error_name_empty_input')]) ?>
         </div>
         <div class="form-group">

@@ -6,14 +6,14 @@
     ->assign('links',   [
                             'entries' => [
                                             'link' => Http::getBaseUrl() . '/admin/entries',
-                                            'title' => __('admin_entries_heading'),
+                                            'title' => __('admin_entries'),
                                             'attributes' => ['class' => 'navbar-item active']
                                        ]
                         ])
     ->assign('buttons', [
                             'entries' => [
                                             'link' => Http::getBaseUrl() . '/admin/entries/add?entry='.Http::get('entry') ,
-                                            'title' => __('admin_entries_create_new'),
+                                            'title' => __('admin_create_new_entry'),
                                             'attributes' => ['class' => 'float-right btn']
                                        ]
                         ])
@@ -25,7 +25,7 @@
 <table class="table no-margin">
     <thead>
         <tr>
-            <th><?= __('admin_entries_name') ?></th>
+            <th><?= __('admin_name') ?></th>
             <th></th>
         </tr>
     </thead>
@@ -41,20 +41,20 @@
             </td>
             <td class="text-right">
                 <div class="btn-group">
-                  <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/entries/edit?entry=<?= $entry['slug'] ?>"><?= __('admin_entries_edit') ?></a>
+                  <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/entries/edit?entry=<?= $entry['slug'] ?>"><?= __('admin_edit') ?></a>
                   <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu">
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/add?entry=<?= $entry['slug'] ?>"><?= __('admin_add') ?></a>
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/duplicate?entry=<?= $entry['slug'] ?>&token=<?= Token::generate() ?>"><?= __('admin_duplicate') ?></a>
-                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/rename?entry=<?= $entry['slug'] ?>"><?= __('admin_entries_rename') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/rename?entry=<?= $entry['slug'] ?>"><?= __('admin_rename') ?></a>
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/move?entry=<?= $entry['slug'] ?>"><?= __('admin_move') ?></a>
-                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/<?= $entry['slug'] ?>" target="_blank"><?= __('admin_entries_preview') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/<?= $entry['slug'] ?>" target="_blank"><?= __('admin_preview') ?></a>
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/type?entry=<?= $entry['slug'] ?>"><?= __('admin_type') ?></a>
                   </div>
                 </div>
-                <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/entries/delete?entry=<?= $entry['slug'] ?>&entry_current=<?= Http::get('entry') ?>&token=<?= Token::generate() ?>"><?= __('admin_entries_delete') ?></a>
+                <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/entries/delete?entry=<?= $entry['slug'] ?>&entry_current=<?= Http::get('entry') ?>&token=<?= Token::generate() ?>"><?= __('admin_delete') ?></a>
             </td>
         </tr>
     <?php endforeach ?>

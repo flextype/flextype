@@ -17,7 +17,7 @@ Themes::view('admin/views/partials/content-start')->display();
     <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
     <div class="row">
         <div class="col-4 float-center">
-            <h3 class="h3 auth-header text-center"><?php echo __('admin_users_create_new'); ?></h3>
+            <h3 class="h3 auth-header text-center"><?php echo __('admin_create_new_user'); ?></h3>
             <div class="form-group">
                 <label><?php echo __('admin_username'); ?></label>
                 <input type="text" name="username" value="" class="form-control" placeholder="lowercase chars only, e.g. admin" pattern="^[a-z0-9_-]{3,16}$" required="required">
@@ -31,7 +31,7 @@ Themes::view('admin/views/partials/content-start')->display();
                 <input type="password" name="password" value="" class="form-control" placeholder="complex string at least 8 chars long" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required="required">
             </div>
             <div class="form-group">
-                <input type="submit" name="registration" value="<?php echo __('admin_users_create'); ?>" class="btn btn-black btn-block">
+                <input type="submit" name="registration" value="<?php echo __('admin_create_user'); ?>" class="btn btn-black btn-block">
             </div>
         </div>
     </div>

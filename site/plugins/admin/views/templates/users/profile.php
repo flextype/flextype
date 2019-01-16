@@ -9,7 +9,7 @@ Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                         'information' => [
                                             'link' => Http::getBaseUrl() . '/admin/profile',
-                                            'title' => __('admin_menu_profile'),
+                                            'title' => __('admin_profile'),
                                             'attributes' => ['class' => 'navbar-item active']
                                          ],
                       ])
@@ -22,7 +22,7 @@ Themes::view('admin/views/partials/content-start')->display();
     <?= __('admin_username') ?>: <?= Session::get('username') ?> <br>
     <?= __('admin_role') ?>: <?= Session::get('role') ?> <br>
     <br>
-    <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/logout?token=<?= Token::generate() ?>"><?= __('admin_menu_logout') ?></a>
+    <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/logout?token=<?= Token::generate() ?>"><?= __('admin_logout') ?></a>
 </div>
 
 <?php Themes::view('admin/views/partials/content-end')->display() ?>

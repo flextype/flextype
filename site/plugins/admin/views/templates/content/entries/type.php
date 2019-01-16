@@ -10,7 +10,7 @@ use function Flextype\Component\I18n\__;
         ->assign('links', [
                                 'entries'     => [
                                                     'link'  => Http::getBaseUrl() . '/admin/entries',
-                                                    'title' => __('admin_entries_heading'),
+                                                    'title' => __('admin_entries'),
                                                     'attributes' => ['class' => 'navbar-item']
                                                 ],
                                 'entries_move' => [

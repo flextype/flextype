@@ -25,7 +25,7 @@
 <table class="table no-margin">
     <thead>
         <tr>
-            <th><?= __('admin_entries_name') ?></th>
+            <th><?= __('admin_name') ?></th>
             <th><?= __('admin_type') ?></th>
             <th></th>
         </tr>

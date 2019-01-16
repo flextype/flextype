@@ -6,7 +6,7 @@
     ->assign('links',   [
                             'menus' => [
                                             'link' => Http::getBaseUrl() . '/admin/menus',
-                                            'title' => __('admin_menus_heading'),
+                                            'title' => __('admin_menus'),
                                             'attributes' => ['class' => 'navbar-item active']
                                        ]
                         ])
@@ -25,7 +25,7 @@
 <table class="table no-margin">
     <thead>
         <tr>
-            <th><?= __('admin_entries_name') ?></th>
+            <th><?= __('admin_name') ?></th>
             <th></th>
         </tr>
     </thead>

@@ -9,14 +9,14 @@ Themes::view('admin/views/partials/navbar')
     ->assign('links',   [
                             'plugins'          => [
                                                         'link'       => Http::getBaseUrl() . '/admin/plugins',
-                                                        'title'      => __('admin_plugins_heading'),
+                                                        'title'      => __('admin_plugins'),
                                                         'attributes' => ['class' => 'navbar-item active']
                                                   ]
                         ])
     ->assign('buttons', [
                             'plugins_get_more' => [
                                                 'link' => 'http://flextype.org/download/plugins',
-                                                'title' => __('admin_plugins_get_more_plugins'),
+                                                'title' => __('admin_get_more_plugins'),
                                                 'attributes' => ['class' => 'float-right btn', 'target' => '_blank']
                                             ]
                         ])
@@ -31,9 +31,9 @@ Themes::view('admin/views/partials/content-start')->display();
 <table class="table no-margin">
   <thead>
       <tr>
-          <th><?= __('admin_plugins_name') ?></th>
+          <th><?= __('admin_name') ?></th>
           <th></th>
-          <th width="90" class="text-right"><?= __('admin_plugins_status') ?></th>
+          <th width="90" class="text-right"><?= __('admin_status') ?></th>
       </tr>
   </thead>
   <tbody>
@@ -51,7 +51,7 @@ Themes::view('admin/views/partials/content-start')->display();
                   data-homepage="<?= $plugin['homepage'] ?>"
                   data-bugs="<?= $plugin['bugs']; ?>"
                   data-license="<?= $plugin['license'] ?>"
-                  ><?= __('admin_plugins_info') ?></a>
+                  ><?= __('admin_info') ?></a>
           </td>
           <td class="text-right">
               <div class="form-group no-margin">
@@ -71,21 +71,21 @@ Themes::view('admin/views/partials/content-start')->display();
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="pluginInfoModalLabel"><?= __('admin_plugins_info') ?></h5>
+        <h5 class="modal-title" id="pluginInfoModalLabel"><?= __('admin_info') ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-          <p><b><?= __('admin_plugins_name') ?>: </b><span class="js-plugin-name-placeholder"></span></p>
-          <p><b><?= __('admin_plugins_version') ?>: </b><span class="js-plugin-version-placeholder"></span></p>
-          <p><b><?= __('admin_plugins_description') ?>: </b><span class="js-plugin-description-placeholder"></span></p>
-          <p><b><?= __('admin_plugins_author_name') ?>: </b><span class="js-plugin-author-name-placeholder"></span></p>
-          <p><b><?= __('admin_plugins_author_email') ?>: </b><span class="js-plugin-author-email-placeholder"></span></p>
-          <p><b><?= __('admin_plugins_author_url') ?>: </b><span class="js-plugin-author-url-placeholder"></span></p>
-          <p><b><?= __('admin_plugins_homepage') ?>: </b><span class="js-plugin-homepage-placeholder"></span></p>
-          <p><b><?= __('admin_plugins_bugs') ?>: </b><span class="js-plugin-bugs-placeholder"></span></p>
-          <p><b><?= __('admin_plugins_license') ?>: </b><span class="js-plugin-license-placeholder"></span></p>
+          <p><b><?= __('admin_name') ?>: </b><span class="js-plugin-name-placeholder"></span></p>
+          <p><b><?= __('admin_version') ?>: </b><span class="js-plugin-version-placeholder"></span></p>
+          <p><b><?= __('admin_description') ?>: </b><span class="js-plugin-description-placeholder"></span></p>
+          <p><b><?= __('admin_author_name') ?>: </b><span class="js-plugin-author-name-placeholder"></span></p>
+          <p><b><?= __('admin_author_email') ?>: </b><span class="js-plugin-author-email-placeholder"></span></p>
+          <p><b><?= __('admin_author_url') ?>: </b><span class="js-plugin-author-url-placeholder"></span></p>
+          <p><b><?= __('admin_homepage') ?>: </b><span class="js-plugin-homepage-placeholder"></span></p>
+          <p><b><?= __('admin_bugs') ?>: </b><span class="js-plugin-bugs-placeholder"></span></p>
+          <p><b><?= __('admin_license') ?>: </b><span class="js-plugin-license-placeholder"></span></p>
       </div>
     </div>
   </div>

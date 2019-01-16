@@ -12,12 +12,12 @@ Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                             'entries'     => [
                                                 'link'  => Http::getBaseUrl() . '/admin/entries',
-                                                'title' => __('admin_entries_heading'),
+                                                'title' => __('admin_entries'),
                                                 'attributes' => ['class' => 'navbar-item']
                                             ],
                             'entries_add' => [
                                                 'link' => Http::getBaseUrl() . '/admin/entries/rename',
-                                                'title' => __('admin_entries_rename'),
+                                                'title' => __('admin_rename'),
                                                 'attributes' => ['class' => 'navbar-item active']
                                             ]
                      ])
@@ -34,7 +34,7 @@ Themes::view('admin/views/partials/content-start')->display();
         <?= Form::hidden('entry_parent', $entry_parent) ?>
         <?= Form::hidden('name_current', $name_current) ?>
         <div class="form-group">
-            <?= Form::label('name', __('admin_entries_name'), ['for' => 'entryName']) ?>
+            <?= Form::label('name', __('admin_name'), ['for' => 'entryName']) ?>
             <?= Form::input('name', $name_current, ['class' => 'form-control', 'id' => 'entryName',  'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_entries_error_title_empty_input')]) ?>
         </div>
         <?= Form::submit('rename_entry', __('admin_save'), ['class' => 'btn btn-black btn-fill btn-wd']) ?>

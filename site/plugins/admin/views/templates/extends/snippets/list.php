@@ -25,7 +25,7 @@
 <table class="table no-margin">
     <thead>
         <tr>
-            <th><?= __('admin_entries_name') ?></th>
+            <th><?= __('admin_name') ?></th>
             <th></th>
         </tr>
     </thead>
@@ -37,17 +37,17 @@
             </td>
             <td class="text-right">
                 <div class="btn-group">
-                  <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/snippets/edit?snippet=<?= basename($snippet, '.php') ?>"><?= __('admin_entries_edit') ?></a>
+                  <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/snippets/edit?snippet=<?= basename($snippet, '.php') ?>"><?= __('admin_edit') ?></a>
                   <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/snippets/rename?snippet=<?= basename($snippet, '.php') ?>"><?= __('admin_entries_rename') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/snippets/rename?snippet=<?= basename($snippet, '.php') ?>"><?= __('admin_rename') ?></a>
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/snippets/duplicate?snippet=<?= basename($snippet, '.php') ?>&token=<?= Token::generate() ?>"><?= __('admin_duplicate') ?></a>
                     <a class="dropdown-item js-snippets-info" href="javascript:;"  data-toggle="modal" data-target="#snippetsInfoModal" data-name="<?= basename($snippet, '.php') ?>"><?= __('admin_embeded_code') ?></a>
                   </div>
                 </div>
-                <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/snippets/delete?snippet=<?= basename($snippet, '.php') ?>&token=<?= Token::generate() ?>"><?= __('admin_entries_delete') ?></a>
+                <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/snippets/delete?snippet=<?= basename($snippet, '.php') ?>&token=<?= Token::generate() ?>"><?= __('admin_delete') ?></a>
             </td>
         </tr>
     <?php endforeach ?>

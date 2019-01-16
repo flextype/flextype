@@ -10,12 +10,12 @@ use function Flextype\Component\I18n\__;
         ->assign('links', [
                                 'entries'     => [
                                                     'link'  => Http::getBaseUrl() . '/admin/entries',
-                                                    'title' => __('admin_entries_heading'),
+                                                    'title' => __('admin_entries'),
                                                     'attributes' => ['class' => 'navbar-item']
                                                 ],
                                 'entries_move' => [
                                                     'link' => Http::getBaseUrl() . '/admin/entries/move',
-                                                    'title' => __('admin_entries_move'),
+                                                    'title' => __('admin_move'),
                                                     'attributes' => ['class' => 'navbar-item active']
                                                 ]
                          ])
@@ -32,7 +32,7 @@ use function Flextype\Component\I18n\__;
         <?= Form::hidden('entry_parent_current', $entry_parent) ?>
         <?= Form::hidden('name_current', $name_current) ?>
         <div class="form-group">
-           <?= Form::label('parent_entry', __('admin_entries_parent_entry')) ?>
+           <?= Form::label('parent_entry', __('admin_parent_entry')) ?>
            <?= Form::select('parent_entry', $entries_list, $entry_parent, array('class' => 'form-control')) ?>
         </div>
         <?= Form::submit('move_entry', __('admin_save'), ['class' => 'btn btn-black btn-fill btn-wd']) ?>

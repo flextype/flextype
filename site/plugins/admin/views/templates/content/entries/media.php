@@ -10,17 +10,17 @@ use function Flextype\Component\I18n\__;
         ->assign('links', [
                                 'edit_entry'           => [
                                                             'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name,
-                                                            'title'      => __('admin_entries_editor'),
+                                                            'title'      => __('admin_content'),
                                                             'attributes' => ['class' => 'navbar-item']
                                                          ],
                                 'edit_entry_media'     => [
                                                             'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&media=true',
-                                                            'title'      => __('admin_entries_edit_media'),
+                                                            'title'      => __('admin_media'),
                                                             'attributes' => ['class' => 'navbar-item active']
                                                         ],
                                     'edit_entry_source'           => [
                                                                 'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&source=true',
-                                                                'title'      => __('admin_entries_editor_source'),
+                                                                'title'      => __('admin_source'),
                                                                 'attributes' => ['class' => 'navbar-item']
                                                              ]
                             ])
@@ -35,10 +35,10 @@ use function Flextype\Component\I18n\__;
 <div class="input-group">
   <div class="custom-file">
     <input id="file" name="file" type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon">
-    <label class="custom-file-label" data-browse="<?= __('admin_entries_browse_files') ?>" for="inputGroupFileAddon"></label>
+    <label class="custom-file-label" data-browse="<?= __('admin_browse_files') ?>" for="inputGroupFileAddon"></label>
   </div>
   <div class="input-group-append">
-    <?= Form::submit('upload_file', __('admin_entries_files_upload'), ['class' => 'btn btn-outline-secondary']) ?>
+    <?= Form::submit('upload_file', __('admin_upload'), ['class' => 'btn btn-outline-secondary']) ?>
   </div>
 </div>
 <?= Form::close() ?>
@@ -75,7 +75,7 @@ use function Flextype\Component\I18n\__;
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="entriesImagePreviewLabel"><?= __('admin_entries_preview') ?></h5>
+        <h5 class="modal-title" id="entriesImagePreviewLabel"><?= __('admin_preview') ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -84,7 +84,7 @@ use function Flextype\Component\I18n\__;
       </div>
       <div class="modal-footer">
           <input type="text" name="" class="form-control js-entry-image-url-placeholder" value="">
-          <a href="#" class="js-entry-image-delete-url-placeholder btn btn-primary"><?= __('admin_entries_files_delete') ?></a>
+          <a href="#" class="js-entry-image-delete-url-placeholder btn btn-primary"><?= __('admin_delete') ?></a>
       </div>
     </div>
   </div>

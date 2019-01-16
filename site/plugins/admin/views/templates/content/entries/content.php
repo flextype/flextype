@@ -13,17 +13,17 @@ Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                             'edit_entry'           => [
                                                         'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name,
-                                                        'title'      => __('admin_entries_editor'),
+                                                        'title'      => __('admin_content'),
                                                         'attributes' => ['class' => 'navbar-item active']
                                                      ],
                             'edit_entry_media'     => [
                                                         'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&media=true',
-                                                        'title'      => __('admin_entries_edit_media'),
+                                                        'title'      => __('admin_media'),
                                                         'attributes' => ['class' => 'navbar-item']
                                                     ],
                                 'edit_entry_source'           => [
                                                             'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&source=true',
-                                                            'title'      => __('admin_entries_editor_source'),
+                                                            'title'      => __('admin_source'),
                                                             'attributes' => ['class' => 'navbar-item']
                                                          ]
                         ])

@@ -25,7 +25,7 @@
 <table class="table no-margin">
     <thead>
         <tr>
-            <th><?= __('admin_entries_name') ?></th>
+            <th><?= __('admin_name') ?></th>
             <th></th>
         </tr>
     </thead>
@@ -42,7 +42,7 @@
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/fieldsets/rename?fieldset=<?= $name ?>"><?= __('admin_entries_rename') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/fieldsets/rename?fieldset=<?= $name ?>"><?= __('admin_rename') ?></a>
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/fieldsets/duplicate?fieldset=<?= $name ?>&token=<?= Token::generate() ?>"><?= __('admin_duplicate') ?></a>
                   </div>
                 </div>
