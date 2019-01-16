@@ -13,16 +13,16 @@ Themes::view('admin/views/partials/navbar')
                                           ]
                         ])
     ->assign('buttons', [
-                            'settings_clear_cache' => [
-                                                'link' => Http::getBaseUrl() . '/admin/settings?clear_cache=1&token='.Token::generate(),
-                                                'title' => __('admin_system_clear_cache'),
-                                                'attributes' => ['class' => 'float-right btn']
-                                          ],
                               'save' => [
                                                   'link'       => 'javascript:;',
                                                   'title'      => __('admin_save'),
                                                   'attributes' => ['class' => 'js-save-form-submit float-right btn']
-                                              ]
+                                              ],
+                              'settings_clear_cache' => [
+                                                  'link' => Http::getBaseUrl() . '/admin/settings?clear_cache=1&token='.Token::generate(),
+                                                  'title' => __('admin_system_clear_cache'),
+                                                  'attributes' => ['class' => 'float-right btn']
+                                            ]
                         ])
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
@@ -189,15 +189,80 @@ Themes::view('admin/views/partials/content-start')->display();
     <div class="col-md-6">
         <div class="form-group">
             <?= Form::label('cache[driver]', __('admin_system_settings_system_cache_driver'), ['for' => 'systemSettingsSystemCacheDriver']) ?>
-            <?= Form::input('cache[driver]', $settings['cache']['driver'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheDriver', 'required']) ?>
+            <?= Form::select('cache[driver]', $cache_driver, $settings['cache']['driver'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheDriver', 'required']) ?>
         </div>
         <div class="form-group">
             <?= Form::label('cache[lifetime]', __('admin_system_settings_system_cache_lifetime'), ['for' => 'systemSettingsSystemCacheLifetime']) ?>
             <?= Form::input('cache[lifetime]', $settings['cache']['lifetime'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheLifetime', 'required']) ?>
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('cache[memcache][server]', __('admin_system_settings_cache_memcache_server'), ['for' => 'systemSettingsSystemCacheMemcacheServer']) ?>
+            <?= Form::input('cache[memcache][server]', $settings['cache']['memcache']['server'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheMemcacheServer', 'required']) ?>
+        </div>
+        <div class="form-group">
+            <?= Form::label('cache[memcache][port]', __('admin_system_settings_cache_memcache_port'), ['for' => 'systemSettingsSystemCacheMemcachePort']) ?>
+            <?= Form::input('cache[memcache][port]', $settings['cache']['memcache']['port'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheMemcachePort', 'required']) ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('cache[memcached][server]', __('admin_system_settings_cache_memcached_server'), ['for' => 'systemSettingsSystemCacheMemcachedServer']) ?>
+            <?= Form::input('cache[memcached][server]', $settings['cache']['memcached']['server'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheMemcachedServer', 'required']) ?>
+        </div>
+        <div class="form-group">
+            <?= Form::label('cache[memcached][port]', __('admin_system_settings_cache_memcached_port'), ['for' => 'systemSettingsSystemCacheMemcachedPort']) ?>
+            <?= Form::input('cache[memcached][port]', $settings['cache']['memcached']['port'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheMemcachedPort', 'required']) ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('cache[redis][socket]', __('admin_system_settings_cache_redis_socket'), ['for' => 'systemSettingsSystemCacheRedisSocket']) ?>
+            <?= Form::input('cache[redis][socket]', $settings['cache']['redis']['socket'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheRedisSocket', 'required']) ?>
+        </div>
+        <div class="form-group">
+            <?= Form::label('cache[redis][password]', __('admin_system_settings_cache_redis_password'), ['for' => 'systemSettingsSystemCacheRedisPassword']) ?>
+            <?= Form::input('cache[redis][password]', $settings['cache']['redis']['password'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheRedisPassword', 'required']) ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('cache[redis][server]', __('admin_system_settings_cache_redis_server'), ['for' => 'systemSettingsSystemCacheRedisServer']) ?>
+            <?= Form::input('cache[redis][server]', $settings['cache']['redis']['server'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheRedisServer', 'required']) ?>
+        </div>
+        <div class="form-group">
+            <?= Form::label('cache[redis][port]', __('admin_system_settings_cache_redis_port'), ['for' => 'systemSettingsSystemCacheRedisPort']) ?>
+            <?= Form::input('cache[redis][port]', $settings['cache']['redis']['port'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheRedisPort', 'required']) ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('cache[sqlite3][database]', __('admin_system_settings_cache_sqlite3_database'), ['for' => 'systemSettingsSystemCacheSQLite3Database']) ?>
+            <?= Form::input('cache[sqlite3][database]', $settings['cache']['sqlite3']['database'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheSQLite3Database', 'required']) ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('cache[sqlite3][table]', __('admin_system_settings_cache_sqlite3_table'), ['for' => 'systemSettingsSystemCacheSQLite3Table']) ?>
+            <?= Form::input('cache[sqlite3][table]', $settings['cache']['sqlite3']['table'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheSQLite3Table', 'required']) ?>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <br>
+        <h3 class="h3"><?=  __('admin_system_settings_admin_panel'); ?></h3>
+        <hr>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <?= Form::label('admin_panel[theme]', __('admin_system_settings_admin_panel_theme'), ['for' => 'systemSettingsSystemAdminPanelTheme']) ?>
+            <?= Form::select('admin_panel[theme]', ['light' => __('admin_system_settings_admin_panel_theme_light'), 'dark' => __('admin_system_settings_admin_panel_theme_dark')], $settings['admin_panel']['theme'], ['class' => 'form-control', 'id' => 'systemSettingsSystemAdminPanelTheme', 'required']) ?>
+        </div>
+    </div>
 </div>
-<?php echo Form::close(); ?>
+<?= Form::close() ?>
 
 <?php
 Themes::view('admin/views/partials/content-end')->display();

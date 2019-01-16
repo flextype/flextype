@@ -39,7 +39,7 @@ class SnippetsManager
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
                 }
 
@@ -53,7 +53,7 @@ class SnippetsManager
                         Notification::set('success', __('admin_message_snippet_deleted'));
                         Http::redirect(Http::getBaseUrl() . '/admin/snippets');
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
                 }
             break;
@@ -72,7 +72,7 @@ class SnippetsManager
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
                 }
 
@@ -88,7 +88,7 @@ class SnippetsManager
                         Notification::set('success', __('admin_message_snippet_duplicated'));
                         Http::redirect(Http::getBaseUrl().'/admin/snippets');
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
                 }
             break;
@@ -107,7 +107,7 @@ class SnippetsManager
                             Http::redirect(Http::getBaseUrl() . '/admin/snippets/edit?snippet='.Http::post('name'));
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
                 }
 

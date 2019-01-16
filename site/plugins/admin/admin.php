@@ -54,7 +54,12 @@ if (Admin::isAdminArea()) {
         NavigationManager::addItem('extends', 'plugins', '<i class="fas fa-plug"></i>' . __('admin_menu_extends_plugins', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/plugins', ['class' => 'nav-link']);
         NavigationManager::addItem('settings', 'settings', '<i class="fas fa-cog"></i>' . __('admin_menu_system_settings', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/settings', ['class' => 'nav-link']);
         NavigationManager::addItem('settings', 'infomation', '<i class="fas fa-info"></i>' . __('admin_menu_system_information', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/information', ['class' => 'nav-link']);
-        NavigationManager::addItem('help', 'documentation', '<i class="far fa-question-circle"></i>' . __('admin_menu_help_documentation', Registry::get('settings.locale')), 'http://flextype.org/documentation/basics/getting-help', ['class' => 'nav-link', 'target' => '_blank']);
+
+        if (Registry::get('settings.locale') == 'ru') {
+            NavigationManager::addItem('help', 'documentation', '<i class="far fa-question-circle"></i>' . __('admin_menu_help_documentation', Registry::get('settings.locale')), 'http://flextype.ru/documentation/basics/getting-help', ['class' => 'nav-link', 'target' => '_blank']);
+        } else {
+            NavigationManager::addItem('help', 'documentation', '<i class="far fa-question-circle"></i>' . __('admin_menu_help_documentation', Registry::get('settings.locale')), 'http://flextype.org/documentation/basics/getting-help', ['class' => 'nav-link', 'target' => '_blank']);
+        }
 
         // Initializes the Notification service.
         Notification::init();

@@ -92,7 +92,7 @@ class EntriesManager
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
                 }
 
@@ -108,7 +108,7 @@ class EntriesManager
                         Notification::set('success', __('admin_message_entry_deleted'));
                         Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::get('entry_current'));
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
                 }
             break;
@@ -120,7 +120,7 @@ class EntriesManager
                         Notification::set('success', __('admin_message_entry_duplicated'));
                         Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
                 }
             break;
@@ -141,7 +141,7 @@ class EntriesManager
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
                 }
 
@@ -184,7 +184,7 @@ class EntriesManager
                               Http::redirect(Http::getBaseUrl() . '/admin/entries?entry='.implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
                 }
 
@@ -212,7 +212,7 @@ class EntriesManager
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
                 }
 
@@ -258,7 +258,7 @@ class EntriesManager
                                 Notification::set('success', __('admin_message_entry_changes_saved'));
                                 Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::post('entry_name').'&source=true');
                             } else {
-                                die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                             }
                         }
 
@@ -455,7 +455,7 @@ class EntriesManager
                 Notification::set('success', __('admin_message_entry_file_deleted'));
                 Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry').'&media=true');
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
             }
         }
 
@@ -505,7 +505,7 @@ class EntriesManager
                 }
 
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
             }
         }
     }

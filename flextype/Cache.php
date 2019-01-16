@@ -90,6 +90,9 @@ class Cache
      */
     protected static function init() : void
     {
+        // Create Cache Directory
+        !Filesystem::dirExists(PATH['cache']) and Filesystem::createDir(PATH['cache']);
+
         // Set current time
         Cache::$now = time();
 
@@ -113,6 +116,8 @@ class Cache
     {
         $driver_name = Registry::get('settings.cache.driver');
 
+        $cache_directory = PATH['cache'] . '/doctrine/';
+
         if (!$driver_name || $driver_name == 'auto') {
             if (extension_loaded('apcu')) {
                 $driver_name = 'apcu';
@@ -122,42 +127,73 @@ class Cache
                 $driver_name = 'wincache';
             } elseif (extension_loaded('xcache')) {
                 $driver_name = 'xcache';
+            } else {
+                $driver_name = 'file';
             }
-        } else {
-            $driver_name = 'file';
         }
 
         switch ($driver_name) {
+            // The ApcCache driver uses the apc_fetch, apc_exists, etc. functions
+            // that come with PHP so no additional setup is required in order to use it.
             case 'apc':
                $driver = new DoctrineCache\ApcCache();
                break;
+            // The ApcuCache driver uses the apcu_fetch, apcu_exists, etc. functions
+            // that come with PHP so no additional setup is required in order to use it.
             case 'apcu':
                $driver = new DoctrineCache\ApcuCache();
                break;
+            // The ArrayCache driver stores the cache data in PHPs memory and is not persisted anywhere.
+            // This can be useful for caching things in memory for a single process when you don't need the cache to be persistent across processes.
+            case 'array':
+              $driver = new DoctrineCache\ArrayCache();
+              break;
+            // The WinCacheCache driver uses the wincache_ucache_get, wincache_ucache_exists, etc. functions
+            // that come with the wincache extension
+            // http://php.net/manual/en/book.wincache.php
             case 'wincache':
                $driver = new DoctrineCache\WinCacheCache();
                break;
+            // The XcacheCache driver uses functions that come with the xcache extension
+            // https://xcache.lighttpd.net
             case 'xcache':
                $driver = new DoctrineCache\XcacheCache();
                break;
+            // The MemcacheCache drivers stores the cache data in Memcache.
             case 'memcache':
                 $memcache = new \Memcache();
                 $memcache->connect(
                     Registry::get('settings.cache.memcache.server', 'localhost'),
-                                   Registry::get('settings.cache.memcache.port', 11211)
+                    Registry::get('settings.cache.memcache.port', 11211)
                 );
                 $driver = new DoctrineCache\MemcacheCache();
                 $driver->setMemcache($memcache);
                 break;
+            // The MemcachedCache drivers stores the cache data in Memcached.
             case 'memcached':
                 $memcached = new \Memcached();
                 $memcached->addServer(
                     Registry::get('settings.cache.memcached.server', 'localhost'),
-                                      Registry::get('settings.cache.memcache.port', 11211)
+                    Registry::get('settings.cache.memcache.port', 11211)
                 );
                 $driver = new DoctrineCache\MemcachedCache();
                 $driver->setMemcached($memcached);
                 break;
+            // The SQLite3Cache driver stores the cache data in a SQLite database and depends on the sqlite3 extension
+            // http://php.net/manual/en/book.sqlite3.php
+            case 'sqlite3':
+                // Create doctrine cache directory if its not exists
+                !Filesystem::fileExists($cache_directory) and Filesystem::createDir($cache_directory);
+
+                $db = new \SQLite3($cache_directory . Registry::get('settings.cache.sqlite3.database', 'flextype') . '.db');
+                $driver = new DoctrineCache\SQLite3Cache($db, Registry::get('settings.cache.sqlite3.table', 'flextype'));
+                break;
+            // The ZendDataCache driver uses the Zend Data Cache API available in the Zend Platform.
+            case 'zend':
+                $driver = new DoctrineCache\ZendDataCache();
+                break;
+            // The RedisCache driver stores the cache data in Redis and depends on the phpredis extension
+            // https://github.com/phpredis/phpredis
             case 'redis':
                 $redis    = new \Redis();
                 $socket   = Registry::get('settings.cache.redis.socket', false);
@@ -168,7 +204,7 @@ class Cache
                 } else {
                     $redis->connect(
                         Registry::get('settings.cache.redis.server', 'localhost'),
-                                    Registry::get('settings.cache.redis.port', 6379)
+                        Registry::get('settings.cache.redis.port', 6379)
                     );
                 }
 
@@ -182,7 +218,7 @@ class Cache
                 break;
             default:
                 // Create doctrine cache directory if its not exists
-                !Filesystem::fileExists($cache_directory = PATH['cache'] . '/doctrine/') and Filesystem::createDir($cache_directory);
+                !Filesystem::fileExists($cache_directory) and Filesystem::createDir($cache_directory);
                 $driver = new DoctrineCache\FilesystemCache($cache_directory);
                 break;
         }

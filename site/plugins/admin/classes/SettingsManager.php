@@ -30,7 +30,7 @@ class SettingsManager
                 Notification::set('success', __('admin_message_cache_files_deleted'));
                 Http::redirect(Http::getBaseUrl().'/admin/settings');
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
             }
         }
 
@@ -55,7 +55,7 @@ class SettingsManager
                     Http::redirect(Http::getBaseUrl().'/admin/settings');
                 }
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
             }
         }
 
@@ -80,8 +80,22 @@ class SettingsManager
             $themes[$theme] = $theme;
         }
 
+        $cache_driver = ['auto' => 'Auto Detect',
+                         'file' => 'File',
+                         'apc' => 'APC',
+                         'apcu' => 'APCu',
+                         'wincache' => 'WinCache',
+                         'xcache' => 'Xcache',
+                         'memcache' => 'Memcache',
+                         'memcached' => 'Memcached',
+                         'redis' => 'Redis',
+                         'sqlite3' => 'SQLite3',
+                         'zend' => 'Zend',
+                         'array' => 'Array'];
+
         Themes::view('admin/views/templates/system/settings/list')
                 ->assign('settings', Registry::get('settings'))
+                ->assign('cache_driver', $cache_driver)
                 ->assign('locales', $locales)
                 ->assign('entries', $entries)
                 ->assign('themes', $themes)

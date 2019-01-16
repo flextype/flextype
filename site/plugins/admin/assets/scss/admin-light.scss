@@ -1,0 +1,648 @@
+$base-font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+$base-font-color: #424243;
+
+$codemirror-linenumber-font-color: #c2c2c3;
+
+$body-bg: #fafafa;
+
+$border-color: #dbdbdc;
+
+$btn-text-color: $base-font-color;
+$btn-background-color: #fff;
+$btn-text-color-hover: $base-font-color;
+$btn-background-color-hover: #f3f3f4;
+
+$navbar-background-color: #eaeaeb;
+$navbar-item-text-color: $base-font-color;
+$navbar-item-text-color-hover: $base-font-color;
+$navbar-item-background-color-hover: #e0e0e1;
+
+$navbar-table-background-color-hover: #f3f3f4;
+
+$form-control-background-color: #fff;
+
+$form-control-placeholder-color: $base-font-color;
+
+/* main.scss */
+.wrapper,
+body {
+    background: $body-bg;
+}
+
+.brand,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.navbar,
+a,
+body,
+button.close,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+td {
+    font-family: $base-font-family;
+    color: $base-font-color;
+}
+
+a {
+    color: $base-font-color;
+
+    &:hover {
+        color: $base-font-color;
+    }
+}
+
+/* panels.scss */
+.main-panel {
+    background: $body-bg;
+
+    .navbar {
+        border-bottom: 1px solid $border-color;
+
+        &.fixed-bottom {
+            border-top: 1px solid $border-color;
+        }
+    }
+}
+
+/* nav.scss */
+.navbar {
+    background-color: $navbar-background-color;
+    color: $navbar-item-text-color;
+}
+
+.navbar .navbar-brand {
+    color: $base-font-color;
+}
+
+.navbar .navbar-brand:hover {
+    color: $base-font-color;
+}
+
+.navbar .navbar-nav .nav-item .nav-link {
+    color: $base-font-color;
+}
+
+.sidebar .sidebar-wrapper .nav .nav-link p {
+    color: $base-font-color;
+}
+
+.navbar .navbar-nav .nav-item .nav-link:hover {
+    color: $base-font-color;
+}
+
+.navbar-item {
+    color: $navbar-item-text-color;
+}
+
+.navbar-item.active,
+.navbar-item:focus,
+.navbar-item:hover {
+    color: $navbar-item-text-color;
+    background-color: $body-bg;
+    border-right: 1px solid $border-color;
+    border-left: 1px solid $border-color;
+}
+
+.flextype-user {
+    border-top: 1px solid $border-color;
+}
+
+.entry-editor-heading {
+    border-bottom: 1px solid $border-color;
+    background: $body-bg;
+}
+
+/* sidebar.scss */
+.sidebar {
+    color: $navbar-item-text-color;
+    background: $navbar-background-color;
+    border-right: 1px solid $border-color;
+
+    &:after,
+    &:before {
+        background: $navbar-background-color;
+    }
+
+    .flextype-logo > a {
+        color: $navbar-item-text-color;
+        border-bottom: 1px solid $border-color;
+
+        > .fa-external-link-alt {
+            color: #b3b3b3;
+        }
+
+        &:focus,
+        &:hover {
+            > .fa-external-link-alt {
+                color: $navbar-item-text-color;
+            }
+
+            color: $navbar-item-text-color-hover;
+        }
+    }
+
+    .nav .nav-item .nav-link {
+        color: $navbar-item-text-color;
+    }
+
+    .nav .nav-item .nav-link:hover {
+        background: $navbar-item-background-color-hover;
+    }
+
+    .nav .nav-item.active .nav-link {
+        color: $navbar-item-text-color;
+        background: $navbar-item-background-color-hover;
+    }
+
+    .nav .nav-item.separator {
+        border-bottom: 1px solid $border-color;
+    }
+}
+
+/* table.scss */
+.table {
+    > thead {
+        > tr {
+            > th {
+                color: $base-font-color;
+            }
+        }
+    }
+
+    tbody tr:hover td,
+    tbody tr:hover th {
+        background-color: $navbar-table-background-color-hover;
+    }
+
+    > tbody,
+     > thead,
+    > tfoot {
+        > tr {
+            > td,
+            > th {
+                border-color: $border-color;
+                color: $base-font-color;
+            }
+        }
+    }
+}
+
+/* buttons.scss */
+.btn {
+    border: 1px solid $border-color;
+    color: $btn-text-color;
+    background-color: $btn-background-color;
+
+    &.active,
+    &:active,
+    &:focus,
+    &:hover {
+        background-color: $btn-background-color-hover;
+        color: $btn-text-color-hover;
+        border-color: $border-color;
+    }
+}
+
+.dropdown-menu {
+    color: $btn-text-color;
+    background-color: $btn-background-color;
+    border: 1px solid $border-color;
+}
+
+.dropdown-item {
+    color: $btn-text-color;
+
+    &:focus,
+    &:hover {
+        color: $btn-text-color-hover;
+        background-color: $btn-background-color-hover;
+    }
+}
+
+/* modal.scss */
+.modal-header {
+    color: $base-font-color;
+
+    background-color: $navbar-background-color;
+    border-color: $border-color;
+}
+
+.modal-body {
+    background-color: $body-bg;
+}
+
+.modal-footer {
+    background-color: $navbar-background-color;
+}
+
+.modal-content {
+    color: $base-font-color;
+    background-color: $body-bg;
+}
+
+.close {
+    color: $btn-text-color;
+}
+
+.close:not(:disabled):not(.disabled):focus,
+.close:not(:disabled):not(.disabled):hover {
+    color: $btn-text-color-hover;
+}
+
+/* form-control.scss */
+.trumbowyg-box,
+.trumbowyg-button-pane,
+.trumbowyg-editor {
+    background-color: $form-control-background-color!important;
+    border: 1px solid $border-color!important;
+    color: $base-font-color!important;
+}
+
+.trumbowyg-button-pane {
+    border-right: none!important;
+    border-left: none!important;
+    border-top: none!important;
+}
+
+.trumbowyg-dropdown button {
+    color: $btn-text-color!important;
+    background: $form-control-background-color!important;
+}
+
+.trumbowyg-dropdown {
+    color: $btn-text-color!important;
+    background: $form-control-background-color!important;
+    border: 1px solid $border-color!important;
+}
+
+.trumbowyg-dropdown button:focus,
+.trumbowyg-dropdown button:hover {
+    background-color: $btn-background-color-hover!important;
+    color: $btn-text-color-hover!important;
+}
+
+.trumbowyg-overlay {
+    background-color: rgba(0,0,0,.5)!important;
+}
+
+.trumbowyg-modal-box {
+    color: $base-font-color;
+    background-color: $body-bg;
+}
+
+.trumbowyg-modal-box .trumbowyg-modal-title {
+    background-color: $navbar-background-color;
+    border-color: $border-color;
+    color: $base-font-color;
+}
+
+.trumbowyg-modal-button {
+    border: 1px solid $border-color !important;
+    color: $btn-text-color !important;
+    background: $btn-background-color !important;
+
+    &.active,
+    &:active,
+    &:focus,
+    &:hover {
+        background: $btn-background-color !important;
+        color: $btn-text-color !important;
+        border-color: $border-color;
+    }
+}
+
+.trumbowyg-button-pane {
+    border-bottom: 1px solid $border-color!important;
+}
+
+.trumbowyg-box .trumbowyg-editor {
+    color: $base-font-color!important;
+}
+
+.trumbowyg-box svg,
+.trumbowyg-modal svg {
+    fill: $base-font-color!important;
+}
+
+.trumbowyg-button-pane button.trumbowyg-active,
+.trumbowyg-button-pane button:not(.trumbowyg-disable):focus,
+.trumbowyg-button-pane button:not(.trumbowyg-disable):hover {
+    background-color: $navbar-item-background-color-hover!important;
+}
+
+.trumbowyg-button-pane .trumbowyg-button-group::after {
+    background: $navbar-item-background-color-hover!important;
+}
+
+::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: $form-control-placeholder-color;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: $form-control-placeholder-color;
+}
+
+:-ms-input-placeholder {
+    /* IE 10+ */
+    color: $form-control-placeholder-color;
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: $form-control-placeholder-color;
+}
+
+.form-control {
+    background-color: $form-control-background-color;
+    border: 1px solid $border-color;
+    color: $base-font-color;
+}
+
+.form-control:focus {
+    background-color: $form-control-background-color;
+    border: 1px solid $border-color;
+    color: $base-font-color;
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+    background-color: #1b1d23;
+    border: 1px solid $border-color;
+    color: $base-font-color;
+}
+
+.form-group {
+    label {
+        color: $base-font-color;
+    }
+}
+
+.clipboard {
+    background-color: $form-control-background-color;
+    border: 1px solid $border-color;
+    color: $base-font-color;
+}
+
+.custom-file-label,
+.custom-file-label::after {
+    border: 1px solid $border-color;
+    color: $btn-text-color;
+    background-color: $btn-background-color;
+}
+
+.custom-file-label::after {
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+}
+
+$font-size-base: 1rem;
+$font-size-lg: ($font-size-base * 1.25);
+$font-size-sm: ($font-size-base * .875);
+$input-height: 2.375rem;
+$input-height-sm: 1.9375rem;
+$input-height-lg: 3rem;
+$input-btn-focus-width: .2rem;
+$custom-control-indicator-bg: $btn-background-color;
+$custom-control-indicator-disabled-bg: #373d47;
+$custom-control-description-disabled-color: #373d47;
+$white: white;
+$theme-colors: (
+    'primary': $btn-background-color
+);
+
+$switch-height: calc(#{$input-height} * .8) !default;
+$switch-height-sm: calc(#{$input-height-sm} * .8) !default;
+$switch-height-lg: calc(#{$input-height-lg} * .8) !default;
+$switch-border-radius: 4px !default;
+$switch-bg: $custom-control-indicator-bg !default;
+$switch-checked-bg: map-get($theme-colors, 'primary') !default;
+$switch-disabled-bg: $custom-control-indicator-disabled-bg !default;
+$switch-disabled-color: $custom-control-description-disabled-color !default;
+$switch-thumb-bg: $btn-background-color !default;
+$switch-thumb-border-radius: 4px !default;
+$switch-thumb-padding: 3px !default;
+$switch-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba(map-get($theme-colors, 'primary'), .25);
+$switch-transition: .2s all !default;
+
+.switch {
+    font-size: $font-size-base;
+    position: relative;
+
+    input {
+        position: absolute;
+        height: 1px;
+        width: 1px;
+        background: none;
+        border: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        overflow: hidden;
+        padding: 0;
+
+        + label {
+            position: relative;
+            min-width: calc(#{$switch-height} * 2);
+            border-radius: $switch-border-radius;
+            height: $switch-height;
+            line-height: $switch-height;
+            display: inline-block;
+            cursor: pointer;
+            outline: none;
+            user-select: none;
+            vertical-align: middle;
+            text-indent: calc(calc(#{$switch-height} * 2) + .5rem);
+        }
+
+        + label::after,
+        + label::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: calc(#{$switch-height} * 2);
+            bottom: 0;
+            display: block;
+            border: 1px solid $border-color;
+        }
+
+        + label::before {
+            right: 0;
+            background-color: $switch-bg;
+            border-radius: $switch-border-radius;
+            transition: $switch-transition;
+        }
+
+        + label::after {
+            top: $switch-thumb-padding;
+            left: $switch-thumb-padding;
+            width: calc(#{$switch-height} - calc(#{$switch-thumb-padding} * 2));
+            height: calc(#{$switch-height} - calc(#{$switch-thumb-padding} * 2));
+            border-radius: $switch-thumb-border-radius;
+            background-color: $switch-thumb-bg;
+            transition: $switch-transition;
+        }
+
+        &:checked + label::before {
+            background-color: #f3f3f3;
+        }
+
+        &:checked + label::after {
+            margin-left: $switch-height;
+        }
+
+        &:focus + label::before {
+            outline: none;
+            box-shadow: $switch-focus-box-shadow;
+        }
+
+        &:disabled + label {
+            color: $switch-disabled-color;
+            cursor: not-allowed;
+            opacity: .3;
+        }
+
+        &:disabled + label::before {
+            background-color: $switch-disabled-bg;
+        }
+    }
+
+    // Small variation
+    &.switch-sm {
+        font-size: $font-size-sm;
+
+        input {
+            + label {
+                min-width: calc(#{$switch-height-sm} * 2);
+                height: $switch-height-sm;
+                line-height: $switch-height-sm;
+                text-indent: calc(calc(#{$switch-height-sm} * 2) + .5rem);
+                margin: 0;
+            }
+
+            + label::before {
+                width: calc(#{$switch-height-sm} * 2);
+            }
+
+            + label::after {
+                width: calc(#{$switch-height-sm} - calc(#{$switch-thumb-padding} * 2));
+                height: calc(#{$switch-height-sm} - calc(#{$switch-thumb-padding} * 2));
+            }
+
+            &:checked + label::after {
+                margin-left: $switch-height-sm;
+            }
+        }
+    }
+
+    // Large variation
+    &.switch-lg {
+        font-size: $font-size-lg;
+
+        input {
+            + label {
+                min-width: calc(#{$switch-height-lg} * 2);
+                height: $switch-height-lg;
+                line-height: $switch-height-lg;
+                text-indent: calc(calc(#{$switch-height-lg} * 2) + .5rem);
+                margin: 0;
+            }
+
+            + label::before {
+                width: calc(#{$switch-height-lg} * 2);
+            }
+
+            + label::after {
+                width: calc(#{$switch-height-lg} - calc(#{$switch-thumb-padding} * 2));
+                height: calc(#{$switch-height-lg} - calc(#{$switch-thumb-padding} * 2));
+            }
+
+            &:checked + label::after {
+                margin-left: $switch-height-lg;
+            }
+        }
+    }
+
+    + .switch {
+        margin-left: 1rem;
+    }
+}
+
+/* trumbowyg.scss */
+.trumbowyg-editor {
+    code,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    p,
+    pre,
+    table {
+        color: $base-font-color !important;
+    }
+}
+
+/* media.scss */
+.media-manager {
+    .item {
+        background: $form-control-background-color;
+        border: 1px solid $border-color;
+
+        .fa-eye {
+            color: $form-control-background-color;
+        }
+    }
+}
+
+/* codemirror.scss */
+.CodeMirror-gutter,
+.CodeMirror-gutters,
+.CodeMirror-linenumber,
+.CodeMirror-scroll,
+.CodeMirror-sizer {
+    background: $body-bg;
+}
+
+.CodeMirror-gutters {
+    border-right: 1px solid $body-bg;
+    background: $body-bg;
+    color: $codemirror-linenumber-font-color;
+}
+
+.CodeMirror-linenumber {
+    color: $codemirror-linenumber-font-color;
+    background: $body-bg;
+}
+
+.CodeMirror,
+.cm-meta {
+    background: $body-bg;
+}
+
+.CodeMirror span.cm-meta {
+    font-style: normal;
+}
+
+/* messenger.scss */
+ul.messenger-theme-flat .messenger-message {
+    background: $navbar-background-color;
+    color: $base-font-color;
+    border: 1px solid $border-color;
+}
+
+ul.messenger-theme-flat .messenger-message-slot.messenger-first.messenger-last .messenger-message {
+    box-shadow: inset 48px 0 0 $navbar-background-color;
+}
