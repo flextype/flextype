@@ -1,3 +1,0 @@
-files:
-  - source: /site/plugins/admin/languages/en.yaml
-    translation: /site/plugins/admin/languages/%locale%.yaml
