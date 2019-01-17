@@ -40,7 +40,7 @@ date_format: "F d Y H:i:s"
 theme: default
 
 # The locale that'll be used by the Flextype.
-locale: "en"
+locale: "en_US"
 
 # The entries settings
 # Define the file types (extensions to be exact) that are acceptable for upload.
