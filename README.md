@@ -1,9 +1,19 @@
-# Flextype
-[![Discord](https://img.shields.io/discord/423097982498635778.svg?logo=discord&colorB=728ADA&label=Discord%20Chat&style=flat-square)](https://discordapp.com/invite/CCKPKVG)
-![Version](https://img.shields.io/badge/version-0.8.3-brightgreen.svg?style=flat-square)
-![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 
 ![preview](/site/plugins/admin/preview.png)
+
+<p align="center">
+  <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/version-0.8.3-brightgreen.svg" alt="Version"></a>
+  <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>     
+  <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg" alt="Total downloads"></a>
+  <a href="https://crowdin.com/project/flextype"><img src="https://d322cqt584bo4o.cloudfront.net/flextype/localized.svg" alt="Crowdin"></a> 
+  <a href="https://discordapp.com/invite/CCKPKVG"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&colorB=728ADA&label=Discord%20Chat" alt="Discord"></a>
+</p>
+
+
+# Flextype
+
+
+
 
 Flextype is Open Source, fast and flexible file-based Content Management System.  
 That's Easy to install, upgrade and use. Flextype provides amazing API's for plugins, themes and core developers!
@@ -42,6 +52,7 @@ Make sure your server meets the following requirements.
 Flextype needs the following PHP extensions to be enabled:
 
 - Multibyte String
+- PHP Fileinfo
 - SPL
 
 Although it is optional, we strongly recommend enabling the following PHP extensions:
