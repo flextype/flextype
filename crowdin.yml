@@ -1,3 +1,3 @@
 files:
-  - source: /site/plugins/admin/languages/en.yaml
-    translation: /site/plugins/admin/languages/%locale%.yaml
+  - source: /site/plugins/admin/languages/en_US.yaml
+    translation: /site/plugins/admin/languages/%locale_with_underscore%.yaml
