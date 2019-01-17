@@ -65,7 +65,7 @@ class SettingsManager
         $locales = [];
 
         foreach ($available_locales as $locale) {
-            $locales[basename($locale, '.yaml')] = $system_locales[basename($locale, '.yaml')];
+            $locales[basename($locale, '.yaml')] = $system_locales[basename($locale, '.yaml')]['nativeName'];
         }
 
         $entries = [];
