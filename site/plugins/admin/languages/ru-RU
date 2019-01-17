@@ -1,6 +1,6 @@
 ---
 admin: "Admin"
-admin_cancel: "Cancel"
+admin_cancel: "Отмена"
 admin_create: "Create"
 admin_debugging: "Debugging"
 admin_email: "Email"
