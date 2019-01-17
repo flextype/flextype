@@ -52,6 +52,7 @@ Make sure your server meets the following requirements.
 Flextype needs the following PHP extensions to be enabled:
 
 - Multibyte String
+- PHP Fileinfo
 - SPL
 
 Although it is optional, we strongly recommend enabling the following PHP extensions:
