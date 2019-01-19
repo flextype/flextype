@@ -3,8 +3,14 @@ namespace Flextype;
 use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets, Notification\Notification};
 ?>
 
+<?php if (Registry::get("settings.locale") == 'en_US'): ?>
+    <?php $locale_lower = 'en' ?>
+<?php else: ?>
+    <?php $locale_lower = strtolower(Registry::get("settings.locale")) ?>
+<?php endif ?>
+
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/admin-build.min.js', 'admin', 1); ?>
-<?php if (Registry::get("settings.locale") != 'en') Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/'.Registry::get("settings.locale").'.min.js', 'admin', 10); ?>
+<?php if ($locale_lower != 'en') Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/'.$locale_lower.'.min.js', 'admin', 10); ?>
 <?php foreach (Assets::get('js', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
     <script type="text/javascript" src="<?php echo $assets['asset']; ?>"></script>
 <?php } } ?>
@@ -75,7 +81,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
                 ['removeformat'],
                 ['fullscreen']
             ],
-            lang: '<?php echo Registry::get("settings.locale"); ?>',
+            lang: '<?= $locale_lower ?>',
             autogrow: false,
             removeformatPasted: true
         });
