@@ -20,9 +20,9 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
         theme: 'flat'
     }
 
-    <?php if (Notification::get('success')) { ?> Messenger().post({ type: "success", message : "<?php echo Notification::get('success'); ?>", hideAfter: '3' }); <?php } ?>
-    <?php if (Notification::get('warning')) { ?> Messenger().post({ type: "warning", message : "<?php echo Notification::get('warning'); ?>", hideAfter: '3' }); <?php } ?>
-    <?php if (Notification::get('error'))   { ?> Messenger().post({ type: "error", message : "<?php echo Notification::get('error'); ?>", hideAfter: '3' });     <?php } ?>
+    <?php if (Notification::get('success')): ?> Messenger().post({ type: "success", message : "<?php echo Notification::get('success'); ?>", hideAfter: '3' }); <?php endif ?>
+    <?php if (Notification::get('warning')): ?> Messenger().post({ type: "warning", message : "<?php echo Notification::get('warning'); ?>", hideAfter: '3' }); <?php endif ?>
+    <?php if (Notification::get('error')):   ?> Messenger().post({ type: "error", message : "<?php echo Notification::get('error'); ?>", hideAfter: '3' });     <?php endif ?>
 
     if (typeof $.flextype == 'undefined') $.flextype = {};
 

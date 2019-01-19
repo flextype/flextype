@@ -16,7 +16,7 @@ use function Flextype\Component\I18n\__;
     <meta name="description" content="">
     <meta name="author" content="">
 
-	<?php Event::dispatch('onAdminThemeMeta'); ?>
+	<?php Event::dispatch('onAdminThemeMeta') ?>
 
 	<title>FLEXTYPE</title>
 
@@ -26,15 +26,17 @@ use function Flextype\Component\I18n\__;
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/admin-build.min.css', 'admin', 8); ?>
 
     <?php if (Registry::get('settings.admin_panel.theme') == 'light'): ?>
-        <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/elegant.css', 'admin', 9); ?>
-        <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/admin-light.min.css', 'admin', 10); ?>
+        <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/elegant.css', 'admin', 9) ?>
+        <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/admin-light.min.css', 'admin', 10) ?>
     <?php elseif (Registry::get('settings.admin_panel.theme') == 'dark'): ?>
-        <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/monokai.css', 'admin', 9); ?>
+        <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/monokai.css', 'admin', 9) ?>
     <?php endif ?>
 
-    <?php foreach (Assets::get('css', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
-        <link href="<?php echo $assets['asset']; ?>" rel="stylesheet">
-    <?php } } ?>
+    <?php foreach (Assets::get('css', 'admin') as $assets_by_priorities): ?>
+        <?php foreach ($assets_by_priorities as $assets): ?>
+            <link href="<?= $assets['asset'] ?>" rel="stylesheet">
+        <?php endforeach ?>
+    <?php endforeach ?>
 
     <style media="screen">
         .content-full-size .main-panel .navbar-fixed+.content {
@@ -49,9 +51,9 @@ use function Flextype\Component\I18n\__;
             padding: 0;
         }
     </style>
-	<?php Event::dispatch('onAdminThemeHeader'); ?>
+	<?php Event::dispatch('onAdminThemeHeader') ?>
   </head>
-  <body <?php if(Http::get('preview') && Http::get('preview') == 'true') { ?> class="content-full-size" <?php } ?>>
+  <body <?php if(Http::get('preview') && Http::get('preview') == 'true'): ?> class="content-full-size" <?php endif ?>>
       <div class="wrapper">
-        <?php UsersManager::isLoggedIn() and Themes::view('admin/views/partials/sidebar')->display(); ?>
+        <?php UsersManager::isLoggedIn() and Themes::view('admin/views/partials/sidebar')->display() ?>
         <div class="main-panel <?php if (isset($main_panel_class)) { echo $main_panel_class; }?>">
