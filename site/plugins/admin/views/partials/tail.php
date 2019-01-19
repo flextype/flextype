@@ -134,20 +134,21 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
         $.validate({});
 
+        <?php if (Http::get('fieldset') || Http::get('menu') || Http::get('snippets') || Http::get('source') || Http::get('template')): ?>
         var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
             lineNumbers: true,
-            <?php if (Http::get('fieldset') || Http::get('menu')) { ?>
+            <?php if (Http::get('fieldset') || Http::get('menu')): ?>
             indentUnit: 2,
             tabSize: 2,
-            <?php } else { ?>
+            <?php else: ?>
             tabSize: 4,
             indentUnit: 4,
-            <?php } ?>
-            <?php if (Http::get('fieldset') || Http::get('menu')) { ?>
+            <?php endif ?>
+            <?php if (Http::get('fieldset') || Http::get('menu')): ?>
             mode: "yaml",
-            <?php } else { ?>
+            <?php else: ?>
             mode: "application/x-httpd-php",
-            <?php } ?>
+            <?php endif ?>
             indentWithTabs: false,
             <?php if (Registry::get('settings.admin_panel.theme') == 'light'): ?>
             theme: "elegant",
@@ -177,6 +178,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
                 cm.indentSelection("subtract");
             }
         });
+        <?php endif ?>
     });
 </script>
 
