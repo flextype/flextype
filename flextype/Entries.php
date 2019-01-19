@@ -131,14 +131,28 @@ class Entries
     /**
      * Update current entry
      *
-     * Entries::updateCurrentPage('title', 'New entry title');
+     * Entries::updateCurrentEntry(['title' => "New Title"]);
+     *
+     * @access  public
+     * @param   array $data  Data
+     * @return  void
+     */
+    public static function updateCurrentEntry(array $data) : void
+    {
+        Entries::$entry = $data;
+    }
+
+    /**
+     * Update current entry field
+     *
+     * Entries::updateCurrentEntryField('title', "New Title");
      *
      * @access  public
      * @param   string $path  Array path
      * @param   mixed  $value Value to set
      * @return  void
      */
-    public static function updateCurrentEntry(string $path, $value) : void
+    public static function updateCurrentEntryField(string $path, $value) : void
     {
         Arr::set(Entries::$entry, $path, $value);
     }
