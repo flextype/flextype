@@ -20,7 +20,7 @@
         "doctrine/cache": "1.8.0",
         "symfony/yaml": "4.2.2",
         "thunderer/shortcode": "0.7.0",
-        "flextype-components/arr" : "1.2.4",
+        "flextype-components/arr" : "1.2.5",
         "flextype-components/assets" : "1.0.1",
         "flextype-components/cookie" : "1.2.0",
         "flextype-components/date" : "1.0.0",
