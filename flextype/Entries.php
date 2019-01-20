@@ -118,7 +118,7 @@ class Entries
     /**
      * Get current entry
      *
-     * $entry = Entries::getCurrentPage();
+     * $entry = Entries::getCurrentEntry();
      *
      * @access  public
      * @return  array

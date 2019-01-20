@@ -216,7 +216,7 @@ class Images
      * @param  array   $params  Image params
      * @return string
      */
-    public static function getImageUrl($path, array $params)
+    public static function getImageUrl(string $path, array $params) : string
     {
         if (file_exists(PATH['entries'] . '/' . $path)) {
             return Http::getBaseUrl() . '/site/cache/glide/' . Images::$server->makeImage($path, $params);
@@ -237,7 +237,7 @@ class Images
      * @param  array   $attributes  Image html attributes
      * @return string
      */
-    public static function getImage($path, array $params, array $attributes = [])
+    public static function getImage(string $path, array $params, array $attributes = []) : string
     {
         if (file_exists(PATH['entries'] . '/' .  $path)) {
             return '<img '.Html::attributes($attributes).' src="'. Images::getImageUrl($path, $params) .'">';

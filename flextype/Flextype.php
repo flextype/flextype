@@ -144,7 +144,7 @@ class Flextype
      */
     private static function setConfig() : void
     {
-        // Set empty site settings array
+        // Set empty settings array
         Registry::set('settings', []);
 
         // Set settings files path
