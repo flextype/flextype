@@ -1,4 +1,19 @@
 ## [0.8.4] - 2019-01-xx
+### Added
+- Flextype Core: Shortcodes class to work with shortcodes and default shortcodes.
+- Shortcodes: new default shortcode [site_url]
+- Flextype Core: new method updateCurrentEntryField() - added.
+- Flextype Core: new method updateCurrentEntry() - added.
+- Flextype Core: Using new languages files format.
+
+### Changed
+- Flextype Core: Flextype Components Arr updated to 1.2.5
+- Admin Panel: Settings Manager - locales list - improvements!
+
+### Fixed
+- Admin Panel: Translates fixes.
+- Flextype Core: Typo updates
+- Admin Panel: Issue with js error for codemirror - fixed.
 
 ## [0.8.3] - 2019-01-16
 ### Added
