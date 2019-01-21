@@ -99,9 +99,6 @@ class Flextype
         // Get Images Instance
         Images::getInstance();
 
-        // Get Snippets Instance
-        Snippets::getInstance();
-
         // Get Themes Instance
         Themes::getInstance();
 
