@@ -43,7 +43,7 @@ if (Admin::isAdminArea()) {
     //
     // Add listner for onCurrentPageBeforeLoaded event
     //
-    Event::addListener('onCurrentEntryBeforeLoaded', function () {
+    Event::addListener('onCurrentEntryBeforeProcessed', function () {
 
         // Add navigation links
         NavigationManager::addItem('content', 'entries', '<i class="far fa-newspaper"></i>' . __('admin_entries', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/entries', ['class' => 'nav-link']);
