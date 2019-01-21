@@ -12,6 +12,7 @@
 
 namespace Flextype;
 
+use Flextype\Component\Http\Http;
 use Flextype\Component\Event\Event;
 use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
@@ -113,6 +114,11 @@ class Shortcodes {
      */
     private static function addDefaultShortcodes() : void
     {
+        // Shortcode: [site_url]
+        Shortcodes::shortcode()->addHandler('site_url', function() {
+            return Http::getBaseUrl();
+        });
+
         // Snippets
         // Shortcode: [snippet name=snippet-name]
         Shortcodes::shortcode()->addHandler('snippet', function(ShortcodeInterface $s) {
