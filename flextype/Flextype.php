@@ -93,6 +93,9 @@ class Flextype
         // Get Cache Instance
         Cache::getInstance();
 
+        // Init Shortcodes
+        Shortcodes::getInstance();
+
         // Get Images Instance
         Images::getInstance();
 
