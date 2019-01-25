@@ -33,7 +33,7 @@ Themes::view('admin/views/partials/content-start')->display();
         <?= Form::hidden('name_current', $name_current) ?>
         <div class="form-group">
             <?= Form::label('name', __('admin_name'), ['for' => 'menuName']) ?>
-            <?= Form::input('name', $name_current, ['class' => 'form-control', 'id' => 'menuName',  'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_menu_error_title_empty_input')]) ?>
+            <?= Form::input('name', $name_current, ['class' => 'form-control', 'id' => 'menuName',  'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_error_title_empty_input')]) ?>
         </div>
         <?= Form::submit('rename_menu', __('admin_save'), ['class' => 'btn btn-black btn-fill btn-wd']) ?>
         <?= Form::close() ?>

@@ -32,11 +32,11 @@ Themes::view('admin/views/partials/content-start')->display();
         <?= Form::hidden('token', Token::generate()); ?>
         <div class="form-group">
             <?= Form::label('title', __('admin_title'), ['for' => 'fieldsetTitle']) ?>
-            <?= Form::input('title', '', ['class' => 'form-control', 'id' => 'fieldsetTitle', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_fieldsets_error_name_empty_input')]) ?>
+            <?= Form::input('title', '', ['class' => 'form-control', 'id' => 'fieldsetTitle', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_error_title_empty_input')]) ?>
         </div>
         <div class="form-group">
             <?= Form::label('name', __('admin_name'), ['for' => 'fieldsetName']) ?>
-            <?= Form::input('name', '', ['class' => 'form-control', 'id' => 'fieldsetName', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_fieldsets_error_name_empty_input')]) ?>
+            <?= Form::input('name', '', ['class' => 'form-control', 'id' => 'fieldsetName', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_error_name_empty_input')]) ?>
         </div>
     </div>
 </div>

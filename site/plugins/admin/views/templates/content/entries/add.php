@@ -33,11 +33,11 @@ Themes::view('admin/views/partials/content-start')->display();
         <?= Form::hidden('parent_entry', Http::get('entry')); ?>
         <div class="form-group">
             <?= Form::label('title', __('admin_title'), ['for' => 'entryTitle']) ?>
-            <?= Form::input('title', '', ['class' => 'form-control', 'id' => 'entryTitle', 'required', 'data-validation' => 'length required', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_entries_error_title_empty_input')]) ?>
+            <?= Form::input('title', '', ['class' => 'form-control', 'id' => 'entryTitle', 'required', 'data-validation' => 'length required', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_error_title_empty_input')]) ?>
         </div>
         <div class="form-group">
             <?= Form::label('slug', __('admin_name'), ['for' => 'entrySlug']) ?>
-            <?= Form::input('slug', '', ['class' => 'form-control', 'id' => 'entrySlug', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_entries_error_name_empty_input')]) ?>
+            <?= Form::input('slug', '', ['class' => 'form-control', 'id' => 'entrySlug', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_error_name_empty_input')]) ?>
         </div>
         <div class="form-group">
             <label><?= __('admin_type') ?></label>
