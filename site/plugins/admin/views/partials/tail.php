@@ -134,7 +134,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
         $.validate({});
 
-        <?php if (Http::get('fieldset') || Http::get('menu') || Http::get('snippets') || Http::get('source') || Http::get('template')): ?>
+        <?php if (Http::get('fieldset') || Http::get('menu') || Http::get('snippet') || Http::get('source') || Http::get('template')): ?>
         var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
             lineNumbers: true,
             <?php if (Http::get('fieldset') || Http::get('menu')): ?>
