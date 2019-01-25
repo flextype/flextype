@@ -32,7 +32,7 @@ Themes::view('admin/views/partials/content-start')->display();
         <?= Form::hidden('token', Token::generate()); ?>
         <div class="form-group">
             <?= Form::label('name', __('admin_name'), ['for' => 'snippetName']) ?>
-            <?= Form::input('name', '', ['class' => 'form-control', 'id' => 'snippetName', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_snippets_error_name_empty_input')]) ?>
+            <?= Form::input('name', '', ['class' => 'form-control', 'id' => 'snippetName', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_error_name_empty_input')]) ?>
         </div>
     </div>
 </div>
