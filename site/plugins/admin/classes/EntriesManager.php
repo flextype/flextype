@@ -97,7 +97,7 @@ class EntriesManager
                 }
 
                 Themes::view('admin/views/templates/content/entries/add')
-                    ->assign('fieldsets', Themes::getFieldsets())
+                    ->assign('fieldsets', Themes::getFieldsets(false))
                     ->assign('entries_list', Entries::getEntries('', 'slug'))
                     ->display();
             break;
