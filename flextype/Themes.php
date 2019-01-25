@@ -172,9 +172,10 @@ class Themes
      * Get Fieldsets for current theme
      *
      * @access public
+     * @param  array $ignore_empty_fieldsets Ignore fieldsets with empty fields, by default is true
      * @return array
      */
-    public static function getFieldsets() : array
+    public static function getFieldsets(bool $ignore_empty_fieldsets = true) : array
     {
         $fieldsets = [];
 
@@ -187,7 +188,13 @@ class Themes
                 if (!is_bool(Themes::_strrevpos($fieldset, '/fieldsets/'))) {
                     $fieldset_name = str_replace('.yaml', '', substr($fieldset, Themes::_strrevpos($fieldset, '/fieldsets/')+strlen('/fieldsets/')));
                     $fieldset = YamlParser::decode(Filesystem::getFileContent($fieldset));
-                    $fieldsets[$fieldset_name] = $fieldset['title'];
+                    if ($ignore_empty_fieldsets) {
+                        $fieldsets[$fieldset_name] = $fieldset['title'];
+                    } else {
+                        if (isset($fieldset['fields']) && count($fieldset['fields']) > 0) {
+                            $fieldsets[$fieldset_name] = $fieldset['title'];
+                        }
+                    }
                 }
             }
         }
