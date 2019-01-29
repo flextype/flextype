@@ -29,8 +29,34 @@ class Snippets
      */
     public static function get(string $snippet_name)
     {
-        $snippet_path = PATH['snippets'] . '/' . $snippet_name . '.php';
+        $vars['get'] = $snippet_name;
 
+        return Snippets::_snippet($vars);
+    }
+
+    /**
+     * _snippet
+     *
+     * Snippets::get('snippet-name');
+     * Snippets::get('snippetname', ['message' => 'Hello World']);
+     *
+     * @access private
+     * @param  array  $vars Vars
+     * @return string|bool Returns the contents of the output buffer and end output buffering.
+     *                     If output buffering isn't active then FALSE is returned.
+     */
+    private static function _snippet(array $vars) {
+
+        // Extracst attributes
+        extract($vars);
+
+        // Get snippet name
+        $name = (isset($get)) ? (string) $get : '';
+
+        // Define snippet path
+        $snippet_path = PATH['snippets'] . '/' . $name . '.php';
+
+        // Process snippet
         if (Filesystem::fileExists($snippet_path)) {
 
             // Turn on output buffering
@@ -42,7 +68,7 @@ class Snippets
             // Output...
             return ob_get_clean();
         } else {
-            throw new \RuntimeException("Snippet {$snippet_name} does not exist.");
+            throw new \RuntimeException("Snippet {$name} does not exist.");
         }
     }
 }
