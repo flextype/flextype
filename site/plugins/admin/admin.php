@@ -56,9 +56,9 @@ if (Admin::isAdminArea()) {
         NavigationManager::addItem('settings', 'infomation', '<i class="fas fa-info"></i>' . __('admin_information', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/information', ['class' => 'nav-link']);
 
         if (Registry::get('settings.locale') == 'ru') {
-            NavigationManager::addItem('help', 'documentation', '<i class="far fa-question-circle"></i>' . __('admin_getting_help', Registry::get('settings.locale')), 'http://flextype.ru/documentation/basics/getting-help', ['class' => 'nav-link', 'target' => '_blank']);
+            NavigationManager::addItem('help', 'documentation', '<i class="far fa-question-circle"></i>' . __('admin_getting_help', Registry::get('settings.locale')), 'http://flextype.org/ru/documentation/guide/basics/getting-help', ['class' => 'nav-link', 'target' => '_blank']);
         } else {
-            NavigationManager::addItem('help', 'documentation', '<i class="far fa-question-circle"></i>' . __('admin_getting_help', Registry::get('settings.locale')), 'http://flextype.org/documentation/basics/getting-help', ['class' => 'nav-link', 'target' => '_blank']);
+            NavigationManager::addItem('help', 'documentation', '<i class="far fa-question-circle"></i>' . __('admin_getting_help', Registry::get('settings.locale')), 'http://flextype.org/en/documentation/guide/basics/getting-help', ['class' => 'nav-link', 'target' => '_blank']);
         }
 
         // Initializes the Notification service.
