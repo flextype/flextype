@@ -15,7 +15,7 @@ Themes::view('admin/views/partials/navbar')
                         ])
     ->assign('buttons', [
                             'plugins_get_more' => [
-                                                'link' => 'http://flextype.org/download/plugins',
+                                                'link' => 'https://github.com/flextype/plugins',
                                                 'title' => __('admin_get_more_plugins'),
                                                 'attributes' => ['class' => 'float-right btn', 'target' => '_blank']
                                             ]
