@@ -71,7 +71,7 @@
       <div class="modal-body">
           <?= Form::label('shortcode', __('admin_shortcode'), ['for' => 'shortcode']) ?>
           <div class="alert alert-dark clipboard" role="alert">
-              <span id="snippet">[snippet name="<span class="js-snippets-snippet-placeholder"></span>"]</span>
+              <span id="snippet">[snippets get="<span class="js-snippets-snippet-placeholder"></span>"]</span>
               <button class="js-clipboard-btn btn" data-clipboard-target="#snippet">
                   <?= __('admin_copy') ?>
               </button>
