@@ -410,6 +410,11 @@ class EntriesManager
                         $form_element = Form::textarea($element, $content, $property['attributes']);
                     break;
 
+                    // Selectbox field
+                    case 'select':
+                        $form_element = Form::select($form_element_name, $property['options'], $form_value, $property['attributes']);
+                    break;
+
                     // Template select field for selecting entry template
                     case 'template_select':
                         $form_element = Form::select($form_element_name, Themes::getTemplates(), $form_value, $property['attributes']);
