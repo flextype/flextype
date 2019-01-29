@@ -120,15 +120,15 @@ class Shortcodes {
         });
 
         // Snippets
-        // Shortcode: [snippet name=snippet-name]
-        Shortcodes::shortcode()->addHandler('snippet', function(ShortcodeInterface $s) {
-            return Snippets::get($s->getParameter('name'));
+        // Shortcode: [snippets get=snippet-name]
+        Shortcodes::shortcode()->addHandler('snippets', function(ShortcodeInterface $s) {
+            return Snippets::get($s->getParameter('get'));
         });
 
         // Images
-        // Shortcode: [image path="home/image.jpg"]
+        // Shortcode: [images path="home/image.jpg"]
         // Result: Display image
-        Shortcodes::shortcode()->addHandler('image', function(ShortcodeInterface $s) {
+        Shortcodes::shortcode()->addHandler('images', function(ShortcodeInterface $s) {
             $params     = [];
             $attributes = [];
 
@@ -171,9 +171,9 @@ class Shortcodes {
         });
 
         // Images
-        // Shortcode: [image_url path="home/image.jpg"]
+        // Shortcode: [images_url path="home/image.jpg"]
         // Result: Display image url
-        Shortcodes::shortcode()->addHandler('image_url', function(ShortcodeInterface $s) {
+        Shortcodes::shortcode()->addHandler('images_url', function(ShortcodeInterface $s) {
             $params = [];
 
             // API
