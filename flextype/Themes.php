@@ -130,8 +130,8 @@ class Themes
         // If there is any template file then go...
         if (count($_partials) > 0) {
             foreach ($_partials as $partial) {
-                if (!is_bool(Themes::_strrevpos($partial, '/partials/'))) {
-                    $partial_name = str_replace('.php', '', substr($partial, Themes::_strrevpos($partial, '/partials/')+strlen('/partials/')));
+                if (!is_bool(Themes::_strrevpos($partial, '/partials' . DIRECTORY_SEPARATOR))) {
+                    $partial_name = str_replace('.php', '', substr($partial, Themes::_strrevpos($partial, '/partials' . DIRECTORY_SEPARATOR)+strlen('/partials' . DIRECTORY_SEPARATOR)));
                     $partials[$partial_name] = $partial_name;
                 }
             }
@@ -157,8 +157,8 @@ class Themes
         // If there is any template file then go...
         if (count($_templates) > 0) {
             foreach ($_templates as $template) {
-                if (!is_bool(Themes::_strrevpos($template, '/templates/'))) {
-                    $template_name = str_replace('.php', '', substr($template, Themes::_strrevpos($template, '/templates/')+strlen('/templates/')));
+                if (!is_bool(Themes::_strrevpos($template, '/templates' . DIRECTORY_SEPARATOR))) {
+                    $template_name = str_replace('.php', '', substr($template, Themes::_strrevpos($template, '/templates' . DIRECTORY_SEPARATOR)+strlen('/templates' . DIRECTORY_SEPARATOR)));
                     $templates[$template_name] = $template_name;
                 }
             }
@@ -172,10 +172,9 @@ class Themes
      * Get Fieldsets for current theme
      *
      * @access public
-     * @param  array $ignore_empty_fieldsets Ignore fieldsets with empty fields, by default is true
      * @return array
      */
-    public static function getFieldsets(bool $ignore_empty_fieldsets = true) : array
+    public static function getFieldsets() : array
     {
         $fieldsets = [];
 
@@ -185,16 +184,10 @@ class Themes
         // If there is any template file then go...
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
-                if (!is_bool(Themes::_strrevpos($fieldset, '/fieldsets/'))) {
-                    $fieldset_name = str_replace('.yaml', '', substr($fieldset, Themes::_strrevpos($fieldset, '/fieldsets/')+strlen('/fieldsets/')));
+                if (!is_bool(Themes::_strrevpos($fieldset, '/fieldsets' . DIRECTORY_SEPARATOR))) {
+                    $fieldset_name = str_replace('.yaml', '', substr($fieldset, Themes::_strrevpos($fieldset, '/fieldsets' . DIRECTORY_SEPARATOR)+strlen('/fieldsets' . DIRECTORY_SEPARATOR)));
                     $fieldset = YamlParser::decode(Filesystem::getFileContent($fieldset));
-                    if ($ignore_empty_fieldsets) {
-                        $fieldsets[$fieldset_name] = $fieldset['title'];
-                    } else {
-                        if (isset($fieldset['fields']) && count($fieldset['fields']) > 0) {
-                            $fieldsets[$fieldset_name] = $fieldset['title'];
-                        }
-                    }
+                    $fieldsets[$fieldset_name] = $fieldset['title'];
                 }
             }
         }
