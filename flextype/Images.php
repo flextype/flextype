@@ -13,7 +13,6 @@
 namespace Flextype;
 
 use Flextype\Component\Http\Http;
-use Flextype\Component\Event\Event;
 use Flextype\Component\Html\Html;
 
 class Images
