@@ -61,12 +61,6 @@ class Themes
      */
     private static function init() : void
     {
-        // Theme Manifest
-        $theme_manifest = [];
-
-        // Theme cache id
-        $theme_cache_id = '';
-
         // Get current theme
         $theme = Registry::get('settings.theme');
 
