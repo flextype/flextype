@@ -86,11 +86,9 @@ class SettingsManager
 
         $cache_driver = ['auto' => 'Auto Detect',
                             'file' => 'File',
-                            'apc' => 'APC',
                             'apcu' => 'APCu',
                             'wincache' => 'WinCache',
                             'xcache' => 'Xcache',
-                            'memcache' => 'Memcache',
                             'memcached' => 'Memcached',
                             'redis' => 'Redis',
                             'sqlite3' => 'SQLite3',

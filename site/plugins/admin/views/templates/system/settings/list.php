@@ -198,16 +198,6 @@ Themes::view('admin/views/partials/content-start')->display();
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <?= Form::label('cache[memcache][server]', __('admin_memcache_server'), ['for' => 'systemSettingsSystemCacheMemcacheServer']) ?>
-            <?= Form::input('cache[memcache][server]', $settings['cache']['memcache']['server'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheMemcacheServer', 'required']) ?>
-        </div>
-        <div class="form-group">
-            <?= Form::label('cache[memcache][port]', __('admin_memcache_port'), ['for' => 'systemSettingsSystemCacheMemcachePort']) ?>
-            <?= Form::input('cache[memcache][port]', $settings['cache']['memcache']['port'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheMemcachePort', 'required']) ?>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
             <?= Form::label('cache[memcached][server]', __('admin_memcached_server'), ['for' => 'systemSettingsSystemCacheMemcachedServer']) ?>
             <?= Form::input('cache[memcached][server]', $settings['cache']['memcached']['server'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheMemcachedServer', 'required']) ?>
         </div>

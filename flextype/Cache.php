@@ -121,8 +121,6 @@ class Cache
         if (!$driver_name || $driver_name == 'auto') {
             if (extension_loaded('apcu')) {
                 $driver_name = 'apcu';
-            } elseif (extension_loaded('apc')) {
-                $driver_name = 'apc';
             } elseif (extension_loaded('wincache')) {
                 $driver_name = 'wincache';
             } elseif (extension_loaded('xcache')) {
@@ -133,11 +131,6 @@ class Cache
         }
 
         switch ($driver_name) {
-            // The ApcCache driver uses the apc_fetch, apc_exists, etc. functions
-            // that come with PHP so no additional setup is required in order to use it.
-            case 'apc':
-               $driver = new DoctrineCache\ApcCache();
-                break;
             // The ApcuCache driver uses the apcu_fetch, apcu_exists, etc. functions
             // that come with PHP so no additional setup is required in order to use it.
             case 'apcu':
@@ -158,16 +151,6 @@ class Cache
             // https://xcache.lighttpd.net
             case 'xcache':
                $driver = new DoctrineCache\XcacheCache();
-                break;
-            // The MemcacheCache drivers stores the cache data in Memcache.
-            case 'memcache':
-                $memcache = new \Memcache();
-                $memcache->connect(
-                    Registry::get('settings.cache.memcache.server', 'localhost'),
-                    Registry::get('settings.cache.memcache.port', 11211)
-                );
-                $driver = new DoctrineCache\MemcacheCache();
-                $driver->setMemcache($memcache);
                 break;
             // The MemcachedCache drivers stores the cache data in Memcached.
             case 'memcached':
