@@ -29,6 +29,8 @@ class Snippets
      */
     public static function get(string $snippet_name)
     {
+        $vars = [];
+        
         $vars['get'] = $snippet_name;
 
         return Snippets::_snippet($vars);
