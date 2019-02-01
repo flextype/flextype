@@ -25,7 +25,7 @@ class PluginsManager
                 Filesystem::write(PATH['plugins'] . '/' . Http::post('plugin') . '/' . 'settings.yaml', YamlParser::encode($plugin_settings));
                 Cache::clear();
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
             }
         }
     }

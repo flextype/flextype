@@ -38,7 +38,7 @@ class TemplatesManager
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
 
@@ -53,7 +53,7 @@ class TemplatesManager
                         Notification::set('success', __('admin_message_template_deleted'));
                         Http::redirect(Http::getBaseUrl() . '/admin/templates');
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
             break;
@@ -74,7 +74,7 @@ class TemplatesManager
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
 
@@ -92,7 +92,7 @@ class TemplatesManager
                         Notification::set('success', __('admin_message_template_duplicated'));
                         Http::redirect(Http::getBaseUrl() . '/admin/templates');
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
             break;
@@ -113,7 +113,7 @@ class TemplatesManager
                             Http::redirect(Http::getBaseUrl() . '/admin/templates/edit?template=' . Http::post('name') . '&type=' . $type);
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
 

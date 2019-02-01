@@ -28,7 +28,7 @@ class UsersManager
             Session::destroy();
             Http::redirect(Http::getBaseUrl() . '/admin');
         } else {
-            die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+            throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
         }
     }
 
@@ -54,7 +54,7 @@ class UsersManager
                     Http::redirect(Http::getBaseUrl() . '/admin/entries');
                 }
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
             }
         }
 
@@ -97,7 +97,7 @@ class UsersManager
                     Notification::set('error', __('admin_message_wrong_username_password'));
                 }
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
             }
         }
 

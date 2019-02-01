@@ -39,7 +39,7 @@ class MenusManager
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
 
@@ -53,7 +53,7 @@ class MenusManager
                         Notification::set('success', __('admin_message_menu_deleted'));
                         Http::redirect(Http::getBaseUrl() . '/admin/menus');
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
             break;
@@ -72,7 +72,7 @@ class MenusManager
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
 
@@ -88,7 +88,7 @@ class MenusManager
                         Notification::set('success', __('admin_message_menu_duplicated'));
                         Http::redirect(Http::getBaseUrl() . '/admin/menus');
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
             break;
@@ -107,7 +107,7 @@ class MenusManager
                             Http::redirect(Http::getBaseUrl() . '/admin/menus/edit?menu=' . Http::post('name'));
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
 

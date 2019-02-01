@@ -45,7 +45,7 @@ class FieldsetsManager
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
 
@@ -59,7 +59,7 @@ class FieldsetsManager
                         Notification::set('success', __('admin_message_fieldset_deleted'));
                         Http::redirect(Http::getBaseUrl() . '/admin/fieldsets');
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
             break;
@@ -78,7 +78,7 @@ class FieldsetsManager
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
 
@@ -94,7 +94,7 @@ class FieldsetsManager
                         Notification::set('success', __('admin_message_fieldset_duplicated'));
                         Http::redirect(Http::getBaseUrl() . '/admin/fieldsets');
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
             break;
@@ -113,7 +113,7 @@ class FieldsetsManager
                             Http::redirect(Http::getBaseUrl() . '/admin/fieldsets/edit?fieldset=' . Http::post('name'));
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
                     }
                 }
 
