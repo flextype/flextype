@@ -87,13 +87,11 @@ class YamlParser {
      * $array = YamlParser::decode($yaml_file_content);
      *
      * @param string $input A string containing YAML
-     * @param int    $flags A bit field of PARSE_* constants to customize the YAML parser behavior
-     *
      * @return mixed The YAML converted to a PHP value
      *
      * @throws ParseException If the YAML is not valid
      */
-    public static function decode(string $input, int $flags = 0)
+    public static function decode(string $input)
     {
         // Try native PECL YAML PHP extension first if available.
         if (YamlParser::$native && function_exists('yaml_parse')) {
