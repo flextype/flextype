@@ -139,7 +139,6 @@ class Admin
         // Route the Uri
         Http::getUriSegment(1) == '' and DashboardManager::getDashboardManager();
         Http::getUriSegment(1) == 'entries' and EntriesManager::getEntriesManager();
-        Http::getUriSegment(1) == 'menus' and MenusManager::getMenusManager();
         Http::getUriSegment(1) == 'fieldsets' and FieldsetsManager::getFieldsetsManager();
         Http::getUriSegment(1) == 'templates' and TemplatesManager::getTemplatesManager();
         Http::getUriSegment(1) == 'snippets' and SnippetsManager::getSnippetsManager();
