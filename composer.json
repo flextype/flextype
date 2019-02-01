@@ -27,7 +27,7 @@
         "flextype-components/debug" : "1.0.0",
         "flextype-components/event" : "1.0.4",
         "flextype-components/errorhandler" : "1.0.5",
-        "flextype-components/filesystem" : "1.1.5",
+        "flextype-components/filesystem" : "2.0.0",
         "flextype-components/form" : "1.0.2",
         "flextype-components/i18n" : "1.2.0",
         "flextype-components/http" : "1.1.1",
