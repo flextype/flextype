@@ -12,7 +12,7 @@ use function Flextype\Component\I18n\__;
                                                             'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name,
                                                             'title'      => __('admin_content'),
                                                             'attributes' => ['class' => 'navbar-item']
-                                                         ],
+                                                            ],
                                 'edit_entry_media'     => [
                                                             'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&media=true',
                                                             'title'      => __('admin_media'),
@@ -22,7 +22,7 @@ use function Flextype\Component\I18n\__;
                                                                 'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&source=true',
                                                                 'title'      => __('admin_source'),
                                                                 'attributes' => ['class' => 'navbar-item']
-                                                             ]
+                                                                ]
                             ])
         ->assign('entry', $entry)
         ->display();
@@ -47,12 +47,12 @@ use function Flextype\Component\I18n\__;
 
 <div class="media-manager">
     <div class="row">
-        <?php foreach($files as $file): ?>
+        <?php foreach ($files as $file): ?>
             <div class="col-sm-2">
                 <div class="item">
                     <a href="javascript:;"
                        <?php $file_ext = substr(strrchr($file, '.'), 1) ?>
-                       <?php if(in_array($file_ext, ['jpeg', 'png', 'gif', 'jpg'])): ?>
+                       <?php if (in_array($file_ext, ['jpeg', 'png', 'gif', 'jpg'])): ?>
                        style="background-image: url('<?= Images::getImageUrl(Http::get('entry') . '/' . basename($file), ['w'=>'200']) ?>')"
                        <?php else: ?>
                        style="background: #000;"
@@ -61,7 +61,7 @@ use function Flextype\Component\I18n\__;
                        data-image-delete-url="<?= Http::getBaseUrl() ?>/admin/entries/edit?entry=<?= Http::get('entry') ?>&delete_file=<?= basename($file) ?>&media=true&token=<?= Token::generate() ?>"
                        data-image-url="<?= Http::getBaseUrl() . '/site/entries/' . Http::get('entry') . '/' . basename($file) ?>">
                        <i class="fas fa-eye"></i>
-                       <?php if(!in_array($file_ext, ['jpeg', 'png', 'gif', 'jpg'])): ?>
+                       <?php if (!in_array($file_ext, ['jpeg', 'png', 'gif', 'jpg'])): ?>
                        <span class="file-ext"><?= $file_ext ?></span>
                        <?php endif ?>
                     </a>

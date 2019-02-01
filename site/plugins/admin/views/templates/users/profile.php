@@ -11,8 +11,8 @@ Themes::view('admin/views/partials/navbar')
                                             'link' => Http::getBaseUrl() . '/admin/profile',
                                             'title' => __('admin_profile'),
                                             'attributes' => ['class' => 'navbar-item active']
-                                         ],
-                      ])
+                                            ],
+                        ])
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
 ?>

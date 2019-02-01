@@ -12,7 +12,7 @@ use function Flextype\Component\I18n\__;
                                                             'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name,
                                                             'title'      => __('admin_content'),
                                                             'attributes' => ['class' => 'navbar-item']
-                                                         ],
+                                                            ],
                                 'edit_entry_media'     => [
                                                             'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&media=true',
                                                             'title'      => __('admin_media'),
@@ -22,7 +22,7 @@ use function Flextype\Component\I18n\__;
                                                                 'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&source=true',
                                                                 'title'      => __('admin_source'),
                                                                 'attributes' => ['class' => 'navbar-item active']
-                                                             ]
+                                                                ]
                             ])
         ->assign('buttons', [
                                 'save_entry' => [

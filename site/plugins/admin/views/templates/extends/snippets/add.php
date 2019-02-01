@@ -16,12 +16,12 @@ Themes::view('admin/views/partials/navbar')
                                         'title' => __('admin_snippets'),
                                         'attributes' => ['class' => 'navbar-item']
                                     ],
-                       'snippets_add' => [
+                        'snippets_add' => [
                                         'link' => Http::getBaseUrl() . '/admin/snippets/add',
                                         'title' => __('admin_create_new_snippet'),
                                         'attributes' => ['class' => 'navbar-item active']
-                                      ]
-                      ])
+                                        ]
+                        ])
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
 ?>

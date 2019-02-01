@@ -10,8 +10,8 @@ Themes::view('admin/views/partials/navbar')
                                             'link' => Http::getBaseUrl() . '/admin/information',
                                             'title' => __('admin_information'),
                                             'attributes' => ['class' => 'navbar-item active']
-                                         ],
-                      ])
+                                            ],
+                        ])
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
 ?>
@@ -26,11 +26,21 @@ Themes::view('admin/views/partials/content-start')->display();
         </tr>
         <tr>
             <td><?= __('admin_debugging'); ?></td>
-            <td><?php if (Registry::get('settings.errors.display')) echo __('admin_on'); else echo __('admin_off'); ?></td>
+            <td><?php if (Registry::get('settings.errors.display')) {
+    echo __('admin_on');
+} else {
+    echo __('admin_off');
+}
+?></td>
         </tr>
         <tr>
             <td><?= __('admin_cache'); ?></td>
-            <td><?php if (Registry::get('settings.cache.enabled')) echo __('admin_on'); else echo __('admin_off'); ?></td>
+            <td><?php if (Registry::get('settings.cache.enabled')) {
+    echo __('admin_on');
+} else {
+    echo __('admin_off');
+}
+?></td>
         </tr>
     </tbody>
 </table>
@@ -59,27 +69,27 @@ Themes::view('admin/views/partials/content-start')->display();
         </tr>
         <?php
             if (function_exists('apache_get_modules')) {
-                if ( ! in_array('mod_rewrite',apache_get_modules())) {
-                    echo '<tr><td>'.'Apache Mod Rewrite'.'</td><td>'.__('admin_not_installed').'</td></tr>';
+                if (!in_array('mod_rewrite', apache_get_modules())) {
+                    echo '<tr><td>' . 'Apache Mod Rewrite' . '</td><td>' . __('admin_not_installed') . '</td></tr>';
                 } else {
-                    echo '<tr><td>'.'Apache Mod Rewrite'.'</td><td>'.__('admin_installed').'</td></tr>';
+                    echo '<tr><td>' . 'Apache Mod Rewrite' . '</td><td>' . __('admin_installed') . '</td></tr>';
                 }
             } else {
-                echo '<tr><td>'.'Apache Mod Rewrite'.'</td><td>'.__('admin_installed').'</td></tr>';
+                echo '<tr><td>' . 'Apache Mod Rewrite' . '</td><td>' . __('admin_installed') . '</td></tr>';
             }
         ?>
         <?php
             if (!function_exists('password_hash')) {
-                echo '<tr><td>'.'password_hash()'.'</td><td>'.__('admin_not_installed').'</td></tr>';
+                echo '<tr><td>' . 'password_hash()' . '</td><td>' . __('admin_not_installed') . '</td></tr>';
             } else {
-                echo '<tr><td>'.'password_hash()'.'</td><td>'.__('admin_installed').'</td></tr>';
+                echo '<tr><td>' . 'password_hash()' . '</td><td>' . __('admin_installed') . '</td></tr>';
             }
         ?>
         <?php
             if (!function_exists('password_verify')) {
-                echo '<tr><td>'.'password_verify()'.'</td><td>'.__('admin_not_installed').'</td></tr>';
+                echo '<tr><td>' . 'password_verify()' . '</td><td>' . __('admin_not_installed') . '</td></tr>';
             } else {
-                echo '<tr><td>'.'password_verify()'.'</td><td>'.__('admin_installed').'</td></tr>';
+                echo '<tr><td>' . 'password_verify()' . '</td><td>' . __('admin_installed') . '</td></tr>';
             }
         ?>
     </tbody>

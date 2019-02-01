@@ -26,10 +26,10 @@ class FrontmatterParser {
      */
     public static function parse(string $content) : array
     {
-       $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL.ltrim($content));
+        $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL.ltrim($content));
 
-       if (count($parts) < 3) return ['matter' => [], 'body' => $content];
+        if (count($parts) < 3) return ['matter' => [], 'body' => $content];
 
-       return ['matter' => trim($parts[1]), 'body' => implode(PHP_EOL.'---'.PHP_EOL, array_slice($parts, 2))];
+        return ['matter' => trim($parts[1]), 'body' => implode(PHP_EOL.'---'.PHP_EOL, array_slice($parts, 2))];
     }
 }

@@ -68,7 +68,7 @@ class EntriesManager
 
                                 if (isset($_frontmatter[$key])) {
                                     $_value = $_frontmatter[$key];
-                                } elseif(isset($field['value'])) {
+                                } elseif (isset($field['value'])) {
                                     $_value = $field['value'];
                                 } else {
                                     $_value = '';
@@ -82,10 +82,10 @@ class EntriesManager
 
                             // Create a entry!
                             if (Filesystem::write(
-                                  $file,
-                                  '---'."\n".
-                                  YamlParser::encode(array_replace_recursive($frontmatter, $_frontmatter)).
-                                  '---'."\n"
+                                    $file,
+                                    '---'."\n".
+                                    YamlParser::encode(array_replace_recursive($frontmatter, $_frontmatter)).
+                                    '---'."\n"
                             )) {
                                 Notification::set('success', __('admin_message_entry_created'));
                                 Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.Http::post('parent_entry'));
@@ -116,10 +116,10 @@ class EntriesManager
                 if (Http::get('entry') != '') {
                     if (Token::check((Http::get('token')))) {
                         Filesystem::copy(PATH['entries'] . '/' . Http::get('entry'),
-                                         PATH['entries'] . '/' . Http::get('entry') . '-duplicate-' . date("Ymd_His"),
-                                         true);
+                                            PATH['entries'] . '/' . Http::get('entry') . '-duplicate-' . date("Ymd_His"),
+                                            true);
                         Notification::set('success', __('admin_message_entry_duplicated'));
-                        Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
+                        Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
@@ -138,7 +138,7 @@ class EntriesManager
                                 PATH['entries'] . '/' . Http::post('entry_parent') . '/' . Text::safeString(Http::post('name'), '-', true)
                             )) {
                                 Notification::set('success', __('admin_message_entry_renamed'));
-                                Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.Http::post('entry_parent'));
+                                Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('entry_parent'));
                             }
                         }
                     } else {
@@ -176,13 +176,13 @@ class EntriesManager
 
                         if (Filesystem::write(
                             PATH['entries'] . '/' . Http::post('entry') . '/entry.html',
-                                                  '---'."\n".
-                                                  $frontmatter."\n".
-                                                  '---'."\n".
-                                                  $content
+                                                    '---'."\n".
+                                                    $frontmatter."\n".
+                                                    '---'."\n".
+                                                    $content
                         )) {
-                              Notification::set('success', __('admin_message_entry_changes_saved'));
-                              Http::redirect(Http::getBaseUrl() . '/admin/entries?entry='.implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
+                                Notification::set('success', __('admin_message_entry_changes_saved'));
+                                Http::redirect(Http::getBaseUrl() . '/admin/entries?entry='.implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
                         }
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
@@ -209,7 +209,7 @@ class EntriesManager
                                 PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Text::safeString(Http::post('name_current'), '-', true)
                             )) {
                                 Notification::set('success', __('admin_message_entry_moved'));
-                                Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.Http::post('parent_entry'));
+                                Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('parent_entry'));
                             }
                         }
                     } else {
@@ -254,10 +254,10 @@ class EntriesManager
                             if (Token::check((Http::post('token')))) {
                                 Filesystem::write(
                                     PATH['entries'] . '/' . Http::post('entry_name') . '/entry.html',
-                                                          Http::post('entry_content')
+                                                            Http::post('entry_content')
                                 );
                                 Notification::set('success', __('admin_message_entry_changes_saved'));
-                                Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::post('entry_name').'&source=true');
+                                Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::post('entry_name') . '&source=true');
                             } else {
                                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                             }
@@ -294,10 +294,10 @@ class EntriesManager
 
                                 Filesystem::write(
                                     PATH['entries'] . '/' . Http::get('entry') . '/entry.html',
-                                                          '---'."\n".
-                                                          $frontmatter."\n".
-                                                          '---'."\n".
-                                                          $content
+                                                            '---'."\n".
+                                                            $frontmatter."\n".
+                                                            '---'."\n".
+                                                            $content
                                 );
                                 Notification::set('success', __('admin_message_entry_changes_saved'));
                                 Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry'));
@@ -336,7 +336,7 @@ class EntriesManager
             if (strpos(Registry::get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($path) {
-                        $files[Http::getBaseUrl().'/'.$entry.'/'.$file] = Http::getBaseUrl().'/'.$entry.'/'.$file;
+                        $files[Http::getBaseUrl() . '/' . $entry . '/' . $file] = Http::getBaseUrl() . '/' . $entry . '/' . $file;
                     } else {
                         $files[$file] = $file;
                     }
@@ -356,23 +356,23 @@ class EntriesManager
             foreach ($form as $element => $property) {
 
                 // Create attributes
-                $property['attributes'] = Arr::keyExists($property, 'attributes') ? $property['attributes'] : [] ;
+                $property['attributes'] = Arr::keyExists($property, 'attributes') ? $property['attributes'] : [];
 
                 // Create attribute class
-                $property['attributes']['class'] = Arr::keyExists($property, 'attributes.class') ? 'form-control ' . $property['attributes']['class'] : 'form-control' ;
+                $property['attributes']['class'] = Arr::keyExists($property, 'attributes.class') ? 'form-control ' . $property['attributes']['class'] : 'form-control';
 
                 // Create attribute size
-                $property['size'] = Arr::keyExists($property, 'size') ? $property['size'] : 'col-12' ;
+                $property['size'] = Arr::keyExists($property, 'size') ? $property['size'] : 'col-12';
 
                 // Create attribute value
-                $property['value'] = Arr::keyExists($property, 'value') ? $property['value'] : '' ;
+                $property['value'] = Arr::keyExists($property, 'value') ? $property['value'] : '';
 
                 $pos = strpos($element, '.');
 
                 if ($pos === false) {
                     $form_element_name = $element;
                 } else {
-                    $form_element_name = str_replace(".", "][", "$element").']';
+                    $form_element_name = str_replace(".", "][", "$element") . ']';
                 }
 
                 $pos = strpos($form_element_name, ']');
@@ -441,7 +441,7 @@ class EntriesManager
                 if ($property['type'] == 'hidden') {
                     echo $form_element;
                 } else {
-                    echo '<div class="form-group '.$property['size'].'">';
+                    echo '<div class="form-group ' . $property['size'] . '">';
                     echo $form_label . $form_element;
                     echo '</div>';
                 }
@@ -459,7 +459,7 @@ class EntriesManager
             if (Token::check((Http::get('token')))) {
                 Filesystem::delete($files_directory . Http::get('delete_file'));
                 Notification::set('success', __('admin_message_entry_file_deleted'));
-                Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry').'&media=true');
+                Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::get('entry') . '&media=true');
             } else {
                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
             }
@@ -471,7 +471,7 @@ class EntriesManager
 
                 $file = EntriesManager::uploadFile($_FILES['file'], $files_directory, Registry::get('settings.entries.media.accept_file_types'), 27000000);
 
-                if($file !== false) {
+                if ($file !== false) {
 
                     if (in_array(pathinfo($file)['extension'], ['jpg', 'jpeg', 'png', 'gif'])) {
 
@@ -480,17 +480,17 @@ class EntriesManager
 
                         // now you are able to resize the instance
                         if (Registry::get('settings.entries.media.upload_images_width') > 0 && Registry::get('settings.entries.media.upload_images_height') > 0) {
-                            $img->resize(Registry::get('settings.entries.media.upload_images_width'), Registry::get('settings.entries.media.upload_images_height'), function ($constraint) {
+                            $img->resize(Registry::get('settings.entries.media.upload_images_width'), Registry::get('settings.entries.media.upload_images_height'), function($constraint) {
                                 $constraint->aspectRatio();
                                 $constraint->upsize();
                             });
                         } elseif (Registry::get('settings.entries.media.upload_images_width') > 0) {
-                            $img->resize(Registry::get('settings.entries.media.upload_images_width'), null, function ($constraint) {
+                            $img->resize(Registry::get('settings.entries.media.upload_images_width'), null, function($constraint) {
                                 $constraint->aspectRatio();
                                 $constraint->upsize();
                             });
                         } elseif (Registry::get('settings.entries.media.upload_images_height') > 0) {
-                            $img->resize(null, Registry::get('settings.entries.media.upload_images_height'), function ($constraint) {
+                            $img->resize(null, Registry::get('settings.entries.media.upload_images_height'), function($constraint) {
                                 $constraint->aspectRatio();
                                 $constraint->upsize();
                             });
@@ -504,10 +504,10 @@ class EntriesManager
                     }
 
                     Notification::set('success', __('admin_message_entry_file_uploaded'));
-                    Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry').'&media=true');
+                    Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::get('entry') . '&media=true');
                 } else {
                     Notification::set('error', __('admin_message_entry_file_not_uploaded'));
-                    Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry').'&media=true');
+                    Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::get('entry') . '&media=true');
                 }
 
             } else {
@@ -536,15 +536,15 @@ class EntriesManager
      */
     public static function uploadFile(
         array $file,
-                                      string $upload_directory,
-                                      string $allowed = 'jpeg, png, gif, jpg',
-                                      int $max_size = 3000000,
-                                      string $filename = null,
-                                      bool $remove_spaces = true,
-                                      int $max_width = null,
-                                      int $max_height = null,
-                                      bool $exact = false,
-                                      int $chmod = 0644
+                                        string $upload_directory,
+                                        string $allowed = 'jpeg, png, gif, jpg',
+                                        int $max_size = 3000000,
+                                        string $filename = null,
+                                        bool $remove_spaces = true,
+                                        int $max_width = null,
+                                        int $max_height = null,
+                                        bool $exact = false,
+                                        int $chmod = 0644
     ) {
         //
         // Tests if a successful upload has been made.
@@ -578,7 +578,7 @@ class EntriesManager
                         //
                         // Validation rule to test if an upload is an image and, optionally, is the correct size.
                         //
-                        if (in_array(mime_content_type($file['tmp_name']), ['image/jpeg', 'image/jpg', 'image/png','image/gif'])) {
+                        if (in_array(mime_content_type($file['tmp_name']), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
                             function validateImage($file, $max_width, $max_height, $exact)
                             {
                                 try {
@@ -593,12 +593,12 @@ class EntriesManager
                                     return false;
                                 }
 
-                                if (! $max_width) {
+                                if (!$max_width) {
                                     // No limit, use the image width
                                     $max_width = $width;
                                 }
 
-                                if (! $max_height) {
+                                if (!$max_height) {
                                     // No limit, use the image height
                                     $max_height = $height;
                                 }
@@ -619,7 +619,7 @@ class EntriesManager
                             }
                         }
 
-                        if (! isset($file['tmp_name']) or ! is_uploaded_file($file['tmp_name'])) {
+                        if (!isset($file['tmp_name']) or !is_uploaded_file($file['tmp_name'])) {
 
                             // Ignore corrupted uploads
                             return false;
@@ -637,12 +637,12 @@ class EntriesManager
                             $filename = Text::safeString(pathinfo($filename)['filename'], '-', true) . '.' . pathinfo($filename)['extension'];
                         }
 
-                        if (! is_dir($upload_directory) or ! is_writable(realpath($upload_directory))) {
+                        if (!is_dir($upload_directory) or !is_writable(realpath($upload_directory))) {
                             throw new \RuntimeException("Directory {$upload_directory} must be writable");
                         }
 
                         // Make the filename into a complete path
-                        $filename = realpath($upload_directory).DIRECTORY_SEPARATOR.$filename;
+                        $filename = realpath($upload_directory) . DIRECTORY_SEPARATOR . $filename;
 
                         if (move_uploaded_file($file['tmp_name'], $filename)) {
 

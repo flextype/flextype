@@ -158,7 +158,7 @@ class Entries
         if ($url === '') {
             $file_path = PATH['entries'] . '/' . Registry::get('settings.entries.main') . '/entry.html';
         } else {
-            $file_path = PATH['entries'] . '/'  . $url . '/entry.html';
+            $file_path = PATH['entries'] . '/' . $url . '/entry.html';
         }
 
         // If entry exist
@@ -399,7 +399,7 @@ class Entries
      */
     private static function displayCurrentEntry() : void
     {
-        Http::setRequestHeaders('Content-Type: text/html; charset='.Registry::get('settings.charset'));
+        Http::setRequestHeaders('Content-Type: text/html; charset=' . Registry::get('settings.charset'));
         Themes::view(empty(Entries::$entry['template']) ? 'templates/default' : 'templates/' . Entries::$entry['template'])
             ->assign('entry', Entries::$entry, true)
             ->display();

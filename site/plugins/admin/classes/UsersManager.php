@@ -26,7 +26,7 @@ class UsersManager
     {
         if (Token::check((Http::get('token')))) {
             Session::destroy();
-            Http::redirect(Http::getBaseUrl().'/admin');
+            Http::redirect(Http::getBaseUrl() . '/admin');
         } else {
             die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
         }
@@ -51,7 +51,7 @@ class UsersManager
                                                 'state' => 'enabled'])
                         );
 
-                    Http::redirect(Http::getBaseUrl().'/admin/entries');
+                    Http::redirect(Http::getBaseUrl() . '/admin/entries');
                 }
             } else {
                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
@@ -89,7 +89,7 @@ class UsersManager
                     if (password_verify(trim(Http::post('password')), $user_file['hashed_password'])) {
                         Session::set('username', $user_file['username']);
                         Session::set('role', $user_file['role']);
-                        Http::redirect(Http::getBaseUrl().'/admin/entries');
+                        Http::redirect(Http::getBaseUrl() . '/admin/entries');
                     } else {
                         Notification::set('error', __('admin_message_wrong_username_password'));
                     }

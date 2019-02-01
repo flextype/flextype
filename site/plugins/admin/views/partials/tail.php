@@ -10,7 +10,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 <?php endif ?>
 
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/admin-build.min.js', 'admin', 1); ?>
-<?php if ($locale_lower != 'en') Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/'.$locale_lower.'.min.js', 'admin', 10); ?>
+<?php if ($locale_lower != 'en') Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/' . $locale_lower . '.min.js', 'admin', 10); ?>
 <?php foreach (Assets::get('js', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
     <script type="text/javascript" src="<?php echo $assets['asset']; ?>"></script>
 <?php } } ?>
@@ -140,7 +140,8 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             <?php if (Http::get('fieldset') || Http::get('menu')): ?>
             indentUnit: 2,
             tabSize: 2,
-            <?php else: ?>
+            <?php else {
+    : ?>
             tabSize: 4,
             indentUnit: 4,
             <?php endif ?>
@@ -182,4 +183,6 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
     });
 </script>
 
-<?php Event::dispatch('onAdminThemeFooter'); ?>
+<?php Event::dispatch('onAdminThemeFooter');
+}
+?>

@@ -18,7 +18,7 @@ use function Flextype\Component\I18n\__;
                                                     'title' => __('admin_type'),
                                                     'attributes' => ['class' => 'navbar-item active']
                                                 ]
-                         ])
+                            ])
         ->assign('entry', Http::get('entry'))
         ->display();
     Themes::view('admin/views/partials/content-start')->display();

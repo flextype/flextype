@@ -3,19 +3,19 @@
 <?php use function Flextype\Component\I18n\__; ?>
 <?php Themes::view('admin/views/partials/head')->display() ?>
 <?php Themes::view('admin/views/partials/navbar')
-    ->assign('links',   [
+    ->assign('links', [
                             'fieldsets' => [
                                             'link' => Http::getBaseUrl() . '/admin/fieldsets',
                                             'title' => __('admin_fieldsets'),
                                             'attributes' => ['class' => 'navbar-item active']
-                                       ]
+                                        ]
                         ])
     ->assign('buttons', [
                             'entries' => [
                                             'link' => Http::getBaseUrl() . '/admin/fieldsets/add',
                                             'title' => __('admin_create_new_fieldset'),
                                             'attributes' => ['class' => 'float-right btn']
-                                       ]
+                                        ]
                         ])
     ->display()
 ?>

@@ -5,23 +5,23 @@ use function Flextype\Component\I18n\__;
 
 Themes::view('admin/views/partials/head')->display();
 Themes::view('admin/views/partials/navbar')
-    ->assign('links',   [
+    ->assign('links', [
                             'settings' => [
                                                 'link' => Http::getBaseUrl() . '/admin/settings',
                                                 'title' => __('admin_settings'),
                                                 'attributes' => ['class' => 'navbar-item active']
-                                          ]
+                                            ]
                         ])
     ->assign('buttons', [
-                              'save' => [
-                                                  'link'       => 'javascript:;',
-                                                  'title'      => __('admin_save'),
-                                                  'attributes' => ['class' => 'js-save-form-submit float-right btn']
-                                              ],
-                              'settings_clear_cache' => [
-                                                  'link' => Http::getBaseUrl() . '/admin/settings?clear_cache=1&token='.Token::generate(),
-                                                  'title' => __('admin_clear_cache'),
-                                                  'attributes' => ['class' => 'float-right btn']
+                                'save' => [
+                                                    'link'       => 'javascript:;',
+                                                    'title'      => __('admin_save'),
+                                                    'attributes' => ['class' => 'js-save-form-submit float-right btn']
+                                                ],
+                                'settings_clear_cache' => [
+                                                    'link' => Http::getBaseUrl() . '/admin/settings?clear_cache=1&token='.Token::generate(),
+                                                    'title' => __('admin_clear_cache'),
+                                                    'attributes' => ['class' => 'float-right btn']
                                             ]
                         ])
     ->display();
@@ -115,7 +115,7 @@ Themes::view('admin/views/partials/content-start')->display();
         </div>
         <div class="form-group">
             <?= Form::label('entries[media][accept_file_types]', __('admin_accept_file_types'), ['for' => 'systemSettingsSystemTheme']) ?>
-            <?= Form::input('entries[media][accept_file_types]', $settings['entries']['media']['accept_file_types'] , ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required']) ?>
+            <?= Form::input('entries[media][accept_file_types]', $settings['entries']['media']['accept_file_types'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required']) ?>
         </div>
     </div>
     <div class="col-md-6">

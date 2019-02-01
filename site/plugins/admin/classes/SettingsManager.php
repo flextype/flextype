@@ -28,7 +28,7 @@ class SettingsManager
             if (Token::check((Http::get('token')))) {
                 Cache::clear();
                 Notification::set('success', __('admin_message_cache_files_deleted'));
-                Http::redirect(Http::getBaseUrl().'/admin/settings');
+                Http::redirect(Http::getBaseUrl() . '/admin/settings');
             } else {
                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
             }
@@ -52,7 +52,7 @@ class SettingsManager
 
                 if (Filesystem::write(PATH['config']['site'] . '/settings.yaml', YamlParser::encode(array_merge(Registry::get('settings'), $settings)))) {
                     Notification::set('success', __('admin_message_settings_saved'));
-                    Http::redirect(Http::getBaseUrl().'/admin/settings');
+                    Http::redirect(Http::getBaseUrl() . '/admin/settings');
                 }
             } else {
                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
@@ -85,17 +85,17 @@ class SettingsManager
         }
 
         $cache_driver = ['auto' => 'Auto Detect',
-                         'file' => 'File',
-                         'apc' => 'APC',
-                         'apcu' => 'APCu',
-                         'wincache' => 'WinCache',
-                         'xcache' => 'Xcache',
-                         'memcache' => 'Memcache',
-                         'memcached' => 'Memcached',
-                         'redis' => 'Redis',
-                         'sqlite3' => 'SQLite3',
-                         'zend' => 'Zend',
-                         'array' => 'Array'];
+                            'file' => 'File',
+                            'apc' => 'APC',
+                            'apcu' => 'APCu',
+                            'wincache' => 'WinCache',
+                            'xcache' => 'Xcache',
+                            'memcache' => 'Memcache',
+                            'memcached' => 'Memcached',
+                            'redis' => 'Redis',
+                            'sqlite3' => 'SQLite3',
+                            'zend' => 'Zend',
+                            'array' => 'Array'];
 
         Themes::view('admin/views/templates/system/settings/list')
                 ->assign('settings', Registry::get('settings'))

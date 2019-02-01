@@ -16,22 +16,22 @@ use Flextype\Navigation;
         </div>
           <ul class="nav">
             <?php $active_menu_item = Registry::exists('sidebar_menu_item') ? Registry::get('sidebar_menu_item') : ''; ?>
-            <?php foreach(NavigationManager::getItems('content') as $item): ?>
+            <?php foreach (NavigationManager::getItems('content') as $item): ?>
                 <li class="nav-item <?= ($item['item'] == $active_menu_item) ? 'active' : '' ?>">
                     <?= Html::anchor($item['title'], $item['link'], $item['attributes']) ?>
                 </li>
             <?php endforeach ?>
-            <?php foreach(NavigationManager::getItems('extends') as $item): ?>
+            <?php foreach (NavigationManager::getItems('extends') as $item): ?>
                 <li class="nav-item <?= ($item['item'] == $active_menu_item) ? 'active' : '' ?>">
                     <?= Html::anchor($item['title'], $item['link'], $item['attributes']) ?>
                 </li>
             <?php endforeach ?>
-            <?php foreach(NavigationManager::getItems('settings') as $item): ?>
+            <?php foreach (NavigationManager::getItems('settings') as $item): ?>
                 <li class="nav-item <?= ($item['item'] == $active_menu_item) ? 'active' : '' ?>">
                     <?= Html::anchor($item['title'], $item['link'], $item['attributes']) ?>
                 </li>
             <?php endforeach ?>
-            <?php foreach(NavigationManager::getItems('help') as $item): ?>
+            <?php foreach (NavigationManager::getItems('help') as $item): ?>
                 <li class="nav-item <?= ($item['item'] == $active_menu_item) ? 'active' : '' ?>">
                     <?= Html::anchor($item['title'], $item['link'], $item['attributes']) ?>
                 </li>

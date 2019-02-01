@@ -31,8 +31,8 @@ class SnippetsManager
                         if (!Filesystem::has($file)) {
                             // Create a snippet!
                             if (Filesystem::write(
-                                  $file,
-                                  ""
+                                    $file,
+                                    ""
                             )) {
                                 Notification::set('success', __('admin_message_snippet_created'));
                                 Http::redirect(Http::getBaseUrl() . '/admin/snippets');
@@ -84,9 +84,9 @@ class SnippetsManager
                 if (Http::get('snippet') != '') {
                     if (Token::check((Http::get('token')))) {
                         Filesystem::copy(PATH['snippets'] . '/' . Http::get('snippet') . '.php',
-                                         PATH['snippets'] . '/' . Http::get('snippet') . '-duplicate-' . date("Ymd_His") . '.php');
+                                            PATH['snippets'] . '/' . Http::get('snippet') . '-duplicate-' . date("Ymd_His") . '.php');
                         Notification::set('success', __('admin_message_snippet_duplicated'));
-                        Http::redirect(Http::getBaseUrl().'/admin/snippets');
+                        Http::redirect(Http::getBaseUrl() . '/admin/snippets');
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
@@ -100,11 +100,11 @@ class SnippetsManager
 
                         // Save a snippet!
                         if (Filesystem::write(
-                              PATH['snippets'] . '/' . Http::post('name') . '.php',
-                              Http::post('snippet')
+                                PATH['snippets'] . '/' . Http::post('name') . '.php',
+                                Http::post('snippet')
                         )) {
                             Notification::set('success', __('admin_message_snippet_saved'));
-                            Http::redirect(Http::getBaseUrl() . '/admin/snippets/edit?snippet='.Http::post('name'));
+                            Http::redirect(Http::getBaseUrl() . '/admin/snippets/edit?snippet=' . Http::post('name'));
                         }
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');

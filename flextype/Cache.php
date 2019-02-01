@@ -137,28 +137,28 @@ class Cache
             // that come with PHP so no additional setup is required in order to use it.
             case 'apc':
                $driver = new DoctrineCache\ApcCache();
-               break;
+                break;
             // The ApcuCache driver uses the apcu_fetch, apcu_exists, etc. functions
             // that come with PHP so no additional setup is required in order to use it.
             case 'apcu':
                $driver = new DoctrineCache\ApcuCache();
-               break;
+                break;
             // The ArrayCache driver stores the cache data in PHPs memory and is not persisted anywhere.
             // This can be useful for caching things in memory for a single process when you don't need the cache to be persistent across processes.
             case 'array':
               $driver = new DoctrineCache\ArrayCache();
-              break;
+                break;
             // The WinCacheCache driver uses the wincache_ucache_get, wincache_ucache_exists, etc. functions
             // that come with the wincache extension
             // http://php.net/manual/en/book.wincache.php
             case 'wincache':
                $driver = new DoctrineCache\WinCacheCache();
-               break;
+                break;
             // The XcacheCache driver uses functions that come with the xcache extension
             // https://xcache.lighttpd.net
             case 'xcache':
                $driver = new DoctrineCache\XcacheCache();
-               break;
+                break;
             // The MemcacheCache drivers stores the cache data in Memcache.
             case 'memcache':
                 $memcache = new \Memcache();
@@ -326,7 +326,7 @@ class Cache
             return;
         }
 
-        $interval = $future - Cache::$now;
+        $interval = $future-Cache::$now;
 
         if ($interval > 0 && $interval < Cache::getLifetime()) {
             Cache::$lifetime = $interval;

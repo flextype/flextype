@@ -28,7 +28,7 @@ define('PATH', ['site'     => ROOT_DIR . '/site',
                 'config'   => [
                                 'default' => ROOT_DIR . '/flextype/config',
                                 'site'    => ROOT_DIR . '/site/config'
-                              ],
+                                ],
                 'cache'    => ROOT_DIR . '/site/cache']);
 
 // Define the path to the logs directory (without trailing slash).
