@@ -12,7 +12,7 @@ Themes::view('admin/views/partials/head')->display();
 Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                         'template' => [
-                                        'link' => Http::getBaseUrl() . '/admin/templates/edit?template=' . Http::get('template') . '&type='.$type,
+                                        'link' => Http::getBaseUrl() . '/admin/templates/edit?template=' . Http::get('template') . '&type=' . $type,
                                         'title' => __('admin_template'),
                                         'attributes' => ['class' => 'navbar-item active']
                                         ]

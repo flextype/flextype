@@ -19,7 +19,7 @@ Themes::view('admin/views/partials/navbar')
                                                     'attributes' => ['class' => 'js-save-form-submit float-right btn']
                                                 ],
                                 'settings_clear_cache' => [
-                                                    'link' => Http::getBaseUrl() . '/admin/settings?clear_cache=1&token='.Token::generate(),
+                                                    'link' => Http::getBaseUrl() . '/admin/settings?clear_cache=1&token=' . Token::generate(),
                                                     'title' => __('admin_clear_cache'),
                                                     'attributes' => ['class' => 'float-right btn']
                                             ]

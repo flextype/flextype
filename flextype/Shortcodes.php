@@ -164,8 +164,8 @@ class Shortcodes {
             ($s->getParameter('width')) and $attributes['width']  = $s->getParameter('width');
             ($s->getParameter('height')) and $attributes['height'] = $s->getParameter('height');
             ($s->getParameter('class')) and $attributes['class']  = $s->getParameter('class');
-            ($s->getParameter('id')) and $attributes['id']     = $s->getParameter('id');
-            ($s->getParameter('alt')) and $attributes['alt']    = $s->getParameter('alt');
+            ($s->getParameter('id')) and $attributes['id'] = $s->getParameter('id');
+            ($s->getParameter('alt')) and $attributes['alt'] = $s->getParameter('alt');
 
             return Images::getImage($s->getParameter('path'), $params, $attributes);
         });
