@@ -123,8 +123,6 @@ class Cache
                 $driver_name = 'apcu';
             } elseif (extension_loaded('wincache')) {
                 $driver_name = 'wincache';
-            } elseif (extension_loaded('xcache')) {
-                $driver_name = 'xcache';
             } else {
                 $driver_name = 'file';
             }
@@ -146,11 +144,6 @@ class Cache
             // http://php.net/manual/en/book.wincache.php
             case 'wincache':
                $driver = new DoctrineCache\WinCacheCache();
-                break;
-            // The XcacheCache driver uses functions that come with the xcache extension
-            // https://xcache.lighttpd.net
-            case 'xcache':
-               $driver = new DoctrineCache\XcacheCache();
                 break;
             // The MemcachedCache drivers stores the cache data in Memcached.
             case 'memcached':

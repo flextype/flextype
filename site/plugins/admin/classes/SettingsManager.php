@@ -88,7 +88,6 @@ class SettingsManager
                             'file' => 'File',
                             'apcu' => 'APCu',
                             'wincache' => 'WinCache',
-                            'xcache' => 'Xcache',
                             'memcached' => 'Memcached',
                             'redis' => 'Redis',
                             'sqlite3' => 'SQLite3',
