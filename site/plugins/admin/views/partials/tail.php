@@ -12,7 +12,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/admin-build.min.js', 'admin', 1) ?>
 
 <?php if (Registry::get("settings.locale") != 'en'): ?>
-    <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/'.Registry::get("settings.locale").'.min.js', 'admin', 10) ?>
+    <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/' . Registry::get("settings.locale") . '.min.js', 'admin', 10) ?>
 <?php endif ?>
 
 <?php foreach (Assets::get('js', 'admin') as $assets_by_priorities): ?>
