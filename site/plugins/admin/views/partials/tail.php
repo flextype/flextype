@@ -5,21 +5,22 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
 <?php if (Registry::get("settings.locale") == 'en_US'): ?>
     <?php $locale_lower = 'en' ?>
-<?php else {
-    : ?>
+<?php else: ?>
     <?php $locale_lower = strtolower(Registry::get("settings.locale")) ?>
 <?php endif ?>
 
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/admin-build.min.js', 'admin', 1);
-}
-?>
-<?php if ($locale_lower != 'en') {
-    Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/' . $locale_lower . '.min.js', 'admin', 10);
-}
-?>
-<?php foreach (Assets::get('js', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
-    <script type="text/javascript" src="<?php echo $assets['asset']; ?>"></script>
-<?php } } ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/admin-build.min.js', 'admin', 1) ?>
+
+<?php if (Registry::get("settings.locale") != 'en'): ?>
+    <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/'.Registry::get("settings.locale").'.min.js', 'admin', 10) ?>
+<?php endif ?>
+
+<?php foreach (Assets::get('js', 'admin') as $assets_by_priorities): ?>
+    <?php foreach ($assets_by_priorities as $assets): ?>
+        <script type="text/javascript" src="<?php echo $assets['asset']; ?>"></script>
+    <?php endforeach ?>
+<?php endforeach ?>
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
 
 <script>
@@ -32,9 +33,9 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
         theme: 'flat'
     }
 
-    <?php if (Notification::get('success')): ?> Messenger().post({ type: "success", message : "<?php echo Notification::get('success'); ?>", hideAfter: '3' }); <?php endif ?>
-    <?php if (Notification::get('warning')): ?> Messenger().post({ type: "warning", message : "<?php echo Notification::get('warning'); ?>", hideAfter: '3' }); <?php endif ?>
-    <?php if (Notification::get('error')):   ?> Messenger().post({ type: "error", message : "<?php echo Notification::get('error'); ?>", hideAfter: '3' });     <?php endif ?>
+    <?php if (Notification::get('success')): ?> Messenger().post({ type: "success", message : "<?= Notification::get('success') ?>", hideAfter: '3' }); <?php endif ?>
+    <?php if (Notification::get('warning')): ?> Messenger().post({ type: "warning", message : "<?= Notification::get('warning') ?>", hideAfter: '3' }); <?php endif ?>
+    <?php if (Notification::get('error')):   ?> Messenger().post({ type: "error", message : "<?= Notification::get('error') ?>", hideAfter: '3' });     <?php endif ?>
 
     if (typeof $.flextype == 'undefined') $.flextype = {};
 
@@ -146,15 +147,13 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             <?php if (Http::get('fieldset') || Http::get('menu')): ?>
             indentUnit: 2,
             tabSize: 2,
-            <?php else {
-    : ?>
+            <?php else: ?>
             tabSize: 4,
             indentUnit: 4,
             <?php endif ?>
             <?php if (Http::get('fieldset') || Http::get('menu')): ?>
             mode: "yaml",
-            <?php else {
-    : ?>
+            <?php else: ?>
             mode: "application/x-httpd-php",
             <?php endif ?>
             indentWithTabs: false,
@@ -190,7 +189,4 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
     });
 </script>
 
-<?php Event::dispatch('onAdminThemeFooter');
-}
-}
-?>
+<?php Event::dispatch('onAdminThemeFooter') ?>
