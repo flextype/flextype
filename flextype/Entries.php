@@ -335,6 +335,9 @@ class Entries
      */
     public static function processEntry(string $file_path, bool $raw = false, bool $ignore_content = false)
     {
+        // Init Entry
+        $entry = '';
+
         // Get entry from file
         if ($entry_content = Filesystem::read($file_path)) {
             $entry = $entry_content;
