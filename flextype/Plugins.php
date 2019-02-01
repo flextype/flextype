@@ -229,7 +229,6 @@ class Plugins
     private static function init() : void
     {
         // Plugin cache id
-        $plugins_cache_id = '';
         $_plugins_cache_id = '';
 
         // Set empty plugins item
