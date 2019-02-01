@@ -38,7 +38,6 @@ if (Admin::isAdminArea()) {
 
         // Add navigation links
         NavigationManager::addItem('content', 'entries', '<i class="far fa-newspaper"></i>' . __('admin_entries', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/entries', ['class' => 'nav-link']);
-        NavigationManager::addItem('extends', 'menus', '<i class="fab fa-elementor"></i>' . __('admin_menus', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/menus', ['class' => 'nav-link']);
         NavigationManager::addItem('extends', 'fieldsets', '<i class="fas fa-list"></i>' . __('admin_fieldsets', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/fieldsets', ['class' => 'nav-link']);
         NavigationManager::addItem('extends', 'templates', '<i class="fas fa-layer-group"></i>' . __('admin_templates', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/templates', ['class' => 'nav-link']);
         NavigationManager::addItem('extends', 'snippets', '<i class="far fa-file-code"></i>' . __('admin_snippets', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/snippets', ['class' => 'nav-link']);
