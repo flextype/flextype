@@ -16,12 +16,12 @@ Themes::view('admin/views/partials/navbar')
                                         'title' => __('admin_entries'),
                                         'attributes' => ['class' => 'navbar-item']
                                     ],
-                       'entries_add' => [
+                        'entries_add' => [
                                         'link' => Http::getBaseUrl() . '/admin/entries/add?entry='.Http::get('entry'),
                                         'title' => __('admin_create_new_entry'),
                                         'attributes' => ['class' => 'navbar-item active']
-                                      ]
-                      ])
+                                        ]
+                        ])
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
 ?>

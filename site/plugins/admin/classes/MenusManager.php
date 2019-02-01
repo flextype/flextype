@@ -31,8 +31,8 @@ class MenusManager
                         if (!Filesystem::has($file)) {
                             // Create a menu!
                             if (Filesystem::write(
-                                  $file,
-                                  YamlParser::encode(['title' => Http::post('title')])
+                                    $file,
+                                    YamlParser::encode(['title' => Http::post('title')])
                             )) {
                                 Notification::set('success', __('admin_message_menu_created'));
                                 Http::redirect(Http::getBaseUrl() . '/admin/menus');
@@ -84,9 +84,9 @@ class MenusManager
                 if (Http::get('menu') != '') {
                     if (Token::check((Http::get('token')))) {
                         Filesystem::copy(PATH['menus'] . '/' . Http::get('menu') . '.yaml',
-                                         PATH['menus'] . '/' . Http::get('menu') . '-duplicate-' . date("Ymd_His") . '.yaml');
+                                            PATH['menus'] . '/' . Http::get('menu') . '-duplicate-' . date("Ymd_His") . '.yaml');
                         Notification::set('success', __('admin_message_menu_duplicated'));
-                        Http::redirect(Http::getBaseUrl().'/admin/menus');
+                        Http::redirect(Http::getBaseUrl() . '/admin/menus');
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
@@ -100,8 +100,8 @@ class MenusManager
 
                         // Save a menu!
                         if (Filesystem::write(
-                              PATH['menus'] . '/' . Http::post('name') . '.yaml',
-                              Http::post('menu')
+                                PATH['menus'] . '/' . Http::post('name') . '.yaml',
+                                Http::post('menu')
                         )) {
                             Notification::set('success', __('admin_message_menu_saved'));
                             Http::redirect(Http::getBaseUrl() . '/admin/menus/edit?menu=' . Http::post('name'));
@@ -122,10 +122,10 @@ class MenusManager
                 $menus = Filesystem::getFilesList(PATH['menus'], 'yaml');
 
                 if (count($menus) > 0) {
-                     foreach ($menus as $menu) {
-                         $menus_list[basename($menu, '.yaml')] = YamlParser::decode(Filesystem::read($menu));
-                     }
-                 }
+                        foreach ($menus as $menu) {
+                            $menus_list[basename($menu, '.yaml')] = YamlParser::decode(Filesystem::read($menu));
+                        }
+                    }
 
                 Themes::view('admin/views/templates/extends/menus/list')
                 ->assign('menus_list', $menus_list)

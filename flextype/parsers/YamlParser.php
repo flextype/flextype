@@ -74,7 +74,7 @@ class YamlParser {
                 $input,
                 $inline ? $inline : YamlParser::$inline,
                 $indent ? $indent : YamlParser::$indent,
-                $flags  ? $flags  : YamlParser::$flag
+                $flags ? $flags : YamlParser::$flag
             );
         } catch (DumpException $e) {
             throw new \RuntimeException('Encoding YAML failed: ' . $e->getMessage(), 0, $e);

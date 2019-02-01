@@ -149,7 +149,7 @@ class Flextype
 
         // Set settings files path
         $default_settings_file_path = PATH['config']['default'] . '/settings.yaml';
-        $site_settings_file_path    = PATH['config']['site']    . '/settings.yaml';
+        $site_settings_file_path    = PATH['config']['site'] . '/settings.yaml';
 
         // Set settings if Flextype settings and Site settings config files exist
         if (Filesystem::has($default_settings_file_path) && Filesystem::has($site_settings_file_path)) {

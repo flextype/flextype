@@ -11,19 +11,19 @@ use function Flextype\Component\I18n\__;
 Themes::view('admin/views/partials/head')->display();
 Themes::view('admin/views/partials/navbar')
     ->assign('links', [
-                       'snippet' => [
+                        'snippet' => [
                                         'link' => Http::getBaseUrl() . '/admin/snippets/edit?snippet=' . Http::get('snippet'),
                                         'title' => __('admin_snippet'),
                                         'attributes' => ['class' => 'navbar-item active']
-                                      ]
-                      ])
-  ->assign('buttons', [
-                          'save_entry' => [
-                                              'link'       => 'javascript:;',
-                                              'title'      => __('admin_save'),
-                                              'attributes' => ['class' => 'js-save-form-submit float-right btn']
-                                          ]
-                      ])
+                                        ]
+                        ])
+    ->assign('buttons', [
+                            'save_entry' => [
+                                                'link'       => 'javascript:;',
+                                                'title'      => __('admin_save'),
+                                                'attributes' => ['class' => 'js-save-form-submit float-right btn']
+                                            ]
+                        ])
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
 ?>

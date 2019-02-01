@@ -53,7 +53,7 @@ use function Flextype\Component\I18n\__;
     </style>
 	<?php Event::dispatch('onAdminThemeHeader') ?>
   </head>
-  <body <?php if(Http::get('preview') && Http::get('preview') == 'true'): ?> class="content-full-size" <?php endif ?>>
+  <body <?php if (Http::get('preview') && Http::get('preview') == 'true'): ?> class="content-full-size" <?php endif ?>>
       <div class="wrapper">
         <?php UsersManager::isLoggedIn() and Themes::view('admin/views/partials/sidebar')->display() ?>
         <div class="main-panel <?php if (isset($main_panel_class)) { echo $main_panel_class; }?>">

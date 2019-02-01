@@ -15,7 +15,7 @@ Themes::view('admin/views/partials/navbar')
                                                         'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name,
                                                         'title'      => __('admin_content'),
                                                         'attributes' => ['class' => 'navbar-item active']
-                                                     ],
+                                                        ],
                             'edit_entry_media'     => [
                                                         'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&media=true',
                                                         'title'      => __('admin_media'),
@@ -25,7 +25,7 @@ Themes::view('admin/views/partials/navbar')
                                                             'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&source=true',
                                                             'title'      => __('admin_source'),
                                                             'attributes' => ['class' => 'navbar-item']
-                                                         ]
+                                                            ]
                         ])
     ->assign('buttons', [
                             'save_entry' => [

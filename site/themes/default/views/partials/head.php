@@ -18,8 +18,8 @@
 
     <?php Assets::add('css', Http::getBaseUrl() . '/site/themes/' . Registry::get('settings.theme') . '/assets/dist/css/bootstrap.min.css', 'site', 1) ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/themes/' . Registry::get('settings.theme') . '/assets/dist/css/default.min.css', 'site', 2) ?>
-    <?php foreach(Assets::get('css', 'site') as $assets_by_priorities): ?>
-        <?php foreach($assets_by_priorities as $assets): ?>
+    <?php foreach (Assets::get('css', 'site') as $assets_by_priorities): ?>
+        <?php foreach ($assets_by_priorities as $assets): ?>
             <link href="<?= $assets['asset'] ?>" rel="stylesheet">
         <?php endforeach ?>
     <?php endforeach ?>

@@ -153,8 +153,8 @@ class Images
      */
     public static function getImage(string $path, array $params, array $attributes = []) : string
     {
-        if (file_exists(PATH['entries'] . '/' .  $path)) {
-            return '<img '.Html::attributes($attributes).' src="'. Images::getImageUrl($path, $params) .'">';
+        if (file_exists(PATH['entries'] . '/' . $path)) {
+            return '<img ' . Html::attributes($attributes) . ' src="' . Images::getImageUrl($path, $params) . '">';
         } else {
             return "File {$path} does not exist.";
         }

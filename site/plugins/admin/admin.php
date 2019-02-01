@@ -43,7 +43,7 @@ if (Admin::isAdminArea()) {
     //
     // Add listner for onCurrentPageBeforeLoaded event
     //
-    Event::addListener('onCurrentEntryBeforeProcessed', function () {
+    Event::addListener('onCurrentEntryBeforeProcessed', function() {
 
         // Add navigation links
         NavigationManager::addItem('content', 'entries', '<i class="far fa-newspaper"></i>' . __('admin_entries', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/entries', ['class' => 'nav-link']);
@@ -147,17 +147,17 @@ class Admin
         Event::dispatch('onAdminArea');
 
         // Route the Uri
-        Http::getUriSegment(1) == ''             and DashboardManager::getDashboardManager();
-        Http::getUriSegment(1) == 'entries'      and EntriesManager::getEntriesManager();
-        Http::getUriSegment(1) == 'menus'        and MenusManager::getMenusManager();
-        Http::getUriSegment(1) == 'fieldsets'    and FieldsetsManager::getFieldsetsManager();
-        Http::getUriSegment(1) == 'templates'    and TemplatesManager::getTemplatesManager();
-        Http::getUriSegment(1) == 'snippets'     and SnippetsManager::getSnippetsManager();
-        Http::getUriSegment(1) == 'plugins'      and PluginsManager::getPluginsManager();
-        Http::getUriSegment(1) == 'information'  and InformationManager::getInformationManager();
-        Http::getUriSegment(1) == 'settings'     and SettingsManager::getSettingsManager();
-        Http::getUriSegment(1) == 'profile'      and UsersManager::getProfileManager();
-        Http::getUriSegment(1) == 'logout'       and UsersManager::logout();
+        Http::getUriSegment(1) == '' and DashboardManager::getDashboardManager();
+        Http::getUriSegment(1) == 'entries' and EntriesManager::getEntriesManager();
+        Http::getUriSegment(1) == 'menus' and MenusManager::getMenusManager();
+        Http::getUriSegment(1) == 'fieldsets' and FieldsetsManager::getFieldsetsManager();
+        Http::getUriSegment(1) == 'templates' and TemplatesManager::getTemplatesManager();
+        Http::getUriSegment(1) == 'snippets' and SnippetsManager::getSnippetsManager();
+        Http::getUriSegment(1) == 'plugins' and PluginsManager::getPluginsManager();
+        Http::getUriSegment(1) == 'information' and InformationManager::getInformationManager();
+        Http::getUriSegment(1) == 'settings' and SettingsManager::getSettingsManager();
+        Http::getUriSegment(1) == 'profile' and UsersManager::getProfileManager();
+        Http::getUriSegment(1) == 'logout' and UsersManager::logout();
     }
 
 

@@ -28,8 +28,8 @@ class FieldsetsManager
                         if (!Filesystem::has($file)) {
                             // Create a fieldset!
                             if (Filesystem::write(
-                                  $file,
-                                  YamlParser::encode([
+                                    $file,
+                                    YamlParser::encode([
                                                         'title' => Http::post('title'),
                                                         'fields' => [
                                                             'title' => [
@@ -37,8 +37,8 @@ class FieldsetsManager
                                                                 'type'  => 'text',
                                                                 'size'  => 'col-12'
                                                             ]
-                                                         ]
-                                                      ])
+                                                            ]
+                                                        ])
                             )) {
                                 Notification::set('success', __('admin_message_fieldset_created'));
                                 Http::redirect(Http::getBaseUrl() . '/admin/fieldsets');
@@ -90,9 +90,9 @@ class FieldsetsManager
                 if (Http::get('fieldset') != '') {
                     if (Token::check((Http::get('token')))) {
                         Filesystem::copy(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::get('fieldset') . '.yaml',
-                                         PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::get('fieldset') . '-duplicate-' . date("Ymd_His") . '.yaml');
+                                            PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::get('fieldset') . '-duplicate-' . date("Ymd_His") . '.yaml');
                         Notification::set('success', __('admin_message_fieldset_duplicated'));
-                        Http::redirect(Http::getBaseUrl().'/admin/fieldsets');
+                        Http::redirect(Http::getBaseUrl() . '/admin/fieldsets');
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
@@ -106,11 +106,11 @@ class FieldsetsManager
 
                         // Save a fieldset!
                         if (Filesystem::write(
-                              PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('name') . '.yaml',
-                              Http::post('fieldset')
+                                PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('name') . '.yaml',
+                                Http::post('fieldset')
                         )) {
                             Notification::set('success', __('admin_message_fieldset_saved'));
-                            Http::redirect(Http::getBaseUrl() . '/admin/fieldsets/edit?fieldset='.Http::post('name'));
+                            Http::redirect(Http::getBaseUrl() . '/admin/fieldsets/edit?fieldset=' . Http::post('name'));
                         }
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');

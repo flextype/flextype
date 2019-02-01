@@ -8,6 +8,6 @@ class DashboardManager
 {
     public static function getDashboardManager()
     {
-        Http::redirect(Http::getBaseUrl().'/admin/entries');
+        Http::redirect(Http::getBaseUrl() . '/admin/entries');
     }
 }

@@ -6,12 +6,12 @@ use function Flextype\Component\I18n\__;
 
 Themes::view('admin/views/partials/head')->display();
 Themes::view('admin/views/partials/navbar')
-    ->assign('links',   [
+    ->assign('links', [
                             'plugins'          => [
                                                         'link'       => Http::getBaseUrl() . '/admin/plugins',
                                                         'title'      => __('admin_plugins'),
                                                         'attributes' => ['class' => 'navbar-item active']
-                                                  ]
+                                                    ]
                         ])
     ->assign('buttons', [
                             'plugins_get_more' => [
@@ -56,7 +56,12 @@ Themes::view('admin/views/partials/content-start')->display();
           <td class="text-right">
               <div class="form-group no-margin">
                 <span class="switch switch-sm">
-                  <input id="switch-sm-<?= $plugin['name'] ?>" type="checkbox" class="switch js-switch" data-plugin="<?= $key ?>" data-token="<?= Token::generate() ?>" <?php if ($plugin['enabled'] == 'true') echo 'checked'; else echo ''; ?> <?php if ($key == 'admin') { ?>disabled<?php } ?>>
+                  <input id="switch-sm-<?= $plugin['name'] ?>" type="checkbox" class="switch js-switch" data-plugin="<?= $key ?>" data-token="<?= Token::generate() ?>" <?php if ($plugin['enabled'] == 'true') {
+    echo 'checked';
+} else {
+    echo '';
+}
+?> <?php if ($key == 'admin') { ?>disabled<?php } ?>>
                   <label for="switch-sm-<?= $plugin['name'] ?>"></label>
                 </span>
               </div>

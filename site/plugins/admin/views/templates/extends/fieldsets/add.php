@@ -16,12 +16,12 @@ Themes::view('admin/views/partials/navbar')
                                         'title' => __('admin_fieldsets'),
                                         'attributes' => ['class' => 'navbar-item']
                                     ],
-                       'fieldsets_add' => [
+                        'fieldsets_add' => [
                                         'link' => Http::getBaseUrl() . '/admin/fieldsets/add',
                                         'title' => __('admin_create_new_fieldset'),
                                         'attributes' => ['class' => 'navbar-item active']
-                                      ]
-                      ])
+                                        ]
+                        ])
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
 ?>

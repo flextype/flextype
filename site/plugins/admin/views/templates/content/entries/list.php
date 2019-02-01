@@ -1,21 +1,21 @@
 <?php namespace Flextype ?>
-<?php use Flextype\Component\{Http\Http, Registry\Registry,Filesystem\Filesystem, Token\Token, Text\Text} ?>
+<?php use Flextype\Component\{Http\Http, Registry\Registry, Filesystem\Filesystem, Token\Token, Text\Text} ?>
 <?php use function Flextype\Component\I18n\__; ?>
 <?php Themes::view('admin/views/partials/head')->display() ?>
 <?php Themes::view('admin/views/partials/navbar')
-    ->assign('links',   [
+    ->assign('links', [
                             'entries' => [
                                             'link' => Http::getBaseUrl() . '/admin/entries',
                                             'title' => __('admin_entries'),
                                             'attributes' => ['class' => 'navbar-item active']
-                                       ]
+                                        ]
                         ])
     ->assign('buttons', [
                             'entries' => [
-                                            'link' => Http::getBaseUrl() . '/admin/entries/add?entry='.Http::get('entry') ,
+                                            'link' => Http::getBaseUrl() . '/admin/entries/add?entry=' . Http::get('entry'),
                                             'title' => __('admin_create_new_entry'),
                                             'attributes' => ['class' => 'float-right btn']
-                                       ]
+                                        ]
                         ])
     ->display()
 ?>

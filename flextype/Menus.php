@@ -32,7 +32,7 @@ class Menus
         if (Filesystem::has($menu_path)) {
             return YamlParser::decode(Filesystem::read($menu_path));
         } else {
-           throw new \RuntimeException("Menu {$menu_name} does not exist.");
-       }
+            throw new \RuntimeException("Menu {$menu_name} does not exist.");
+        }
     }
 }
