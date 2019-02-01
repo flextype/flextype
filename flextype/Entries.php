@@ -312,6 +312,8 @@ class Entries
     {
         Http::setResponseStatus(404);
 
+        $entry = [];
+
         $entry['title']       = Registry::get('settings.entries.error404.title');
         $entry['description'] = Registry::get('settings.entries.error404.description');
         $entry['content']     = Registry::get('settings.entries.error404.content');
@@ -334,7 +336,11 @@ class Entries
     public static function processEntry(string $file_path, bool $raw = false, bool $ignore_content = false)
     {
         // Get entry from file
-        $entry = trim(Filesystem::read($file_path));
+        if ($entry_content = Filesystem::read($file_path)) {
+            $entry = $entry_content;
+        }
+
+        $entry = trim($entry);
 
         // Return raw entry if $raw is true
         if ($raw) {
@@ -345,9 +351,6 @@ class Entries
             $entry = FrontmatterParser::parse($entry);
             $entry_frontmatter = $entry['matter'];
             $entry_content     = $entry['body'];
-
-            // Create empty $_entry
-            $_entry = [];
 
             // Process $entry_frontmatter with YAML and Shortcodes parsers
             $_entry = YamlParser::decode(Shortcodes::process($entry_frontmatter));
