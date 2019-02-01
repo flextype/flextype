@@ -115,8 +115,10 @@ class Cache
     public static function getCacheDriver()
     {
         // Try to set default cache driver name
+        $driver_name = Cache::setDefaultCacheDriverName(Registry::get('settings.cache.driver'));
+
         // Set cache driver
-        return Cache::setCacheDriver(Cache::setDefaultCacheDriverName(Registry::get('settings.cache.driver')));
+        return Cache::setCacheDriver($driver_name);
     }
 
     protected static function setCacheDriver(string $driver_name)
@@ -138,7 +140,7 @@ class Cache
                 $driver = Cache::setSQLite3CacheDriver();
             break;
             case 'zend':
-                $driver = setZendDataCacheDriver();
+                $driver = Cache::setZendDataCacheDriver();
             break;
             case 'redis':
                 $driver = Cache::setRedisCacheDriver();
