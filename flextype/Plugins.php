@@ -259,6 +259,11 @@ class Plugins
                 // If Plugins List isnt empty
                 if (is_array($plugins_list) && count($plugins_list) > 0) {
 
+                    // Init plugin configs
+                    $_plugins_config = [];
+                    $plugin_settings = [];
+                    $plugin_config = [];
+
                     // Go through...
                     foreach ($plugins_list as $plugin) {
                         if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml')) {
