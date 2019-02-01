@@ -57,7 +57,7 @@ class Snippets
         $snippet_path = PATH['snippets'] . '/' . $name . '.php';
 
         // Process snippet
-        if (Filesystem::fileExists($snippet_path)) {
+        if (Filesystem::has($snippet_path)) {
 
             // Turn on output buffering
             ob_start();

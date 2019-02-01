@@ -129,7 +129,7 @@ class Flextype
         }
 
         // Create directory for logs
-        !Filesystem::fileExists(LOGS_PATH) and Filesystem::createDir(LOGS_PATH);
+        !Filesystem::has(LOGS_PATH) and Filesystem::createDir(LOGS_PATH);
 
         // Set Error handler
         set_error_handler('Flextype\Component\ErrorHandler\ErrorHandler::error');
@@ -152,11 +152,11 @@ class Flextype
         $site_settings_file_path    = PATH['config']['site']    . '/settings.yaml';
 
         // Set settings if Flextype settings and Site settings config files exist
-        if (Filesystem::fileExists($default_settings_file_path) && Filesystem::fileExists($site_settings_file_path)) {
+        if (Filesystem::has($default_settings_file_path) && Filesystem::has($site_settings_file_path)) {
 
             // Get Flextype settings and Site settings
-            $default_settings = YamlParser::decode(Filesystem::getFileContent($default_settings_file_path));
-            $site_settings    = YamlParser::decode(Filesystem::getFileContent($site_settings_file_path));
+            $default_settings = YamlParser::decode(Filesystem::read($default_settings_file_path));
+            $site_settings    = YamlParser::decode(Filesystem::read($site_settings_file_path));
 
             // Merge settings
             $settings = array_replace_recursive($default_settings, $site_settings);

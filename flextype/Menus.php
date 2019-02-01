@@ -29,8 +29,8 @@ class Menus
     {
         $menu_path = PATH['menus'] . '/' . $menu_name . '.yaml';
 
-        if (Filesystem::fileExists($menu_path)) {
-            return YamlParser::decode(Filesystem::getFileContent($menu_path));
+        if (Filesystem::has($menu_path)) {
+            return YamlParser::decode(Filesystem::read($menu_path));
         } else {
            throw new \RuntimeException("Menu {$menu_name} does not exist.");
        }

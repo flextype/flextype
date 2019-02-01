@@ -91,7 +91,7 @@ class Cache
     protected static function init() : void
     {
         // Create Cache Directory
-        !Filesystem::dirExists(PATH['cache']) and Filesystem::createDir(PATH['cache']);
+        !Filesystem::has(PATH['cache']) and Filesystem::createDir(PATH['cache']);
 
         // Set current time
         Cache::$now = time();
@@ -183,7 +183,7 @@ class Cache
             // http://php.net/manual/en/book.sqlite3.php
             case 'sqlite3':
                 // Create doctrine cache directory if its not exists
-                !Filesystem::fileExists($cache_directory) and Filesystem::createDir($cache_directory);
+                !Filesystem::has($cache_directory) and Filesystem::createDir($cache_directory);
 
                 $db = new \SQLite3($cache_directory . Registry::get('settings.cache.sqlite3.database', 'flextype') . '.db');
                 $driver = new DoctrineCache\SQLite3Cache($db, Registry::get('settings.cache.sqlite3.table', 'flextype'));
@@ -218,7 +218,7 @@ class Cache
                 break;
             default:
                 // Create doctrine cache directory if its not exists
-                !Filesystem::fileExists($cache_directory) and Filesystem::createDir($cache_directory);
+                !Filesystem::has($cache_directory) and Filesystem::createDir($cache_directory);
                 $driver = new DoctrineCache\FilesystemCache($cache_directory);
                 break;
         }

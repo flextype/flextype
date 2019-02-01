@@ -236,15 +236,15 @@ class Plugins
         Registry::set('plugins', []);
 
         // Get Plugins List
-        $plugins_list = Filesystem::getDirList(PATH['plugins']);
+        $plugins_list = Filesystem::listContents(PATH['plugins']);
 
         // If Plugins List isnt empty then create plugin cache ID
         if (is_array($plugins_list) && count($plugins_list) > 0) {
 
             // Go through...
             foreach ($plugins_list as $plugin) {
-                if (Filesystem::fileExists($_plugin_settings = PATH['plugins'] . '/' . $plugin . '/settings.yaml') and
-                    Filesystem::fileExists($_plugin_config = PATH['plugins'] . '/' . $plugin . '/'. $plugin .'.yaml')) {
+                if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml') and
+                    Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/'. $plugin['dirname'] .'.yaml')) {
                     $_plugins_cache_id .= filemtime($_plugin_settings) . filemtime($_plugin_config);
                 }
             }
@@ -262,12 +262,12 @@ class Plugins
 
                     // Go through...
                     foreach ($plugins_list as $plugin) {
-                        if (Filesystem::fileExists($_plugin_settings = PATH['plugins'] . '/' . $plugin . '/settings.yaml')) {
-                            $plugin_settings = YamlParser::decode(Filesystem::getFileContent($_plugin_settings));
+                        if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml')) {
+                            $plugin_settings = YamlParser::decode(Filesystem::read($_plugin_settings));
                         }
 
-                        if (Filesystem::fileExists($_plugin_config = PATH['plugins'] . '/' . $plugin . '/'. $plugin. '.yaml')) {
-                            $plugin_config = YamlParser::decode(Filesystem::getFileContent($_plugin_config));
+                        if (Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/'. $plugin['dirname']. '.yaml')) {
+                            $plugin_config = YamlParser::decode(Filesystem::read($_plugin_config));
                         }
 
                         $_plugins_config[basename($_plugin_config, '.yaml')] = array_merge($plugin_settings, $plugin_config);
@@ -282,9 +282,9 @@ class Plugins
             if (is_array($plugins_list) && count($plugins_list) > 0) {
                 foreach (Plugins::$locales as $locale => $locale_title) {
                     foreach ($plugins_list as $plugin) {
-                        $language_file = PATH['plugins'] . '/' . $plugin . '/languages/' . $locale . '.yaml';
-                        if (Filesystem::fileExists($language_file)) {
-                            I18n::add(YamlParser::decode(Filesystem::getFileContent($language_file)), $locale);
+                        $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/languages/' . $locale . '.yaml';
+                        if (Filesystem::has($language_file)) {
+                            I18n::add(YamlParser::decode(Filesystem::read($language_file)), $locale);
                         }
                     }
                 }

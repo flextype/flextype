@@ -162,7 +162,7 @@ class Entries
         }
 
         // If entry exist
-        if (Filesystem::fileExists($file_path)) {
+        if (Filesystem::has($file_path)) {
             $entry_cache_id = md5('entry' . $file_path . filemtime($file_path) . (($raw === true) ? 'true' : 'false') . (($hidden === true) ? 'true' : 'false'));
 
             // Try to get the entry from cache
@@ -233,19 +233,23 @@ class Entries
         if ($url === '') {
 
             // Get entries list
-            $entries_list = Filesystem::getFilesList($file_path, 'html', true, $multilevel);
+            $entries_list = Filesystem::listContents($file_path);
 
             // Create entries cached id
-            foreach ($entries_list as $key => $entry) {
-                $entry_cache_id .= md5('entries' . $entry . filemtime($entry) . (($raw === true) ? 'true' : 'false') . $order_by . $order_type . $offset . $length);
+            foreach ($entries_list as $entry) {
+                if ($entry['type'] == 'dir' && Filesystem::has($entry['path'] . '/entry.html')) {
+                    $entry_cache_id .= md5('entries' . $entry['path'] . $entry['timestamp'] . (($raw === true) ? 'true' : 'false') . (($multilevel === true) ? 'true' : 'false') . $order_by . $order_type . $offset . $length);
+                }
             }
 
             if (Cache::contains($entry_cache_id)) {
                 $entries = Cache::fetch($entry_cache_id);
             } else {
                 // Create entries array from entries list
-                foreach ($entries_list as $key => $entry) {
-                    $entries[$key] = Entries::processEntry($entry, $raw);
+                foreach ($entries_list as $entry) {
+                    if ($entry['type'] == 'dir' && Filesystem::has($entry['path'] . '/entry.html')) {
+                        $entries[$entry['dirname']] = Entries::processEntry($entry['path'] . '/entry.html', $raw);
+                    }
                 }
 
                 Cache::save($entry_cache_id, $entries);
@@ -253,14 +257,16 @@ class Entries
         } else {
 
             // Get entries list
-            $entries_list = Filesystem::getFilesList($file_path, 'html', true, $multilevel);
+            $entries_list = Filesystem::listContents($file_path);
 
             // Create entries cached id
-            foreach ($entries_list as $key => $entry) {
-                if (strpos($entry, $url . '/entry.html') !== false) {
+            foreach ($entries_list as $entry) {
+                if (strpos($entry['path'], $url . '/entry.html') !== false) {
                     // ignore ...
                 } else {
-                    $entry_cache_id .= md5('entries' . $entry . filemtime($entry) . (($raw === true) ? 'true' : 'false') . $order_by . $order_type . $offset . $length);
+                    if ($entry['type'] == 'dir' && Filesystem::has($entry['path'] . '/entry.html')) {
+                        $entry_cache_id .= md5('entries' . $entry['path'] . $entry['timestamp'] . (($raw === true) ? 'true' : 'false') . $order_by . $order_type . $offset . $length);
+                    }
                 }
             }
 
@@ -268,11 +274,13 @@ class Entries
                 $entries = Cache::fetch($entry_cache_id);
             } else {
                 // Create entries array from entries list and ignore current requested entry
-                foreach ($entries_list as $key => $entry) {
-                    if (strpos($entry, $url . '/entry.html') !== false) {
+                foreach ($entries_list as $entry) {
+                    if (strpos($entry['path'], $url . '/entry.html') !== false) {
                         // ignore ...
                     } else {
-                        $entries[$key] = Entries::processEntry($entry, $raw);
+                        if ($entry['type'] == 'dir' && Filesystem::has($entry['path'] . '/entry.html')) {
+                            $entries[$entry['dirname']] = Entries::processEntry($entry['path'] . '/entry.html', $raw);
+                        }
                     }
                 }
 
@@ -326,7 +334,7 @@ class Entries
     public static function processEntry(string $file_path, bool $raw = false, bool $ignore_content = false)
     {
         // Get entry from file
-        $entry = trim(Filesystem::getFileContent($file_path));
+        $entry = trim(Filesystem::read($file_path));
 
         // Return raw entry if $raw is true
         if ($raw) {
