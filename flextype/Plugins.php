@@ -267,11 +267,19 @@ class Plugins
                     // Go through...
                     foreach ($plugins_list as $plugin) {
                         if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml')) {
-                            $plugin_settings = YamlParser::decode(Filesystem::read($_plugin_settings));
+                            if (($content = Filesystem::read($_plugin_settings)) === false) {
+                                throw new \RuntimeException('Load file: ' . $_plugin_settings . ' - failed!');
+                            } else {
+                                $plugin_settings = YamlParser::decode($content);
+                            }
                         }
 
                         if (Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/' . $plugin['dirname'] . '.yaml')) {
-                            $plugin_config = YamlParser::decode(Filesystem::read($_plugin_config));
+                            if (($content = Filesystem::read($_plugin_config)) === false) {
+                                throw new \RuntimeException('Load file: ' . $_plugin_config . ' - failed!');
+                            } else {
+                                $plugin_config = YamlParser::decode($content);
+                            }
                         }
 
                         $_plugins_config[basename($_plugin_config, '.yaml')] = array_merge($plugin_settings, $plugin_config);
@@ -288,7 +296,11 @@ class Plugins
                     foreach ($plugins_list as $plugin) {
                         $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/languages/' . $locale . '.yaml';
                         if (Filesystem::has($language_file)) {
-                            I18n::add(YamlParser::decode(Filesystem::read($language_file)), $locale);
+                            if (($content = Filesystem::read($language_file)) === false) {
+                                throw new \RuntimeException('Load file: ' . $language_file . ' - failed!');
+                            } else {
+                                I18n::add(YamlParser::decode($content), $locale);
+                            }
                         }
                     }
                 }
