@@ -83,12 +83,12 @@ class EntriesManager
                             // Create a entry!
                             if (Filesystem::write(
                                     $file,
-                                    '---'."\n".
-                                    YamlParser::encode(array_replace_recursive($frontmatter, $_frontmatter)).
-                                    '---'."\n"
+                                    '---' . "\n" .
+                                    YamlParser::encode(array_replace_recursive($frontmatter, $_frontmatter)) .
+                                    '---' . "\n"
                             )) {
                                 Notification::set('success', __('admin_message_entry_created'));
-                                Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.Http::post('parent_entry'));
+                                Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('parent_entry'));
                             }
                         }
                     } else {
@@ -176,13 +176,13 @@ class EntriesManager
 
                         if (Filesystem::write(
                             PATH['entries'] . '/' . Http::post('entry') . '/entry.html',
-                                                    '---'."\n".
-                                                    $frontmatter."\n".
-                                                    '---'."\n".
+                                                    '---' . "\n" .
+                                                    $frontmatter . "\n" .
+                                                    '---' . "\n" .
                                                     $content
                         )) {
                                 Notification::set('success', __('admin_message_entry_changes_saved'));
-                                Http::redirect(Http::getBaseUrl() . '/admin/entries?entry='.implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
+                                Http::redirect(Http::getBaseUrl() . '/admin/entries?entry=' . implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
                         }
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
@@ -294,13 +294,13 @@ class EntriesManager
 
                                 Filesystem::write(
                                     PATH['entries'] . '/' . Http::get('entry') . '/entry.html',
-                                                            '---'."\n".
-                                                            $frontmatter."\n".
-                                                            '---'."\n".
+                                                            '---' . "\n" .
+                                                            $frontmatter . "\n" .
+                                                            '---' . "\n" .
                                                             $content
                                 );
                                 Notification::set('success', __('admin_message_entry_changes_saved'));
-                                Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry'));
+                                Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::get('entry'));
                             }
                         }
 
