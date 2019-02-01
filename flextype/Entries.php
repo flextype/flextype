@@ -150,10 +150,13 @@ class Entries
      * @param   string   $url    Page url.
      * @param   bool     $raw    Parse content or raw content without parsing.
      * @param   bool     $hidden Get hidden entries.
-     * @return  array|string
+     * @return  array
      */
     public static function getEntry(string $url = '', bool $raw = false, bool $hidden = false)
     {
+        // Init Entry
+        $entry = [];
+
         // If $url is empty then set path for default main entry
         if ($url === '') {
             $file_path = PATH['entries'] . '/' . Registry::get('settings.entries.main') . '/entry.html';
@@ -167,7 +170,9 @@ class Entries
 
             // Try to get the entry from cache
             if (Cache::contains($entry_cache_id)) {
-                return Cache::fetch($entry_cache_id);
+                if ($entry = Cache::fetch($entry_cache_id)) {
+                    $etnry = $entry;
+                }
             } else {
 
                 // Get raw entry if $raw is true
@@ -187,11 +192,12 @@ class Entries
                 }
 
                 Cache::save($entry_cache_id, $entry);
-                return $entry;
             }
         } else {
-            return Entries::getError404Entry();
+            $entry = Entries::getError404Entry();
         }
+
+        return $entry;
     }
 
     /**
