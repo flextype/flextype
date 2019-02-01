@@ -3,13 +3,10 @@
 
 <p align="center">
 <a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?colorB=blue" alt="Total downloads"></a> <a href="https://crowdin.com/project/flextype"><img src="https://d322cqt584bo4o.cloudfront.net/flextype/localized.svg" alt="Crowdin"></a> <a href="https://scrutinizer-ci.com/g/flextype/flextype?branch=master"><img src="https://img.shields.io/scrutinizer/g/flextype/flextype.svg?branch=master" alt="Quality Score"></a> <a href="https://discordapp.com/invite/CCKPKVG"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&colorB=728ADA&label=Discord%20Chat" alt="Discord"></a>
-   
-</p> 
+
+</p>
 
 # Flextype
-
-
-
 
 Flextype is Open Source, fast and flexible file-based Content Management System.  
 That's Easy to install, upgrade and use. Flextype provides amazing API's for plugins, themes and core developers!
