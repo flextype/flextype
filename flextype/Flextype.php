@@ -154,9 +154,20 @@ class Flextype
         // Set settings if Flextype settings and Site settings config files exist
         if (Filesystem::has($default_settings_file_path) && Filesystem::has($site_settings_file_path)) {
 
-            // Get Flextype settings and Site settings
-            $default_settings = YamlParser::decode(Filesystem::read($default_settings_file_path));
-            $site_settings    = YamlParser::decode(Filesystem::read($site_settings_file_path));
+            $default_settings = [];
+            $site_settings = [];
+
+            if (($content = Filesystem::read($default_settings_file_path)) === false) {
+                throw new \RuntimeException('Load file: ' . $default_settings_file_path . ' - failed!');
+            } else {
+                $default_settings = YamlParser::decode($content);
+            }
+
+            if (($content = Filesystem::read($site_settings_file_path)) === false) {
+                throw new \RuntimeException('Load file: ' . $site_settings_file_path . ' - failed!');
+            } else {
+                $site_settings = YamlParser::decode($content);
+            }
 
             // Merge settings
             $settings = array_replace_recursive($default_settings, $site_settings);
