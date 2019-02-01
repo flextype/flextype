@@ -17,7 +17,7 @@ class SnippetsManager
         Registry::set('sidebar_menu_item', 'snippets');
 
         // Create directory for logs
-        !Filesystem::fileExists(PATH['snippets']) and Filesystem::createDir(PATH['snippets']);
+        !Filesystem::has(PATH['snippets']) and Filesystem::createDir(PATH['snippets']);
 
         switch (Http::getUriSegment(2)) {
             case 'add':
@@ -28,9 +28,9 @@ class SnippetsManager
 
                         $file = PATH['snippets'] . '/' . Text::safeString(Http::post('name'), '-', true) . '.php';
 
-                        if (!Filesystem::fileExists($file)) {
+                        if (!Filesystem::has($file)) {
                             // Create a snippet!
-                            if (Filesystem::setFileContent(
+                            if (Filesystem::write(
                                   $file,
                                   ""
                             )) {
@@ -49,7 +49,7 @@ class SnippetsManager
             case 'delete':
                 if (Http::get('snippet') != '') {
                     if (Token::check((Http::get('token')))) {
-                        Filesystem::deleteFile(PATH['snippets'] . '/' . Http::get('snippet') . '.php');
+                        Filesystem::delete(PATH['snippets'] . '/' . Http::get('snippet') . '.php');
                         Notification::set('success', __('admin_message_snippet_deleted'));
                         Http::redirect(Http::getBaseUrl() . '/admin/snippets');
                     } else {
@@ -62,7 +62,7 @@ class SnippetsManager
 
                 if (isset($rename_snippet)) {
                     if (Token::check((Http::post('token')))) {
-                        if (!Filesystem::fileExists(PATH['snippets'] . '/' . Http::post('name') . '.php')) {
+                        if (!Filesystem::has(PATH['snippets'] . '/' . Http::post('name') . '.php')) {
                             if (rename(
                                 PATH['snippets'] . '/' . Http::post('name_current') . '.php',
                                 PATH['snippets'] . '/' . Http::post('name') . '.php')
@@ -99,7 +99,7 @@ class SnippetsManager
                     if (Token::check((Http::post('token')))) {
 
                         // Save a snippet!
-                        if (Filesystem::setFileContent(
+                        if (Filesystem::write(
                               PATH['snippets'] . '/' . Http::post('name') . '.php',
                               Http::post('snippet')
                         )) {
@@ -112,14 +112,20 @@ class SnippetsManager
                 }
 
                 Themes::view('admin/views/templates/extends/snippets/edit')
-                    ->assign('snippet', Filesystem::getFileContent(PATH['snippets'] . '/' . Http::get('snippet') . '.php'))
+                    ->assign('snippet', Filesystem::read(PATH['snippets'] . '/' . Http::get('snippet') . '.php'))
                     ->display();
             break;
             default:
-                $snippets_list = Filesystem::getFilesList(PATH['snippets'], 'php');
+                $snippets = [];
+
+                foreach (Filesystem::listContents(PATH['snippets']) as $snippet) {
+                    if ($snippet['type'] == 'file' && $snippet['extension'] == 'php') {
+                        $snippets[$snippet['basename']] = $snippet['basename'];
+                    }
+                }
 
                 Themes::view('admin/views/templates/extends/snippets/list')
-                ->assign('snippets_list', $snippets_list)
+                ->assign('snippets_list', $snippets)
                 ->display();
             break;
         }

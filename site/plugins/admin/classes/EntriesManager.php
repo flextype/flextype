@@ -39,15 +39,15 @@ class EntriesManager
                     if (Token::check((Http::post('token')))) {
                         $file = PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Text::safeString(Http::post('slug'), '-', true) . '/entry.html';
 
-                        if (!Filesystem::fileExists($file)) {
+                        if (!Filesystem::has($file)) {
 
                             // Get fieldset
-                            $fieldset = YamlParser::decode(Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('fieldset') . '.yaml'));
+                            $fieldset = YamlParser::decode(Filesystem::read(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('fieldset') . '.yaml'));
 
                             // We need to check if template for current fieldset is exists
                             // if template is not exist then default template will be used!
                             $template_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::post('fieldset') . '.php';
-                            if (Filesystem::fileExists($template_path)) {
+                            if (Filesystem::has($template_path)) {
                                 $template = Http::post('fieldset');
                             } else {
                                 $template = 'default';
@@ -81,7 +81,7 @@ class EntriesManager
                             Arr::delete($frontmatter, 'content');
 
                             // Create a entry!
-                            if (Filesystem::setFileContent(
+                            if (Filesystem::write(
                                   $file,
                                   '---'."\n".
                                   YamlParser::encode(array_replace_recursive($frontmatter, $_frontmatter)).
@@ -115,8 +115,9 @@ class EntriesManager
             case 'duplicate':
                 if (Http::get('entry') != '') {
                     if (Token::check((Http::get('token')))) {
-                        Filesystem::recursiveCopy(PATH['entries'] . '/' . Http::get('entry'),
-                                                  PATH['entries'] . '/' . Http::get('entry') . '-duplicate-' . date("Ymd_His"));
+                        Filesystem::copy(PATH['entries'] . '/' . Http::get('entry'),
+                                         PATH['entries'] . '/' . Http::get('entry') . '-duplicate-' . date("Ymd_His"),
+                                         true);
                         Notification::set('success', __('admin_message_entry_duplicated'));
                         Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
                     } else {
@@ -173,7 +174,7 @@ class EntriesManager
                         Arr::delete($frontmatter, 'entry');
                         $frontmatter = YamlParser::encode(array_merge($entry, $frontmatter));
 
-                        if (Filesystem::setFileContent(
+                        if (Filesystem::write(
                             PATH['entries'] . '/' . Http::post('entry') . '/entry.html',
                                                   '---'."\n".
                                                   $frontmatter."\n".
@@ -251,7 +252,7 @@ class EntriesManager
 
                         if (isset($action) && $action == 'save-form') {
                             if (Token::check((Http::post('token')))) {
-                                Filesystem::setFileContent(
+                                Filesystem::write(
                                     PATH['entries'] . '/' . Http::post('entry_name') . '/entry.html',
                                                           Http::post('entry_content')
                                 );
@@ -262,7 +263,7 @@ class EntriesManager
                             }
                         }
 
-                        $entry_content = Filesystem::getFileContent(PATH['entries'] . '/' . Http::get('entry') . '/entry.html');
+                        $entry_content = Filesystem::read(PATH['entries'] . '/' . Http::get('entry') . '/entry.html');
 
                         Themes::view('admin/views/templates/content/entries/source')
                             ->assign('entry_name', Http::get('entry'))
@@ -291,7 +292,7 @@ class EntriesManager
                                 $content = Http::post('content');
                                 $content = (isset($content)) ? $indenter->indent($content) : '';
 
-                                Filesystem::setFileContent(
+                                Filesystem::write(
                                     PATH['entries'] . '/' . Http::get('entry') . '/entry.html',
                                                           '---'."\n".
                                                           $frontmatter."\n".
@@ -305,7 +306,7 @@ class EntriesManager
 
                         // Fieldset for current entry template
                         $fieldset_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
-                        $fieldset = YamlParser::decode(Filesystem::getFileContent($fieldset_path));
+                        $fieldset = YamlParser::decode(Filesystem::read($fieldset_path));
                         is_null($fieldset) and $fieldset = [];
 
                         Themes::view('admin/views/templates/content/entries/content')
@@ -456,7 +457,7 @@ class EntriesManager
 
         if (Http::get('delete_file') != '') {
             if (Token::check((Http::get('token')))) {
-                Filesystem::deleteFile($files_directory . Http::get('delete_file'));
+                Filesystem::delete($files_directory . Http::get('delete_file'));
                 Notification::set('success', __('admin_message_entry_file_deleted'));
                 Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry').'&media=true');
             } else {

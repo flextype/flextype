@@ -50,7 +50,7 @@ class SettingsManager
                 Arr::set($settings, 'entries.media.upload_images_width', (int) Http::post('entries.media.upload_images_width'));
                 Arr::set($settings, 'entries.media.upload_images_height', (int) Http::post('entries.media.upload_images_height'));
 
-                if (Filesystem::setFileContent(PATH['config']['site'] . '/settings.yaml', YamlParser::encode(array_merge(Registry::get('settings'), $settings)))) {
+                if (Filesystem::write(PATH['config']['site'] . '/settings.yaml', YamlParser::encode(array_merge(Registry::get('settings'), $settings)))) {
                     Notification::set('success', __('admin_message_settings_saved'));
                     Http::redirect(Http::getBaseUrl().'/admin/settings');
                 }
@@ -59,13 +59,15 @@ class SettingsManager
             }
         }
 
-        $available_locales = Filesystem::getFilesList(PATH['plugins'] . '/admin/languages/', 'yaml');
+        $available_locales = Filesystem::listContents(PATH['plugins'] . '/admin/languages/');
         $system_locales = Plugins::getLocales();
 
         $locales = [];
 
         foreach ($available_locales as $locale) {
-            $locales[basename($locale, '.yaml')] = $system_locales[basename($locale, '.yaml')]['nativeName'];
+            if ($locale['type'] == 'file' && $locale['extension'] == 'yaml') {
+                $locales[$locale['basename']] = $system_locales[$locale['basename']]['nativeName'];
+            }
         }
 
         $entries = [];
@@ -76,8 +78,10 @@ class SettingsManager
 
         $themes = [];
 
-        foreach (Filesystem::getDirList(PATH['themes']) as $theme) {
-            $themes[$theme] = $theme;
+        foreach (Filesystem::listContents(PATH['themes']) as $theme) {
+            if ($theme['type'] == 'dir' && Filesystem::has($theme['path'] . '/' . $theme['dirname'] . '.yaml')) {
+                $themes[$theme['dirname']] = $theme['dirname'];
+            }
         }
 
         $cache_driver = ['auto' => 'Auto Detect',

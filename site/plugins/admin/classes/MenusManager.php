@@ -17,7 +17,7 @@ class MenusManager
         Registry::set('sidebar_menu_item', 'menus');
 
         // Create directory for menus
-        !Filesystem::fileExists(PATH['menus']) and Filesystem::createDir(PATH['menus']);
+        !Filesystem::has(PATH['menus']) and Filesystem::createDir(PATH['menus']);
 
         switch (Http::getUriSegment(2)) {
             case 'add':
@@ -28,9 +28,9 @@ class MenusManager
 
                         $file = PATH['menus'] . '/' . Text::safeString(Http::post('name'), '-', true) . '.yaml';
 
-                        if (!Filesystem::fileExists($file)) {
+                        if (!Filesystem::has($file)) {
                             // Create a menu!
-                            if (Filesystem::setFileContent(
+                            if (Filesystem::write(
                                   $file,
                                   YamlParser::encode(['title' => Http::post('title')])
                             )) {
@@ -49,7 +49,7 @@ class MenusManager
             case 'delete':
                 if (Http::get('menu') != '') {
                     if (Token::check((Http::get('token')))) {
-                        Filesystem::deleteFile(PATH['menus'] . '/' . Http::get('menu') . '.yaml');
+                        Filesystem::delete(PATH['menus'] . '/' . Http::get('menu') . '.yaml');
                         Notification::set('success', __('admin_message_menu_deleted'));
                         Http::redirect(Http::getBaseUrl() . '/admin/menus');
                     } else {
@@ -62,7 +62,7 @@ class MenusManager
 
                 if (isset($rename_menu)) {
                     if (Token::check((Http::post('token')))) {
-                        if (!Filesystem::fileExists(PATH['menus'] . '/' . Http::post('name') . '.yaml')) {
+                        if (!Filesystem::has(PATH['menus'] . '/' . Http::post('name') . '.yaml')) {
                             if (rename(
                                 PATH['menus'] . '/' . Http::post('name_current') . '.yaml',
                                 PATH['menus'] . '/' . Http::post('name') . '.yaml')
@@ -99,7 +99,7 @@ class MenusManager
                     if (Token::check((Http::post('token')))) {
 
                         // Save a menu!
-                        if (Filesystem::setFileContent(
+                        if (Filesystem::write(
                               PATH['menus'] . '/' . Http::post('name') . '.yaml',
                               Http::post('menu')
                         )) {
@@ -112,7 +112,7 @@ class MenusManager
                 }
 
                 Themes::view('admin/views/templates/extends/menus/edit')
-                    ->assign('menu', Filesystem::getFileContent(PATH['menus'] . '/' . Http::get('menu') . '.yaml'))
+                    ->assign('menu', Filesystem::read(PATH['menus'] . '/' . Http::get('menu') . '.yaml'))
                     ->display();
             break;
             default:
@@ -123,7 +123,7 @@ class MenusManager
 
                 if (count($menus) > 0) {
                      foreach ($menus as $menu) {
-                         $menus_list[basename($menu, '.yaml')] = YamlParser::decode(Filesystem::getFileContent($menu));
+                         $menus_list[basename($menu, '.yaml')] = YamlParser::decode(Filesystem::read($menu));
                      }
                  }
 

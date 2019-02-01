@@ -40,9 +40,9 @@ class UsersManager
 
         if (isset($registration)) {
             if (Token::check((Http::post('token')))) {
-                if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Text::safeString(Http::post('username')) . '.yaml')) {
+                if (Filesystem::has($_user_file = PATH['site'] . '/accounts/' . Text::safeString(Http::post('username')) . '.yaml')) {
                 } else {
-                    Filesystem::setFileContent(
+                    Filesystem::write(
                             PATH['site'] . '/accounts/' . Http::post('username') . '.yaml',
                             YamlParser::encode(['username' => Text::safeString(Http::post('username')),
                                                 'hashed_password' => password_hash(trim(Http::post('password')), PASSWORD_BCRYPT),
@@ -65,7 +65,7 @@ class UsersManager
     public static function isUsersExists()
     {
         // Get Users Profiles
-        $users = Filesystem::getFilesList(PATH['site'] . '/accounts/', 'yaml');
+        $users = Filesystem::listContents(PATH['site'] . '/accounts/');
 
         // If any users exists then return true
         return ($users && count($users) > 0) ? true : false;
@@ -84,8 +84,8 @@ class UsersManager
 
         if (isset($login)) {
             if (Token::check((Http::post('token')))) {
-                if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
-                    $user_file = YamlParser::decode(Filesystem::getFileContent($_user_file));
+                if (Filesystem::has($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
+                    $user_file = YamlParser::decode(Filesystem::read($_user_file));
                     if (password_verify(trim(Http::post('password')), $user_file['hashed_password'])) {
                         Session::set('username', $user_file['username']);
                         Session::set('role', $user_file['role']);

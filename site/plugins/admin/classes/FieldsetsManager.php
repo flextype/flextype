@@ -25,9 +25,9 @@ class FieldsetsManager
 
                         $file = PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Text::safeString(Http::post('name'), '-', true) . '.yaml';
 
-                        if (!Filesystem::fileExists($file)) {
+                        if (!Filesystem::has($file)) {
                             // Create a fieldset!
-                            if (Filesystem::setFileContent(
+                            if (Filesystem::write(
                                   $file,
                                   YamlParser::encode([
                                                         'title' => Http::post('title'),
@@ -55,7 +55,7 @@ class FieldsetsManager
             case 'delete':
                 if (Http::get('fieldset') != '') {
                     if (Token::check((Http::get('token')))) {
-                        Filesystem::deleteFile(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::get('fieldset') . '.yaml');
+                        Filesystem::delete(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::get('fieldset') . '.yaml');
                         Notification::set('success', __('admin_message_fieldset_deleted'));
                         Http::redirect(Http::getBaseUrl() . '/admin/fieldsets');
                     } else {
@@ -68,7 +68,7 @@ class FieldsetsManager
 
                 if (isset($rename_fieldset)) {
                     if (Token::check((Http::post('token')))) {
-                        if (!Filesystem::fileExists(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('name') . '.yaml')) {
+                        if (!Filesystem::has(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('name') . '.yaml')) {
                             if (rename(
                                 PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('name_current') . '.yaml',
                                 PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('name') . '.yaml')
@@ -105,7 +105,7 @@ class FieldsetsManager
                     if (Token::check((Http::post('token')))) {
 
                         // Save a fieldset!
-                        if (Filesystem::setFileContent(
+                        if (Filesystem::write(
                               PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('name') . '.yaml',
                               Http::post('fieldset')
                         )) {
@@ -118,7 +118,7 @@ class FieldsetsManager
                 }
 
                 Themes::view('admin/views/templates/extends/fieldsets/edit')
-                    ->assign('fieldset', Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::get('fieldset') . '.yaml'))
+                    ->assign('fieldset', Filesystem::read(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::get('fieldset') . '.yaml'))
                     ->display();
             break;
             default:
