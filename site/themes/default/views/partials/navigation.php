@@ -8,11 +8,7 @@
   </button>
   <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
     <ul class="navbar-nav">
-        <?php foreach (Arr::sort(Menus::get('default')['items'], 'order') as $item): ?>
-        <li class="nav-item">
-            <a class="nav-link <?php if ($item['url'] !== '' && strpos(Http::getUriString(), $item['url']) !== false): ?>active<?php endif ?>" href="<?= Http::getBaseUrl() . '/' . $item['url'] ?>"><?= $item['title'] ?></a>
-        </li>
-        <?php endforeach ?>
+
     </ul>
   </div>
 </div>
