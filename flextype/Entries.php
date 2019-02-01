@@ -170,8 +170,8 @@ class Entries
 
             // Try to get the entry from cache
             if (Cache::contains($entry_cache_id)) {
-                if ($entry = Cache::fetch($entry_cache_id)) {
-                    $etnry = $entry;
+                if ($_entry = Cache::fetch($entry_cache_id)) {
+                    $entry = $_entry;
                 }
             } else {
 
