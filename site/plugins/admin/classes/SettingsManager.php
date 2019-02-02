@@ -3,7 +3,6 @@
 namespace Flextype;
 
 use Flextype\Component\Arr\Arr;
-use Flextype\Component\I18n\I18n;
 use Flextype\Component\Http\Http;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Registry\Registry;
@@ -18,7 +17,7 @@ class SettingsManager
         Registry::set('sidebar_menu_item', 'settings');
 
         // Clear cache
-        if (Http::get('clear_cache')) {
+        if (Http::get('clear_cache') !== null && Http::get('clear_cache') == '1' && Http::get('token') !== null) {
             if (Token::check((Http::get('token')))) {
                 Cache::clear();
                 Notification::set('success', __('admin_message_cache_files_deleted'));
@@ -28,9 +27,7 @@ class SettingsManager
             }
         }
 
-        $action = Http::post('action');
-
-        if (isset($action) && $action == 'save-form') {
+        if (Http::post('action') !== null && Http::post('action') == 'save-form' && Http::post('token') !== null) {
             if (Token::check((Http::post('token')))) {
 
                 $settings = $_POST;
