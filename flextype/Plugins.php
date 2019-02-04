@@ -294,8 +294,8 @@ class Plugins
      * @access protected
      * @return void
      */
-     protected static function createPluginsDictionary(array $plugins_list) : void
-     {
+        protected static function createPluginsDictionary(array $plugins_list) : void
+        {
         if (is_array($plugins_list) && count($plugins_list) > 0) {
             foreach (Plugins::$locales as $locale => $locale_title) {
                 foreach ($plugins_list as $plugin) {
