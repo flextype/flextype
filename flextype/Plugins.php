@@ -228,28 +228,17 @@ class Plugins
      */
     private static function init() : void
     {
-        // Plugin cache id
-        $_plugins_cache_id = '';
-
         // Set empty plugins item
         Registry::set('plugins', []);
 
         // Get Plugins List
         $plugins_list = Filesystem::listContents(PATH['plugins']);
 
+        // Get plugins cache ID
+        $plugins_cache_id = Plugins::getPluginsCacheID($plugins_list);
+
         // If Plugins List isnt empty then create plugin cache ID
         if (is_array($plugins_list) && count($plugins_list) > 0) {
-
-            // Go through...
-            foreach ($plugins_list as $plugin) {
-                if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml') and
-                    Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/' . $plugin['dirname'] . '.yaml')) {
-                    $_plugins_cache_id .= filemtime($_plugin_settings) . filemtime($_plugin_config);
-                }
-            }
-
-            // Create Unique Cache ID for Plugins
-            $plugins_cache_id = md5('plugins' . PATH['plugins'] . '/' . $_plugins_cache_id);
 
             // Get plugins list from cache or scan plugins folder and create new plugins cache item
             if (Cache::contains($plugins_cache_id)) {
@@ -290,32 +279,82 @@ class Plugins
                 }
             }
 
-            // Create Dictionary
-            if (is_array($plugins_list) && count($plugins_list) > 0) {
-                foreach (Plugins::$locales as $locale => $locale_title) {
-                    foreach ($plugins_list as $plugin) {
-                        $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/languages/' . $locale . '.yaml';
-                        if (Filesystem::has($language_file)) {
-                            if (($content = Filesystem::read($language_file)) === false) {
-                                throw new \RuntimeException('Load file: ' . $language_file . ' - failed!');
-                            } else {
-                                I18n::add(YamlParser::decode($content), $locale);
-                            }
+            Plugins::createPluginsDictionary($plugins_list);
+
+            Plugins::includeEnabledPlugins();
+
+            Event::dispatch('onPluginsInitialized');
+        }
+    }
+
+    /**
+     * Create plugins dictionary
+     *
+     * @param  array $plugins_list Plugins list
+     * @access protected
+     * @return void
+     */
+     protected static function createPluginsDictionary(array $plugins_list) : void
+     {
+        if (is_array($plugins_list) && count($plugins_list) > 0) {
+            foreach (Plugins::$locales as $locale => $locale_title) {
+                foreach ($plugins_list as $plugin) {
+                    $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/languages/' . $locale . '.yaml';
+                    if (Filesystem::has($language_file)) {
+                        if (($content = Filesystem::read($language_file)) === false) {
+                            throw new \RuntimeException('Load file: ' . $language_file . ' - failed!');
+                        } else {
+                            I18n::add(YamlParser::decode($content), $locale);
                         }
                     }
                 }
             }
+        }
+    }
 
-            // Include enabled plugins
-            if (is_array(Registry::get('plugins')) && count(Registry::get('plugins')) > 0) {
-                foreach (Registry::get('plugins') as $plugin_name => $plugin) {
-                    if (Registry::get('plugins.' . $plugin_name . '.enabled')) {
-                        include_once PATH['plugins'] . '/' . $plugin_name . '/' . $plugin_name . '.php';
-                    }
+    /**
+     * Get plugins cache ID
+     *
+     * @param  array $plugins_list Plugins list
+     * @access protected
+     * @return string
+     */
+    protected static function getPluginsCacheID(array $plugins_list) : string
+    {
+        // Plugin cache id
+        $_plugins_cache_id = '';
+
+        // Go through...
+        if (is_array($plugins_list) && count($plugins_list) > 0) {
+            foreach ($plugins_list as $plugin) {
+                if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml') and
+                    Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/' . $plugin['dirname'] . '.yaml')) {
+                    $_plugins_cache_id .= filemtime($_plugin_settings) . filemtime($_plugin_config);
                 }
             }
+        }
 
-            Event::dispatch('onPluginsInitialized');
+        // Create Unique Cache ID for Plugins
+        $plugins_cache_id = md5('plugins' . PATH['plugins'] . '/' . $_plugins_cache_id);
+
+        // Return plugin cache id
+        return $plugins_cache_id;
+    }
+
+    /**
+     * Include enabled plugins
+     *
+     * @access protected
+     * @return void
+     */
+    protected static function includeEnabledPlugins() : void
+    {
+        if (is_array(Registry::get('plugins')) && count(Registry::get('plugins')) > 0) {
+            foreach (Registry::get('plugins') as $plugin_name => $plugin) {
+                if (Registry::get('plugins.' . $plugin_name . '.enabled')) {
+                    include_once PATH['plugins'] . '/' . $plugin_name . '/' . $plugin_name . '.php';
+                }
+            }
         }
     }
 
