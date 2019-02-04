@@ -43,7 +43,7 @@ Themes::view('admin/views/partials/navbar')
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
 
-EntriesManager::displayEntryForm($fieldset['fields'], $entry, $entry['content']);
+EntriesManager::displayEntryForm($fieldset, $entry, $entry['content']);
 
 Themes::view('admin/views/partials/content-end')->display();
 Themes::view('admin/views/partials/footer')->display();

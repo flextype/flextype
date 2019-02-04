@@ -33,73 +33,7 @@ class EntriesManager
 
         switch (Http::getUriSegment(2)) {
             case 'add':
-                $create_entry = Http::post('create_entry');
-
-                if (isset($create_entry)) {
-                    if (Token::check((Http::post('token')))) {
-                        $file = PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Text::safeString(Http::post('slug'), '-', true) . '/entry.html';
-
-                        if (!Filesystem::has($file)) {
-
-                            // Get fieldset
-                            $fieldset = YamlParser::decode(Filesystem::read(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('fieldset') . '.yaml'));
-
-                            // We need to check if template for current fieldset is exists
-                            // if template is not exist then default template will be used!
-                            $template_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::post('fieldset') . '.php';
-                            if (Filesystem::has($template_path)) {
-                                $template = Http::post('fieldset');
-                            } else {
-                                $template = 'default';
-                            }
-
-                            // Init frontmatter
-                            $frontmatter = [];
-                            $_frontmatter = [];
-
-                            // Define frontmatter values based on POST data
-                            $_frontmatter['title']     = Http::post('title');
-                            $_frontmatter['template']  = $template;
-                            $_frontmatter['fieldset']  = Http::post('fieldset');
-                            $_frontmatter['date']      = date(Registry::get('settings.date_format'), time());
-
-                            // Define frontmatter values based on fieldset
-                            foreach ($fieldset['fields'] as $key => $field) {
-
-                                if (isset($_frontmatter[$key])) {
-                                    $_value = $_frontmatter[$key];
-                                } elseif (isset($field['value'])) {
-                                    $_value = $field['value'];
-                                } else {
-                                    $_value = '';
-                                }
-
-                                $frontmatter[$key] = $_value;
-                            }
-
-                            // Delete content field from frontmatter
-                            Arr::delete($frontmatter, 'content');
-
-                            // Create a entry!
-                            if (Filesystem::write(
-                                    $file,
-                                    '---' . "\n" .
-                                    YamlParser::encode(array_replace_recursive($frontmatter, $_frontmatter)) .
-                                    '---' . "\n"
-                            )) {
-                                Notification::set('success', __('admin_message_entry_created'));
-                                Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('parent_entry'));
-                            }
-                        }
-                    } else {
-                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
-                    }
-                }
-
-                Themes::view('admin/views/templates/content/entries/add')
-                    ->assign('fieldsets', Themes::getFieldsets(false))
-                    ->assign('entries_list', Entries::getEntries('', 'slug'))
-                    ->display();
+                EntriesManager::addEntry();
             break;
             case 'delete':
                 if (Http::get('entry') != '') {
@@ -126,75 +60,10 @@ class EntriesManager
                 }
             break;
             case 'rename':
-                $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
-
-                $rename_entry = Http::post('rename_entry');
-
-                if (isset($rename_entry)) {
-                    if (Token::check((Http::post('token')))) {
-                        if (!Filesystem::dirExists(PATH['entries'] . '/' . Http::post('name'))) {
-                            if (rename(
-                                PATH['entries'] . '/' . Http::post('entry_path_current'),
-                                PATH['entries'] . '/' . Http::post('entry_parent') . '/' . Text::safeString(Http::post('name'), '-', true)
-                            )) {
-                                Notification::set('success', __('admin_message_entry_renamed'));
-                                Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('entry_parent'));
-                            }
-                        }
-                    } else {
-                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
-                    }
-                }
-
-                Themes::view('admin/views/templates/content/entries/rename')
-                    ->assign('name_current', Arr::last(explode("/", Http::get('entry'))))
-                    ->assign('entry_path_current', Http::get('entry'))
-                    ->assign('entry_parent', implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)))
-                    ->assign('entry', $entry)
-                    ->display();
+                EntriesManager::renameEntry();
             break;
             case 'type':
-
-                $type_entry = Http::post('type_entry');
-
-                if (isset($type_entry)) {
-                    if (Token::check((Http::post('token')))) {
-
-                        $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
-
-                        $content = $entry['content'];
-                        Arr::delete($entry, 'content');
-                        Arr::delete($entry, 'url');
-                        Arr::delete($entry, 'slug');
-                        Arr::delete($entry, 'base_url');
-
-                        $frontmatter = $_POST;
-                        Arr::delete($frontmatter, 'token');
-                        Arr::delete($frontmatter, 'type_entry');
-                        Arr::delete($frontmatter, 'entry');
-                        $frontmatter = YamlParser::encode(array_merge($entry, $frontmatter));
-
-                        if (Filesystem::write(
-                            PATH['entries'] . '/' . Http::post('entry') . '/entry.html',
-                                                    '---' . "\n" .
-                                                    $frontmatter . "\n" .
-                                                    '---' . "\n" .
-                                                    $content
-                        )) {
-                                Notification::set('success', __('admin_message_entry_changes_saved'));
-                                Http::redirect(Http::getBaseUrl() . '/admin/entries?entry=' . implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
-                        }
-                    } else {
-                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
-                    }
-                }
-
-                $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
-
-                Themes::view('admin/views/templates/content/entries/type')
-                    ->assign('fieldset', $entry['fieldset'])
-                    ->assign('fieldsets', Themes::getFieldsets())
-                    ->display();
+                EntriesManager::typeEntry();
             break;
             case 'move':
                 $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
@@ -346,104 +215,106 @@ class EntriesManager
         return $files;
     }
 
-    public static function displayEntryForm(array $form, array $values = [], string $content)
+    public static function displayEntryForm(array $fieldsets, array $values = [], string $content)
     {
         echo Form::open(null, ['id' => 'form', 'class' => 'row']);
         echo Form::hidden('token', Token::generate());
         echo Form::hidden('action', 'save-form');
 
-        if (isset($form) > 0) {
-            foreach ($form as $element => $property) {
+        if (count($fieldsets['sections']) > 0) {
+            foreach ($fieldsets['sections'] as $section) {
+                foreach ($section['fields'] as $element => $property) {
 
-                // Create attributes
-                $property['attributes'] = Arr::keyExists($property, 'attributes') ? $property['attributes'] : [];
+                    // Create attributes
+                    $property['attributes'] = Arr::keyExists($property, 'attributes') ? $property['attributes'] : [];
 
-                // Create attribute class
-                $property['attributes']['class'] = Arr::keyExists($property, 'attributes.class') ? 'form-control ' . $property['attributes']['class'] : 'form-control';
+                    // Create attribute class
+                    $property['attributes']['class'] = Arr::keyExists($property, 'attributes.class') ? 'form-control ' . $property['attributes']['class'] : 'form-control';
 
-                // Create attribute size
-                $property['size'] = Arr::keyExists($property, 'size') ? $property['size'] : 'col-12';
+                    // Create attribute size
+                    $property['size'] = Arr::keyExists($property, 'size') ? $property['size'] : 'col-12';
 
-                // Create attribute value
-                $property['value'] = Arr::keyExists($property, 'value') ? $property['value'] : '';
+                    // Create attribute value
+                    $property['value'] = Arr::keyExists($property, 'value') ? $property['value'] : '';
 
-                $pos = strpos($element, '.');
+                    $pos = strpos($element, '.');
 
-                if ($pos === false) {
-                    $form_element_name = $element;
-                } else {
-                    $form_element_name = str_replace(".", "][", "$element") . ']';
-                }
+                    if ($pos === false) {
+                        $form_element_name = $element;
+                    } else {
+                        $form_element_name = str_replace(".", "][", "$element") . ']';
+                    }
 
-                $pos = strpos($form_element_name, ']');
+                    $pos = strpos($form_element_name, ']');
 
-                if ($pos !== false) {
-                    $form_element_name = substr_replace($form_element_name, '', $pos, strlen(']'));
-                }
+                    if ($pos !== false) {
+                        $form_element_name = substr_replace($form_element_name, '', $pos, strlen(']'));
+                    }
 
-                // Form value
-                $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : $property['value'];
+                    // Form value
+                    $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : $property['value'];
 
-                // Form label
-                $form_label = Form::label($element, __($property['title']));
+                    // Form label
+                    $form_label = Form::label($element, __($property['title']));
 
-                // Form elements
-                switch ($property['type']) {
+                    // Form elements
+                    switch ($property['type']) {
 
-                    // Simple text-input, for multi-line fields.
-                    case 'textarea':
-                        $form_element = Form::textarea($element, $form_value, $property['attributes']);
-                    break;
+                        // Simple text-input, for multi-line fields.
+                        case 'textarea':
+                            $form_element = Form::textarea($element, $form_value, $property['attributes']);
+                        break;
 
-                    // The hidden field is like the text field, except it's hidden from the content editor.
-                    case 'hidden':
-                        $form_element = Form::hidden($element, $form_value);
-                    break;
+                        // The hidden field is like the text field, except it's hidden from the content editor.
+                        case 'hidden':
+                            $form_element = Form::hidden($element, $form_value);
+                        break;
 
-                    // A WYSIWYG HTML field.
-                    case 'html':
-                        $property['attributes']['class'] .= ' js-html-editor';
-                        $form_element = Form::textarea($element, $form_value, $property['attributes']);
-                    break;
+                        // A WYSIWYG HTML field.
+                        case 'html':
+                            $property['attributes']['class'] .= ' js-html-editor';
+                            $form_element = Form::textarea($element, $form_value, $property['attributes']);
+                        break;
 
-                    // A specific WYSIWYG HTML field for entry content editing
-                    case 'content':
-                        $form_element = Form::textarea($element, $content, $property['attributes']);
-                    break;
+                        // A specific WYSIWYG HTML field for entry content editing
+                        case 'content':
+                            $form_element = Form::textarea($element, $content, $property['attributes']);
+                        break;
 
-                    // Selectbox field
-                    case 'select':
-                        $form_element = Form::select($form_element_name, $property['options'], $form_value, $property['attributes']);
-                    break;
+                        // Selectbox field
+                        case 'select':
+                            $form_element = Form::select($form_element_name, $property['options'], $form_value, $property['attributes']);
+                        break;
 
-                    // Template select field for selecting entry template
-                    case 'template_select':
-                        $form_element = Form::select($form_element_name, Themes::getTemplates(), $form_value, $property['attributes']);
-                    break;
+                        // Template select field for selecting entry template
+                        case 'template_select':
+                            $form_element = Form::select($form_element_name, Themes::getTemplates(), $form_value, $property['attributes']);
+                        break;
 
-                    // Visibility select field for selecting entry visibility state
-                    case 'visibility_select':
-                        $form_element = Form::select($form_element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (!empty($form_value) ? $form_value : 'visible'), $property['attributes']);
-                    break;
+                        // Visibility select field for selecting entry visibility state
+                        case 'visibility_select':
+                            $form_element = Form::select($form_element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (!empty($form_value) ? $form_value : 'visible'), $property['attributes']);
+                        break;
 
-                    // Media select field
-                    case 'media_select':
-                        $form_element = Form::select($form_element_name, EntriesManager::getMediaList(Http::get('entry'), false), $form_value, $property['attributes']);
-                    break;
+                        // Media select field
+                        case 'media_select':
+                            $form_element = Form::select($form_element_name, EntriesManager::getMediaList(Http::get('entry'), false), $form_value, $property['attributes']);
+                        break;
 
-                    // Simple text-input, for single-line fields.
-                    default:
-                        $form_element = Form::input($form_element_name, $form_value, $property['attributes']);
-                    break;
-                }
+                        // Simple text-input, for single-line fields.
+                        default:
+                            $form_element = Form::input($form_element_name, $form_value, $property['attributes']);
+                        break;
+                    }
 
-                // Render form elments with labels
-                if ($property['type'] == 'hidden') {
-                    echo $form_element;
-                } else {
-                    echo '<div class="form-group ' . $property['size'] . '">';
-                    echo $form_label . $form_element;
-                    echo '</div>';
+                    // Render form elments with labels
+                    if ($property['type'] == 'hidden') {
+                        echo $form_element;
+                    } else {
+                        echo '<div class="form-group ' . $property['size'] . '">';
+                        echo $form_label . $form_element;
+                        echo '</div>';
+                    }
                 }
             }
         }
@@ -514,6 +385,180 @@ class EntriesManager
                 throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
             }
         }
+    }
+
+    protected static function renameEntry()
+    {
+        $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+
+        $rename_entry = Http::post('rename_entry');
+
+        if (isset($rename_entry)) {
+            if (Token::check((Http::post('token')))) {
+                if (!Filesystem::has(PATH['entries'] . '/' . Http::post('name'))) {
+                    if (Filesystem::rename(
+                        PATH['entries'] . '/' . Http::post('entry_path_current'),
+                        PATH['entries'] . '/' . Http::post('entry_parent') . '/' . Text::safeString(Http::post('name'), '-', true)
+                    )) {
+                        Notification::set('success', __('admin_message_entry_renamed'));
+                        Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('entry_parent'));
+                    }
+                }
+            } else {
+                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
+            }
+        }
+
+        Themes::view('admin/views/templates/content/entries/rename')
+            ->assign('name_current', Arr::last(explode("/", Http::get('entry'))))
+            ->assign('entry_path_current', Http::get('entry'))
+            ->assign('entry_parent', implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)))
+            ->assign('entry', $entry)
+            ->display();
+    }
+
+    protected static function typeEntry()
+    {
+        $type_entry = Http::post('type_entry');
+
+        if (isset($type_entry)) {
+            if (Token::check((Http::post('token')))) {
+
+                $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+
+                $content = $entry['content'];
+                Arr::delete($entry, 'content');
+                Arr::delete($entry, 'url');
+                Arr::delete($entry, 'slug');
+                Arr::delete($entry, 'base_url');
+
+                $frontmatter = $_POST;
+                Arr::delete($frontmatter, 'token');
+                Arr::delete($frontmatter, 'type_entry');
+                Arr::delete($frontmatter, 'entry');
+                $frontmatter = YamlParser::encode(array_merge($entry, $frontmatter));
+
+                if (Filesystem::write(
+                    PATH['entries'] . '/' . Http::post('entry') . '/entry.html',
+                                            '---' . "\n" .
+                                            $frontmatter . "\n" .
+                                            '---' . "\n" .
+                                            $content
+                )) {
+                        Notification::set('success', __('admin_message_entry_changes_saved'));
+                        Http::redirect(Http::getBaseUrl() . '/admin/entries?entry=' . implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
+                }
+            } else {
+                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
+            }
+        }
+
+        $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+
+        Themes::view('admin/views/templates/content/entries/type')
+            ->assign('fieldset', $entry['fieldset'])
+            ->assign('fieldsets', Themes::getFieldsets())
+            ->display();
+    }
+
+    protected static function addEntry()
+    {
+        $create_entry = Http::post('create_entry');
+
+        if (isset($create_entry)) {
+            if (Token::check((Http::post('token')))) {
+
+                // Set parent entry
+                if (Http::post('parent_entry')) {
+                    $parent_entry = '/' . Http::post('parent_entry');
+                } else {
+                    $parent_entry = '';
+                }
+
+                // Set new entry directory
+                $dir = PATH['entries'] . $parent_entry . '/' . Text::safeString(Http::post('slug'), '-', true);
+
+                // Check if new entry directory exists
+                if (!Filesystem::has($dir)) {
+
+                    // Try to create directory for new entry
+                    if (Filesystem::createDir($dir)) {
+
+                        $file = $dir . '/entry.html';
+
+                        // Check if new entry file exists
+                        if (!Filesystem::has($file)) {
+
+                            // Get fieldset
+                            $fieldset = YamlParser::decode(Filesystem::read(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('fieldset') . '.yaml'));
+
+                            // We need to check if template for current fieldset is exists
+                            // if template is not exist then default template will be used!
+                            $template_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::post('fieldset') . '.php';
+                            if (Filesystem::has($template_path)) {
+                                $template = Http::post('fieldset');
+                            } else {
+                                $template = 'default';
+                            }
+
+                            // Init frontmatter
+                            $frontmatter = [];
+                            $default_frontmatter = [];
+
+                            // Define frontmatter values based on POST data
+                            $default_frontmatter['title']     = Http::post('title');
+                            $default_frontmatter['template']  = $template;
+                            $default_frontmatter['fieldset']  = Http::post('fieldset');
+                            $default_frontmatter['date']      = date(Registry::get('settings.date_format'), time());
+
+                            // Define frontmatter values based on fieldset
+                            foreach ($fieldset['sections'] as $section) {
+                                foreach ($section as $key => $field) {
+
+                                    // Get values from default frontmatter
+                                    if (isset($default_frontmatter[$key])) {
+
+                                        $_value = $default_frontmatter[$key];
+
+                                    // Get values from fieldsets predefined field values
+                                    } elseif (isset($field['value'])) {
+
+                                        $_value = $field['value'];
+
+                                    // or set empty value
+                                    } else {
+                                        $_value = '';
+                                    }
+
+                                    $frontmatter[$key] = $_value;
+                                }
+                            }
+
+                            // Delete content field from frontmatter
+                            Arr::delete($frontmatter, 'content');
+
+                            // Create a entry!
+                            if (Filesystem::write(
+                                    $file,
+                                    '---' . "\n" .
+                                    YamlParser::encode(array_replace_recursive($frontmatter, $default_frontmatter)) .
+                                    '---' . "\n"
+                            )) {
+                                Notification::set('success', __('admin_message_entry_created'));
+                                Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('parent_entry'));
+                            }
+                        }
+                    }
+                }
+            } else {
+                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
+            }
+        }
+
+        Themes::view('admin/views/templates/content/entries/add')
+            ->assign('fieldsets', Themes::getFieldsets(false))
+            ->assign('entries_list', Entries::getEntries('', 'slug'))
+            ->display();
     }
 
     /**
