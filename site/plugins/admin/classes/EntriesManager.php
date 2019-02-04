@@ -72,7 +72,7 @@ class EntriesManager
 
                 if (isset($move_entry)) {
                     if (Token::check((Http::post('token')))) {
-                        if (!Filesystem::dirExists(realpath(PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Http::post('name_current')))) {
+                        if (!Filesystem::has(realpath(PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Http::post('name_current')))) {
                             if (rename(
                                 PATH['entries'] . '/' . Http::post('entry_path_current'),
                                 PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Text::safeString(Http::post('name_current'), '-', true)
