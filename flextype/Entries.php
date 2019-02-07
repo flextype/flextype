@@ -301,7 +301,7 @@ class Entries
      * @param string $data  Data
      * @return bool
      */
-    public static update(string $entry, string $data) : bool
+    public static function update(string $entry, string $data) : bool
     {
         $entry_file = PATH['entries'] . '/' . $entry . '/entry.html';
 
