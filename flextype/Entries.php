@@ -283,6 +283,24 @@ class Entries
     }
 
     /**
+     * Update entry
+     *
+     * @param string $entry Entry
+     * @param string $data  Data
+     * @return bool
+     */
+    public static update(string $entry, string $data) : bool
+    {
+        $entry_file = PATH['entries'] . '/' . $entry . '/entry.html';
+
+        if (Filesystem::has($entry_file)) {
+            return Filesystem::write($entry_file, $data);
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Create entry
      *
      * @param string $entry Entry
