@@ -319,7 +319,7 @@ class Entries
      * @param string $data  Data
      * @return bool
      */
-    public static create(string $entry, string $data) : bool
+    public static function create(string $entry, string $data) : bool
     {
         $entry_dir = PATH['entries'] . '/' . $entry;
 
