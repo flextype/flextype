@@ -283,9 +283,20 @@ class Entries
     }
 
     /**
+     * Delete entry.
+     *
+     * @param string $entry Entry
+     * @return bool True on success, false on failure.
+     */
+    public static function delete(string $entry) : bool
+    {
+        return Filesystem::delete(PATH['entries'] . '/' . $entry);
+    }
+
+    /**
      * Check whether entry exists.
      *
-     * @param string $entry Entry to find
+     * @param string $entry Entry
      * @return bool
      */
     public static function has(string $entry) : bool
