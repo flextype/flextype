@@ -281,4 +281,15 @@ class Entries
             return $_entry;
         }
     }
+
+    /**
+     * Check whether entry exists.
+     *
+     * @param string $entry Entry to find
+     * @return bool
+     */
+    public static function has(string $entry) : bool
+    {
+        return Filesystem::has(PATH['entries'] . '/' . $entry . '/entry.html');
+    }
 }
