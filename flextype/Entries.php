@@ -283,6 +283,38 @@ class Entries
     }
 
     /**
+     * Create entry
+     *
+     * @param string $entry Entry
+     * @param string $data  Data
+     * @return bool
+     */
+    public static create(string $entry, string $data) : bool
+    {
+        $entry_dir = PATH['entries'] . '/' . $entry;
+
+        // Check if new entry directory exists
+        if (!Filesystem::has($entry_dir)) {
+
+            // Try to create directory for new entry
+            if (Filesystem::createDir($entry_dir)) {
+
+                $entry_file = $entry_dir . '/entry.html';
+
+                // Check if new entry file exists
+                if (!Filesystem::has($entry_file)) {
+                    return Filesystem::write($entry_file, $data);
+                }
+
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Delete entry.
      *
      * @param string $entry Entry
