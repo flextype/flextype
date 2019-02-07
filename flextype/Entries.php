@@ -283,6 +283,18 @@ class Entries
     }
 
     /**
+     * Rename entry.
+     *
+     * @param string $entry     Entry
+     * @param string $new_entry New entry
+     * @return bool True on success, false on failure.
+     */
+    public static function rename(string $entry, string $new_entry) : bool
+    {
+        return rename($entry, $new_entry);
+    }
+
+    /**
      * Update entry
      *
      * @param string $entry Entry
