@@ -26,21 +26,21 @@ class Entries
      * $entry = Entries::getEntry('projects');
      *
      * @access  public
-     * @param   string   $url    Page url.
+     * @param   string   $entry  Entry
      * @param   bool     $raw    Parse content or raw content without parsing.
      * @param   bool     $hidden Get hidden entries.
      * @return  array
      */
-    public static function getEntry(string $url = '', bool $raw = false, bool $hidden = false)
+    public static function getEntry(string $entry = '', bool $raw = false, bool $hidden = false) : array
     {
-        // Init Entry
-        $entry = [];
+        // Init entry data
+        $data = [];
 
         // If $url is empty then set path for default main entry
-        if ($url === '') {
+        if ($entry === '') {
             $file_path = PATH['entries'] . '/' . Registry::get('settings.entries.main') . '/entry.html';
         } else {
-            $file_path = PATH['entries'] . '/' . $url . '/entry.html';
+            $file_path = PATH['entries'] . '/' . $entry . '/entry.html';
         }
 
         // If entry exist
@@ -56,27 +56,27 @@ class Entries
 
                 // Get raw entry if $raw is true
                 if ($raw) {
-                    $entry = Entries::processEntry($file_path, true);
+                    $data = Entries::processEntry($file_path, true);
                 } else {
-                    $entry = Entries::processEntry($file_path);
+                    $data = Entries::processEntry($file_path);
 
                     // Don't proccess 404 entry if we want to get hidden entry.
                     if ($hidden === false) {
 
                         // Get 404 entry if entry is not published
                         if (isset($entry['visibility']) && ($entry['visibility'] === 'draft' || $entry['visibility'] === 'hidden')) {
-                            $entry = Entries::getError404Entry();
+                            $data = Entries::getError404Entry();
                         }
                     }
                 }
 
-                Cache::save($entry_cache_id, $entry);
+                Cache::save($entry_cache_id, $data);
             }
         } else {
-            $entry = Entries::getError404Entry();
+            $data = Entries::getError404Entry();
         }
 
-        return $entry;
+        return $data;
     }
 
     /**
