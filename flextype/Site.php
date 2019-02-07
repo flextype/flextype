@@ -12,6 +12,7 @@
 
 namespace Flextype;
 
+use Flextype\Component\Arr\Arr;
 use Flextype\Component\Http\Http;
 use Flextype\Component\Event\Event;
 use Flextype\Component\Registry\Registry;
