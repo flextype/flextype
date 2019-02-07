@@ -356,6 +356,19 @@ class Entries
     }
 
     /**
+     * Copy entry(s)
+     *
+     * @param string $entry      Entry
+     * @param string $new_entry  New entry
+     * @param bool   $recursive  Recursive copy entries.
+     * @return bool True on success, false on failure.
+     */
+    public static function copy(string $entry, string $new_entry, bool $recursive = false) : bool
+    {
+        return Filesystem::copy($entry, $new_entry, $recursive);
+    }
+
+    /**
      * Check whether entry exists.
      *
      * @param string $entry Entry
