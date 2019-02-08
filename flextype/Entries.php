@@ -283,6 +283,40 @@ class Entries
     }
 
     /**
+     * Fetch entry
+     *
+     * @param string $entry Entry
+     * @return string|false The entry contents or false on failure.
+     */
+    public static function fetch(string $entry)
+    {
+        $entry_file = PATH['entries'] . '/' . $entry . '/entry.html';
+
+        if (Filesystem::has($entry_file)) {
+            return YamlParser::decode(Filesystem::read($entry_file));
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Fetch entry
+     *
+     * @param string $entry Entry
+     * @return string|false The entry contents or false on failure.
+     */
+    public static function fetchAll(string $entry)
+    {
+        $entry_file = PATH['entries'] . '/' . $entry . '/entry.html';
+
+        if (Filesystem::has($entry_file)) {
+            return YamlParser::decode(Filesystem::read($entry_file));
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Rename entry.
      *
      * @param string $entry     Entry
@@ -298,15 +332,15 @@ class Entries
      * Update entry
      *
      * @param string $entry Entry
-     * @param string $data  Data
+     * @param array  $data  Data
      * @return bool
      */
-    public static function update(string $entry, string $data) : bool
+    public static function update(string $entry, array $data) : bool
     {
         $entry_file = PATH['entries'] . '/' . $entry . '/entry.html';
 
         if (Filesystem::has($entry_file)) {
-            return Filesystem::write($entry_file, $data);
+            return Filesystem::write($entry_file, YamlParser::encode($data));
         } else {
             return false;
         }
@@ -316,10 +350,10 @@ class Entries
      * Create entry
      *
      * @param string $entry Entry
-     * @param string $data  Data
+     * @param array  $data  Data
      * @return bool
      */
-    public static function create(string $entry, string $data) : bool
+    public static function create(string $entry, array $data) : bool
     {
         $entry_dir = PATH['entries'] . '/' . $entry;
 
@@ -333,7 +367,7 @@ class Entries
 
                 // Check if new entry file exists
                 if (!Filesystem::has($entry_file)) {
-                    return Filesystem::write($entry_file, $data);
+                    return Filesystem::write($entry_file, YamlParser::encode($data));
                 }
 
             } else {
