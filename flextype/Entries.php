@@ -293,7 +293,15 @@ class Entries
         $entry_file = PATH['entries'] . '/' . $entry . '/entry.html';
 
         if (Filesystem::has($entry_file)) {
-            return YamlParser::decode(Filesystem::read($entry_file));
+            if ($entry = Filesystem::read($entry_file)) {
+                if ($entry_decoded = YamlParser::decode($entry)) {
+                    return $entry_decoded;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
