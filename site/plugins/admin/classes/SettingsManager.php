@@ -63,7 +63,7 @@ class SettingsManager
 
         $entries = [];
 
-        foreach (Entries::getEntries('', 'date', 'DESC') as $entry) {
+        foreach (Entries::fetchAll('', 'date', 'DESC') as $entry) {
             $entries[$entry['slug']] = $entry['title'];
         }
 
