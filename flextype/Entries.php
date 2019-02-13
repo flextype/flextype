@@ -293,8 +293,13 @@ class Entries
         $entry_file = PATH['entries'] . '/' . $entry . '/entry.html';
 
         if (Filesystem::has($entry_file)) {
-            if ($entry = Filesystem::read($entry_file)) {
-                if ($entry_decoded = YamlParser::decode($entry)) {
+            if ($entry_body = Filesystem::read($entry_file)) {
+                if ($entry_decoded = YamlParser::decode($entry_body)) {
+
+                    // Create default entry items
+                    $entry_decoded['date'] = $entry_decoded['date'] ?? date(Registry::get('settings.date_format'), Filesystem::getTimestamp($entry_file));
+                    $entry_decoded['slug'] = $entry_decoded['slug'] ?? $entry;
+
                     return $entry_decoded;
                 } else {
                     return false;
