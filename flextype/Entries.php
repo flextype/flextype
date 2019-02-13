@@ -445,8 +445,9 @@ class Entries
                 // Check if new entry file exists
                 if (!Filesystem::has($entry_file)) {
                     return Filesystem::write($entry_file, YamlParser::encode($data));
+                } else {
+                    return false;
                 }
-
             } else {
                 return false;
             }
