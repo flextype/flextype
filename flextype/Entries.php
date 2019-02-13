@@ -328,14 +328,69 @@ class Entries
     }
 
     /**
-     * Fetch entry
+     * Fetch entries
      *
-     * @param string $entry Entry
-     * @return string|false The entry contents or false on failure.
+     * @param   string  $etnry      Entry
+     * @param   string  $order_by   Order by specific entry field.
+     * @param   string  $order_type Order type: DESC or ASC
+     * @param   int     $offset     Offset
+     * @param   int     $length     Length
+     * @return array The entries
      */
-    public static function fetchAll(string $entry)
+    public static function fetchAll(string $entry, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null) : array
     {
-        return $entry;
+        // Entries array where founded entries will stored
+        $entries = [];
+
+        // Сache id
+        $cache_id = '';
+
+        // Entries path
+        $entries_path = PATH['entries'] . '/' . $entry;
+
+        // Get entries list
+        $entries_list = Filesystem::listContents($entries_path);
+
+        // Create entries cached id
+        foreach ($entries_list as $current_entry) {
+            if (strpos($current_entry['path'], $entry . '/entry.html') !== false) {
+                // ignore ...
+            } else {
+                if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.html')) {
+                    $cache_id .= md5('entries' . $current_entry['path'] . $current_entry['timestamp']);
+                }
+            }
+        }
+
+        if (Cache::contains($cache_id)) {
+            $entries = Cache::fetch($cache_id);
+        } else {
+
+            // Create entries array from entries list and ignore current requested entry
+            foreach ($entries_list as $current_entry) {
+                if (strpos($current_entry['path'], $entry . '/entry.html') !== false) {
+                    // ignore ...
+                } else {
+                    if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.html')) {
+                        $entries[$current_entry['dirname']] = Entries::fetch($entry . '/' . $current_entry['dirname']);
+                    }
+                }
+            }
+
+            Cache::save($cache_id, $entries);
+        }
+
+        // Sort and Slice entries if $raw === false
+        if (count($entries) > 0) {
+
+            $entries = Arr::sort($entries, $order_by, $order_type);
+
+            if ($offset !== null && $length !== null) {
+                $entries = array_slice($entries, $offset, $length);
+            }
+        }
+
+        return $entries;
     }
 
     /**
