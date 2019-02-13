@@ -292,13 +292,14 @@ class Entries
     {
         $entry_file = PATH['entries'] . '/' . $entry . '/entry.html';
 
-        $entry_cache_id = md5('entry' . $entry_file . ((Filesystem::getTimestamp($entry_file) === false) ? '' : Filesystem::getTimestamp($entry_file)));
 
         if (Filesystem::has($entry_file)) {
 
+            $cache_id = md5('entry' . $entry_file . ((Filesystem::getTimestamp($entry_file) === false) ? '' : Filesystem::getTimestamp($entry_file)));
+
             // Try to get the entry from cache
-            if (Cache::contains($entry_cache_id)) {
-                if ($entry_decoded = Cache::fetch($entry_cache_id)) {
+            if (Cache::contains($cache_id)) {
+                if ($entry_decoded = Cache::fetch($cache_id)) {
                     return $entry_decoded;
                 } else {
                     return false;
@@ -312,7 +313,13 @@ class Entries
                         $entry_decoded['date'] = $entry_decoded['date'] ?? date(Registry::get('settings.date_format'), Filesystem::getTimestamp($entry_file));
                         $entry_decoded['slug'] = $entry_decoded['slug'] ?? $entry;
 
-                        Cache::save($entry_cache_id, $entry_decoded);
+                        // Apply Shortcodes for each entry fields
+                        foreach ($entry_decoded as $key => $_entry_decoded) {
+                            $entry_decoded[$key] = Shortcodes::process($_entry_decoded);
+                        }
+
+                        // Save to cache
+                        Cache::save($cache_id, $entry_decoded);
 
                         return $entry_decoded;
                     } else {
@@ -322,6 +329,7 @@ class Entries
                     return false;
                 }
             }
+
         } else {
             return false;
         }
