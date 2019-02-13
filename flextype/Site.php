@@ -85,8 +85,34 @@ class Site
         // Event: The entry is not processed and not sent to the display.
         Event::dispatch('onCurrentEntryBeforeProcessed');
 
+        // Get uri
+        $uri = Http::getUriString();
+
+        // If uri is empty then it is main page else use entry uri
+        if ($uri === '') {
+            $entry_uri = Registry::get('settings.entries.main');
+        } else {
+            $entry_uri = $uri;
+        }
+
+        // Get entry body
+        $entry_body = Entries::fetch($entry_uri);
+
+        // If entry body is not false
+        if ($entry_body) {
+
+            // Get 404 page if entry is not published
+            if (isset($entry_body['visibility']) && ($entry_body['visibility'] === 'draft' || $entry_body['visibility'] === 'hidden')) {
+                $entry = Site::getError404Page();
+            } else {
+                $entry = $entry_body;
+            }
+        } else {
+            $entry = Site::getError404Page();
+        }
+
         // Set current requested entry data to global $entry array
-        Site::$entry = Entries::getEntry(Http::getUriString());
+        Site::$entry = $entry;
 
         // Event: The entry has been fully processed and not sent to the display.
         Event::dispatch('onCurrentEntryBeforeDisplayed');
@@ -96,6 +122,26 @@ class Site
 
         // Event: The entry has been fully processed and sent to the display.
         Event::dispatch('onCurrentEntryAfterProcessed');
+    }
+
+
+    /**
+     * Get Error404 entry
+     *
+     * @return  array
+     */
+    private static function getError404Page() : array
+    {
+        Http::setResponseStatus(404);
+
+        $entry = [];
+
+        $entry['title']       = Registry::get('settings.entries.error404.title');
+        $entry['description'] = Registry::get('settings.entries.error404.description');
+        $entry['content']     = Registry::get('settings.entries.error404.content');
+        $entry['template']    = Registry::get('settings.entries.error404.template');
+
+        return $entry;
     }
 
     /**
