@@ -286,7 +286,7 @@ class Entries
      * Fetch entry
      *
      * @param string $entry Entry
-     * @return string|false The entry contents or false on failure.
+     * @return array|false The entry contents or false on failure.
      */
     public static function fetch(string $entry)
     {
@@ -320,13 +320,7 @@ class Entries
      */
     public static function fetchAll(string $entry)
     {
-        $entry_file = PATH['entries'] . '/' . $entry . '/entry.html';
 
-        if (Filesystem::has($entry_file)) {
-            return YamlParser::decode(Filesystem::read($entry_file));
-        } else {
-            return false;
-        }
     }
 
     /**
