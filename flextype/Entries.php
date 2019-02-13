@@ -365,7 +365,7 @@ class Entries
                 // ignore ...
             } else {
                 if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.html')) {
-                    $cache_id .= md5('entries' . $current_entry['path'] . $current_entry['timestamp']);
+                    $cache_id .= md5('entries' . $current_entry['path'] . Filesystem::getTimestamp($current_entry['path'] . '/entry.html'));
                 }
             }
         }
