@@ -292,20 +292,35 @@ class Entries
     {
         $entry_file = PATH['entries'] . '/' . $entry . '/entry.html';
 
+        $entry_cache_id = md5('entry' . $entry_file . Filesystem::getTimestamp($entry_file));
+
         if (Filesystem::has($entry_file)) {
-            if ($entry_body = Filesystem::read($entry_file)) {
-                if ($entry_decoded = YamlParser::decode($entry_body)) {
 
-                    // Create default entry items
-                    $entry_decoded['date'] = $entry_decoded['date'] ?? date(Registry::get('settings.date_format'), Filesystem::getTimestamp($entry_file));
-                    $entry_decoded['slug'] = $entry_decoded['slug'] ?? $entry;
-
+            // Try to get the entry from cache
+            if (Cache::contains($entry_cache_id)) {
+                if ($entry_decoded = Cache::fetch($entry_cache_id)) {
                     return $entry_decoded;
                 } else {
                     return false;
                 }
             } else {
-                return false;
+
+                if ($entry_body = Filesystem::read($entry_file)) {
+                    if ($entry_decoded = YamlParser::decode($entry_body)) {
+
+                        // Create default entry items
+                        $entry_decoded['date'] = $entry_decoded['date'] ?? date(Registry::get('settings.date_format'), Filesystem::getTimestamp($entry_file));
+                        $entry_decoded['slug'] = $entry_decoded['slug'] ?? $entry;
+
+                        Cache::save($entry_cache_id, $entry_decoded);
+
+                        return $entry_decoded;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
             }
         } else {
             return false;
@@ -320,7 +335,7 @@ class Entries
      */
     public static function fetchAll(string $entry)
     {
-
+        return $entry;
     }
 
     /**
