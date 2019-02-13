@@ -52,7 +52,7 @@ class YamlParser {
      *
      * @var int
      */
-    public static $flag = 16;
+    public static $flag = Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK|Yaml::DUMP_EXCEPTION_ON_INVALID_TYPE;
 
     /**
      * Dumps a PHP value to a YAML string.
@@ -67,7 +67,7 @@ class YamlParser {
      *
      * @return string A YAML string representing the original PHP value
      */
-    public static function encode($input, int $inline = 5, int $indent = 2, int $flags = 16) : string
+    public static function encode($input, int $inline = 5, int $indent = 2, int $flags = Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK|Yaml::DUMP_EXCEPTION_ON_INVALID_TYPE) : string
     {
         try {
             return Yaml::dump(
