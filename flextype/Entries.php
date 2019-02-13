@@ -292,7 +292,7 @@ class Entries
     {
         $entry_file = PATH['entries'] . '/' . $entry . '/entry.html';
 
-        $entry_cache_id = md5('entry' . $entry_file . Filesystem::getTimestamp($entry_file));
+        $entry_cache_id = md5('entry' . $entry_file . (Filesystem::getTimestamp($entry_file) ? Filesystem::getTimestamp($entry_file) : ''));
 
         if (Filesystem::has($entry_file)) {
 
