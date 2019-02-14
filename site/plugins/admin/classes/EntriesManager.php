@@ -147,16 +147,15 @@ class EntriesManager
                         if (isset($action) && $action == 'save-form') {
                             if (Token::check((Http::post('token')))) {
 
-                                $data = $_POST;
+                                $_data = $_POST;
 
-                                Arr::delete($data, 'token');
-                                Arr::delete($data, 'action');
-                                Arr::delete($data, 'content');
+                                $data = [];
 
-                                if (Http::post('content') !== null) {
-                                    Arr::set($data, 'content', $indenter->indent(Http::post('content')));
-                                } else {
-                                    Arr::set($data, 'content', '');
+                                Arr::delete($_data, 'token');
+                                Arr::delete($_data, 'action');
+
+                                foreach ($_data as $key => $_d) {
+                                    $data[$key] = $indenter->indent($_d);
                                 }
 
                                 if (Entries::update(Http::get('entry'), $data)) {
