@@ -27,7 +27,7 @@ class Entries
      */
     public static function fetch(string $entry)
     {
-        $entry_file = PATH['entries'] . '/' . $entry . '/entry.html';
+        $entry_file = PATH['entries'] . '/' . $entry . '/entry.yaml';
 
 
         if (Filesystem::has($entry_file)) {
@@ -76,7 +76,7 @@ class Entries
     /**
      * Fetch entries
      *
-     * @param   string  $etnry      Entry
+     * @param   string  $entry      Entry
      * @param   string  $order_by   Order by specific entry field.
      * @param   string  $order_type Order type: DESC or ASC
      * @param   int     $offset     Offset
@@ -99,11 +99,11 @@ class Entries
 
         // Create entries cached id
         foreach ($entries_list as $current_entry) {
-            if (strpos($current_entry['path'], $entry . '/entry.html') !== false) {
+            if (strpos($current_entry['path'], $entry . '/entry.yaml') !== false) {
                 // ignore ...
             } else {
-                if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.html')) {
-                    $cache_id .= md5('entries' . $current_entry['path'] . Filesystem::getTimestamp($current_entry['path'] . '/entry.html'));
+                if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.yaml')) {
+                    $cache_id .= md5('entries' . $current_entry['path'] . Filesystem::getTimestamp($current_entry['path'] . '/entry.yaml'));
                 }
             }
         }
@@ -114,10 +114,10 @@ class Entries
 
             // Create entries array from entries list and ignore current requested entry
             foreach ($entries_list as $current_entry) {
-                if (strpos($current_entry['path'], $entry . '/entry.html') !== false) {
+                if (strpos($current_entry['path'], $entry . '/entry.yaml') !== false) {
                     // ignore ...
                 } else {
-                    if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.html')) {
+                    if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.yaml')) {
                         $entries[$current_entry['dirname']] = Entries::fetch($entry . '/' . $current_entry['dirname']);
                     }
                 }
@@ -160,7 +160,7 @@ class Entries
      */
     public static function update(string $entry, array $data) : bool
     {
-        $entry_file = PATH['entries'] . '/' . $entry . '/entry.html';
+        $entry_file = PATH['entries'] . '/' . $entry . '/entry.yaml';
 
         if (Filesystem::has($entry_file)) {
             return Filesystem::write($entry_file, YamlParser::encode($data));
@@ -186,7 +186,7 @@ class Entries
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
 
-                $entry_file = $entry_dir . '/entry.html';
+                $entry_file = $entry_dir . '/entry.yaml';
 
                 // Check if new entry file exists
                 if (!Filesystem::has($entry_file)) {
@@ -234,6 +234,6 @@ class Entries
      */
     public static function has(string $entry) : bool
     {
-        return Filesystem::has(PATH['entries'] . '/' . $entry . '/entry.html');
+        return Filesystem::has(PATH['entries'] . '/' . $entry . '/entry.yaml');
     }
 }
