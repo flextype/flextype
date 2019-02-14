@@ -66,7 +66,7 @@ class EntriesManager
                 EntriesManager::typeEntry();
             break;
             case 'move':
-                $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+                $entry = Entries::processEntry(Http::get('entry'));
 
                 $move_entry = Http::post('move_entry');
 
@@ -86,7 +86,7 @@ class EntriesManager
                     }
                 }
 
-                $_entries_list = Entries::getEntries('', 'slug');
+                $_entries_list = Entries::fetchAll('', 'slug');
                 $entries_list['/'] = '/';
                 foreach ($_entries_list as $_entry) {
                     if ($_entry['slug'] != '') {
@@ -105,7 +105,7 @@ class EntriesManager
                     ->display();
             break;
             case 'edit':
-                $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+                $entry = Entries::fetch(Http::get('entry'));
 
                 if (Http::get('media') && Http::get('media') == 'true') {
                     EntriesManager::processFilesManager();
@@ -146,29 +146,25 @@ class EntriesManager
 
                         if (isset($action) && $action == 'save-form') {
                             if (Token::check((Http::post('token')))) {
-                                $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
-                                Arr::delete($entry, 'content');
-                                Arr::delete($entry, 'url');
-                                Arr::delete($entry, 'slug');
-                                Arr::delete($entry, 'base_url');
 
-                                $frontmatter = $_POST;
-                                Arr::delete($frontmatter, 'token');
-                                Arr::delete($frontmatter, 'action');
-                                Arr::delete($frontmatter, 'content');
-                                $frontmatter = YamlParser::encode(array_merge($entry, $frontmatter));
+                                $data = $_POST;
 
-                                $content = Http::post('content');
-                                $content = (isset($content)) ? $indenter->indent($content) : '';
+                                Arr::delete($data, 'token');
+                                Arr::delete($data, 'action');
+                                Arr::delete($data, 'content');
 
-                                Filesystem::write(
-                                    PATH['entries'] . '/' . Http::get('entry') . '/entry.html',
-                                                            '---' . "\n" .
-                                                            $frontmatter . "\n" .
-                                                            '---' . "\n" .
-                                                            $content
-                                );
-                                Notification::set('success', __('admin_message_entry_changes_saved'));
+                                if (Http::post('content') !== null) {
+                                    Arr::set($data, 'content', $indenter->indent(Http::post('content')));
+                                } else {
+                                    Arr::set($data, 'content', '');
+                                }
+
+                                if (Entries::update(Http::get('entry'), $data)) {
+                                    Notification::set('success', __('admin_message_entry_changes_saved'));
+                                } else {
+                                    Notification::set('error', __('admin_message_entry_changes_not_saved'));
+                                }
+
                                 Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::get('entry'));
                             }
                         }
@@ -191,7 +187,7 @@ class EntriesManager
             default:
                 if (!Http::get('add')) {
                     Themes::view('admin/views/templates/content/entries/list')
-                        ->assign('entries_list', Entries::getEntries($query, 'date', 'DESC'))
+                        ->assign('entries_list', Entries::fetchAll($query, 'date', 'DESC'))
                         ->display();
                 }
             break;
@@ -389,7 +385,7 @@ class EntriesManager
 
     protected static function renameEntry()
     {
-        $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+        $entry = Entries::fetch(Http::get('entry'));
 
         $rename_entry = Http::post('rename_entry');
 
@@ -424,7 +420,7 @@ class EntriesManager
         if (isset($type_entry)) {
             if (Token::check((Http::post('token')))) {
 
-                $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+                $entry = Entries::fetch(Http::get('entry'));
 
                 $content = $entry['content'];
                 Arr::delete($entry, 'content');
@@ -453,7 +449,7 @@ class EntriesManager
             }
         }
 
-        $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+        $entry = Entries::fetch(Http::get('entry'));
 
         Themes::view('admin/views/templates/content/entries/type')
             ->assign('fieldset', $entry['fieldset'])
@@ -557,7 +553,7 @@ class EntriesManager
 
         Themes::view('admin/views/templates/content/entries/add')
             ->assign('fieldsets', Themes::getFieldsets(false))
-            ->assign('entries_list', Entries::getEntries('', 'slug'))
+            ->assign('entries_list', Entries::fetchAll('', 'slug'))
             ->display();
     }
 
