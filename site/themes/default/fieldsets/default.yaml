@@ -23,3 +23,34 @@ sections:
         title: admin_date
         type: text
         size: col-4
+  seo:
+    title: 'Seo'
+    fields:
+      description:
+        title: admin_description
+        type: textarea
+        size: col-12
+  menu:
+    title: 'Menu'
+    fields:
+      menu_item_title:
+        title: admin_menu_item_title
+        type: text
+        size: col-4
+      menu_item_url:
+        title: admin_menu_item_url
+        type: text
+        size: col-4
+      menu_item_target:
+        title: admin_menu_item_target
+        type: select
+        options:
+          blank: '_blank'
+          self: '_self'
+          parent: '_parent'
+          top: '_top'
+        size: col-4
+      menu_item_order:
+        title: admin_menu_item_order
+        type: text
+        size: col-4
