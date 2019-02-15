@@ -181,3 +181,19 @@
         margin-right: 10px;
     }
 }
+
+.nav-pills {
+    margin-bottom: 20px;
+}
+
+.nav-pills .nav-link {
+    border-radius: 0;
+    color: black;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    background: none;
+    border-bottom: 1px solid #ccc;
+    color: black;
+}
