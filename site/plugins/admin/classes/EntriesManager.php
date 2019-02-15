@@ -212,12 +212,29 @@ class EntriesManager
 
     public static function displayEntryForm(array $fieldsets, array $values = [], string $content)
     {
-        echo Form::open(null, ['id' => 'form', 'class' => 'row']);
+        echo Form::open(null, ['id' => 'form']);
         echo Form::hidden('token', Token::generate());
         echo Form::hidden('action', 'save-form');
 
         if (count($fieldsets['sections']) > 0) {
-            foreach ($fieldsets['sections'] as $section) {
+
+            echo ('<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">');
+
+            foreach ($fieldsets['sections'] as $key => $section) {
+                echo ('<li class="nav-item">
+                          <a class="nav-link '.(($key == 'main') ? 'active' : '').'" id="pills-'.$key.'-tab" data-toggle="pill" href="#pills-'.$key.'" role="tab" aria-controls="pills-'.$key.'" aria-selected="true">'.$section['title'].'</a>
+                       </li>');
+            }
+
+            echo ('</ul>');
+
+            echo ('<div class="tab-content" id="pills-tabContent">');
+
+            foreach ($fieldsets['sections'] as $key => $section) {
+
+                echo ('<div class="tab-pane fade show '.(($key == 'main') ? 'active' : '').'" id="pills-'.$key.'" role="tabpanel" aria-labelledby="pills-'.$key.'-tab">');
+                echo ('<div class="row">');
+
                 foreach ($section['fields'] as $element => $property) {
 
                     // Create attributes
@@ -311,7 +328,12 @@ class EntriesManager
                         echo '</div>';
                     }
                 }
+
+                echo ('</div>');
+                echo ('</div>');
             }
+
+            echo ('</div>');
         }
 
         echo Form::close();
