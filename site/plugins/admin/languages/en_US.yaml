@@ -178,3 +178,7 @@ admin_error_title_empty_input: "Title has to be an alphanumeric value (from 1 ch
 admin_entries_visible: "Visible"
 admin_entries_draft: "Draft"
 admin_entries_hidden: "Hidden"
+admin_menu_item_title: "Title"
+admin_menu_item_url: "Url"
+admin_menu_item_target: "Target"
+admin_menu_item_order: "Order"
