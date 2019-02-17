@@ -454,14 +454,17 @@ class EntriesManager
 
         if (isset($rename_entry)) {
             if (Token::check((Http::post('token')))) {
-                if (!Filesystem::has(PATH['entries'] . '/' . Http::post('name'))) {
-                    if (Filesystem::rename(
-                        PATH['entries'] . '/' . Http::post('entry_path_current'),
-                        PATH['entries'] . '/' . Http::post('entry_parent') . '/' . Text::safeString(Http::post('name'), '-', true)
+                if (!Entries::has(Http::post('name'))) {
+                    if (Entries::rename(
+                        Http::post('entry_path_current'),
+                        Http::post('entry_parent') . '/' . Text::safeString(Http::post('name'), '-', true)
                     )) {
                         Notification::set('success', __('admin_message_entry_renamed'));
-                        Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('entry_parent'));
+                    } else {
+                        Notification::set('error', __('admin_message_entry_was_not_renamed'));
                     }
+
+                    Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('entry_parent'));
                 }
             } else {
                 throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
@@ -487,9 +490,7 @@ class EntriesManager
 
                 $content = $entry['content'];
                 Arr::delete($entry, 'content');
-                Arr::delete($entry, 'url');
                 Arr::delete($entry, 'slug');
-                Arr::delete($entry, 'base_url');
 
                 $frontmatter = $_POST;
                 Arr::delete($frontmatter, 'token');
