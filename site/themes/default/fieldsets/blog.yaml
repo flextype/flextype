@@ -1,7 +1,10 @@
 title: Blog
 default_field: title
-fields:
-  title:
-    title: admin_title
-    type: text
-    size: col-12
+sections:
+  main:
+    title: 'Main'
+    fields:
+      title:
+        title: admin_title
+        type: text
+        size: col-12
