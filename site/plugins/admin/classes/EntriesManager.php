@@ -44,127 +44,13 @@ class EntriesManager
                 EntriesManager::typeEntry();
             break;
             case 'move':
-                $entry = Entries::processEntry(Http::get('entry'));
-
-                $move_entry = Http::post('move_entry');
-
-                if (isset($move_entry)) {
-                    if (Token::check((Http::post('token')))) {
-                        if (!Filesystem::has(realpath(PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Http::post('name_current')))) {
-                            if (rename(
-                                PATH['entries'] . '/' . Http::post('entry_path_current'),
-                                PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Text::safeString(Http::post('name_current'), '-', true)
-                            )) {
-                                Notification::set('success', __('admin_message_entry_moved'));
-                                Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('parent_entry'));
-                            }
-                        }
-                    } else {
-                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
-                    }
-                }
-
-                $_entries_list = Entries::fetchAll('', 'slug');
-                $entries_list['/'] = '/';
-                foreach ($_entries_list as $_entry) {
-                    if ($_entry['slug'] != '') {
-                        $entries_list[$_entry['slug']] = $_entry['slug'];
-                    } else {
-                        $entries_list[Registry::get('settings.entries.main')] = Registry::get('settings.entries.main');
-                    }
-                }
-
-                Themes::view('admin/views/templates/content/entries/move')
-                    ->assign('entry_path_current', Http::get('entry'))
-                    ->assign('entries_list', $entries_list)
-                    ->assign('name_current', Arr::last(explode("/", Http::get('entry'))))
-                    ->assign('entry_parent', implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)))
-                    ->assign('entry', $entry)
-                    ->display();
+                EntriesManager::moveEntry();
             break;
             case 'edit':
-                $entry = Entries::fetch(Http::get('entry'));
-
-                if (Http::get('media') && Http::get('media') == 'true') {
-                    EntriesManager::processFilesManager();
-
-                    Themes::view('admin/views/templates/content/entries/media')
-                        ->assign('entry_name', Http::get('entry'))
-                        ->assign('files', EntriesManager::getMediaList(Http::get('entry')), true)
-                        ->assign('entry', $entry)
-                        ->display();
-                } else {
-                    if (Http::get('source') && Http::get('source') == 'true') {
-                        $action = Http::post('action');
-
-                        if (isset($action) && $action == 'save-form') {
-                            if (Token::check((Http::post('token')))) {
-                                Filesystem::write(
-                                    PATH['entries'] . '/' . Http::post('entry_name') . '/entry.html',
-                                                            Http::post('entry_content')
-                                );
-                                Notification::set('success', __('admin_message_entry_changes_saved'));
-                                Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::post('entry_name') . '&source=true');
-                            } else {
-                                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
-                            }
-                        }
-
-                        $entry_content = Filesystem::read(PATH['entries'] . '/' . Http::get('entry') . '/entry.html');
-
-                        Themes::view('admin/views/templates/content/entries/source')
-                            ->assign('entry_name', Http::get('entry'))
-                            ->assign('entry_content', $entry_content)
-                            ->assign('entry', $entry)
-                            ->assign('files', EntriesManager::getMediaList(Http::get('entry')), true)
-                            ->display();
-                    } else {
-                        $action = Http::post('action');
-                        $indenter = new Indenter();
-
-                        if (isset($action) && $action == 'save-form') {
-                            if (Token::check((Http::post('token')))) {
-
-                                $_data = $_POST;
-
-                                $data = [];
-
-                                Arr::delete($_data, 'token');
-                                Arr::delete($_data, 'action');
-
-                                foreach ($_data as $key => $_d) {
-                                    $data[$key] = $indenter->indent($_d);
-                                }
-
-                                if (Entries::update(Http::get('entry'), $data)) {
-                                    Notification::set('success', __('admin_message_entry_changes_saved'));
-                                } else {
-                                    Notification::set('error', __('admin_message_entry_changes_not_saved'));
-                                }
-
-                                Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::get('entry'));
-                            }
-                        }
-
-                        // Fieldset for current entry template
-                        $fieldset_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
-                        $fieldset = YamlParser::decode(Filesystem::read($fieldset_path));
-                        is_null($fieldset) and $fieldset = [];
-
-                        Themes::view('admin/views/templates/content/entries/content')
-                            ->assign('entry_name', Http::get('entry'))
-                            ->assign('entry', $entry)
-                            ->assign('fieldset', $fieldset)
-                            ->assign('templates', Themes::getTemplates())
-                            ->assign('files', EntriesManager::getMediaList(Http::get('entry')), true)
-                            ->display();
-                    }
-                }
+                EntriesManager::editEntry();
             break;
             default:
-                Themes::view('admin/views/templates/content/entries/list')
-                    ->assign('entries_list', Entries::fetchAll($query, 'date', 'DESC'))
-                    ->display();
+                EntriesManager::listEntry();
             break;
         }
     }
@@ -326,6 +212,13 @@ class EntriesManager
         return $query;
     }
 
+    protected static function listEntry()
+    {
+        Themes::view('admin/views/templates/content/entries/list')
+            ->assign('entries_list', Entries::fetchAll(EntriesManager::getEntriesQuery(), 'date', 'DESC'))
+            ->display();
+    }
+
     protected static function processFilesManager()
     {
         $files_directory = PATH['entries'] . '/' . Http::get('entry') . '/';
@@ -391,6 +284,87 @@ class EntriesManager
         }
     }
 
+    protected static function editEntry()
+    {
+        $entry = Entries::fetch(Http::get('entry'));
+
+        if (Http::get('media') && Http::get('media') == 'true') {
+            EntriesManager::processFilesManager();
+
+            Themes::view('admin/views/templates/content/entries/media')
+                ->assign('entry_name', Http::get('entry'))
+                ->assign('files', EntriesManager::getMediaList(Http::get('entry')), true)
+                ->assign('entry', $entry)
+                ->display();
+        } else {
+            if (Http::get('source') && Http::get('source') == 'true') {
+                $action = Http::post('action');
+
+                if (isset($action) && $action == 'save-form') {
+                    if (Token::check((Http::post('token')))) {
+                        Filesystem::write(
+                            PATH['entries'] . '/' . Http::post('entry_name') . '/entry.html',
+                                                    Http::post('entry_content')
+                        );
+                        Notification::set('success', __('admin_message_entry_changes_saved'));
+                        Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::post('entry_name') . '&source=true');
+                    } else {
+                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
+                    }
+                }
+
+                $entry_content = Filesystem::read(PATH['entries'] . '/' . Http::get('entry') . '/entry.html');
+
+                Themes::view('admin/views/templates/content/entries/source')
+                    ->assign('entry_name', Http::get('entry'))
+                    ->assign('entry_content', $entry_content)
+                    ->assign('entry', $entry)
+                    ->assign('files', EntriesManager::getMediaList(Http::get('entry')), true)
+                    ->display();
+            } else {
+                $action = Http::post('action');
+                $indenter = new Indenter();
+
+                if (isset($action) && $action == 'save-form') {
+                    if (Token::check((Http::post('token')))) {
+
+                        $_data = $_POST;
+
+                        $data = [];
+
+                        Arr::delete($_data, 'token');
+                        Arr::delete($_data, 'action');
+
+                        foreach ($_data as $key => $_d) {
+                            $data[$key] = $indenter->indent($_d);
+                        }
+
+                        if (Entries::update(Http::get('entry'), $data)) {
+                            Notification::set('success', __('admin_message_entry_changes_saved'));
+                        } else {
+                            Notification::set('error', __('admin_message_entry_changes_not_saved'));
+                        }
+
+                        Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::get('entry'));
+                    }
+                }
+
+                // Fieldset for current entry template
+                $fieldset_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
+                $fieldset = YamlParser::decode(Filesystem::read($fieldset_path));
+                is_null($fieldset) and $fieldset = [];
+
+                Themes::view('admin/views/templates/content/entries/content')
+                    ->assign('entry_name', Http::get('entry'))
+                    ->assign('entry', $entry)
+                    ->assign('fieldset', $fieldset)
+                    ->assign('templates', Themes::getTemplates())
+                    ->assign('files', EntriesManager::getMediaList(Http::get('entry')), true)
+                    ->display();
+            }
+        }
+    }
+
     protected static function duplicateEntry()
     {
         if (Http::get('entry') != '') {
@@ -407,6 +381,47 @@ class EntriesManager
                 throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
             }
         }
+    }
+
+    protected static function moveEntry()
+    {
+        $entry = Entries::fetch(Http::get('entry'));
+
+        $move_entry = Http::post('move_entry');
+
+        if (isset($move_entry)) {
+            if (Token::check((Http::post('token')))) {
+                if (!Filesystem::has(realpath(PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Http::post('name_current')))) {
+                    if (rename(
+                        PATH['entries'] . '/' . Http::post('entry_path_current'),
+                        PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Text::safeString(Http::post('name_current'), '-', true)
+                    )) {
+                        Notification::set('success', __('admin_message_entry_moved'));
+                        Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('parent_entry'));
+                    }
+                }
+            } else {
+                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
+            }
+        }
+
+        $_entries_list = Entries::fetchAll('', 'slug');
+        $entries_list['/'] = '/';
+        foreach ($_entries_list as $_entry) {
+            if ($_entry['slug'] != '') {
+                $entries_list[$_entry['slug']] = $_entry['slug'];
+            } else {
+                $entries_list[Registry::get('settings.entries.main')] = Registry::get('settings.entries.main');
+            }
+        }
+
+        Themes::view('admin/views/templates/content/entries/move')
+            ->assign('entry_path_current', Http::get('entry'))
+            ->assign('entries_list', $entries_list)
+            ->assign('name_current', Arr::last(explode("/", Http::get('entry'))))
+            ->assign('entry_parent', implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)))
+            ->assign('entry', $entry)
+            ->display();
     }
 
     protected static function deleteEntry()
