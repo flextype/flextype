@@ -25,7 +25,7 @@
 <table class="table no-margin">
     <thead>
         <tr>
-            <th><?= __('admin_name') ?></th>
+            <th><?= __('admin_entry') ?></th>
             <th></th>
         </tr>
     </thead>
@@ -34,7 +34,22 @@
         <tr>
             <td>
                 <?php $count = count(Entries::fetchAll($entry['slug'], 'slug', 'ASC')) ?>
-                <a href="<?php if ($count > 0): ?><?= Http::getBaseUrl() ?>/admin/entries/?entry=<?= $entry['slug'] ?><?php else: ?><?= Http::getBaseUrl() ?>/admin/entries/edit?entry=<?= $entry['slug'] ?><?php endif ?>"><?= $entry['title'] ?></a>
+                <a href="<?php if ($count > 0): ?><?= Http::getBaseUrl() ?>/admin/entries/?entry=<?= $entry['slug'] ?><?php else: ?><?= Http::getBaseUrl() ?>/admin/entries/edit?entry=<?= $entry['slug'] ?><?php endif ?>">
+                    <?php if (isset($entry['fieldset'])): ?>
+                        <?php if (Filesystem::has(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . $entry['fieldset'] . '.yaml')): ?>
+                            <?php $fieldset = YamlParser::decode(Filesystem::read(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . $entry['fieldset'] . '.yaml')) ?>
+                            <?php if (isset($fieldset['default_field'])): ?>
+                                <?= $entry[$fieldset['default_field']] ?>
+                            <?php else: ?>
+                                <?= $entry['slug'] ?>
+                            <?php endif ?>
+                        <?php else: ?>
+                            <?= $entry['slug'] ?>
+                        <?php endif ?>
+                    <?php else: ?>
+                        <?= $entry['slug'] ?>
+                    <?php endif ?>
+                </a>
                 <?php if ($count > 0): ?>
                     (<?= $count ?>)
                 <?php endif ?>
