@@ -1,7 +1,7 @@
 title: Home
 template: home
-visibility: visible
 fieldset: default
+visibility: visible
 content: |
   <h1 style="text-align: center;">
       Welcome!
