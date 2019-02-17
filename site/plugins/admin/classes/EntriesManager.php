@@ -391,14 +391,18 @@ class EntriesManager
 
         if (isset($move_entry)) {
             if (Token::check((Http::post('token')))) {
-                if (!Filesystem::has(realpath(PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Http::post('name_current')))) {
-                    if (rename(
-                        PATH['entries'] . '/' . Http::post('entry_path_current'),
-                        PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Text::safeString(Http::post('name_current'), '-', true)
+                if (!Entries::has(Http::post('parent_entry') . '/' . Http::post('name_current'))) {
+                    if (Entries::rename(
+                        Http::post('entry_path_current'),
+                        Http::post('parent_entry') . '/' . Text::safeString(Http::post('name_current'), '-', true)
                     )) {
                         Notification::set('success', __('admin_message_entry_moved'));
-                        Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('parent_entry'));
+                    } else {
+                        Notification::set('error', __('admin_message_entry_was_not_moved'));
                     }
+
+                    Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('parent_entry'));
+
                 }
             } else {
                 throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
