@@ -299,7 +299,7 @@ class EntriesManager
                 if (isset($action) && $action == 'save-form') {
                     if (Token::check((Http::post('token')))) {
                         Filesystem::write(
-                            PATH['entries'] . '/' . Http::post('entry_name') . '/entry.html',
+                            PATH['entries'] . '/' . Http::post('entry_name') . '/entry.yaml',
                                                     Http::post('entry_content')
                         );
                         Notification::set('success', __('admin_message_entry_changes_saved'));
@@ -309,7 +309,7 @@ class EntriesManager
                     }
                 }
 
-                $entry_content = Filesystem::read(PATH['entries'] . '/' . Http::get('entry') . '/entry.html');
+                $entry_content = Filesystem::read(PATH['entries'] . '/' . Http::get('entry') . '/entry.yaml');
 
                 Themes::view('admin/views/templates/content/entries/source')
                     ->assign('entry_name', Http::get('entry'))
@@ -495,7 +495,7 @@ class EntriesManager
                 $frontmatter = YamlParser::encode(array_merge($entry, $frontmatter));
 
                 if (Filesystem::write(
-                    PATH['entries'] . '/' . Http::post('entry') . '/entry.html',
+                    PATH['entries'] . '/' . Http::post('entry') . '/entry.нфьд',
                                             '---' . "\n" .
                                             $frontmatter . "\n" .
                                             '---' . "\n" .
@@ -557,7 +557,7 @@ class EntriesManager
                     // Try to create directory for new entry
                     if (Filesystem::createDir($dir)) {
 
-                        $file = $dir . '/entry.html';
+                        $file = $dir . '/entry.yaml';
 
                         // Check if new entry file exists
                         if (!Filesystem::has($file)) {
