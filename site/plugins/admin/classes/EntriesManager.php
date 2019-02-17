@@ -391,7 +391,7 @@ class EntriesManager
         if (Http::get('entry') != '') {
             if (Token::check((Http::get('token')))) {
 
-                if (Entries:copy( Http::get('entry'), Http::get('entry') . '-duplicate-' . date("Ymd_His"), true)) {
+                if (Entries::copy(Http::get('entry'), Http::get('entry') . '-duplicate-' . date("Ymd_His"), true)) {
                     Notification::set('success', __('admin_message_entry_duplicated'));
                 } else {
                     Notification::set('error', __('admin_message_entry_was_not_duplicated'));
