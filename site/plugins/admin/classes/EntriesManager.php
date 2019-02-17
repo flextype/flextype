@@ -36,28 +36,10 @@ class EntriesManager
                 EntriesManager::addEntry();
             break;
             case 'delete':
-                if (Http::get('entry') != '') {
-                    if (Token::check((Http::get('token')))) {
-                        Filesystem::deleteDir(PATH['entries'] . '/' . Http::get('entry'));
-                        Notification::set('success', __('admin_message_entry_deleted'));
-                        Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::get('entry_current'));
-                    } else {
-                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
-                    }
-                }
+                EntriesManager::deleteEntry();
             break;
             case 'duplicate':
-                if (Http::get('entry') != '') {
-                    if (Token::check((Http::get('token')))) {
-                        Filesystem::copy(PATH['entries'] . '/' . Http::get('entry'),
-                                            PATH['entries'] . '/' . Http::get('entry') . '-duplicate-' . date("Ymd_His"),
-                                            true);
-                        Notification::set('success', __('admin_message_entry_duplicated'));
-                        Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
-                    } else {
-                        throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
-                    }
-                }
+                EntriesManager::duplicateEntry();
             break;
             case 'rename':
                 EntriesManager::renameEntry();
@@ -398,6 +380,42 @@ class EntriesManager
                     Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::get('entry') . '&media=true');
                 }
 
+            } else {
+                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
+            }
+        }
+    }
+
+    protected static function duplicateEntry()
+    {
+        if (Http::get('entry') != '') {
+            if (Token::check((Http::get('token')))) {
+
+                if (Entries:copy( Http::get('entry'), Http::get('entry') . '-duplicate-' . date("Ymd_His"), true)) {
+                    Notification::set('success', __('admin_message_entry_duplicated'));
+                } else {
+                    Notification::set('error', __('admin_message_entry_was_not_duplicated'));
+                }
+
+                Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
+            } else {
+                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
+            }
+        }
+    }
+
+    protected static function deleteEntry()
+    {
+        if (Http::get('entry') != '') {
+            if (Token::check((Http::get('token')))) {
+
+                if (Entries::delete(Http::get('entry'))) {
+                    Notification::set('success', __('admin_message_entry_deleted'));
+                } else {
+                    Notification::set('error', __('admin_message_entry_was_not_deleted'));
+                }
+
+                Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::get('entry_current'));
             } else {
                 throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
             }
