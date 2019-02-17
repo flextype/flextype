@@ -1,4 +1,4 @@
-## [0.8.4] - 2019-01-xx
+## [0.9.0] - 2019-02-xx
 ### Added
 - Flextype Core: Shortcodes class to work with shortcodes and default shortcodes.
 - Shortcodes: new default shortcode [site_url]
