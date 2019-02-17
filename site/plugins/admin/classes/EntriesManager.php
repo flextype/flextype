@@ -551,7 +551,7 @@ class EntriesManager
                 // Set new entry name
                 $entry = $parent_entry . Text::safeString(Http::post('slug'), '-', true);
 
-                // Check if new entry directory exists
+                // Check if new entry exists
                 if (!Entries::has($entry)) {
 
                     // Get fieldset
@@ -576,11 +576,11 @@ class EntriesManager
                     $default_data['fieldset']  = Http::post('fieldset');
                     $default_data['date']      = date(Registry::get('settings.date_format'), time());
 
-                    // Define frontmatter values based on fieldset
+                    // Predefine data values based on selected fieldset
                     foreach ($fieldset['sections'] as $section) {
                         foreach ($section as $key => $field) {
 
-                            // Get values from default frontmatter
+                            // Get values from default data
                             if (isset($default_frontmatter[$key])) {
 
                                 $_value = $default_frontmatter[$key];
@@ -599,19 +599,16 @@ class EntriesManager
                         }
                     }
 
-                    // Delete content field from frontmatter
-                    Arr::delete($data, 'content');
+                    // Merge data
+                    $data = array_replace_recursive($data, $default_data);
 
-                    // Create a entry!
-                    if (Entries::create(
-                            $entry,
-                            array_replace_recursive($data, $default_data)
-                    )) {
+                    // Create a new entry!
+                    if (Entries::create($entry, $data)) {
                         Notification::set('success', __('admin_message_entry_created'));
                     } else {
                         Notification::set('success', __('admin_message_entry_was_not_created'));
                     }
-                    
+
                     Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('parent_entry'));
                 }
             } else {
