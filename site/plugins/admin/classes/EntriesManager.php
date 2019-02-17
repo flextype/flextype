@@ -74,7 +74,7 @@ class EntriesManager
         return $files;
     }
 
-    public static function displayEntryForm(array $fieldsets, array $values = [], string $content)
+    public static function displayEntryForm(array $fieldsets, array $values = [])
     {
         echo Form::open(null, ['id' => 'form']);
         echo Form::hidden('token', Token::generate());
@@ -150,11 +150,6 @@ class EntriesManager
                         case 'html':
                             $property['attributes']['class'] .= ' js-html-editor';
                             $form_element = Form::textarea($element, $form_value, $property['attributes']);
-                        break;
-
-                        // A specific WYSIWYG HTML field for entry content editing
-                        case 'content':
-                            $form_element = Form::textarea($element, $content, $property['attributes']);
                         break;
 
                         // Selectbox field
