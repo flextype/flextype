@@ -608,8 +608,11 @@ class EntriesManager
                             array_replace_recursive($data, $default_data)
                     )) {
                         Notification::set('success', __('admin_message_entry_created'));
-                        Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('parent_entry'));
+                    } else {
+                        Notification::set('success', __('admin_message_entry_was_not_created'));
                     }
+                    
+                    Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('parent_entry'));
                 }
             } else {
                 throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
