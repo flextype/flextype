@@ -37,7 +37,7 @@ class FieldsetsManager
                                                                 'type'  => 'text',
                                                                 'size'  => 'col-12'
                                                             ]
-                                                            ]
+                                                          ]
                                                         ])
                             )) {
                                 Notification::set('success', __('admin_message_fieldset_created'));

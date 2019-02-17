@@ -58,6 +58,7 @@ class EntriesManager
     public static function getMediaList($entry, $path = false)
     {
         $files = [];
+
         foreach (array_diff(scandir(PATH['entries'] . '/' . $entry), ['..', '.']) as $file) {
             if (strpos(Registry::get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
@@ -69,6 +70,7 @@ class EntriesManager
                 }
             }
         }
+
         return $files;
     }
 
