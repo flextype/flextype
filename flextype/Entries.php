@@ -208,9 +208,9 @@ class Entries
      * @param string $entry Entry
      * @return bool True on success, false on failure.
      */
-    public static function delete(string $entry) : bool
+    public static function delete(string $entry)
     {
-        return Filesystem::delete(PATH['entries'] . '/' . $entry);
+        return Filesystem::deleteDir(PATH['entries'] . '/' . $entry);
     }
 
     /**
