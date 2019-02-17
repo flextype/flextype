@@ -28,9 +28,9 @@ Themes::view('admin/views/partials/content-start')->display();
 
 <div class="row">
     <div class="col-md-6">
-        <?= Form::open(); ?>
-        <?= Form::hidden('token', Token::generate()); ?>
-        <?= Form::hidden('parent_entry', Http::get('entry')); ?>
+        <?= Form::open() ?>
+        <?= Form::hidden('token', Token::generate()) ?>
+        <?= Form::hidden('parent_entry', Http::get('entry')) ?>
         <div class="form-group">
             <?= Form::label('title', __('admin_title'), ['for' => 'entryTitle']) ?>
             <?= Form::input('title', '', ['class' => 'form-control', 'id' => 'entryTitle', 'required', 'data-validation' => 'length required', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_error_title_empty_input')]) ?>

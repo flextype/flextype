@@ -20,7 +20,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 class EntriesManager
 {
 
-    public static function getEntriesManager()
+    public static function getEntriesManager() : void
     {
         Registry::set('sidebar_menu_item', 'entries');
 
@@ -54,7 +54,7 @@ class EntriesManager
         }
     }
 
-    public static function getMediaList($entry, $path = false)
+    public static function getMediaList(string $entry, bool $path = false) : array
     {
         $files = [];
 
@@ -73,7 +73,7 @@ class EntriesManager
         return $files;
     }
 
-    public static function displayEntryForm(array $fieldsets, array $values = [])
+    public static function displayEntryForm(array $fieldsets, array $values = []) : void
     {
         echo Form::open(null, ['id' => 'form']);
         echo Form::hidden('token', Token::generate());
@@ -197,7 +197,7 @@ class EntriesManager
         echo Form::close();
     }
 
-    protected static function getEntriesQuery()
+    protected static function getEntriesQuery() : string
     {
         if (Http::get('entry') && Http::get('entry') != '') {
             $query = Http::get('entry');
@@ -208,14 +208,14 @@ class EntriesManager
         return $query;
     }
 
-    protected static function listEntry()
+    protected static function listEntry() : void
     {
         Themes::view('admin/views/templates/content/entries/list')
             ->assign('entries_list', Entries::fetchAll(EntriesManager::getEntriesQuery(), 'date', 'DESC'))
             ->display();
     }
 
-    protected static function processFilesManager()
+    protected static function processFilesManager() : void
     {
         $files_directory = PATH['entries'] . '/' . Http::get('entry') . '/';
 
@@ -231,7 +231,6 @@ class EntriesManager
 
         if (Http::post('upload_file')) {
             if (Token::check(Http::post('token'))) {
-                //echo Registry::get('settings.entries.media.accept_file_types');
 
                 $file = EntriesManager::uploadFile($_FILES['file'], $files_directory, Registry::get('settings.entries.media.accept_file_types'), 27000000);
 
@@ -280,7 +279,7 @@ class EntriesManager
         }
     }
 
-    protected static function editEntry()
+    protected static function editEntry() : void
     {
         $entry = Entries::fetch(Http::get('entry'));
 
@@ -361,7 +360,7 @@ class EntriesManager
         }
     }
 
-    protected static function duplicateEntry()
+    protected static function duplicateEntry() : void
     {
         if (Http::get('entry') != '') {
             if (Token::check((Http::get('token')))) {
@@ -379,7 +378,7 @@ class EntriesManager
         }
     }
 
-    protected static function moveEntry()
+    protected static function moveEntry() : void
     {
         $entry = Entries::fetch(Http::get('entry'));
 
@@ -424,7 +423,7 @@ class EntriesManager
             ->display();
     }
 
-    protected static function deleteEntry()
+    protected static function deleteEntry() : void
     {
         if (Http::get('entry') != '') {
             if (Token::check((Http::get('token')))) {
@@ -442,7 +441,7 @@ class EntriesManager
         }
     }
 
-    protected static function renameEntry()
+    protected static function renameEntry() : void
     {
         $entry = Entries::fetch(Http::get('entry'));
 
@@ -475,7 +474,7 @@ class EntriesManager
             ->display();
     }
 
-    protected static function typeEntry()
+    protected static function typeEntry() : void
     {
         $type_entry = Http::post('type_entry');
 
@@ -534,7 +533,7 @@ class EntriesManager
             ->display();
     }
 
-    protected static function addEntry()
+    protected static function addEntry() : void
     {
         $create_entry = Http::post('create_entry');
 
@@ -581,9 +580,9 @@ class EntriesManager
                         foreach ($section as $key => $field) {
 
                             // Get values from default data
-                            if (isset($default_frontmatter[$key])) {
+                            if (isset($default_data[$key])) {
 
-                                $_value = $default_frontmatter[$key];
+                                $_value = $default_data[$key];
 
                             // Get values from fieldsets predefined field values
                             } elseif (isset($field['value'])) {
