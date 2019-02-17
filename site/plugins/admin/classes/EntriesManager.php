@@ -3,7 +3,6 @@
 namespace Flextype;
 
 use Flextype\Component\Arr\Arr;
-use Flextype\Component\Number\Number;
 use Flextype\Component\I18n\I18n;
 use Flextype\Component\Http\Http;
 use Flextype\Component\Event\Event;
