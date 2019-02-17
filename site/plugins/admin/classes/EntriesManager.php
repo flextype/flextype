@@ -25,11 +25,7 @@ class EntriesManager
     {
         Registry::set('sidebar_menu_item', 'entries');
 
-        if (Http::get('entry') && Http::get('entry') != '') {
-            $query = Http::get('entry');
-        } else {
-            $query = '';
-        }
+        $query = EntriesManager::getEntriesQuery();
 
         switch (Http::getUriSegment(2)) {
             case 'add':
@@ -166,11 +162,9 @@ class EntriesManager
                 }
             break;
             default:
-                if (!Http::get('add')) {
-                    Themes::view('admin/views/templates/content/entries/list')
-                        ->assign('entries_list', Entries::fetchAll($query, 'date', 'DESC'))
-                        ->display();
-                }
+                Themes::view('admin/views/templates/content/entries/list')
+                    ->assign('entries_list', Entries::fetchAll($query, 'date', 'DESC'))
+                    ->display();
             break;
         }
     }
@@ -319,6 +313,17 @@ class EntriesManager
         }
 
         echo Form::close();
+    }
+
+    protected static function getEntriesQuery()
+    {
+        if (Http::get('entry') && Http::get('entry') != '') {
+            $query = Http::get('entry');
+        } else {
+            $query = '';
+        }
+
+        return $query;
     }
 
     protected static function processFilesManager()
@@ -726,10 +731,8 @@ class EntriesManager
 
                         if (move_uploaded_file($file['tmp_name'], $filename)) {
 
-                            if ($chmod !== false) {
-                                // Set permissions on filename
-                                chmod($filename, $chmod);
-                            }
+                            // Set permissions on filename
+                            chmod($filename, $chmod);
 
                             // Return new file path
                             return $filename;
