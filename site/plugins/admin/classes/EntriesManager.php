@@ -511,9 +511,26 @@ class EntriesManager
 
         $entry = Entries::fetch(Http::get('entry'));
 
+        $fieldsets = [];
+
+        // Get fieldsets files
+        $_fieldsets = Filesystem::listContents(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/');
+
+        // If there is any template file then go...
+        if (count($_fieldsets) > 0) {
+            foreach ($_fieldsets as $fieldset) {
+                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
+                    $fieldset_content = YamlParser::decode(Filesystem::read($fieldset['path']));
+                    if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
+                        $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
+                    }
+                }
+            }
+        }
+
         Themes::view('admin/views/templates/content/entries/type')
             ->assign('fieldset', $entry['fieldset'])
-            ->assign('fieldsets', Themes::getFieldsets())
+            ->assign('fieldsets', $fieldsets)
             ->display();
     }
 
@@ -611,8 +628,25 @@ class EntriesManager
             }
         }
 
+        $fieldsets = [];
+
+        // Get fieldsets files
+        $_fieldsets = Filesystem::listContents(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/');
+
+        // If there is any template file then go...
+        if (count($_fieldsets) > 0) {
+            foreach ($_fieldsets as $fieldset) {
+                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
+                    $fieldset_content = YamlParser::decode(Filesystem::read($fieldset['path']));
+                    if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
+                        $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
+                    }
+                }
+            }
+        }
+
         Themes::view('admin/views/templates/content/entries/add')
-            ->assign('fieldsets', Themes::getFieldsets(false))
+            ->assign('fieldsets', $fieldsets)
             ->assign('entries_list', Entries::fetchAll('', 'slug'))
             ->display();
     }
