@@ -1,10 +1,11 @@
 title: 'Blog Post'
+default_field: title
 fields:
   title:
     title: admin_title
     type: text
     size: col-12
-  summary: 
+  summary:
     title: admin_summary
     type: html
     size: col-12

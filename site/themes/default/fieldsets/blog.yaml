@@ -1,4 +1,5 @@
 title: Blog
+default_field: title
 fields:
   title:
     title: admin_title
