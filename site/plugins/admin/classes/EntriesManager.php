@@ -545,82 +545,70 @@ class EntriesManager
                 if (Http::post('parent_entry')) {
                     $parent_entry = '/' . Http::post('parent_entry');
                 } else {
-                    $parent_entry = '';
+                    $parent_entry = '/';
                 }
 
-                // Set new entry directory
-                $dir = PATH['entries'] . $parent_entry . '/' . Text::safeString(Http::post('slug'), '-', true);
+                // Set new entry name
+                $entry = $parent_entry . Text::safeString(Http::post('slug'), '-', true);
 
                 // Check if new entry directory exists
-                if (!Filesystem::has($dir)) {
+                if (!Entries::has($entry)) {
 
-                    // Try to create directory for new entry
-                    if (Filesystem::createDir($dir)) {
+                    // Get fieldset
+                    $fieldset = YamlParser::decode(Filesystem::read(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('fieldset') . '.yaml'));
 
-                        $file = $dir . '/entry.yaml';
+                    // We need to check if template for current fieldset is exists
+                    // if template is not exist then default template will be used!
+                    $template_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::post('fieldset') . '.php';
+                    if (Filesystem::has($template_path)) {
+                        $template = Http::post('fieldset');
+                    } else {
+                        $template = 'default';
+                    }
 
-                        // Check if new entry file exists
-                        if (!Filesystem::has($file)) {
+                    // Init entry data
+                    $data = [];
+                    $default_data = [];
 
-                            // Get fieldset
-                            $fieldset = YamlParser::decode(Filesystem::read(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('fieldset') . '.yaml'));
+                    // Define data values based on POST data
+                    $default_data['title']     = Http::post('title');
+                    $default_data['template']  = $template;
+                    $default_data['fieldset']  = Http::post('fieldset');
+                    $default_data['date']      = date(Registry::get('settings.date_format'), time());
 
-                            // We need to check if template for current fieldset is exists
-                            // if template is not exist then default template will be used!
-                            $template_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::post('fieldset') . '.php';
-                            if (Filesystem::has($template_path)) {
-                                $template = Http::post('fieldset');
+                    // Define frontmatter values based on fieldset
+                    foreach ($fieldset['sections'] as $section) {
+                        foreach ($section as $key => $field) {
+
+                            // Get values from default frontmatter
+                            if (isset($default_frontmatter[$key])) {
+
+                                $_value = $default_frontmatter[$key];
+
+                            // Get values from fieldsets predefined field values
+                            } elseif (isset($field['value'])) {
+
+                                $_value = $field['value'];
+
+                            // or set empty value
                             } else {
-                                $template = 'default';
+                                $_value = '';
                             }
 
-                            // Init frontmatter
-                            $frontmatter = [];
-                            $default_frontmatter = [];
-
-                            // Define frontmatter values based on POST data
-                            $default_frontmatter['title']     = Http::post('title');
-                            $default_frontmatter['template']  = $template;
-                            $default_frontmatter['fieldset']  = Http::post('fieldset');
-                            $default_frontmatter['date']      = date(Registry::get('settings.date_format'), time());
-
-                            // Define frontmatter values based on fieldset
-                            foreach ($fieldset['sections'] as $section) {
-                                foreach ($section as $key => $field) {
-
-                                    // Get values from default frontmatter
-                                    if (isset($default_frontmatter[$key])) {
-
-                                        $_value = $default_frontmatter[$key];
-
-                                    // Get values from fieldsets predefined field values
-                                    } elseif (isset($field['value'])) {
-
-                                        $_value = $field['value'];
-
-                                    // or set empty value
-                                    } else {
-                                        $_value = '';
-                                    }
-
-                                    $frontmatter[$key] = $_value;
-                                }
-                            }
-
-                            // Delete content field from frontmatter
-                            Arr::delete($frontmatter, 'content');
-
-                            // Create a entry!
-                            if (Filesystem::write(
-                                    $file,
-                                    '---' . "\n" .
-                                    YamlParser::encode(array_replace_recursive($frontmatter, $default_frontmatter)) .
-                                    '---' . "\n"
-                            )) {
-                                Notification::set('success', __('admin_message_entry_created'));
-                                Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('parent_entry'));
-                            }
+                            $data[$key] = $_value;
                         }
+                    }
+
+                    // Delete content field from frontmatter
+                    Arr::delete($data, 'content');
+
+                    // Create a entry!
+                    if (Entries::create(
+                            $entry,
+                            array_replace_recursive($data, $default_data)
+                    )) {
+                        Notification::set('success', __('admin_message_entry_created'));
+                        Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::post('parent_entry'));
                     }
                 }
             } else {
