@@ -7,7 +7,13 @@
 - Flextype Core: Using new languages files format.
 
 ### Changed
+- Flextype Core: Symfony Yaml updated to 4.2.3.
+- Flextype Core: Thunderer Shortcode updated to 0.7.1.
 - Flextype Core: Flextype Components Arr updated to 1.2.5
+- Flextype Core: Flextype Components Number updated to 1.1.0
+- Admin Panel: Bootstrap updated to 4.3.1
+- Admin Panel: Codemirror updated to 5.43.0
+- Admin Panel: Trumbowyg updated to 2.14.0
 - Admin Panel: Settings Manager - locales list - improvements!
 
 ### Fixed
