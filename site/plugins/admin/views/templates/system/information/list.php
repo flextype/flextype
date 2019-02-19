@@ -97,21 +97,20 @@ Themes::view('admin/views/partials/content-start')->display();
 <br>
 <br>
 
-
-<?php if (Filesystem::isFileWritable(ROOT_DIR . '/.htaccess') or
-          Filesystem::isFileWritable(ROOT_DIR . '/index.php') or
+<?php if (InformationManager::isFileWritable(ROOT_DIR . '/.htaccess') or
+          InformationManager::isFileWritable(ROOT_DIR . '/index.php') or
           Registry::get('settings.errors.display') === true) { ?>
 
         <h3 class="h3"><?=  __('admin_security_check_results') ?></h3>
 
         <table class="table no-margin">
             <tbody>
-                <?php if (Filesystem::isFileWritable(ROOT_DIR . '/.htaccess')) { ?>
+                <?php if (InformationManager::isFileWritable(ROOT_DIR . '/.htaccess')) { ?>
                 <tr>
                     <td><?= __('admin_security_check_results_htaccess', null, [':path' => ROOT_DIR . '/.htaccess']) ?></td>
                 </tr>
                 <?php } ?>
-                <?php if (Filesystem::isFileWritable(ROOT_DIR . '/index.php')) { ?>
+                <?php if (InformationManager::isFileWritable(ROOT_DIR . '/index.php')) { ?>
                 <tr>
                     <td><?= __('admin_security_check_results_index', null, [':path' => ROOT_DIR . '/index.php']) ?></td>
                 </tr>
