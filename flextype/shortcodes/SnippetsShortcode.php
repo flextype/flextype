@@ -16,7 +16,7 @@ use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Snippets
-// Shortcode: [snippets get=snippet-name]
+// Shortcode: [snippets fetch=snippet-name]
 Shortcodes::shortcode()->addHandler('snippets', function(ShortcodeInterface $s) {
-    return Snippets::get($s->getParameter('get'));
+    return Snippets::get($s->getParameter('fetch'));
 });
