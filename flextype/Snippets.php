@@ -45,7 +45,10 @@ class Snippets
      */
     public static function rename(string $snippet, string $new_snippet) : bool
     {
-        return rename($snippet, $new_snippet);
+        $snippet_file = PATH['snippets'] . '/' . $snippet . '.php';
+        $new_snippet_file = PATH['snippets'] . '/' . $new_snippet . '.php';
+
+        return rename($snippet_file, $new_snippet_file);
     }
 
     /**
@@ -61,7 +64,7 @@ class Snippets
         $snippet_file = PATH['snippets'] . '/' . $snippet . '.php';
 
         if (Filesystem::has($snippet_file)) {
-            return Filesystem::write($snippet, $data);
+            return Filesystem::write($snippet_file, $data);
         } else {
             return false;
         }
@@ -96,7 +99,9 @@ class Snippets
      */
     public static function delete(string $snippet) : bool
     {
-        return Filesystem::delete(PATH['snippets'] . '/' . $entry . '.php');
+        $snippet_file = PATH['snippets'] . '/' . $snippet . '.php';
+
+        return Filesystem::delete($snippet_file);
     }
 
     /**
@@ -109,7 +114,10 @@ class Snippets
      */
     public static function copy(string $snippet, string $new_snippet) : bool
     {
-        return Filesystem::copy($snippet, $new_snippet, false);
+        $snippet_file = PATH['snippets'] . '/' . $snippet . '.php';
+        $new_snippet_file = PATH['snippets'] . '/' . $new_snippet . '.php';
+
+        return Filesystem::copy($snippet_file, $new_snippet_file, false);
     }
 
     /**
@@ -121,7 +129,9 @@ class Snippets
      */
     public static function has(string $snippet) : bool
     {
-        return Filesystem::has(PATH['snippets'] . '/' . $snippet . '.php');
+        $snippet_file = PATH['snippets'] . '/' . $snippet . '.php';
+
+        return Filesystem::has($snippet_file);
     }
 
     /**
