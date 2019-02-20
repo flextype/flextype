@@ -45,10 +45,7 @@ class Snippets
      */
     public static function rename(string $snippet, string $new_snippet) : bool
     {
-        $snippet_file = PATH['snippets'] . '/' . $snippet . '.php';
-        $new_snippet_file = PATH['snippets'] . '/' . $new_snippet . '.php';
-
-        return rename($snippet_file, $new_snippet_file);
+        return rename(Snippets::_file_location($snippet), Snippets::_file_location($new_snippet));
     }
 
     /**
@@ -61,7 +58,7 @@ class Snippets
      */
     public static function update(string $snippet, string $data) : bool
     {
-        $snippet_file = PATH['snippets'] . '/' . $snippet . '.php';
+        $snippet_file = Snippets::_file_location($snippet);
 
         if (Filesystem::has($snippet_file)) {
             return Filesystem::write($snippet_file, $data);
@@ -80,7 +77,7 @@ class Snippets
      */
     public static function create(string $snippet, string $data = '') : bool
     {
-        $snippet_file = PATH['snippets'] . '/' . $snippet . '.php';
+        $snippet_file = Snippets::_file_location($snippet);
 
         // Check if new entry file exists
         if (!Filesystem::has($snippet_file)) {
@@ -99,9 +96,7 @@ class Snippets
      */
     public static function delete(string $snippet) : bool
     {
-        $snippet_file = PATH['snippets'] . '/' . $snippet . '.php';
-
-        return Filesystem::delete($snippet_file);
+        return Filesystem::delete(Snippets::_file_location($snippet));
     }
 
     /**
@@ -114,10 +109,7 @@ class Snippets
      */
     public static function copy(string $snippet, string $new_snippet) : bool
     {
-        $snippet_file = PATH['snippets'] . '/' . $snippet . '.php';
-        $new_snippet_file = PATH['snippets'] . '/' . $new_snippet . '.php';
-
-        return Filesystem::copy($snippet_file, $new_snippet_file, false);
+        return Filesystem::copy(Snippets::_file_location($snippet), Snippets::_file_location($new_snippet), false);
     }
 
     /**
@@ -129,9 +121,7 @@ class Snippets
      */
     public static function has(string $snippet) : bool
     {
-        $snippet_file = PATH['snippets'] . '/' . $snippet . '.php';
-
-        return Filesystem::has($snippet_file);
+        return Filesystem::has(Snippets::_file_location($snippet));
     }
 
     /**
@@ -151,7 +141,7 @@ class Snippets
         $name = (isset($fetch)) ? (string) $fetch : '';
 
         // Define snippet path
-        $snippet_file = PATH['snippets'] . '/' . $name . '.php';
+        $snippet_file = Snippets::_file_location($name);
 
         // Process snippet
         if (Filesystem::has($snippet_file)) {
@@ -167,5 +157,17 @@ class Snippets
         } else {
             throw new \RuntimeException("Snippet {$name} does not exist.");
         }
+    }
+
+    /**
+     * Helper method _file_location
+     *
+     * @access private
+     * @param string $name Name
+     * @return string
+     */
+    private static function _file_location($name)
+    {
+        return PATH['snippets'] . '/' . $name . '.php';
     }
 }
