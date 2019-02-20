@@ -71,7 +71,7 @@
       <div class="modal-body">
           <?= Form::label('shortcode', __('admin_shortcode'), ['for' => 'shortcode']) ?>
           <div class="alert alert-dark clipboard" role="alert">
-              <span id="snippet">[snippets get="<span class="js-snippets-snippet-placeholder"></span>"]</span>
+              <span id="snippet">[snippets fetch="<span class="js-snippets-snippet-placeholder"></span>"]</span>
               <button class="js-clipboard-btn btn" data-clipboard-target="#snippet">
                   <?= __('admin_copy') ?>
               </button>
@@ -79,7 +79,7 @@
           <br>
           <?= Form::label('php_code', __('admin_php_code'), ['for' => 'php_code']) ?>
            <div id="php" class="alert alert-dark clipboard" role="alert">
-               <span id="php">&lt;?= Snippets::get("<span class="js-snippets-php-placeholder"></span>") ?&gt;</span>
+               <span id="php">&lt;?= Snippets::fetch("<span class="js-snippets-php-placeholder"></span>") ?&gt;</span>
                <button class="js-clipboard-btn btn" data-clipboard-target="#php">
                     <?= __('admin_copy') ?>
                </button>
