@@ -30,7 +30,6 @@ class Entries
     {
         $entry_file = PATH['entries'] . '/' . $entry . '/entry.yaml';
 
-
         if (Filesystem::has($entry_file)) {
 
             $cache_id = md5('entry' . $entry_file . ((Filesystem::getTimestamp($entry_file) === false) ? '' : Filesystem::getTimestamp($entry_file)));
@@ -151,7 +150,10 @@ class Entries
      */
     public static function rename(string $entry, string $new_entry) : bool
     {
-        return rename($entry, $new_entry);
+        $entry_file = PATH['entries'] . '/' . $entry . '/entry.yaml';
+        $new_entry_file = PATH['entries'] . '/' . $new_entry . '/entry.yaml';
+
+        return rename($entry_file, $new_entry_file);
     }
 
     /**
@@ -216,7 +218,9 @@ class Entries
      */
     public static function delete(string $entry) : bool
     {
-        return Filesystem::deleteDir(PATH['entries'] . '/' . $entry);
+        $entry_file = PATH['entries'] . '/' . $entry . '/entry.yaml';
+
+        return Filesystem::deleteDir($entry_file);
     }
 
     /**
@@ -230,7 +234,10 @@ class Entries
      */
     public static function copy(string $entry, string $new_entry, bool $recursive = false) : bool
     {
-        return Filesystem::copy($entry, $new_entry, $recursive);
+        $entry_file = PATH['entries'] . '/' . $entry . '/entry.yaml';
+        $new_entry_file = PATH['entries'] . '/' . $new_entry . '/entry.yaml';
+
+        return Filesystem::copy($entry_file, $new_entry_file, $recursive);
     }
 
     /**
@@ -242,6 +249,8 @@ class Entries
      */
     public static function has(string $entry) : bool
     {
-        return Filesystem::has(PATH['entries'] . '/' . $entry . '/entry.yaml');
+        $entry_file = PATH['entries'] . '/' . $entry . '/entry.yaml';
+
+        return Filesystem::has($entry_file);
     }
 }
