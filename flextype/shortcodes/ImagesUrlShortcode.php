@@ -50,5 +50,5 @@ Shortcodes::shortcode()->addHandler('images_url', function(ShortcodeInterface $s
     ($s->getParameter('q')) and $params['q'] = $s->getParameter('q');
     ($s->getParameter('fm')) and $params['fm'] = $s->getParameter('fm');
 
-    return Images::getImageUrl($s->getParameter('path'), $params);
+    return Images::fetchImageUrl($s->getParameter('path'), $params);
 });

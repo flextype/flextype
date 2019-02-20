@@ -57,5 +57,5 @@ Shortcodes::shortcode()->addHandler('images', function(ShortcodeInterface $s) {
     ($s->getParameter('id')) and $attributes['id'] = $s->getParameter('id');
     ($s->getParameter('alt')) and $attributes['alt'] = $s->getParameter('alt');
 
-    return Images::getImage($s->getParameter('path'), $params, $attributes);
+    return Images::fetchImage($s->getParameter('path'), $params, $attributes);
 });
