@@ -105,18 +105,8 @@ class Flextype
         // Get Plugins Instance
         Plugins::getInstance();
 
-    //    echo '<pre>';
-    //    print_r(Entries::fetchAll('test', 'slug', 'DESC'));
-    //    echo '</pre>';
-
-    //    die();
-
         // Get Site Instance
         Site::getInstance();
-
-        //var_dump(\Symfony\Component\Yaml\Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
-
-        //Entries::create('test', ['title' => 'Title', 'content' => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis \nnostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\n Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."]);
 
         // Flush (send) the output buffer and turn off output buffering
         ob_end_flush();
