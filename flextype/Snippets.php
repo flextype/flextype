@@ -75,7 +75,7 @@ class Snippets
      * @param string $data    Data
      * @return bool True on success, false on failure.
      */
-    public static function create(string $snippet, string $data) : bool
+    public static function create(string $snippet, string $data = '') : bool
     {
         $snippet_file = PATH['snippets'] . '/' . $snippet . '.php';
 
