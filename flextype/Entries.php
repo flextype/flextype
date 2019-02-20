@@ -22,6 +22,7 @@ class Entries
     /**
      * Fetch entry
      *
+     * @access public
      * @param string $entry Entry
      * @return array|false The entry contents or false on failure.
      */
@@ -76,6 +77,7 @@ class Entries
     /**
      * Fetch entries
      *
+     * @access public
      * @param   string  $entry      Entry
      * @param   string  $order_by   Order by specific entry field.
      * @param   string  $order_type Order type: DESC or ASC
@@ -142,6 +144,7 @@ class Entries
     /**
      * Rename entry.
      *
+     * @access public
      * @param string $entry     Entry
      * @param string $new_entry New entry
      * @return bool True on success, false on failure.
@@ -154,6 +157,7 @@ class Entries
     /**
      * Update entry
      *
+     * @access public
      * @param string $entry Entry
      * @param array  $data  Data
      * @return bool
@@ -172,6 +176,7 @@ class Entries
     /**
      * Create entry
      *
+     * @access public
      * @param string $entry Entry
      * @param array  $data  Data
      * @return bool
@@ -205,6 +210,7 @@ class Entries
     /**
      * Delete entry.
      *
+     * @access public
      * @param string $entry Entry
      * @return bool True on success, false on failure.
      */
@@ -216,6 +222,7 @@ class Entries
     /**
      * Copy entry(s)
      *
+     * @access public
      * @param string $entry      Entry
      * @param string $new_entry  New entry
      * @param bool   $recursive  Recursive copy entries.
@@ -229,6 +236,7 @@ class Entries
     /**
      * Check whether entry exists.
      *
+     * @access public
      * @param string $entry Entry
      * @return bool
      */
