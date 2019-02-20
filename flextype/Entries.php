@@ -28,7 +28,7 @@ class Entries
      */
     public static function fetch(string $entry)
     {
-        $entry_file = PATH['entries'] . '/' . $entry . '/entry.yaml';
+        $entry_file = Entries::_file_location($entry);
 
         if (Filesystem::has($entry_file)) {
 
@@ -93,7 +93,7 @@ class Entries
         $cache_id = '';
 
         // Entries path
-        $entries_path = PATH['entries'] . '/' . $entry;
+        $entries_path = Entries::_dir_location($entry);
 
         // Get entries list
         $entries_list = Filesystem::listContents($entries_path);
@@ -150,10 +150,7 @@ class Entries
      */
     public static function rename(string $entry, string $new_entry) : bool
     {
-        $entry_file = PATH['entries'] . '/' . $entry . '/entry.yaml';
-        $new_entry_file = PATH['entries'] . '/' . $new_entry . '/entry.yaml';
-
-        return rename($entry_file, $new_entry_file);
+        return rename(Entries::_dir_location($entry), Entries::_dir_location($new_entry));
     }
 
     /**
@@ -166,7 +163,7 @@ class Entries
      */
     public static function update(string $entry, array $data) : bool
     {
-        $entry_file = PATH['entries'] . '/' . $entry . '/entry.yaml';
+        $entry_file = Entries::_file_location($entry);
 
         if (Filesystem::has($entry_file)) {
             return Filesystem::write($entry_file, YamlParser::encode($data));
@@ -185,7 +182,7 @@ class Entries
      */
     public static function create(string $entry, array $data) : bool
     {
-        $entry_dir = PATH['entries'] . '/' . $entry;
+        $entry_dir = Entries::_dir_location($entry);
 
         // Check if new entry directory exists
         if (!Filesystem::has($entry_dir)) {
@@ -218,9 +215,7 @@ class Entries
      */
     public static function delete(string $entry) : bool
     {
-        $entry_file = PATH['entries'] . '/' . $entry . '/entry.yaml';
-
-        return Filesystem::deleteDir($entry_file);
+        return Filesystem::deleteDir(Entries::_dir_location($entry));
     }
 
     /**
@@ -234,10 +229,7 @@ class Entries
      */
     public static function copy(string $entry, string $new_entry, bool $recursive = false) : bool
     {
-        $entry_file = PATH['entries'] . '/' . $entry . '/entry.yaml';
-        $new_entry_file = PATH['entries'] . '/' . $new_entry . '/entry.yaml';
-
-        return Filesystem::copy($entry_file, $new_entry_file, $recursive);
+        return Filesystem::copy(Entries::_dir_location($entry), Entries::_dir_location($new_entry), $recursive);
     }
 
     /**
@@ -249,8 +241,30 @@ class Entries
      */
     public static function has(string $entry) : bool
     {
-        $entry_file = PATH['entries'] . '/' . $entry . '/entry.yaml';
+        return Filesystem::has(Entries::_file_location($entry));
+    }
 
-        return Filesystem::has($entry_file);
+    /**
+     * Helper method _file_location
+     *
+     * @access private
+     * @param string $name Name
+     * @return string
+     */
+    private static function _file_location($name)
+    {
+        return PATH['entries'] . '/' . $name . '/entry.yaml';
+    }
+
+    /**
+     * Helper method _dir_location
+     *
+     * @access private
+     * @param string $name Name
+     * @return string
+     */
+    private static function _dir_location($name)
+    {
+        return PATH['entries'] . '/' . $name;
     }
 }
