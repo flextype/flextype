@@ -46,8 +46,11 @@ class SettingsManager
 
                 if (Filesystem::write(PATH['config']['site'] . '/settings.yaml', YamlParser::encode(array_merge(Registry::get('settings'), $settings)))) {
                     Notification::set('success', __('admin_message_settings_saved'));
-                    Http::redirect(Http::getBaseUrl() . '/admin/settings');
+                } else {
+                    Notification::set('error', __('admin_message_settings_was_not_saved'));
                 }
+
+                Http::redirect(Http::getBaseUrl() . '/admin/settings');
             } else {
                 throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
             }
