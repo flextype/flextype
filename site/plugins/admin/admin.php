@@ -6,8 +6,8 @@ namespace Flextype;
  *
  * Flextype Admin Plugin
  *
- * @author Romanenko Sergey / Awilum <awilum@yandex.ru>
- * @link http://flextype.org
+ * @author Romanenko Sergey / Awilum <hello@romanenko.digital>
+ * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
