@@ -16,17 +16,20 @@ class SettingsManager
     {
         Registry::set('sidebar_menu_item', 'settings');
 
-        // Clear cache
-        if (Http::get('clear_cache') !== null && Http::get('clear_cache') == '1' && Http::get('token') !== null) {
-            if (Token::check((Http::get('token')))) {
-                Cache::clear();
-                Notification::set('success', __('admin_message_cache_files_deleted'));
-                Http::redirect(Http::getBaseUrl() . '/admin/settings');
-            } else {
-                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
-            }
-        }
+        SettingsManager::clearCache();
+        SettingsManager::saveSettings();
 
+        Themes::view('admin/views/templates/system/settings/list')
+                ->assign('settings', Registry::get('settings'))
+                ->assign('cache_driver', SettingsManager::cacheDriverList())
+                ->assign('locales', SettingsManager::localesList())
+                ->assign('entries', SettingsManager::entriesList())
+                ->assign('themes', SettingsManager::themesList())
+                ->display();
+    }
+
+    private static function saveSettings()
+    {
         if (Http::post('action') !== null && Http::post('action') == 'save-form' && Http::post('token') !== null) {
             if (Token::check((Http::post('token')))) {
 
@@ -49,7 +52,24 @@ class SettingsManager
                 throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
             }
         }
+    }
 
+    private static function clearCache()
+    {
+        // Clear cache
+        if (Http::get('clear_cache') !== null && Http::get('clear_cache') == '1' && Http::get('token') !== null) {
+            if (Token::check((Http::get('token')))) {
+                Cache::clear();
+                Notification::set('success', __('admin_message_cache_files_deleted'));
+                Http::redirect(Http::getBaseUrl() . '/admin/settings');
+            } else {
+                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
+            }
+        }
+    }
+
+    private static function localesList()
+    {
         $available_locales = Filesystem::listContents(PATH['plugins'] . '/admin/languages/');
         $system_locales = Plugins::getLocales();
 
@@ -61,12 +81,22 @@ class SettingsManager
             }
         }
 
+        return $locales;
+    }
+
+    private static function entriesList()
+    {
         $entries = [];
 
         foreach (Entries::fetchAll('', 'date', 'DESC') as $entry) {
             $entries[$entry['slug']] = $entry['title'];
         }
 
+        return $entries;
+    }
+
+    private static function themesList()
+    {
         $themes = [];
 
         foreach (Filesystem::listContents(PATH['themes']) as $theme) {
@@ -75,7 +105,12 @@ class SettingsManager
             }
         }
 
-        $cache_driver = ['auto' => 'Auto Detect',
+        return $themes;
+    }
+
+    private static function cacheDriverList()
+    {
+        return ['auto' => 'Auto Detect',
                             'file' => 'File',
                             'apcu' => 'APCu',
                             'wincache' => 'WinCache',
@@ -84,13 +119,5 @@ class SettingsManager
                             'sqlite3' => 'SQLite3',
                             'zend' => 'Zend',
                             'array' => 'Array'];
-
-        Themes::view('admin/views/templates/system/settings/list')
-                ->assign('settings', Registry::get('settings'))
-                ->assign('cache_driver', $cache_driver)
-                ->assign('locales', $locales)
-                ->assign('entries', $entries)
-                ->assign('themes', $themes)
-                ->display();
     }
 }
