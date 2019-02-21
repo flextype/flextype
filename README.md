@@ -68,7 +68,7 @@ Mobile
 
 #### Using (S)FTP
 
-[Download the latest version.](http://flextype.org/download)  
+[Download the latest version.](http://flextype.org/en/downloads)  
 
 Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, be sure to chmod the following directories (with containing files) to 755(or 777), so they are readable and writable by Flextype:  
 * `site/`
@@ -124,18 +124,18 @@ With Flextype you can create any project you want.
 ## CONTRIBUTE
 Flextype is an open source project and community contributions are essential to its growing and success. Contributing to the Flextype is easy and you can give as little or as much time as you want.
 
-* Help on the [Communities.](http://flextype.org/documentation/basics/getting-help)
+* Help on the [Communities.](http://flextype.org/en/documentation/guide/basics/getting-help)
 * Develop a new plugin.
 * Create a new theme.
 * Find and [report issues.](https://github.com/flextype/flextype/issues)
 * Link back to [Flextype](http://flextype.org).
-* [Donate to keep Flextype free.](http://flextype.org/about/sponsors)
+* [Donate to keep Flextype free.](http://flextype.org/en/about/sponsors)
 * [Join Flextype International Translator Team](https://crowdin.com/project/flextype/invite)
 
 
 ## LINKS
 - [Site](http://flextype.org)
-- [Documentation](http://flextype.org/documentation)
+- [Documentation](http://flextype.org/en/documentation)
 
 
 ## LICENSE
