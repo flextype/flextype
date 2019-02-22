@@ -161,33 +161,6 @@ class Themes
     }
 
     /**
-     * Get Fieldsets for current theme
-     *
-     * @access public
-     * @return array
-     */
-    public static function getFieldsets() : array
-    {
-        $fieldsets = [];
-
-        // Get fieldsets files
-        $_fieldsets = Filesystem::listContents(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/');
-
-        // If there is any template file then go...
-        if (count($_fieldsets) > 0) {
-            foreach ($_fieldsets as $fieldset) {
-                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = YamlParser::decode(Filesystem::read($fieldset['path']));
-                    $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
-                }
-            }
-        }
-
-        // return fieldsets
-        return $fieldsets;
-    }
-
-    /**
      * Get the Themes instance.
      *
      * @access public
