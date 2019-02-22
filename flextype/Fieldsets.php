@@ -19,6 +19,33 @@ class Fieldsets
 {
 
     /**
+     * Fetch Fieldsets for current theme
+     *
+     * @access public
+     * @return array
+     */
+    public static function fetchList() : array
+    {
+        $fieldsets = [];
+
+        // Get fieldsets files
+        $_fieldsets = Filesystem::listContents(Fieldsets::_dir_location());
+
+        // If there is any template file then go...
+        if (count($_fieldsets) > 0) {
+            foreach ($_fieldsets as $fieldset) {
+                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
+                    $fieldset_content = YamlParser::decode(Filesystem::read($fieldset['path']));
+                    $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
+                }
+            }
+        }
+
+        // return fieldsets
+        return $fieldsets;
+    }
+
+    /**
      * Rename fieldset
      *
      * @access public
@@ -108,13 +135,24 @@ class Fieldsets
     }
 
     /**
+     * Helper method _dir_location
+     *
+     * @access private
+     * @return string
+     */
+    private static function _dir_location() : string
+    {
+        return PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/';
+    }
+
+    /**
      * Helper method _file_location
      *
      * @access private
      * @param string $name Name
      * @return string
      */
-    private static function _file_location($name)
+    private static function _file_location(string $name) : string
     {
         return PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . $name . '.yaml';
     }
