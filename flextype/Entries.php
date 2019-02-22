@@ -251,7 +251,7 @@ class Entries
      * @param string $name Name
      * @return string
      */
-    private static function _file_location($name)
+    private static function _file_location(string $name) : string
     {
         return PATH['entries'] . '/' . $name . '/entry.yaml';
     }
@@ -263,7 +263,7 @@ class Entries
      * @param string $name Name
      * @return string
      */
-    private static function _dir_location($name)
+    private static function _dir_location(string $name) : string
     {
         return PATH['entries'] . '/' . $name;
     }
