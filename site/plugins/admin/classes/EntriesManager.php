@@ -293,15 +293,20 @@ class EntriesManager
                 ->display();
         } else {
             if (Http::get('source') && Http::get('source') == 'true') {
+
                 $action = Http::post('action');
 
                 if (isset($action) && $action == 'save-form') {
                     if (Token::check((Http::post('token')))) {
-                        Filesystem::write(
+                        if (Filesystem::write(
                             PATH['entries'] . '/' . Http::post('entry_name') . '/entry.yaml',
                                                     Http::post('entry_content')
-                        );
-                        Notification::set('success', __('admin_message_entry_changes_saved'));
+                        )) {
+                            Notification::set('success', __('admin_message_entry_changes_saved'));
+                        } else {
+                            Notification::set('success', __('admin_message_entry_changes_not_saved'));
+                        }
+
                         Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::post('entry_name') . '&source=true');
                     } else {
                         throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
@@ -317,22 +322,27 @@ class EntriesManager
                     ->assign('files', EntriesManager::getMediaList(Http::get('entry')), true)
                     ->display();
             } else {
+
                 $action = Http::post('action');
                 $indenter = new Indenter();
 
                 if (isset($action) && $action == 'save-form') {
                     if (Token::check((Http::post('token')))) {
 
-                        $_data = $_POST;
+                        $entry = Entries::fetch(Http::get('entry'));
+                        Arr::delete($entry, 'slug');
 
                         $data = [];
 
+                        $_data = $_POST;
                         Arr::delete($_data, 'token');
                         Arr::delete($_data, 'action');
 
                         foreach ($_data as $key => $_d) {
                             $data[$key] = $indenter->indent($_d);
                         }
+
+                        $data = array_merge($entry, $data);
 
                         if (Entries::update(Http::get('entry'), $data)) {
                             Notification::set('success', __('admin_message_entry_changes_saved'));
@@ -482,27 +492,23 @@ class EntriesManager
             if (Token::check((Http::post('token')))) {
 
                 $entry = Entries::fetch(Http::get('entry'));
-
-                $content = $entry['content'];
-                Arr::delete($entry, 'content');
                 Arr::delete($entry, 'slug');
 
-                $frontmatter = $_POST;
-                Arr::delete($frontmatter, 'token');
-                Arr::delete($frontmatter, 'type_entry');
-                Arr::delete($frontmatter, 'entry');
-                $frontmatter = YamlParser::encode(array_merge($entry, $frontmatter));
+                $data  = [];
+                $_data = $_POST;
+                Arr::delete($_data, 'token');
+                Arr::delete($_data, 'type_entry');
+                Arr::delete($_data, 'entry');
 
-                if (Filesystem::write(
-                    PATH['entries'] . '/' . Http::post('entry') . '/entry.нфьд',
-                                            '---' . "\n" .
-                                            $frontmatter . "\n" .
-                                            '---' . "\n" .
-                                            $content
-                )) {
-                        Notification::set('success', __('admin_message_entry_changes_saved'));
-                        Http::redirect(Http::getBaseUrl() . '/admin/entries?entry=' . implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
+                $data = array_merge($entry, $_data);
+
+                if (Entries::update(Http::get('entry'), $data)) {
+                    Notification::set('success', __('admin_message_entry_changes_saved'));
+                } else {
+                    Notification::set('success', __('admin_message_entry_was_not_moved'));
                 }
+
+                Http::redirect(Http::getBaseUrl() . '/admin/entries?entry=' . implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
             } else {
                 throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
             }
