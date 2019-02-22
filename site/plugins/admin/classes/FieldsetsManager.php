@@ -146,7 +146,7 @@ class FieldsetsManager
     protected static function listFieldsets()
     {
         Themes::view('admin/views/templates/extends/fieldsets/list')
-            ->assign('fieldsets_list', Themes::getFieldsets())
+            ->assign('fieldsets_list', Fieldsets::fetchList())
             ->display();
     }
 }
