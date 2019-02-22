@@ -6,7 +6,7 @@ use Flextype\Component\Registry\Registry;
 
 class NavigationManager
 {
-    public static function addItem(string $area, string $item, string $title, string $link, array $attributes = [])
+    public static function addItem(string $area, string $item, string $title, string $link, array $attributes = []) : void
     {
         Registry::set("admin_navigation.{$area}.{$item}.area", $area);
         Registry::set("admin_navigation.{$area}.{$item}.item", $item);
