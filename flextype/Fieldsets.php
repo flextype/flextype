@@ -22,7 +22,15 @@ use function Flextype\Component\I18n\__;
 class Fieldsets
 {
 
-    public static function fetchForm(array $fieldsets, array $values = []) : string
+    /**
+     * Fetch Fieldset form
+     *
+     * @access public
+     * @param array  $fieldset Fieldset
+     * @param string $values   Fieldset values
+     * @return string Returns form based on fieldsets
+     */
+    public static function fetchForm(array $fieldset, array $values = []) : string
     {
         $form = '';
 
@@ -30,11 +38,11 @@ class Fieldsets
         $form .= Form::hidden('token', Token::generate());
         $form .= Form::hidden('action', 'save-form');
 
-        if (count($fieldsets['sections']) > 0) {
+        if (count($fieldset['sections']) > 0) {
 
             $form .= '<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">';
 
-            foreach ($fieldsets['sections'] as $key => $section) {
+            foreach ($fieldset['sections'] as $key => $section) {
                 $form .=  '<li class="nav-item">
                             <a class="nav-link '.(($key == 'main') ? 'active' : '').'" id="pills-'.$key.'-tab" data-toggle="pill" href="#pills-'.$key.'" role="tab" aria-controls="pills-'.$key.'" aria-selected="true">'.$section['title'].'</a>
                           </li>';
@@ -44,7 +52,7 @@ class Fieldsets
 
             $form .= '<div class="tab-content" id="pills-tabContent">';
 
-            foreach ($fieldsets['sections'] as $key => $section) {
+            foreach ($fieldset['sections'] as $key => $section) {
 
                 $form .= '<div class="tab-pane fade show '.(($key == 'main') ? 'active' : '').'" id="pills-'.$key.'" role="tabpanel" aria-labelledby="pills-'.$key.'-tab">';
                 $form .= '<div class="row">';
