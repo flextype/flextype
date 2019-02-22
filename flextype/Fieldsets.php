@@ -14,6 +14,7 @@ namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Registry\Registry;
+use Flextype\Component\Http\Http;
 use Flextype\Component\Form\Form;
 use Flextype\Component\Token\Token;
 use Flextype\Component\Arr\Arr;
