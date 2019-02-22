@@ -166,7 +166,7 @@ class Snippets
      * @param string $name Name
      * @return string
      */
-    private static function _file_location($name)
+    private static function _file_location(string $name) : string
     {
         return PATH['snippets'] . '/' . $name . '.php';
     }
