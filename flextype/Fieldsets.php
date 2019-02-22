@@ -55,7 +55,7 @@ class Fieldsets
 
             foreach ($fieldset['sections'] as $key => $section) {
 
-                $form .= '<div class="tab-pane fade show '.(($key == 'main') ? 'active' : '').'" id="pills-'.$key.'" role="tabpanel" aria-labelledby="pills-'.$key.'-tab">';
+                $form .= '<div class="tab-pane fade show ' . (($key == 'main') ? 'active' : '') . '" id="pills-' . $key . '" role="tabpanel" aria-labelledby="pills-' . $key . '-tab">';
                 $form .= '<div class="row">';
 
                 foreach ($section['fields'] as $element => $property) {
