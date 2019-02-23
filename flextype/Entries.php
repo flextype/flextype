@@ -20,7 +20,7 @@ class Entries
 {
 
     /**
-     * Flextype DIC
+     * Flextype Dependency Container
      */
     private $flextype;
 

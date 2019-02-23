@@ -23,12 +23,11 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
-* The version of Flextype
-*
-* @var string
-*/
-// const VERSION = '0.8.3';
-
+ * The version of Flextype
+ *
+ * @var string
+ */
+define ('FLEXTYPE_VERSION', '0.8.3');
 
 // Set empty settings array
 Registry::set('settings', []);
@@ -108,11 +107,19 @@ $config = ['settings' => [
     'addContentLengthHeader' => false,
 ]];
 
+/**
+ * Create new application
+ */
 $app = new \Slim\App($config);
 
-// DIC configuration
+/**
+ * Set Flextype Dependency Container
+ */
 $flextype = $app->getContainer();
 
+/**
+ * Add images service to Flextype container
+ */
 $flextype['images'] = function($container) {
 
     // Set source filesystem
@@ -170,6 +177,9 @@ $flextype['images'] = function($container) {
     );
 };
 
+/**
+ * Add shortcodes service to Flextype container:
+ */
 $flextype['shortcodes'] = function($container) {
     return new ShortcodeFacade();
 };
@@ -182,11 +192,16 @@ foreach ($shortcodes_list as $shortcode) {
     include_once $shortcode['path'];
 }
 
+/**
+ * Add entries service to Flextype container
+ */
 $flextype['entries'] = function($container) {
     return new Entries($container);
 };
 
-// Register Twig View helper
+/**
+ * Add view service to Flextype container
+ */
 $flextype['view'] = function ($container) {
 
     $view = new \Slim\Views\Twig(PATH['site'], [
@@ -204,8 +219,12 @@ $flextype['view'] = function ($container) {
     return $view;
 };
 
-// Get Plugins Instance
+/**
+ * Init plugins
+ */
 $plugins = new Plugins($flextype, $app);
 
-// Run app
+/**
+ * Run application
+ */
 $app->run();

@@ -9,8 +9,9 @@ use Flextype\Component\Arr\Arr;
 use Flextype\Component\Event\Event;
 use Flextype\Component\Registry\Registry;
 
-
-// Define app routes
+/**
+ * Define site plugin routes
+ */
 $app->get('{uri:.+}', function (Request $request, Response $response, array $args) {
 
     // Get uri
@@ -54,9 +55,6 @@ $app->get('{uri:.+}', function (Request $request, Response $response, array $arg
         $entry['content']     = Registry::get('settings.entries.error404.content');
         $entry['template']    = Registry::get('settings.entries.error404.template');
     }
-
-    // Set current requested entry data to global $entry array
-    $entry = $entry;
 
     $path = 'themes/' . Registry::get('settings.theme') . '/' . (empty($entry['template']) ? 'templates/default' : 'templates/' . $entry['template']) . '.twig';
 

@@ -20,14 +20,6 @@ use Flextype\Component\Registry\Registry;
 class Plugins
 {
     /**
-     * An instance of the Cache class
-     *
-     * @var object
-     * @access private
-     */
-    private static $instance = null;
-
-    /**
      * Locales array
      *
      * @var array
