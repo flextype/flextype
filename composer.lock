@@ -1,0 +1,1842 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "49ca44551fc75503ab45ffae302b7a9d",
+    "packages": [
+        {
+            "name": "container-interop/container-interop",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/container-interop/container-interop.git",
+                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/79cbf1341c22ec75643d841642dd5d6acd83bdb8",
+                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8",
+                "shasum": ""
+            },
+            "require": {
+                "psr/container": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Interop\\Container\\": "src/Interop/Container/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
+            "homepage": "https://github.com/container-interop/container-interop",
+            "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "doctrine/cache",
+            "version": "v1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/cache.git",
+                "reference": "d768d58baee9a4862ca783840eca1b9add7a7f57"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/d768d58baee9a4862ca783840eca1b9add7a7f57",
+                "reference": "d768d58baee9a4862ca783840eca1b9add7a7f57",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7.1"
+            },
+            "conflict": {
+                "doctrine/common": ">2.2,<2.4"
+            },
+            "require-dev": {
+                "alcaeus/mongo-php-adapter": "^1.1",
+                "doctrine/coding-standard": "^4.0",
+                "mongodb/mongodb": "^1.1",
+                "phpunit/phpunit": "^7.0",
+                "predis/predis": "~1.0"
+            },
+            "suggest": {
+                "alcaeus/mongo-php-adapter": "Required to use legacy MongoDB driver"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Caching library offering an object-oriented API for many cache backends",
+            "homepage": "https://www.doctrine-project.org",
+            "keywords": [
+                "cache",
+                "caching"
+            ],
+            "time": "2018-08-21T18:01:43+00:00"
+        },
+        {
+            "name": "flextype-components/arr",
+            "version": "v1.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/arr.git",
+                "reference": "56ba878de83dff02f9455caf4e80c85e265f3488"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/arr/zipball/56ba878de83dff02f9455caf4e80c85e265f3488",
+                "reference": "56ba878de83dff02f9455caf4e80c85e265f3488",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Arr\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "The Array Component contains methods that can be useful when working with arrays.",
+            "homepage": "https://github.com/flextype-components/arr",
+            "keywords": [
+                "array"
+            ],
+            "time": "2019-01-20T09:34:18+00:00"
+        },
+        {
+            "name": "flextype-components/assets",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/assets.git",
+                "reference": "fd30d051ceff7491d1fd6dd67913e58c451df2f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/assets/zipball/fd30d051ceff7491d1fd6dd67913e58c451df2f8",
+                "reference": "fd30d051ceff7491d1fd6dd67913e58c451df2f8",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Assets\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Assets Component for managing assets in your application.",
+            "homepage": "https://github.com/flextype-components/assets",
+            "keywords": [
+                "JS",
+                "assets",
+                "css"
+            ],
+            "time": "2019-02-05T18:36:45+00:00"
+        },
+        {
+            "name": "flextype-components/cookie",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/cookie.git",
+                "reference": "46b840b1ae072672ceaeb8b22242e7955ae8e69c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/cookie/zipball/46b840b1ae072672ceaeb8b22242e7955ae8e69c",
+                "reference": "46b840b1ae072672ceaeb8b22242e7955ae8e69c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Cookie\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Cookie component contains methods that assist in working with cookies.",
+            "homepage": "https://github.com/flextype-components/cookie",
+            "keywords": [
+                "cookie",
+                "cookies"
+            ],
+            "time": "2018-11-22T20:34:33+00:00"
+        },
+        {
+            "name": "flextype-components/date",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/date.git",
+                "reference": "ad42cf5f9ad2313e4853a500a9761905c782d297"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/date/zipball/ad42cf5f9ad2313e4853a500a9761905c782d297",
+                "reference": "ad42cf5f9ad2313e4853a500a9761905c782d297",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Date\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Date component is a set of methods to help with the manipulation of dates.",
+            "homepage": "https://github.com/flextype-components/date",
+            "keywords": [
+                "date",
+                "time"
+            ],
+            "time": "2018-04-19T10:08:09+00:00"
+        },
+        {
+            "name": "flextype-components/debug",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/debug.git",
+                "reference": "c31da6aea811dfcaa4e23c1943dacf18eca53bf5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/debug/zipball/c31da6aea811dfcaa4e23c1943dacf18eca53bf5",
+                "reference": "c31da6aea811dfcaa4e23c1943dacf18eca53bf5",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Debug\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Debug component provides a simple methods for debugging variables, objects, arrays, etc by outputting information to the display.",
+            "homepage": "https://github.com/flextype-components/debug",
+            "keywords": [
+                "debug"
+            ],
+            "time": "2018-04-12T13:14:32+00:00"
+        },
+        {
+            "name": "flextype-components/errorhandler",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/errorhandler.git",
+                "reference": "df1f6db31c412f161661772d7a8d875dc4386e1f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/errorhandler/zipball/df1f6db31c412f161661772d7a8d875dc4386e1f",
+                "reference": "df1f6db31c412f161661772d7a8d875dc4386e1f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\ErrorHandler\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Error Handler Component for errors handling.",
+            "homepage": "https://github.com/flextype-components/errorhandler",
+            "keywords": [
+                "errorhandler"
+            ],
+            "time": "2018-12-13T23:08:13+00:00"
+        },
+        {
+            "name": "flextype-components/event",
+            "version": "v1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/event.git",
+                "reference": "0600ec80ddbdf7a392f4d3ca32fb9f8d568b4b93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/event/zipball/0600ec80ddbdf7a392f4d3ca32fb9f8d568b4b93",
+                "reference": "0600ec80ddbdf7a392f4d3ca32fb9f8d568b4b93",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Event\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Event Component provides a versatile tool to manage events in your app.",
+            "homepage": "https://github.com/flextype-components/event",
+            "keywords": [
+                "events",
+                "php"
+            ],
+            "time": "2018-05-31T18:17:51+00:00"
+        },
+        {
+            "name": "flextype-components/filesystem",
+            "version": "v2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/filesystem.git",
+                "reference": "4a007ea30d05028a7ca7e96f9066d20210064b28"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/filesystem/zipball/4a007ea30d05028a7ca7e96f9066d20210064b28",
+                "reference": "4a007ea30d05028a7ca7e96f9066d20210064b28",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Filesystem\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Filesystem component contains methods that assist in working with files and directories.",
+            "homepage": "https://github.com/flextype-components/filesystem",
+            "keywords": [
+                "dir",
+                "file",
+                "filesystem"
+            ],
+            "time": "2019-02-17T23:07:18+00:00"
+        },
+        {
+            "name": "flextype-components/form",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/form.git",
+                "reference": "b3fea245c996dc19d7a0081db6e48dac39fac5e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/form/zipball/b3fea245c996dc19d7a0081db6e48dac39fac5e5",
+                "reference": "b3fea245c996dc19d7a0081db6e48dac39fac5e5",
+                "shasum": ""
+            },
+            "require": {
+                "flextype-components/html": "*",
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Form\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Form component allows you to easily create HTML forms.",
+            "homepage": "https://github.com/flextype-components/form",
+            "keywords": [
+                "form"
+            ],
+            "time": "2018-12-16T18:38:24+00:00"
+        },
+        {
+            "name": "flextype-components/html",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/html.git",
+                "reference": "8cd40014314eb96380a37560ff511aba9a806240"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/html/zipball/8cd40014314eb96380a37560ff511aba9a806240",
+                "reference": "8cd40014314eb96380a37560ff511aba9a806240",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Html\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Html Component contains methods that can be useful when working with HTML.",
+            "homepage": "https://github.com/flextype-components/html",
+            "keywords": [
+                "html"
+            ],
+            "time": "2018-04-23T14:35:15+00:00"
+        },
+        {
+            "name": "flextype-components/http",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/http.git",
+                "reference": "960e6f31acfff51443f975cd4b6d461c3ce25aaf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/http/zipball/960e6f31acfff51443f975cd4b6d461c3ce25aaf",
+                "reference": "960e6f31acfff51443f975cd4b6d461c3ce25aaf",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Http\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Simple Http Component",
+            "homepage": "https://github.com/flextype-components/http",
+            "keywords": [
+                "http"
+            ],
+            "time": "2018-04-23T20:54:56+00:00"
+        },
+        {
+            "name": "flextype-components/i18n",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/i18n.git",
+                "reference": "5b1564f8a09ba87b6f16b9264997edc217515f91"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/i18n/zipball/5b1564f8a09ba87b6f16b9264997edc217515f91",
+                "reference": "5b1564f8a09ba87b6f16b9264997edc217515f91",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\I18n\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "I18n Component for messages internationalization of your application.",
+            "homepage": "https://github.com/flextype-components/i18n",
+            "keywords": [
+                "i18n",
+                "internationalization",
+                "string",
+                "text",
+                "translation"
+            ],
+            "time": "2018-11-24T23:15:10+00:00"
+        },
+        {
+            "name": "flextype-components/notification",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/notification.git",
+                "reference": "5a813df5a455a06efab672ae19ca1ce106584c16"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/notification/zipball/5a813df5a455a06efab672ae19ca1ce106584c16",
+                "reference": "5a813df5a455a06efab672ae19ca1ce106584c16",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Notification\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Notification component for storing and retrieving flash data.",
+            "homepage": "https://github.com/flextype-components/notification",
+            "keywords": [
+                "data",
+                "flash",
+                "messages",
+                "notification"
+            ],
+            "time": "2019-02-05T19:16:21+00:00"
+        },
+        {
+            "name": "flextype-components/number",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/number.git",
+                "reference": "a6f28a4506325eadb52a93eacd0c746866055e81"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/number/zipball/a6f28a4506325eadb52a93eacd0c746866055e81",
+                "reference": "a6f28a4506325eadb52a93eacd0c746866055e81",
+                "shasum": ""
+            },
+            "require": {
+                "flextype-components/arr": "*",
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Number\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "The Number Component contains methods that can be useful when working with numbers.",
+            "homepage": "https://github.com/flextype-components/curl",
+            "keywords": [
+                "number"
+            ],
+            "time": "2018-07-17T09:16:16+00:00"
+        },
+        {
+            "name": "flextype-components/registry",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/registry.git",
+                "reference": "2822f48cf01162a162e62c0dfd8251d7e1c8f6f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/registry/zipball/2822f48cf01162a162e62c0dfd8251d7e1c8f6f6",
+                "reference": "2822f48cf01162a162e62c0dfd8251d7e1c8f6f6",
+                "shasum": ""
+            },
+            "require": {
+                "flextype-components/arr": "*",
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Registry\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Registry component provides a mechanism for storing data globally in a well managed fashion, helping to prevent global meltdown.",
+            "homepage": "https://github.com/flextype-components/registry",
+            "keywords": [
+                "registry",
+                "storage"
+            ],
+            "time": "2018-05-05T00:04:29+00:00"
+        },
+        {
+            "name": "flextype-components/session",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/session.git",
+                "reference": "9c0ae15c1be39d64164e5abc609ec3bd090edc59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/session/zipball/9c0ae15c1be39d64164e5abc609ec3bd090edc59",
+                "reference": "9c0ae15c1be39d64164e5abc609ec3bd090edc59",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Session\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Session Component provides basic methods to work with session.",
+            "homepage": "https://github.com/flextype-components/session",
+            "keywords": [
+                "session"
+            ],
+            "time": "2018-06-26T15:16:09+00:00"
+        },
+        {
+            "name": "flextype-components/text",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/text.git",
+                "reference": "8d707eec2dd9025cb17ae3b0c3e995e67580ece3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/text/zipball/8d707eec2dd9025cb17ae3b0c3e995e67580ece3",
+                "reference": "8d707eec2dd9025cb17ae3b0c3e995e67580ece3",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Text\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Text component is a set of methods to help with the manipulation of strings.",
+            "homepage": "https://github.com/flextype-components/text",
+            "keywords": [
+                "string",
+                "text"
+            ],
+            "time": "2019-01-08T09:43:26+00:00"
+        },
+        {
+            "name": "flextype-components/token",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/token.git",
+                "reference": "7b38d603550914af3768e5530990ff123fd510fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/token/zipball/7b38d603550914af3768e5530990ff123fd510fd",
+                "reference": "7b38d603550914af3768e5530990ff123fd510fd",
+                "shasum": ""
+            },
+            "require": {
+                "flextype-components/session": "*",
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\Token\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "Simple Token Class",
+            "homepage": "https://github.com/flextype-components/token",
+            "keywords": [
+                "token"
+            ],
+            "time": "2018-07-05T12:27:20+00:00"
+        },
+        {
+            "name": "flextype-components/view",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flextype-components/view.git",
+                "reference": "7539b6ecb5f370290722c0bb2228c0e5906d3c1f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flextype-components/view/zipball/7539b6ecb5f370290722c0bb2228c0e5906d3c1f",
+                "reference": "7539b6ecb5f370290722c0bb2228c0e5906d3c1f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flextype\\Component\\View\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Romanenko",
+                    "email": "awilum@yandex.ru"
+                }
+            ],
+            "description": "View Component provides basic methods for displaying PHP views.",
+            "homepage": "https://github.com/flextype-components/view",
+            "keywords": [
+                "php",
+                "views"
+            ],
+            "time": "2018-04-30T13:44:26+00:00"
+        },
+        {
+            "name": "guzzlehttp/psr7",
+            "version": "1.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/psr7.git",
+                "reference": "9f83dded91781a01c63574e387eaa769be769115"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/9f83dded91781a01c63574e387eaa769be769115",
+                "reference": "9f83dded91781a01c63574e387eaa769be769115",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "psr/http-message": "~1.0",
+                "ralouphie/getallheaders": "^2.0.5"
+            },
+            "provide": {
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.8"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "homepage": "https://github.com/Tobion"
+                }
+            ],
+            "description": "PSR-7 message implementation that also provides common utility methods",
+            "keywords": [
+                "http",
+                "message",
+                "psr-7",
+                "request",
+                "response",
+                "stream",
+                "uri",
+                "url"
+            ],
+            "time": "2018-12-04T20:46:45+00:00"
+        },
+        {
+            "name": "intervention/image",
+            "version": "2.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Intervention/image.git",
+                "reference": "e82d274f786e3d4b866a59b173f42e716f0783eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/e82d274f786e3d4b866a59b173f42e716f0783eb",
+                "reference": "e82d274f786e3d4b866a59b173f42e716f0783eb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "guzzlehttp/psr7": "~1.1",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.2",
+                "phpunit/phpunit": "^4.8 || ^5.7"
+            },
+            "suggest": {
+                "ext-gd": "to use GD library based image processing.",
+                "ext-imagick": "to use Imagick based image processing.",
+                "intervention/imagecache": "Caching extension for the Intervention Image library"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Intervention\\Image\\ImageServiceProvider"
+                    ],
+                    "aliases": {
+                        "Image": "Intervention\\Image\\Facades\\Image"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Intervention\\Image\\": "src/Intervention/Image"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oliver Vogel",
+                    "email": "oliver@olivervogel.com",
+                    "homepage": "http://olivervogel.com/"
+                }
+            ],
+            "description": "Image handling and manipulation library with support for Laravel integration",
+            "homepage": "http://image.intervention.io/",
+            "keywords": [
+                "gd",
+                "image",
+                "imagick",
+                "laravel",
+                "thumbnail",
+                "watermark"
+            ],
+            "time": "2018-05-29T14:19:03+00:00"
+        },
+        {
+            "name": "league/flysystem",
+            "version": "1.0.50",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem.git",
+                "reference": "dab4e7624efa543a943be978008f439c333f2249"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/dab4e7624efa543a943be978008f439c333f2249",
+                "reference": "dab4e7624efa543a943be978008f439c333f2249",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "php": ">=5.5.9"
+            },
+            "conflict": {
+                "league/flysystem-sftp": "<1.0.6"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "^3.4",
+                "phpunit/phpunit": "^5.7.10"
+            },
+            "suggest": {
+                "ext-fileinfo": "Required for MimeType",
+                "ext-ftp": "Allows you to use FTP server storage",
+                "ext-openssl": "Allows you to use FTPS server storage",
+                "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
+                "league/flysystem-aws-s3-v3": "Allows you to use S3 storage with AWS SDK v3",
+                "league/flysystem-azure": "Allows you to use Windows Azure Blob storage",
+                "league/flysystem-cached-adapter": "Flysystem adapter decorator for metadata caching",
+                "league/flysystem-eventable-filesystem": "Allows you to use EventableFilesystem",
+                "league/flysystem-rackspace": "Allows you to use Rackspace Cloud Files",
+                "league/flysystem-sftp": "Allows you to use SFTP server storage via phpseclib",
+                "league/flysystem-webdav": "Allows you to use WebDAV storage",
+                "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter",
+                "spatie/flysystem-dropbox": "Allows you to use Dropbox storage",
+                "srmklive/flysystem-dropbox-v2": "Allows you to use Dropbox storage for PHP 5 applications"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frenky.net"
+                }
+            ],
+            "description": "Filesystem abstraction: Many filesystems, one API.",
+            "keywords": [
+                "Cloud Files",
+                "WebDAV",
+                "abstraction",
+                "aws",
+                "cloud",
+                "copy.com",
+                "dropbox",
+                "file systems",
+                "files",
+                "filesystem",
+                "filesystems",
+                "ftp",
+                "rackspace",
+                "remote",
+                "s3",
+                "sftp",
+                "storage"
+            ],
+            "time": "2019-02-01T08:50:36+00:00"
+        },
+        {
+            "name": "league/glide",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/glide.git",
+                "reference": "72430fbdb446c754910f0bab97e1ef14baab1e80"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/glide/zipball/72430fbdb446c754910f0bab97e1ef14baab1e80",
+                "reference": "72430fbdb446c754910f0bab97e1ef14baab1e80",
+                "shasum": ""
+            },
+            "require": {
+                "intervention/image": "^2.4",
+                "league/flysystem": "^1.0",
+                "php": "^5.4 | ^7.0",
+                "psr/http-message": "^1.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/php-token-stream": "^1.4",
+                "phpunit/phpunit": "~4.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Glide\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Reinink",
+                    "email": "jonathan@reinink.ca",
+                    "homepage": "http://reinink.ca"
+                }
+            ],
+            "description": "Wonderfully easy on-demand image manipulation library with an HTTP based API.",
+            "homepage": "http://glide.thephpleague.com",
+            "keywords": [
+                "ImageMagick",
+                "editing",
+                "gd",
+                "image",
+                "imagick",
+                "league",
+                "manipulation",
+                "processing"
+            ],
+            "time": "2018-12-22T17:56:55+00:00"
+        },
+        {
+            "name": "nikic/fast-route",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/FastRoute.git",
+                "reference": "181d480e08d9476e61381e04a71b34dc0432e812"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/181d480e08d9476e61381e04a71b34dc0432e812",
+                "reference": "181d480e08d9476e61381e04a71b34dc0432e812",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35|~5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FastRoute\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov",
+                    "email": "nikic@php.net"
+                }
+            ],
+            "description": "Fast request router for PHP",
+            "keywords": [
+                "router",
+                "routing"
+            ],
+            "time": "2018-02-13T20:26:39+00:00"
+        },
+        {
+            "name": "pimple/pimple",
+            "version": "v3.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silexphp/Pimple.git",
+                "reference": "9e403941ef9d65d20cba7d54e29fe906db42cf32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/9e403941ef9d65d20cba7d54e29fe906db42cf32",
+                "reference": "9e403941ef9d65d20cba7d54e29fe906db42cf32",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "psr/container": "^1.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^3.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Pimple": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Pimple, a simple Dependency Injection Container",
+            "homepage": "http://pimple.sensiolabs.org",
+            "keywords": [
+                "container",
+                "dependency injection"
+            ],
+            "time": "2018-01-21T07:42:36+00:00"
+        },
+        {
+            "name": "psr/container",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "time": "2017-02-14T16:28:37+00:00"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2016-08-06T14:39:51+00:00"
+        },
+        {
+            "name": "ralouphie/getallheaders",
+            "version": "2.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ralouphie/getallheaders.git",
+                "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
+                "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7.0",
+                "satooshi/php-coveralls": ">=1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/getallheaders.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ralph Khattar",
+                    "email": "ralph.khattar@gmail.com"
+                }
+            ],
+            "description": "A polyfill for getallheaders.",
+            "time": "2016-02-11T07:05:27+00:00"
+        },
+        {
+            "name": "slim/slim",
+            "version": "3.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/slimphp/Slim.git",
+                "reference": "f4947cc900b6e51cbfda58b9f1247bca2f76f9f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/f4947cc900b6e51cbfda58b9f1247bca2f76f9f0",
+                "reference": "f4947cc900b6e51cbfda58b9f1247bca2f76f9f0",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "^1.2",
+                "nikic/fast-route": "^1.0",
+                "php": ">=5.5.0",
+                "pimple/pimple": "^3.0",
+                "psr/container": "^1.0",
+                "psr/http-message": "^1.0"
+            },
+            "provide": {
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0",
+                "squizlabs/php_codesniffer": "^2.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Slim\\": "Slim"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Allen",
+                    "email": "rob@akrabat.com",
+                    "homepage": "http://akrabat.com"
+                },
+                {
+                    "name": "Josh Lockhart",
+                    "email": "hello@joshlockhart.com",
+                    "homepage": "https://joshlockhart.com"
+                },
+                {
+                    "name": "Gabriel Manricks",
+                    "email": "gmanricks@me.com",
+                    "homepage": "http://gabrielmanricks.com"
+                },
+                {
+                    "name": "Andrew Smith",
+                    "email": "a.smith@silentworks.co.uk",
+                    "homepage": "http://silentworks.co.uk"
+                }
+            ],
+            "description": "Slim is a PHP micro framework that helps you quickly write simple yet powerful web applications and APIs",
+            "homepage": "https://slimframework.com",
+            "keywords": [
+                "api",
+                "framework",
+                "micro",
+                "router"
+            ],
+            "time": "2019-01-15T13:21:25+00:00"
+        },
+        {
+            "name": "slim/twig-view",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/slimphp/Twig-View.git",
+                "reference": "78386c01a97f7870462b38fff759dad649da9efc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/slimphp/Twig-View/zipball/78386c01a97f7870462b38fff759dad649da9efc",
+                "reference": "78386c01a97f7870462b38fff759dad649da9efc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0",
+                "psr/http-message": "^1.0",
+                "twig/twig": "^1.18|^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8|^5.7",
+                "slim/slim": "^3.10"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Slim\\Views\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Lockhart",
+                    "email": "hello@joshlockhart.com",
+                    "homepage": "http://joshlockhart.com"
+                }
+            ],
+            "description": "Slim Framework 3 view helper built on top of the Twig 2 templating component",
+            "homepage": "http://slimframework.com",
+            "keywords": [
+                "framework",
+                "slim",
+                "template",
+                "twig",
+                "view"
+            ],
+            "time": "2018-05-07T10:54:29+00:00"
+        },
+        {
+            "name": "symfony/polyfill-ctype",
+            "version": "v1.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-ctype.git",
+                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
+                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-ctype": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Ctype\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                },
+                {
+                    "name": "Gert de Pagter",
+                    "email": "BackEndTea@gmail.com"
+                }
+            ],
+            "description": "Symfony polyfill for ctype functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "ctype",
+                "polyfill",
+                "portable"
+            ],
+            "time": "2018-08-06T14:22:27+00:00"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/c79c051f5b3a46be09205c73b80b346e4153e494",
+                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2018-09-21T13:07:52+00:00"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v4.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "d461670ee145092b7e2a56c1da7118f19cadadb0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/d461670ee145092b7e2a56c1da7118f19cadadb0",
+                "reference": "d461670ee145092b7e2a56c1da7118f19cadadb0",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "symfony/polyfill-ctype": "~1.8"
+            },
+            "conflict": {
+                "symfony/console": "<3.4"
+            },
+            "require-dev": {
+                "symfony/console": "~3.4|~4.0"
+            },
+            "suggest": {
+                "symfony/console": "For validating YAML files using the lint command"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2019-01-16T20:35:37+00:00"
+        },
+        {
+            "name": "thunderer/shortcode",
+            "version": "v0.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thunderer/Shortcode.git",
+                "reference": "8f3a65f35de7f03e8c4a50e490c490888dc5b722"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thunderer/Shortcode/zipball/8f3a65f35de7f03e8c4a50e490c490888dc5b722",
+                "reference": "8f3a65f35de7f03e8c4a50e490c490888dc5b722",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.1|^5.0|^6.0",
+                "symfony/yaml": "^2.0|^3.0"
+            },
+            "suggest": {
+                "ext-dom": "if you want to use XML serializer",
+                "ext-json": "if you want to use JSON serializer",
+                "symfony/yaml": "if you want to use YAML serializer"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Thunder\\Shortcode\\": "src/",
+                    "Thunder\\Shortcode\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tomasz Kowalczyk",
+                    "email": "tomasz@kowalczyk.cc"
+                }
+            ],
+            "description": "Advanced shortcode (BBCode) parser and engine for PHP",
+            "keywords": [
+                "bbcode",
+                "engine",
+                "library",
+                "parser",
+                "shortcode"
+            ],
+            "time": "2019-02-03T22:50:59+00:00"
+        },
+        {
+            "name": "twig/twig",
+            "version": "v2.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig.git",
+                "reference": "7d7342c8a4059fefb9b8d07db0cc14007021f9b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7d7342c8a4059fefb9b8d07db0cc14007021f9b7",
+                "reference": "7d7342c8a4059fefb9b8d07db0cc14007021f9b7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0",
+                "symfony/polyfill-ctype": "^1.8",
+                "symfony/polyfill-mbstring": "^1.3"
+            },
+            "require-dev": {
+                "psr/container": "^1.0",
+                "symfony/debug": "^2.7",
+                "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Twig_": "lib/"
+                },
+                "psr-4": {
+                    "Twig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                },
+                {
+                    "name": "Twig Team",
+                    "homepage": "https://twig.symfony.com/contributors",
+                    "role": "Contributors"
+                }
+            ],
+            "description": "Twig, the flexible, fast, and secure template language for PHP",
+            "homepage": "https://twig.symfony.com",
+            "keywords": [
+                "templating"
+            ],
+            "time": "2019-01-14T15:00:48+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.1.3"
+    },
+    "platform-dev": []
+}

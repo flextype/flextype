@@ -17,6 +17,6 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Snippets
 // Shortcode: [snippets fetch=snippet-name]
-Shortcodes::shortcode()->addHandler('snippets', function(ShortcodeInterface $s) {
+$flextype['shortcodes']->addHandler('snippets', function(ShortcodeInterface $s) {
     return Snippets::get($s->getParameter('fetch'));
 });

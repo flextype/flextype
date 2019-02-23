@@ -12,13 +12,15 @@
 
 namespace Flextype;
 
+use Flextype\Component\Http\Http;
 use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Images
 // Shortcode: [images path="home/image.jpg"]
 // Result: Display image
-Shortcodes::shortcode()->addHandler('images', function(ShortcodeInterface $s) {
+$flextype['shortcodes']->addHandler('images', function(ShortcodeInterface $s) use ($flextype, $app) {
+
     $params     = [];
     $attributes = [];
 
@@ -57,5 +59,5 @@ Shortcodes::shortcode()->addHandler('images', function(ShortcodeInterface $s) {
     ($s->getParameter('id')) and $attributes['id'] = $s->getParameter('id');
     ($s->getParameter('alt')) and $attributes['alt'] = $s->getParameter('alt');
 
-    return Images::fetchImage($s->getParameter('path'), $params, $attributes);
+    return Http::getBaseUrl() . '/site/cache/glide/' . $flextype['images']->makeImage($s->getParameter('path'), $params);
 });

@@ -97,7 +97,7 @@ class Cache
         Cache::$now = time();
 
         // Create cache key to allow invalidate all cache on configuration changes.
-        Cache::$key = (Registry::get('settings.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . Flextype::VERSION);
+        Cache::$key = (Registry::get('settings.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . 'Flextype::VERSION');
 
         // Get Cache Driver
         Cache::$driver = Cache::getCacheDriver();

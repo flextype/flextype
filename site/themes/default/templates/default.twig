@@ -1,0 +1,10 @@
+{% extends "partials/base.twig" %}
+
+{% block title %}{{ entry.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ entry.title }}</h1>
+    <p class="important">
+        {{ entry.content }}
+    </p>
+{% endblock %}

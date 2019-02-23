@@ -1,15 +1,22 @@
 title: Home
-template: home
-fieldset: default
-visibility: visible
 content: |
   <h1 style="text-align: center;">
       Welcome!
   </h1>
   <p style="text-align: center;" class="lead">
-      Welcome to your new Flextype powered website.
+      Welcome to your new Flextype powered website. [site_url]
+      [images path="about/lilia.jpg"]
       <br>
       Flextype is succesfully installed, you can start editing the content and customising your site in <a href="./admin">Admin panel</a>.
   </p>
   <br>
   <p style="text-align: center;">Latest blog posts:</p>
+template: home
+fieldset: default
+visibility: visible
+date: 'February 20 2019 11:06:46'
+description: ''
+menu_item_title: ''
+menu_item_url: ''
+menu_item_target: blank
+menu_item_order: ''

@@ -192,32 +192,15 @@ class Plugins
         'zu'         => ['name' => 'Zulu', 'nativeName' => 'isiZulu']
     ];
 
-    /**
-     * Private clone method to enforce singleton behavior.
-     *
-     * @access private
-     */
-    private function __clone()
-    {
-    }
-
-    /**
-     * Private wakeup method to enforce singleton behavior.
-     *
-     * @access private
-     */
-    private function __wakeup()
-    {
-    }
 
     /**
      * Private construct method to enforce singleton behavior.
      *
      * @access private
      */
-    private function __construct()
+    public function __construct($flextype, $app)
     {
-        Plugins::init();
+        Plugins::init($flextype, $app);
     }
 
     /**
@@ -226,7 +209,7 @@ class Plugins
      * @access private
      * @return void
      */
-    private static function init() : void
+    private static function init($flextype, $app) : void
     {
         // Set empty plugins item
         Registry::set('plugins', []);
@@ -281,7 +264,7 @@ class Plugins
 
             Plugins::createPluginsDictionary($plugins_list);
 
-            Plugins::includeEnabledPlugins();
+            Plugins::includeEnabledPlugins($flextype, $app);
 
             Event::dispatch('onPluginsInitialized');
         }
@@ -347,7 +330,7 @@ class Plugins
      * @access protected
      * @return void
      */
-    protected static function includeEnabledPlugins() : void
+    protected static function includeEnabledPlugins($flextype, $app) : void
     {
         if (is_array(Registry::get('plugins')) && count(Registry::get('plugins')) > 0) {
             foreach (Registry::get('plugins') as $plugin_name => $plugin) {
@@ -367,20 +350,5 @@ class Plugins
     public static function getLocales() : array
     {
         return Plugins::$locales;
-    }
-
-    /**
-     * Get the Plugins instance.
-     *
-     * @access public
-     * @return object
-     */
-    public static function getInstance()
-    {
-        if (is_null(Plugins::$instance)) {
-            Plugins::$instance = new self;
-        }
-
-        return Plugins::$instance;
     }
 }

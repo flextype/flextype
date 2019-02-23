@@ -44,4 +44,4 @@ version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(s
 $loader = require_once $autoload;
 
 // Get Flextype Instance
-$flextype = Flextype::getInstance();
+include 'flextype/Flextype.php';
