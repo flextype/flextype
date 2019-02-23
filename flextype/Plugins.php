@@ -200,7 +200,7 @@ class Plugins
      */
     public function __construct($flextype, $app)
     {
-        Plugins::init($flextype, $app);
+        $this->init($flextype, $app);
     }
 
     /**
@@ -209,7 +209,7 @@ class Plugins
      * @access private
      * @return void
      */
-    private static function init($flextype, $app) : void
+    private function init($flextype, $app) : void
     {
         // Set empty plugins item
         Registry::set('plugins', []);
@@ -218,7 +218,7 @@ class Plugins
         $plugins_list = Filesystem::listContents(PATH['plugins']);
 
         // Get plugins cache ID
-        $plugins_cache_id = Plugins::getPluginsCacheID($plugins_list);
+        $plugins_cache_id = $this->getPluginsCacheID($plugins_list);
 
         // If Plugins List isnt empty then create plugin cache ID
         if (is_array($plugins_list) && count($plugins_list) > 0) {
@@ -277,7 +277,7 @@ class Plugins
      * @access protected
      * @return void
      */
-    protected static function createPluginsDictionary(array $plugins_list) : void
+    private function createPluginsDictionary(array $plugins_list) : void
     {
         if (is_array($plugins_list) && count($plugins_list) > 0) {
             foreach (Plugins::$locales as $locale => $locale_title) {
@@ -302,7 +302,7 @@ class Plugins
      * @access protected
      * @return string
      */
-    protected static function getPluginsCacheID(array $plugins_list) : string
+    private function getPluginsCacheID(array $plugins_list) : string
     {
         // Plugin cache id
         $_plugins_cache_id = '';
@@ -330,7 +330,7 @@ class Plugins
      * @access protected
      * @return void
      */
-    protected static function includeEnabledPlugins($flextype, $app) : void
+    private function includeEnabledPlugins($flextype, $app) : void
     {
         if (is_array(Registry::get('plugins')) && count(Registry::get('plugins')) > 0) {
             foreach (Registry::get('plugins') as $plugin_name => $plugin) {
@@ -347,8 +347,8 @@ class Plugins
      * @access public
      * @return array
      */
-    public static function getLocales() : array
+    public function getLocales() : array
     {
-        return Plugins::$locales;
+        return $this->$locales;
     }
 }
