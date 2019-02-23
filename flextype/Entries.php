@@ -19,8 +19,14 @@ use Flextype\Component\Registry\Registry;
 class Entries
 {
 
+    /**
+     * Flextype DIC
+     */
     private $flextype;
 
+    /**
+     * __construct
+     */
     public function __construct($flextype)
     {
         $this->flextype = $flextype;
