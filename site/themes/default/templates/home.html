@@ -5,9 +5,13 @@
     {{ entry.content|raw }}
 
     {% for entry in entries_fetch_all('blog', 'date', 'DESC', 0, 3) %}
-        <h3>{{ entry.title }}</h3>
-        <p>{{ entry.summary|raw }}</p>
-        <div>{{ entry.date }}</div>
+        <a href="{{ entry.slug }}" class="blog-post">
+            <h3>{{ entry.title }}</h3>
+            <p>{{ entry.summary|raw }}</p>
+            <div>{{ entry.date }}</div>
+        </a>
     {% endfor %}
+
+    <a href="./blog" class="blog-read">Read the rest of the blog</a>
 
 {% endblock %}
