@@ -213,11 +213,13 @@ $flextype['view'] = function ($container) {
     $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
 
     $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
-    $view->addExtension(new EntriesTwigExtension());
-    $view->addExtension(new RegistryTwigExtension());
 
     return $view;
 };
+
+$flextype['view']->addExtension(new EntriesTwigExtension($flextype));
+$flextype['view']->addExtension(new RegistryTwigExtension());
+
 
 /**
  * Init plugins

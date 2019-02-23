@@ -56,7 +56,7 @@ $app->get('{uri:.+}', function (Request $request, Response $response, array $arg
         $entry['template']    = Registry::get('settings.entries.error404.template');
     }
 
-    $path = 'themes/' . Registry::get('settings.theme') . '/' . (empty($entry['template']) ? 'templates/default' : 'templates/' . $entry['template']) . '.twig';
+    $path = 'themes/' . Registry::get('settings.theme') . '/' . (empty($entry['template']) ? 'templates/default' : 'templates/' . $entry['template']) . '.html';
 
     return $this->view->render($response,
                                $path, [

@@ -19,7 +19,4 @@ include 'ATwigExtension.php';
 
 //Flextype::container()['view']->addExtension(new ATwigExtension());
 
-echo '@@@';
-
-
 //Flextype::flextype()->version();

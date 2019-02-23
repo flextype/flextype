@@ -10,6 +10,20 @@ namespace Flextype;
 
 class EntriesTwigExtension extends \Twig_Extension
 {
+
+    /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * __construct
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
+
     public function getFunctions()
     {
         return [
@@ -20,11 +34,11 @@ class EntriesTwigExtension extends \Twig_Extension
 
     public function fetch(string $entry)
     {
-        return Entries::fetch($entry);
+        return $this->flextype['entries']->fetch($entry);
     }
 
     public function fetchAll(string $entry, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null) : array
     {
-        return Entries::fetchAll($entry, $order_by, $order_type, $offset, $length);
+        return $this->flextype['entries']->fetchAll($entry, $order_by, $order_type, $offset, $length);
     }
 }
