@@ -11,14 +11,31 @@
             <meta name="generator" content="Powered by Flextype Flextype::VERSION" />
 
             <title>{% if entry.title %}{{ entry.title|e('html') }} | {% endif %}{{ registry.settings.title|e('html') }}</title>
+
+            <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css'>
         {% endblock %}
     </head>
     <body>
-        <div id="content">{% block content %}{% endblock %}</div>
-        <div id="footer">
-            {% block footer %}
-                &copy; Copyright 2011 by <a href="http://domain.invalid/">you</a>.
-            {% endblock %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow">
+        <div class="container">
+          <a class="navbar-brand" href="{{ base_url() }}">{{ registry.settings.title|e('html') }}</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+
+            </ul>
+          </div>
         </div>
+        </nav>
+        <main role="main" class="container content">
+            <div id="content">{% block content %}{% endblock %}</div>
+            <div class="powered">
+                {% block footer %}
+                  Powered by <a href="http://flextype.org">Flextype</a>
+                {% endblock %}
+            </div>
+        </main>
     </body>
 </html>
