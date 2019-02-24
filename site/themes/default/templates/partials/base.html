@@ -1,8 +1,15 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="{{ registry.settings.locale }}">
     <head>
         {% block head %}
             <meta charset="utf-8" />
+            <meta charset="{{ registry.settings.charset|lower }}">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description" content="{% if entry.description %}{{ entry.description }}{% else %}{{ registry.settings.description }}{% endif %}">
+            <meta name="keywords" content="{% if entry.keywords %}{{ entry.keywords }}{% else %}{{ registry.settings.keywords }}{% endif %}">
+            <meta name="robots" content="{% if entry.robots %}{{ entry.robots }}{% else %}{{ registry.settings.robots }}{% endif %}">
+            <meta name="generator" content="Powered by Flextype Flextype::VERSION" />
+
             <title>{% if entry.title %}{{ entry.title|e('html') }} | {% endif %}{{ registry.settings.title|e('html') }}</title>
         {% endblock %}
     </head>

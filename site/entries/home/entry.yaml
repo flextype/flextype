@@ -4,8 +4,7 @@ content: |
       Welcome!
   </h1>
   <p style="text-align: center;" class="lead">
-      Welcome to your new Flextype powered website. [site_url]
-      [images path="about/lilia.jpg"]
+      Welcome to your new Flextype powered website.
       <br>
       Flextype is succesfully installed, you can start editing the content and customising your site in <a href="./admin">Admin panel</a>.
   </p>
