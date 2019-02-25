@@ -18,7 +18,6 @@ use Flextype\Component\ErrorHandler\ErrorHandler;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Filesystem\Filesystem;
 use Thunder\Shortcode\ShortcodeFacade;
-use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -101,11 +100,19 @@ Cache::getInstance();
 // Get Themes Instance
 Themes::getInstance();
 
-// Create and configure Slim app
-$config = ['settings' => [
-    'displayErrorDetails' => true,
-    'addContentLengthHeader' => false,
-]];
+// Configure application
+$config = [
+    'settings' => [
+        'displayErrorDetails' => true,
+        'addContentLengthHeader' => true,
+        'addContentLengthHeader' => false,
+        'routerCacheFile' => false,
+        'determineRouteBeforeAppMiddleware' => false,
+        'outputBuffering' => 'append',
+        'responseChunkSize' => 4096,
+        'httpVersion' => '1.1'
+    ],
+];
 
 /**
  * Create new application
@@ -204,21 +211,26 @@ $flextype['entries'] = function($container) {
  */
 $flextype['view'] = function ($container) {
 
+    // Create Twig View
     $view = new \Slim\Views\Twig(PATH['site'], [
         'cache' => false
     ]);
 
-    // Instantiate and add Slim specific extension
+    // Instantiate
     $router = $container->get('router');
     $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
 
+    // Add Twig Extension
     $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
+
+    // Add Entries Twig Extension
+    $view->addExtension(new EntriesTwigExtension($container));
+
+    // Add Registry Twig Extension
+    $view->addExtension(new RegistryTwigExtension());
 
     return $view;
 };
-
-$flextype['view']->addExtension(new EntriesTwigExtension($flextype));
-$flextype['view']->addExtension(new RegistryTwigExtension());
 
 
 /**
