@@ -41,7 +41,8 @@
         "flextype-components/text" : "1.1.2",
         "league/glide": "^1.4",
         "slim/slim": "^3.0",
-        "slim/twig-view": "^2.4"
+        "slim/twig-view": "^2.4",
+        "league/glide-slim": "^1.0"
     },
     "autoload": {
         "classmap": [

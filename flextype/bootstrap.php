@@ -20,6 +20,8 @@ use Flextype\Component\Filesystem\Filesystem;
 use Thunder\Shortcode\ShortcodeFacade;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use League\Glide\ServerFactory;
+use League\Glide\Responses\SlimResponseFactory;
 
 /**
  * The version of Flextype
@@ -171,17 +173,14 @@ $flextype['images'] = function($container) {
     $api = new \League\Glide\Api\Api($imageManager, $manipulators);
 
     // Setup Glide server
-    $server = new \League\Glide\Server(
-        $source,
-        $cache,
-        $api
-    );
+    $server = \League\Glide\ServerFactory::create([
+        'source' => $source,
+        'cache' => $cache,
+        'api' => $api,
+        'response' => new SlimResponseFactory(),
+    ]);
 
-    return new \League\Glide\Server(
-        $source,
-        $cache,
-        $api
-    );
+    return $server;
 };
 
 /**
@@ -232,11 +231,18 @@ $flextype['view'] = function ($container) {
     return $view;
 };
 
+/**
+ * Generates and returns the image reponse
+ */
+$app->get('/image/{path:.+}', function (Request $request, Response $response, array $args) use ($flextype) {
+    return $flextype['images']->getImageResponse($args['path'], $_GET);
+});
 
 /**
  * Init plugins
  */
 $plugins = new Plugins($flextype, $app);
+
 
 /**
  * Run application
