@@ -114,7 +114,7 @@ class Plugins
     private function createPluginsDictionary(array $plugins_list) : void
     {
         if (is_array($plugins_list) && count($plugins_list) > 0) {
-            foreach ($this->$locales as $locale => $locale_title) {
+            foreach ($this->locales as $locale => $locale_title) {
                 foreach ($plugins_list as $plugin) {
                     $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/languages/' . $locale . '.yaml';
                     if (Filesystem::has($language_file)) {
