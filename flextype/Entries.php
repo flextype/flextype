@@ -51,6 +51,12 @@ class Entries
             // Try to get the entry from cache
             if (Cache::contains($cache_id)) {
                 if ($entry_decoded = Cache::fetch($cache_id)) {
+
+                    // Apply Shortcodes for each entry fields
+                    foreach ($entry_decoded as $key => $_entry_decoded) {
+                        $entry_decoded[$key] = $this->flextype['shortcodes']->process($_entry_decoded);
+                    }
+
                     return $entry_decoded;
                 } else {
                     return false;
@@ -64,14 +70,13 @@ class Entries
                         $entry_decoded['date'] = $entry_decoded['date'] ?? date(Registry::get('settings.date_format'), Filesystem::getTimestamp($entry_file));
                         $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($entry, '/'), '/');
 
+                        // Save to cache
+                        Cache::save($cache_id, $entry_decoded);
 
                         // Apply Shortcodes for each entry fields
                         foreach ($entry_decoded as $key => $_entry_decoded) {
                             $entry_decoded[$key] = $this->flextype['shortcodes']->process($_entry_decoded);
                         }
-
-                        // Save to cache
-                        Cache::save($cache_id, $entry_decoded);
 
                         return $entry_decoded;
                     } else {
