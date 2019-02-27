@@ -116,7 +116,11 @@ $config = [
 
         'twig' => [
             'cache' => false
-        ]
+        ],
+
+        'images' => [
+            'driver' => 'gd',
+        ],
     ],
 ];
 
@@ -135,6 +139,9 @@ $flextype = $app->getContainer();
  */
 $flextype['images'] = function($container) {
 
+    // Get images settings
+    $imagesSettings = $container->get('settings')['images'];
+
     // Set source filesystem
     $source = new \League\Flysystem\Filesystem(
         new \League\Flysystem\Adapter\Local(PATH['entries'])
@@ -151,9 +158,7 @@ $flextype['images'] = function($container) {
     );
 
     // Set image manager
-    $imageManager = new \Intervention\Image\ImageManager([
-        'driver' => 'gd',
-    ]);
+    $imageManager = new \Intervention\Image\ImageManager($imagesSettings);
 
     // Set manipulators
     $manipulators = [
@@ -228,6 +233,7 @@ $flextype['entries'] = function($container) {
  */
 $flextype['view'] = function ($container) {
 
+    // Get twig settings
     $twigSettings = $container->get('settings')['twig'];
 
     // Create Twig View
