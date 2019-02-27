@@ -49,8 +49,8 @@ class Entries
             $cache_id = md5('entry' . $entry_file . ((Filesystem::getTimestamp($entry_file) === false) ? '' : Filesystem::getTimestamp($entry_file)));
 
             // Try to get the entry from cache
-            if (Cache::contains($cache_id)) {
-                if ($entry_decoded = Cache::fetch($cache_id)) {
+            if ($this->flextype['cache']->contains($cache_id)) {
+                if ($entry_decoded = $this->flextype['cache']->fetch($cache_id)) {
 
                     // Apply Shortcodes for each entry fields
                     foreach ($entry_decoded as $key => $_entry_decoded) {
@@ -71,7 +71,7 @@ class Entries
                         $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($entry, '/'), '/');
 
                         // Save to cache
-                        Cache::save($cache_id, $entry_decoded);
+                        $this->flextype['cache']->save($cache_id, $entry_decoded);
 
                         // Apply Shortcodes for each entry fields
                         foreach ($entry_decoded as $key => $_entry_decoded) {
@@ -128,8 +128,8 @@ class Entries
             }
         }
 
-        if (Cache::contains($cache_id)) {
-            $entries = Cache::fetch($cache_id);
+        if ($this->flextype['cache']->contains($cache_id)) {
+            $entries = $this->flextype['cache']->fetch($cache_id);
         } else {
 
             // Create entries array from entries list and ignore current requested entry
@@ -143,7 +143,7 @@ class Entries
                 }
             }
 
-            Cache::save($cache_id, $entries);
+            $this->flextype['cache']->save($cache_id, $entries);
         }
 
         // Sort and Slice entries if $raw === false

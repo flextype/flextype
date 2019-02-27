@@ -96,9 +96,6 @@ date_default_timezone_set(Registry::get('settings.timezone'));
 // Start the session
 Session::start();
 
-// Get Cache Instance
-Cache::getInstance();
-
 // Get Themes Instance
 //Themes::getInstance();
 
@@ -133,6 +130,13 @@ $app = new \Slim\App($config);
  * Set Flextype Dependency Container
  */
 $flextype = $app->getContainer();
+
+/**
+ * Add fieldsets service to Flextype container
+ */
+$flextype['cache'] = function($container) {
+    return new Cache();
+};
 
 /**
  * Add images service to Flextype container

@@ -19,6 +19,12 @@ use Flextype\Component\Registry\Registry;
 
 class Plugins
 {
+
+    /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
     /**
      * Locales array
      *
@@ -33,6 +39,7 @@ class Plugins
      */
     public function __construct($flextype, $app)
     {
+        $this->flextype = $flextype;
         $this->locales = include_once ROOT_DIR . '/flextype/locales/Locales.php';
         $this->init($flextype, $app);
     }
@@ -58,8 +65,8 @@ class Plugins
         if (is_array($plugins_list) && count($plugins_list) > 0) {
 
             // Get plugins list from cache or scan plugins folder and create new plugins cache item
-            if (Cache::contains($plugins_cache_id)) {
-                Registry::set('plugins', Cache::fetch($plugins_cache_id));
+            if ($this->flextype['cache']->contains($plugins_cache_id)) {
+                Registry::set('plugins', $this->flextype['cache']->fetch($plugins_cache_id));
             } else {
 
                 // If Plugins List isnt empty
@@ -92,7 +99,7 @@ class Plugins
                     }
 
                     Registry::set('plugins', $_plugins_config);
-                    Cache::save($plugins_cache_id, $_plugins_config);
+                    $this->flextype['cache']->save($plugins_cache_id, $_plugins_config);
                 }
             }
 

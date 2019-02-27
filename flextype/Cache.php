@@ -19,92 +19,56 @@ use \Doctrine\Common\Cache as DoctrineCache;
 class Cache
 {
     /**
-     * An instance of the Cache class
-     *
-     * @var object
-     * @access private
-     */
-    private static $instance = null;
-
-    /**
      * Unique cache key
      *
      * @var string Cache key.
      */
-    protected static $key;
+    private $key;
 
     /**
      * Lifetime
      *
      * @var int Lifetime.
      */
-    protected static $lifetime;
+    private $lifetime;
 
     /**
      * Current time
      *
      * @var int Current time.
      */
-    protected static $now;
+    private $now;
 
     /**
      * Cache Driver
      *
      * @var DoctrineCache
      */
-    protected static $driver;
-
-    /**
-     * Private clone method to enforce singleton behavior.
-     *
-     * @access private
-     */
-    private function __clone()
-    {
-    }
-
-    /**
-     * Private wakeup method to enforce singleton behavior.
-     *
-     * @access private
-     */
-    private function __wakeup()
-    {
-    }
+    private $driver;
 
     /**
      * Private construct method to enforce singleton behavior.
      *
      * @access private
      */
-    private function __construct()
-    {
-        Cache::init();
-    }
-
-    /**
-     * Init Cache
-     *
-     * @access protected
-     * @return void
-     */
-    protected static function init() : void
+    public function __construct()
     {
         // Create Cache Directory
         !Filesystem::has(PATH['cache']) and Filesystem::createDir(PATH['cache']);
 
         // Set current time
-        Cache::$now = time();
+        $this->now = time();
 
         // Create cache key to allow invalidate all cache on configuration changes.
-        Cache::$key = (Registry::get('settings.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . 'Flextype::VERSION');
+        $this->key = (Registry::get('settings.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . 'Flextype::VERSION');
 
         // Get Cache Driver
-        Cache::$driver = Cache::getCacheDriver();
+        $this->driver = $this->getCacheDriver();
 
         // Set the cache namespace to our unique key
-        Cache::$driver->setNamespace(Cache::$key);
+        $this->driver->setNamespace($this->$key);
     }
+
 
     /**
      * Get Cache Driver
@@ -112,41 +76,41 @@ class Cache
      * @access public
      * @return object
      */
-    public static function getCacheDriver()
+    public function getCacheDriver()
     {
         // Try to set default cache driver name
-        $driver_name = Cache::setDefaultCacheDriverName(Registry::get('settings.cache.driver'));
+        $driver_name = $this->setDefaultCacheDriverName(Registry::get('settings.cache.driver'));
 
         // Set cache driver
-        return Cache::setCacheDriver($driver_name);
+        return $this->setCacheDriver($driver_name);
     }
 
-    protected static function setCacheDriver(string $driver_name)
+    protected function setCacheDriver(string $driver_name)
     {
         switch ($driver_name) {
             case 'apcu':
-               $driver = Cache::setApcuCacheDriver();
+               $driver = $this->setApcuCacheDriver();
             break;
             case 'array':
-                $driver = Cache::setArrayCacheDriver();
+                $driver = $this->setArrayCacheDriver();
             break;
             case 'wincache':
-               $driver = Cache::setWinCacheDriver();
+               $driver = $this->setWinCacheDriver();
             break;
             case 'memcached':
-                $driver = Cache::setMemcachedCacheDriver();
+                $driver = $this->setMemcachedCacheDriver();
             break;
             case 'sqlite3':
-                $driver = Cache::setSQLite3CacheDriver();
+                $driver = $this->setSQLite3CacheDriver();
             break;
             case 'zend':
-                $driver = Cache::setZendDataCacheDriver();
+                $driver = $this->setZendDataCacheDriver();
             break;
             case 'redis':
-                $driver = Cache::setRedisCacheDriver();
+                $driver = $this->setRedisCacheDriver();
             break;
             default:
-                $driver = Cache::setFilesystemCacheDriver();
+                $driver = $this->setFilesystemCacheDriver();
             break;
         }
 
@@ -158,7 +122,7 @@ class Cache
      *
      * @access protected
      */
-    protected static function setZendDataCacheDriver()
+    protected function setZendDataCacheDriver()
     {
         $driver = new DoctrineCache\ZendDataCache();
 
@@ -171,7 +135,7 @@ class Cache
      *
      * @access protected
      */
-    protected static function setSQLite3CacheDriver()
+    protected function setSQLite3CacheDriver()
     {
         // Cache directory
         $cache_directory = PATH['cache'] . '/doctrine/';
@@ -190,7 +154,7 @@ class Cache
      *
      * @access protected
      */
-    protected static function setMemcachedCacheDriver()
+    protected function setMemcachedCacheDriver()
     {
         $memcached = new \Memcached();
         $memcached->addServer(
@@ -210,7 +174,7 @@ class Cache
      *
      * @access protected
      */
-    protected static function setWinCacheDriver()
+    protected function setWinCacheDriver()
     {
         $driver = new DoctrineCache\WinCacheCache();
 
@@ -222,7 +186,7 @@ class Cache
      * This can be useful for caching things in memory for a single process when you don't need the cache to be persistent across processes.
      * @access protected
      */
-    protected static function setArrayCacheDriver()
+    protected function setArrayCacheDriver()
     {
         $driver = new DoctrineCache\ArrayCache();
 
@@ -235,7 +199,7 @@ class Cache
      *
      * @access protected
      */
-    protected static function setApcuCacheDriver()
+    protected function setApcuCacheDriver()
     {
         $driver = new DoctrineCache\ApcuCache();
 
@@ -248,7 +212,7 @@ class Cache
      *
      * @access protected
      */
-    protected static function setRedisCacheDriver()
+    protected function setRedisCacheDriver()
     {
         $redis    = new \Redis();
         $socket   = Registry::get('settings.cache.redis.socket', false);
@@ -279,7 +243,7 @@ class Cache
      *
      * @access protected
      */
-    protected static function setFilesystemCacheDriver()
+    protected function setFilesystemCacheDriver()
     {
         // Cache directory
         $cache_directory = PATH['cache'] . '/doctrine/';
@@ -298,7 +262,7 @@ class Cache
      * @param string $driver_name Driver name.
      * @return string
      */
-    protected static function setDefaultCacheDriverName(string $driver_name)
+    protected function setDefaultCacheDriverName(string $driver_name)
     {
         if (!$driver_name || $driver_name == 'auto') {
             if (extension_loaded('apcu')) {
@@ -319,9 +283,9 @@ class Cache
      * @access public
      * @return object
      */
-    public static function driver()
+    public function driver()
     {
-        return Cache::$driver;
+        return $this->$driver;
     }
 
     /**
@@ -330,9 +294,9 @@ class Cache
      * @access public
      * @return string
      */
-    public static function getKey() : string
+    public function getKey() : string
     {
-        return Cache::$key;
+        return $this->$key;
     }
 
     /**
@@ -342,10 +306,10 @@ class Cache
      * @param string $id The id of the cache entry to fetch.
      * @return mixed The cached data or FALSE, if no cache entry exists for the given id.
      */
-    public static function fetch(string $id)
+    public function fetch(string $id)
     {
         if (Registry::get('settings.cache.enabled')) {
-            return Cache::$driver->fetch($id);
+            return $this->$driver->fetch($id);
         } else {
             return false;
         }
@@ -357,10 +321,10 @@ class Cache
      * @param string $id    the id of the cached data entry
      * @return bool         true if the cached items exists
      */
-    public static function contains($id)
+    public function contains($id)
     {
         if (Registry::get('settings.cache.enabled')) {
-            return Cache::$driver->contains(($id));
+            return $this->$driver->contains(($id));
         } else {
             return false;
         }
@@ -376,20 +340,20 @@ class Cache
      *                         If zero (the default), the entry never expires (although it may be deleted from the cache
      *                         to make place for other entries).
      */
-    public static function save(string $id, $data, $lifetime = null)
+    public function save(string $id, $data, $lifetime = null)
     {
         if (Registry::get('settings.cache.enabled')) {
             if ($lifetime === null) {
-                $lifetime = Cache::getLifetime();
+                $lifetime = $this->getLifetime();
             }
-            Cache::$driver->save($id, $data, $lifetime);
+            $this->$driver->save($id, $data, $lifetime);
         }
     }
 
     /**
      * Clear Cache
      */
-    public static function clear() : void
+    public function clear() : void
     {
         // Clear stat cache
         @clearstatcache();
@@ -408,16 +372,16 @@ class Cache
      * @access public
      * @param int $future timestamp
      */
-    public static function setLifetime(int $future)
+    public function setLifetime(int $future)
     {
         if (!$future) {
             return;
         }
 
-        $interval = $future-Cache::$now;
+        $interval = $future-$this->$now;
 
-        if ($interval > 0 && $interval < Cache::getLifetime()) {
-            Cache::$lifetime = $interval;
+        if ($interval > 0 && $interval < $this->getLifetime()) {
+            $this->$lifetime = $interval;
         }
     }
 
@@ -427,27 +391,12 @@ class Cache
      * @access public
      * @return mixed
      */
-    public static function getLifetime()
+    public function getLifetime()
     {
-        if (Cache::$lifetime === null) {
-            Cache::$lifetime = Registry::get('settings.cache.lifetime') ?: 604800;
+        if ($this->$lifetime === null) {
+            $this->$lifetime = Registry::get('settings.cache.lifetime') ?: 604800;
         }
 
-        return Cache::$lifetime;
-    }
-
-    /**
-     * Get the Cache instance.
-     *
-     * @access public
-     * @return object
-     */
-    public static function getInstance()
-    {
-        if (is_null(Cache::$instance)) {
-            Cache::$instance = new self;
-        }
-
-        return Cache::$instance;
+        return $this->$lifetime;
     }
 }
