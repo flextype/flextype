@@ -112,7 +112,11 @@ $config = [
         'determineRouteBeforeAppMiddleware' => false,
         'outputBuffering' => 'append',
         'responseChunkSize' => 4096,
-        'httpVersion' => '1.1'
+        'httpVersion' => '1.1',
+
+        'twig' => [
+            'cache' => false
+        ]
     ],
 ];
 
@@ -184,7 +188,21 @@ $flextype['images'] = function($container) {
 };
 
 /**
- * Add shortcodes service to Flextype container:
+ * Add fieldsets service to Flextype container
+ */
+$flextype['fieldsets'] = function($container) {
+    return new Fieldsets();
+};
+
+/**
+ * Add snippets service to Flextype container
+ */
+$flextype['snippets'] = function($container) {
+    return new Snippets();
+};
+
+/**
+ * Add shortcodes service to Flextype container
  */
 $flextype['shortcodes'] = function($container) {
     return new ShortcodeFacade();
@@ -210,10 +228,10 @@ $flextype['entries'] = function($container) {
  */
 $flextype['view'] = function ($container) {
 
+    $twigSettings = $container->get('settings')['twig'];
+
     // Create Twig View
-    $view = new \Slim\Views\Twig(PATH['site'], [
-        'cache' => false
-    ]);
+    $view = new \Slim\Views\Twig(PATH['site'], $twigSettings);
 
     // Instantiate
     $router = $container->get('router');
@@ -242,7 +260,6 @@ $app->get('/image/{path:.+}', function (Request $request, Response $response, ar
  * Init plugins
  */
 $plugins = new Plugins($flextype, $app);
-
 
 /**
  * Run application
