@@ -19,47 +19,11 @@ use Flextype\Component\Registry\Registry;
 class Themes
 {
     /**
-     * An instance of the Themes class
-     *
-     * @var object
-     */
-    private static $instance = null;
-
-    /**
-     * Private clone method to enforce singleton behavior.
-     *
-     * @access private
-     */
-    private function __clone()
-    {
-    }
-
-    /**
-     * Private wakeup method to enforce singleton behavior.
-     *
-     * @access private
-     */
-    private function __wakeup()
-    {
-    }
-
-    /**
      * Private construct method to enforce singleton behavior.
      *
      * @access private
      */
-    private function __construct()
-    {
-        Themes::init();
-    }
-
-    /**
-     * Init Themes
-     *
-     * @access private
-     * @return void
-     */
-    private static function init() : void
+    public function __construct()
     {
         // Get current theme
         $theme = Registry::get('settings.theme');
@@ -86,27 +50,6 @@ class Themes
         }
     }
 
-    /**
-     * Get themes view
-     *
-     * @param  string $template  Template file
-     * @param  string $variables Variables
-     * @access public
-     * @return object
-     */
-    public static function view(string $template, array $variables = [])
-    {
-        // Set view file
-        // From current theme folder or from plugin folder
-        if (Filesystem::has(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $template . View::$view_ext)) {
-            $template = PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $template;
-        } else {
-            $template = PATH['plugins'] . '/' . $template;
-        }
-
-        // Return template
-        return new View($template, $variables);
-    }
 
     /**
      * Get partials for current theme
@@ -114,7 +57,7 @@ class Themes
      * @access public
      * @return array
      */
-    public static function getPartials() : array
+    public function getPartials() : array
     {
         $partials = [];
 
@@ -140,7 +83,7 @@ class Themes
      * @access public
      * @return array
      */
-    public static function getTemplates() : array
+    public function getTemplates() : array
     {
         $templates = [];
 
@@ -158,20 +101,5 @@ class Themes
 
         // return templates
         return $templates;
-    }
-
-    /**
-     * Get the Themes instance.
-     *
-     * @access public
-     * @return object
-     */
-    public static function getInstance()
-    {
-        if (is_null(Themes::$instance)) {
-            Themes::$instance = new self;
-        }
-
-        return Themes::$instance;
     }
 }

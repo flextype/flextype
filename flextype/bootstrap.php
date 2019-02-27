@@ -100,7 +100,7 @@ Session::start();
 Cache::getInstance();
 
 // Get Themes Instance
-Themes::getInstance();
+//Themes::getInstance();
 
 // Configure application
 $config = [
