@@ -20,6 +20,7 @@ use Flextype\Component\Filesystem\Filesystem;
 use Thunder\Shortcode\ShortcodeFacade;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Flash\Messages;
 use League\Glide\ServerFactory;
 use League\Glide\Responses\SlimResponseFactory;
 use League\Event\Emitter;
@@ -71,6 +72,13 @@ $flextype = $app->getContainer();
  */
 $flextype['emitter'] = function($container) {
     return new Emitter();
+};
+
+/**
+ * Add emitter service to Flextype container
+ */
+$flextype['flash'] = function ($container) {
+    return new Messages();
 };
 
 /**
