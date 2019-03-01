@@ -25,7 +25,6 @@
         "flextype-components/cookie" : "1.2.0",
         "flextype-components/date" : "1.0.0",
         "flextype-components/debug" : "1.0.0",
-        "flextype-components/event" : "1.0.4",
         "flextype-components/errorhandler" : "1.0.5",
         "flextype-components/filesystem" : "2.0.3",
         "flextype-components/i18n" : "1.2.0",
