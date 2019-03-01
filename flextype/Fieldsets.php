@@ -18,6 +18,21 @@ use Flextype\Component\Registry\Registry;
 class Fieldsets
 {
     /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * __construct
+     *
+     * @access public
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
+
+    /**
      * Fetch Fieldsets for current theme
      *
      * @access public
@@ -141,7 +156,7 @@ class Fieldsets
      */
     private function _dir_location() : string
     {
-        return PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/';
+        return PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/fieldsets/';
     }
 
     /**
@@ -153,6 +168,6 @@ class Fieldsets
      */
     private function _file_location(string $name) : string
     {
-        return PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . $name . '.yaml';
+        return PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/fieldsets/' . $name . '.yaml';
     }
 }

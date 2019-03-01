@@ -19,6 +19,11 @@ use \Doctrine\Common\Cache as DoctrineCache;
 class Cache
 {
     /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
      * Unique cache key
      *
      * @var string Cache key.
@@ -51,8 +56,10 @@ class Cache
      *
      * @access private
      */
-    public function __construct()
+    public function __construct($flextype)
     {
+        $this->flextype = $flextype;
+
         // Create Cache Directory
         !Filesystem::has(PATH['cache']) and Filesystem::createDir(PATH['cache']);
 
@@ -60,7 +67,7 @@ class Cache
         $this->now = time();
 
         // Create cache key to allow invalidate all cache on configuration changes.
-        $this->key = (Registry::get('settings.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . 'Flextype::VERSION');
+        $this->key = ($this->flextype['registry']->get('settings.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . 'Flextype::VERSION');
 
         // Get Cache Driver
         $this->driver = $this->getCacheDriver();
@@ -79,7 +86,7 @@ class Cache
     public function getCacheDriver()
     {
         // Try to set default cache driver name
-        $driver_name = $this->setDefaultCacheDriverName(Registry::get('settings.cache.driver'));
+        $driver_name = $this->setDefaultCacheDriverName($this->flextype['registry']->get('settings.cache.driver'));
 
         // Set cache driver
         return $this->setCacheDriver($driver_name);
@@ -143,8 +150,8 @@ class Cache
         // Create doctrine cache directory if its not exists
         !Filesystem::has($cache_directory) and Filesystem::createDir($cache_directory);
 
-        $db = new \SQLite3($cache_directory . Registry::get('settings.cache.sqlite3.database', 'flextype') . '.db');
-        $driver = new DoctrineCache\SQLite3Cache($db, Registry::get('settings.cache.sqlite3.table', 'flextype'));
+        $db = new \SQLite3($cache_directory . $this->flextype['registry']->get('settings.cache.sqlite3.database', 'flextype') . '.db');
+        $driver = new DoctrineCache\SQLite3Cache($db, $this->flextype['registry']->get('settings.cache.sqlite3.table', 'flextype'));
 
         return $driver;
     }
@@ -158,8 +165,8 @@ class Cache
     {
         $memcached = new \Memcached();
         $memcached->addServer(
-            Registry::get('settings.cache.memcached.server', 'localhost'),
-            Registry::get('settings.cache.memcache.port', 11211)
+            $this->flextype['registry']->get('settings.cache.memcached.server', 'localhost'),
+            $this->flextype['registry']->get('settings.cache.memcache.port', 11211)
         );
         $driver = new DoctrineCache\MemcachedCache();
         $driver->setMemcached($memcached);
@@ -215,15 +222,15 @@ class Cache
     protected function setRedisCacheDriver()
     {
         $redis    = new \Redis();
-        $socket   = Registry::get('settings.cache.redis.socket', false);
-        $password = Registry::get('settings.cache.redis.password', false);
+        $socket   = $this->flextype['registry']->get('settings.cache.redis.socket', false);
+        $password = $this->flextype['registry']->get('settings.cache.redis.password', false);
 
         if ($socket) {
             $redis->connect($socket);
         } else {
             $redis->connect(
-                Registry::get('settings.cache.redis.server', 'localhost'),
-                Registry::get('settings.cache.redis.port', 6379)
+                $this->flextype['registry']->get('settings.cache.redis.server', 'localhost'),
+                $this->flextype['registry']->get('settings.cache.redis.port', 6379)
             );
         }
 
@@ -308,7 +315,7 @@ class Cache
      */
     public function fetch(string $id)
     {
-        if (Registry::get('settings.cache.enabled')) {
+        if ($this->flextype['registry']->get('settings.cache.enabled')) {
             return $this->$driver->fetch($id);
         } else {
             return false;
@@ -323,7 +330,7 @@ class Cache
      */
     public function contains($id)
     {
-        if (Registry::get('settings.cache.enabled')) {
+        if ($this->flextype['registry']->get('settings.cache.enabled')) {
             return $this->$driver->contains(($id));
         } else {
             return false;
@@ -342,7 +349,7 @@ class Cache
      */
     public function save(string $id, $data, $lifetime = null)
     {
-        if (Registry::get('settings.cache.enabled')) {
+        if ($this->flextype['registry']->get('settings.cache.enabled')) {
             if ($lifetime === null) {
                 $lifetime = $this->getLifetime();
             }
@@ -394,7 +401,7 @@ class Cache
     public function getLifetime()
     {
         if ($this->$lifetime === null) {
-            $this->$lifetime = Registry::get('settings.cache.lifetime') ?: 604800;
+            $this->$lifetime = $this->flextype['registry']->get('settings.cache.lifetime') ?: 604800;
         }
 
         return $this->$lifetime;

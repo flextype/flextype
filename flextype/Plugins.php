@@ -19,7 +19,6 @@ use Flextype\Component\Registry\Registry;
 
 class Plugins
 {
-
     /**
      * Flextype Dependency Container
      */
@@ -33,9 +32,9 @@ class Plugins
     private $locales = [];
 
     /**
-     * Private construct method to enforce singleton behavior.
+     * __construct
      *
-     * @access private
+     * @access public
      */
     public function __construct($flextype, $app)
     {
@@ -53,7 +52,7 @@ class Plugins
     private function init($flextype, $app) : void
     {
         // Set empty plugins item
-        Registry::set('plugins', []);
+        $this->flextype['registry']->set('plugins', []);
 
         // Get Plugins List
         $plugins_list = Filesystem::listContents(PATH['plugins']);
@@ -66,7 +65,7 @@ class Plugins
 
             // Get plugins list from cache or scan plugins folder and create new plugins cache item
             if ($this->flextype['cache']->contains($plugins_cache_id)) {
-                Registry::set('plugins', $this->flextype['cache']->fetch($plugins_cache_id));
+                $this->flextype['registry']->set('plugins', $this->flextype['cache']->fetch($plugins_cache_id));
             } else {
 
                 // If Plugins List isnt empty
@@ -98,7 +97,7 @@ class Plugins
                         $_plugins_config[basename($_plugin_config, '.yaml')] = array_merge($plugin_settings, $plugin_config);
                     }
 
-                    Registry::set('plugins', $_plugins_config);
+                    $this->flextype['registry']->set('plugins', $_plugins_config);
                     $this->flextype['cache']->save($plugins_cache_id, $_plugins_config);
                 }
             }
@@ -107,7 +106,7 @@ class Plugins
 
             Plugins::includeEnabledPlugins($flextype, $app);
 
-            Event::dispatch('onPluginsInitialized');
+            //Event::dispatch('onPluginsInitialized');
         }
     }
 
@@ -173,9 +172,9 @@ class Plugins
      */
     private function includeEnabledPlugins($flextype, $app) : void
     {
-        if (is_array(Registry::get('plugins')) && count(Registry::get('plugins')) > 0) {
-            foreach (Registry::get('plugins') as $plugin_name => $plugin) {
-                if (Registry::get('plugins.' . $plugin_name . '.enabled')) {
+        if (is_array($this->flextype['registry']->get('plugins')) && count($this->flextype['registry']->get('plugins')) > 0) {
+            foreach ($this->flextype['registry']->get('plugins') as $plugin_name => $plugin) {
+                if ($this->flextype['registry']->get('plugins.' . $plugin_name . '.enabled')) {
                     include_once PATH['plugins'] . '/' . $plugin_name . '/' . $plugin_name . '.php';
                 }
             }

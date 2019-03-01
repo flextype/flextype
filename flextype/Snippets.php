@@ -17,6 +17,19 @@ use Flextype\Component\Filesystem\Filesystem;
 class Snippets
 {
     /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * __construct
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
+
+    /**
      * Get snippet
      *
      * $this->fetch('snippet-name');

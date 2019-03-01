@@ -30,74 +30,8 @@ use League\Glide\Responses\SlimResponseFactory;
  */
 define ('FLEXTYPE_VERSION', '0.8.3');
 
-// Set empty settings array
-Registry::set('settings', []);
-
-// Set settings files path
-$default_settings_file_path = PATH['config']['default'] . '/settings.yaml';
-$site_settings_file_path    = PATH['config']['site'] . '/settings.yaml';
-
-// Set settings if Flextype settings and Site settings config files exist
-if (Filesystem::has($default_settings_file_path) && Filesystem::has($site_settings_file_path)) {
-
-    if (($content = Filesystem::read($default_settings_file_path)) === false) {
-        throw new \RuntimeException('Load file: ' . $default_settings_file_path . ' - failed!');
-    } else {
-        $default_settings = YamlParser::decode($content);
-    }
-
-    if (($content = Filesystem::read($site_settings_file_path)) === false) {
-        throw new \RuntimeException('Load file: ' . $site_settings_file_path . ' - failed!');
-    } else {
-        $site_settings = YamlParser::decode($content);
-    }
-
-    // Merge settings
-    $settings = array_replace_recursive($default_settings, $site_settings);
-
-    // Set settings
-    Registry::set('settings', $settings);
-} else {
-    throw new \RuntimeException("Flextype settings and Site settings config files does not exist.");
-}
-
-// Set internal encoding
-function_exists('mb_language') and mb_language('uni');
-function_exists('mb_regex_encoding') and mb_regex_encoding(Registry::get('settings.charset'));
-function_exists('mb_internal_encoding') and mb_internal_encoding(Registry::get('settings.charset'));
-
-/**
- * Set error handler
- *
- * @access private
- */
-
-// Display Errors
-if (Registry::get('settings.errors.display')) {
-    //define('DEVELOPMENT', true);
-    error_reporting(-1);
-} else {
-    //define('DEVELOPMENT', false);
-    error_reporting(0);
-}
-
-// Create directory for logs
-!Filesystem::has(LOGS_PATH) and Filesystem::createDir(LOGS_PATH);
-
-// Set Error handler
-//set_error_handler('Flextype\Component\ErrorHandler\ErrorHandler::error');
-//register_shutdown_function('Flextype\Component\ErrorHandler\ErrorHandler::fatal');
-//set_exception_handler('Flextype\Component\ErrorHandler\ErrorHandler::exception');
-
-
-// Set default timezone
-date_default_timezone_set(Registry::get('settings.timezone'));
-
 // Start the session
 Session::start();
-
-// Get Themes Instance
-//Themes::getInstance();
 
 // Configure application
 $config = [
@@ -132,10 +66,80 @@ $app = new \Slim\App($config);
 $flextype = $app->getContainer();
 
 /**
- * Add fieldsets service to Flextype container
+ * Add registry service to Flextype container
  */
-$flextype['cache'] = function($container) {
-    return new Cache();
+$flextype['registry'] = function($container) {
+    return new Registry();
+};
+
+// Set empty settings array
+$flextype['registry']->set('settings', []);
+
+// Set settings files path
+$default_settings_file_path = PATH['config']['default'] . '/settings.yaml';
+$site_settings_file_path    = PATH['config']['site'] . '/settings.yaml';
+
+// Set settings if Flextype settings and Site settings config files exist
+if (Filesystem::has($default_settings_file_path) && Filesystem::has($site_settings_file_path)) {
+
+    if (($content = Filesystem::read($default_settings_file_path)) === false) {
+        throw new \RuntimeException('Load file: ' . $default_settings_file_path . ' - failed!');
+    } else {
+        $default_settings = YamlParser::decode($content);
+    }
+
+    if (($content = Filesystem::read($site_settings_file_path)) === false) {
+        throw new \RuntimeException('Load file: ' . $site_settings_file_path . ' - failed!');
+    } else {
+        $site_settings = YamlParser::decode($content);
+    }
+
+    // Merge settings
+    $settings = array_replace_recursive($default_settings, $site_settings);
+
+    // Set settings
+    $flextype['registry']->set('settings', $settings);
+} else {
+    throw new \RuntimeException("Flextype settings and Site settings config files does not exist.");
+}
+
+// Set internal encoding
+function_exists('mb_language') and mb_language('uni');
+function_exists('mb_regex_encoding') and mb_regex_encoding($flextype['registry']->get('settings.charset'));
+function_exists('mb_internal_encoding') and mb_internal_encoding($flextype['registry']->get('settings.charset'));
+
+/**
+ * Set error handler
+ *
+ * @access private
+ */
+
+// Display Errors
+if ($flextype['registry']->get('settings.errors.display')) {
+    //define('DEVELOPMENT', true);
+    error_reporting(-1);
+} else {
+    //define('DEVELOPMENT', false);
+    error_reporting(0);
+}
+
+// Create directory for logs
+!Filesystem::has(LOGS_PATH) and Filesystem::createDir(LOGS_PATH);
+
+// Set Error handler
+//set_error_handler('Flextype\Component\ErrorHandler\ErrorHandler::error');
+//register_shutdown_function('Flextype\Component\ErrorHandler\ErrorHandler::fatal');
+//set_exception_handler('Flextype\Component\ErrorHandler\ErrorHandler::exception');
+
+
+// Set default timezone
+date_default_timezone_set($flextype['registry']->get('settings.timezone'));
+
+/**
+ * Add cache service to Flextype container
+ */
+$flextype['cache'] = function($container) use ($flextype) {
+    return new Cache($flextype);
 };
 
 /**
@@ -199,15 +203,15 @@ $flextype['images'] = function($container) {
 /**
  * Add fieldsets service to Flextype container
  */
-$flextype['fieldsets'] = function($container) {
-    return new Fieldsets();
+$flextype['fieldsets'] = function($container) use ($flextype) {
+    return new Fieldsets($flextype);
 };
 
 /**
  * Add snippets service to Flextype container
  */
-$flextype['snippets'] = function($container) {
-    return new Snippets();
+$flextype['snippets'] = function($container) use ($flextype){
+    return new Snippets($flextype);
 };
 
 /**

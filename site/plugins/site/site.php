@@ -19,7 +19,7 @@ $app->get('{uri:.+}', function (Request $request, Response $response, array $arg
 
     // If uri is empty then it is main page else use entry uri
     if ($uri === '/') {
-        $entry_uri = Registry::get('settings.entries.main');
+        $entry_uri = $this->get('registry')->get('settings.entries.main');
     } else {
         $entry_uri = ltrim($uri, '/');
     }
@@ -35,10 +35,10 @@ $app->get('{uri:.+}', function (Request $request, Response $response, array $arg
 
             //Http::setResponseStatus(404);
 
-            $entry['title']       = Registry::get('settings.entries.error404.title');
-            $entry['description'] = Registry::get('settings.entries.error404.description');
-            $entry['content']     = Registry::get('settings.entries.error404.content');
-            $entry['template']    = Registry::get('settings.entries.error404.template');
+            $entry['title']       = $this->get('registry')->get('settings.entries.error404.title');
+            $entry['description'] = $this->get('registry')->get('settings.entries.error404.description');
+            $entry['content']     = $this->get('registry')->get('settings.entries.error404.content');
+            $entry['template']    = $this->get('registry')->get('settings.entries.error404.template');
 
             //$response->withStatus(404);
 
@@ -50,17 +50,17 @@ $app->get('{uri:.+}', function (Request $request, Response $response, array $arg
         //Http::setResponseStatus(404);
         //$response->withStatus(404);
 
-        $entry['title']       = Registry::get('settings.entries.error404.title');
-        $entry['description'] = Registry::get('settings.entries.error404.description');
-        $entry['content']     = Registry::get('settings.entries.error404.content');
-        $entry['template']    = Registry::get('settings.entries.error404.template');
+        $entry['title']       = $this->get('registry')->get('settings.entries.error404.title');
+        $entry['description'] = $this->get('registry')->get('settings.entries.error404.description');
+        $entry['content']     = $this->get('registry')->get('settings.entries.error404.content');
+        $entry['template']    = $this->get('registry')->get('settings.entries.error404.template');
     }
 
-    $path = 'themes/' . Registry::get('settings.theme') . '/' . (empty($entry['template']) ? 'templates/default' : 'templates/' . $entry['template']) . '.html';
+    $path = 'themes/' . $this->get('registry')->get('settings.theme') . '/' . (empty($entry['template']) ? 'templates/default' : 'templates/' . $entry['template']) . '.html';
 
     return $this->view->render($response,
                                $path, [
         'entry' => $entry,
-        'registry' => Registry::registry()
+        'registry' => $this->get('registry')->dump()
     ]);
 });

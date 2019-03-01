@@ -18,7 +18,6 @@ use Flextype\Component\Registry\Registry;
 
 class Entries
 {
-
     /**
      * Flextype Dependency Container
      */
@@ -67,7 +66,7 @@ class Entries
                     if ($entry_decoded = YamlParser::decode($entry_body)) {
 
                         // Create default entry items
-                        $entry_decoded['date'] = $entry_decoded['date'] ?? date(Registry::get('settings.date_format'), Filesystem::getTimestamp($entry_file));
+                        $entry_decoded['date'] = $entry_decoded['date'] ?? date($this->flextype['registry']->get('settings.date_format'), Filesystem::getTimestamp($entry_file));
                         $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($entry, '/'), '/');
 
                         // Save to cache
