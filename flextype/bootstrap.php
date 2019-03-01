@@ -75,7 +75,7 @@ $flextype['emitter'] = function($container) {
 };
 
 /**
- * Add emitter service to Flextype container
+ * Add flash service to Flextype container
  */
 $flextype['flash'] = function ($container) {
     return new Messages();
