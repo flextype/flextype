@@ -10,9 +10,12 @@
             <meta name="robots" content="{% if entry.robots %}{{ entry.robots }}{% else %}{{ registry.settings.robots }}{% endif %}">
             <meta name="generator" content="Powered by Flextype Flextype::VERSION" />
 
+            {{ emmiter_emmit('onThemeMeta') }}
+
             <title>{% if entry.title %}{{ entry.title|e('html') }} | {% endif %}{{ registry.settings.title|e('html') }}</title>
 
             <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css'>
+            {{ emmiter_emmit('onThemeHeader') }}
         {% endblock %}
     </head>
     <body>
