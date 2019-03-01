@@ -268,6 +268,9 @@ $flextype['view'] = function ($container) {
     // Add Registry Twig Extension
     $view->addExtension(new RegistryTwigExtension());
 
+    // Add Emitter Twig Extension
+    $view->addExtension(new EmitterTwigExtension());
+
     return $view;
 };
 
