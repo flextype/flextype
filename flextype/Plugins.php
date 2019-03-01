@@ -13,9 +13,7 @@
 namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
-use Flextype\Component\Event\Event;
 use Flextype\Component\I18n\I18n;
-use Flextype\Component\Registry\Registry;
 
 class Plugins
 {

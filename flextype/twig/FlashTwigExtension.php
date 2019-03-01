@@ -6,14 +6,13 @@ use Slim\Flash\Messages;
 
 class FlashTwigExtension extends \Twig_Extension
 {
-
     /**
      * Flextype Dependency Container
      */
     private $flextype;
 
     /**
-     * Constructor.
+     * Constructor
      */
     public function __construct($flextype)
     {
@@ -44,6 +43,7 @@ class FlashTwigExtension extends \Twig_Extension
         if (null !== $key) {
             return $this->flextype['flash']->getMessage($key);
         }
+        
         return $this->flextype['flash']->getMessages();
     }
 }

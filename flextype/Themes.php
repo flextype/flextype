@@ -13,8 +13,6 @@
 namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
-use Flextype\Component\View\View;
-use Flextype\Component\Registry\Registry;
 
 class Themes
 {
