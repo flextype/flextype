@@ -13,7 +13,6 @@
 namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
-use Flextype\Component\Registry\Registry;
 
 class Fieldsets
 {

@@ -12,7 +12,6 @@
 
 namespace Flextype;
 
-use Flextype\Component\Http\Http;
 use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 

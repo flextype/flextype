@@ -1,6 +1,6 @@
 <?php
 
-return $locales = [
+return [
     'af'         => ['name' => 'Afrikaans', 'nativeName' => 'Afrikaans'],
     'af_ZA'      => ['name' => 'Afrikaans', 'nativeName' => 'Afrikaans'],
     'ak'         => ['name' => 'Akan', 'nativeName' => 'Akan'], // unverified native name
