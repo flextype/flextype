@@ -102,11 +102,11 @@ class Plugins
                 }
             }
 
-            Plugins::createPluginsDictionary($plugins_list);
+            $this->createPluginsDictionary($plugins_list);
 
-            Plugins::includeEnabledPlugins($flextype, $app);
+            $this->includeEnabledPlugins($flextype, $app);
 
-            //Event::dispatch('onPluginsInitialized');
+            $this->flextype['emitter']->emit('onPluginsInitialized');
         }
     }
 

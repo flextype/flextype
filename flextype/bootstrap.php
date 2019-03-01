@@ -22,6 +22,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use League\Glide\ServerFactory;
 use League\Glide\Responses\SlimResponseFactory;
+use League\Event\Emitter;
 
 /**
  * The version of Flextype
@@ -64,6 +65,13 @@ $app = new \Slim\App($config);
  * Set Flextype Dependency Container
  */
 $flextype = $app->getContainer();
+
+/**
+ * Add emitter service to Flextype container
+ */
+$flextype['emitter'] = function($container) {
+    return new Emitter();
+};
 
 /**
  * Add registry service to Flextype container
