@@ -271,6 +271,9 @@ $flextype['view'] = function ($container) {
     // Add Emitter Twig Extension
     $view->addExtension(new FlashTwigExtension($container));
 
+    // Add I18n Twig Extension
+    $view->addExtension(new I18nTwigExtension());
+
     return $view;
 };
 
