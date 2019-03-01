@@ -51,9 +51,9 @@ class Cache
     private $driver;
 
     /**
-     * Private construct method to enforce singleton behavior.
+     * Constructor
      *
-     * @access private
+     * @access public
      */
     public function __construct($flextype)
     {
@@ -74,7 +74,6 @@ class Cache
         // Set the cache namespace to our unique key
         $this->driver->setNamespace($this->key);
     }
-
 
     /**
      * Get Cache Driver
@@ -291,7 +290,7 @@ class Cache
      */
     public function driver()
     {
-        return $this->$driver;
+        return $this->driver;
     }
 
     /**
@@ -302,7 +301,7 @@ class Cache
      */
     public function getKey() : string
     {
-        return $this->$key;
+        return $this->key;
     }
 
     /**
@@ -315,7 +314,7 @@ class Cache
     public function fetch(string $id)
     {
         if ($this->flextype['registry']->get('settings.cache.enabled')) {
-            return $this->$driver->fetch($id);
+            return $this->driver->fetch($id);
         } else {
             return false;
         }
@@ -330,7 +329,7 @@ class Cache
     public function contains($id)
     {
         if ($this->flextype['registry']->get('settings.cache.enabled')) {
-            return $this->$driver->contains(($id));
+            return $this->driver->contains($id);
         } else {
             return false;
         }
@@ -352,7 +351,7 @@ class Cache
             if ($lifetime === null) {
                 $lifetime = $this->getLifetime();
             }
-            $this->$driver->save($id, $data, $lifetime);
+            $this->driver->save($id, $data, $lifetime);
         }
     }
 
@@ -384,10 +383,10 @@ class Cache
             return;
         }
 
-        $interval = $future-$this->$now;
+        $interval = $future-$this->now;
 
         if ($interval > 0 && $interval < $this->getLifetime()) {
-            $this->$lifetime = $interval;
+            $this->lifetime = $interval;
         }
     }
 
@@ -399,10 +398,10 @@ class Cache
      */
     public function getLifetime()
     {
-        if ($this->$lifetime === null) {
-            $this->$lifetime = $this->flextype['registry']->get('settings.cache.lifetime') ?: 604800;
+        if ($this->lifetime === null) {
+            $this->lifetime = $this->flextype['registry']->get('settings.cache.lifetime') ?: 604800;
         }
 
-        return $this->$lifetime;
+        return $this->lifetime;
     }
 }

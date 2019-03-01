@@ -22,7 +22,9 @@ class Snippets
     private $flextype;
 
     /**
-     * __construct
+     * Constructor
+     *
+     * @access public
      */
     public function __construct($flextype)
     {
@@ -31,8 +33,6 @@ class Snippets
 
     /**
      * Get snippet
-     *
-     * $this->fetch('snippet-name');
      *
      * @access public
      * @param  string  $snippet_name  Snippet name

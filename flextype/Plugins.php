@@ -30,7 +30,7 @@ class Plugins
     private $locales = [];
 
     /**
-     * __construct
+     * Constructor
      *
      * @access public
      */

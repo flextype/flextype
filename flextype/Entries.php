@@ -23,7 +23,9 @@ class Entries
     private $flextype;
 
     /**
-     * __construct
+     * Constructor
+     *
+     * @access public
      */
     public function __construct($flextype)
     {

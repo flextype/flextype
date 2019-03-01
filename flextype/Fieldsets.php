@@ -22,7 +22,7 @@ class Fieldsets
     private $flextype;
 
     /**
-     * __construct
+     * Constructor
      *
      * @access public
      */
