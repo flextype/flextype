@@ -6,8 +6,6 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 use Flextype\Component\Arr\Arr;
-use Flextype\Component\Event\Event;
-use Flextype\Component\Registry\Registry;
 
 /**
  * Define site plugin routes

@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * @package Flextype
+ *
+ * @author Sergey Romanenko <hello@romanenko.digital>
+ * @link http://romanenko.digital
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Flextype;
 
 use Slim\Flash\Messages;
@@ -43,7 +53,7 @@ class FlashTwigExtension extends \Twig_Extension
         if (null !== $key) {
             return $this->flextype['flash']->getMessage($key);
         }
-        
+
         return $this->flextype['flash']->getMessages();
     }
 }

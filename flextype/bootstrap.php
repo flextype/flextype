@@ -286,7 +286,7 @@ $flextype['view'] = function ($container) {
 };
 
 /**
- * Generates and returns the image reponse
+ * Generates and returns the image response
  */
 $app->get('/image/{path:.+}', function (Request $request, Response $response, array $args) use ($flextype) {
     return $flextype['images']->getImageResponse($args['path'], $_GET);
