@@ -27,6 +27,6 @@ class EmitterTwigExtension extends \Twig_Extension
 
     public function emit(string $event)
     {
-        return $this->flextype['emitter']->emit($event);
+        $this->flextype['emitter']->emit($event);
     }
 }

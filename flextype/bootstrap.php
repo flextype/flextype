@@ -265,11 +265,11 @@ $flextype['view'] = function ($container) {
     // Add Entries Twig Extension
     $view->addExtension(new EntriesTwigExtension($container));
 
-    // Add Registry Twig Extension
-    $view->addExtension(new RegistryTwigExtension());
+    // Add Emitter Twig Extension
+    $view->addExtension(new EmitterTwigExtension($container));
 
     // Add Emitter Twig Extension
-    $view->addExtension(new EmitterTwigExtension());
+    $view->addExtension(new FlashTwigExtension($container));
 
     return $view;
 };
