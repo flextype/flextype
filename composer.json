@@ -30,7 +30,7 @@
         "flextype-components/i18n" : "1.2.0",
         "flextype-components/number" : "1.1.0",
         "flextype-components/notification" : "1.0.2",
-        "flextype-components/registry" : "1.2.0",
+        "flextype-components/registry" : "2.0.0",
         "flextype-components/session" : "1.1.1",
         "flextype-components/token" : "1.2.0",
         "flextype-components/text" : "1.1.2",
