@@ -16,6 +16,6 @@ use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Shortcode: [site_url]
-$flextype['shortcodes']->addHandler('site_url', function() {
-    return Http::getBaseUrl();
+$flextype['shortcodes']->addHandler('site_url', function() use ($flextype) {
+    return \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
 });
