@@ -28,6 +28,11 @@ class AssetsTwigExtension extends \Twig_Extension
         ];
     }
 
+    public function add(string $asset_type, string $asset, string $namespace, int $priority = 1) : void
+    {
+        return Assets::add($asset_type, $asset, $namespace, $priority);
+    }
+
     public function get(string $asset_type, string $namespace) : array
     {
         return Assets::get($asset_type, $namespace);
