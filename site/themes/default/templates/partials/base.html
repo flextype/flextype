@@ -2,7 +2,6 @@
 <html lang="{{ registry.settings.locale }}">
     <head>
         {% block head %}
-            <meta charset="utf-8" />
             <meta charset="{{ registry.settings.charset|lower }}">
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
             <meta name="description" content="{% if entry.description %}{{ entry.description }}{% else %}{{ registry.settings.description }}{% endif %}">
