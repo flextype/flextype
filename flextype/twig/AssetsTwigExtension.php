@@ -24,13 +24,14 @@ class AssetsTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
+            new \Twig_SimpleFunction('assets_add', array($this, 'add')),
             new \Twig_SimpleFunction('assets_get', array($this, 'get')),
         ];
     }
 
     public function add(string $asset_type, string $asset, string $namespace, int $priority = 1) : void
     {
-        return Assets::add($asset_type, $asset, $namespace, $priority);
+        Assets::add($asset_type, $asset, $namespace, $priority);
     }
 
     public function get(string $asset_type, string $namespace) : array

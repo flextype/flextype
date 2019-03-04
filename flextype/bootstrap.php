@@ -282,6 +282,10 @@ $flextype['view'] = function ($container) {
     // Add I18n Twig Extension
     $view->addExtension(new I18nTwigExtension());
 
+    // Add Assets Twig Extension
+    $view->addExtension(new AssetsTwigExtension());
+
+    // Return view
     return $view;
 };
 
