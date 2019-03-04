@@ -15,6 +15,16 @@
             <title>{% if entry.title %}{{ entry.title|e('html') }} | {% endif %}{{ registry.settings.title|e('html') }}</title>
 
             <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css'>
+
+            {% set bootstrap = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/css/bootstrap.min.css' %}
+            {% set default = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/css/default.min.css' %}
+            {% do assets_add('css', bootstrap, 'site', 1) %}
+            {% do assets_add('css', default, 'site', 2) %}
+            {% for assets_site in assets_get('css', 'site') %}
+                {% for assets_by_priorities in assets_site %}
+                    <link href="{{ assets_by_priorities.asset }}" rel="stylesheet">
+                {% endfor %}
+            {% endfor %}
             {{ emmiter_emmit('onThemeHeader') }}
         {% endblock %}
     </head>
@@ -46,5 +56,13 @@
                 {% endblock %}
             </div>
         </main>
+        {% set default = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/js/default.min.js' %}
+        {% do assets_add('js', default, 'site', 1) %}
+        {% for assets_site in assets_get('js', 'site') %}
+            {% for assets_by_priorities in assets_site %}
+                <script src="{{ assets_by_priorities.asset }}"></script>
+            {% endfor %}
+        {% endfor %}
+        {{ emmiter_emmit('onThemeTail') }}
     </body>
 </html>
