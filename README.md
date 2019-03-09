@@ -2,7 +2,7 @@
 ![preview](/site/plugins/admin/preview.png)
 
 <p align="center">
-<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?colorB=blue" alt="Total downloads"></a> <a href="https://crowdin.com/project/flextype"><img src="https://d322cqt584bo4o.cloudfront.net/flextype/localized.svg" alt="Crowdin"></a> <a href="https://scrutinizer-ci.com/g/flextype/flextype?branch=master"><img src="https://img.shields.io/scrutinizer/g/flextype/flextype.svg?branch=master" alt="Quality Score"></a> <a href="https://discordapp.com/invite/CCKPKVG"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&colorB=728ADA&label=Discord%20Chat" alt="Discord"></a>
+<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version"></a> <a href="https://github.com/flextype/flextype"><a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/flextype-95/backers/badge.svg" /></a> <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/flextype-95/sponsors/badge.svg" /></a> <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?colorB=blue" alt="Total downloads"></a> <a href="https://crowdin.com/project/flextype"><img src="https://d322cqt584bo4o.cloudfront.net/flextype/localized.svg" alt="Crowdin"></a> <a href="https://scrutinizer-ci.com/g/flextype/flextype?branch=master"><img src="https://img.shields.io/scrutinizer/g/flextype/flextype.svg?branch=master" alt="Quality Score"></a> <a href="https://discordapp.com/invite/CCKPKVG"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&colorB=728ADA&label=Discord%20Chat" alt="Discord"></a>
 
 </p>
 
@@ -136,6 +136,36 @@ Flextype is an open source project and community contributions are essential to 
 ## LINKS
 - [Site](http://flextype.org)
 - [Documentation](http://flextype.org/en/documentation)
+
+
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/flextype/flextype/graphs/contributors"><img src="https://opencollective.com/flextype-95/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/flextype-95#backer)]
+
+<a href="https://opencollective.com/flextype-95#backers" target="_blank"><img src="https://opencollective.com/flextype-95/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/flextype-95#sponsor)]
+
+<a href="https://opencollective.com/flextype-95/sponsor/0/website" target="_blank"><img src="https://opencollective.com/flextype-95/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/flextype-95/sponsor/1/website" target="_blank"><img src="https://opencollective.com/flextype-95/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/flextype-95/sponsor/2/website" target="_blank"><img src="https://opencollective.com/flextype-95/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/flextype-95/sponsor/3/website" target="_blank"><img src="https://opencollective.com/flextype-95/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/flextype-95/sponsor/4/website" target="_blank"><img src="https://opencollective.com/flextype-95/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/flextype-95/sponsor/5/website" target="_blank"><img src="https://opencollective.com/flextype-95/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/flextype-95/sponsor/6/website" target="_blank"><img src="https://opencollective.com/flextype-95/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/flextype-95/sponsor/7/website" target="_blank"><img src="https://opencollective.com/flextype-95/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/flextype-95/sponsor/8/website" target="_blank"><img src="https://opencollective.com/flextype-95/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/flextype-95/sponsor/9/website" target="_blank"><img src="https://opencollective.com/flextype-95/sponsor/9/avatar.svg"></a>
+
 
 
 ## LICENSE
