@@ -68,6 +68,18 @@ $app = new \Slim\App($config);
 $flextype = $app->getContainer();
 
 /**
+ * Add CSRF (cross-site request forgery) protection service to Flextype container
+ */
+$flextype['csrf'] = function ($container) {
+    return new \Slim\Csrf\Guard;
+};
+
+/**
+ * Add middleware CSRF (cross-site request forgery) protection for all routes
+ */
+$app->add($flextype->get('csrf'));
+
+/**
  * Add emitter service to Flextype container
  */
 $flextype['emitter'] = function($container) {
@@ -276,7 +288,7 @@ $flextype['view'] = function ($container) {
     // Add Emitter Twig Extension
     $view->addExtension(new EmitterTwigExtension($container));
 
-    // Add Emitter Twig Extension
+    // Add Flash Twig Extension
     $view->addExtension(new FlashTwigExtension($container));
 
     // Add I18n Twig Extension
@@ -284,6 +296,9 @@ $flextype['view'] = function ($container) {
 
     // Add Assets Twig Extension
     $view->addExtension(new AssetsTwigExtension());
+
+    // Add Csrf Twig Extension
+    $view->addExtension(new CsrfTwigExtension($container->get('csrf')));
 
     // Return view
     return $view;
