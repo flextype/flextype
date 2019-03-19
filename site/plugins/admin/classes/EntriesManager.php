@@ -17,6 +17,11 @@ use function Flextype\Component\I18n\__;
 use Gajus\Dindent\Indenter;
 use Intervention\Image\ImageManagerStatic as Image;
 
+$app->get('/admin/entries', function (Request $request, Response $response, array $args) {
+    return 'asd';
+})->setName('entries');
+
+
 class EntriesManager
 {
 
