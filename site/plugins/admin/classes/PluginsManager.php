@@ -16,7 +16,6 @@ use Slim\Http\Response;
 $app->get('/admin/plugins', function (Request $request, Response $response, array $args) {
     return $this->view->render($response,
                                'plugins/admin/views/templates/extends/plugins/index.html', [
-        'registry' => $this->get('registry')->dump(),
         'plugins_list' => $this->get('registry')->get('plugins'),
         'menu_item' => 'plugins'
     ]);

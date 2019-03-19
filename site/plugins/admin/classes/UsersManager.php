@@ -13,15 +13,12 @@ use Slim\Http\Response;
 
 $app->get('/admin/login', function (Request $request, Response $response, array $args) {
     return $this->view->render($response,
-                               'plugins/admin/views/templates/users/login.html', [
-        'registry' => $this->get('registry')->dump()
-    ]);
+                               'plugins/admin/views/templates/users/login.html');
 })->setName('login');
 
 $app->get('/admin/profile', function (Request $request, Response $response, array $args) {
     return $this->view->render($response,
                                'plugins/admin/views/templates/users/profile.html', [
-        'registry' => $this->get('registry')->dump(),
         'username' => Session::get('username'),
         'rolename' => Session::get('role'),
         'sidebar_menu_item' => 'profile'
@@ -35,9 +32,7 @@ $app->get('/admin/logout', function (Request $request, Response $response, array
 
 $app->get('/admin/registration', function (Request $request, Response $response, array $args) {
     return $this->view->render($response,
-                               'plugins/admin/views/templates/users/registration.html', [
-        'registry' => $this->get('registry')->dump()
-    ]);
+                               'plugins/admin/views/templates/users/registration.html');
 })->setName('registration');
 
 $app->post('/admin/registration', function (Request $request, Response $response, array $args) {
