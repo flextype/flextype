@@ -65,11 +65,9 @@
                           </a>
                       </div>
                         <ul class="nav">
-                        {% set active_menu_item = pages %}
-
                           {% for item in registry.admin_navigation.content %}
                               <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
-                                  <a href="{{ base_url() }}/{{ item.link|raw }}"
+                                  <a href="{{ base_url() }}{{ item.link|raw }}"
                                   {% for key, attribute in item.attributes %}
                                       {{ key }} = {{ attribute }}
                                   {% endfor %}
@@ -78,7 +76,7 @@
                           {% endfor %}
                           {% for item in registry.admin_navigation.extends %}
                               <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
-                                  <a href="{{ base_url() }}/{{ item.link|raw }}"
+                                  <a href="{{ base_url() }}{{ item.link|raw }}"
                                   {% for key, attribute in item.attributes %}
                                       {{ key }} = {{ attribute }}
                                   {% endfor %}
@@ -87,7 +85,7 @@
                           {% endfor %}
                           {% for item in registry.admin_navigation.settings %}
                               <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
-                                  <a href="{{ base_url() }}/{{ item.link|raw }}"
+                                  <a href="{{ base_url() }}{{ item.link|raw }}"
                                   {% for key, attribute in item.attributes %}
                                       {{ key }} = {{ attribute }}
                                   {% endfor %}
@@ -96,7 +94,7 @@
                           {% endfor %}
                           {% for item in registry.admin_navigation.help %}
                               <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
-                                  <a href="{{ base_url() }}/{{ item.link|raw }}"
+                                  <a href="{{ base_url() }}{{ item.link|raw }}"
                                   {% for key, attribute in item.attributes %}
                                       {{ key }} = {{ attribute }}
                                   {% endfor %}
