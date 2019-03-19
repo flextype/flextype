@@ -37,6 +37,7 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
     I18n::$locale = $flextype->registry->get('settings.locale');
 
     include_once 'classes/UsersManager.php';
+    include_once 'classes/InformationManager.php';
     include_once 'classes/PluginsManager.php';
 
     addItem('content', 'entries', '<i class="far fa-newspaper"></i>' . __('admin_entries'), '/admin/entries', ['class' => 'nav-link'], $flextype);
@@ -45,7 +46,7 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
     addItem('extends', 'snippets', '<i class="far fa-file-code"></i>' . __('admin_snippets'), '/admin/snippets', ['class' => 'nav-link'], $flextype);
     addItem('extends', 'plugins', '<i class="fas fa-plug"></i>' . __('admin_plugins'), '/admin/plugins', ['class' => 'nav-link'], $flextype);
     addItem('settings', 'settings', '<i class="fas fa-cog"></i>' . __('admin_settings'), '/admin/settings', ['class' => 'nav-link'], $flextype);
-    addItem('help', 'infomation', '<i class="fas fa-info"></i>' . __('admin_information'), '/admin/information', ['class' => 'nav-link'], $flextype);
+    addItem('help', 'information', '<i class="fas fa-info"></i>' . __('admin_information'), '/admin/information', ['class' => 'nav-link'], $flextype);
 
 
     if (UsersManager::isLoggedIn()) {
