@@ -17,7 +17,8 @@ $app->get('/admin/plugins', function (Request $request, Response $response, arra
     return $this->view->render($response,
                                'plugins/admin/views/templates/extends/plugins/index.html', [
         'registry' => $this->get('registry')->dump(),
-        'plugins_list' => $this->get('registry')->get('plugins')
+        'plugins_list' => $this->get('registry')->get('plugins'),
+        'menu_item' => 'plugins'
     ]);
 })->setName('plugins');
 
