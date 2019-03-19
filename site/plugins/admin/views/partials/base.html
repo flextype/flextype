@@ -119,5 +119,190 @@
             </div> <!-- .content -->
 
         </div>
+
+        {% if registry.settings.locale == 'en_US' %}
+            {% set locale = 'en' %}
+        {% else %}
+            {% set locale = registry.settings.locale %}
+        {% endif %}
+
+        {% if registry.settings.locale != 'en_US' %}
+            {% set admin_trumbowyg_build = base_url() ~ '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/' ~ registry.settings.locale ~ '.min.js' %}
+            {% do assets_add('js', admin_trumbowyg_build, 'admin', 10) %}
+        {% endif %}
+
+        {% set admin_build = base_url() ~ '/site/plugins/admin/assets/dist/js/admin-build.min.js' %}
+
+        {% do assets_add('js', admin_build, 'admin', 1) %}
+
+        {% for assets_admin in assets_get('js', 'admin') %}
+            {% for assets_by_priorities in assets_admin %}
+                <script type="text/javascript" src="{{ assets_by_priorities.asset }}"></script>
+            {% endfor %}
+        {% endfor %}
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+
+        <script>
+
+            new ClipboardJS('.js-clipboard-btn');
+            bsCustomFileInput.init();
+
+            Messenger.options = {
+                extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+                theme: 'flat'
+            }
+
+            if (typeof $.flextype == 'undefined') $.flextype = {};
+
+            $.flextype.plugins = {
+
+                init: function() {
+                    this.changeStatusProcess();
+                },
+
+                changeStatus: function(plugin, status, token) {
+                    $.ajax({
+                        type: "post",
+                        data: "plugin_change_status=1&plugin="+plugin+"&status="+status+"&csrf_name="+$('form input[name="csrf_name"]').val()+"&csrf_value="+$('form input[name="csrf_value"]').val(),
+                        url: $('form input[name="url"]').val()
+                    });
+                },
+
+                changeStatusProcess: function() {
+                    $(".js-switch").click(function() {
+                        if ($(this).is(':checked')) {
+                            $.flextype.plugins.changeStatus($(this).data("plugin"), "true", $(this).data("token"));
+                        } else {
+                            $.flextype.plugins.changeStatus($(this).data("plugin"), "false", $(this).data("token"));
+                        }
+                    });
+                }
+            };
+
+            $(document).ready(function() {
+
+                $.trumbowyg.svgPath =  '{{base_url()}}/site/plugins/admin/assets/dist/fonts/trumbowyg/icons.svg';
+
+                $('.js-html-editor').trumbowyg({
+                    btnsDef: {
+                        // Customizables dropdowns
+                        image: {
+                            dropdown: ['insertImage', 'noembed'],
+                            ico: 'insertImage'
+                        }
+                    },
+                    btns: [
+                        ['undo', 'redo'], // Only supported in Blink browsers
+                        ['formatting'],
+                        ['strong', 'em', 'del'],
+                        ['link'],
+                        ['image'],
+                        ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+                        ['unorderedList', 'orderedList'],
+                        ['table'],
+                        ['removeformat'],
+                        ['fullscreen']
+                    ],
+                    lang: '{{ locale }}',
+                    autogrow: false,
+                    removeformatPasted: true
+                });
+
+                $.flextype.plugins.init();
+
+                $('.js-save-form-submit').click(function() {
+                    $("#form" ).submit();
+                });
+
+                $('.navbar-toggler').click(function () {
+                    $('.sidebar').addClass('show-sidebar');
+                    $('.sidebar-off-canvas').addClass('show-sidebar-off-canvas');
+                });
+
+                $('.sidebar-off-canvas').click(function () {
+                    $('.sidebar').removeClass('show-sidebar');
+                    $('.sidebar-off-canvas').removeClass('show-sidebar-off-canvas');
+                });
+
+                $('.js-plugins-info').click(function () {
+                    $('#pluginInfoModal').modal();
+                    $('.js-plugin-name-placeholder').html($(this).attr('data-name'));
+                    $('.js-plugin-version-placeholder').html($(this).attr('data-version'));
+                    $('.js-plugin-description-placeholder').html($(this).attr('data-description'));
+                    $('.js-plugin-author-name-placeholder').html($(this).attr('data-author-name'));
+                    $('.js-plugin-author-email-placeholder').html($(this).attr('data-author-email'));
+                    $('.js-plugin-author-url-placeholder').html($(this).attr('data-author-url'));
+                    $('.js-plugin-homepage-placeholder').html($(this).attr('data-homepage'));
+                    $('.js-plugin-bugs-placeholder').html($(this).attr('data-bugs'));
+                    $('.js-plugin-license-placeholder').html($(this).attr('data-license'));
+                });
+
+                $('.js-snippets-info').click(function () {
+                    $('#snippetsInfoModal').modal();
+                    $('.js-snippets-snippet-placeholder').html($(this).attr('data-name'));
+                    $('.js-snippets-php-placeholder').html($(this).attr('data-name'));
+                });
+
+                $('.js-entries-image-preview').click(function () {
+                    $('#entriesImagePreview').modal();
+                    $('.js-entry-image-preview-placeholder').css('background-image', 'url(' + $(this).attr('data-image-url') + ')');
+                    $('.js-entry-image-url-placeholder').val($(this).attr('data-image-url'));
+                    $('.js-entry-image-delete-url-placeholder').attr('href', $(this).attr('data-image-delete-url'));
+                });
+
+                $('.js-settings-entry-modal').click(function () {
+                    $('#settingsEntryModal').modal();
+                });
+
+                $.validate({});
+
+                {% if params.fieldset or params.menu or params.snippet or params.source or params.template %}
+                var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
+                    lineNumbers: true,
+                    {% if params.fieldset or params.menu %}
+                    indentUnit: 2,
+                    tabSize: 2,
+                    {% else %}
+                    tabSize: 4,
+                    indentUnit: 4,
+                    {% endif %}
+                    {% if params.fieldset or params.menu %}
+                    mode: "yaml",
+                    {% else %}
+                    mode: "application/x-httpd-php",
+                    {% endif %}
+                    indentWithTabs: false,
+                    {% if registry.settings.admin_panel.theme == light %}
+                    theme: "elegant",
+                    {% elseif registry.settings.admin_panel.theme == dark %}
+                    theme: "monokai",
+                    {% endif %}
+                    styleActiveLine: true,
+                });
+
+                editor.addKeyMap({
+                    "Tab": function (cm) {
+                        if (cm.somethingSelected()) {
+                            var sel = editor.getSelection("\n");
+                            // Indent only if there are multiple lines selected, or if the selection spans a full line
+                            if (sel.length > 0 && (sel.indexOf("\n") > -1 || sel.length === cm.getLine(cm.getCursor().line).length)) {
+                                cm.indentSelection("add");
+                                return;
+                            }
+                        }
+
+                        if (cm.options.indentWithTabs)
+                            cm.execCommand("insertTab");
+                        else
+                            cm.execCommand("insertSoftTab");
+                    },
+                    "Shift-Tab": function (cm) {
+                        cm.indentSelection("subtract");
+                    }
+                });
+                {% endif %}
+            });
+        </script>
     </body>
 </html>
