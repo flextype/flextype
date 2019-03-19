@@ -65,30 +65,48 @@
                           </a>
                       </div>
                         <ul class="nav">
-                          {% for item in content_navigation_items %}
-                              <li class="nav-item {% if item.item == active_menu_item %} active {% endif %}">
-                                  <a href="{{ item.link }}" {{ item.attributes }}>{{ item.title }}</a>
+                        {% set active_menu_item = pages %}
+
+                          {% for item in registry.admin_navigation.content %}
+                              <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
+                                  <a href="{{ base_url() }}/{{ item.link|raw }}"
+                                  {% for key, attribute in item.attributes %}
+                                      {{ key }} = {{ attribute }}
+                                  {% endfor %}
+                                  >{{ item.title|raw }}</a>
                               </li>
                           {% endfor %}
-                          {% for item in extends_navigation_items %}
-                              <li class="nav-item {% if item.item == active_menu_item %} active {% endif %}">
-                                  <a href="{{ item.link }}" {{ item.attributes }}>{{ item.title }}</a>
+                          {% for item in registry.admin_navigation.extends %}
+                              <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
+                                  <a href="{{ base_url() }}/{{ item.link|raw }}"
+                                  {% for key, attribute in item.attributes %}
+                                      {{ key }} = {{ attribute }}
+                                  {% endfor %}
+                                  >{{ item.title|raw }}</a>
                               </li>
                           {% endfor %}
-                          {% for item in settings_navigation_items %}
-                              <li class="nav-item {% if item.item == active_menu_item %} active {% endif %}">
-                                  <a href="{{ item.link }}" {{ item.attributes }}>{{ item.title }}</a>
+                          {% for item in registry.admin_navigation.settings %}
+                              <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
+                                  <a href="{{ base_url() }}/{{ item.link|raw }}"
+                                  {% for key, attribute in item.attributes %}
+                                      {{ key }} = {{ attribute }}
+                                  {% endfor %}
+                                  >{{ item.title|raw }}</a>
                               </li>
                           {% endfor %}
-                          {% for item in help_navigation_items %}
-                              <li class="nav-item {% if item.item == active_menu_item %} active {% endif %}">
-                                  <a href="{{ item.link }}" {{ item.attributes }}>{{ item.title }}</a>
+                          {% for item in registry.admin_navigation.help %}
+                              <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
+                                  <a href="{{ base_url() }}/{{ item.link|raw }}"
+                                  {% for key, attribute in item.attributes %}
+                                      {{ key }} = {{ attribute }}
+                                  {% endfor %}
+                                  >{{ item.title|raw }}</a>
                               </li>
                           {% endfor %}
                       </ul>
                       <div class="flextype-user">
                             <ul class="nav">
-                                <li class="nav-item {% if active_menu_item == 'profile' %} active {% endif %}">
+                                <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
                                     <a class="nav-link" href="{{ base_url() }}/admin/profile">
                                         <i class="fas fa-user-circle"></i>
                                         <p>
