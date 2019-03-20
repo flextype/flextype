@@ -300,6 +300,9 @@ $flextype['view'] = function ($container) {
     // Add Csrf Twig Extension
     $view->addExtension(new CsrfTwigExtension($container->get('csrf')));
 
+    // Add Global Vars Twig Extension
+    $view->addExtension(new GlobalVarsTwigExtension($container));
+
     // Return view
     return $view;
 };
