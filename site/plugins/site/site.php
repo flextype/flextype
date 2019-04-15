@@ -4,61 +4,72 @@ namespace Flextype;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Psr\Container\ContainerInterface;
 
 use Flextype\Component\Arr\Arr;
 
-/**
- * Define site plugin routes
- */
-$app->get('{uri:.+}', function (Request $request, Response $response, array $args) {
+$app->get('{uri:.+}', SiteController::class . ':index');
 
-    // Get uri
-    $uri = $args['uri'];
+class SiteController
+{
+   protected $container;
 
-    // If uri is empty then it is main page else use entry uri
-    if ($uri === '/') {
-        $entry_uri = $this->get('registry')->get('settings.entries.main');
-    } else {
-        $entry_uri = ltrim($uri, '/');
-    }
+   // constructor receives container instance
+   public function __construct(ContainerInterface $container) {
+       $this->container = $container;
+   }
 
-    // Get entry body
-    $entry_body = $this->get('entries')->fetch($entry_uri);
+   public function index($request, $response, $args) {
 
-    // If entry body is not false
-    if ($entry_body) {
+       // Get uri
+       $uri = $args['uri'];
 
-        // Get 404 page if entry is not published
-        if (isset($entry_body['visibility']) && ($entry_body['visibility'] === 'draft' || $entry_body['visibility'] === 'hidden')) {
+       // If uri is empty then it is main page else use entry uri
+       if ($uri === '/') {
+           $entry_uri = $this->container->get('registry')->get('settings.entries.main');
+       } else {
+           $entry_uri = ltrim($uri, '/');
+       }
 
-            //Http::setResponseStatus(404);
+       // Get entry body
+       $entry_body = $this->container->get('entries')->fetch($entry_uri);
 
-            $entry['title']       = $this->get('registry')->get('settings.entries.error404.title');
-            $entry['description'] = $this->get('registry')->get('settings.entries.error404.description');
-            $entry['content']     = $this->get('registry')->get('settings.entries.error404.content');
-            $entry['template']    = $this->get('registry')->get('settings.entries.error404.template');
+       // If entry body is not false
+       if ($entry_body) {
 
-            //$response->withStatus(404);
+           // Get 404 page if entry is not published
+           if (isset($entry_body['visibility']) && ($entry_body['visibility'] === 'draft' || $entry_body['visibility'] === 'hidden')) {
 
-        } else {
-            $entry = $entry_body;
-        }
-    } else {
+               //Http::setResponseStatus(404);
 
-        //Http::setResponseStatus(404);
-        //$response->withStatus(404);
+               $entry['title']       = $this->container->get('registry')->get('settings.entries.error404.title');
+               $entry['description'] = $this->container->get('registry')->get('settings.entries.error404.description');
+               $entry['content']     = $this->container->get('registry')->get('settings.entries.error404.content');
+               $entry['template']    = $this->container->get('registry')->get('settings.entries.error404.template');
 
-        $entry['title']       = $this->get('registry')->get('settings.entries.error404.title');
-        $entry['description'] = $this->get('registry')->get('settings.entries.error404.description');
-        $entry['content']     = $this->get('registry')->get('settings.entries.error404.content');
-        $entry['template']    = $this->get('registry')->get('settings.entries.error404.template');
-    }
+               //$response->withStatus(404);
 
-    $path = 'themes/' . $this->get('registry')->get('settings.theme') . '/' . (empty($entry['template']) ? 'templates/default' : 'templates/' . $entry['template']) . '.html';
+           } else {
+               $entry = $entry_body;
+           }
+       } else {
 
-    return $this->view->render($response,
-                               $path, [
-        'entry' => $entry,
-        'registry' => $this->get('registry')->dump()
-    ]);
-});
+           //Http::setResponseStatus(404);
+           //$response->withStatus(404);
+
+           $entry['title']       = $this->container->get('registry')->get('settings.entries.error404.title');
+           $entry['description'] = $this->container->get('registry')->get('settings.entries.error404.description');
+           $entry['content']     = $this->container->get('registry')->get('settings.entries.error404.content');
+           $entry['template']    = $this->container->get('registry')->get('settings.entries.error404.template');
+       }
+
+       $path = 'themes/' . $this->container->get('registry')->get('settings.theme') . '/' . (empty($entry['template']) ? 'templates/default' : 'templates/' . $entry['template']) . '.html';
+
+       return $this->container->get('view')->render($response,
+                                  $path, [
+           'entry' => $entry,
+           'registry' => $this->container->get('registry')->dump()
+       ]);
+   }
+
+}
