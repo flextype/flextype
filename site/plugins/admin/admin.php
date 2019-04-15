@@ -20,9 +20,7 @@ use Flextype\Component\Arr\Arr;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-
-$uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
-$uri = explode('/', $uri->getPath());
+$uri = explode('/', \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getPath());
 
 if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
 
@@ -36,9 +34,10 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
     // Set Default Admin locale
     I18n::$locale = $flextype->registry->get('settings.locale');
 
+    //include_once 'classes/SettingsManager.php';
     include_once 'classes/UsersManager.php';
-    include_once 'classes/InformationManager.php';
-    include_once 'classes/PluginsManager.php';
+    //include_once 'classes/InformationManager.php';
+    //include_once 'classes/PluginsManager.php';
 
     addItem('content', 'entries', '<i class="far fa-newspaper"></i>' . __('admin_entries'), '/admin/entries', ['class' => 'nav-link'], $flextype);
     addItem('extends', 'fieldsets', '<i class="fas fa-list"></i>' . __('admin_fieldsets'), '/admin/fieldsets', ['class' => 'nav-link'], $flextype);
@@ -49,10 +48,10 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
     addItem('help', 'information', '<i class="fas fa-info"></i>' . __('admin_information'), '/admin/information', ['class' => 'nav-link'], $flextype);
 
 
-    if (UsersManager::isLoggedIn()) {
+    if (Users::isLoggedIn()) {
         //$app->redirect('/', $app->getContainer()->get('router')->pathFor('root'));
     } else {
-        if (UsersManager::isUsersExists()) {
+        if (Users::isUsersExists()) {
             //header('HTTP/1.1 301 Moved Permanently');
             //header('Location: '.$app->getContainer()->get('request')->getUri());
             //$app->redirect($app->getContainer()->get('request')->getUri(), $app->getContainer()->get('router')->pathFor('login'));
