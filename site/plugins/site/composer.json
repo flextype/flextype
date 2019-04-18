@@ -1,0 +1,26 @@
+{
+    "name": "flextype-plugins/site",
+    "type": "project",
+    "description": "Site plugin for Flextype",
+    "keywords": ["site", "plugin", "flextype", "php", "html"],
+    "homepage": "https://github.com/flextype-plugins/admin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sergey Romanenko",
+            "email": "awilum@yandex.ru",
+            "homepage": "https://github.com/Awilum"
+        }
+    ],
+    "support": {
+      "issues": "https://github.com/flextype-plugins/admin/issues"
+    },
+    "require": {
+        "php": ">=7.1.3"
+    },
+    "autoload": {
+        "classmap": [
+            "Controllers"
+        ]
+    }
+}
