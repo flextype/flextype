@@ -4,13 +4,14 @@ namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Date\Date;
+use Flextype\Component\Arr\Arr;
 use Flextype\Component\Registry\Registry;
 use function Flextype\Component\I18n\__;
 
 class SettingsController extends Controller
 {
-   public function index($request, $response, $args)
-   {
+    public function index($request, $response, $args)
+    {
 
        $entries = [];
        foreach ($this->entries->fetchAll('', 'date', 'DESC') as $entry) {
@@ -71,5 +72,33 @@ class SettingsController extends Controller
                                                                               ]
                                                           ]
                                   ]);
-   }
+    }
+
+    public function update($request, $response, $args)
+    {
+
+        $data = $request->getParsedBody();
+
+        Arr::delete($data, 'csrf_name');
+        Arr::delete($data, 'csrf_value');
+        Arr::delete($data, 'action');
+
+        Arr::set($data, 'errors.display', ($data['errors']['display'] == '1' ? true : false));
+        Arr::set($data, 'cache.enabled', ($data['cache']['enabled'] == '1' ? true : false));
+        Arr::set($data, 'cache.lifetime', (int) $data['cache']['lifetime']);
+        Arr::set($data, 'entries.media.upload_images_quality', (int) $data['entries']['media']['upload_images_quality']);
+        Arr::set($data, 'entries.media.upload_images_width', (int) $data['entries']['media']['upload_images_width']);
+        Arr::set($data, 'entries.media.upload_images_height', (int) $data['entries']['media']['upload_images_height']);
+
+        if (Filesystem::write(PATH['config']['site'] . '/settings.yaml', YamlParser::encode(array_merge($this->registry->get('settings'), $data)))) {
+            //Notification::set('success', __('admin_message_settings_saved'));
+        } else {
+            //Notification::set('error', __('admin_message_settings_was_not_saved'));
+        }
+
+        return $response->withRedirect($this->container->get('router')->urlFor('admin.settings.index'));
+
+        //Http::redirect(Http::getBaseUrl() . '/admin/settings');
+
+    }
 }
