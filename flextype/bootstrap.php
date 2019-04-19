@@ -315,9 +315,16 @@ $app->get('/image/{path:.+}', function (Request $request, Response $response, ar
 });
 
 /**
+ * Add plugins service to Flextype container
+ */
+$flextype['plugins'] = function($container) use ($flextype, $app) {
+    return new Plugins($flextype, $app);
+};
+
+/**
  * Init plugins
  */
-$plugins = new Plugins($flextype, $app);
+$flextype['plugins']->init($flextype, $app);
 
 /**
  * Run application
