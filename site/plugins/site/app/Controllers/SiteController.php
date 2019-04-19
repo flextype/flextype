@@ -21,42 +21,42 @@ class SiteController extends Controller
        // Get entry body
        $entry_body = $this->container->get('entries')->fetch($entry_uri);
 
+       // is entry not found
+       $is_entry_not_found = false;
+
        // If entry body is not false
        if ($entry_body) {
 
            // Get 404 page if entry is not published
            if (isset($entry_body['visibility']) && ($entry_body['visibility'] === 'draft' || $entry_body['visibility'] === 'hidden')) {
 
-               //Http::setResponseStatus(404);
-
                $entry['title']       = $this->container->get('registry')->get('settings.entries.error404.title');
                $entry['description'] = $this->container->get('registry')->get('settings.entries.error404.description');
                $entry['content']     = $this->container->get('registry')->get('settings.entries.error404.content');
                $entry['template']    = $this->container->get('registry')->get('settings.entries.error404.template');
 
-               //$response->withStatus(404);
+               $is_entry_not_found = true;
 
            } else {
                $entry = $entry_body;
            }
        } else {
 
-           //Http::setResponseStatus(404);
-           //$response->withStatus(404);
-
            $entry['title']       = $this->container->get('registry')->get('settings.entries.error404.title');
            $entry['description'] = $this->container->get('registry')->get('settings.entries.error404.description');
            $entry['content']     = $this->container->get('registry')->get('settings.entries.error404.content');
            $entry['template']    = $this->container->get('registry')->get('settings.entries.error404.template');
+
+            $is_entry_not_found = true;
        }
 
        $path = 'themes/' . $this->container->get('registry')->get('settings.theme') . '/' . (empty($entry['template']) ? 'templates/default' : 'templates/' . $entry['template']) . '.html';
 
-       return $this->container->get('view')->render($response,
-                                  $path, [
-           'entry' => $entry,
-           'registry' => $this->container->get('registry')->dump()
-       ]);
+       if ($is_entry_not_found) {
+           return $this->view->render($response->withStatus(404), $path, ['entry' => $entry]);
+       } else {
+           return $this->view->render($response, $path, ['entry' => $entry]);
+       }
    }
 
 }
