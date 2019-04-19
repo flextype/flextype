@@ -31,7 +31,6 @@
         "flextype-components/number" : "1.1.0",
         "flextype-components/registry" : "2.0.0",
         "flextype-components/session" : "1.1.1",
-        "flextype-components/token" : "1.2.0",
         "flextype-components/text" : "1.1.2",
         "league/glide": "^1.5",
         "slim/slim": "^3.0",
