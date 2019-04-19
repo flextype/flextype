@@ -30,42 +30,16 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
     // Register The Auto Loader
     $loader = require_once $autoload;
 
+    include_once 'routes.php';
 
     // Set Default Admin locale
     I18n::$locale = $flextype->registry->get('settings.locale');
 
-    //include_once 'classes/SettingsManager.php';
-    include_once 'classes/UsersManager.php';
-    //include_once 'classes/InformationManager.php';
-    //include_once 'classes/PluginsManager.php';
+    $flextype['SettingsController'] = function($container) {
+        return new SettingsController($container);
+    };
 
-    addItem('content', 'entries', '<i class="far fa-newspaper"></i>' . __('admin_entries'), '/admin/entries', ['class' => 'nav-link'], $flextype);
-    addItem('extends', 'fieldsets', '<i class="fas fa-list"></i>' . __('admin_fieldsets'), '/admin/fieldsets', ['class' => 'nav-link'], $flextype);
-    addItem('extends', 'templates', '<i class="fas fa-layer-group"></i>' . __('admin_templates'), '/admin/templates', ['class' => 'nav-link'], $flextype);
-    addItem('extends', 'snippets', '<i class="far fa-file-code"></i>' . __('admin_snippets'), '/admin/snippets', ['class' => 'nav-link'], $flextype);
-    addItem('extends', 'plugins', '<i class="fas fa-plug"></i>' . __('admin_plugins'), '/admin/plugins', ['class' => 'nav-link'], $flextype);
-    addItem('settings', 'settings', '<i class="fas fa-cog"></i>' . __('admin_settings'), '/admin/settings', ['class' => 'nav-link'], $flextype);
-    addItem('help', 'information', '<i class="fas fa-info"></i>' . __('admin_information'), '/admin/information', ['class' => 'nav-link'], $flextype);
-
-
-    if (Users::isLoggedIn()) {
-        //$app->redirect('/', $app->getContainer()->get('router')->pathFor('root'));
-    } else {
-        if (Users::isUsersExists()) {
-            //header('HTTP/1.1 301 Moved Permanently');
-            //header('Location: '.$app->getContainer()->get('request')->getUri());
-            //$app->redirect($app->getContainer()->get('request')->getUri(), $app->getContainer()->get('router')->pathFor('login'));
-        } else {
-            //$app->redirect('/', $app->getContainer()->get('router')->pathFor('redirect'));
-        }
-    }
-}
-
-function addItem(string $area, string $item, string $title, string $link, array $attributes = [], $flextype) : void
-{
-    $flextype->registry->set("admin_navigation.{$area}.{$item}.area", $area);
-    $flextype->registry->set("admin_navigation.{$area}.{$item}.item", $item);
-    $flextype->registry->set("admin_navigation.{$area}.{$item}.title", $title);
-    $flextype->registry->set("admin_navigation.{$area}.{$item}.link", $link);
-    $flextype->registry->set("admin_navigation.{$area}.{$item}.attributes", $attributes);
+    $flextype['InformationController'] = function($container) {
+        return new InformationController($container);
+    };
 }
