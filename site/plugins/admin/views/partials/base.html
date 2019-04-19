@@ -46,14 +46,18 @@
             .content-full-size .container-fluid {
                 padding: 0;
             }
+
+            .main-panel.width-full {
+                width: 100%;
+            }
         </style>
         {{ emmiter_emmit('onAdminThemeHeader') }}
     {% endblock %}
   </head>
-  <body {% if preview %} class="content-full-size" {% endif %}>
+  <body {% if not user_is_logged %} class="content-full-size" {% endif %}>
       <div class="wrapper">
 
-          {% if not user.is_logged %}
+          {% if user_is_logged %}
               <div class="sidebar">
                   <div class="sidebar-wrapper">
                       <div class="flextype-logo">
@@ -119,7 +123,52 @@
               <div class="sidebar-off-canvas"></div>
           {% endif %}
 
-        <div class="main-panel {{ main_panel_class }}>">
+        <div class="main-panel {% if not user_is_logged %}width-full{% endif %}>">
+
+            {% if links or buttons %}
+            <nav class="navbar navbar-expand-lg navbar-fixed">
+                <div class="container-fluid">
+                    {% if links %}
+                    <div class="navbar-wrapper">
+                        {% for link in links %}
+                            <a href="{{ link.link }}"
+                            {% for key, attribute in link.attributes %}
+                                {{ key }} = "{{ attribute }}"
+                            {% endfor %}
+                            >{{ link.title }}</a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% if buttons %}
+                    <div class="navbar-buttons">
+                        {% for button in buttons %}
+                            {% if button.type == 'action' %}
+                            <a href="{{ button.link }}"
+                               onclick="event.preventDefault();
+                                             document.getElementById('{{ button.id }}').submit();"
+                                             {% for key, attribute in button.attributes %}
+                                                 {{ key }} = "{{ attribute }}"
+                                             {% endfor %}>
+                                {{ button.title }}
+                            </a>
+
+                            <form id="{{ button.id }}" action="{{ button.link }}" method="POST" style="display: none;">
+                                <input type="hidden" name="{{csrf.keys.name}}" value="{{csrf.name}}">
+                                <input type="hidden" name="{{csrf.keys.value}}" value="{{csrf.value}}">
+                            </form>
+                            {% else %}
+                            <a href="{{ button.link }}"
+                            {% for key, attribute in button.attributes %}
+                                {{ key }} = "{{ attribute }}"
+                            {% endfor %}
+                            >{{ button.title }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </nav>
+            {% endif %}
 
             ['entries', 'templates', 'snippets', 'fieldsets', 'menus']
             <div class="content {% if sidebar_menu_item in entry-editor-area %} entry-editor {% endif %}">
@@ -168,6 +217,18 @@
                 extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
                 theme: 'flat'
             }
+
+            {% for message in flash()['success'] %}
+                Messenger().post({ type: "success", message : "{{ message }}", hideAfter: '3' });
+            {% endfor %}
+
+            {% for message in flash()['warning'] %}
+                Messenger().post({ type: "warning", message : "{{ message }}", hideAfter: '3' });
+            {% endfor %}
+
+            {% for message in flash()['error'] %}
+                Messenger().post({ type: "error", message : "{{ message }}", hideAfter: '3' });
+            {% endfor %}
 
             if (typeof $.flextype == 'undefined') $.flextype = {};
 
