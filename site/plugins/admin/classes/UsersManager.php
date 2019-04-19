@@ -13,10 +13,10 @@ use Psr\Container\ContainerInterface;
 
 $app->get('/admin/login', UsersController::class . ':login')->setName('admin.login');
 $app->get('/admin/profile', UsersController::class . ':profile')->setName('admin.profile');
-$app->post('/admin/login', UsersController::class . ':processLoginForm');
 $app->get('/admin/logout', UsersController::class . ':processLogoutForm')->setName('admin.logout');
 $app->get('/admin/registration', UsersController::class . ':registration')->setName('admin.registration');
 $app->post('/admin/registration', UsersController::class . ':processRegistrationForm');
+$app->post('/admin/login', UsersController::class . ':processLoginForm');
 
 class UsersController {
 
@@ -29,18 +29,29 @@ class UsersController {
 
     public function login($request, $response, $args)
     {
-        return $this->container->get('view')->render($response,
-                                   'plugins/admin/views/templates/users/login.html');
+        if (!Users::isLoggedIn()) {
+            return $this->container->get('view')->render($response,
+                                    'plugins/admin/views/templates/users/login.html', [
+                                    'user_is_logged' => Users::isLoggedIn()
+                                   ]);
+        } else {
+            return $response->withRedirect($this->container->get('router')->urlFor('admin.registration'));
+        }
     }
 
     public function profile($request, $response, $args)
     {
-        return $this->container->get('view')->render($response,
-                                   'plugins/admin/views/templates/users/profile.html', [
-            'username' => Session::get('username'),
-            'rolename' => Session::get('role'),
-            'sidebar_menu_item' => 'profile'
-        ]);
+        if (Users::isLoggedIn()) {
+            return $this->container->get('view')->render($response,
+                                       'plugins/admin/views/templates/users/profile.html', [
+                'username' => Session::get('username'),
+                'rolename' => Session::get('role'),
+                'sidebar_menu_item' => 'profile',
+                'user_is_logged' => 'user_is_logged!'
+            ]);
+        } else {
+            return $response->withRedirect($this->container->get('router')->urlFor('admin.login'));
+        }
     }
 
     public function processLoginForm($request, $response, $args)
@@ -71,8 +82,12 @@ class UsersController {
 
     public function registration($request, $response, $args)
     {
-        return $this->view->render($response,
-                                   'plugins/admin/views/templates/users/registration.html');
+        if (!Users::isLoggedIn()) {
+            return $this->view->render($response,
+                                        'plugins/admin/views/templates/users/registration.html');
+        } else {
+            return $response->withRedirect($this->container->get('router')->urlFor('admin.login'));
+        }
     }
 
     public function processRegistrationForm($request, $response, $args)
@@ -106,7 +121,7 @@ class Users
         return ($users && count($users) > 0) ? true : false;
     }
 
-    public static function isLoggedIn()
+    public static function isLoggedIn() : bool
     {
         return (Session::exists('role') && Session::get('role') == 'admin') ? true : false;
     }
