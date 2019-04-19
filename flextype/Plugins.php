@@ -41,13 +41,18 @@ class Plugins
         $this->init($flextype, $app);
     }
 
+    public function getLocales()
+    {
+        return $this->locales;
+    }
+
     /**
      * Init Plugins
      *
      * @access private
      * @return void
      */
-    private function init($flextype, $app) : void
+    public function init($flextype, $app) : void
     {
         // Set empty plugins item
         $this->flextype['registry']->set('plugins', []);
