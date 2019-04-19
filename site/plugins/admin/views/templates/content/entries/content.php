@@ -42,9 +42,9 @@ Themes::view('admin/views/partials/navbar')
     ->assign('entry', $entry)
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
-
-EntriesManager::displayEntryForm($fieldset, $entry);
-
-Themes::view('admin/views/partials/content-end')->display();
-Themes::view('admin/views/partials/footer')->display();
 ?>
+
+<?= FieldsetsManager::fetchForm($fieldset, $entry) ?>
+
+<?php Themes::view('admin/views/partials/content-end')->display() ?>
+<?php Themes::view('admin/views/partials/footer')->display() ?>

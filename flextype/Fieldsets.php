@@ -13,22 +13,36 @@
 namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
-use Flextype\Component\Registry\Registry;
 
 class Fieldsets
 {
+    /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * Constructor
+     *
+     * @access public
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
+
     /**
      * Fetch Fieldsets for current theme
      *
      * @access public
      * @return array
      */
-    public static function fetchList() : array
+    public function fetchList() : array
     {
         $fieldsets = [];
 
         // Get fieldsets files
-        $_fieldsets = Filesystem::listContents(Fieldsets::_dir_location());
+        $_fieldsets = Filesystem::listContents($this->_dir_location());
 
         // If there is any template file then go...
         if (count($_fieldsets) > 0) {
@@ -52,9 +66,9 @@ class Fieldsets
      * @param string $new_fieldset New fieldset
      * @return bool True on success, false on failure.
      */
-    public static function rename(string $fieldset, string $new_fieldset) : bool
+    public function rename(string $fieldset, string $new_fieldset) : bool
     {
-        return rename(Fieldsets::_file_location($fieldset), Fieldsets::_file_location($new_fieldset));
+        return rename($this->_file_location($fieldset), $this->_file_location($new_fieldset));
     }
 
     /**
@@ -65,9 +79,9 @@ class Fieldsets
      * @param string $data     Data
      * @return bool True on success, false on failure.
      */
-    public static function update(string $fieldset, string $data) : bool
+    public function update(string $fieldset, string $data) : bool
     {
-        $fieldset_file = Fieldsets::_file_location($fieldset);
+        $fieldset_file = $this->_file_location($fieldset);
 
         if (Filesystem::has($fieldset_file)) {
             return Filesystem::write($fieldset_file, $data);
@@ -84,9 +98,9 @@ class Fieldsets
      * @param string $data     Data
      * @return bool True on success, false on failure.
      */
-    public static function create(string $fieldset, string $data = '') : bool
+    public function create(string $fieldset, string $data = '') : bool
     {
-        $fieldset_file = Fieldsets::_file_location($fieldset);
+        $fieldset_file = $this->_file_location($fieldset);
 
         // Check if new entry file exists
         if (!Filesystem::has($fieldset_file)) {
@@ -103,9 +117,9 @@ class Fieldsets
      * @param string $fieldset Fieldset
      * @return bool True on success, false on failure.
      */
-    public static function delete(string $fieldset) : bool
+    public function delete(string $fieldset) : bool
     {
-        return Filesystem::delete(Fieldsets::_file_location($fieldset));
+        return Filesystem::delete($this->_file_location($fieldset));
     }
 
     /**
@@ -116,9 +130,9 @@ class Fieldsets
      * @param string $new_fieldset  New fieldset
      * @return bool True on success, false on failure.
      */
-    public static function copy(string $fieldset, string $new_fieldset) : bool
+    public function copy(string $fieldset, string $new_fieldset) : bool
     {
-        return Filesystem::copy(Fieldsets::_file_location($fieldset), Fieldsets::_file_location($new_fieldset), false);
+        return Filesystem::copy($this->_file_location($fieldset), $this->_file_location($new_fieldset), false);
     }
 
     /**
@@ -128,9 +142,9 @@ class Fieldsets
      * @param string $fieldset Fieldset
      * @return bool True on success, false on failure.
      */
-    public static function has(string $fieldset) : bool
+    public function has(string $fieldset) : bool
     {
-        return Filesystem::has(Fieldsets::_file_location($fieldset));
+        return Filesystem::has($this->_file_location($fieldset));
     }
 
     /**
@@ -139,9 +153,9 @@ class Fieldsets
      * @access private
      * @return string
      */
-    private static function _dir_location() : string
+    private function _dir_location() : string
     {
-        return PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/';
+        return PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/fieldsets/';
     }
 
     /**
@@ -151,8 +165,8 @@ class Fieldsets
      * @param string $name Name
      * @return string
      */
-    private static function _file_location(string $name) : string
+    private function _file_location(string $name) : string
     {
-        return PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . $name . '.yaml';
+        return PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/fieldsets/' . $name . '.yaml';
     }
 }

@@ -9,37 +9,25 @@ use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Token\Token;
 
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class PluginsManager
-{
 
-    /**
-     * _pluginsChangeStatusAjax
-     */
-    public static function _pluginsChangeStatusAjax()
-    {
-        if (Http::post('plugin_change_status')) {
-            if (Token::check((Http::post('token')))) {
-                $plugin_settings = YamlParser::decode(Filesystem::read(PATH['plugins'] . '/' . Http::post('plugin') . '/' . 'settings.yaml'));
-                Arr::set($plugin_settings, 'enabled', (Http::post('status') == 'true' ? true : false));
-                Filesystem::write(PATH['plugins'] . '/' . Http::post('plugin') . '/' . 'settings.yaml', YamlParser::encode($plugin_settings));
-                Cache::clear();
-            } else {
-                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
-            }
-        }
-    }
+$app->get('/admin/plugins', function (Request $request, Response $response, array $args) {
+    return $this->view->render($response,
+                               'plugins/admin/views/templates/extends/plugins/index.html', [
+        'plugins_list' => $this->get('registry')->get('plugins'),
+        'menu_item' => 'plugins'
+    ]);
+})->setName('plugins');
 
-    public static function getPluginsManager()
-    {
-        Registry::set('sidebar_menu_item', 'plugins');
+$app->post('/admin/plugins/change_status', function (Request $request, Response $response, array $args) {
 
-        Event::addListener('onBeforeRequestShutdown', function() {
-            PluginsManager::_pluginsChangeStatusAjax();
-        });
+    $data = $request->getParsedBody();
 
-        Themes::view('admin/views/templates/extends/plugins/list')
-            ->assign('plugins_list', Registry::get('plugins'))
-            ->display();
-    }
-}
+    $plugin_settings = YamlParser::decode(Filesystem::read(PATH['plugins'] . '/' . $data['plugin'] . '/' . 'settings.yaml'));
+    Arr::set($plugin_settings, 'enabled', ($data['status'] == 'true' ? true : false));
+    Filesystem::write(PATH['plugins'] . '/' . $data['plugin'] . '/' . 'settings.yaml', YamlParser::encode($plugin_settings));
+    $this->get('cache')->clear();
+
+})->setName('plugins-change-status');

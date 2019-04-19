@@ -7,8 +7,75 @@ use Flextype\Component\Http\Http;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Token\Token;
+use Flextype\Component\Date\Date;
 use Flextype\Component\Notification\Notification;
 use function Flextype\Component\I18n\__;
+
+use Slim\Http\Request;
+use Slim\Http\Response;
+
+$app->get('/admin/settings', function (Request $request, Response $response, array $args) {
+
+    $entries = [];
+    foreach ($this->entries->fetchAll('', 'date', 'DESC') as $entry) {
+        $entries[$entry['slug']] = $entry['title'];
+    }
+
+    $themes = [];
+    foreach (Filesystem::listContents(PATH['themes']) as $theme) {
+        if ($theme['type'] == 'dir' && Filesystem::has($theme['path'] . '/' . $theme['dirname'] . '.yaml')) {
+            $themes[$theme['dirname']] = $theme['dirname'];
+        }
+    }
+
+    $available_locales = Filesystem::listContents(PATH['plugins'] . '/admin/languages/');
+    $system_locales = $this->plugins->getLocales();
+    $locales = [];
+    foreach ($available_locales as $locale) {
+        if ($locale['type'] == 'file' && $locale['extension'] == 'yaml') {
+            $locales[$locale['basename']] = $system_locales[$locale['basename']]['nativeName'];
+        }
+    }
+
+    $cache_driver = ['auto' => 'Auto Detect',
+                        'file' => 'File',
+                        'apcu' => 'APCu',
+                        'wincache' => 'WinCache',
+                        'memcached' => 'Memcached',
+                        'redis' => 'Redis',
+                        'sqlite3' => 'SQLite3',
+                        'zend' => 'Zend',
+                        'array' => 'Array'];
+
+    return $this->view->render($response,
+                               'plugins/admin/views/templates/system/settings/index.html', [
+                                   'timezones' => Date::timezones(),
+                                   'settings' => $this->registry->get('settings'),
+                                   'cache_driver' => $cache_driver,
+                                   'locales' => $locales,
+                                   'entries' => $entries,
+                                   'themes' => $themes,
+                                   'links' => [
+                                                           'settings' => [
+                                                                               'link' => '/admin/settings',
+                                                                               'title' => __('admin_settings'),
+                                                                               'attributes' => ['class' => 'navbar-item active']
+                                                                           ]
+                                                       ],
+                                  'buttons'  => [
+                                                               'save' => [
+                                                                                   'link'       => 'javascript:;',
+                                                                                   'title'      => __('admin_save'),
+                                                                                   'attributes' => ['class' => 'js-save-form-submit float-right btn']
+                                                                               ],
+                                                               'settings_clear_cache' => [
+                                                                                   'link' => '/admin/settings?clear_cache=1&token=' . Token::generate(),
+                                                                                   'title' => __('admin_clear_cache'),
+                                                                                   'attributes' => ['class' => 'float-right btn']
+                                                                           ]
+                                                       ]
+                               ]);
+})->setName('information');
 
 class SettingsManager
 {
@@ -71,56 +138,4 @@ class SettingsManager
         }
     }
 
-    private static function localesList()
-    {
-        $available_locales = Filesystem::listContents(PATH['plugins'] . '/admin/languages/');
-        $system_locales = Plugins::getLocales();
-
-        $locales = [];
-
-        foreach ($available_locales as $locale) {
-            if ($locale['type'] == 'file' && $locale['extension'] == 'yaml') {
-                $locales[$locale['basename']] = $system_locales[$locale['basename']]['nativeName'];
-            }
-        }
-
-        return $locales;
-    }
-
-    private static function entriesList()
-    {
-        $entries = [];
-
-        foreach (Entries::fetchAll('', 'date', 'DESC') as $entry) {
-            $entries[$entry['slug']] = $entry['title'];
-        }
-
-        return $entries;
-    }
-
-    private static function themesList()
-    {
-        $themes = [];
-
-        foreach (Filesystem::listContents(PATH['themes']) as $theme) {
-            if ($theme['type'] == 'dir' && Filesystem::has($theme['path'] . '/' . $theme['dirname'] . '.yaml')) {
-                $themes[$theme['dirname']] = $theme['dirname'];
-            }
-        }
-
-        return $themes;
-    }
-
-    private static function cacheDriverList()
-    {
-        return ['auto' => 'Auto Detect',
-                            'file' => 'File',
-                            'apcu' => 'APCu',
-                            'wincache' => 'WinCache',
-                            'memcached' => 'Memcached',
-                            'redis' => 'Redis',
-                            'sqlite3' => 'SQLite3',
-                            'zend' => 'Zend',
-                            'array' => 'Array'];
-    }
 }

@@ -17,22 +17,35 @@ use Flextype\Component\Filesystem\Filesystem;
 class Snippets
 {
     /**
-     * Get snippet
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * Constructor
      *
-     * Snippets::fetch('snippet-name');
+     * @access public
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
+
+    /**
+     * Get snippet
      *
      * @access public
      * @param  string  $snippet_name  Snippet name
      * @return string|bool Returns the contents of the output buffer and end output buffering.
      *                     If output buffering isn't active then FALSE is returned.
      */
-    public static function fetch(string $snippet)
+    public function fetch(string $snippet)
     {
         $vars = [];
 
         $vars['fetch'] = $snippet;
 
-        return Snippets::_fetch_snippet($vars);
+        return $this->_fetch_snippet($vars);
     }
 
     /**
@@ -43,9 +56,9 @@ class Snippets
      * @param string $new_snippet New snippet
      * @return bool True on success, false on failure.
      */
-    public static function rename(string $snippet, string $new_snippet) : bool
+    public function rename(string $snippet, string $new_snippet) : bool
     {
-        return rename(Snippets::_file_location($snippet), Snippets::_file_location($new_snippet));
+        return rename($this->_file_location($snippet), $this->_file_location($new_snippet));
     }
 
     /**
@@ -56,9 +69,9 @@ class Snippets
      * @param string $data    Data
      * @return bool True on success, false on failure.
      */
-    public static function update(string $snippet, string $data) : bool
+    public function update(string $snippet, string $data) : bool
     {
-        $snippet_file = Snippets::_file_location($snippet);
+        $snippet_file = $this->_file_location($snippet);
 
         if (Filesystem::has($snippet_file)) {
             return Filesystem::write($snippet_file, $data);
@@ -75,9 +88,9 @@ class Snippets
      * @param string $data    Data
      * @return bool True on success, false on failure.
      */
-    public static function create(string $snippet, string $data = '') : bool
+    public function create(string $snippet, string $data = '') : bool
     {
-        $snippet_file = Snippets::_file_location($snippet);
+        $snippet_file = $this->_file_location($snippet);
 
         // Check if new entry file exists
         if (!Filesystem::has($snippet_file)) {
@@ -94,9 +107,9 @@ class Snippets
      * @param string $snippet Snippet
      * @return bool True on success, false on failure.
      */
-    public static function delete(string $snippet) : bool
+    public function delete(string $snippet) : bool
     {
-        return Filesystem::delete(Snippets::_file_location($snippet));
+        return Filesystem::delete($this->_file_location($snippet));
     }
 
     /**
@@ -107,9 +120,9 @@ class Snippets
      * @param string $new_snippet  New snippet
      * @return bool True on success, false on failure.
      */
-    public static function copy(string $snippet, string $new_snippet) : bool
+    public function copy(string $snippet, string $new_snippet) : bool
     {
-        return Filesystem::copy(Snippets::_file_location($snippet), Snippets::_file_location($new_snippet), false);
+        return Filesystem::copy($this->_file_location($snippet), $this->_file_location($new_snippet), false);
     }
 
     /**
@@ -119,9 +132,9 @@ class Snippets
      * @param string $snippet Snippet
      * @return bool True on success, false on failure.
      */
-    public static function has(string $snippet) : bool
+    public function has(string $snippet) : bool
     {
-        return Filesystem::has(Snippets::_file_location($snippet));
+        return Filesystem::has($this->_file_location($snippet));
     }
 
     /**
@@ -132,7 +145,7 @@ class Snippets
      * @return string|bool Returns the contents of the output buffer and end output buffering.
      *                     If output buffering isn't active then FALSE is returned.
      */
-    private static function _fetch_snippet(array $vars) {
+    private function _fetch_snippet(array $vars) {
 
         // Extracst attributes
         extract($vars);
@@ -141,7 +154,7 @@ class Snippets
         $name = (isset($fetch)) ? (string) $fetch : '';
 
         // Define snippet path
-        $snippet_file = Snippets::_file_location($name);
+        $snippet_file = $this->_file_location($name);
 
         // Process snippet
         if (Filesystem::has($snippet_file)) {
@@ -166,7 +179,7 @@ class Snippets
      * @param string $name Name
      * @return string
      */
-    private static function _file_location(string $name) : string
+    private function _file_location(string $name) : string
     {
         return PATH['snippets'] . '/' . $name . '.php';
     }

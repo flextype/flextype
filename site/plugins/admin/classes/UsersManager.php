@@ -2,67 +2,117 @@
 
 namespace Flextype;
 
-use Flextype\Component\Http\Http;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
-use Flextype\Component\Token\Token;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Text\Text;
-use Flextype\Component\Notification\Notification;
 use function Flextype\Component\I18n\__;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use Psr\Container\ContainerInterface;
 
-class UsersManager
-{
+$app->get('/admin/login', UsersController::class . ':login')->setName('admin.login');
+$app->get('/admin/profile', UsersController::class . ':profile')->setName('admin.profile');
+$app->get('/admin/logout', UsersController::class . ':processLogoutForm')->setName('admin.logout');
+$app->get('/admin/registration', UsersController::class . ':registration')->setName('admin.registration');
+$app->post('/admin/registration', UsersController::class . ':processRegistrationForm');
+$app->post('/admin/login', UsersController::class . ':processLoginForm');
 
-    public static function getProfileManager()
-    {
-        Registry::set('sidebar_menu_item', 'profile');
+class UsersController {
 
-        Themes::view('admin/views/templates/users/profile')
-                ->display();
+    protected $container;
+
+    // constructor receives container instance
+    public function __construct(ContainerInterface $container) {
+        $this->container = $container;
     }
 
-    public static function logout()
+    public function login($request, $response, $args)
     {
-        if (Token::check((Http::get('token')))) {
-            Session::destroy();
-            Http::redirect(Http::getBaseUrl() . '/admin');
+        if (!Users::isLoggedIn()) {
+            return $this->container->get('view')->render($response,
+                                    'plugins/admin/views/templates/users/login.html', [
+                                    'user_is_logged' => Users::isLoggedIn()
+                                   ]);
         } else {
-            throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
+            return $response->withRedirect($this->container->get('router')->urlFor('admin.registration'));
         }
     }
 
-    public static function getRegistrationPage()
+    public function profile($request, $response, $args)
     {
-        Registry::set('sidebar_menu_item', '');
-
-        $registration = Http::post('registration');
-
-        if (isset($registration)) {
-            if (Token::check((Http::post('token')))) {
-                if (Filesystem::has($_user_file = PATH['site'] . '/accounts/' . Text::safeString(Http::post('username')) . '.yaml')) {
-                } else {
-                    Filesystem::write(
-                            PATH['site'] . '/accounts/' . Http::post('username') . '.yaml',
-                            YamlParser::encode(['username' => Text::safeString(Http::post('username')),
-                                                'hashed_password' => password_hash(trim(Http::post('password')), PASSWORD_BCRYPT),
-                                                'email' => Http::post('email'),
-                                                'role'  => 'admin',
-                                                'state' => 'enabled'])
-                        );
-
-                    Http::redirect(Http::getBaseUrl() . '/admin/entries');
-                }
-            } else {
-                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
-            }
+        if (Users::isLoggedIn()) {
+            return $this->container->get('view')->render($response,
+                                       'plugins/admin/views/templates/users/profile.html', [
+                'username' => Session::get('username'),
+                'rolename' => Session::get('role'),
+                'sidebar_menu_item' => 'profile',
+                'user_is_logged' => 'user_is_logged!'
+            ]);
+        } else {
+            return $response->withRedirect($this->container->get('router')->urlFor('admin.login'));
         }
-
-        Themes::view('admin/views/templates/auth/registration')
-                ->display();
     }
 
-    public static function isUsersExists()
+    public function processLoginForm($request, $response, $args)
+    {
+        if (Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $data['username'] . '.yaml')) {
+
+            $user_file = YamlParser::decode(Filesystem::read($_user_file));
+
+            if (password_verify(trim($data['password']), $user_file['hashed_password'])) {
+                Session::set('username', $user_file['username']);
+                Session::set('role', $user_file['role']);
+
+                return $response->withRedirect('admin/entries');
+
+            } else {
+                //Notification::set('error', __('admin_message_wrong_username_password'));
+            }
+        } else {
+            //Notification::set('error', __('admin_message_wrong_username_password'));
+        }
+    }
+
+    public function processLogoutForm($request, $response, $args)
+    {
+        Session::destroy();
+        return $response->withRedirect('/admin');
+    }
+
+    public function registration($request, $response, $args)
+    {
+        if (!Users::isLoggedIn()) {
+            return $this->view->render($response,
+                                        'plugins/admin/views/templates/users/registration.html');
+        } else {
+            return $response->withRedirect($this->container->get('router')->urlFor('admin.login'));
+        }
+    }
+
+    public function processRegistrationForm($request, $response, $args)
+    {
+        if (!Filesystem::has($_user_file = PATH['site'] . '/accounts/' . Text::safeString($data['username']) . '.yaml')) {
+            if (Filesystem::write(
+                    PATH['site'] . '/accounts/' . $data['username'] . '.yaml',
+                    YamlParser::encode(['username' => Text::safeString($data['username']),
+                                        'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
+                                        'email' => $data['email'],
+                                        'role'  => 'admin',
+                                        'state' => 'enabled']))) {
+                                            return $response->withRedirect('admin/entries');
+                                        } else {
+                                            //return false;
+                                        }
+        } else {
+            //return false;
+        }
+    }
+}
+
+class Users
+{
+    public static function isUsersExists() : bool
     {
         // Get Users Profiles
         $users = Filesystem::listContents(PATH['site'] . '/accounts/');
@@ -71,37 +121,8 @@ class UsersManager
         return ($users && count($users) > 0) ? true : false;
     }
 
-    public static function isLoggedIn()
+    public static function isLoggedIn() : bool
     {
         return (Session::exists('role') && Session::get('role') == 'admin') ? true : false;
-    }
-
-    public static function getAuthPage()
-    {
-        Registry::set('sidebar_menu_item', '');
-
-        $login = Http::post('login');
-
-        if (isset($login)) {
-            if (Token::check((Http::post('token')))) {
-                if (Filesystem::has($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
-                    $user_file = YamlParser::decode(Filesystem::read($_user_file));
-                    if (password_verify(trim(Http::post('password')), $user_file['hashed_password'])) {
-                        Session::set('username', $user_file['username']);
-                        Session::set('role', $user_file['role']);
-                        Http::redirect(Http::getBaseUrl() . '/admin/entries');
-                    } else {
-                        Notification::set('error', __('admin_message_wrong_username_password'));
-                    }
-                } else {
-                    Notification::set('error', __('admin_message_wrong_username_password'));
-                }
-            } else {
-                throw new \RuntimeException("Request was denied because it contained an invalid security token. Please refresh the page and try again.");
-            }
-        }
-
-        Themes::view('admin/views/templates/auth/login')
-                ->display();
     }
 }

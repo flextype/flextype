@@ -1,0 +1,266 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+<form method="post" id="form">
+    <input type="hidden" name="{{csrf.keys.name}}" value="{{csrf.name}}">
+    <input type="hidden" name="{{csrf.keys.value}}" value="{{csrf.value}}">
+    <input type="hidden" id="action" name="action" value="save-form">
+    <div class="row">
+
+        <div class="col-md-12">
+            <h3 class="h3">{{ tr('admin_site') }}</h3>
+            <hr>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="title">{{ tr('admin_site_title') }}</label>
+                <input type="text" id="systemSettingsSiteTitle" name="title" value="{{ settings.title }}" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <label for="description">{{ tr('admin_site_description') }}</label>
+                <input type="text" id="systemSettingsSiteDescription" name="description" value="{{ settings.description }}" class="form-control margin-hard-bottom">
+            </div>
+            <div class="form-group">
+                <label for="keywords">{{ tr('admin_site_keywords') }}</label>
+                <input type="text" id="systemSettingsSiteKeywords" name="keywords" value="{{ settings.keywords }}" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="robots">{{ tr('admin_site_robots') }}</label>
+                <input type="text" id="systemSettingsSiteRobots" name="robots" value="{{ settings.robots }}" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <label for="author[name]">{{ tr('admin_author_name') }}</label>
+                <input type="text" id="systemSettingsSiteAuthorName" name="author[name]" value="{{ settings.author.name }}" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <label for="author[email]">{{ tr('admin_author_email') }}</label>
+                <input type="text" id="systemSettingsSiteAuthorEmail" name="author[email]" value="{{ settings.author.email }}" class="form-control" required="required">
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <br>
+            <h3 class="h3">{{ tr('admin_general') }}</h3>
+            <hr>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="timezone">{{ tr('admin_timezone') }}</label>
+                <select id="systemSettingsSystemTimezone" name="timezone" class="form-control" required="required">
+                    {% for key, value in timezones %}
+                        <option value="{{ key }}" {% if key == settings.timezone %}selected{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date_format">{{ tr('admin_date_format') }}</label>
+                <input type="text" id="systemSettingsSystemDateFormat" name="date_format" value="{{ settings.date_format }}" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <label for="charset">{{ tr('admin_charset') }}</label>
+                <input type="text" id="systemSettingsSystemCharset" name="charset" value="{{ settings.charset }}" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="theme">{{ tr('admin_theme') }}</label>
+                <select id="systemSettingsSystemTheme" name="theme" class="form-control" required="required">
+                    {% for key, value in themes %}
+                        <option value="{{ key }}" {% if key == settings.theme %}selected{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="locale">{{ tr('admin_locale') }}</label>
+                <select id="entryTemplate" name="locale" class="form-control">
+                    {% for key, value in locales %}
+                        <option value="{{ key }}" {% if key == settings.locale %}selected{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="entries[main]">{{ tr('admin_entry_main') }}</label>
+                <select id="systemSettingsSystemEntriesMain" name="entries[main]" class="form-control" required="required">
+                    {% for key, value in locales %}
+                        <option value="{{ key }}" {% if key == entries.main %}selected{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <br>
+            <h3 class="h3">{{ tr('admin_media') }}</h3>
+            <hr>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="entries[media][upload_images_quality]">{{ tr('admin_quality') }}</label>
+                <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_quality]" value="{{ settings.entries.media.upload_images_quality }}" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <label for="entries[media][accept_file_types]">{{ tr('admin_accept_file_types') }}</label>
+                <input type="text" id="systemSettingsSystemTheme" name="entries[media][accept_file_types]" value="{{ settings.entries.media.accept_file_types }}" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="entries[media][upload_images_width]">{{ tr('admin_width') }}</label>
+                <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_width]" value="{{ settings.entries.media.upload_images_width }}" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <label for="entries[media][upload_images_height]">{{ tr('admin_width') }}</label>
+                <input type="text" id="systemSettingsSystemEntriesMain" name="entries[media][upload_images_height]" value="{{ settings.entries.media.upload_images_height }}" class="form-control" required="required"> </div>
+        </div>
+
+        <div class="col-md-12">
+            <br>
+            <h3 class="h3">{{ tr('admin_error_404_page') }}</h3>
+            <hr>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="entries[error404][title]">{{ tr('admin_error404_title') }}</label>
+                <input type="text" id="systemSettingsSystemEntriesError404Title" name="entries[error404][title]" value="{{ settings.entries.error404.title }}" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <label for="entries[error404][description]">{{ tr('admin_error404_description') }}</label>
+                <input type="text" id="systemSettingsSystemEntriesError404Description" name="entries[error404][description]" value="{{ settings.entries.error404.description }}" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="entries[error404][content]">{{ tr('admin_error404_content') }}</label>
+                <input type="text" id="systemSettingsSystemEntriesError404Content" name="entries[error404][content]" value="{{ settings.entries.error404.content }}" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <label for="entries[error404][template]">{{ tr('admin_error404_template') }}</label>
+                <input type="text" id="systemSettingsSystemEntriesError404Template" name="entries[error404][template]" value="{{ settings.entries.error404.template }}" class="form-control" required="required">
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <br>
+            <h3 class="h3">{{ tr('admin_debugging') }}</h3>
+            <hr>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="errors[display]">{{ tr('admin_errors_display') }}</label>
+                <select id="systemSettingsSystemErrorsDisplay" name="errors[display]" class="form-control" required="required">
+                    <option value="0" {% if settings.errors.display == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                    <option value="1" {% if settings.errors.display == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <br>
+            <h3 class="h3">{{ tr('admin_cache') }}</h3>
+            <hr>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="cache[enabled]">{{ tr('admin_cache_enabled') }}</label>
+                <select id="systemSettingsSystemCacheEnabled" name="cache[enabled]" class="form-control" required="required">
+                    <option value="0" {% if settings.cache.enabled == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                    <option value="1" {% if settings.cache.enabled == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cache[prefix]">{{ tr('admin_cache_prefix') }}</label>
+                <input type="text" id="systemSettingsSystemCachePrefix" name="cache[prefix]" value="{{ settings.cache.prefix }}" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="cache[driver]">{{ tr('admin_cache_driver') }}</label>
+                <select id="systemSettingsSystemCacheDriver" name="cache[driver]" class="form-control" required="required">
+                    {% for key, value in cache_driver %}
+                        <option value="{{ key }}" {% if key == entries.main %}selected{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cache[lifetime]">{{ tr('admin_cache_lifetime') }}</label>
+                <input type="text" id="systemSettingsSystemCacheLifetime" name="cache[lifetime]" value="{{ settings.cache.lifetime }}" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="cache[memcache][server]">{{ tr('admin_memcache_server') }}</label>
+                <input type="text" id="systemSettingsSystemCacheMemcacheServer" name="cache[memcache][server]" value="{{ settings.cache.memcache.server }}" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <label for="cache[memcache][port]">{{ tr('admin_memcache_port') }}</label>
+                <input type="text" id="systemSettingsSystemCacheMemcachePort" name="cache[memcache][port]" value="{{ settings.cache.memcache.port }}" class="form-control" required="required"> </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="cache[memcached][server]">{{ tr('admin_memcached_server') }}</label>
+                <input type="text" id="systemSettingsSystemCacheMemcachedServer" name="cache[memcached][server]" value="{{ settings.cache.memcache.server }}" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <label for="cache[memcached][port]">{{ tr('admin_memcached_port') }}</label>
+                <input type="text" id="systemSettingsSystemCacheMemcachedPort" name="cache[memcached][port]" value="{{ settings.cache.memcache.port }}" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="cache[redis][socket]">{{ tr('admin_redis_socket') }}</label>
+                <input type="text" id="systemSettingsSystemCacheRedisSocket" name="cache[redis][socket]" value="{{ settings.cache.redis.socket }}" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <label for="cache[redis][password]">{{ tr('admin_redis_password') }}</label>
+                <input type="text" id="systemSettingsSystemCacheRedisPassword" name="cache[redis][password]" value="{{ settings.cache.redis.password }}" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="cache[redis][server]">{{ tr('admin_redis_server') }}</label>
+                <input type="text" id="systemSettingsSystemCacheRedisServer" name="cache[redis][server]" value="{{ settings.cache.redis.server }}" class="form-control" required="required">
+            </div>
+            <div class="form-group">
+                <label for="cache[redis][port]">{{ tr('admin_redis_port') }}</label>
+                <input type="text" id="systemSettingsSystemCacheRedisPort" name="cache[redis][port]" value="{{ settings.cache.redis.port }}" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="cache[sqlite3][database]">{{ tr('admin_sqlite3_database') }}</label>
+                <input type="text" id="systemSettingsSystemCacheSQLite3Database" name="cache[sqlite3][database]" value="{{ settings.cache.sqlite3.database }}" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="cache[sqlite3][table]">{{ tr('admin_sqlite3_table') }}</label>
+                <input type="text" id="systemSettingsSystemCacheSQLite3Table" name="cache[sqlite3][table]" value="{{ settings.cache.sqlite3.table }}" class="form-control" required="required">
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <br>
+            <h3 class="h3">{{ tr('admin_admin_panel') }}</h3>
+            <hr>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="admin_panel[theme]">{{ tr('admin_theme') }}</label>
+                <select id="systemSettingsSystemAdminPanelTheme" name="admin_panel[theme]" class="form-control" required="required">
+                    <option value="light" {% if settings.admin_panel.theme == 'light' %}selected{% endif %}>{{ tr('admin_dark') }}</option>
+                    <option value="dark" {% if settings.admin_panel.theme == 'dark' %}selected{% endif %}>{{ tr('admin_light') }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

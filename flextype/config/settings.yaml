@@ -61,7 +61,7 @@ entries:
 #
 # - display: Display errors or not.
 errors:
-  display: false
+  display: true
 
 # Cache
 #
@@ -95,7 +95,7 @@ errors:
 #
 # - sqlite3.table    SQLite3 Table
 cache:
-  enabled: true
+  enabled: false
   prefix: flextype
   driver: auto
   lifetime: 604800

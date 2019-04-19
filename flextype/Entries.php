@@ -14,10 +14,23 @@ namespace Flextype;
 
 use Flextype\Component\Arr\Arr;
 use Flextype\Component\Filesystem\Filesystem;
-use Flextype\Component\Registry\Registry;
 
 class Entries
 {
+    /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * Constructor
+     *
+     * @access public
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
 
     /**
      * Fetch entry
@@ -26,8 +39,9 @@ class Entries
      * @param string $entry Entry
      * @return array|false The entry contents or false on failure.
      */
-    public static function fetch(string $entry)
+    public function fetch(string $entry)
     {
+
         $entry_file = Entries::_file_location($entry);
 
         if (Filesystem::has($entry_file)) {
@@ -35,8 +49,14 @@ class Entries
             $cache_id = md5('entry' . $entry_file . ((Filesystem::getTimestamp($entry_file) === false) ? '' : Filesystem::getTimestamp($entry_file)));
 
             // Try to get the entry from cache
-            if (Cache::contains($cache_id)) {
-                if ($entry_decoded = Cache::fetch($cache_id)) {
+            if ($this->flextype['cache']->contains($cache_id)) {
+                if ($entry_decoded = $this->flextype['cache']->fetch($cache_id)) {
+
+                    // Apply Shortcodes for each entry fields
+                    foreach ($entry_decoded as $key => $_entry_decoded) {
+                        $entry_decoded[$key] = $this->flextype['shortcodes']->process($_entry_decoded);
+                    }
+
                     return $entry_decoded;
                 } else {
                     return false;
@@ -47,17 +67,16 @@ class Entries
                     if ($entry_decoded = YamlParser::decode($entry_body)) {
 
                         // Create default entry items
-                        $entry_decoded['date'] = $entry_decoded['date'] ?? date(Registry::get('settings.date_format'), Filesystem::getTimestamp($entry_file));
+                        $entry_decoded['date'] = $entry_decoded['date'] ?? date($this->flextype['registry']->get('settings.date_format'), Filesystem::getTimestamp($entry_file));
                         $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($entry, '/'), '/');
 
+                        // Save to cache
+                        $this->flextype['cache']->save($cache_id, $entry_decoded);
 
                         // Apply Shortcodes for each entry fields
                         foreach ($entry_decoded as $key => $_entry_decoded) {
-                            $entry_decoded[$key] = Shortcodes::process($_entry_decoded);
+                            $entry_decoded[$key] = $this->flextype['shortcodes']->process($_entry_decoded);
                         }
-
-                        // Save to cache
-                        Cache::save($cache_id, $entry_decoded);
 
                         return $entry_decoded;
                     } else {
@@ -84,7 +103,7 @@ class Entries
      * @param   int     $length     Length
      * @return array The entries
      */
-    public static function fetchAll(string $entry, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null) : array
+    public function fetchAll(string $entry, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null) : array
     {
         // Entries array where founded entries will stored
         $entries = [];
@@ -93,7 +112,7 @@ class Entries
         $cache_id = '';
 
         // Entries path
-        $entries_path = Entries::_dir_location($entry);
+        $entries_path = $this->_dir_location($entry);
 
         // Get entries list
         $entries_list = Filesystem::listContents($entries_path);
@@ -109,8 +128,8 @@ class Entries
             }
         }
 
-        if (Cache::contains($cache_id)) {
-            $entries = Cache::fetch($cache_id);
+        if ($this->flextype['cache']->contains($cache_id)) {
+            $entries = $this->flextype['cache']->fetch($cache_id);
         } else {
 
             // Create entries array from entries list and ignore current requested entry
@@ -119,12 +138,12 @@ class Entries
                     // ignore ...
                 } else {
                     if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.yaml')) {
-                        $entries[$current_entry['dirname']] = Entries::fetch($entry . '/' . $current_entry['dirname']);
+                        $entries[$current_entry['dirname']] = $this->fetch($entry . '/' . $current_entry['dirname']);
                     }
                 }
             }
 
-            Cache::save($cache_id, $entries);
+            $this->flextype['cache']->save($cache_id, $entries);
         }
 
         // Sort and Slice entries if $raw === false
@@ -148,9 +167,9 @@ class Entries
      * @param string $new_entry New entry
      * @return bool True on success, false on failure.
      */
-    public static function rename(string $entry, string $new_entry) : bool
+    public function rename(string $entry, string $new_entry) : bool
     {
-        return rename(Entries::_dir_location($entry), Entries::_dir_location($new_entry));
+        return rename($this->_dir_location($entry), $this->_dir_location($new_entry));
     }
 
     /**
@@ -161,9 +180,9 @@ class Entries
      * @param array  $data  Data
      * @return bool
      */
-    public static function update(string $entry, array $data) : bool
+    public function update(string $entry, array $data) : bool
     {
-        $entry_file = Entries::_file_location($entry);
+        $entry_file = $this->_file_location($entry);
 
         if (Filesystem::has($entry_file)) {
             return Filesystem::write($entry_file, YamlParser::encode($data));
@@ -180,9 +199,9 @@ class Entries
      * @param array  $data  Data
      * @return bool
      */
-    public static function create(string $entry, array $data) : bool
+    public function create(string $entry, array $data) : bool
     {
-        $entry_dir = Entries::_dir_location($entry);
+        $entry_dir = $this->_dir_location($entry);
 
         // Check if new entry directory exists
         if (!Filesystem::has($entry_dir)) {
@@ -213,9 +232,9 @@ class Entries
      * @param string $entry Entry
      * @return bool True on success, false on failure.
      */
-    public static function delete(string $entry) : bool
+    public function delete(string $entry) : bool
     {
-        return Filesystem::deleteDir(Entries::_dir_location($entry));
+        return Filesystem::deleteDir($this->_dir_location($entry));
     }
 
     /**
@@ -227,9 +246,9 @@ class Entries
      * @param bool   $recursive  Recursive copy entries.
      * @return bool True on success, false on failure.
      */
-    public static function copy(string $entry, string $new_entry, bool $recursive = false) : bool
+    public function copy(string $entry, string $new_entry, bool $recursive = false) : bool
     {
-        return Filesystem::copy(Entries::_dir_location($entry), Entries::_dir_location($new_entry), $recursive);
+        return Filesystem::copy($this->_dir_location($entry), $this->_dir_location($new_entry), $recursive);
     }
 
     /**
@@ -239,9 +258,9 @@ class Entries
      * @param string $entry Entry
      * @return bool
      */
-    public static function has(string $entry) : bool
+    public function has(string $entry) : bool
     {
-        return Filesystem::has(Entries::_file_location($entry));
+        return Filesystem::has($this->_file_location($entry));
     }
 
     /**
@@ -251,7 +270,7 @@ class Entries
      * @param string $name Name
      * @return string
      */
-    private static function _file_location(string $name) : string
+    private function _file_location(string $name) : string
     {
         return PATH['entries'] . '/' . $name . '/entry.yaml';
     }
@@ -263,7 +282,7 @@ class Entries
      * @param string $name Name
      * @return string
      */
-    private static function _dir_location(string $name) : string
+    private function _dir_location(string $name) : string
     {
         return PATH['entries'] . '/' . $name;
     }
