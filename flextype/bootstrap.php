@@ -12,7 +12,6 @@
 
 namespace Flextype;
 
-use Flextype\Component\Http\Http;
 use Flextype\Component\Session\Session;
 use Flextype\Component\ErrorHandler\ErrorHandler;
 use Flextype\Component\Registry\Registry;
