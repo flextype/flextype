@@ -64,7 +64,7 @@ class Entries
             } else {
 
                 if ($entry_body = Filesystem::read($entry_file)) {
-                    if ($entry_decoded = YamlParser::decode($entry_body)) {
+                    if ($entry_decoded = JsonParser::decode($entry_body)) {
 
                         // Create default entry items
                         $entry_decoded['date'] = $entry_decoded['date'] ?? date($this->flextype['registry']->get('settings.date_format'), Filesystem::getTimestamp($entry_file));
@@ -119,11 +119,11 @@ class Entries
 
         // Create entries cached id
         foreach ($entries_list as $current_entry) {
-            if (strpos($current_entry['path'], $entry . '/entry.yaml') !== false) {
+            if (strpos($current_entry['path'], $entry . '/entry.json') !== false) {
                 // ignore ...
             } else {
-                if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.yaml')) {
-                    $cache_id .= md5('entries' . $current_entry['path'] . Filesystem::getTimestamp($current_entry['path'] . '/entry.yaml'));
+                if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
+                    $cache_id .= md5('entries' . $current_entry['path'] . Filesystem::getTimestamp($current_entry['path'] . '/entry.json'));
                 }
             }
         }
@@ -134,10 +134,10 @@ class Entries
 
             // Create entries array from entries list and ignore current requested entry
             foreach ($entries_list as $current_entry) {
-                if (strpos($current_entry['path'], $entry . '/entry.yaml') !== false) {
+                if (strpos($current_entry['path'], $entry . '/entry.json') !== false) {
                     // ignore ...
                 } else {
-                    if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.yaml')) {
+                    if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
                         $entries[$current_entry['dirname']] = $this->fetch($entry . '/' . $current_entry['dirname']);
                     }
                 }
@@ -185,7 +185,7 @@ class Entries
         $entry_file = $this->_file_location($entry);
 
         if (Filesystem::has($entry_file)) {
-            return Filesystem::write($entry_file, YamlParser::encode($data));
+            return Filesystem::write($entry_file, JsonParser::encode($data));
         } else {
             return false;
         }
@@ -209,11 +209,11 @@ class Entries
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
 
-                $entry_file = $entry_dir . '/entry.yaml';
+                $entry_file = $entry_dir . '/entry.json';
 
                 // Check if new entry file exists
                 if (!Filesystem::has($entry_file)) {
-                    return Filesystem::write($entry_file, YamlParser::encode($data));
+                    return Filesystem::write($entry_file, JsonParser::encode($data));
                 } else {
                     return false;
                 }
@@ -272,7 +272,7 @@ class Entries
      */
     private function _file_location(string $name) : string
     {
-        return PATH['entries'] . '/' . $name . '/entry.yaml';
+        return PATH['entries'] . '/' . $name . '/entry.json';
     }
 
     /**

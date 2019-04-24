@@ -30,17 +30,17 @@ class Themes
         Registry::set('themes', []);
 
         // Create Unique Cache ID for Theme
-        $theme_cache_id = md5('theme' . filemtime(PATH['themes'] . '/' . $theme . '/' . 'settings.yaml') .
-                                        filemtime(PATH['themes'] . '/' . $theme . '/' . $theme . '.yaml'));
+        $theme_cache_id = md5('theme' . filemtime(PATH['themes'] . '/' . $theme . '/' . 'settings.json') .
+                                        filemtime(PATH['themes'] . '/' . $theme . '/' . $theme . '.json'));
 
         // Get Theme mafifest file and write to settings.themes array
         if (Cache::contains($theme_cache_id)) {
             Registry::set('themes.' . Registry::get('settings.theme'), Cache::fetch($theme_cache_id));
         } else {
-            if (Filesystem::has($theme_settings = PATH['themes'] . '/' . $theme . '/' . 'settings.yaml') and
-                Filesystem::has($theme_config = PATH['themes'] . '/' . $theme . '/' . $theme . '.yaml')) {
-                $theme_settings = YamlParser::decode(Filesystem::read($theme_settings));
-                $theme_config = YamlParser::decode(Filesystem::read($theme_config));
+            if (Filesystem::has($theme_settings = PATH['themes'] . '/' . $theme . '/' . 'settings.json') and
+                Filesystem::has($theme_config = PATH['themes'] . '/' . $theme . '/' . $theme . '.json')) {
+                $theme_settings = JsonParser::decode(Filesystem::read($theme_settings));
+                $theme_config = JsonParser::decode(Filesystem::read($theme_config));
                 $_theme = array_merge($theme_settings, $theme_config);
                 Registry::set('themes.' . Registry::get('settings.theme'), $_theme);
                 Cache::save($theme_cache_id, $_theme);

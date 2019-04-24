@@ -81,23 +81,23 @@ class Plugins
 
                     // Go through...
                     foreach ($plugins_list as $plugin) {
-                        if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml')) {
+                        if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.json')) {
                             if (($content = Filesystem::read($_plugin_settings)) === false) {
                                 throw new \RuntimeException('Load file: ' . $_plugin_settings . ' - failed!');
                             } else {
-                                $plugin_settings = YamlParser::decode($content);
+                                $plugin_settings = JsonParser::decode($content);
                             }
                         }
 
-                        if (Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/' . $plugin['dirname'] . '.yaml')) {
+                        if (Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/' . $plugin['dirname'] . '.json')) {
                             if (($content = Filesystem::read($_plugin_config)) === false) {
                                 throw new \RuntimeException('Load file: ' . $_plugin_config . ' - failed!');
                             } else {
-                                $plugin_config = YamlParser::decode($content);
+                                $plugin_config = JsonParser::decode($content);
                             }
                         }
 
-                        $_plugins_config[basename($_plugin_config, '.yaml')] = array_merge($plugin_settings, $plugin_config);
+                        $_plugins_config[basename($_plugin_config, '.json')] = array_merge($plugin_settings, $plugin_config);
                     }
 
                     $this->flextype['registry']->set('plugins', $_plugins_config);
@@ -125,12 +125,12 @@ class Plugins
         if (is_array($plugins_list) && count($plugins_list) > 0) {
             foreach ($this->locales as $locale => $locale_title) {
                 foreach ($plugins_list as $plugin) {
-                    $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/languages/' . $locale . '.yaml';
+                    $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/languages/' . $locale . '.json';
                     if (Filesystem::has($language_file)) {
                         if (($content = Filesystem::read($language_file)) === false) {
                             throw new \RuntimeException('Load file: ' . $language_file . ' - failed!');
                         } else {
-                            I18n::add(YamlParser::decode($content), $locale);
+                            I18n::add(JsonParser::decode($content), $locale);
                         }
                     }
                 }
@@ -153,8 +153,8 @@ class Plugins
         // Go through...
         if (is_array($plugins_list) && count($plugins_list) > 0) {
             foreach ($plugins_list as $plugin) {
-                if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml') and
-                    Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/' . $plugin['dirname'] . '.yaml')) {
+                if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.json') and
+                    Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/' . $plugin['dirname'] . '.json')) {
                     $_plugins_cache_id .= filemtime($_plugin_settings) . filemtime($_plugin_config);
                 }
             }
