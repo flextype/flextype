@@ -1,0 +1,13 @@
+{
+    "title": "Home",
+    "content": "<h1 style=\"text-align: center;\">\n    Welcome!\n</h1>\n<p style=\"text-align: center;\" class=\"lead\">\n    Welcome to your new Flextype powered website.\n    <br>\n    Flextype is succesfully installed, you can start editing the content and customising your site in <a href=\"./admin\">Admin panel</a>.\n</p>\n<br>\n<p style=\"text-align: center;\">Latest blog posts:</p>\n",
+    "template": "home",
+    "fieldset": "default",
+    "visibility": "visible",
+    "date": "February 20 2019 11:06:46",
+    "description": "",
+    "menu_item_title": "Home",
+    "menu_item_url": "",
+    "menu_item_target": "blank",
+    "menu_item_order": ""
+}
