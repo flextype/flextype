@@ -37,7 +37,7 @@ class Plugins
     public function __construct($flextype, $app)
     {
         $this->flextype = $flextype;
-        $this->locales = include_once ROOT_DIR . '/flextype/locales/Locales.php';
+        $this->locales = JsonParser::decode(Filesystem::read(ROOT_DIR . '/flextype/config/locales.json'));
         $this->init($flextype, $app);
     }
 

@@ -24,6 +24,7 @@ use League\Glide\ServerFactory;
 use League\Glide\Responses\SlimResponseFactory;
 use League\Event\Emitter;
 
+
 /**
  * The version of Flextype
  *

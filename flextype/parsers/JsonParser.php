@@ -22,7 +22,7 @@ class JsonParser {
      *
      * @var int
      */
-    public static $encode_options = 0;
+    public static $encode_options = JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES;
 
     /**
      * Encode Depth
