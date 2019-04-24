@@ -18,7 +18,7 @@
     "require": {
         "php": ">=7.1.3",
         "doctrine/cache": "1.8.0",
-        "thunderer/shortcode": "0.7.1",
+        "thunderer/shortcode": "0.7.2",
         "flextype-components/arr" : "1.2.5",
         "flextype-components/assets" : "1.0.3",
         "flextype-components/cookie" : "1.2.0",
