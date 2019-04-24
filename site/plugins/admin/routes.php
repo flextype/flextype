@@ -11,4 +11,4 @@ $app->post('/admin/settings', 'SettingsController:update')->setName('admin.setti
 $app->post('/admin/settings/clear-cache', 'SettingsController:clearCache')->setName('admin.settings.clear-cache');
 
 // Plugins Controller
-$app->post('/admin/plugins', 'PluginsController:index')->setName('admin.plugins')->setName('admin.plugins.index');
+$app->get('/admin/plugins', 'PluginsController:index')->setName('admin.plugins.index');

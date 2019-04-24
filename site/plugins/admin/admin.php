@@ -15,10 +15,7 @@ namespace Flextype;
 
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\I18n\I18n;
-use function Flextype\Component\I18n\__;
 use Flextype\Component\Arr\Arr;
-use Slim\Http\Request;
-use Slim\Http\Response;
 
 $uri = explode('/', \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getPath());
 
