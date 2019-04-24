@@ -18,7 +18,6 @@
     "require": {
         "php": ">=7.1.3",
         "doctrine/cache": "1.8.0",
-        "symfony/yaml": "4.2.5",
         "thunderer/shortcode": "0.7.1",
         "flextype-components/arr" : "1.2.5",
         "flextype-components/assets" : "1.0.3",
