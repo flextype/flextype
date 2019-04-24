@@ -47,8 +47,8 @@ class Fieldsets
         // If there is any template file then go...
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
-                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = YamlParser::decode(Filesystem::read($fieldset['path']));
+                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'json') {
+                    $fieldset_content = JsonParser::decode(Filesystem::read($fieldset['path']));
                     $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
                 }
             }
@@ -167,6 +167,6 @@ class Fieldsets
      */
     private function _file_location(string $name) : string
     {
-        return PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/fieldsets/' . $name . '.yaml';
+        return PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/fieldsets/' . $name . '.json';
     }
 }
