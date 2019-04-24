@@ -12,7 +12,11 @@ class  PluginsController extends Controller
 {
     public function index($request, $response, $args)
     {
-
+        return $this->view->render($response,
+                           'plugins/admin/views/templates/extends/plugins/index.html', [
+                            'plugins_list' => $this->get('registry')->get('plugins'),
+                            'menu_item' => 'plugins'
+                        ]);
     }
 
     public function update($request, $response, $args)
