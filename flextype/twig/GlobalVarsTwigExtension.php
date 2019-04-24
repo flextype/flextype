@@ -30,7 +30,7 @@ class GlobalVarsTwigExtension extends \Twig_Extension implements \Twig_Extension
     public function getGlobals()
     {
         return [
-            'flextype_version' => '0.9.0',
+            'flextype_version' => FLEXTYPE_VERSION,
             'registry' => $this->flextype['registry']->dump()
         ];
     }
