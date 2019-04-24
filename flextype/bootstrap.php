@@ -103,8 +103,8 @@ $flextype['registry'] = function($container) {
 $flextype['registry']->set('settings', []);
 
 // Set settings files path
-$default_settings_file_path = PATH['config']['default'] . '/settings.yaml';
-$site_settings_file_path    = PATH['config']['site'] . '/settings.yaml';
+$default_settings_file_path = PATH['config']['default'] . '/settings.json';
+$site_settings_file_path    = PATH['config']['site'] . '/settings.json';
 
 // Set settings if Flextype settings and Site settings config files exist
 if (Filesystem::has($default_settings_file_path) && Filesystem::has($site_settings_file_path)) {
@@ -112,13 +112,13 @@ if (Filesystem::has($default_settings_file_path) && Filesystem::has($site_settin
     if (($content = Filesystem::read($default_settings_file_path)) === false) {
         throw new \RuntimeException('Load file: ' . $default_settings_file_path . ' - failed!');
     } else {
-        $default_settings = YamlParser::decode($content);
+        $default_settings = JsonParser::decode($content);
     }
 
     if (($content = Filesystem::read($site_settings_file_path)) === false) {
         throw new \RuntimeException('Load file: ' . $site_settings_file_path . ' - failed!');
     } else {
-        $site_settings = YamlParser::decode($content);
+        $site_settings = JsonParser::decode($content);
     }
 
     // Merge settings
