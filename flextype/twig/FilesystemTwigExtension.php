@@ -29,12 +29,12 @@ class FilesystemTwigExtension extends \Twig_Extension
         ];
     }
 
-    public function has($path)
+    public function filesystem_has($path)
     {
         return Filesystem::has($path);
     }
 
-    public function read($path)
+    public function filesystem_read($path)
     {
         return Filesystem::read($path);
     }
