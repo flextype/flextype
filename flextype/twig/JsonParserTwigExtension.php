@@ -22,8 +22,8 @@ class JsonParserTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('json_parser_decode', array($this, 'json_parser_decode')),
-            new \Twig_SimpleFunction('json_parser_encode', array($this, 'json_parser_encode'))
+            new \Twig_SimpleFunction('json_parser_decode', array($this, 'decode')),
+            new \Twig_SimpleFunction('json_parser_encode', array($this, 'encode'))
         ];
     }
 
