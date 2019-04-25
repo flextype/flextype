@@ -43,4 +43,8 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
     $flextype['PluginsController'] = function($container) {
         return new PluginsController($container);
     };
+
+    $flextype['EntriesController'] = function($container) {
+        return new EntriesController($container);
+    };
 }
