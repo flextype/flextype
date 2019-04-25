@@ -297,6 +297,9 @@ $flextype['view'] = function ($container) {
     // Add JsonParser Extension
     $view->addExtension(new JsonParserTwigExtension());
 
+    // Add Filesystem Extension
+    $view->addExtension(new FilesystemTwigExtension());
+
     // Add Assets Twig Extension
     $view->addExtension(new AssetsTwigExtension());
 
