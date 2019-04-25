@@ -13,3 +13,6 @@ $app->post('/admin/settings/clear-cache', 'SettingsController:clearCache')->setN
 // Plugins Controller
 $app->get('/admin/plugins', 'PluginsController:index')->setName('admin.plugins.index');
 $app->post('/admin/plugins/change-status', 'PluginsController:changeStatus')->setName('admin.plugins.change-status');
+
+// EntriesController
+$app->get('/admin/entries', 'EntriesController:index')->setName('admin.entries.index');
