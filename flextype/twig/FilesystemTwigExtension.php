@@ -24,17 +24,17 @@ class FilesystemTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('filesystem_has', array($this, 'filesystem_has')),
-            new \Twig_SimpleFunction('filesystem_read', array($this, 'filesystem_read')),
+            new \Twig_SimpleFunction('filesystem_has', array($this, 'has')),
+            new \Twig_SimpleFunction('filesystem_read', array($this, 'read')),
         ];
     }
 
-    public function filesystem_has($path)
+    public function has($path)
     {
         return Filesystem::has($path);
     }
 
-    public function filesystem_read($path)
+    public function read($path)
     {
         return Filesystem::read($path);
     }
