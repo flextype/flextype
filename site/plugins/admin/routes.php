@@ -16,3 +16,4 @@ $app->post('/admin/plugins/change-status', 'PluginsController:changeStatus')->se
 
 // EntriesController
 $app->get('/admin/entries', 'EntriesController:index')->setName('admin.entries.index');
+$app->get('/admin/entries/edit', 'EntriesController:edit')->setName('admin.entries.edit');
