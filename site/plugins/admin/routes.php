@@ -16,4 +16,9 @@ $app->post('/admin/plugins/change-status', 'PluginsController:changeStatus')->se
 
 // EntriesController
 $app->get('/admin/entries', 'EntriesController:index')->setName('admin.entries.index');
-$app->get('/admin/entries/edit', 'EntriesController:edit')->setName('admin.entries.edit');
+$app->get('/admin/entries/edit', 'EntriesController:index')->setName('admin.entries.edit');
+$app->get('/admin/entries/add', 'EntriesController:add')->setName('admin.entries.add');
+$app->get('/admin/entries/move', 'EntriesController:index')->setName('admin.entries.move');
+$app->get('/admin/entries/rename', 'EntriesController:index')->setName('admin.entries.rename');
+$app->get('/admin/entries/type', 'EntriesController:index')->setName('admin.entries.type');
+$app->get('/admin/entries/duplicate', 'EntriesController:index')->setName('admin.entries.duplicate');
