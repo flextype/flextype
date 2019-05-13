@@ -162,4 +162,19 @@ class EntriesController extends Controller
             return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
         }
     }
+
+    public function type($request, $response, $args)
+    {
+
+    }
+
+    public function move($request, $response, $args)
+    {
+
+    }
+
+    public function rename($request, $response, $args)
+    {
+
+    }
 }
