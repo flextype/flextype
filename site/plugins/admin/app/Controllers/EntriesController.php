@@ -187,6 +187,7 @@ class EntriesController extends Controller
         return $this->view->render($response,
                            'plugins/admin/views/templates/content/entries/type.html', [
                            'fieldset' => $entry['fieldset'],
+                           'entry' => $this->getEntriesQuery($request->getQueryParams()['entry']),
                            'fieldsets' => $fieldsets,
                            'menu_item' => 'entries',
                            'links' => [
@@ -204,6 +205,36 @@ class EntriesController extends Controller
                         ]);
     }
 
+    public function typeProcess($request, $response, $args)
+    {
+
+        $data  = [];
+
+        $_data = $request->getParsedBody();
+        $entry_name = $_data['entry'];
+        $entry = $this->entries->fetch($_data['entry']);
+
+        Arr::delete($entry, 'slug');
+        Arr::delete($_data, 'csrf_name');
+        Arr::delete($_data, 'csrf_value');
+        Arr::delete($_data, 'type_entry');
+        Arr::delete($_data, 'entry');
+
+        $data = array_merge($entry, $_data);
+        
+        if ($this->entries->update(
+            $entry_name,
+            $data
+        )) {
+            $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
+        } else {
+            $this->flash->addMessage('success', __('admin_message_entry_was_not_moved'));
+        }
+
+        return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
+    }
+
+
     public function move($request, $response, $args)
     {
 
@@ -211,6 +242,40 @@ class EntriesController extends Controller
 
     public function rename($request, $response, $args)
     {
+        return $this->view->render($response,
+                           'plugins/admin/views/templates/content/entries/rename.html', [
+                           'name_current' => Arr::last(explode("/", $this->getEntriesQuery($request->getQueryParams()['entry']))),
+                           'entry_path_current' => $this->getEntriesQuery($request->getQueryParams()['entry']),
+                           'entry_parent' => implode('/', array_slice(explode("/", $this->getEntriesQuery($request->getQueryParams()['entry'])), 0, -1)),
+                           'menu_item' => 'entries',
+                           'links' => [
+                               'entries' => [
+                                   'link' => $this->router->urlFor('admin.entries.index'),
+                                   'title' => __('admin_entries'),
+                                   'attributes' => ['class' => 'navbar-item']
+                               ],
+                               'entries_type' => [
+                                   'link' => $this->router->urlFor('admin.entries.rename') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
+                                   'title' => __('admin_rename'),
+                                   'attributes' => ['class' => 'navbar-item active']
+                                   ]
+                               ]
+                        ]);
+    }
 
+    public function renameProcess($request, $response, $args)
+    {
+        $data = $request->getParsedBody();
+
+        if ($this->entries->rename(
+            $data['entry_path_current'],
+            $data['entry_parent'] . '/' . Text::safeString($data['name'], '-', true)
+        )) {
+            $this->flash->addMessage('success', __('admin_message_entry_renamed'));
+        } else {
+            $this->flash->addMessage('success', __('admin_message_entry_was_not_created'));
+        }
+
+        return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
     }
 }
