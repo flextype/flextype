@@ -246,7 +246,7 @@ class Entries
      * @param bool   $recursive  Recursive copy entries.
      * @return bool True on success, false on failure.
      */
-    public function copy(string $entry, string $new_entry, bool $recursive = false) : bool
+    public function copy(string $entry, string $new_entry, bool $recursive = false)
     {
         return Filesystem::copy($this->_dir_location($entry), $this->_dir_location($new_entry), $recursive);
     }
