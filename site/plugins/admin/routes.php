@@ -20,6 +20,7 @@ $app->get('/admin/entries/edit', 'EntriesController:index')->setName('admin.entr
 $app->get('/admin/entries/add', 'EntriesController:add')->setName('admin.entries.add');
 $app->post('/admin/entries/add', 'EntriesController:addProcess')->setName('admin.entries.addProcess');
 $app->get('/admin/entries/move', 'EntriesController:move')->setName('admin.entries.move');
+$app->post('/admin/entries/move', 'EntriesController:moveProcess')->setName('admin.entries.moveProcess');
 $app->get('/admin/entries/rename', 'EntriesController:rename')->setName('admin.entries.rename');
 $app->post('/admin/entries/rename', 'EntriesController:renameProcess')->setName('admin.entries.renameProcess');
 $app->get('/admin/entries/type', 'EntriesController:type')->setName('admin.entries.type');
