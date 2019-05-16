@@ -28,6 +28,7 @@ class EntriesController extends Controller
         return $this->view->render($response,
                            'plugins/admin/views/templates/content/entries/index.html', [
                            'entries_list' => $this->entries->fetchAll($this->getEntriesQuery($request->getQueryParams()['entry']), 'date', 'DESC'),
+                           'entry_current' => $this->getEntriesQuery($request->getQueryParams()['entry']),
                            'menu_item' => 'entries',
                            'links' => [
                                         'entries' => [
@@ -327,5 +328,24 @@ class EntriesController extends Controller
         }
 
         return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
+    }
+
+    public function deleteProcess($request, $response, $args)
+    {
+        $entry_name = $this->getEntriesQuery($request->getQueryParams()['entry']);
+        $entry_name_current = $this->getEntriesQuery($request->getQueryParams()['entry_current']);
+
+        if ($this->entries->delete($entry_name)) {
+            $this->flash->addMessage('success', __('admin_message_entry_deleted'));
+        } else {
+            $this->flash->addMessage('success', __('admin_message_entry_was_not_deleted'));
+        }
+
+        return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $entry_name_current);
+    }
+
+    public function duplicateProcess($request, $response, $args)
+    {
+
     }
 }
