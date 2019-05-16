@@ -11,7 +11,7 @@
             <input type="hidden" name="name_current" value="{{name_current}}">
             <div class="form-group">
                 <label for="title">{{ tr('admin_parent_entry') }}</label>
-                <select class="form-control" name="fieldset">
+                <select class="form-control" name="parent_entry">
                 {% for key, value in entries_list %}
                     <option value="{{ key }}" {% if key == entry_parent %}selected{% endif %}>{{ value }}</option>
                 {% endfor %}
