@@ -221,7 +221,7 @@ class EntriesController extends Controller
         Arr::delete($_data, 'entry');
 
         $data = array_merge($entry, $_data);
-        
+
         if ($this->entries->update(
             $entry_name,
             $data
@@ -231,13 +231,63 @@ class EntriesController extends Controller
             $this->flash->addMessage('success', __('admin_message_entry_was_not_moved'));
         }
 
-        return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
+        return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
     }
-
 
     public function move($request, $response, $args)
     {
+        $entry_name = $this->getEntriesQuery($request->getQueryParams()['entry']);
+        $entry = $this->entries->fetch($this->getEntriesQuery($request->getQueryParams()['entry']));
 
+        $_entries_list = $this->entries->fetchAll('', 'slug');
+        $entries_list['/'] = '/';
+        foreach ($_entries_list as $_entry) {
+            if ($_entry['slug'] != '') {
+                $entries_list[$_entry['slug']] = $_entry['slug'];
+            } else {
+                $entries_list[$this->registry->get('settings.entries.main')] = $this->registry->get('settings.entries.main');
+            }
+        }
+
+        return $this->view->render($response,
+                           'plugins/admin/views/templates/content/entries/move.html', [
+                           'entry_path_current' => $entry_name,
+                           'entries_list' => $entries_list,
+                           'name_current' => Arr::last(explode("/", $entry_name)),
+                           'entry_parent' => implode('/', array_slice(explode("/", $entry_name), 0, -1)),
+                           'menu_item' => 'entries',
+                           'links' => [
+                               'entries' => [
+                                   'link' => $this->router->urlFor('admin.entries.index'),
+                                   'title' => __('admin_entries'),
+                                   'attributes' => ['class' => 'navbar-item']
+                               ],
+                               'entries_move' => [
+                                   'link' => $this->router->urlFor('admin.entries.move'),
+                                   'title' => __('admin_move'),
+                                   'attributes' => ['class' => 'navbar-item active']
+                                   ]
+                               ]
+                        ]);
+    }
+
+    public function moveProcess($request, $response, $args)
+    {
+
+        $data = $request->getParsedBody();
+
+        if (!$this->entries->has($data['parent_entry'] . '/' . $data['name_current'])) {
+            if ($this->entries->rename(
+                $data['entry_path_current'],
+                $data['parent_entry'] . '/' . Text::safeString($data['name_current'], '-', true)
+            )) {
+                $this->flash->addMessage('success', __('admin_message_entry_moved'));
+            } else {
+                $this->flash->addMessage('success', __('admin_message_entry_was_not_moved'));
+            }
+
+            return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
+        }
     }
 
     public function rename($request, $response, $args)
