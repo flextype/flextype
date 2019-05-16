@@ -346,6 +346,12 @@ class EntriesController extends Controller
 
     public function duplicateProcess($request, $response, $args)
     {
+        $entry_name = $this->getEntriesQuery($request->getQueryParams()['entry']);
 
+        $this->entries->copy($entry_name, $entry_name . '-duplicate-' . date("Ymd_His"), true);
+
+        $this->flash->addMessage('success', __('admin_message_entry_duplicated'));
+
+        return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
     }
 }
