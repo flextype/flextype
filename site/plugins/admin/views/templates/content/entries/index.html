@@ -42,12 +42,12 @@
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{ path_for('admin.entries.add') }}/?entry={{ entry.slug }}">{{ tr('admin_add') }}</a>
-                    <a class="dropdown-item" href="{{ path_for('admin.entries.duplicate') }}/?entry={{ entry.slug }}">{{ tr('admin_duplicate') }}</a>
-                    <a class="dropdown-item" href="{{ path_for('admin.entries.rename') }}/?entry={{ entry.slug }}">{{ tr('admin_rename') }}</a>
-                    <a class="dropdown-item" href="{{ path_for('admin.entries.move') }}/?entry={{ entry.slug }}">{{ tr('admin_move') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.add') }}?entry={{ entry.slug }}">{{ tr('admin_add') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.duplicate') }}?entry={{ entry.slug }}">{{ tr('admin_duplicate') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.rename') }}?entry={{ entry.slug }}">{{ tr('admin_rename') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.move') }}?entry={{ entry.slug }}">{{ tr('admin_move') }}</a>
                     <a class="dropdown-item" href="{{ base_url() }}/{{ entry.slug }}" target="_blank">{{ tr('admin_preview') }}</a>
-                    <a class="dropdown-item" href="{{ path_for('admin.entries.type') }}/?entry={{ entry.slug }}">{{ tr('admin_type') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.type') }}?entry={{ entry.slug }}">{{ tr('admin_type') }}</a>
                   </div>
                 </div>
                 <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/entries/delete?entry=<?= $entry['slug'] ?>&entry_current=<?= Http::get('entry') ?>&token=<?= Token::generate() ?>">{{ tr('admin_delete') }}</a>
