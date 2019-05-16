@@ -165,7 +165,43 @@ class EntriesController extends Controller
 
     public function type($request, $response, $args)
     {
+        $entry = $this->entries->fetch($this->getEntriesQuery($request->getQueryParams()['entry']));
 
+        $fieldsets = [];
+
+        // Get fieldsets files
+        $_fieldsets = Filesystem::listContents(PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/fieldsets/');
+
+        // If there is any template file then go...
+        if (count($_fieldsets) > 0) {
+            foreach ($_fieldsets as $fieldset) {
+                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'json') {
+                    $fieldset_content = JsonParser::decode(Filesystem::read($fieldset['path']));
+                    if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
+                        $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
+                    }
+                }
+            }
+        }
+
+        return $this->view->render($response,
+                           'plugins/admin/views/templates/content/entries/type.html', [
+                           'fieldset' => $entry['fieldset'],
+                           'fieldsets' => $fieldsets,
+                           'menu_item' => 'entries',
+                           'links' => [
+                               'entries' => [
+                                   'link' => $this->router->urlFor('admin.entries.index'),
+                                   'title' => __('admin_entries'),
+                                   'attributes' => ['class' => 'navbar-item']
+                               ],
+                               'entries_type' => [
+                                   'link' => $this->router->urlFor('admin.entries.type') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
+                                   'title' => __('admin_type'),
+                                   'attributes' => ['class' => 'navbar-item active']
+                                   ]
+                               ]
+                        ]);
     }
 
     public function move($request, $response, $args)
