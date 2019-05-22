@@ -48,7 +48,8 @@ $config = [
         'httpVersion' => '1.1',
 
         'twig' => [
-            'cache' => false
+            'cache' => false,
+            'debug' => true,
         ],
 
         'images' => [
@@ -282,6 +283,9 @@ $flextype['view'] = function ($container) {
     // Add Twig Extension
     $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
 
+    // Add Twig Debug Extension
+    $view->addExtension(new \Twig\Extension\DebugExtension());
+
     // Add Entries Twig Extension
     $view->addExtension(new EntriesTwigExtension($container));
 
@@ -326,6 +330,12 @@ $app->get('/image/{path:.+}', function (Request $request, Response $response, ar
  $flextype['themes'] = function($container) use ($flextype, $app) {
      return new Themes($flextype, $app);
  };
+
+ /**
+  * Init themes
+  */
+ $flextype['themes']->init($flextype, $app);
+
 
 /**
  * Add plugins service to Flextype container
