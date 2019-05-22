@@ -321,6 +321,13 @@ $app->get('/image/{path:.+}', function (Request $request, Response $response, ar
 });
 
 /**
+ * Add themes service to Flextype container
+ */
+ $flextype['themes'] = function($container) use ($flextype, $app) {
+     return new Themes($flextype, $app);
+ };
+
+/**
  * Add plugins service to Flextype container
  */
 $flextype['plugins'] = function($container) use ($flextype, $app) {
