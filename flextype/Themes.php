@@ -29,7 +29,6 @@ class Themes
     public function __construct($flextype)
     {
         $this->flextype = $flextype;
-        $this->init($flextype, $app);
     }
 
     public function init($flextype, $app)
@@ -98,7 +97,7 @@ class Themes
         $templates = [];
 
         // Get templates files
-        $_templates = Filesystem::listContents(PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/views/templates/');
+        $_templates = Filesystem::listContents(PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/templates/');
 
         // If there is any template file then go...
         if (count($_templates) > 0) {
