@@ -354,4 +354,77 @@ class EntriesController extends Controller
 
         return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
     }
+
+    public function edit($request, $response, $args)
+    {
+        $entry_name = $request->getQueryParams()['entry'];
+
+        $entry = $this->entries->fetch($entry_name);
+
+        // Fieldset for current entry template
+        $fieldset_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.json';
+        $fieldset = JsonParser::decode(Filesystem::read($fieldset_path));
+        is_null($fieldset) and $fieldset = [];
+
+        return $this->view->render($response,
+                           'plugins/admin/views/templates/content/entries/edit.html', [
+                           'entry_name' => $entry_name,
+                           'entry' => $entry,
+                           'fieldset' => $fieldset,
+                           'templates' => $this->themes->getTemplates(),
+                           'files' => $this->getMediaList($entry_name),
+                           'menu_item' => 'entries',
+                           'links' => [
+                               'entries' => [
+                                   'link' => $this->router->urlFor('admin.entries.index'),
+                                   'title' => __('admin_entries'),
+                                   'attributes' => ['class' => 'navbar-item']
+                               ]
+                            ]
+                        ]);
+    }
+
+    public function getMediaList(string $entry, bool $path = false) : array
+    {
+        $files = [];
+        foreach (array_diff(scandir(PATH['entries'] . '/' . $entry), ['..', '.']) as $file) {
+            if (strpos($this->registry->get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
+                if (strpos($file, strtolower($file_ext), 1)) {
+                    if ($path) {
+                        $files[$this->uri->getBaseUrl() . '/' . $entry . '/' . $file] = $this->uri->getBaseUrl() . '/' . $entry . '/' . $file;
+                    } else {
+                        $files[$file] = $file;
+                    }
+                }
+            }
+        }
+        return $files;
+    }
+
+    public function editProcess()
+    {
+        /*
+        $indenter = new Indenter();
+
+        $entry = Entries::fetch(Http::get('entry'));
+        Arr::delete($entry, 'slug');
+        $data = [];
+        $_data = $_POST;
+        Arr::delete($_data, 'token');
+        Arr::delete($_data, 'action');
+
+        foreach ($_data as $key => $_d) {
+            $data[$key] = $indenter->indent($_d);
+        }
+
+        $data = array_merge($entry, $data);
+
+        if (Entries::update(Http::get('entry'), $data)) {
+            Notification::set('success', __('admin_message_entry_changes_saved'));
+        } else {
+            Notification::set('error', __('admin_message_entry_changes_not_saved'));
+        }
+        Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::get('entry'));
+        */
+    }
 }
