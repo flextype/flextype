@@ -15,7 +15,21 @@ class PluginsController extends Controller
         return $this->view->render($response,
                            'plugins/admin/views/templates/extends/plugins/index.html', [
                            'plugins_list' => $this->registry->get('plugins'),
-                           'menu_item' => 'plugins'
+                           'menu_item' => 'plugins',
+                           'links' =>  [
+                                            'plugins' => [
+                                                'link' => $this->router->urlFor('admin.plugins.index'),
+                                                'title' => __('admin_plugins'),
+                                                'attributes' => ['class' => 'navbar-item active']
+                                            ],
+                            ],
+                            'buttons' =>  [
+                                             'plugins_get_more' => [
+                                                 'link' => 'https://github.com/flextype/plugins',
+                                                 'title' => __('admin_get_more_plugins'),
+                                                 'attributes' => ['float-right btn' => 'navbar-item', 'target' => '_blank']
+                                             ],
+                             ]
                         ]);
     }
 
