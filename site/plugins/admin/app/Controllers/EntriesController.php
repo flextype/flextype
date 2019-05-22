@@ -188,7 +188,7 @@ class EntriesController extends Controller
         return $this->view->render($response,
                            'plugins/admin/views/templates/content/entries/type.html', [
                            'fieldset' => $entry['fieldset'],
-                           'entry' => $this->getEntriesQuery($request->getQueryParams()['entry']),
+                           'entry_name' => $this->getEntriesQuery($request->getQueryParams()['entry']),
                            'fieldsets' => $fieldsets,
                            'menu_item' => 'entries',
                            'links' => [
@@ -212,14 +212,14 @@ class EntriesController extends Controller
         $data  = [];
 
         $_data = $request->getParsedBody();
-        $entry_name = $_data['entry'];
-        $entry = $this->entries->fetch($_data['entry']);
+        $entry_name = $_data['entry_name'];
+        $entry = $this->entries->fetch($_data['entry_name']);
 
         Arr::delete($entry, 'slug');
         Arr::delete($_data, 'csrf_name');
         Arr::delete($_data, 'csrf_value');
         Arr::delete($_data, 'type_entry');
-        Arr::delete($_data, 'entry');
+        Arr::delete($_data, 'entry_name');
 
         $data = array_merge($entry, $_data);
 
@@ -369,7 +369,7 @@ class EntriesController extends Controller
         return $this->view->render($response,
                            'plugins/admin/views/templates/content/entries/edit.html', [
                            'entry_name' => $entry_name,
-                           'entry' => $entry,
+                           'entry_body' => $entry,
                            'fieldset' => $fieldset,
                            'templates' => $this->themes->getTemplates(),
                            'files' => $this->getMediaList($entry_name),
