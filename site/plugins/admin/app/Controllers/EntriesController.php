@@ -375,11 +375,21 @@ class EntriesController extends Controller
                            'files' => $this->getMediaList($entry_name),
                            'menu_item' => 'entries',
                            'links' => [
-                               'entries' => [
-                                   'link' => $this->router->urlFor('admin.entries.index'),
-                                   'title' => __('admin_entries'),
+                               'edit_entry' => [
+                                   'link' => $this->router->urlFor('admin.entries.edit') . '?entry=' . $entry_name,
+                                   'title' => __('admin_content'),
+                                   'attributes' => ['class' => 'navbar-item active']
+                               ],
+                               'edit_entry_media' => [
+                                   'link' => $this->router->urlFor('admin.entries.edit') . '?entry=' . $entry_name . '&media=true',
+                                   'title' => __('admin_media'),
                                    'attributes' => ['class' => 'navbar-item']
-                               ]
+                               ],
+                               'edit_entry_source' => [
+                                   'link' => $this->router->urlFor('admin.entries.edit') . '?entry=' . $entry_name . '&source=true',
+                                   'title' => __('admin_source'),
+                                   'attributes' => ['class' => 'navbar-item']
+                               ],
                             ]
                         ]);
     }
