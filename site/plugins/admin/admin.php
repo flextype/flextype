@@ -47,4 +47,8 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
     $flextype['EntriesController'] = function($container) {
         return new EntriesController($container);
     };
+
+    $flextype['FieldsetsController'] = function($container) {
+        return new FieldsetsController($container);
+    };
 }
