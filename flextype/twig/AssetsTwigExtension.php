@@ -24,8 +24,8 @@ class AssetsTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('assets_add', array($this, 'add')),
-            new \Twig_SimpleFunction('assets_get', array($this, 'get')),
+            new \Twig_SimpleFunction('assets_add', [$this, 'add']),
+            new \Twig_SimpleFunction('assets_get', [$this, 'get']),
         ];
     }
 

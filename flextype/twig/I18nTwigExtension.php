@@ -24,7 +24,7 @@ class I18nTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('tr', array($this, 'tr')),
+            new \Twig_SimpleFunction('tr', [$this, 'tr']),
         ];
     }
 

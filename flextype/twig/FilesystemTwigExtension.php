@@ -24,8 +24,8 @@ class FilesystemTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('filesystem_has', array($this, 'has')),
-            new \Twig_SimpleFunction('filesystem_read', array($this, 'read')),
+            new \Twig_SimpleFunction('filesystem_has', [$this, 'has']),
+            new \Twig_SimpleFunction('filesystem_read', [$this, 'read']),
         ];
     }
 

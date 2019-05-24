@@ -35,8 +35,8 @@ class EntriesTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('entries_fetch', array($this, 'fetch')),
-            new \Twig_SimpleFunction('entries_fetch_all', array($this, 'fetchAll')),
+            new \Twig_SimpleFunction('entries_fetch', [$this, 'fetch']),
+            new \Twig_SimpleFunction('entries_fetch_all', [$this, 'fetchAll']),
         ];
     }
 
