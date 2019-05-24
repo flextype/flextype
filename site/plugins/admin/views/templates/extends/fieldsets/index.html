@@ -1,0 +1,36 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+{% if fieldsets_list|length > 0 %}
+<table class="table no-margin">
+    <thead>
+        <tr>
+            <th>{{ tr('admin_name') }}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for id, title in fieldsets_list %}
+        <tr>
+            <td>
+                <a href="{{ path_for('admin.fieldsets.edit') }}?id={{ id }}">{{ title }}</a>
+            </td>
+            <td class="text-right">
+                <div class="btn-group">
+                  <a class="btn btn-default" href="{{ path_for('admin.fieldsets.edit') }}?id={{ id }}">{{ tr('admin_edit') }}</a>
+                  <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{ path_for('admin.fieldsets.rename') }}?id={{ id }}">{{ tr('admin_rename') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.fieldsets.duplicateProcess') }}?id={{ id }}">{{ tr('admin_duplicate') }}</a>
+                  </div>
+                </div>
+                <a class="btn btn-default" href="{{ path_for('admin.fieldsets.deleteProcess') }}?id={{ id }}">{{ tr('admin_delete') }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}
