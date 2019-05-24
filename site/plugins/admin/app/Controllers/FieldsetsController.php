@@ -31,7 +31,25 @@ class FieldsetsController extends Controller
 
    public function add($request, $response, $args)
    {
-
+       return $this->view->render($response,
+                                  'plugins/admin/views/templates/extends/fieldsets/add.html', [
+           'menu_item' => 'fieldsets',
+           'fieldsets_list' => $this->fieldsets->fetchList(),
+           'links' =>  [
+                            'fieldsets' => [
+                                'link' => $this->router->pathFor('admin.fieldsets.index'),
+                                'title' => __('admin_fieldsets'),
+                                'attributes' => ['class' => 'navbar-item active']
+                            ],
+                        ],
+            'buttons' => [
+                            'fieldsets_add' => [
+                                'link' => $this->router->pathFor('admin.fieldsets.add'),
+                                'title' => __('admin_create_new_fieldset'),
+                                'attributes' => ['class' => 'float-right btn']
+                            ]
+                         ]
+       ]);
    }
 
    public function addProcess($request, $response, $args)
