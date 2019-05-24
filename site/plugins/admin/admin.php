@@ -55,4 +55,8 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
     $flextype['SnippetsController'] = function($container) {
         return new SnippetsController($container);
     };
+
+    $flextype['TemplatesController'] = function($container) {
+        return new TemplatesController($container);
+    };
 }
