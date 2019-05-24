@@ -30,3 +30,5 @@ $app->get('/admin/entries/delete', 'EntriesController:deleteProcess')->setName('
 
 // FieldsetsController
 $app->get('/admin/fieldsets', 'FieldsetsController:index')->setName('admin.fieldsets.index');
+$app->get('/admin/fieldsets/add', 'FieldsetsController:add')->setName('admin.fieldsets.add');
+$app->post('/admin/fieldsets/add', 'FieldsetsController:addProcess')->setName('admin.fieldsets.addProcess');

@@ -2,7 +2,6 @@
 
 namespace Flextype;
 
-use Flextype\Component\Registry\Registry;
 use function Flextype\Component\I18n\__;
 
 class FieldsetsController extends Controller
@@ -19,7 +18,14 @@ class FieldsetsController extends Controller
                                 'title' => __('admin_fieldsets'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
-                        ]
+                        ],
+            'buttons' => [
+                            'fieldsets_add' => [
+                                'link' => $this->router->urlFor('admin.fieldsets.add'),
+                                'title' => __('admin_create_new_fieldset'),
+                                'attributes' => ['class' => 'float-right btn']
+                            ]
+                         ]
        ]);
    }
 }
