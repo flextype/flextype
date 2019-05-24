@@ -76,15 +76,15 @@ class Fieldsets
      *
      * @access public
      * @param string $fieldset Fieldset
-     * @param string $data     Data
+     * @param array  $data     Data
      * @return bool True on success, false on failure.
      */
-    public function update(string $fieldset, string $data) : bool
+    public function update(string $fieldset, array $data) : bool
     {
         $fieldset_file = $this->_file_location($fieldset);
 
         if (Filesystem::has($fieldset_file)) {
-            return Filesystem::write($fieldset_file, $data);
+            return Filesystem::write($fieldset_file, JsonParser::encode($data));
         } else {
             return false;
         }
@@ -95,16 +95,16 @@ class Fieldsets
      *
      * @access public
      * @param string $fieldset Fieldset
-     * @param string $data     Data
+     * @param array  $data     Data
      * @return bool True on success, false on failure.
      */
-    public function create(string $fieldset, string $data = '') : bool
+    public function create(string $fieldset, array $data) : bool
     {
         $fieldset_file = $this->_file_location($fieldset);
 
         // Check if new entry file exists
         if (!Filesystem::has($fieldset_file)) {
-            return Filesystem::write($fieldset_file, $data);
+            return Filesystem::write($fieldset_file, JsonParser::encode($data));
         } else {
             return false;
         }
