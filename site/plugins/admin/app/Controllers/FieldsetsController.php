@@ -14,14 +14,14 @@ class FieldsetsController extends Controller
            'fieldsets_list' => $this->fieldsets->fetchList(),
            'links' =>  [
                             'fieldsets' => [
-                                'link' => $this->router->urlFor('admin.fieldsets.index'),
+                                'link' => $this->router->pathFor('admin.fieldsets.index'),
                                 'title' => __('admin_fieldsets'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ],
             'buttons' => [
                             'fieldsets_add' => [
-                                'link' => $this->router->urlFor('admin.fieldsets.add'),
+                                'link' => $this->router->pathFor('admin.fieldsets.add'),
                                 'title' => __('admin_create_new_fieldset'),
                                 'attributes' => ['class' => 'float-right btn']
                             ]
