@@ -23,10 +23,22 @@
                   </button>
                   <div class="dropdown-menu">
                     <a class="dropdown-item" href="{{ path_for('admin.fieldsets.rename') }}?id={{ id }}">{{ tr('admin_rename') }}</a>
-                    <a class="dropdown-item" href="{{ path_for('admin.fieldsets.duplicateProcess') }}?id={{ id }}">{{ tr('admin_duplicate') }}</a>
+                    <a class="dropdown-item" href="javascript:;"
+                       onclick="event.preventDefault();
+                                document.getElementById('duplicate-fieldset-id-{{ id }}').submit();">{{ tr('admin_duplicate') }}</a>
                   </div>
                 </div>
-                <a class="btn btn-default" href="{{ path_for('admin.fieldsets.deleteProcess') }}?id={{ id }}">{{ tr('admin_delete') }}</a>
+                <form id="duplicate-fieldset-id-{{ id }}" action="{{ path_for('admin.fieldsets.duplicateProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" id="fieldset-id-{{ id }}" name="fieldset-id" value="{{ id }}">
+                </form>
+                <form id="delete-fieldset-id-{{ id }}" action="{{ path_for('admin.fieldsets.deleteProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" id="fieldset-id-{{ id }}" name="fieldset-id" value="{{ id }}">
+                </form>
+                <a class="btn btn-default" href="javascript:;"
+                   onclick="event.preventDefault();
+                            document.getElementById('delete-fieldset-id-{{ id }}').submit();">{{ tr('admin_delete') }}</a>
             </td>
         </tr>
         {% endfor %}
