@@ -32,3 +32,9 @@ $app->get('/admin/entries/delete', 'EntriesController:deleteProcess')->setName('
 $app->get('/admin/fieldsets', 'FieldsetsController:index')->setName('admin.fieldsets.index');
 $app->get('/admin/fieldsets/add', 'FieldsetsController:add')->setName('admin.fieldsets.add');
 $app->post('/admin/fieldsets/add', 'FieldsetsController:addProcess')->setName('admin.fieldsets.addProcess');
+$app->get('/admin/fieldsets/edit', 'FieldsetsController:edit')->setName('admin.fieldsets.edit');
+$app->post('/admin/fieldsets/edit', 'FieldsetsController:editProcess')->setName('admin.fieldsets.addProcess');
+$app->get('/admin/fieldsets/rename', 'FieldsetsController:rename')->setName('admin.fieldsets.rename');
+$app->post('/admin/fieldsets/rename', 'FieldsetsController:renameProcess')->setName('admin.fieldsets.renameProcess');
+$app->get('/admin/fieldsets/duplicate', 'FieldsetsController:duplicateProcess')->setName('admin.fieldsets.duplicateProcess');
+$app->get('/admin/fieldsets/delete', 'FieldsetsController:deleteProcess')->setName('admin.fieldsets.deleteProcess');
