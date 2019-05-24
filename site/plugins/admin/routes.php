@@ -49,3 +49,14 @@ $app->get('/admin/templates/rename', 'TemplatesController:rename')->setName('adm
 $app->post('/admin/templates/rename', 'TemplatesController:renameProcess')->setName('admin.templates.renameProcess');
 $app->get('/admin/templates/duplicate', 'TemplatesController:duplicateProcess')->setName('admin.templates.duplicateProcess');
 $app->get('/admin/templates/delete', 'TemplatesController:deleteProcess')->setName('admin.templates.deleteProcess');
+
+// SnippetsController
+$app->get('/admin/snippets', 'SnippetsController:index')->setName('admin.templates.index');
+$app->get('/admin/snippets/add', 'SnippetsController:add')->setName('admin.templates.add');
+$app->post('/admin/snippets/add', 'SnippetsController:addProcess')->setName('admin.templates.addProcess');
+$app->get('/admin/snippets/edit', 'SnippetsController:edit')->setName('admin.templates.edit');
+$app->post('/admin/snippets/edit', 'SnippetsController:editProcess')->setName('admin.templates.addProcess');
+$app->get('/admin/snippets/rename', 'SnippetsController:rename')->setName('admin.templates.rename');
+$app->post('/admin/snippets/rename', 'SnippetsController:renameProcess')->setName('admin.templates.renameProcess');
+$app->get('/admin/snippets/duplicate', 'SnippetsController:duplicateProcess')->setName('admin.templates.duplicateProcess');
+$app->get('/admin/snippets/delete', 'SnippetsController:deleteProcess')->setName('admin.templates.deleteProcess');
