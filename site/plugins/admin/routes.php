@@ -38,3 +38,14 @@ $app->get('/admin/fieldsets/rename', 'FieldsetsController:rename')->setName('adm
 $app->post('/admin/fieldsets/rename', 'FieldsetsController:renameProcess')->setName('admin.fieldsets.renameProcess');
 $app->get('/admin/fieldsets/duplicate', 'FieldsetsController:duplicateProcess')->setName('admin.fieldsets.duplicateProcess');
 $app->get('/admin/fieldsets/delete', 'FieldsetsController:deleteProcess')->setName('admin.fieldsets.deleteProcess');
+
+// TemplatesController
+$app->get('/admin/templates', 'TemplatesController:index')->setName('admin.templates.index');
+$app->get('/admin/templates/add', 'TemplatesController:add')->setName('admin.templates.add');
+$app->post('/admin/templates/add', 'TemplatesController:addProcess')->setName('admin.templates.addProcess');
+$app->get('/admin/templates/edit', 'TemplatesController:edit')->setName('admin.templates.edit');
+$app->post('/admin/templates/edit', 'TemplatesController:editProcess')->setName('admin.templates.addProcess');
+$app->get('/admin/templates/rename', 'TemplatesController:rename')->setName('admin.templates.rename');
+$app->post('/admin/templates/rename', 'TemplatesController:renameProcess')->setName('admin.templates.renameProcess');
+$app->get('/admin/templates/duplicate', 'TemplatesController:duplicateProcess')->setName('admin.templates.duplicateProcess');
+$app->get('/admin/templates/delete', 'TemplatesController:deleteProcess')->setName('admin.templates.deleteProcess');
