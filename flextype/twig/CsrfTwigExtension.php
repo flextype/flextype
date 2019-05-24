@@ -49,4 +49,27 @@ class CsrfTwigExtension extends \Twig_Extension implements \Twig_Extension_Globa
     {
         return 'slim/csrf';
     }
+
+    /**
+     * Callback for twig.
+     *
+     * @return array
+     */
+    public function getFunctions()
+    {
+        return [
+            new \Twig_SimpleFunction('csrf', [$this, 'csrf'], ['is_safe' => ['html']]),
+        ];
+    }
+
+    /**
+     * CSRF
+     *
+     * @return string
+     */
+    public function csrf()
+    {
+        return '<input type="hidden" name="'.$this->csrf->getTokenNameKey().'" value="'.$this->csrf->getTokenName().'">'.
+               '<input type="hidden" name="'.$this->csrf->getTokenValueKey().'" value="'.$this->csrf->getTokenValue().'">';
+    }
 }
