@@ -2,6 +2,8 @@
 
 namespace Flextype;
 
+use Flextype\Component\Arr\Arr;
+use Flextype\Component\Text\Text;
 use function Flextype\Component\I18n\__;
 
 class FieldsetsController extends Controller
@@ -54,7 +56,21 @@ class FieldsetsController extends Controller
 
    public function addProcess($request, $response, $args)
    {
+        $data = $request->getParsedBody();
 
+        Arr::delete($data, 'csrf_name');
+        Arr::delete($data, 'csrf_value');
+
+        $id = Text::safeString($data['name'], '-', true);
+        $data = ['title' => $data['title']];
+
+        if ($this->fieldsets->create($id, $data)) {
+            $this->flash->addMessage('success', __('admin_message_fieldset_created'));
+        } else {
+            $this->flash->addMessage('error', __('admin_message_fieldset_was_not_created'));
+        }
+
+        return $response->withRedirect($this->container->get('router')->urlFor('admin.fieldsets.index'));
    }
 
    public function edit($request, $response, $args)
