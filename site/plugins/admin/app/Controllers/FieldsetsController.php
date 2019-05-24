@@ -70,7 +70,7 @@ class FieldsetsController extends Controller
             $this->flash->addMessage('error', __('admin_message_fieldset_was_not_created'));
         }
 
-        return $response->withRedirect($this->container->get('router')->urlFor('admin.fieldsets.index'));
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
    }
 
    public function edit($request, $response, $args)
@@ -95,11 +95,23 @@ class FieldsetsController extends Controller
 
    public function deleteProcess($request, $response, $args)
    {
+       if ($this->fieldsets->delete($request->getParsedBody()['fieldset-id'])) {
+           $this->flash->addMessage('success', __('admin_message_fieldset_deleted'));
+       } else {
+           $this->flash->addMessage('error', __('admin_message_fieldset_was_not_deleted'));
+       }
 
+       return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
    }
 
    public function duplicateProcess($request, $response, $args)
    {
+       if ($this->fieldsets->copy($request->getParsedBody()['fieldset-id'], $request->getParsedBody()['fieldset-id'] . '-duplicate-' . date("Ymd_His"))) {
+           $this->flash->addMessage('success', __('admin_message_fieldset_duplicated'));
+       } else {
+           $this->flash->addMessage('error', __('admin_message_fieldset_was_not_duplicated'));
+       }
 
+       return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
    }
 }
