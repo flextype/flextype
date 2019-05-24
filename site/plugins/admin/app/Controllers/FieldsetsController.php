@@ -61,7 +61,7 @@ class FieldsetsController extends Controller
         Arr::delete($data, 'csrf_name');
         Arr::delete($data, 'csrf_value');
 
-        $id = Text::safeString($data['name'], '-', true);
+        $id = Text::safeString($data['id'], '-', true);
         $data = ['title' => $data['title']];
 
         if ($this->fieldsets->create($id, $data)) {
@@ -85,11 +85,36 @@ class FieldsetsController extends Controller
 
    public function rename($request, $response, $args)
    {
-
+       return $this->view->render($response,
+                                  'plugins/admin/views/templates/extends/fieldsets/rename.html', [
+           'menu_item' => 'fieldsets',
+           'id' => $request->getQueryParams()['id'],
+           'links' =>  [
+                            'fieldsets' => [
+                                'link' => $this->router->pathFor('admin.fieldsets.index'),
+                                'title' => __('admin_fieldsets'),
+                                'attributes' => ['class' => 'navbar-item active']
+                            ],
+                        ],
+            'buttons' => [
+                            'fieldsets_add' => [
+                                'link' => $this->router->pathFor('admin.fieldsets.add'),
+                                'title' => __('admin_create_new_fieldset'),
+                                'attributes' => ['class' => 'float-right btn']
+                            ]
+                         ]
+       ]);
    }
 
    public function renameProcess($request, $response, $args)
    {
+       if ($this->fieldsets->rename($request->getParsedBody()['fieldset-id-current'], $request->getParsedBody()['id'])) {
+           $this->flash->addMessage('success', __('admin_message_fieldset_renamed'));
+       } else {
+           $this->flash->addMessage('error', __('admin_message_fieldset_was_not_renamed'));
+       }
+
+       return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
 
    }
 
