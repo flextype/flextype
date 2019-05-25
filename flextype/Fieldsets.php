@@ -32,6 +32,32 @@ class Fieldsets
     }
 
     /**
+     * Fetch fieldsets
+     *
+     * @access public
+     * @param string $id Fieldsets id
+     * @return array|false The entry contents or false on failure.
+     */
+    public function fetch(string $id)
+    {
+        $fieldsets_file = Fieldsets::_file_location($id);
+
+        if (Filesystem::has($fieldsets_file)) {
+            if ($fieldsets_body = Filesystem::read($fieldsets_file)) {
+                if ($fieldsets_decoded = JsonParser::decode($fieldsets_body)) {
+                    return $fieldsets_decoded;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Fetch Fieldsets for current theme
      *
      * @access public
