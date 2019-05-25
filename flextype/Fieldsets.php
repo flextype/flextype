@@ -70,7 +70,7 @@ class Fieldsets
         // Get fieldsets files
         $_fieldsets = Filesystem::listContents($this->_dir_location());
 
-        // If there is any template file then go...
+        // If there is any fieldsets file then go...
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'json') {
@@ -85,92 +85,91 @@ class Fieldsets
     }
 
     /**
-     * Rename fieldset
+     * Rename fieldsets
      *
      * @access public
-     * @param string $fieldset     Fieldset
-     * @param string $new_fieldset New fieldset
+     * @param string $id     Fieldsets id
+     * @param string $new_id New fieldsets id
      * @return bool True on success, false on failure.
      */
-    public function rename(string $fieldset, string $new_fieldset) : bool
+    public function rename(string $id, string $new_id) : bool
     {
-        return rename($this->_file_location($fieldset), $this->_file_location($new_fieldset));
+        return rename($this->_file_location($id), $this->_file_location($new_id));
     }
 
     /**
-     * Update fieldset
+     * Update fieldsets
      *
      * @access public
-     * @param string $fieldset Fieldset
-     * @param array  $data     Data
+     * @param string $id    Fieldsets id
+     * @param array  $data  Data to save
      * @return bool True on success, false on failure.
      */
-    public function update(string $fieldset, array $data) : bool
+    public function update(string $id, array $data) : bool
     {
-        $fieldset_file = $this->_file_location($fieldset);
+        $fieldsets_file = $this->_file_location($id);
 
-        if (Filesystem::has($fieldset_file)) {
-            return Filesystem::write($fieldset_file, JsonParser::encode($data));
+        if (Filesystem::has($fieldsets_file)) {
+            return Filesystem::write($fieldsets_file, JsonParser::encode($data));
         } else {
             return false;
         }
     }
 
     /**
-     * Create fieldset
+     * Create fieldsets
      *
      * @access public
-     * @param string $fieldset Fieldset
-     * @param array  $data     Data
+     * @param string $id    Fieldsets id
+     * @param array  $data  Data to save
      * @return bool True on success, false on failure.
      */
-    public function create(string $fieldset, array $data) : bool
+    public function create(string $id, array $data) : bool
     {
-        $fieldset_file = $this->_file_location($fieldset);
+        $fieldsets_file = $this->_file_location($id);
 
-        // Check if new entry file exists
-        if (!Filesystem::has($fieldset_file)) {
-            return Filesystem::write($fieldset_file, JsonParser::encode($data));
+        if (!Filesystem::has($fieldsets_file)) {
+            return Filesystem::write($fieldsets_file, JsonParser::encode($data));
         } else {
             return false;
         }
     }
 
     /**
-     * Delete fieldset.
+     * Delete fieldsets
      *
      * @access public
-     * @param string $fieldset Fieldset
+     * @param string $id Fieldsets id
      * @return bool True on success, false on failure.
      */
-    public function delete(string $fieldset) : bool
+    public function delete(string $id) : bool
     {
-        return Filesystem::delete($this->_file_location($fieldset));
+        return Filesystem::delete($this->_file_location($id));
     }
 
     /**
      * Copy fieldset
      *
      * @access public
-     * @param string $fieldset      Fieldset
-     * @param string $new_fieldset  New fieldset
+     * @param string $id      Fieldsets id
+     * @param string $new_id  New fieldsets id
      * @return bool True on success, false on failure.
      */
-    public function copy(string $fieldset, string $new_fieldset) : bool
+    public function copy(string $id, string $new_id) : bool
     {
-        return Filesystem::copy($this->_file_location($fieldset), $this->_file_location($new_fieldset), false);
+        return Filesystem::copy($this->_file_location($id), $this->_file_location($new_id), false);
     }
 
     /**
-     * Check whether fieldset exists.
+     * Check whether fieldsets exists.
      *
      * @access public
-     * @param string $fieldset Fieldset
+     * @param string $id Fieldset id
      * @return bool True on success, false on failure.
      */
-    public function has(string $fieldset) : bool
+    public function has(string $id) : bool
     {
-        return Filesystem::has($this->_file_location($fieldset));
+        return Filesystem::has($this->_file_location($id));
     }
 
     /**
@@ -188,11 +187,11 @@ class Fieldsets
      * Helper method _file_location
      *
      * @access private
-     * @param string $name Name
+     * @param string $id Fieldsets id
      * @return string
      */
     private function _file_location(string $name) : string
     {
-        return PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/fieldsets/' . $name . '.json';
+        return PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/fieldsets/' . $id . '.json';
     }
 }
