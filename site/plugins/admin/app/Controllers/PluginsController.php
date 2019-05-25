@@ -33,7 +33,7 @@ class PluginsController extends Controller
                         ]);
     }
 
-    public function changeStatus($request, $response, $args)
+    public function pluginStatusProcess($request, $response, $args)
     {
         $data = $request->getParsedBody();
         $plugin_settings = JsonParser::decode(Filesystem::read(PATH['plugins'] . '/' . $data['plugin'] . '/' . 'settings.json'));
