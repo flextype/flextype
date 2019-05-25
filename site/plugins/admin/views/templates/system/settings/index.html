@@ -2,8 +2,7 @@
 
 {% block content %}
 <form method="post" id="form">
-    <input type="hidden" name="{{csrf.keys.name}}" value="{{csrf.name}}">
-    <input type="hidden" name="{{csrf.keys.value}}" value="{{csrf.value}}">
+    {{ csrf() }}
     <input type="hidden" id="action" name="action" value="save-form">
     <div class="row">
 
