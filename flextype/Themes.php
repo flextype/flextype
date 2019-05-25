@@ -71,7 +71,7 @@ class Themes
         $partials = [];
 
         // Get partials files
-        $_partials = Filesystem::listContents(PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/views/partials/');
+        $_partials = Filesystem::listContents(PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/templates/partials/');
 
         // If there is any partials file then go...
         if (count($_partials) > 0) {
