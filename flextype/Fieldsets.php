@@ -190,7 +190,7 @@ class Fieldsets
      * @param string $id Fieldsets id
      * @return string
      */
-    private function _file_location(string $name) : string
+    private function _file_location(string $id) : string
     {
         return PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/fieldsets/' . $id . '.json';
     }
