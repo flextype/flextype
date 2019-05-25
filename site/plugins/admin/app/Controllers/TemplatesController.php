@@ -8,7 +8,26 @@ class TemplatesController extends Controller
 {
    public function index($request, $response, $args)
    {
-
+       return $this->view->render($response,
+                                  'plugins/admin/views/templates/extends/templates/index.html', [
+           'menu_item' => 'templates',
+           'templates_list' => $this->themes->getTemplates(),
+           'partials_list' => $this->themes->getPartials(),
+           'links' =>  [
+                            'templates' => [
+                                'link' => $this->router->pathFor('admin.templates.index'),
+                                'title' => __('admin_templates'),
+                                'attributes' => ['class' => 'navbar-item active']
+                            ],
+                        ],
+            'buttons' => [
+                            'templates_create' => [
+                                'link' => $this->router->pathFor('admin.templates.add'),
+                                'title' => __('admin_create_new_template'),
+                                'attributes' => ['class' => 'float-right btn']
+                            ],
+                        ]
+       ]);
    }
 
    public function add($request, $response, $args)
