@@ -4,8 +4,7 @@
 <div class="row">
     <div class="col-md-6">
         <form method="post" id="form">
-            <input type="hidden" name="{{csrf.keys.name}}" value="{{csrf.name}}">
-            <input type="hidden" name="{{csrf.keys.value}}" value="{{csrf.value}}">
+            {{ csrf() }}
             <input type="hidden" name="entry_name" value="{{entry_name}}">
             <div class="form-group">
                 <label for="title">{{ tr('admin_type') }}</label>
