@@ -99,7 +99,13 @@ class FieldsetsController extends Controller
 
    public function editProcess($request, $response, $args)
    {
+       if ($this->fieldsets->update($request->getParsedBody()['id'], JsonParser::decode($request->getParsedBody()['data']))) {
+           $this->flash->addMessage('success', __('admin_message_fieldsets_saved'));
+       } else {
+           $this->flash->addMessage('error', __('admin_message_fieldsets_was_not_saved'));
+       }
 
+       return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
    }
 
    public function rename($request, $response, $args)
@@ -132,7 +138,6 @@ class FieldsetsController extends Controller
        }
 
        return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
-
    }
 
    public function deleteProcess($request, $response, $args)
