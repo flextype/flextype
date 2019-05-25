@@ -79,7 +79,7 @@ class FieldsetsController extends Controller
                                   'plugins/admin/views/templates/extends/fieldsets/edit.html', [
            'menu_item' => 'fieldsets',
            'id' => $request->getQueryParams()['id'],
-           'fieldsets_body' => $this->fieldsets->fetch($request->getQueryParams()['id']),
+           'data' => JsonParser::encode($this->fieldsets->fetch($request->getQueryParams()['id'])),
            'links' =>  [
                             'fieldsets' => [
                                 'link' => $this->router->pathFor('admin.fieldsets.edit') . '?id=' . $request->getQueryParams()['id'],
