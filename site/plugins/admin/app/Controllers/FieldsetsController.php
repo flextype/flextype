@@ -75,23 +75,25 @@ class FieldsetsController extends Controller
 
    public function edit($request, $response, $args)
    {
-       
        return $this->view->render($response,
                                   'plugins/admin/views/templates/extends/fieldsets/edit.html', [
            'menu_item' => 'fieldsets',
            'id' => $request->getQueryParams()['id'],
+           'fieldsets_body' => $this->fieldsets->fetch($request->getQueryParams()['id']),
            'links' =>  [
                             'fieldsets' => [
-                                'link' => $this->router->pathFor('admin.fieldsets.index'),
+                                'link' => $this->router->pathFor('admin.fieldsets.edit') . '?id=' . $request->getQueryParams()['id'],
                                 'title' => __('admin_fieldsets'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
-                            'fieldsets_rename' => [
-                                'link' => $this->router->pathFor('admin.fieldsets.rename') . '?id=' . $request->getQueryParams()['id'],
-                                'title' => __('admin_rename'),
-                                'attributes' => ['class' => 'navbar-item active']
-                            ],
                         ],
+            'buttons' => [
+                            'save_entry' => [
+                                'link' => 'javascript:;',
+                                'title' => __('admin_save'),
+                                'attributes' => ['class' => 'js-save-form-submit float-right btn']
+                            ],
+                        ]
        ]);
    }
 
