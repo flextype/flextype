@@ -75,7 +75,24 @@ class FieldsetsController extends Controller
 
    public function edit($request, $response, $args)
    {
-
+       
+       return $this->view->render($response,
+                                  'plugins/admin/views/templates/extends/fieldsets/edit.html', [
+           'menu_item' => 'fieldsets',
+           'id' => $request->getQueryParams()['id'],
+           'links' =>  [
+                            'fieldsets' => [
+                                'link' => $this->router->pathFor('admin.fieldsets.index'),
+                                'title' => __('admin_fieldsets'),
+                                'attributes' => ['class' => 'navbar-item active']
+                            ],
+                            'fieldsets_rename' => [
+                                'link' => $this->router->pathFor('admin.fieldsets.rename') . '?id=' . $request->getQueryParams()['id'],
+                                'title' => __('admin_rename'),
+                                'attributes' => ['class' => 'navbar-item active']
+                            ],
+                        ],
+       ]);
    }
 
    public function editProcess($request, $response, $args)
@@ -95,14 +112,12 @@ class FieldsetsController extends Controller
                                 'title' => __('admin_fieldsets'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
+                            'fieldsets_rename' => [
+                                'link' => $this->router->pathFor('admin.fieldsets.rename') . '?id=' . $request->getQueryParams()['id'],
+                                'title' => __('admin_rename'),
+                                'attributes' => ['class' => 'navbar-item active']
+                            ],
                         ],
-            'buttons' => [
-                            'fieldsets_add' => [
-                                'link' => $this->router->pathFor('admin.fieldsets.add'),
-                                'title' => __('admin_create_new_fieldset'),
-                                'attributes' => ['class' => 'float-right btn']
-                            ]
-                         ]
        ]);
    }
 
