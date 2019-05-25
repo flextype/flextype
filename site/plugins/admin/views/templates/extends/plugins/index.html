@@ -3,8 +3,7 @@
 {% block content %}
 <form>
     <input type="hidden" name="url" value="{{ base_url() }}/admin/plugins/change-status">
-    <input type="hidden" name="{{csrf.keys.name}}" value="{{csrf.name}}">
-    <input type="hidden" name="{{csrf.keys.value}}" value="{{csrf.value}}">
+    {{ csrf() }}
 </form>
 <table class="table no-margin">
   <thead>
