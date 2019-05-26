@@ -2,14 +2,55 @@
 
 {% block content %}
 {% if (templates_list|length > 0) or (partials_list|length > 0) %}
-
+<table class="table no-margin">
+    <thead>
+        <tr>
+            <th>{{ tr('admin_name') }}</th>
+            <th>{{ tr('admin_type') }}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
     {% if templates_list|length > 0 %}
-1
+        {% for template in templates_list %}
+        <tr>
+            <td>
+                <a href="{{ path_for('admin.templates.edit') }}?id={{ template }}&type=template">{{ template }}</a>
+            </td>
+            <td>{{ tr('admin_template') }}</td>
+            <td class="text-right">
+                <div class="btn-group">
+                  <a class="btn btn-default" href="{{ path_for('admin.templates.edit') }}?id={{ template }}&type=template">{{ tr('admin_edit') }}</a>
+                  <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{ path_for('admin.templates.rename') }}?id={{ template }}&type=template"><?= __('admin_rename') ?></a>
+                    <a class="dropdown-item" href="javascript:;"
+                       onclick="event.preventDefault();
+                                document.getElementById('duplicate-template-id-{{ id }}').submit();">{{ tr('admin_duplicate') }}</a>
+                  </div>
+                </div>
+                <form id="duplicate-template-id-{{ id }}" action="{{ path_for('admin.templates.duplicateProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="template-id" value="{{ id }}">
+                </form>
+                <form id="delete-template-id-{{ id }}" action="{{ path_for('admin.templates.deleteProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="template-id" value="{{ id }}">
+                </form>
+                <a class="btn btn-default" href="javascript:;"
+                   onclick="event.preventDefault();
+                            document.getElementById('delete-template-id-{{ id }}').submit();">{{ tr('admin_delete') }}</a>
+            </td>
+        </tr>
+        {% endfor %}
     {% endif %}
 
     {% if partials_list|length > 0 %}
-2
-    {% endif %}
 
+    {% endif %}
+    </tbody>
+</table>
 {% endif %}
 {% endblock %}
