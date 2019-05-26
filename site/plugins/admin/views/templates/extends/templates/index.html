@@ -1,0 +1,15 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+{% if (templates_list|length > 0) or (partials_list|length > 0) %}
+
+    {% if templates_list|length > 0 %}
+1
+    {% endif %}
+
+    {% if partials_list|length > 0 %}
+2
+    {% endif %}
+
+{% endif %}
+{% endblock %}
