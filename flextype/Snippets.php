@@ -45,7 +45,56 @@ class Snippets
 
         $vars['fetch'] = $id;
 
-        return $this->_fetch_snippet($vars);
+        return $this->_display_snippet($vars);
+    }
+
+    /**
+     * Fetch snippet
+     *
+     * @access public
+     * @param string $id Snippet id
+     * @return array|false The entry contents or false on failure.
+     */
+    public function fetch(string $id)
+    {
+        $snippet_file = Fieldsets::_file_location($id);
+
+        if (Filesystem::has($snippet_file)) {
+            if ($snippet_body = Filesystem::read($snippet_file)) {
+                return $snippet_body;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Fetch Snippets
+     *
+     * @access public
+     * @return array
+     */
+    public function fetchList() : array
+    {
+        $snippets = [];
+
+        // Get snippets files
+        $_snippets = Filesystem::listContents($this->_dir_location());
+
+        // If there is any snippets file then go...
+        if (count($_snippets) > 0) {
+            foreach ($_snippets as $snippet) {
+                if ($snippet['type'] == 'file' && $snippet['extension'] == 'json') {
+                    $snippet_content = JsonParser::decode(Filesystem::read($snippet['path']));
+                    $snippet[$snippet['basename']] = $snippet_content['title'];
+                }
+            }
+        }
+
+        // return snippets
+        return $snippets;
     }
 
     /**
