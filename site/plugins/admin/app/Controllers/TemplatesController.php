@@ -89,12 +89,46 @@ class TemplatesController extends Controller
 
    public function rename($request, $response, $args)
    {
-
+       return $this->view->render($response,
+                                  'plugins/admin/views/templates/extends/templates/rename.html', [
+           'menu_item' => 'templates',
+           'types' => ['partial' => __('admin_partial'), 'template' => __('admin_template')],
+           'id_current' => $request->getQueryParams()['id'],
+           'type_current' => (($request->getQueryParams()['type'] && $request->getQueryParams()['type'] == 'partial') ? 'partial' : 'template'),
+           'links' => [
+                            'templates' => [
+                                'link' => $this->router->pathFor('admin.templates.index'),
+                                'title' => __('admin_templates'),
+                                'attributes' => ['class' => 'navbar-item active']
+                            ],
+                       ]
+       ]);
    }
 
    public function renameProcess($request, $response, $args)
    {
+       $type = $request->getParsedBody()['type_current'];
 
+       if ($type == 'partial') {
+           $_type = '/templates/partials/';
+       } else {
+           $_type = '/templates/';
+       }
+
+       if (!Filesystem::has(PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type .  $request->getParsedBody()['id'] . '.html')) {
+           if (Filesystem::rename(
+               PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()['id_current'] . '.html',
+               PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()['id'] . '.html')
+           ) {
+               $this->flash->addMessage('success', __('admin_message_'.$type.'_renamed'));
+           } else {
+                $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_renamed'));
+           }
+       } else {
+           $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_renamed'));
+       }
+
+       return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
    }
 
    public function deleteProcess($request, $response, $args)
