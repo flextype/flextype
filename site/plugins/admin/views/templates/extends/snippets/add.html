@@ -1,0 +1,18 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+<form method="post" id="form">
+    {{ csrf() }}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="id">{{ tr('admin_name') }}</label>
+                <input type="text" id="id" name="id" value="" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_name_empty_input') }}">
+            </div>
+            <div class="form-group">
+                <input type="submit" id="createSnippet" name="create_snippet" value="{{ tr('admin_create') }}" class="btn btn-black">
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
