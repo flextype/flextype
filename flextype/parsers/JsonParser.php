@@ -68,7 +68,7 @@ class JsonParser {
      *
      * @param mixed $input A string containing JSON
      * @param int $encode_depth User specified recursion depth.
-     * @param bool $encode_options Bitmask consisting of encode options.
+     * @param int $encode_options Bitmask consisting of encode options.
      * @return mixed The JSON converted to a PHP value
      *
      */
@@ -93,9 +93,9 @@ class JsonParser {
      * $array = JsonParser::decode($json_file_content);
      *
      * @param string $input A string containing JSON
-     * @param int $decode_assoc When TRUE, returned objects will be converted into associative arrays.
+     * @param bool $decode_assoc When TRUE, returned objects will be converted into associative arrays.
      * @param int $decode_depth User specified recursion depth.
-     * @param bool $decode_options Bitmask consisting of decode options.
+     * @param int $decode_options Bitmask consisting of decode options.
      * @return mixed The JSON converted to a PHP value
      *
      * @throws ParseException If the JSON is not valid
