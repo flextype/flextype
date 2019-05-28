@@ -79,7 +79,34 @@ class TemplatesController extends Controller
 
    public function edit($request, $response, $args)
    {
+       $type = $request->getQueryParams()['type'];
 
+       if ($type == 'partial') {
+           $_type = '/templates/partials/';
+       } else {
+           $_type = '/templates/';
+       }
+
+       return $this->view->render($response,
+                                  'plugins/admin/views/templates/extends/templates/edit.html', [
+           'menu_item' => 'templates',
+           'data' => Filesystem::read(PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getQueryParams()['id'] . '.html'),
+           'type' => (($request->getQueryParams()['type'] && $request->getQueryParams()['type'] == 'partial') ? 'partial' : 'template'),
+           'links' => [
+                            'templates' => [
+                                'link' => $this->router->pathFor('admin.templates.index'),
+                                'title' => __('admin_templates'),
+                                'attributes' => ['class' => 'navbar-item active']
+                            ],
+                       ],
+            'buttons' => [
+                            'save_template' => [
+                                    'link'       => 'javascript:;',
+                                    'title'      => __('admin_save'),
+                                    'attributes' => ['class' => 'js-save-form-submit float-right btn']
+                                ]
+            ]
+       ]);
    }
 
    public function editProcess($request, $response, $args)
