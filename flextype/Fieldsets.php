@@ -40,7 +40,7 @@ class Fieldsets
      */
     public function fetch(string $id)
     {
-        $fieldsets_file = Fieldsets::_file_location($id);
+        $fieldsets_file = $this->_file_location($id);
 
         if (Filesystem::has($fieldsets_file)) {
             if ($fieldsets_body = Filesystem::read($fieldsets_file)) {
