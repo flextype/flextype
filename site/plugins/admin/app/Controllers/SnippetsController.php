@@ -82,7 +82,7 @@ class SnippetsController extends Controller
 
    public function editProcess($request, $response, $args)
    {
-       if ($this->snippets->update($request->getParsedBody()['id']), $request->getParsedBody()['data'])) {
+       if ($this->snippets->update($request->getParsedBody()['id'], $request->getParsedBody()['data'])) {
            $this->flash->addMessage('success', __('admin_message_snippets_saved'));
        } else {
            $this->flash->addMessage('error', __('admin_message_snippets_was_not_saved'));
