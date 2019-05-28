@@ -87,7 +87,7 @@ class Snippets
         if (count($_snippets) > 0) {
             foreach ($_snippets as $snippet) {
                 if ($snippet['type'] == 'file' && $snippet['extension'] == 'php') {
-                    $snippet[$snippet['basename']] = $snippet['basename'];
+                    $snippets[$snippet['basename']] = $snippet['basename'];
                 }
             }
         }
