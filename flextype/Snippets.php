@@ -57,7 +57,7 @@ class Snippets
      */
     public function fetch(string $id)
     {
-        $snippet_file = Fieldsets::_file_location($id);
+        $snippet_file = $this->_file_location($id);
 
         if (Filesystem::has($snippet_file)) {
             if ($snippet_body = Filesystem::read($snippet_file)) {
