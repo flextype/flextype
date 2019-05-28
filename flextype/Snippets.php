@@ -35,15 +35,15 @@ class Snippets
      * Get snippet
      *
      * @access public
-     * @param  string  $snippet_name  Snippet name
+     * @param  string  $id  Snippet id
      * @return string|bool Returns the contents of the output buffer and end output buffering.
      *                     If output buffering isn't active then FALSE is returned.
      */
-    public function fetch(string $snippet)
+    public function display(string $id)
     {
         $vars = [];
 
-        $vars['fetch'] = $snippet;
+        $vars['fetch'] = $id;
 
         return $this->_fetch_snippet($vars);
     }
@@ -52,24 +52,24 @@ class Snippets
      * Rename snippet.
      *
      * @access public
-     * @param string $snippet     Snippet
-     * @param string $new_snippet New snippet
+     * @param string $id     Snippet id
+     * @param string $new_id New snippet id
      * @return bool True on success, false on failure.
      */
-    public function rename(string $snippet, string $new_snippet) : bool
+    public function rename(string $id, string $new_id) : bool
     {
-        return rename($this->_file_location($snippet), $this->_file_location($new_snippet));
+        return rename($this->_file_location($id), $this->_file_location($new_id));
     }
 
     /**
      * Update Snippet
      *
      * @access public
-     * @param string $snippet Snippet
-     * @param string $data    Data
+     * @param string $id   Snippet id
+     * @param string $data Data
      * @return bool True on success, false on failure.
      */
-    public function update(string $snippet, string $data) : bool
+    public function update(string $id, string $data) : bool
     {
         $snippet_file = $this->_file_location($snippet);
 
@@ -84,13 +84,13 @@ class Snippets
      * Create snippet
      *
      * @access public
-     * @param string $snippet Snippet
-     * @param string $data    Data
+     * @param string $id   Snippet id
+     * @param string $data Data
      * @return bool True on success, false on failure.
      */
-    public function create(string $snippet, string $data = '') : bool
+    public function create(string $id, string $data = '') : bool
     {
-        $snippet_file = $this->_file_location($snippet);
+        $snippet_file = $this->_file_location($id);
 
         // Check if new entry file exists
         if (!Filesystem::has($snippet_file)) {
@@ -104,54 +104,54 @@ class Snippets
      * Delete snippet.
      *
      * @access public
-     * @param string $snippet Snippet
+     * @param string $id Snippet id
      * @return bool True on success, false on failure.
      */
-    public function delete(string $snippet) : bool
+    public function delete(string $id) : bool
     {
-        return Filesystem::delete($this->_file_location($snippet));
+        return Filesystem::delete($this->_file_location($id));
     }
 
     /**
      * Copy snippet
      *
      * @access public
-     * @param string $snippet      Snippet
-     * @param string $new_snippet  New snippet
+     * @param string $id      Snippet id
+     * @param string $new_id  New snippet id
      * @return bool True on success, false on failure.
      */
-    public function copy(string $snippet, string $new_snippet) : bool
+    public function copy(string $id, string $new_id) : bool
     {
-        return Filesystem::copy($this->_file_location($snippet), $this->_file_location($new_snippet), false);
+        return Filesystem::copy($this->_file_location($id), $this->_file_location($new_id), false);
     }
 
     /**
      * Check whether snippet exists.
      *
      * @access public
-     * @param string $snippet Snippet
+     * @param  string $id Snippet id
      * @return bool True on success, false on failure.
      */
-    public function has(string $snippet) : bool
+    public function has(string $id) : bool
     {
-        return Filesystem::has($this->_file_location($snippet));
+        return Filesystem::has($this->_file_location($id));
     }
 
     /**
-     * Helper private method _fetch_snippet
+     * Helper private method _display_snippet
      *
      * @access private
      * @param  array  $vars Vars
      * @return string|bool Returns the contents of the output buffer and end output buffering.
      *                     If output buffering isn't active then FALSE is returned.
      */
-    private function _fetch_snippet(array $vars) {
+    private function _display_snippet(array $vars) {
 
         // Extracst attributes
         extract($vars);
 
         // Get snippet name
-        $name = (isset($fetch)) ? (string) $fetch : '';
+        $name = (isset($id)) ? (string) $id : '';
 
         // Define snippet path
         $snippet_file = $this->_file_location($name);
@@ -176,11 +176,11 @@ class Snippets
      * Helper method _file_location
      *
      * @access private
-     * @param string $name Name
+     * @param string $id Snippet id
      * @return string
      */
-    private function _file_location(string $name) : string
+    private function _file_location(string $id) : string
     {
-        return PATH['snippets'] . '/' . $name . '.php';
+        return PATH['snippets'] . '/' . $id . '.php';
     }
 }
