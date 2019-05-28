@@ -63,18 +63,42 @@ class TemplatesController extends Controller
 
    public function deleteProcess($request, $response, $args)
    {
+       $type = $request->getParsedBody()['type'];
 
+       if ($type == 'partial') {
+           $_type = '/templates/partials/';
+       } else {
+           $_type = '/templates/';
+       }
+
+       $template_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()[$type.'-id'] . '.html';
+
+       if (Filesystem::delete($template_path)) {
+           $this->flash->addMessage('success', __('admin_message_'.$type.'_deleted'));
+       } else {
+           $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_deleted'));
+       }
+
+       return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
    }
 
    public function duplicateProcess($request, $response, $args)
    {
-       $template_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/templates/' . $request->getParsedBody()['template-id'] . '.html';
-       $template_path_new = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/templates/' . $request->getParsedBody()['template-id'] . '-duplicate-' . date("Ymd_His") . '.html';
+       $type = $request->getParsedBody()['type'];
+
+       if ($type == 'partial') {
+           $_type = '/templates/partials/';
+       } else {
+           $_type = '/templates/';
+       }
+
+       $template_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()[$type.'-id'] . '.html';
+       $template_path_new = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()[$type.'-id'] . '-duplicate-' . date("Ymd_His") . '.html';
 
        if (Filesystem::copy($template_path, $template_path_new)) {
-           $this->flash->addMessage('success', __('admin_message_templates_duplicated'));
+           $this->flash->addMessage('success', __('admin_message_'.$type.'_duplicated'));
        } else {
-           $this->flash->addMessage('error', __('admin_message_templates_was_not_duplicated'));
+           $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_duplicated'));
        }
 
        return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
