@@ -111,7 +111,21 @@ class TemplatesController extends Controller
 
    public function editProcess($request, $response, $args)
    {
+       $type = $request->getParsedBody()['type_current'];
 
+       if ($type == 'partial') {
+           $_type = '/templates/partials/';
+       } else {
+           $_type = '/templates/';
+       }
+
+       if (Filesystem::write( PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()['id'] . '.html', $request->getParsedBody()['data'])) {
+           $this->flash->addMessage('success', __('admin_message_'.$type.'_saved'));
+       } else {
+           $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_saved'));
+       }
+
+       return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
    }
 
    public function rename($request, $response, $args)
