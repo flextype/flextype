@@ -2,6 +2,7 @@
 
 namespace Flextype;
 
+use Flextype\Component\Filesystem\Filesystem;
 use function Flextype\Component\I18n\__;
 
 class TemplatesController extends Controller
@@ -67,6 +68,15 @@ class TemplatesController extends Controller
 
    public function duplicateProcess($request, $response, $args)
    {
+       $template_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/templates/' . $request->getParsedBody()['template-id'] . '.html';
+       $template_path_new = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/templates/' . $request->getParsedBody()['template-id'] . '-duplicate-' . date("Ymd_His") . '.html';
 
+       if (Filesystem::copy($template_path, $template_path_new)) {
+           $this->flash->addMessage('success', __('admin_message_templates_duplicated'));
+       } else {
+           $this->flash->addMessage('error', __('admin_message_templates_was_not_duplicated'));
+       }
+
+       return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
    }
 }
