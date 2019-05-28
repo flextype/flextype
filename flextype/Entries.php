@@ -41,7 +41,7 @@ class Entries
      */
     public function fetch(string $id)
     {
-        $entry_file = Entries::_file_location($id);
+        $entry_file = $this->_file_location($id);
 
         if (Filesystem::has($entry_file)) {
 
