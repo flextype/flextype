@@ -11,7 +11,6 @@ use function Flextype\Component\I18n\__;
 
 class EntriesController extends Controller
 {
-
     protected function getEntriesQuery($entry)
     {
         if ($entry && $entry != '') {
