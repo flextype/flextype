@@ -8,6 +8,16 @@ class UsersController extends Controller
 {
    public function index($request, $response, $args)
    {
-       
+
+   }
+
+   public function registration($request, $response, $args)
+   {
+
+   }
+
+   public function registrationProcess($request, $response, $args)
+   {
+
    }
 }
