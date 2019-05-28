@@ -86,9 +86,8 @@ class Snippets
         // If there is any snippets file then go...
         if (count($_snippets) > 0) {
             foreach ($_snippets as $snippet) {
-                if ($snippet['type'] == 'file' && $snippet['extension'] == 'json') {
-                    $snippet_content = JsonParser::decode(Filesystem::read($snippet['path']));
-                    $snippet[$snippet['basename']] = $snippet_content['title'];
+                if ($snippet['type'] == 'file' && $snippet['extension'] == 'php') {
+                    $snippet[$snippet['basename']] = $snippet['basename'];
                 }
             }
         }
@@ -231,5 +230,16 @@ class Snippets
     private function _file_location(string $id) : string
     {
         return PATH['snippets'] . '/' . $id . '.php';
+    }
+
+    /**
+     * Helper method _dir_location
+     *
+     * @access private
+     * @return string
+     */
+    private function _dir_location() : string
+    {
+        return PATH['snippets'] . '/';
     }
 }
