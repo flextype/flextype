@@ -36,13 +36,12 @@ class Entries
      * Fetch entry
      *
      * @access public
-     * @param string $entry Entry
+     * @param string $id Entry id
      * @return array|false The entry contents or false on failure.
      */
-    public function fetch(string $entry)
+    public function fetch(string $id)
     {
-
-        $entry_file = Entries::_file_location($entry);
+        $entry_file = Entries::_file_location($id);
 
         if (Filesystem::has($entry_file)) {
 
@@ -68,7 +67,7 @@ class Entries
 
                         // Create default entry items
                         $entry_decoded['date'] = $entry_decoded['date'] ?? date($this->flextype['registry']->get('settings.date_format'), Filesystem::getTimestamp($entry_file));
-                        $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($entry, '/'), '/');
+                        $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($id, '/'), '/');
 
                         // Save to cache
                         $this->flextype['cache']->save($cache_id, $entry_decoded);
@@ -96,14 +95,14 @@ class Entries
      * Fetch entries
      *
      * @access public
-     * @param   string  $entry      Entry
+     * @param   string  $id         Entry id
      * @param   string  $order_by   Order by specific entry field.
      * @param   string  $order_type Order type: DESC or ASC
      * @param   int     $offset     Offset
      * @param   int     $length     Length
      * @return array The entries
      */
-    public function fetchAll(string $entry, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null) : array
+    public function fetchAll(string $id, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null) : array
     {
         // Entries array where founded entries will stored
         $entries = [];
@@ -112,14 +111,14 @@ class Entries
         $cache_id = '';
 
         // Entries path
-        $entries_path = $this->_dir_location($entry);
+        $entries_path = $this->_dir_location($id);
 
         // Get entries list
         $entries_list = Filesystem::listContents($entries_path);
 
         // Create entries cached id
         foreach ($entries_list as $current_entry) {
-            if (strpos($current_entry['path'], $entry . '/entry.json') !== false) {
+            if (strpos($current_entry['path'], $id . '/entry.json') !== false) {
                 // ignore ...
             } else {
                 if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
@@ -134,11 +133,11 @@ class Entries
 
             // Create entries array from entries list and ignore current requested entry
             foreach ($entries_list as $current_entry) {
-                if (strpos($current_entry['path'], $entry . '/entry.json') !== false) {
+                if (strpos($current_entry['path'], $id . '/entry.json') !== false) {
                     // ignore ...
                 } else {
                     if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
-                        $entries[$current_entry['dirname']] = $this->fetch($entry . '/' . $current_entry['dirname']);
+                        $entries[$current_entry['dirname']] = $this->fetch($id . '/' . $current_entry['dirname']);
                     }
                 }
             }
@@ -163,26 +162,26 @@ class Entries
      * Rename entry.
      *
      * @access public
-     * @param string $entry     Entry
-     * @param string $new_entry New entry
+     * @param string $id     Entry id
+     * @param string $new_id New entry id
      * @return bool True on success, false on failure.
      */
-    public function rename(string $entry, string $new_entry) : bool
+    public function rename(string $id, string $new_id) : bool
     {
-        return rename($this->_dir_location($entry), $this->_dir_location($new_entry));
+        return rename($this->_dir_location($id), $this->_dir_location($new_id));
     }
 
     /**
      * Update entry
      *
      * @access public
-     * @param string $entry Entry
+     * @param string $id Entry
      * @param array  $data  Data
      * @return bool
      */
-    public function update(string $entry, array $data) : bool
+    public function update(string $id, array $data) : bool
     {
-        $entry_file = $this->_file_location($entry);
+        $entry_file = $this->_file_location($id);
 
         if (Filesystem::has($entry_file)) {
             return Filesystem::write($entry_file, JsonParser::encode($data));
@@ -195,13 +194,13 @@ class Entries
      * Create entry
      *
      * @access public
-     * @param string $entry Entry
+     * @param string $id Entry id
      * @param array  $data  Data
      * @return bool
      */
-    public function create(string $entry, array $data) : bool
+    public function create(string $id, array $data) : bool
     {
-        $entry_dir = $this->_dir_location($entry);
+        $entry_dir = $this->_dir_location($id);
 
         // Check if new entry directory exists
         if (!Filesystem::has($entry_dir)) {
@@ -229,61 +228,61 @@ class Entries
      * Delete entry.
      *
      * @access public
-     * @param string $entry Entry
+     * @param string $id Entry id
      * @return bool True on success, false on failure.
      */
-    public function delete(string $entry) : bool
+    public function delete(string $id) : bool
     {
-        return Filesystem::deleteDir($this->_dir_location($entry));
+        return Filesystem::deleteDir($this->_dir_location($id));
     }
 
     /**
      * Copy entry(s)
      *
      * @access public
-     * @param string $entry      Entry
-     * @param string $new_entry  New entry
+     * @param string $id      Entry id
+     * @param string $new_id  New entry id
      * @param bool   $recursive  Recursive copy entries.
      * @return bool True on success, false on failure.
      */
-    public function copy(string $entry, string $new_entry, bool $recursive = false)
+    public function copy(string $id, string $new_id, bool $recursive = false)
     {
-        return Filesystem::copy($this->_dir_location($entry), $this->_dir_location($new_entry), $recursive);
+        return Filesystem::copy($this->_dir_location($id), $this->_dir_location($new_id), $recursive);
     }
 
     /**
      * Check whether entry exists.
      *
      * @access public
-     * @param string $entry Entry
+     * @param string $id Entry
      * @return bool
      */
-    public function has(string $entry) : bool
+    public function has(string $id) : bool
     {
-        return Filesystem::has($this->_file_location($entry));
+        return Filesystem::has($this->_file_location($id));
     }
 
     /**
      * Helper method _file_location
      *
      * @access private
-     * @param string $name Name
+     * @param string $id Entry id
      * @return string
      */
-    private function _file_location(string $name) : string
+    private function _file_location(string $id) : string
     {
-        return PATH['entries'] . '/' . $name . '/entry.json';
+        return PATH['entries'] . '/' . $id . '/entry.json';
     }
 
     /**
      * Helper method _dir_location
      *
      * @access private
-     * @param string $name Name
+     * @param string $id Entry id
      * @return string
      */
-    private function _dir_location(string $name) : string
+    private function _dir_location(string $id) : string
     {
-        return PATH['entries'] . '/' . $name;
+        return PATH['entries'] . '/' . $id;
     }
 }
