@@ -95,14 +95,12 @@ class SnippetsController extends Controller
    public function rename($request, $response, $args)
    {
        return $this->view->render($response,
-                                  'plugins/admin/views/templates/extends/templates/rename.html', [
-           'menu_item' => 'templates',
-           'types' => ['partial' => __('admin_partial'), 'template' => __('admin_template')],
+                                  'plugins/admin/views/templates/extends/snippets/rename.html', [
+           'menu_item' => 'snippets',
            'id_current' => $request->getQueryParams()['id'],
-           'type_current' => (($request->getQueryParams()['type'] && $request->getQueryParams()['type'] == 'partial') ? 'partial' : 'template'),
            'links' => [
                             'templates' => [
-                                'link' => $this->router->pathFor('admin.templates.index'),
+                                'link' => $this->router->pathFor('admin.snippets.index'),
                                 'title' => __('admin_templates'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
@@ -112,70 +110,37 @@ class SnippetsController extends Controller
 
    public function renameProcess($request, $response, $args)
    {
-       $type = $request->getParsedBody()['type_current'];
-
-       if ($type == 'partial') {
-           $_type = '/templates/partials/';
+       if ($this->snippets->rename(
+         $request->getParsedBody()['id_current'],
+         $request->getParsedBody()['id'])
+       ) {
+           $this->flash->addMessage('success', __('admin_message_snippets_renamed'));
        } else {
-           $_type = '/templates/';
+            $this->flash->addMessage('error', __('admin_message_snippets_was_not_renamed'));
        }
 
-       if (!Filesystem::has(PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type .  $request->getParsedBody()['id'] . '.html')) {
-           if (Filesystem::rename(
-               PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()['id_current'] . '.html',
-               PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()['id'] . '.html')
-           ) {
-               $this->flash->addMessage('success', __('admin_message_'.$type.'_renamed'));
-           } else {
-                $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_renamed'));
-           }
-       } else {
-           $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_renamed'));
-       }
-
-       return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
+       return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
    }
 
    public function deleteProcess($request, $response, $args)
    {
-       $type = $request->getParsedBody()['type'];
-
-       if ($type == 'partial') {
-           $_type = '/templates/partials/';
+       if ($this->snippets->delete($request->getParsedBody()['snippet-id'])) {
+           $this->flash->addMessage('success', __('admin_message_snippets_deleted'));
        } else {
-           $_type = '/templates/';
+           $this->flash->addMessage('error', __('admin_message_snippets_was_not_deleted'));
        }
 
-       $file_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()[$type.'-id'] . '.html';
-
-       if (Filesystem::delete($file_path)) {
-           $this->flash->addMessage('success', __('admin_message_'.$type.'_deleted'));
-       } else {
-           $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_deleted'));
-       }
-
-       return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
+       return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
    }
 
    public function duplicateProcess($request, $response, $args)
    {
-       $type = $request->getParsedBody()['type'];
-
-       if ($type == 'partial') {
-           $_type = '/templates/partials/';
+       if ($this->snippets->copy($request->getParsedBody()['snippet-id'], $request->getParsedBody()['snippet-id'] . '-duplicate-' . date("Ymd_His"))) {
+           $this->flash->addMessage('success', __('admin_message_snippets_duplicated'));
        } else {
-           $_type = '/templates/';
+           $this->flash->addMessage('error', __('admin_message_snippets_was_not_duplicated'));
        }
 
-       $file_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()[$type.'-id'] . '.html';
-       $file_path_new = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()[$type.'-id'] . '-duplicate-' . date("Ymd_His") . '.html';
-
-       if (Filesystem::copy($file_path, $file_path_new)) {
-           $this->flash->addMessage('success', __('admin_message_'.$type.'_duplicated'));
-       } else {
-           $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_duplicated'));
-       }
-
-       return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
+       return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
    }
 }
