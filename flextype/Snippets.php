@@ -119,7 +119,7 @@ class Snippets
      */
     public function update(string $id, string $data) : bool
     {
-        $snippet_file = $this->_file_location($snippet);
+        $snippet_file = $this->_file_location($id);
 
         if (Filesystem::has($snippet_file)) {
             return Filesystem::write($snippet_file, $data);
