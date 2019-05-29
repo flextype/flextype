@@ -62,6 +62,7 @@ class SnippetsController extends Controller
        return $this->view->render($response,
                                   'plugins/admin/views/templates/extends/snippets/edit.html', [
            'menu_item' => 'snippets',
+           'id' => $request->getQueryParams()['id'],
            'data' => $this->snippets->fetch($request->getQueryParams()['id']),
            'links' => [
                             'snippets' => [
