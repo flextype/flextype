@@ -3,8 +3,7 @@
 {% block content %}
 
 <form action="" method="post">
-    <input type="hidden" name="{{csrf.keys.name}}" value="{{csrf.name}}">
-    <input type="hidden" name="{{csrf.keys.value}}" value="{{csrf.value}}">
+    {{ csrf() }}
     <div class="row">
         <div class="col-4 float-center">
             <h3 class="h3 auth-header text-center">{{ tr('admin_create_new_user') }}</h3>
