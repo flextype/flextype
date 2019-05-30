@@ -333,8 +333,7 @@
                 });
 
                 $.validate({});
-
-                {% if params.fieldset or params.menu or params.snippet or params.source or params.template %}
+                {% if is_current_path('admin.fieldsets.edit') or is_current_path('admin.templates.edit') or is_current_path('admin.snippets.edit')%}
                 var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
                     lineNumbers: true,
                     {% if params.fieldset or params.menu %}
