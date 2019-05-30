@@ -62,7 +62,7 @@ class UsersController extends Controller
        $data = $request->getParsedBody();
 
        if (!Filesystem::has($_user_file = PATH['site'] . '/accounts/' . Text::safeString($data['username']) . '.json')) {
-             if (Filesystem::write(
+            if (Filesystem::write(
                      PATH['site'] . '/accounts/' . $data['username'] . '.json',
                      JsonParser::encode(['username' => Text::safeString($data['username']),
                                          'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
@@ -86,9 +86,11 @@ class Users
     {
         // Get Users Profiles
         $users = Filesystem::listContents(PATH['site'] . '/accounts/');
+
         // If any users exists then return true
         return ($users && count($users) > 0) ? true : false;
     }
+
     public static function isLoggedIn() : bool
     {
         return (Session::exists('role') && Session::get('role') == 'admin') ? true : false;
