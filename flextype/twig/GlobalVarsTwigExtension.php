@@ -12,6 +12,8 @@
 
 namespace Flextype;
 
+use Flextype\Component\Session\Session;
+
 class GlobalVarsTwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /**
@@ -39,7 +41,8 @@ class GlobalVarsTwigExtension extends \Twig_Extension implements \Twig_Extension
             'PATH_CONFIG_SITE' => PATH['config']['site'],
             'PATH_CACHE' => PATH['cache'],
             'flextype_version' => FLEXTYPE_VERSION,
-            'registry' => $this->flextype['registry']->dump()
+            'registry' => $this->flextype['registry']->dump(),
+            'is_logged' => ((Session::exists('role') && Session::get('role') == 'admin') ? true : false)
         ];
     }
 }
