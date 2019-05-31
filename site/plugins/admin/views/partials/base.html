@@ -170,8 +170,26 @@
             </nav>
             {% endif %}
 
+
+            {% if is_current_path('admin.templates.index') or
+                  is_current_path('admin.templates.edit') or
+                  is_current_path('admin.templates.rename') or
+                  is_current_path('admin.templates.add') or
+                  is_current_path('admin.fieldsets.index') or
+                  is_current_path('admin.fieldsets.edit') or
+                  is_current_path('admin.fieldsets.rename') or
+                  is_current_path('admin.fieldsets.add') or
+                  is_current_path('admin.snippets.index') or
+                  is_current_path('admin.snippets.edit') or
+                  is_current_path('admin.snippets.rename') or
+                  is_current_path('admin.snippets.add') %}
+            <div class="entry-editor-heading">
+                / {{ id }}
+            </div>
+            {% endif %}
+
             ['entries', 'templates', 'snippets', 'fieldsets', 'menus']
-            <div class="content entry-editor {% if sidebar_menu_item in entry-editor-area %} entry-editor {% endif %}">
+            <div class="content {% if sidebar_menu_item in entry-editor-area %} entry-editor {% endif %}">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
@@ -333,7 +351,7 @@
                 });
 
                 $.validate({});
-                {% if is_current_path('admin.fieldsets.edit') or is_current_path('admin.templates.edit') or is_current_path('admin.snippets.edit')%}
+                {% if is_current_path('admin.fieldsets.edit') or is_current_path('admin.templates.edit') or is_current_path('admin.snippets.edit') %}
                 var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
                     lineNumbers: true,
                     {% if params.fieldset or params.menu %}
