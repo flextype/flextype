@@ -171,7 +171,7 @@ class EntriesController extends Controller
             if ($this->entries->create($entry, $data)) {
                 $this->flash->addMessage('success', __('admin_message_entry_created'));
             } else {
-                $this->flash->addMessage('success', __('admin_message_entry_was_not_created'));
+                $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
             }
 
             return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
@@ -245,7 +245,7 @@ class EntriesController extends Controller
         )) {
             $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
         } else {
-            $this->flash->addMessage('success', __('admin_message_entry_was_not_moved'));
+            $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
         }
 
         return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
@@ -302,7 +302,7 @@ class EntriesController extends Controller
             )) {
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
             } else {
-                $this->flash->addMessage('success', __('admin_message_entry_was_not_moved'));
+                $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
             }
 
             return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
@@ -345,7 +345,7 @@ class EntriesController extends Controller
         )) {
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
-            $this->flash->addMessage('success', __('admin_message_entry_was_not_created'));
+            $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
         }
 
         return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
@@ -359,7 +359,7 @@ class EntriesController extends Controller
         if ($this->entries->delete($entry_name)) {
             $this->flash->addMessage('success', __('admin_message_entry_deleted'));
         } else {
-            $this->flash->addMessage('success', __('admin_message_entry_was_not_deleted'));
+            $this->flash->addMessage('error', __('admin_message_entry_was_not_deleted'));
         }
 
         return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $entry_name_current);
