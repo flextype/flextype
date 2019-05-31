@@ -2,4 +2,4 @@
 
 namespace Flextype;
 
-$app->get('{uri:.+}', 'SiteController:index')->setName('index');
+$app->get('{uri:.+}', 'SiteController:index')->setName('site.index');
