@@ -63,4 +63,6 @@ $app->post('/admin/snippets/delete', 'SnippetsController:deleteProcess')->setNam
 
 // UsersController
 $app->get('/admin/registration', 'UsersController:registration')->setName('admin.users.registration');
-$app->get('/admin/registrationProcess', 'UsersController:registrationProcess')->setName('admin.users.registrationProcess');
+$app->post('/admin/registration', 'UsersController:registrationProcess')->setName('admin.users.registrationProcess');
+$app->get('/admin/login', 'UsersController:login')->setName('admin.users.login');
+$app->post('/admin/login', 'UsersController:loginProcess')->setName('admin.users.loginProcess');
