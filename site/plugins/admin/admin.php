@@ -41,35 +41,35 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
     $flextype->registry->set('admin_navigation.settings.settings', ['title' => '<i class="fas fa-cog"></i>' . __('admin_settings'), 'link' => $flextype->router->urlFor('admin.settings.index'), 'attributes' => ['class' => 'nav-link']]);
     $flextype->registry->set('admin_navigation.settings.infomation', ['title' => '<i class="fas fa-info"></i>' . __('admin_information'), 'link' => $flextype->router->urlFor('admin.information.index'), 'attributes' => ['class' => 'nav-link']]);
 
-    $flextype['SettingsController'] = function($container) {
+    $flextype['SettingsController'] = function ($container) {
         return new SettingsController($container);
     };
 
-    $flextype['InformationController'] = function($container) {
+    $flextype['InformationController'] = function ($container) {
         return new InformationController($container);
     };
 
-    $flextype['PluginsController'] = function($container) {
+    $flextype['PluginsController'] = function ($container) {
         return new PluginsController($container);
     };
 
-    $flextype['EntriesController'] = function($container) {
+    $flextype['EntriesController'] = function ($container) {
         return new EntriesController($container);
     };
 
-    $flextype['FieldsetsController'] = function($container) {
+    $flextype['FieldsetsController'] = function ($container) {
         return new FieldsetsController($container);
     };
 
-    $flextype['SnippetsController'] = function($container) {
+    $flextype['SnippetsController'] = function ($container) {
         return new SnippetsController($container);
     };
 
-    $flextype['TemplatesController'] = function($container) {
+    $flextype['TemplatesController'] = function ($container) {
         return new TemplatesController($container);
     };
 
-    $flextype['UsersController'] = function($container) {
+    $flextype['UsersController'] = function ($container) {
         return new UsersController($container);
     };
 }
