@@ -14,7 +14,7 @@
         <tr>
             <td>
                 {% set entries = entries_fetch_all(entry.slug, 'slug', 'ASC') %}
-                <a href="{% if entries|length > 0 %}{{ base_url() }}/admin/entries?entry={{ entry.slug }}{% else %}{{ base_url() }}/admin/entries/edit?entry={{ entry.slug }}{% endif %}">
+                <a href="{% if entries|length > 0 %}{{ base_url() }}/admin/entries?id={{ entry.slug }}{% else %}{{ base_url() }}/admin/entries/edit?id={{ entry.slug }}{% endif %}">
                     {% if entry.fieldset %}
                         {% set fieldset_path = PATH_THEMES ~ '/' ~ registry.settings.theme ~ '/fieldsets/' ~ entry.fieldset ~ '.json' %}
                         {% if filesystem_has(fieldset_path) %}
@@ -37,15 +37,15 @@
             </td>
             <td class="text-right">
                 <div class="btn-group">
-                  <a class="btn btn-default" href="{{ path_for('admin.entries.edit') }}?entry={{ entry.slug }}">{{ tr('admin_edit') }}</a>
+                  <a class="btn btn-default" href="{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}">{{ tr('admin_edit') }}</a>
                   <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{ path_for('admin.entries.add') }}?entry={{ entry.slug }}">{{ tr('admin_add') }}</a>
-                    <a class="dropdown-item" href="{{ path_for('admin.entries.duplicateProcess') }}?entry={{ entry.slug }}">{{ tr('admin_duplicate') }}</a>
-                    <a class="dropdown-item" href="{{ path_for('admin.entries.rename') }}?entry={{ entry.slug }}">{{ tr('admin_rename') }}</a>
-                    <a class="dropdown-item" href="{{ path_for('admin.entries.move') }}?entry={{ entry.slug }}">{{ tr('admin_move') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.add') }}?id={{ entry.slug }}">{{ tr('admin_add') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.duplicateProcess') }}?id={{ entry.slug }}">{{ tr('admin_duplicate') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.slug }}">{{ tr('admin_rename') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.move') }}?id={{ entry.slug }}">{{ tr('admin_move') }}</a>
                     <a class="dropdown-item" href="{{ base_url() }}/{{ entry.slug }}" target="_blank">{{ tr('admin_preview') }}</a>
                     <a class="dropdown-item" href="{{ path_for('admin.entries.type') }}?entry={{ entry.slug }}">{{ tr('admin_type') }}</a>
                   </div>
