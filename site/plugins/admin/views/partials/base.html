@@ -362,15 +362,15 @@
                 {% if is_current_path('admin.fieldsets.edit') or is_current_path('admin.templates.edit') or is_current_path('admin.snippets.edit') %}
                 var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
                     lineNumbers: true,
-                    {% if params.fieldset or params.menu %}
-                    indentUnit: 2,
-                    tabSize: 2,
+                    {% if is_current_path('admin.fieldsets.edit') %}
+                    indentUnit: 4,
+                    tabSize: 4,
                     {% else %}
                     tabSize: 4,
                     indentUnit: 4,
                     {% endif %}
-                    {% if params.fieldset or params.menu %}
-                    mode: "yaml",
+                    {% if is_current_path('admin.fieldsets.edit') %}
+                    mode: "application/json",
                     {% else %}
                     mode: "application/x-httpd-php",
                     {% endif %}
