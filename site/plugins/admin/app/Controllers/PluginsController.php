@@ -29,7 +29,7 @@ class PluginsController extends Controller
                                              'plugins_get_more' => [
                                                  'link' => 'https://github.com/flextype/plugins',
                                                  'title' => __('admin_get_more_plugins'),
-                                                 'attributes' => ['float-right btn' => 'navbar-item', 'target' => '_blank']
+                                                 'attributes' => ['class' => 'float-right btn', 'target' => '_blank']
                                              ],
                              ]
                         ]
