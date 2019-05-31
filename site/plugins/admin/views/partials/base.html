@@ -153,8 +153,7 @@
                             </a>
 
                             <form id="{{ button.id }}" action="{{ button.link }}" method="POST" style="display: none;">
-                                <input type="hidden" name="{{csrf.keys.name}}" value="{{csrf.name}}">
-                                <input type="hidden" name="{{csrf.keys.value}}" value="{{csrf.value}}">
+                                {{ csrf() }}
                             </form>
                             {% else %}
                             <a href="{{ button.link }}"
@@ -200,14 +199,11 @@
             </div>
             {% endif %}
 
-            ['entries', 'templates', 'snippets', 'fieldsets', 'menus']
-            <div class="content {% if sidebar_menu_item in entry-editor-area %} entry-editor {% endif %}">
+            <div class="content entry-editor">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
-
                             {% block content %}{% endblock %}
-
                         </div> <!-- .col-md-12 -->
                     </div> <!-- .row -->
                 </div> <!-- .container-fluid -->
