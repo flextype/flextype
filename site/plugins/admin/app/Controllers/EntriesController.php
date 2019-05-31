@@ -24,11 +24,24 @@ class EntriesController extends Controller
 
     public function index($request, $response, $args)
     {
+        $id = $request->getQueryParams()['id'];
+
+        if ($id == null) {
+            $id = [0 => ''];
+        } else {
+            $id = explode("/", $request->getQueryParams()['id']);
+        }
+
+        var_dump($id);
+
         return $this->view->render($response,
                            'plugins/admin/views/templates/content/entries/index.html', [
-                           'entries_list' => $this->entries->fetchAll($this->getEntriesQuery($request->getQueryParams()['entry']), 'date', 'DESC'),
-                           'entry_current' => $this->getEntriesQuery($request->getQueryParams()['entry']),
+                           'entries_list' => $this->entries->fetchAll($this->getEntriesQuery($request->getQueryParams()['id']), 'date', 'DESC'),
+                           'entry_current' => $this->getEntriesQuery($request->getQueryParams()['id']),
                            'menu_item' => 'entries',
+                           'parts' => $id,
+                           'i' => count($id),
+                           'last' => Arr::last($id),
                            'links' => [
                                         'entries' => [
                                                'link' => $this->router->urlFor('admin.entries.index'),
