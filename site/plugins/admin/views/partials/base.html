@@ -170,6 +170,18 @@
             </nav>
             {% endif %}
 
+            {% if is_current_path('admin.entries.index') %}
+            <div class="entry-editor-heading">
+                {% for part in parts %}
+                    {% set i = i - 1 %}
+                    {% if (part != last) %}
+                        <a href="{{ base_url() }}/admin/entries?id={{ (parts|slice(0, -i))|join('/') }}"> / {{ part }}</a>
+                    {% else %}
+                        / {{ part }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
 
             {% if is_current_path('admin.templates.index') or
                   is_current_path('admin.templates.edit') or
