@@ -90,6 +90,7 @@ class TemplatesController extends Controller
        return $this->view->render($response,
                                   'plugins/admin/views/templates/extends/templates/edit.html', [
            'menu_item' => 'templates',
+           'id' => $request->getQueryParams()['id'],
            'data' => Filesystem::read(PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getQueryParams()['id'] . '.html'),
            'type' => (($request->getQueryParams()['type'] && $request->getQueryParams()['type'] == 'partial') ? 'partial' : 'template'),
            'links' => [
