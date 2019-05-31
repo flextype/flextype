@@ -84,7 +84,7 @@
             <div class="form-group">
                 <label for="entries[main]">{{ tr('admin_entry_main') }}</label>
                 <select id="systemSettingsSystemEntriesMain" name="entries[main]" class="form-control" required="required">
-                    {% for key, value in locales %}
+                    {% for key, value in entries %}
                         <option value="{{ key }}" {% if key == entries.main %}selected{% endif %}>{{ value }}</option>
                     {% endfor %}
                 </select>
