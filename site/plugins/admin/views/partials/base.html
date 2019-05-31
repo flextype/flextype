@@ -69,8 +69,8 @@
                           </a>
                       </div>
                         <ul class="nav">
-                          {% for item in registry.admin_navigation.content %}
-                              <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
+                          {% for key, item in registry.admin_navigation.content %}
+                              <li class="nav-item {% if key == menu_item %} active {% endif %}">
                                   <a href="{{ base_url() }}{{ item.link|raw }}"
                                   {% for key, attribute in item.attributes %}
                                       {{ key }} = {{ attribute }}
@@ -78,8 +78,8 @@
                                   >{{ item.title|raw }}</a>
                               </li>
                           {% endfor %}
-                          {% for item in registry.admin_navigation.extends %}
-                              <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
+                          {% for key, item in registry.admin_navigation.extends %}
+                              <li class="nav-item {% if key == menu_item %} active {% endif %}">
                                   <a href="{{ base_url() }}{{ item.link|raw }}"
                                   {% for key, attribute in item.attributes %}
                                       {{ key }} = {{ attribute }}
@@ -87,8 +87,8 @@
                                   >{{ item.title|raw }}</a>
                               </li>
                           {% endfor %}
-                          {% for item in registry.admin_navigation.settings %}
-                              <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
+                          {% for key, item in registry.admin_navigation.settings %}
+                              <li class="nav-item {% if key == menu_item %} active {% endif %}">
                                   <a href="{{ base_url() }}{{ item.link|raw }}"
                                   {% for key, attribute in item.attributes %}
                                       {{ key }} = {{ attribute }}
@@ -96,8 +96,8 @@
                                   >{{ item.title|raw }}</a>
                               </li>
                           {% endfor %}
-                          {% for item in registry.admin_navigation.help %}
-                              <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
+                          {% for key, item in registry.admin_navigation.help %}
+                              <li class="nav-item {% if key == menu_item %} active {% endif %}">
                                   <a href="{{ base_url() }}{{ item.link|raw }}"
                                   {% for key, attribute in item.attributes %}
                                       {{ key }} = {{ attribute }}
