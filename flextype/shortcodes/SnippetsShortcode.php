@@ -16,6 +16,6 @@ use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Shortcode: [snippets id=snippet-name]
-$flextype['shortcodes']->addHandler('snippets', function(ShortcodeInterface $s) use ($flextype) {
+$flextype['shortcodes']->addHandler('snippets', function (ShortcodeInterface $s) use ($flextype) {
     return $flextype['shortcodes']->display($s->getParameter('id'));
 });

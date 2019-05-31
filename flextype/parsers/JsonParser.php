@@ -12,7 +12,8 @@
 
 namespace Flextype;
 
-class JsonParser {
+class JsonParser
+{
 
     /**
      * Encode options
@@ -75,9 +76,9 @@ class JsonParser {
     public static function encode($input, int $encode_options = 0, int $encode_depth = 512) : string
     {
         $encoded = @json_encode(
-                    $input,
-                    $encode_options ? $encode_options : JsonParser::$encode_options,
-                    $encode_depth ? $encode_depth : JsonParser::$encode_depth
+            $input,
+            $encode_options ? $encode_options : JsonParser::$encode_options,
+            $encode_depth ? $encode_depth : JsonParser::$encode_depth
                    );
 
         if ($encoded === false) {
@@ -103,10 +104,10 @@ class JsonParser {
     public static function decode(string $input, bool $decode_assoc = true, int $decode_depth = 512, int $decode_options = 0)
     {
         $decoded = @json_decode(
-                     $input,
-                     $decode_assoc ? $decode_assoc : JsonParser::$decode_assoc,
-                     $decode_depth ? $decode_depth : JsonParser::$decode_depth,
-                     $decode_options ? $decode_options : JsonParser::$decode_options
+            $input,
+            $decode_assoc ? $decode_assoc : JsonParser::$decode_assoc,
+            $decode_depth ? $decode_depth : JsonParser::$decode_depth,
+            $decode_options ? $decode_options : JsonParser::$decode_options
                    );
 
         if ($decoded === false) {

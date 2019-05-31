@@ -193,7 +193,8 @@ class Snippets
      * @return string|bool Returns the contents of the output buffer and end output buffering.
      *                     If output buffering isn't active then FALSE is returned.
      */
-    private function _display_snippet(array $vars) {
+    private function _display_snippet(array $vars)
+    {
 
         // Extracst attributes
         extract($vars);

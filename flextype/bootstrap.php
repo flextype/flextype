@@ -24,13 +24,12 @@ use League\Glide\ServerFactory;
 use League\Glide\Responses\SlimResponseFactory;
 use League\Event\Emitter;
 
-
 /**
  * The version of Flextype
  *
  * @var string
  */
-define ('FLEXTYPE_VERSION', '0.8.3');
+define('FLEXTYPE_VERSION', '0.8.3');
 
 // Start the session
 Session::start();
@@ -83,7 +82,7 @@ $app->add($flextype->get('csrf'));
 /**
  * Add emitter service to Flextype container
  */
-$flextype['emitter'] = function($container) {
+$flextype['emitter'] = function ($container) {
     return new Emitter();
 };
 
@@ -97,7 +96,7 @@ $flextype['flash'] = function ($container) {
 /**
  * Add registry service to Flextype container
  */
-$flextype['registry'] = function($container) {
+$flextype['registry'] = function ($container) {
     return new Registry();
 };
 
@@ -110,7 +109,6 @@ $site_settings_file_path    = PATH['config']['site'] . '/settings.json';
 
 // Set settings if Flextype settings and Site settings config files exist
 if (Filesystem::has($default_settings_file_path) && Filesystem::has($site_settings_file_path)) {
-
     if (($content = Filesystem::read($default_settings_file_path)) === false) {
         throw new \RuntimeException('Load file: ' . $default_settings_file_path . ' - failed!');
     } else {
@@ -167,14 +165,14 @@ date_default_timezone_set($flextype['registry']->get('settings.timezone'));
 /**
  * Add cache service to Flextype container
  */
-$flextype['cache'] = function($container) use ($flextype) {
+$flextype['cache'] = function ($container) use ($flextype) {
     return new Cache($flextype);
 };
 
 /**
  * Add images service to Flextype container
  */
-$flextype['images'] = function($container) {
+$flextype['images'] = function ($container) {
 
     // Get images settings
     $imagesSettings = $container->get('settings')['images'];
@@ -232,21 +230,21 @@ $flextype['images'] = function($container) {
 /**
  * Add fieldsets service to Flextype container
  */
-$flextype['fieldsets'] = function($container) use ($flextype) {
+$flextype['fieldsets'] = function ($container) use ($flextype) {
     return new Fieldsets($flextype);
 };
 
 /**
  * Add snippets service to Flextype container
  */
-$flextype['snippets'] = function($container) use ($flextype){
+$flextype['snippets'] = function ($container) use ($flextype) {
     return new Snippets($flextype);
 };
 
 /**
  * Add shortcodes service to Flextype container
  */
-$flextype['shortcodes'] = function($container) {
+$flextype['shortcodes'] = function ($container) {
     return new ShortcodeFacade();
 };
 
@@ -261,7 +259,7 @@ foreach ($shortcodes_list as $shortcode) {
 /**
  * Add entries service to Flextype container
  */
-$flextype['entries'] = function($container) {
+$flextype['entries'] = function ($container) {
     return new Entries($container);
 };
 
@@ -327,7 +325,7 @@ $app->get('/image/{path:.+}', function (Request $request, Response $response, ar
 /**
  * Add themes service to Flextype container
  */
- $flextype['themes'] = function($container) use ($flextype, $app) {
+ $flextype['themes'] = function ($container) use ($flextype, $app) {
      return new Themes($flextype, $app);
  };
 
@@ -340,7 +338,7 @@ $app->get('/image/{path:.+}', function (Request $request, Response $response, ar
 /**
  * Add plugins service to Flextype container
  */
-$flextype['plugins'] = function($container) use ($flextype, $app) {
+$flextype['plugins'] = function ($container) use ($flextype, $app) {
     return new Plugins($flextype, $app);
 };
 

@@ -44,7 +44,6 @@ class Entries
         $entry_file = $this->_file_location($id);
 
         if (Filesystem::has($entry_file)) {
-
             $cache_id = md5('entry' . $entry_file . ((Filesystem::getTimestamp($entry_file) === false) ? '' : Filesystem::getTimestamp($entry_file)));
 
             // Try to get the entry from cache
@@ -61,7 +60,6 @@ class Entries
                     return false;
                 }
             } else {
-
                 if ($entry_body = Filesystem::read($entry_file)) {
                     if ($entry_decoded = JsonParser::decode($entry_body)) {
 
@@ -85,7 +83,6 @@ class Entries
                     return false;
                 }
             }
-
         } else {
             return false;
         }
@@ -147,7 +144,6 @@ class Entries
 
         // Sort and Slice entries if $raw === false
         if (count($entries) > 0) {
-
             $entries = Arr::sort($entries, $order_by, $order_type);
 
             if ($offset !== null && $length !== null) {
@@ -207,7 +203,6 @@ class Entries
 
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
-
                 $entry_file = $entry_dir . '/entry.json';
 
                 // Check if new entry file exists
