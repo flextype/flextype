@@ -12,29 +12,28 @@ class SettingsController extends Controller
 {
     public function index($request, $response, $args)
     {
+        $entries = [];
+        foreach ($this->entries->fetchAll('', 'date', 'DESC') as $entry) {
+            $entries[$entry['slug']] = $entry['title'];
+        }
 
-       $entries = [];
-       foreach ($this->entries->fetchAll('', 'date', 'DESC') as $entry) {
-           $entries[$entry['slug']] = $entry['title'];
-       }
+        $themes = [];
+        foreach (Filesystem::listContents(PATH['themes']) as $theme) {
+            if ($theme['type'] == 'dir' && Filesystem::has($theme['path'] . '/' . $theme['dirname'] . '.json')) {
+                $themes[$theme['dirname']] = $theme['dirname'];
+            }
+        }
 
-       $themes = [];
-       foreach (Filesystem::listContents(PATH['themes']) as $theme) {
-           if ($theme['type'] == 'dir' && Filesystem::has($theme['path'] . '/' . $theme['dirname'] . '.json')) {
-               $themes[$theme['dirname']] = $theme['dirname'];
-           }
-       }
+        $available_locales = Filesystem::listContents(PATH['plugins'] . '/admin/languages/');
+        $system_locales = $this->plugins->getLocales();
+        $locales = [];
+        foreach ($available_locales as $locale) {
+            if ($locale['type'] == 'file' && $locale['extension'] == 'json') {
+                $locales[$locale['basename']] = $system_locales[$locale['basename']]['nativeName'];
+            }
+        }
 
-       $available_locales = Filesystem::listContents(PATH['plugins'] . '/admin/languages/');
-       $system_locales = $this->plugins->getLocales();
-       $locales = [];
-       foreach ($available_locales as $locale) {
-           if ($locale['type'] == 'file' && $locale['extension'] == 'json') {
-               $locales[$locale['basename']] = $system_locales[$locale['basename']]['nativeName'];
-           }
-       }
-
-       $cache_driver = ['auto' => 'Auto Detect',
+        $cache_driver = ['auto' => 'Auto Detect',
                            'file' => 'File',
                            'apcu' => 'APCu',
                            'wincache' => 'WinCache',
@@ -44,8 +43,10 @@ class SettingsController extends Controller
                            'zend' => 'Zend',
                            'array' => 'Array'];
 
-       return $this->view->render($response,
-                                  'plugins/admin/views/templates/system/settings/index.html', [
+        return $this->view->render(
+           $response,
+           'plugins/admin/views/templates/system/settings/index.html',
+           [
                                       'timezones' => Date::timezones(),
                                       'settings' => $this->registry->get('settings'),
                                       'cache_driver' => $cache_driver,
@@ -73,12 +74,12 @@ class SettingsController extends Controller
                                                                                       'attributes' => ['class' => 'float-right btn']
                                                                               ]
                                                           ]
-                                  ]);
+                                  ]
+       );
     }
 
     public function update($request, $response, $args)
     {
-
         $data = $request->getParsedBody();
 
         Arr::delete($data, 'csrf_name');

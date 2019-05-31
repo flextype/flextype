@@ -14,12 +14,12 @@ class EntriesController extends Controller
     protected function getEntriesQuery($entry)
     {
         if ($entry && $entry != '') {
-              $query = $entry;
-          } else {
-              $query = '';
-          }
+            $query = $entry;
+        } else {
+            $query = '';
+        }
 
-          return $query;
+        return $query;
     }
 
     public function index($request, $response, $args)
@@ -34,8 +34,10 @@ class EntriesController extends Controller
 
         var_dump($id);
 
-        return $this->view->render($response,
-                           'plugins/admin/views/templates/content/entries/index.html', [
+        return $this->view->render(
+            $response,
+            'plugins/admin/views/templates/content/entries/index.html',
+            [
                            'entries_list' => $this->entries->fetchAll($this->getEntriesQuery($request->getQueryParams()['id']), 'date', 'DESC'),
                            'entry_current' => $this->getEntriesQuery($request->getQueryParams()['id']),
                            'menu_item' => 'entries',
@@ -56,7 +58,8 @@ class EntriesController extends Controller
                                                'attributes' => ['class' => 'float-right btn']
                                             ]
                                        ]
-                           ]);
+                           ]
+        );
     }
 
     public function add($request, $response, $args)
@@ -69,17 +72,19 @@ class EntriesController extends Controller
         // If there is any template file then go...
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
-               if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'json') {
-                   $fieldset_content = JsonParser::decode(Filesystem::read($fieldset['path']));
-                   if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
-                       $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
-                   }
-               }
+                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'json') {
+                    $fieldset_content = JsonParser::decode(Filesystem::read($fieldset['path']));
+                    if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
+                        $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
+                    }
+                }
             }
         }
 
-        return $this->view->render($response,
-                           'plugins/admin/views/templates/content/entries/add.html', [
+        return $this->view->render(
+            $response,
+            'plugins/admin/views/templates/content/entries/add.html',
+            [
                            'entries_list' => $this->entries->fetchAll($this->getEntriesQuery($request->getQueryParams()['entry']), 'date', 'DESC'),
                            'menu_item' => 'entries',
                            'fieldsets' => $fieldsets,
@@ -95,12 +100,12 @@ class EntriesController extends Controller
                                            'attributes' => ['class' => 'navbar-item active']
                                            ]
                                        ]
-                        ]);
+                        ]
+        );
     }
 
     public function addProcess($request, $response, $args)
     {
-
         $data = $request->getParsedBody();
 
         // Set parent entry
@@ -141,17 +146,14 @@ class EntriesController extends Controller
 
             // Predefine data values based on selected fieldset
             foreach ($fieldset['sections'] as $section) {
-
                 foreach ($section as $key => $field) {
 
                     // Get values from default data
                     if (isset($default_data[$key])) {
-
                         $_value = $default_data[$key];
 
                     // Get values from fieldsets predefined field values
                     } elseif (isset($field['value'])) {
-
                         $_value = $field['value'];
 
                     // or set empty value
@@ -197,8 +199,10 @@ class EntriesController extends Controller
             }
         }
 
-        return $this->view->render($response,
-                           'plugins/admin/views/templates/content/entries/type.html', [
+        return $this->view->render(
+            $response,
+            'plugins/admin/views/templates/content/entries/type.html',
+            [
                            'fieldset' => $entry['fieldset'],
                            'entry_name' => $this->getEntriesQuery($request->getQueryParams()['entry']),
                            'fieldsets' => $fieldsets,
@@ -215,12 +219,12 @@ class EntriesController extends Controller
                                    'attributes' => ['class' => 'navbar-item active']
                                    ]
                                ]
-                        ]);
+                        ]
+        );
     }
 
     public function typeProcess($request, $response, $args)
     {
-
         $data  = [];
 
         $_data = $request->getParsedBody();
@@ -262,8 +266,10 @@ class EntriesController extends Controller
             }
         }
 
-        return $this->view->render($response,
-                           'plugins/admin/views/templates/content/entries/move.html', [
+        return $this->view->render(
+            $response,
+            'plugins/admin/views/templates/content/entries/move.html',
+            [
                            'entry_path_current' => $entry_name,
                            'entries_list' => $entries_list,
                            'name_current' => Arr::last(explode("/", $entry_name)),
@@ -281,12 +287,12 @@ class EntriesController extends Controller
                                    'attributes' => ['class' => 'navbar-item active']
                                    ]
                                ]
-                        ]);
+                        ]
+        );
     }
 
     public function moveProcess($request, $response, $args)
     {
-
         $data = $request->getParsedBody();
 
         if (!$this->entries->has($data['parent_entry'] . '/' . $data['name_current'])) {
@@ -305,8 +311,10 @@ class EntriesController extends Controller
 
     public function rename($request, $response, $args)
     {
-        return $this->view->render($response,
-                           'plugins/admin/views/templates/content/entries/rename.html', [
+        return $this->view->render(
+            $response,
+            'plugins/admin/views/templates/content/entries/rename.html',
+            [
                            'name_current' => Arr::last(explode("/", $this->getEntriesQuery($request->getQueryParams()['entry']))),
                            'entry_path_current' => $this->getEntriesQuery($request->getQueryParams()['entry']),
                            'entry_parent' => implode('/', array_slice(explode("/", $this->getEntriesQuery($request->getQueryParams()['entry'])), 0, -1)),
@@ -323,7 +331,8 @@ class EntriesController extends Controller
                                    'attributes' => ['class' => 'navbar-item active']
                                    ]
                                ]
-                        ]);
+                        ]
+        );
     }
 
     public function renameProcess($request, $response, $args)
@@ -378,8 +387,10 @@ class EntriesController extends Controller
         $fieldset = JsonParser::decode(Filesystem::read($fieldset_path));
         is_null($fieldset) and $fieldset = [];
 
-        return $this->view->render($response,
-                           'plugins/admin/views/templates/content/entries/edit.html', [
+        return $this->view->render(
+            $response,
+            'plugins/admin/views/templates/content/entries/edit.html',
+            [
                            'entry_name' => $entry_name,
                            'entry_body' => $entry,
                            'fieldset' => $fieldset,
@@ -403,7 +414,8 @@ class EntriesController extends Controller
                                    'attributes' => ['class' => 'navbar-item']
                                ],
                             ]
-                        ]);
+                        ]
+        );
     }
 
     public function getMediaList(string $entry, bool $path = false) : array

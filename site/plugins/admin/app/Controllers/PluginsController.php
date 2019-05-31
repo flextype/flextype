@@ -12,8 +12,10 @@ class PluginsController extends Controller
 {
     public function index($request, $response, $args)
     {
-        return $this->view->render($response,
-                           'plugins/admin/views/templates/extends/plugins/index.html', [
+        return $this->view->render(
+            $response,
+            'plugins/admin/views/templates/extends/plugins/index.html',
+            [
                            'plugins_list' => $this->registry->get('plugins'),
                            'menu_item' => 'plugins',
                            'links' =>  [
@@ -30,7 +32,8 @@ class PluginsController extends Controller
                                                  'attributes' => ['float-right btn' => 'navbar-item', 'target' => '_blank']
                                              ],
                              ]
-                        ]);
+                        ]
+        );
     }
 
     public function pluginStatusProcess($request, $response, $args)
@@ -41,5 +44,4 @@ class PluginsController extends Controller
         Filesystem::write(PATH['plugins'] . '/' . $data['plugin'] . '/' . 'settings.json', JsonParser::encode($plugin_settings));
         $this->cache->clear();
     }
-
 }

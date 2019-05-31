@@ -8,10 +8,12 @@ use function Flextype\Component\I18n\__;
 
 class FieldsetsController extends Controller
 {
-   public function index($request, $response, $args)
-   {
-       return $this->view->render($response,
-                                  'plugins/admin/views/templates/extends/fieldsets/index.html', [
+    public function index($request, $response, $args)
+    {
+        return $this->view->render(
+           $response,
+           'plugins/admin/views/templates/extends/fieldsets/index.html',
+           [
            'menu_item' => 'fieldsets',
            'fieldsets_list' => $this->fieldsets->fetchList(),
            'links' =>  [
@@ -28,13 +30,16 @@ class FieldsetsController extends Controller
                                 'attributes' => ['class' => 'float-right btn']
                             ]
                          ]
-       ]);
-   }
+       ]
+       );
+    }
 
-   public function add($request, $response, $args)
-   {
-       return $this->view->render($response,
-                                  'plugins/admin/views/templates/extends/fieldsets/add.html', [
+    public function add($request, $response, $args)
+    {
+        return $this->view->render(
+           $response,
+           'plugins/admin/views/templates/extends/fieldsets/add.html',
+           [
            'menu_item' => 'fieldsets',
            'fieldsets_list' => $this->fieldsets->fetchList(),
            'links' =>  [
@@ -51,11 +56,12 @@ class FieldsetsController extends Controller
                                 'attributes' => ['class' => 'float-right btn']
                             ]
                          ]
-       ]);
-   }
+       ]
+       );
+    }
 
-   public function addProcess($request, $response, $args)
-   {
+    public function addProcess($request, $response, $args)
+    {
         $data = $request->getParsedBody();
 
         Arr::delete($data, 'csrf_name');
@@ -71,12 +77,14 @@ class FieldsetsController extends Controller
         }
 
         return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
-   }
+    }
 
-   public function edit($request, $response, $args)
-   {
-       return $this->view->render($response,
-                                  'plugins/admin/views/templates/extends/fieldsets/edit.html', [
+    public function edit($request, $response, $args)
+    {
+        return $this->view->render(
+           $response,
+           'plugins/admin/views/templates/extends/fieldsets/edit.html',
+           [
            'menu_item' => 'fieldsets',
            'id' => $request->getQueryParams()['id'],
            'data' => JsonParser::encode($this->fieldsets->fetch($request->getQueryParams()['id'])),
@@ -94,24 +102,27 @@ class FieldsetsController extends Controller
                                 'attributes' => ['class' => 'js-save-form-submit float-right btn']
                             ],
                         ]
-       ]);
-   }
+       ]
+       );
+    }
 
-   public function editProcess($request, $response, $args)
-   {
-       if ($this->fieldsets->update($request->getParsedBody()['id'], JsonParser::decode($request->getParsedBody()['data']))) {
-           $this->flash->addMessage('success', __('admin_message_fieldsets_saved'));
-       } else {
-           $this->flash->addMessage('error', __('admin_message_fieldsets_was_not_saved'));
-       }
+    public function editProcess($request, $response, $args)
+    {
+        if ($this->fieldsets->update($request->getParsedBody()['id'], JsonParser::decode($request->getParsedBody()['data']))) {
+            $this->flash->addMessage('success', __('admin_message_fieldsets_saved'));
+        } else {
+            $this->flash->addMessage('error', __('admin_message_fieldsets_was_not_saved'));
+        }
 
-       return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
-   }
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
+    }
 
-   public function rename($request, $response, $args)
-   {
-       return $this->view->render($response,
-                                  'plugins/admin/views/templates/extends/fieldsets/rename.html', [
+    public function rename($request, $response, $args)
+    {
+        return $this->view->render(
+           $response,
+           'plugins/admin/views/templates/extends/fieldsets/rename.html',
+           [
            'menu_item' => 'fieldsets',
            'id' => $request->getQueryParams()['id'],
            'links' =>  [
@@ -126,39 +137,40 @@ class FieldsetsController extends Controller
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ],
-       ]);
-   }
+       ]
+       );
+    }
 
-   public function renameProcess($request, $response, $args)
-   {
-       if ($this->fieldsets->rename($request->getParsedBody()['fieldset-id-current'], $request->getParsedBody()['id'])) {
-           $this->flash->addMessage('success', __('admin_message_fieldset_renamed'));
-       } else {
-           $this->flash->addMessage('error', __('admin_message_fieldset_was_not_renamed'));
-       }
+    public function renameProcess($request, $response, $args)
+    {
+        if ($this->fieldsets->rename($request->getParsedBody()['fieldset-id-current'], $request->getParsedBody()['id'])) {
+            $this->flash->addMessage('success', __('admin_message_fieldset_renamed'));
+        } else {
+            $this->flash->addMessage('error', __('admin_message_fieldset_was_not_renamed'));
+        }
 
-       return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
-   }
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
+    }
 
-   public function deleteProcess($request, $response, $args)
-   {
-       if ($this->fieldsets->delete($request->getParsedBody()['fieldset-id'])) {
-           $this->flash->addMessage('success', __('admin_message_fieldset_deleted'));
-       } else {
-           $this->flash->addMessage('error', __('admin_message_fieldset_was_not_deleted'));
-       }
+    public function deleteProcess($request, $response, $args)
+    {
+        if ($this->fieldsets->delete($request->getParsedBody()['fieldset-id'])) {
+            $this->flash->addMessage('success', __('admin_message_fieldset_deleted'));
+        } else {
+            $this->flash->addMessage('error', __('admin_message_fieldset_was_not_deleted'));
+        }
 
-       return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
-   }
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
+    }
 
-   public function duplicateProcess($request, $response, $args)
-   {
-       if ($this->fieldsets->copy($request->getParsedBody()['fieldset-id'], $request->getParsedBody()['fieldset-id'] . '-duplicate-' . date("Ymd_His"))) {
-           $this->flash->addMessage('success', __('admin_message_fieldset_duplicated'));
-       } else {
-           $this->flash->addMessage('error', __('admin_message_fieldset_was_not_duplicated'));
-       }
+    public function duplicateProcess($request, $response, $args)
+    {
+        if ($this->fieldsets->copy($request->getParsedBody()['fieldset-id'], $request->getParsedBody()['fieldset-id'] . '-duplicate-' . date("Ymd_His"))) {
+            $this->flash->addMessage('success', __('admin_message_fieldset_duplicated'));
+        } else {
+            $this->flash->addMessage('error', __('admin_message_fieldset_was_not_duplicated'));
+        }
 
-       return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
-   }
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
+    }
 }
