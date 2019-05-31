@@ -25,8 +25,8 @@ $app->get('/admin/entries/rename', 'EntriesController:rename')->setName('admin.e
 $app->post('/admin/entries/rename', 'EntriesController:renameProcess')->setName('admin.entries.renameProcess');
 $app->get('/admin/entries/type', 'EntriesController:type')->setName('admin.entries.type');
 $app->post('/admin/entries/type', 'EntriesController:typeProcess')->setName('admin.entries.typeProcess');
-$app->get('/admin/entries/duplicate', 'EntriesController:duplicateProcess')->setName('admin.entries.duplicateProcess');
-$app->get('/admin/entries/delete', 'EntriesController:deleteProcess')->setName('admin.entries.deleteProcess');
+$app->post('/admin/entries/duplicate', 'EntriesController:duplicateProcess')->setName('admin.entries.duplicateProcess');
+$app->post('/admin/entries/delete', 'EntriesController:deleteProcess')->setName('admin.entries.deleteProcess');
 
 // FieldsetsController
 $app->get('/admin/fieldsets', 'FieldsetsController:index')->setName('admin.fieldsets.index');
