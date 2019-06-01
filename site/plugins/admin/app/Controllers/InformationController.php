@@ -6,16 +6,7 @@ use function Flextype\Component\I18n\__;
 
 class InformationController extends Controller
 {
-    private $view;
-    private $router;
-
-    public function __construct($container)
-    {
-        $this->view = $container->view;
-        $this->router = $container->router;
-    }
-
-    public function index(/** @scrutinizer ignore-unused */ $request, $response, /** @scrutinizer ignore-unused */ $args)
+    public function index(/** @scrutinizer ignore-unused */ $request, $response)
     {
         if (function_exists('apache_get_modules')) {
             if (!in_array('mod_rewrite', apache_get_modules())) {
