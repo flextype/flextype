@@ -68,8 +68,12 @@ class UsersController extends Controller
         }
     }
 
+    /**
+     * registrationProcess
+     */
     public function registrationProcess($request, $response, $args)
     {
+        // Get POST data
         $data = $request->getParsedBody();
 
         if (!Filesystem::has($_user_file = PATH['site'] . '/accounts/' . Text::safeString($data['username']) . '.json')) {
@@ -81,16 +85,19 @@ class UsersController extends Controller
                                          'role'  => 'admin',
                                          'state' => 'enabled'])
             )) {
-                return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index'));
+                return $response->withRedirect($this->container->get('router')->pathFor('admin.users.login'));
             } else {
-                //return false;
+                return $response->withRedirect($this->container->get('router')->pathFor('admin.users.registration'));
             }
         } else {
-            //return false;
+            return $response->withRedirect($this->container->get('router')->pathFor('admin.users.registration'));
         }
     }
 
-    public function logoutProcess($request, $response, $args)
+    /**
+     * logoutProcess
+     */
+    public function logoutProcess($response)
     {
         Session::destroy();
         return $response->withRedirect($this->container->get('router')->pathFor('admin.users.login'));
