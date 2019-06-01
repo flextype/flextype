@@ -2,11 +2,19 @@
 
 namespace Flextype;
 
-use Flextype\Component\Registry\Registry;
 use function Flextype\Component\I18n\__;
 
 class InformationController extends Controller
 {
+    private $view;
+    private $router;
+
+    public function __construct($view, $router)
+    {
+        $this->view = $view;
+        $this->router = $router;
+    }
+
     public function index($request, $response, $args)
     {
         if (function_exists('apache_get_modules')) {
