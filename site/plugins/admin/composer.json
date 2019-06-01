@@ -21,7 +21,8 @@
     },
     "autoload": {
         "classmap": [
-            "app/Controllers"
+            "app/Controllers",
+            "twig"
         ]
     }
 }
