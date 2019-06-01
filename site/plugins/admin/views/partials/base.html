@@ -61,7 +61,7 @@
               <div class="sidebar">
                   <div class="sidebar-wrapper">
                       <div class="flextype-logo">
-                          <a href="{{ base_url() }}/admin">
+                          <a href="{{ path_for('admin.entries.index') }}">
                               FLEXTYPE
                           </a>
                           <a href="{{ base_url() }}" class="view-site-link" target="_blank">
@@ -109,7 +109,7 @@
                       <div class="flextype-user">
                             <ul class="nav">
                                 <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
-                                    <a class="nav-link" href="{{ base_url() }}/admin/profile">
+                                    <a class="nav-link" href="{{ path_for('admin.users.profile') }}">
                                         <i class="fas fa-user-circle"></i>
                                         <p>
                                             {{ username }}
