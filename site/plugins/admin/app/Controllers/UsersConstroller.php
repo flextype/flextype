@@ -15,6 +15,13 @@ class UsersController extends Controller
     {
     }
 
+    public function profile($request, $response, $args)
+    {
+        return $this->container->get('view')->render(
+          $response,
+          'plugins/admin/views/templates/users/profile.html'
+      );
+    }
 
     public function login($request, $response, $args)
     {
