@@ -9,7 +9,7 @@ namespace Flextype;
 $loader = require_once $autoload;
 
 // Include routes
-include_once 'routes.php';
+include_once 'routes/web.php';
 
 /**
  * Add site controller to Flextype container

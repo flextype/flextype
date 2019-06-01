@@ -3,7 +3,7 @@
     "type": "project",
     "description": "Site plugin for Flextype",
     "keywords": ["site", "plugin", "flextype", "php", "html"],
-    "homepage": "https://github.com/flextype-plugins/admin",
+    "homepage": "https://github.com/flextype",
     "license": "MIT",
     "authors": [
         {
@@ -13,7 +13,7 @@
         }
     ],
     "support": {
-      "issues": "https://github.com/flextype-plugins/admin/issues"
+      "issues": "https://github.com/flextype/issues"
     },
     "require": {
         "php": ">=7.1.3"
