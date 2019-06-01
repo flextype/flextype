@@ -33,8 +33,6 @@ class EntriesController extends Controller
             $id = explode("/", $request->getQueryParams()['id']);
         }
 
-        var_dump($id);
-
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/content/entries/index.html',
