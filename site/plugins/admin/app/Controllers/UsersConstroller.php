@@ -11,10 +11,6 @@ use Psr\Container\ContainerInterface;
 
 class UsersController extends Controller
 {
-    public function index($request, $response, $args)
-    {
-    }
-
     public function profile($request, $response, $args)
     {
         return $this->container->get('view')->render(
