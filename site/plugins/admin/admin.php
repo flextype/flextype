@@ -33,6 +33,7 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
     // Set Default Admin locale
     I18n::$locale = $flextype->registry->get('settings.locale');
 
+    // Add Admin Navigation
     $flextype->registry->set('admin_navigation.content.entries', ['title' => '<i class="far fa-newspaper"></i>' . __('admin_entries'), 'link' => $flextype->router->pathFor('admin.entries.index'), 'attributes' => ['class' => 'nav-link']]);
     $flextype->registry->set('admin_navigation.extends.fieldsets', ['title' => '<i class="fas fa-list"></i>' . __('admin_fieldsets'), 'link' => $flextype->router->pathFor('admin.fieldsets.index'), 'attributes' => ['class' => 'nav-link']]);
     $flextype->registry->set('admin_navigation.extends.templates', ['title' => '<i class="fas fa-layer-group"></i>' . __('admin_templates'), 'link' => $flextype->router->pathFor('admin.templates.index'), 'attributes' => ['class' => 'nav-link']]);
