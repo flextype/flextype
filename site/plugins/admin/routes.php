@@ -66,3 +66,5 @@ $app->get('/admin/registration', 'UsersController:registration')->setName('admin
 $app->post('/admin/registration', 'UsersController:registrationProcess')->setName('admin.users.registrationProcess');
 $app->get('/admin/login', 'UsersController:login')->setName('admin.users.login');
 $app->post('/admin/login', 'UsersController:loginProcess')->setName('admin.users.loginProcess');
+$app->get('/admin/profile', 'UsersController:profile')->setName('admin.users.profile');
+$app->post('/admin/logout', 'UsersController:logoutProcess')->setName('admin.users.logoutProcess');

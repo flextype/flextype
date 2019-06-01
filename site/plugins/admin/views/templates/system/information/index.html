@@ -58,16 +58,6 @@
             {% else %}
                 <tr><td>Apache Mod Rewrite</td><td>{{ tr('admin_not_installed') }}</td></tr>
             {% endif %}
-            {% if password_verify %}
-                <tr><td>password_verify()</td><td>{{ tr('admin_installed') }}</td></tr>
-            {% else %}
-                <tr><td>password_verify()</td><td>{{ tr('admin_not_installed') }}</td></tr>
-            {% endif %}
-            {% if password_hash %}
-                <tr><td>password_hash()</td><td>{{ tr('admin_installed') }}</td></tr>
-            {% else %}
-                <tr><td>password_hash()</td><td>{{ tr('admin_not_installed') }}</td></tr>
-            {% endif %}
     </tbody>
 </table>
 {% endblock %}
