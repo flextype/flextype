@@ -55,7 +55,7 @@ class SettingsController extends Controller
                                       'themes' => $themes,
                                       'links' => [
                                                               'settings' => [
-                                                                                  'link' => $this->router->urlFor('admin.settings.index'),
+                                                                                  'link' => $this->router->pathFor('admin.settings.index'),
                                                                                   'title' => __('admin_settings'),
                                                                                   'attributes' => ['class' => 'navbar-item active']
                                                                               ]
@@ -69,7 +69,7 @@ class SettingsController extends Controller
                                                                   'settings_clear_cache' => [
                                                                                       'type' => 'action',
                                                                                       'id' => 'clear-cache',
-                                                                                      'link' => $this->router->urlFor('admin.settings.clear-cache'),
+                                                                                      'link' => $this->router->pathFor('admin.settings.clear-cache'),
                                                                                       'title' => __('admin_clear_cache'),
                                                                                       'attributes' => ['class' => 'float-right btn']
                                                                               ]
@@ -99,13 +99,13 @@ class SettingsController extends Controller
             $this->flash->addMessage('success', __('admin_message_settings_was_not_saved'));
         }
 
-        return $response->withRedirect($this->container->get('router')->urlFor('admin.settings.index'));
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.settings.index'));
     }
 
     public function clearCache($request, $response, $args)
     {
         Cache::clear();
         $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
-        return $response->withRedirect($this->container->get('router')->urlFor('admin.settings.index'));
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.settings.index'));
     }
 }

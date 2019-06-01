@@ -47,14 +47,14 @@ class EntriesController extends Controller
                            'last' => Arr::last($id),
                            'links' => [
                                         'entries' => [
-                                               'link' => $this->router->urlFor('admin.entries.index'),
+                                               'link' => $this->router->pathFor('admin.entries.index'),
                                                'title' => __('admin_entries'),
                                                'attributes' => ['class' => 'navbar-item active']
                                            ]
                                        ],
                            'buttons'  => [
                                        'create' => [
-                                               'link'       => $this->router->urlFor('admin.entries.add') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
+                                               'link'       => $this->router->pathFor('admin.entries.add') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
                                                'title'      => __('admin_create_new_entry'),
                                                'attributes' => ['class' => 'float-right btn']
                                             ]
@@ -91,12 +91,12 @@ class EntriesController extends Controller
                            'fieldsets' => $fieldsets,
                            'links' => [
                                        'entries' => [
-                                           'link' => $this->router->urlFor('admin.entries.index'),
+                                           'link' => $this->router->pathFor('admin.entries.index'),
                                            'title' => __('admin_entries'),
                                            'attributes' => ['class' => 'navbar-item']
                                        ],
                                        'entries_add' => [
-                                           'link' => $this->router->urlFor('admin.entries.add') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
+                                           'link' => $this->router->pathFor('admin.entries.add') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
                                            'title' => __('admin_create_new_entry'),
                                            'attributes' => ['class' => 'navbar-item active']
                                            ]
@@ -175,7 +175,7 @@ class EntriesController extends Controller
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
             }
 
-            return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
+            return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
         }
     }
 
@@ -210,12 +210,12 @@ class EntriesController extends Controller
                            'menu_item' => 'entries',
                            'links' => [
                                'entries' => [
-                                   'link' => $this->router->urlFor('admin.entries.index'),
+                                   'link' => $this->router->pathFor('admin.entries.index'),
                                    'title' => __('admin_entries'),
                                    'attributes' => ['class' => 'navbar-item']
                                ],
                                'entries_type' => [
-                                   'link' => $this->router->urlFor('admin.entries.type') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
+                                   'link' => $this->router->pathFor('admin.entries.type') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
                                    'title' => __('admin_type'),
                                    'attributes' => ['class' => 'navbar-item active']
                                    ]
@@ -249,7 +249,7 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
         }
 
-        return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?entry=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
     }
 
     public function move($request, $response, $args)
@@ -278,12 +278,12 @@ class EntriesController extends Controller
                            'menu_item' => 'entries',
                            'links' => [
                                'entries' => [
-                                   'link' => $this->router->urlFor('admin.entries.index'),
+                                   'link' => $this->router->pathFor('admin.entries.index'),
                                    'title' => __('admin_entries'),
                                    'attributes' => ['class' => 'navbar-item']
                                ],
                                'entries_move' => [
-                                   'link' => $this->router->urlFor('admin.entries.move'),
+                                   'link' => $this->router->pathFor('admin.entries.move'),
                                    'title' => __('admin_move'),
                                    'attributes' => ['class' => 'navbar-item active']
                                    ]
@@ -306,7 +306,7 @@ class EntriesController extends Controller
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
             }
 
-            return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
+            return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
         }
     }
 
@@ -322,12 +322,12 @@ class EntriesController extends Controller
                            'menu_item' => 'entries',
                            'links' => [
                                'entries' => [
-                                   'link' => $this->router->urlFor('admin.entries.index'),
+                                   'link' => $this->router->pathFor('admin.entries.index'),
                                    'title' => __('admin_entries'),
                                    'attributes' => ['class' => 'navbar-item']
                                ],
                                'entries_type' => [
-                                   'link' => $this->router->urlFor('admin.entries.rename') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
+                                   'link' => $this->router->pathFor('admin.entries.rename') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
                                    'title' => __('admin_rename'),
                                    'attributes' => ['class' => 'navbar-item active']
                                    ]
@@ -349,7 +349,7 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
         }
 
-        return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
     }
 
     public function deleteProcess($request, $response, $args)
@@ -363,7 +363,7 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . $entry_name_current);
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?entry=' . $entry_name_current);
     }
 
     public function duplicateProcess($request, $response, $args)
@@ -374,7 +374,7 @@ class EntriesController extends Controller
 
         $this->flash->addMessage('success', __('admin_message_entry_duplicated'));
 
-        return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index') . '?entry=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?entry=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
     }
 
     /**
@@ -511,17 +511,17 @@ class EntriesController extends Controller
                            'menu_item' => 'entries',
                            'links' => [
                                'edit_entry' => [
-                                   'link' => $this->router->urlFor('admin.entries.edit') . '?entry=' . $entry_name,
+                                   'link' => $this->router->pathFor('admin.entries.edit') . '?entry=' . $entry_name,
                                    'title' => __('admin_content'),
                                    'attributes' => ['class' => 'navbar-item active']
                                ],
                                'edit_entry_media' => [
-                                   'link' => $this->router->urlFor('admin.entries.edit') . '?entry=' . $entry_name . '&media=true',
+                                   'link' => $this->router->pathFor('admin.entries.edit') . '?entry=' . $entry_name . '&media=true',
                                    'title' => __('admin_media'),
                                    'attributes' => ['class' => 'navbar-item']
                                ],
                                'edit_entry_source' => [
-                                   'link' => $this->router->urlFor('admin.entries.edit') . '?entry=' . $entry_name . '&source=true',
+                                   'link' => $this->router->pathFor('admin.entries.edit') . '?entry=' . $entry_name . '&source=true',
                                    'title' => __('admin_source'),
                                    'attributes' => ['class' => 'navbar-item']
                                ],

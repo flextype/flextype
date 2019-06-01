@@ -27,7 +27,7 @@ class UsersController extends Controller
                                  ]
           );
         } else {
-            return $response->withRedirect($this->container->get('router')->urlFor('admin.users.registration'));
+            return $response->withRedirect($this->container->get('router')->pathFor('admin.users.registration'));
         }
     }
 
@@ -57,7 +57,7 @@ class UsersController extends Controller
                 'plugins/admin/views/templates/users/registration.html'
             );
         } else {
-            return $response->withRedirect($this->container->get('router')->urlFor('admin.entires.index'));
+            return $response->withRedirect($this->container->get('router')->pathFor('admin.entires.index'));
         }
     }
 
@@ -74,7 +74,7 @@ class UsersController extends Controller
                                          'role'  => 'admin',
                                          'state' => 'enabled'])
             )) {
-                return $response->withRedirect($this->container->get('router')->urlFor('admin.entries.index'));
+                return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index'));
             } else {
                 //return false;
             }

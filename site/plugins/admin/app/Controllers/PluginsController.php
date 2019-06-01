@@ -20,7 +20,7 @@ class PluginsController extends Controller
                            'menu_item' => 'plugins',
                            'links' =>  [
                                             'plugins' => [
-                                                'link' => $this->router->urlFor('admin.plugins.index'),
+                                                'link' => $this->router->pathFor('admin.plugins.index'),
                                                 'title' => __('admin_plugins'),
                                                 'attributes' => ['class' => 'navbar-item active']
                                             ],

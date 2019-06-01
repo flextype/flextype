@@ -44,7 +44,7 @@ class InformationController extends Controller
            'password_hash_installed' => $password_hash_installed,
            'links' =>  [
                             'information' => [
-                            'link' => $this->router->urlFor('admin.information.index'),
+                            'link' => $this->router->pathFor('admin.information.index'),
                             'title' => __('admin_information'),
                             'attributes' => ['class' => 'navbar-item active']
                        ],
