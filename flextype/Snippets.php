@@ -76,7 +76,7 @@ class Snippets
      * @access public
      * @return array
      */
-    public function fetchList() : array
+    public function fetchAll() : array
     {
         $snippets = [];
 
