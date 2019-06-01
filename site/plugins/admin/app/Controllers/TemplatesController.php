@@ -57,15 +57,9 @@ class TemplatesController extends Controller
     {
         $type = $request->getParsedBody()['type'];
 
-        if ($type == 'partial') {
-            $_type = '/templates/partials/';
-        } else {
-            $_type = '/templates/';
-        }
-
         $id = Text::safeString($request->getParsedBody()['id'], '-', true) . '.html';
 
-        $file = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $id;
+        $file = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $this->_type_location($type) . $id;
 
         if (!Filesystem::has($file)) {
             if (Filesystem::write(
@@ -87,19 +81,13 @@ class TemplatesController extends Controller
     {
         $type = $request->getQueryParams()['type'];
 
-        if ($type == 'partial') {
-            $_type = '/templates/partials/';
-        } else {
-            $_type = '/templates/';
-        }
-
         return $this->view->render(
            $response,
            'plugins/admin/views/templates/extends/templates/edit.html',
            [
            'menu_item' => 'templates',
            'id' => $request->getQueryParams()['id'],
-           'data' => Filesystem::read(PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getQueryParams()['id'] . '.html'),
+           'data' => Filesystem::read(PATH['themes'] . '/' . $this->registry->get('settings.theme') . $this->_type_location($type) . $request->getQueryParams()['id'] . '.html'),
            'type' => (($request->getQueryParams()['type'] && $request->getQueryParams()['type'] == 'partial') ? 'partial' : 'template'),
            'links' => [
                             'templates' => [
@@ -123,13 +111,7 @@ class TemplatesController extends Controller
     {
         $type = $request->getParsedBody()['type_current'];
 
-        if ($type == 'partial') {
-            $_type = '/templates/partials/';
-        } else {
-            $_type = '/templates/';
-        }
-
-        if (Filesystem::write(PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()['id'] . '.html', $request->getParsedBody()['data'])) {
+        if (Filesystem::write(PATH['themes'] . '/' . $this->registry->get('settings.theme') . $this->_type_location($type) . $request->getParsedBody()['id'] . '.html', $request->getParsedBody()['data'])) {
             $this->flash->addMessage('success', __('admin_message_'.$type.'_saved'));
         } else {
             $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_saved'));
@@ -163,16 +145,10 @@ class TemplatesController extends Controller
     {
         $type = $request->getParsedBody()['type_current'];
 
-        if ($type == 'partial') {
-            $_type = '/templates/partials/';
-        } else {
-            $_type = '/templates/';
-        }
-
-        if (!Filesystem::has(PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type .  $request->getParsedBody()['id'] . '.html')) {
+        if (!Filesystem::has(PATH['themes'] . '/' . $this->registry->get('settings.theme') . $this->_type_location($type) .  $request->getParsedBody()['id'] . '.html')) {
             if (Filesystem::rename(
-               PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()['id_current'] . '.html',
-               PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()['id'] . '.html'
+               PATH['themes'] . '/' . $this->registry->get('settings.theme') . $this->_type_location($type) . $request->getParsedBody()['id_current'] . '.html',
+               PATH['themes'] . '/' . $this->registry->get('settings.theme') . $this->_type_location($type) . $request->getParsedBody()['id'] . '.html'
            )
            ) {
                 $this->flash->addMessage('success', __('admin_message_'.$type.'_renamed'));
@@ -190,13 +166,7 @@ class TemplatesController extends Controller
     {
         $type = $request->getParsedBody()['type'];
 
-        if ($type == 'partial') {
-            $_type = '/templates/partials/';
-        } else {
-            $_type = '/templates/';
-        }
-
-        $file_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()[$type.'-id'] . '.html';
+        $file_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $this->_type_location($type) . $request->getParsedBody()[$type.'-id'] . '.html';
 
         if (Filesystem::delete($file_path)) {
             $this->flash->addMessage('success', __('admin_message_'.$type.'_deleted'));
@@ -211,14 +181,8 @@ class TemplatesController extends Controller
     {
         $type = $request->getParsedBody()['type'];
 
-        if ($type == 'partial') {
-            $_type = '/templates/partials/';
-        } else {
-            $_type = '/templates/';
-        }
-
-        $file_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()[$type.'-id'] . '.html';
-        $file_path_new = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $_type . $request->getParsedBody()[$type.'-id'] . '-duplicate-' . date("Ymd_His") . '.html';
+        $file_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $this->_type_location($type) . $request->getParsedBody()[$type.'-id'] . '.html';
+        $file_path_new = PATH['themes'] . '/' . $this->registry->get('settings.theme') . $this->_type_location($type) . $request->getParsedBody()[$type.'-id'] . '-duplicate-' . date("Ymd_His") . '.html';
 
         if (Filesystem::copy($file_path, $file_path_new)) {
             $this->flash->addMessage('success', __('admin_message_'.$type.'_duplicated'));
@@ -227,5 +191,16 @@ class TemplatesController extends Controller
         }
 
         return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
+    }
+
+    private function _type_location($type)
+    {
+        if ($type == 'partial') {
+            $_type = '/templates/partials/';
+        } else {
+            $_type = '/templates/';
+        }
+
+        return $_type;
     }
 }
