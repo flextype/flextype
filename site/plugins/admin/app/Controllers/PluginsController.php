@@ -10,7 +10,7 @@ use function Flextype\Component\I18n\__;
 
 class PluginsController extends Controller
 {
-    public function index($request, $response, $args)
+    public function index($request, $response)
     {
         return $this->view->render(
             $response,
@@ -36,7 +36,7 @@ class PluginsController extends Controller
         );
     }
 
-    public function pluginStatusProcess($request, $response, $args)
+    public function pluginStatusProcess($request, $response)
     {
         $data = $request->getParsedBody();
         $plugin_settings = JsonParser::decode(Filesystem::read(PATH['plugins'] . '/' . $data['plugin'] . '/' . 'settings.json'));

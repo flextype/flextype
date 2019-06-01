@@ -8,7 +8,7 @@ use function Flextype\Component\I18n\__;
 
 class FieldsetsController extends Controller
 {
-    public function index($request, $response, $args)
+    public function index($request, $response)
     {
         return $this->view->render(
            $response,
@@ -34,7 +34,7 @@ class FieldsetsController extends Controller
        );
     }
 
-    public function add($request, $response, $args)
+    public function add($request, $response)
     {
         return $this->view->render(
            $response,
@@ -60,7 +60,7 @@ class FieldsetsController extends Controller
        );
     }
 
-    public function addProcess($request, $response, $args)
+    public function addProcess($request, $response)
     {
         $data = $request->getParsedBody();
 
@@ -79,7 +79,7 @@ class FieldsetsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
     }
 
-    public function edit($request, $response, $args)
+    public function edit($request, $response)
     {
         return $this->view->render(
            $response,
@@ -106,7 +106,7 @@ class FieldsetsController extends Controller
        );
     }
 
-    public function editProcess($request, $response, $args)
+    public function editProcess($request, $response)
     {
         if ($this->fieldsets->update($request->getParsedBody()['id'], JsonParser::decode($request->getParsedBody()['data']))) {
             $this->flash->addMessage('success', __('admin_message_fieldsets_saved'));
@@ -117,7 +117,7 @@ class FieldsetsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
     }
 
-    public function rename($request, $response, $args)
+    public function rename($request, $response)
     {
         return $this->view->render(
            $response,
@@ -141,7 +141,7 @@ class FieldsetsController extends Controller
        );
     }
 
-    public function renameProcess($request, $response, $args)
+    public function renameProcess($request, $response)
     {
         if ($this->fieldsets->rename($request->getParsedBody()['fieldset-id-current'], $request->getParsedBody()['id'])) {
             $this->flash->addMessage('success', __('admin_message_fieldset_renamed'));
@@ -152,7 +152,7 @@ class FieldsetsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
     }
 
-    public function deleteProcess($request, $response, $args)
+    public function deleteProcess($request, $response)
     {
         if ($this->fieldsets->delete($request->getParsedBody()['fieldset-id'])) {
             $this->flash->addMessage('success', __('admin_message_fieldset_deleted'));
@@ -163,7 +163,7 @@ class FieldsetsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
     }
 
-    public function duplicateProcess($request, $response, $args)
+    public function duplicateProcess($request, $response)
     {
         if ($this->fieldsets->copy($request->getParsedBody()['fieldset-id'], $request->getParsedBody()['fieldset-id'] . '-duplicate-' . date("Ymd_His"))) {
             $this->flash->addMessage('success', __('admin_message_fieldset_duplicated'));

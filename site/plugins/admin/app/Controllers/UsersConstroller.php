@@ -11,7 +11,7 @@ use Psr\Container\ContainerInterface;
 
 class UsersController extends Controller
 {
-    public function profile($request, $response, $args)
+    public function profile($request, $response)
     {
         return $this->container->get('view')->render(
           $response,
@@ -19,7 +19,7 @@ class UsersController extends Controller
       );
     }
 
-    public function login($request, $response, $args)
+    public function login($request, $response)
     {
         if (!Users::isLoggedIn()) {
             return $this->container->get('view')->render(
@@ -34,7 +34,7 @@ class UsersController extends Controller
         }
     }
 
-    public function loginProcess($request, $response, $args)
+    public function loginProcess($request, $response)
     {
         $data = $request->getParsedBody();
 
@@ -52,7 +52,7 @@ class UsersController extends Controller
         }
     }
 
-    public function registration($request, $response, $args)
+    public function registration($request, $response)
     {
         if (!Users::isLoggedIn()) {
             return $this->view->render(
@@ -67,7 +67,7 @@ class UsersController extends Controller
     /**
      * registrationProcess
      */
-    public function registrationProcess($request, $response, $args)
+    public function registrationProcess($request, $response)
     {
         // Get POST data
         $data = $request->getParsedBody();

@@ -10,7 +10,7 @@ use function Flextype\Component\I18n\__;
 
 class SettingsController extends Controller
 {
-    public function index($request, $response, $args)
+    public function index($request, $response)
     {
         $entries = [];
         foreach ($this->entries->fetchAll('', 'date', 'DESC') as $entry) {
@@ -78,7 +78,7 @@ class SettingsController extends Controller
        );
     }
 
-    public function update($request, $response, $args)
+    public function update($request, $response)
     {
         $data = $request->getParsedBody();
 
@@ -102,7 +102,7 @@ class SettingsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.settings.index'));
     }
 
-    public function clearCache($request, $response, $args)
+    public function clearCache($request, $response)
     {
         Cache::clear();
         $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));

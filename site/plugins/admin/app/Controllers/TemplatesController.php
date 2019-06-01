@@ -8,7 +8,7 @@ use function Flextype\Component\I18n\__;
 
 class TemplatesController extends Controller
 {
-    public function index($request, $response, $args)
+    public function index($request, $response)
     {
         return $this->view->render(
            $response,
@@ -35,7 +35,7 @@ class TemplatesController extends Controller
        );
     }
 
-    public function add($request, $response, $args)
+    public function add($request, $response)
     {
         return $this->view->render(
            $response,
@@ -53,7 +53,7 @@ class TemplatesController extends Controller
        );
     }
 
-    public function addProcess($request, $response, $args)
+    public function addProcess($request, $response)
     {
         $type = $request->getParsedBody()['type'];
 
@@ -77,7 +77,7 @@ class TemplatesController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
     }
 
-    public function edit($request, $response, $args)
+    public function edit($request, $response)
     {
         $type = $request->getQueryParams()['type'];
 
@@ -107,7 +107,7 @@ class TemplatesController extends Controller
        );
     }
 
-    public function editProcess($request, $response, $args)
+    public function editProcess($request, $response)
     {
         $type = $request->getParsedBody()['type_current'];
 
@@ -120,7 +120,7 @@ class TemplatesController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
     }
 
-    public function rename($request, $response, $args)
+    public function rename($request, $response)
     {
         return $this->view->render(
            $response,
@@ -141,7 +141,7 @@ class TemplatesController extends Controller
        );
     }
 
-    public function renameProcess($request, $response, $args)
+    public function renameProcess($request, $response)
     {
         $type = $request->getParsedBody()['type_current'];
 
@@ -162,7 +162,7 @@ class TemplatesController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
     }
 
-    public function deleteProcess($request, $response, $args)
+    public function deleteProcess($request, $response)
     {
         $type = $request->getParsedBody()['type'];
 
@@ -177,7 +177,7 @@ class TemplatesController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
     }
 
-    public function duplicateProcess($request, $response, $args)
+    public function duplicateProcess($request, $response)
     {
         $type = $request->getParsedBody()['type'];
 

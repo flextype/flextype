@@ -8,7 +8,7 @@ use function Flextype\Component\I18n\__;
 
 class SnippetsController extends Controller
 {
-    public function index($request, $response, $args)
+    public function index($request, $response)
     {
         return $this->view->render(
            $response,
@@ -34,7 +34,7 @@ class SnippetsController extends Controller
        );
     }
 
-    public function add($request, $response, $args)
+    public function add($request, $response)
     {
         return $this->view->render(
            $response,
@@ -52,7 +52,7 @@ class SnippetsController extends Controller
        );
     }
 
-    public function addProcess($request, $response, $args)
+    public function addProcess($request, $response)
     {
         if ($this->snippets->create($request->getParsedBody()['id'], "")) {
             $this->flash->addMessage('success', __('admin_message_snippet_created'));
@@ -63,7 +63,7 @@ class SnippetsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
     }
 
-    public function edit($request, $response, $args)
+    public function edit($request, $response)
     {
         return $this->view->render(
            $response,
@@ -90,7 +90,7 @@ class SnippetsController extends Controller
        );
     }
 
-    public function editProcess($request, $response, $args)
+    public function editProcess($request, $response)
     {
         if ($this->snippets->update($request->getParsedBody()['id'], $request->getParsedBody()['data'])) {
             $this->flash->addMessage('success', __('admin_message_snippets_saved'));
@@ -101,7 +101,7 @@ class SnippetsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
     }
 
-    public function rename($request, $response, $args)
+    public function rename($request, $response)
     {
         return $this->view->render(
            $response,
@@ -120,7 +120,7 @@ class SnippetsController extends Controller
        );
     }
 
-    public function renameProcess($request, $response, $args)
+    public function renameProcess($request, $response)
     {
         if ($this->snippets->rename(
            $request->getParsedBody()['id_current'],
@@ -135,7 +135,7 @@ class SnippetsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
     }
 
-    public function deleteProcess($request, $response, $args)
+    public function deleteProcess($request, $response)
     {
         if ($this->snippets->delete($request->getParsedBody()['snippet-id'])) {
             $this->flash->addMessage('success', __('admin_message_snippets_deleted'));
@@ -146,7 +146,7 @@ class SnippetsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
     }
 
-    public function duplicateProcess($request, $response, $args)
+    public function duplicateProcess($request, $response)
     {
         if ($this->snippets->copy($request->getParsedBody()['snippet-id'], $request->getParsedBody()['snippet-id'] . '-duplicate-' . date("Ymd_His"))) {
             $this->flash->addMessage('success', __('admin_message_snippets_duplicated'));
