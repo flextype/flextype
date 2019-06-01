@@ -15,7 +15,7 @@ class FieldsetsController extends Controller
            'plugins/admin/views/templates/extends/fieldsets/index.html',
            [
            'menu_item' => 'fieldsets',
-           'fieldsets_list' => $this->fieldsets->fetchList(),
+           'fieldsets_list' => $this->fieldsets->fetchAll(),
            'links' =>  [
                             'fieldsets' => [
                                 'link' => $this->router->pathFor('admin.fieldsets.index'),
@@ -41,7 +41,7 @@ class FieldsetsController extends Controller
            'plugins/admin/views/templates/extends/fieldsets/add.html',
            [
            'menu_item' => 'fieldsets',
-           'fieldsets_list' => $this->fieldsets->fetchList(),
+           'fieldsets_list' => $this->fieldsets->fetchAll(),
            'links' =>  [
                             'fieldsets' => [
                                 'link' => $this->router->pathFor('admin.fieldsets.index'),
