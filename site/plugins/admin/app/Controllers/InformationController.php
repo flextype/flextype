@@ -9,10 +9,10 @@ class InformationController extends Controller
     private $view;
     private $router;
 
-    public function __construct($view, $router)
+    public function __construct($container)
     {
-        $this->view = $view;
-        $this->router = $router;
+        $this->view = $container->view;
+        $this->router = $container->router;
     }
 
     public function index($request, $response, $args)
