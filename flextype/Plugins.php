@@ -88,7 +88,7 @@ class Plugins
                             }
                         }
 
-                        if (Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/' . $plugin['dirname'] . '.json')) {
+                        if (Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.json')) {
                             if (($content = Filesystem::read($_plugin_config)) === false) {
                                 throw new \RuntimeException('Load file: ' . $_plugin_config . ' - failed!');
                             } else {
@@ -96,7 +96,7 @@ class Plugins
                             }
                         }
 
-                        $_plugins_config[basename($_plugin_config, '.json')] = array_merge($plugin_settings, $plugin_config);
+                        $_plugins_config[$plugin['dirname']] = array_merge($plugin_settings, $plugin_config);
                     }
 
                     $this->flextype['registry']->set('plugins', $_plugins_config);
@@ -153,7 +153,7 @@ class Plugins
         if (is_array($plugins_list) && count($plugins_list) > 0) {
             foreach ($plugins_list as $plugin) {
                 if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.json') and
-                    Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/' . $plugin['dirname'] . '.json')) {
+                    Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.json')) {
                     $_plugins_cache_id .= filemtime($_plugin_settings) . filemtime($_plugin_config);
                 }
             }
@@ -177,7 +177,7 @@ class Plugins
         if (is_array($this->flextype['registry']->get('plugins')) && count($this->flextype['registry']->get('plugins')) > 0) {
             foreach ($this->flextype['registry']->get('plugins') as $plugin_name => $plugin) {
                 if ($this->flextype['registry']->get('plugins.' . $plugin_name . '.enabled')) {
-                    include_once PATH['plugins'] . '/' . $plugin_name . '/' . $plugin_name . '.php';
+                    include_once PATH['plugins'] . '/' . $plugin_name . '/bootstrap.php';
                 }
             }
         }
