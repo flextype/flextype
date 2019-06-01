@@ -6,6 +6,11 @@
     {{ tr('admin_username') }}: {{ username }} <br>
     {{ tr('admin_role') }}: {{ rolename }}<br>
     <br>
-    <a class="btn btn-default" href="{{ base_url() }}/admin/logout">{{ tr('admin_logout') }}</a>
+    <form id="logoutProcess" action="{{ path_for('admin.users.logoutProcess') }}" method="POST" style="display: none;">
+        {{ csrf() }}
+    </form>
+    <a class="btn btn-default" href="javascript:;"
+       onclick="event.preventDefault();
+                document.getElementById('logoutProcess').submit();">{{ tr('admin_logout') }}</a>
 </div>
 {% endblock %}

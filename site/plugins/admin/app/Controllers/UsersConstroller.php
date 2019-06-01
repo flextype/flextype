@@ -47,7 +47,7 @@ class UsersController extends Controller
             if (password_verify(trim($data['password']), $user_file['hashed_password'])) {
                 Session::set('username', $user_file['username']);
                 Session::set('role', $user_file['role']);
-                return $response->withRedirect('admin/entries');
+                return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index'));
             } else {
                 //Notification::set('error', __('admin_message_wrong_username_password'));
             }
@@ -88,6 +88,12 @@ class UsersController extends Controller
         } else {
             //return false;
         }
+    }
+
+    public function logoutProcess($request, $response, $args)
+    {
+        Session::destroy();
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.users.login'));
     }
 }
 
