@@ -33,7 +33,8 @@ class GlobalVarsAdminTwigExtension extends \Twig_Extension implements \Twig_Exte
     {
         return [
             'is_logged' => ((Session::exists('role') && Session::get('role') == 'admin') ? true : false),
-            'username' => Session::exists('username') ? Session::get('username') : ''
+            'username' => Session::exists('username') ? Session::get('username') : '',
+            'rolename' => Session::exists('role') ? Session::get('role') : ''
         ];
     }
 }
