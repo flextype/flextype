@@ -15,7 +15,7 @@ class InformationController extends Controller
         $this->router = $router;
     }
 
-    public function index($request, $response, $args)
+    public function index($response)
     {
         if (function_exists('apache_get_modules')) {
             if (!in_array('mod_rewrite', apache_get_modules())) {
