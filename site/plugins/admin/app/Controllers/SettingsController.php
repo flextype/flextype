@@ -96,7 +96,7 @@ class SettingsController extends Controller
         if (Filesystem::write(PATH['config']['site'] . '/settings.json', JsonParser::encode(array_merge($this->registry->get('settings'), $data)))) {
             $this->flash->addMessage('success', __('admin_message_settings_saved'));
         } else {
-            $this->flash->addMessage('success', __('admin_message_settings_was_not_saved'));
+            $this->flash->addMessage('error', __('admin_message_settings_was_not_saved'));
         }
 
         return $response->withRedirect($this->container->get('router')->pathFor('admin.settings.index'));
