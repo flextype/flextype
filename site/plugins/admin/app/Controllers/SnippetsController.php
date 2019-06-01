@@ -15,7 +15,7 @@ class SnippetsController extends Controller
            'plugins/admin/views/templates/extends/snippets/index.html',
            [
            'menu_item' => 'snippets',
-           'snippets_list' => $this->snippets->fetchList(),
+           'snippets_list' => $this->snippets->fetchAll(),
            'links' =>  [
                             'snippets' => [
                                 'link' => $this->router->pathFor('admin.snippets.index'),
