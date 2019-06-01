@@ -28,7 +28,7 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
     // Register The Auto Loader
     $loader = require_once $autoload;
 
-    include_once 'routes.php';
+    include_once 'routes/web.php';
 
     // Set Default Admin locale
     I18n::$locale = $flextype->registry->get('settings.locale');
