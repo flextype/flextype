@@ -6,9 +6,6 @@ use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Text\Text;
 use function Flextype\Component\I18n\__;
 
-/**
- * @property $view
- */
 class TemplatesController extends Controller
 {
     public function index($request, $response, $args)
