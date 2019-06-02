@@ -443,8 +443,16 @@ class EntriesController extends Controller
                         break;
                         // A WYSIWYG HTML field.
                         case 'html':
-                            $property['attributes']['class'] .= ' js-html-editor';
-                            $form_element = Form::textarea($element, $form_value, $property['attributes']);
+                            //$property['attributes']['id'] .= 'codex-editor';
+                            //$form_element = Form::textarea($element, $form_value, $property['attributes']);
+                            //$form_element = '<div id="editorjs" class="editor"></div>';
+                            $form_element = $this->view->fetch(
+                                'plugins/admin/views/templates/content/entries/editor.html',
+                                [
+                                    'form_element' => $element,
+                                    'form_value' => $form_value
+                                ]
+                            );
                         break;
                         // Selectbox field
                         case 'select':
