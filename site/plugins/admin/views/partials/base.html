@@ -60,6 +60,7 @@
             }
         </style>
 
+        {% if is_current_path('admin.entries.edit') %}
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script><!-- Image -->
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script><!-- Delimiter -->
@@ -74,7 +75,7 @@
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script><!-- Marker -->
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script><!-- Inline Code -->
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
-
+        {% endif %}
 
 
         {{ emmiter_emmit('onAdminThemeHeader') }}
