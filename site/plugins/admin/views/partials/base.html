@@ -266,6 +266,9 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
 
         <script>
+
+        {% if is_current_path('admin.entries.edit') %}
+
         /**
          * Module to compose output JSON preview
          */
@@ -380,7 +383,6 @@
                class: InlineCode,
                shortcut: 'CMD+SHIFT+C'
              },
-             linkTool: LinkTool,
              embed: Embed,
              table: {
                class: Table,
@@ -413,6 +415,8 @@
              cPreview.show(savedData, document.getElementById("output"));
            });
          });
+
+         {% endif %}
 
             new ClipboardJS('.js-clipboard-btn');
             bsCustomFileInput.init();
