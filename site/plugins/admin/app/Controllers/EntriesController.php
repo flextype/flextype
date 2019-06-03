@@ -38,7 +38,7 @@ class EntriesController extends Controller
             'plugins/admin/views/templates/content/entries/index.html',
             [
                            'entries_list' => $this->entries->fetchAll($this->getEntriesQuery($request->getQueryParams()['id']), 'date', 'DESC'),
-                           'entry_current' => $this->getEntriesQuery($request->getQueryParams()['id']),
+                           'id_current' => $this->getEntriesQuery($request->getQueryParams()['id']),
                            'menu_item' => 'entries',
                            'parts' => $id,
                            'i' => count($id),
@@ -133,7 +133,7 @@ class EntriesController extends Controller
             }
 
             // Init entry data
-            $data = [];
+            //$data = [];
             $default_data = [];
 
             // Define data values based on POST data
@@ -350,29 +350,33 @@ class EntriesController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
     }
 
-    public function deleteProcess($request, $response, $args)
+    public function deleteProcess($request, $response)
     {
-        $entry_name = $this->getEntriesQuery($request->getQueryParams()['entry']);
-        $entry_name_current = $this->getEntriesQuery($request->getQueryParams()['entry_current']);
+        $data = $request->getParsedBody();
 
-        if ($this->entries->delete($entry_name)) {
+        $id = $data['id'];
+        $id_current = $data['id-current'];
+
+        if ($this->entries->delete($id)) {
             $this->flash->addMessage('success', __('admin_message_entry_deleted'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?entry=' . $entry_name_current);
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?id=' . $id_current);
     }
 
-    public function duplicateProcess($request, $response, $args)
+    public function duplicateProcess($request, $response)
     {
-        $entry_name = $this->getEntriesQuery($request->getQueryParams()['entry']);
+        $data = $request->getParsedBody();
 
-        $this->entries->copy($entry_name, $entry_name . '-duplicate-' . date("Ymd_His"), true);
+        $id = $data['id'];
+
+        $this->entries->copy($id, $id . '-duplicate-' . date("Ymd_His"), true);
 
         $this->flash->addMessage('success', __('admin_message_entry_duplicated'));
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?entry=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $id), 0, -1)));
     }
 
     /**
