@@ -133,7 +133,7 @@ class EntriesController extends Controller
             }
 
             // Init entry data
-            //$data = [];
+            $_data = [];
             $default_data = [];
 
             // Define data values based on POST data
@@ -160,14 +160,14 @@ class EntriesController extends Controller
                         $_value = '';
                     }
 
-                    $data[$key] = $_value;
+                    $_data[$key] = $_value;
                 }
             }
 
             // Merge data
-            $data = array_replace_recursive($data, $default_data);
+            $_data = array_replace_recursive($_data, $default_data);
 
-            if ($this->entries->create($entry, $data)) {
+            if ($this->entries->create($entry, $_data)) {
                 $this->flash->addMessage('success', __('admin_message_entry_created'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
