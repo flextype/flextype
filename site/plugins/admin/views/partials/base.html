@@ -75,6 +75,37 @@
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script><!-- Marker -->
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script><!-- Inline Code -->
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+
+        <script>
+            /**
+            * Module to compose output JSON preview
+            */
+            const cPreview = (function (module) {
+                /**
+                 * Shows JSON in pretty preview
+                 * @param {object} output - what to show
+                 * @param {Element} holder - where to show
+                 */
+                module.show = function(output, holder) {
+                    /** Make JSON pretty */
+                    output = JSON.stringify( output, null, 4 );
+                    /** Encode HTML entities */
+                    output = encodeHTMLEntities( output );
+                    /** Stylize! */
+                    //output = stylize( output );
+                    holder.innerHTML = output;
+                };
+
+                /**
+                * Converts '>', '<', '&' symbols to entities
+                */
+                function encodeHTMLEntities(string) {
+                    return string.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                }
+
+                return module;
+            })({});
+        </script>
         {% endif %}
 
 
@@ -317,6 +348,10 @@
 
                 $('.js-save-form-submit').click(function() {
                     $("#form" ).submit();
+                });
+
+                $('.js-save-editor-form-submit').click(function() {
+                    $("#form").submit();
                 });
 
                 $('.navbar-toggler').click(function () {

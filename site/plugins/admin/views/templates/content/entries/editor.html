@@ -1,13 +1,14 @@
-<div id="{{ form_element }}" class="editor"></div>
+<div class="js-editor">
+    <div id="{{ form_element }}" class="editor"></div>
+    <textarea id="textarea_{{ form_element }}" name="{{ form_element }}" rows="8" cols="80" style="display:none;"></textarea>
+    <a href="javascript:;" id="saveButton{{ form_element }}" class="js-editor-save-button">save</a>
+</div>
 
 <script>
 
 {% if is_current_path('admin.entries.edit') %}
 
-/**
-  * Saving button
-  */
- //const saveButton = document.getElementById('saveButton');
+ var saveButton_{{ form_element }} = document.getElementById('saveButton{{ form_element }}');
 
  /**
   * To initialize the Editor, create a new instance with configuration object
@@ -83,21 +84,12 @@
     */
    data: {},
 
-   onReady: function(){
-     saveButton.click();
-   },
-
    onChange: function() {
-     console.log('something changed');
+     {{ form_element }}.save().then((savedData) => {
+       cPreview.show(savedData, document.getElementById("textarea_{{ form_element }}"));
+     });
    }
- });
- /**
-  * Saving example
-  */
- saveButton.addEventListener('click', function () {
-   editor.save().then((savedData) => {
-     //cPreview.show(savedData, document.getElementById("output"));
-   });
+
  });
 
  {% endif %}
