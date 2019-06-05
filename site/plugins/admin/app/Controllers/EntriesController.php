@@ -454,7 +454,7 @@ class EntriesController extends Controller
                                 'plugins/admin/views/templates/content/entries/editor.html',
                                 [
                                     'form_element' => $element,
-                                    'form_value' => $form_value
+                                    'form_value' => JsonParser::encode($form_value)
                                 ]
                             );
                         break;
@@ -567,10 +567,30 @@ class EntriesController extends Controller
     public function editProcess($request, $response, $args)
     {
 
+        $id = $request->getQueryParams()['id'];
+
         $data = $request->getParsedBody();
 
-        print_r($data);
-        die('as');
+        $_data = [];
+
+        foreach($data as $key => $value) {
+            $pos = strpos($key, '_json');
+
+            if ($pos === false) {
+                $_data[$key] = $value;
+            } else {
+                $_data[str_replace('_json','',$key)] = JsonParser::decode($value);
+            }
+        }
+
+        Arr::delete($_data, 'slug');
+        Arr::delete($_data, 'csrf_value');
+        Arr::delete($_data, 'csrf_name');
+        Arr::delete($_data, 'action');
+
+
+        $this->entries->update($id, $_data);
+
         /*
         $indenter = new Indenter();
 
