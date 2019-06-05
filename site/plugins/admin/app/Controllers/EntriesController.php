@@ -617,7 +617,7 @@ class EntriesController extends Controller
         // Merge entry data with $to_save_data
         $result_data = array_merge($entry, $to_save_data);
 
-        // Update entry 
+        // Update entry
         if ($this->entries->update($id, $result_data)) {
             $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
         } else {
