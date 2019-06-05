@@ -454,25 +454,8 @@ class EntriesController extends Controller
                         break;
                         // A WYSIWYG HTML field.
                         case 'html':
-                            if ($form_value === '' || count($form_value['blocks']) == 0) {
-                                $form_value = JsonParser::decode('{
-                                    "time": 1559727958862,
-                                    "blocks": [{
-                                                    "type": "paragraph",
-                                                    "data": {
-                                                        "text": ""
-                                                    }
-                                                }],
-                                    "version": "2.13.0"
-                                }');
-                            }
-                            $form_element = $this->view->fetch(
-                                'plugins/admin/views/templates/content/entries/editor.html',
-                                [
-                                    'form_element' => $element,
-                                    'form_value' => JsonParser::encode($form_value)
-                                ]
-                            );
+                            $property['attributes']['class'] .= ' js-html-editor';
+                            $form_element = Form::textarea($element, $form_value, $property['attributes']);
                         break;
                         // Selectbox field
                         case 'select':

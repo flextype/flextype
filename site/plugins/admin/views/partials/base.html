@@ -60,55 +60,6 @@
             }
         </style>
 
-        {% if is_current_path('admin.entries.edit') %}
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script><!-- Image -->
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script><!-- Delimiter -->
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script><!-- List -->
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script><!-- Checklist -->
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script><!-- Quote -->
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script><!-- Code -->
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script><!-- Embed -->
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script><!-- Table -->
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script><!-- Link -->
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/warning@latest"></script><!-- Warning -->
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script><!-- Marker -->
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script><!-- Inline Code -->
-        <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
-
-        <script>
-            /**
-            * Module to compose output JSON preview
-            */
-            const cPreview = (function (module) {
-                /**
-                 * Shows JSON in pretty preview
-                 * @param {object} output - what to show
-                 * @param {Element} holder - where to show
-                 */
-                module.show = function(output, holder) {
-                    /** Make JSON pretty */
-                    output = JSON.stringify( output, null, 4 );
-                    /** Encode HTML entities */
-                    output = encodeHTMLEntities( output );
-                    /** Stylize! */
-                    //output = stylize( output );
-                    holder.innerHTML = output;
-                };
-
-                /**
-                * Converts '>', '<', '&' symbols to entities
-                */
-                function encodeHTMLEntities(string) {
-                    return string.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                }
-
-                return module;
-            })({});
-        </script>
-        {% endif %}
-
-
         {{ emmiter_emmit('onAdminThemeHeader') }}
     {% endblock %}
   </head>
@@ -343,6 +294,32 @@
             };
 
             $(document).ready(function() {
+
+                $.trumbowyg.svgPath =  '{{base_url()}}/site/plugins/admin/assets/dist/fonts/trumbowyg/icons.svg';
+                $('.js-html-editor').trumbowyg({
+                    btnsDef: {
+                        // Customizables dropdowns
+                        image: {
+                            dropdown: ['insertImage', 'noembed'],
+                            ico: 'insertImage'
+                        }
+                    },
+                    btns: [
+                        ['undo', 'redo'], // Only supported in Blink browsers
+                        ['formatting'],
+                        ['strong', 'em', 'del'],
+                        ['link'],
+                        ['image'],
+                        ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+                        ['unorderedList', 'orderedList'],
+                        ['table'],
+                        ['removeformat'],
+                        ['fullscreen']
+                    ],
+                    lang: '{{ locale }}',
+                    autogrow: false,
+                    removeformatPasted: true
+                });
 
                 $.flextype.plugins.init();
 
