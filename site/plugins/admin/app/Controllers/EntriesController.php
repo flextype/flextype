@@ -125,7 +125,7 @@ class EntriesController extends Controller
 
             // We need to check if template for current fieldset is exists
             // if template is not exist then default template will be used!
-            $template_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/views/templates/' . $data['fieldset'] . '.html';
+            $template_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/templates/' . $data['fieldset'] . '.html';
             if (Filesystem::has($template_path)) {
                 $template = $data['fieldset'];
             } else {
@@ -144,8 +144,10 @@ class EntriesController extends Controller
 
 
             // Predefine data values based on selected fieldset
+            /*
             foreach ($fieldset['sections'] as $section) {
                 foreach ($section as $key => $field) {
+
 
                     // Get values from default data
                     if (isset($default_data[$key])) {
@@ -165,9 +167,14 @@ class EntriesController extends Controller
             }
 
             // Merge data
-            $_data = array_replace_recursive($_data, $default_data);
+            if(count($_data) > 0) {
+                $__data = array_replace_recursive($_data, $default_data);
+            } else {
+                $__data = $default_data;
+            }
+            */
 
-            if ($this->entries->create($entry, $_data)) {
+            if ($this->entries->create($entry, $default_data)) {
                 $this->flash->addMessage('success', __('admin_message_entry_created'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
@@ -447,6 +454,18 @@ class EntriesController extends Controller
                         break;
                         // A WYSIWYG HTML field.
                         case 'html':
+                            if ($form_value === '') {
+                                $form_value = JsonParser::decode('{
+                                    "time": 1559727958862,
+                                    "blocks": [{
+                                                    "type": "paragraph",
+                                                    "data": {
+                                                        "text": ""
+                                                    }
+                                                }],
+                                    "version": "2.13.0"
+                                }');
+                            }
                             $form_element = $this->view->fetch(
                                 'plugins/admin/views/templates/content/entries/editor.html',
                                 [
@@ -583,7 +602,10 @@ class EntriesController extends Controller
         Arr::delete($_data, 'csrf_value');
         Arr::delete($_data, 'csrf_name');
         Arr::delete($_data, 'action');
-
+        echo '<pre>';
+print_r($_data);
+echo '</pre>';
+die();
         if ($this->entries->update($id, $_data)) {
             $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
         } else {
