@@ -17,6 +17,7 @@ $app->post('/admin/plugins/update-status', 'PluginsController:pluginStatusProces
 // EntriesController
 $app->get('/admin/entries', 'EntriesController:index')->setName('admin.entries.index');
 $app->get('/admin/entries/edit', 'EntriesController:edit')->setName('admin.entries.edit');
+$app->post('/admin/entries/edit', 'EntriesController:editProcess')->setName('admin.entries.editProcess');
 $app->get('/admin/entries/add', 'EntriesController:add')->setName('admin.entries.add');
 $app->post('/admin/entries/add', 'EntriesController:addProcess')->setName('admin.entries.addProcess');
 $app->get('/admin/entries/move', 'EntriesController:move')->setName('admin.entries.move');
