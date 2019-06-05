@@ -582,12 +582,19 @@ class EntriesController extends Controller
 
     public function editProcess($request, $response, $args)
     {
+        // Get Entry ID from GET param
         $id = $request->getQueryParams()['id'];
 
+        // Data to save
         $to_save_data = [];
+
+        // Result data to save
         $result_data = [];
+
+        // Data from POST
         $data = $request->getParsedBody();
 
+        // Foreach Data from POST
         foreach($data as $key => $value) {
             $pos = strpos($key, '_json');
 
@@ -598,15 +605,19 @@ class EntriesController extends Controller
             }
         }
 
+        // Delete system fields
         Arr::delete($to_save_data, 'slug');
         Arr::delete($to_save_data, 'csrf_value');
         Arr::delete($to_save_data, 'csrf_name');
         Arr::delete($to_save_data, 'action');
 
+        // Fetch entry
         $entry = $this->entries->fetch($id);
 
+        // Merge entry data with $to_save_data
         $result_data = array_merge($entry, $to_save_data);
 
+        // Update entry 
         if ($this->entries->update($id, $result_data)) {
             $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
         } else {
