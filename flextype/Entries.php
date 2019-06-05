@@ -52,7 +52,7 @@ class Entries
 
                     // Apply Shortcodes for each entry fields
                     foreach ($entry_decoded as $key => $_entry_decoded) {
-                        $entry_decoded[$key] = $this->flextype['shortcodes']->process($_entry_decoded);
+                        $entry_decoded[$key] = $_entry_decoded;//$this->flextype['shortcodes']->process($_entry_decoded);
                     }
 
                     return $entry_decoded;
@@ -72,7 +72,7 @@ class Entries
 
                         // Apply Shortcodes for each entry fields
                         foreach ($entry_decoded as $key => $_entry_decoded) {
-                            $entry_decoded[$key] = $this->flextype['shortcodes']->process($_entry_decoded);
+                            $entry_decoded[$key] = $_entry_decoded;//$this->flextype['shortcodes']->process($_entry_decoded);
                         }
 
                         return $entry_decoded;
