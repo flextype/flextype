@@ -535,7 +535,14 @@ class EntriesController extends Controller
                                    'title' => __('admin_source'),
                                    'attributes' => ['class' => 'navbar-item']
                                ],
-                            ]
+                           ],
+                           'buttons' => [
+                            'save_entry' => [
+                                                'link'       => 'javascript:;',
+                                                'title'      => __('admin_save'),
+                                                'attributes' => ['class' => 'js-save-editor-form-submit float-right btn']
+                                            ],
+                           ]
                         ]
         );
     }
@@ -557,8 +564,13 @@ class EntriesController extends Controller
         return $files;
     }
 
-    public function editProcess()
+    public function editProcess($request, $response, $args)
     {
+
+        $data = $request->getParsedBody();
+
+        print_r($data);
+        die('as');
         /*
         $indenter = new Indenter();
 
