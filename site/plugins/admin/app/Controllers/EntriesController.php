@@ -447,9 +447,6 @@ class EntriesController extends Controller
                         break;
                         // A WYSIWYG HTML field.
                         case 'html':
-                            //$property['attributes']['id'] .= 'codex-editor';
-                            //$form_element = Form::textarea($element, $form_value, $property['attributes']);
-                            //$form_element = '<div id="editorjs" class="editor"></div>';
                             $form_element = $this->view->fetch(
                                 'plugins/admin/views/templates/content/entries/editor.html',
                                 [
@@ -566,7 +563,6 @@ class EntriesController extends Controller
 
     public function editProcess($request, $response, $args)
     {
-
         $id = $request->getQueryParams()['id'];
 
         $data = $request->getParsedBody();
@@ -588,31 +584,12 @@ class EntriesController extends Controller
         Arr::delete($_data, 'csrf_name');
         Arr::delete($_data, 'action');
 
-
-        $this->entries->update($id, $_data);
-
-        /*
-        $indenter = new Indenter();
-
-        $entry = Entries::fetch(Http::get('entry'));
-        Arr::delete($entry, 'slug');
-        $data = [];
-        $_data = $_POST;
-        Arr::delete($_data, 'token');
-        Arr::delete($_data, 'action');
-
-        foreach ($_data as $key => $_d) {
-            $data[$key] = $indenter->indent($_d);
-        }
-
-        $data = array_merge($entry, $data);
-
-        if (Entries::update(Http::get('entry'), $data)) {
-            Notification::set('success', __('admin_message_entry_changes_saved'));
+        if ($this->entries->update($id, $_data)) {
+            $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
         } else {
-            Notification::set('error', __('admin_message_entry_changes_not_saved'));
+            $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
         }
-        Http::redirect(Http::getBaseUrl() . '/admin/entries/edit?entry=' . Http::get('entry'));
-        */
+
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.edit') . '?id=' . $id);
     }
 }
