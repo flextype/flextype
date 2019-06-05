@@ -454,7 +454,7 @@ class EntriesController extends Controller
                         break;
                         // A WYSIWYG HTML field.
                         case 'html':
-                            if ($form_value === '') {
+                            if ($form_value === '' || count($form_value['blocks']) == 0) {
                                 $form_value = JsonParser::decode('{
                                     "time": 1559727958862,
                                     "blocks": [{
