@@ -584,26 +584,30 @@ class EntriesController extends Controller
     {
         $id = $request->getQueryParams()['id'];
 
+        $to_save_data = [];
+        $result_data = [];
         $data = $request->getParsedBody();
-
-        $_data = [];
 
         foreach($data as $key => $value) {
             $pos = strpos($key, '_json');
 
             if ($pos === false) {
-                $_data[$key] = $value;
+                $to_save_data[$key] = $value;
             } else {
-                $_data[str_replace('_json','',$key)] = JsonParser::decode($value);
+                $to_save_data[str_replace('_json','',$key)] = JsonParser::decode($value);
             }
         }
 
-        Arr::delete($_data, 'slug');
-        Arr::delete($_data, 'csrf_value');
-        Arr::delete($_data, 'csrf_name');
-        Arr::delete($_data, 'action');
-        
-        if ($this->entries->update($id, $_data)) {
+        Arr::delete($to_save_data, 'slug');
+        Arr::delete($to_save_data, 'csrf_value');
+        Arr::delete($to_save_data, 'csrf_name');
+        Arr::delete($to_save_data, 'action');
+
+        $entry = $this->entries->fetch($id);
+
+        $result_data = array_merge($entry, $to_save_data);
+
+        if ($this->entries->update($id, $result_data)) {
             $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
