@@ -602,10 +602,7 @@ class EntriesController extends Controller
         Arr::delete($_data, 'csrf_value');
         Arr::delete($_data, 'csrf_name');
         Arr::delete($_data, 'action');
-        echo '<pre>';
-print_r($_data);
-echo '</pre>';
-die();
+        
         if ($this->entries->update($id, $_data)) {
             $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
         } else {
