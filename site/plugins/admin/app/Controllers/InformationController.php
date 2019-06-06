@@ -19,9 +19,9 @@ class InformationController extends Controller
         }
 
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/system/information/index.html',
-           [
+            $response,
+            'plugins/admin/views/templates/system/information/index.html',
+            [
            'menu_item' => 'information',
            'php_uname' => php_uname(),
            'webserver' => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : @getenv('SERVER_SOFTWARE'),

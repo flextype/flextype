@@ -11,9 +11,9 @@ class TemplatesController extends Controller
     public function index($request, $response)
     {
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/extends/templates/index.html',
-           [
+            $response,
+            'plugins/admin/views/templates/extends/templates/index.html',
+            [
            'menu_item' => 'templates',
            'templates_list' => $this->themes->getTemplates(),
            'partials_list' => $this->themes->getPartials(),
@@ -38,9 +38,9 @@ class TemplatesController extends Controller
     public function add($request, $response)
     {
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/extends/templates/add.html',
-           [
+            $response,
+            'plugins/admin/views/templates/extends/templates/add.html',
+            [
            'menu_item' => 'templates',
            'links' =>  [
                             'templates' => [
@@ -63,8 +63,8 @@ class TemplatesController extends Controller
 
         if (!Filesystem::has($file)) {
             if (Filesystem::write(
-               $file,
-               ""
+                $file,
+                ""
            )) {
                 $this->flash->addMessage('success', __('admin_message_'.$type.'_created'));
             } else {
@@ -82,9 +82,9 @@ class TemplatesController extends Controller
         $type = $request->getQueryParams()['type'];
 
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/extends/templates/edit.html',
-           [
+            $response,
+            'plugins/admin/views/templates/extends/templates/edit.html',
+            [
            'menu_item' => 'templates',
            'id' => $request->getQueryParams()['id'],
            'data' => Filesystem::read(PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getQueryParams()['id'] . '.html'),
@@ -123,9 +123,9 @@ class TemplatesController extends Controller
     public function rename($request, $response)
     {
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/extends/templates/rename.html',
-           [
+            $response,
+            'plugins/admin/views/templates/extends/templates/rename.html',
+            [
            'menu_item' => 'templates',
            'types' => ['partial' => __('admin_partial'), 'template' => __('admin_template')],
            'id_current' => $request->getQueryParams()['id'],
@@ -147,8 +147,8 @@ class TemplatesController extends Controller
 
         if (!Filesystem::has(PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) .  $request->getParsedBody()['id'] . '.html')) {
             if (Filesystem::rename(
-              PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()['id_current'] . '.html',
-              PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()['id'] . '.html'
+                PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()['id_current'] . '.html',
+                PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()['id'] . '.html'
            )
            ) {
                 $this->flash->addMessage('success', __('admin_message_'.$type.'_renamed'));

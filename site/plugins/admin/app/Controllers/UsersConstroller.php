@@ -14,8 +14,8 @@ class UsersController extends Controller
     public function profile($request, $response)
     {
         return $this->container->get('view')->render(
-          $response,
-          'plugins/admin/views/templates/users/profile.html'
+            $response,
+            'plugins/admin/views/templates/users/profile.html'
       );
     }
 
@@ -23,9 +23,9 @@ class UsersController extends Controller
     {
         if (!Users::isLoggedIn()) {
             return $this->container->get('view')->render(
-              $response,
-              'plugins/admin/views/templates/users/login.html',
-              [
+                $response,
+                'plugins/admin/views/templates/users/login.html',
+                [
                                   'user_is_logged' => Users::isLoggedIn()
                                  ]
           );

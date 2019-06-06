@@ -11,9 +11,9 @@ class FieldsetsController extends Controller
     public function index($request, $response)
     {
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/extends/fieldsets/index.html',
-           [
+            $response,
+            'plugins/admin/views/templates/extends/fieldsets/index.html',
+            [
            'menu_item' => 'fieldsets',
            'fieldsets_list' => $this->fieldsets->fetchAll(),
            'links' =>  [
@@ -37,9 +37,9 @@ class FieldsetsController extends Controller
     public function add($request, $response)
     {
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/extends/fieldsets/add.html',
-           [
+            $response,
+            'plugins/admin/views/templates/extends/fieldsets/add.html',
+            [
            'menu_item' => 'fieldsets',
            'fieldsets_list' => $this->fieldsets->fetchAll(),
            'links' =>  [
@@ -82,9 +82,9 @@ class FieldsetsController extends Controller
     public function edit($request, $response)
     {
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/extends/fieldsets/edit.html',
-           [
+            $response,
+            'plugins/admin/views/templates/extends/fieldsets/edit.html',
+            [
            'menu_item' => 'fieldsets',
            'id' => $request->getQueryParams()['id'],
            'data' => JsonParser::encode($this->fieldsets->fetch($request->getQueryParams()['id'])),
@@ -120,9 +120,9 @@ class FieldsetsController extends Controller
     public function rename($request, $response)
     {
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/extends/fieldsets/rename.html',
-           [
+            $response,
+            'plugins/admin/views/templates/extends/fieldsets/rename.html',
+            [
            'menu_item' => 'fieldsets',
            'id' => $request->getQueryParams()['id'],
            'links' =>  [

@@ -11,9 +11,9 @@ class SnippetsController extends Controller
     public function index($request, $response)
     {
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/extends/snippets/index.html',
-           [
+            $response,
+            'plugins/admin/views/templates/extends/snippets/index.html',
+            [
            'menu_item' => 'snippets',
            'snippets_list' => $this->snippets->fetchAll(),
            'links' =>  [
@@ -37,9 +37,9 @@ class SnippetsController extends Controller
     public function add($request, $response)
     {
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/extends/snippets/add.html',
-           [
+            $response,
+            'plugins/admin/views/templates/extends/snippets/add.html',
+            [
            'menu_item' => 'snippets',
            'links' =>  [
                             'snippets' => [
@@ -66,9 +66,9 @@ class SnippetsController extends Controller
     public function edit($request, $response)
     {
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/extends/snippets/edit.html',
-           [
+            $response,
+            'plugins/admin/views/templates/extends/snippets/edit.html',
+            [
            'menu_item' => 'snippets',
            'id' => $request->getQueryParams()['id'],
            'data' => $this->snippets->fetch($request->getQueryParams()['id']),
@@ -104,9 +104,9 @@ class SnippetsController extends Controller
     public function rename($request, $response)
     {
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/extends/snippets/rename.html',
-           [
+            $response,
+            'plugins/admin/views/templates/extends/snippets/rename.html',
+            [
            'menu_item' => 'snippets',
            'id_current' => $request->getQueryParams()['id'],
            'links' => [
@@ -123,8 +123,8 @@ class SnippetsController extends Controller
     public function renameProcess($request, $response)
     {
         if ($this->snippets->rename(
-           $request->getParsedBody()['id_current'],
-           $request->getParsedBody()['id']
+            $request->getParsedBody()['id_current'],
+            $request->getParsedBody()['id']
        )
        ) {
             $this->flash->addMessage('success', __('admin_message_snippets_renamed'));

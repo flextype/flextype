@@ -584,7 +584,7 @@ class EntriesController extends Controller
                        ]
                 ]
             );
-        } elseif($type == 'media') {
+        } elseif ($type == 'media') {
             return $this->view->render(
                 $response,
                 'plugins/admin/views/templates/content/entries/media.html',
@@ -694,13 +694,13 @@ class EntriesController extends Controller
         $data = $request->getParsedBody();
 
         // Foreach Data from POST
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $pos = strpos($key, '_json');
 
             if ($pos === false) {
                 $to_save_data[$key] = $value;
             } else {
-                $to_save_data[str_replace('_json','',$key)] = JsonParser::decode($value);
+                $to_save_data[str_replace('_json', '', $key)] = JsonParser::decode($value);
             }
         }
 
@@ -741,7 +741,6 @@ class EntriesController extends Controller
         $this->flash->addMessage('success', __('admin_message_entry_file_deleted'));
 
         return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.edit') . '?id=' . $entry_id . '&type=media');
-
     }
 
     public function uploadMediaFileProcess(Request $request, Response $response)
@@ -755,37 +754,37 @@ class EntriesController extends Controller
         $file = $this->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('settings.entries.media.accept_file_types'), 27000000);
 
         if ($file !== false) {
-             if (in_array(pathinfo($file)['extension'], ['jpg', 'jpeg', 'png', 'gif'])) {
-                 // open an image file
-                 $img = Image::make($file);
-                 // now you are able to resize the instance
-                 if ($this->registry->get('settings.entries.media.upload_images_width') > 0 && $this->registry->get('settings.entries.media.upload_images_height') > 0) {
-                     $img->resize($this->registry->get('settings.entries.media.upload_images_width'), $this->registry->get('settings.entries.media.upload_images_height'), function($constraint) {
-                         $constraint->aspectRatio();
-                         $constraint->upsize();
-                     });
-                 } elseif ($this->registry->get('settings.entries.media.upload_images_width') > 0) {
-                     $img->resize($this->registry->get('settings.entries.media.upload_images_width'), null, function($constraint) {
-                         $constraint->aspectRatio();
-                         $constraint->upsize();
-                     });
-                 } elseif ($this->registry->get('settings.entries.media.upload_images_height') > 0) {
-                     $img->resize(null, $this->registry->get('settings.entries.media.upload_images_height'), function($constraint) {
-                         $constraint->aspectRatio();
-                         $constraint->upsize();
-                     });
-                 }
-                 // finally we save the image as a new file
-                 $img->save($file, $this->registry->get('settings.entries.media.upload_images_quality'));
+            if (in_array(pathinfo($file)['extension'], ['jpg', 'jpeg', 'png', 'gif'])) {
+                // open an image file
+                $img = Image::make($file);
+                // now you are able to resize the instance
+                if ($this->registry->get('settings.entries.media.upload_images_width') > 0 && $this->registry->get('settings.entries.media.upload_images_height') > 0) {
+                    $img->resize($this->registry->get('settings.entries.media.upload_images_width'), $this->registry->get('settings.entries.media.upload_images_height'), function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    });
+                } elseif ($this->registry->get('settings.entries.media.upload_images_width') > 0) {
+                    $img->resize($this->registry->get('settings.entries.media.upload_images_width'), null, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    });
+                } elseif ($this->registry->get('settings.entries.media.upload_images_height') > 0) {
+                    $img->resize(null, $this->registry->get('settings.entries.media.upload_images_height'), function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    });
+                }
+                // finally we save the image as a new file
+                $img->save($file, $this->registry->get('settings.entries.media.upload_images_quality'));
 
-                 // destroy
-                 $img->destroy();
-             }
+                // destroy
+                $img->destroy();
+            }
 
-             $this->flash->addMessage('success', __('admin_message_entry_file_uploaded'));
-         } else {
-             $this->flash->addMessage('success', __('admin_message_entry_file_not_uploaded'));
-         }
+            $this->flash->addMessage('success', __('admin_message_entry_file_uploaded'));
+        } else {
+            $this->flash->addMessage('success', __('admin_message_entry_file_not_uploaded'));
+        }
 
         return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=media');
     }
@@ -810,15 +809,15 @@ class EntriesController extends Controller
      */
     public function _uploadFile(
         array $file,
-                                        string $upload_directory,
-                                        string $allowed = 'jpeg, png, gif, jpg',
-                                        int $max_size = 3000000,
-                                        string $filename = null,
-                                        bool $remove_spaces = true,
-                                        int $max_width = null,
-                                        int $max_height = null,
-                                        bool $exact = false,
-                                        int $chmod = 0644
+        string $upload_directory,
+        string $allowed = 'jpeg, png, gif, jpg',
+        int $max_size = 3000000,
+        string $filename = null,
+        bool $remove_spaces = true,
+        int $max_width = null,
+        int $max_height = null,
+        bool $exact = false,
+        int $chmod = 0644
     ) {
         //
         // Tests if a successful upload has been made.

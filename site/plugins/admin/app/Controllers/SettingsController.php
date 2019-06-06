@@ -44,9 +44,9 @@ class SettingsController extends Controller
                            'array' => 'Array'];
 
         return $this->view->render(
-           $response,
-           'plugins/admin/views/templates/system/settings/index.html',
-           [
+            $response,
+            'plugins/admin/views/templates/system/settings/index.html',
+            [
                                       'timezones' => Date::timezones(),
                                       'settings' => $this->registry->get('settings'),
                                       'cache_driver' => $cache_driver,
