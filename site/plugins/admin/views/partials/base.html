@@ -364,7 +364,8 @@
                     $('#entriesImagePreview').modal();
                     $('.js-entry-image-preview-placeholder').css('background-image', 'url(' + $(this).attr('data-image-url') + ')');
                     $('.js-entry-image-url-placeholder').val($(this).attr('data-image-url'));
-                    $('.js-entry-image-delete-url-placeholder').attr('href', $(this).attr('data-image-delete-url'));
+                    $('.js-media-id').attr('value', $(this).attr('data-media-id'));
+                    $('.js-entry-id').attr('value', $(this).attr('data-entry-id'));
                 });
 
                 $('.js-settings-entry-modal').click(function () {
