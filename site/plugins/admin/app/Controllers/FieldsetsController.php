@@ -14,9 +14,9 @@ class FieldsetsController extends Controller
             $response,
             'plugins/admin/views/templates/extends/fieldsets/index.html',
             [
-           'menu_item' => 'fieldsets',
-           'fieldsets_list' => $this->fieldsets->fetchAll(),
-           'links' =>  [
+            'menu_item' => 'fieldsets',
+            'fieldsets_list' => $this->fieldsets->fetchAll(),
+            'links' =>  [
                             'fieldsets' => [
                                 'link' => $this->router->pathFor('admin.fieldsets.index'),
                                 'title' => __('admin_fieldsets'),
@@ -29,9 +29,9 @@ class FieldsetsController extends Controller
                                 'title' => __('admin_create_new_fieldset'),
                                 'attributes' => ['class' => 'float-right btn']
                             ]
-                         ]
-       ]
-       );
+                            ]
+        ]
+        );
     }
 
     public function add($request, $response)
@@ -40,9 +40,9 @@ class FieldsetsController extends Controller
             $response,
             'plugins/admin/views/templates/extends/fieldsets/add.html',
             [
-           'menu_item' => 'fieldsets',
-           'fieldsets_list' => $this->fieldsets->fetchAll(),
-           'links' =>  [
+            'menu_item' => 'fieldsets',
+            'fieldsets_list' => $this->fieldsets->fetchAll(),
+            'links' =>  [
                             'fieldsets' => [
                                 'link' => $this->router->pathFor('admin.fieldsets.index'),
                                 'title' => __('admin_fieldsets'),
@@ -55,9 +55,9 @@ class FieldsetsController extends Controller
                                 'title' => __('admin_create_new_fieldset'),
                                 'attributes' => ['class' => 'float-right btn']
                             ]
-                         ]
-       ]
-       );
+                            ]
+        ]
+        );
     }
 
     public function addProcess($request, $response)
@@ -85,10 +85,10 @@ class FieldsetsController extends Controller
             $response,
             'plugins/admin/views/templates/extends/fieldsets/edit.html',
             [
-           'menu_item' => 'fieldsets',
-           'id' => $request->getQueryParams()['id'],
-           'data' => JsonParser::encode($this->fieldsets->fetch($request->getQueryParams()['id'])),
-           'links' =>  [
+            'menu_item' => 'fieldsets',
+            'id' => $request->getQueryParams()['id'],
+            'data' => JsonParser::encode($this->fieldsets->fetch($request->getQueryParams()['id'])),
+            'links' =>  [
                             'fieldsets' => [
                                 'link' => $this->router->pathFor('admin.fieldsets.edit') . '?id=' . $request->getQueryParams()['id'],
                                 'title' => __('admin_fieldsets'),
@@ -102,8 +102,8 @@ class FieldsetsController extends Controller
                                 'attributes' => ['class' => 'js-save-form-submit float-right btn']
                             ],
                         ]
-       ]
-       );
+        ]
+        );
     }
 
     public function editProcess($request, $response)
@@ -123,9 +123,9 @@ class FieldsetsController extends Controller
             $response,
             'plugins/admin/views/templates/extends/fieldsets/rename.html',
             [
-           'menu_item' => 'fieldsets',
-           'id' => $request->getQueryParams()['id'],
-           'links' =>  [
+            'menu_item' => 'fieldsets',
+            'id' => $request->getQueryParams()['id'],
+            'links' =>  [
                             'fieldsets' => [
                                 'link' => $this->router->pathFor('admin.fieldsets.index'),
                                 'title' => __('admin_fieldsets'),
@@ -137,8 +137,8 @@ class FieldsetsController extends Controller
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ],
-       ]
-       );
+        ]
+        );
     }
 
     public function renameProcess($request, $response)

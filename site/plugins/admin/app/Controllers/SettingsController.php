@@ -34,48 +34,48 @@ class SettingsController extends Controller
         }
 
         $cache_driver = ['auto' => 'Auto Detect',
-                           'file' => 'File',
-                           'apcu' => 'APCu',
-                           'wincache' => 'WinCache',
-                           'memcached' => 'Memcached',
-                           'redis' => 'Redis',
-                           'sqlite3' => 'SQLite3',
-                           'zend' => 'Zend',
-                           'array' => 'Array'];
+                            'file' => 'File',
+                            'apcu' => 'APCu',
+                            'wincache' => 'WinCache',
+                            'memcached' => 'Memcached',
+                            'redis' => 'Redis',
+                            'sqlite3' => 'SQLite3',
+                            'zend' => 'Zend',
+                            'array' => 'Array'];
 
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/system/settings/index.html',
             [
-                                      'timezones' => Date::timezones(),
-                                      'settings' => $this->registry->get('settings'),
-                                      'cache_driver' => $cache_driver,
-                                      'locales' => $locales,
-                                      'entries' => $entries,
-                                      'themes' => $themes,
-                                      'links' => [
-                                                              'settings' => [
-                                                                                  'link' => $this->router->pathFor('admin.settings.index'),
-                                                                                  'title' => __('admin_settings'),
-                                                                                  'attributes' => ['class' => 'navbar-item active']
-                                                                              ]
-                                                          ],
-                                     'buttons'  => [
-                                                                  'save' => [
-                                                                                      'link'       => 'javascript:;',
-                                                                                      'title'      => __('admin_save'),
-                                                                                      'attributes' => ['class' => 'js-save-form-submit float-right btn']
-                                                                                  ],
-                                                                  'settings_clear_cache' => [
-                                                                                      'type' => 'action',
-                                                                                      'id' => 'clear-cache',
-                                                                                      'link' => $this->router->pathFor('admin.settings.clear-cache'),
-                                                                                      'title' => __('admin_clear_cache'),
-                                                                                      'attributes' => ['class' => 'float-right btn']
-                                                                              ]
-                                                          ]
-                                  ]
-       );
+                                        'timezones' => Date::timezones(),
+                                        'settings' => $this->registry->get('settings'),
+                                        'cache_driver' => $cache_driver,
+                                        'locales' => $locales,
+                                        'entries' => $entries,
+                                        'themes' => $themes,
+                                        'links' => [
+                                                                'settings' => [
+                                                                                    'link' => $this->router->pathFor('admin.settings.index'),
+                                                                                    'title' => __('admin_settings'),
+                                                                                    'attributes' => ['class' => 'navbar-item active']
+                                                                                ]
+                                                            ],
+                                        'buttons'  => [
+                                                                    'save' => [
+                                                                                        'link'       => 'javascript:;',
+                                                                                        'title'      => __('admin_save'),
+                                                                                        'attributes' => ['class' => 'js-save-form-submit float-right btn']
+                                                                                    ],
+                                                                    'settings_clear_cache' => [
+                                                                                        'type' => 'action',
+                                                                                        'id' => 'clear-cache',
+                                                                                        'link' => $this->router->pathFor('admin.settings.clear-cache'),
+                                                                                        'title' => __('admin_clear_cache'),
+                                                                                        'attributes' => ['class' => 'float-right btn']
+                                                                                ]
+                                                            ]
+                                    ]
+        );
     }
 
     public function update($request, $response)
