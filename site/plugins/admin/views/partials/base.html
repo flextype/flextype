@@ -107,7 +107,7 @@
                           {% endfor %}
                           {% for key, item in registry.admin_navigation.help %}
                               <li class="nav-item {% if key == menu_item %} active {% endif %}">
-                                  <a href="{{ base_url() }}{{ item.link|raw }}"
+                                  <a href="{{ item.link|raw }}"
                                   {% for key, attribute in item.attributes %}
                                       {{ key }} = {{ attribute }}
                                   {% endfor %}
