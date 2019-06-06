@@ -1,10 +1,18 @@
 ## [0.9.0] - 2019-06-xx
 ### Added
-- Flextype Core: Shortcodes class to work with shortcodes and default shortcodes.
-- Shortcodes: new default shortcode [site_url]
-- Flextype Core: new method updateCurrentEntryField() - added.
-- Flextype Core: new method updateCurrentEntry() - added.
-- Flextype Core: Using new languages files format.
+- Flextype Core: Slim Framework Integration!
+- Flextype Core: Twig Template Engine Integration!
+- Flextype Core: New Entries API
+- Flextype Core: New Fieldsets API
+- Flextype Core: New Snippets API
+- Flextype Core: New JSON Parser instead of old YAML Parser.
+- Flextype Core: Using new languages files format and JSON extension instead of YAML.
+- Flextype Core: Using JSON extension instead of YAML for all kind of data to store.
+- Flextype Core: Complete Glide/Intervention Image Implemented for Image manipulation on fly!
+- Flextype Core: New Event handler from The League of Extraordinary Packages for better event handling.
+- Flextype Core: New Add CSRF service for better cross-site request forgery protection.
+- Flextype Site: New plugin Site added.
+- Flextype Core: Respect Validation - The most awesome validation engine ever created for PHP - added.
 
 ### Changed
 - Flextype Core: Symfony Yaml updated to 4.2.3.
