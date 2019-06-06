@@ -557,6 +557,45 @@ class EntriesController extends Controller
                        ]
                 ]
             );
+        } elseif($type == 'media') {
+            return $this->view->render(
+                $response,
+                'plugins/admin/views/templates/content/entries/media.html',
+                [
+                       'parts' => $_id,
+                       'i' => count($_id),
+                       'last' => Arr::last($_id),
+
+                         'id' => $id,
+                         'files' => $this->getMediaList($id, true),
+
+                       'menu_item' => 'entries',
+                       'links' => [
+                           'edit_entry' => [
+                               'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id,
+                               'title' => __('admin_content'),
+                               'attributes' => ['class' => 'navbar-item']
+                           ],
+                           'edit_entry_media' => [
+                               'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=media',
+                               'title' => __('admin_media'),
+                               'attributes' => ['class' => 'navbar-item active']
+                           ],
+                           'edit_entry_source' => [
+                               'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=source',
+                               'title' => __('admin_source'),
+                               'attributes' => ['class' => 'navbar-item']
+                           ],
+                       ],
+                       'buttons' => [
+                           'save_entry' => [
+                                            'link'       => 'javascript:;',
+                                            'title'      => __('admin_save'),
+                                            'attributes' => ['class' => 'js-save-editor-form-submit float-right btn']
+                                        ],
+                       ]
+                ]
+            );
         } else {
             return $this->view->render(
                 $response,
@@ -565,12 +604,7 @@ class EntriesController extends Controller
                        'parts' => $_id,
                        'i' => count($_id),
                        'last' => Arr::last($_id),
-                       'id' => $id,
-                       'data' => $entry,
-                       'fieldsets' => $fieldsets,
                        'form' => $this->fetchForm($fieldsets, $entry, $request),
-                       'templates' => $this->themes->getTemplates(),
-                       'files' => $this->getMediaList($id),
                        'menu_item' => 'entries',
                        'links' => [
                            'edit_entry' => [
@@ -608,7 +642,7 @@ class EntriesController extends Controller
             if (strpos($this->registry->get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($path) {
-                        $files[$this->uri->getBaseUrl() . '/' . $entry . '/' . $file] = $this->uri->getBaseUrl() . '/' . $entry . '/' . $file;
+                        $files[$this->router->pathFor('admin.site.index') . '/' . $entry . '/' . $file] = $this->router->pathFor('admin.site.index') . '/' . $entry . '/' . $file;
                     } else {
                         $files[$file] = $file;
                     }
@@ -651,6 +685,7 @@ class EntriesController extends Controller
 
         // Fetch entry
         $entry = $this->entries->fetch($id);
+        Arr::delete($entry, 'slug');
 
         // Merge entry data with $to_save_data
         $result_data = array_merge($entry, $to_save_data);
@@ -663,5 +698,154 @@ class EntriesController extends Controller
         }
 
         return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.edit') . '?id=' . $id);
+    }
+
+    public function deleteMediaFileProcess($request, $response, $args)
+    {
+        $data = $request->getParsedBody();
+
+        $entry_id = $data['entry-id'];
+        $media_id = $data['media-id'];
+
+        $files_directory = PATH['entries'] . '/' . $entry_id . '/' . $media_id;
+
+        Filesystem::delete($files_directory);
+
+        $this->flash->addMessage('success', __('admin_message_entry_file_deleted'));
+
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.edit') . '?id=' . $entry_id . '&type=media');
+
+    }
+
+    public function uploadMediaFileProcess($request, $response, $args)
+    {
+        // Get Entry ID from GET param
+        $id = $request->getQueryParams()['id'];
+
+        $files_directory = PATH['entries'] . '/' . $id . '/';
+
+        $file = $this->entries->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('settings.entries.media.accept_file_types'), 27000000);
+    }
+
+    /**
+     * Upload files on the Server with several type of Validations!
+     *
+     * Entries::uploadFile($_FILES['file'], $files_directory);
+     *
+     * @param   array   $file             Uploaded file data
+     * @param   string  $upload_directory Upload directory
+     * @param   string  $allowed          Allowed file extensions
+     * @param   int     $max_size         Max file size in bytes
+     * @param   string  $filename         New filename
+     * @param   bool    $remove_spaces    Remove spaces from the filename
+     * @param   int     $max_width        Maximum width of image
+     * @param   int     $max_height       Maximum height of image
+     * @param   bool    $exact            Match width and height exactly?
+     * @param   int     $chmod            Chmod mask
+     * @return  string  on success, full path to new file
+     * @return  false   on failure
+     */
+    public function _uploadFile(
+        array $file,
+                                        string $upload_directory,
+                                        string $allowed = 'jpeg, png, gif, jpg',
+                                        int $max_size = 3000000,
+                                        string $filename = null,
+                                        bool $remove_spaces = true,
+                                        int $max_width = null,
+                                        int $max_height = null,
+                                        bool $exact = false,
+                                        int $chmod = 0644
+    ) {
+        //
+        // Tests if a successful upload has been made.
+        //
+        if (isset($file['error'])
+            and isset($file['tmp_name'])
+            and $file['error'] === UPLOAD_ERR_OK
+            and is_uploaded_file($file['tmp_name'])) {
+            //
+            // Tests if upload data is valid, even if no file was uploaded.
+            //
+            if (isset($file['error'])
+                    and isset($file['name'])
+                    and isset($file['type'])
+                    and isset($file['tmp_name'])
+                    and isset($file['size'])) {
+                //
+                // Test if an uploaded file is an allowed file type, by extension.
+                //
+                if (strpos($allowed, strtolower(pathinfo($file['name'], PATHINFO_EXTENSION))) !== false) {
+                    //
+                    // Validation rule to test if an uploaded file is allowed by file size.
+                    //
+                    if (($file['error'] != UPLOAD_ERR_INI_SIZE)
+                                  and ($file['error'] == UPLOAD_ERR_OK)
+                                  and ($file['size'] <= $max_size)) {
+                        //
+                        // Validation rule to test if an upload is an image and, optionally, is the correct size.
+                        //
+                        if (in_array(mime_content_type($file['tmp_name']), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
+                            function validateImage($file, $max_width, $max_height, $exact)
+                            {
+                                try {
+                                    // Get the width and height from the uploaded image
+                                    list($width, $height) = getimagesize($file['tmp_name']);
+                                } catch (ErrorException $e) {
+                                    // Ignore read errors
+                                }
+                                if (empty($width) or empty($height)) {
+                                    // Cannot get image size, cannot validate
+                                    return false;
+                                }
+                                if (!$max_width) {
+                                    // No limit, use the image width
+                                    $max_width = $width;
+                                }
+                                if (!$max_height) {
+                                    // No limit, use the image height
+                                    $max_height = $height;
+                                }
+                                if ($exact) {
+                                    // Check if dimensions match exactly
+                                    return ($width === $max_width and $height === $max_height);
+                                } else {
+                                    // Check if size is within maximum dimensions
+                                    return ($width <= $max_width and $height <= $max_height);
+                                }
+                                return false;
+                            }
+                            if (validateImage($file, $max_width, $max_height, $exact) === false) {
+                                return false;
+                            }
+                        }
+                        if (!isset($file['tmp_name']) or !is_uploaded_file($file['tmp_name'])) {
+                            // Ignore corrupted uploads
+                            return false;
+                        }
+                        if ($filename === null) {
+                            // Use the default filename
+                            $filename = $file['name'];
+                        }
+                        if ($remove_spaces === true) {
+                            // Remove spaces from the filename
+                            $filename = Text::safeString(pathinfo($filename)['filename'], '-', true) . '.' . pathinfo($filename)['extension'];
+                        }
+                        if (!is_dir($upload_directory) or !is_writable(realpath($upload_directory))) {
+                            throw new \RuntimeException("Directory {$upload_directory} must be writable");
+                        }
+                        // Make the filename into a complete path
+                        $filename = realpath($upload_directory) . DIRECTORY_SEPARATOR . $filename;
+                        if (move_uploaded_file($file['tmp_name'], $filename)) {
+                            // Set permissions on filename
+                            chmod($filename, $chmod);
+                            // Return new file path
+                            return $filename;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
