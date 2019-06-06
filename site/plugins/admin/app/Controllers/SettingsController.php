@@ -24,7 +24,7 @@ class SettingsController extends Controller
             }
         }
 
-        $available_locales = Filesystem::listContents(PATH['plugins'] . '/admin/languages/');
+        $available_locales = Filesystem::listContents(PATH['plugins'] . '/admin/lang/');
         $system_locales = $this->plugins->getLocales();
         $locales = [];
         foreach ($available_locales as $locale) {

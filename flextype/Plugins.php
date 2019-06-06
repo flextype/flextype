@@ -124,7 +124,7 @@ class Plugins
         if (is_array($plugins_list) && count($plugins_list) > 0) {
             foreach ($this->locales as $locale => $locale_title) {
                 foreach ($plugins_list as $plugin) {
-                    $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/languages/' . $locale . '.json';
+                    $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/lang/' . $locale . '.json';
                     if (Filesystem::has($language_file)) {
                         if (($content = Filesystem::read($language_file)) === false) {
                             throw new \RuntimeException('Load file: ' . $language_file . ' - failed!');
