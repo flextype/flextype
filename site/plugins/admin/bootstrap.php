@@ -13,9 +13,8 @@ namespace Flextype;
  * file that was distributed with this source code.
  */
 
-use Flextype\Component\Registry\Registry;
-use Flextype\Component\I18n\I18n;
 use Flextype\Component\Arr\Arr;
+use Flextype\Component\I18n\I18n;
 use function Flextype\Component\I18n\__;
 
 $uri = explode('/', \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getPath());
@@ -28,6 +27,7 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
     // Register The Auto Loader
     $loader = require_once $autoload;
 
+    // Include routes
     include_once 'routes/web.php';
 
     // Set Default Admin locale
