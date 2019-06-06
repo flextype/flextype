@@ -9,6 +9,7 @@ use Flextype\Component\Arr\Arr;
 use Flextype\Component\Text\Text;
 use Flextype\Component\Registry\Registry;
 use function Flextype\Component\I18n\__;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class EntriesController extends Controller
 {
@@ -719,12 +720,48 @@ class EntriesController extends Controller
 
     public function uploadMediaFileProcess($request, $response, $args)
     {
-        // Get Entry ID from GET param
-        $id = $request->getQueryParams()['id'];
+        $data = $request->getParsedBody();
+
+        $id = $data['entry-id'];
 
         $files_directory = PATH['entries'] . '/' . $id . '/';
 
-        $file = $this->entries->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('settings.entries.media.accept_file_types'), 27000000);
+        $file = $this->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('settings.entries.media.accept_file_types'), 27000000);
+
+        if ($file !== false) {
+             if (in_array(pathinfo($file)['extension'], ['jpg', 'jpeg', 'png', 'gif'])) {
+                 // open an image file
+                 $img = Image::make($file);
+                 // now you are able to resize the instance
+                 if ($this->registry->get('settings.entries.media.upload_images_width') > 0 && $this->registry->get('settings.entries.media.upload_images_height') > 0) {
+                     $img->resize($this->registry->get('settings.entries.media.upload_images_width'), $this->registry->get('settings.entries.media.upload_images_height'), function($constraint) {
+                         $constraint->aspectRatio();
+                         $constraint->upsize();
+                     });
+                 } elseif ($this->registry->get('settings.entries.media.upload_images_width') > 0) {
+                     $img->resize($this->registry->get('settings.entries.media.upload_images_width'), null, function($constraint) {
+                         $constraint->aspectRatio();
+                         $constraint->upsize();
+                     });
+                 } elseif ($this->registry->get('settings.entries.media.upload_images_height') > 0) {
+                     $img->resize(null, $this->registry->get('settings.entries.media.upload_images_height'), function($constraint) {
+                         $constraint->aspectRatio();
+                         $constraint->upsize();
+                     });
+                 }
+                 // finally we save the image as a new file
+                 $img->save($file, $this->registry->get('settings.entries.media.upload_images_quality'));
+
+                 // destroy
+                 $img->destroy();
+             }
+
+             $this->flash->addMessage('success', __('admin_message_entry_file_uploaded'));
+         } else {
+             $this->flash->addMessage('success', __('admin_message_entry_file_not_uploaded'));
+         }
+
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=media');
     }
 
     /**
