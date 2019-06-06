@@ -2,11 +2,12 @@
 
 {% block content %}
 
-<form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data">
+<form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data" action="{{ path_for('admin.entries.uploadMediaFileProcess') }}">
     {{ csrf() }}
+    <input type="hidden" name="entry-id" value="{{ id }}">
     <div class="input-group">
       <div class="custom-file">
-        <input id="file" name="file" type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon">
+        <input id="file" name="file" type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
         <label class="custom-file-label" data-browse="{{ tr('admin_browse_files') }}" for="inputGroupFileAddon"></label>
       </div>
       <div class="input-group-append">
