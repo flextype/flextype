@@ -2,6 +2,9 @@
 
 namespace Flextype;
 
+// Site
+$app->get('/', '')->setName('admin.site.index');
+
 // Information Controller
 $app->get('/admin/information', 'InformationController:index')->setName('admin.information.index');
 
@@ -28,6 +31,9 @@ $app->get('/admin/entries/type', 'EntriesController:type')->setName('admin.entri
 $app->post('/admin/entries/type', 'EntriesController:typeProcess')->setName('admin.entries.typeProcess');
 $app->post('/admin/entries/duplicate', 'EntriesController:duplicateProcess')->setName('admin.entries.duplicateProcess');
 $app->post('/admin/entries/delete', 'EntriesController:deleteProcess')->setName('admin.entries.deleteProcess');
+$app->post('/admin/entries/delete-media-file', 'EntriesController:deleteMediaFileProcess')->setName('admin.entries.deleteMediaFileProcess');
+$app->post('/admin/entries/upload-media-file', 'EntriesController:uploadMediaFileProcess')->setName('admin.entries.uploadMediaFileProcess');
+
 
 // FieldsetsController
 $app->get('/admin/fieldsets', 'FieldsetsController:index')->setName('admin.fieldsets.index');
