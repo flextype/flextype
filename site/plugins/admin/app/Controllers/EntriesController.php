@@ -394,7 +394,7 @@ class EntriesController extends Controller
      * @param string $values   Fieldset values
      * @return string Returns form based on fieldsets
      */
-    public function fetchForm(array $fieldset, array $values = []) : string
+    public function fetchForm(array $fieldset, array $values = [], $request) : string
     {
         // CSRF token name and value
         $csrfNameKey = $this->csrf->getTokenNameKey();
@@ -471,7 +471,7 @@ class EntriesController extends Controller
                         break;
                         // Media select field
                         case 'media_select':
-                            $form_element = Form::select($form_element_name, EntriesManager::getMediaList(Http::get('entry'), false), $form_value, $property['attributes']);
+                            $form_element = Form::select($form_element_name, $this->getMediaList($request->getQueryParams()['id'], false), $form_value, $property['attributes']);
                         break;
                         // Simple text-input, for single-line fields.
                         default:
@@ -498,52 +498,107 @@ class EntriesController extends Controller
 
     public function edit($request, $response, $args)
     {
-        $entry_name = $request->getQueryParams()['id'];
+        // Get Entry ID
+        $id = $request->getQueryParams()['id'];
+        $_id = $id;
 
-        $entry = $this->entries->fetch($entry_name);
+        if ($_id == null) {
+            $_id = [0 => ''];
+        } else {
+            $_id = explode("/", $id);
+        }
 
-        // Fieldset for current entry template
-        $fieldsets_path = PATH['site'] . '/' . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.json';
+        // Get Entry type
+        $type = $request->getQueryParams()['type'];
+
+        // Get Entry
+        $entry = $this->entries->fetch($id);
+
+        // Fieldsets for current entry template
+        $fieldsets_path = PATH['site'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.json';
         $fieldsets = JsonParser::decode(Filesystem::read($fieldsets_path));
         is_null($fieldsets) and $fieldsets = [];
 
-        return $this->view->render(
-            $response,
-            'plugins/admin/views/templates/content/entries/edit.html',
-            [
-                           'entry_name' => $entry_name,
-                           'entry_body' => $entry,
-                           'fieldsets' => $fieldsets,
-                           'form' => $this->fetchForm($fieldsets, $entry),
-                           'templates' => $this->themes->getTemplates(),
-                           'files' => $this->getMediaList($entry_name),
-                           'menu_item' => 'entries',
-                           'links' => [
-                               'edit_entry' => [
-                                   'link' => $this->router->pathFor('admin.entries.edit') . '?entry=' . $entry_name,
-                                   'title' => __('admin_content'),
-                                   'attributes' => ['class' => 'navbar-item active']
-                               ],
-                               'edit_entry_media' => [
-                                   'link' => $this->router->pathFor('admin.entries.edit') . '?entry=' . $entry_name . '&media=true',
-                                   'title' => __('admin_media'),
-                                   'attributes' => ['class' => 'navbar-item']
-                               ],
-                               'edit_entry_source' => [
-                                   'link' => $this->router->pathFor('admin.entries.edit') . '?entry=' . $entry_name . '&source=true',
-                                   'title' => __('admin_source'),
-                                   'attributes' => ['class' => 'navbar-item']
-                               ],
+        if ($type == 'source') {
+            return $this->view->render(
+                $response,
+                'plugins/admin/views/templates/content/entries/source.html',
+                [
+                       'parts' => $_id,
+                       'i' => count($_id),
+                       'last' => Arr::last($_id),
+                       'id' => $id,
+                       'data' => JsonParser::encode($entry),
+                       'type' => $type,
+                       'menu_item' => 'entries',
+                       'links' => [
+                           'edit_entry' => [
+                               'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id,
+                               'title' => __('admin_content'),
+                               'attributes' => ['class' => 'navbar-item']
                            ],
-                           'buttons' => [
-                            'save_entry' => [
-                                                'link'       => 'javascript:;',
-                                                'title'      => __('admin_save'),
-                                                'attributes' => ['class' => 'js-save-editor-form-submit float-right btn']
-                                            ],
-                           ]
-                        ]
-        );
+                           'edit_entry_media' => [
+                               'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=media',
+                               'title' => __('admin_media'),
+                               'attributes' => ['class' => 'navbar-item']
+                           ],
+                           'edit_entry_source' => [
+                               'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=source',
+                               'title' => __('admin_source'),
+                               'attributes' => ['class' => 'navbar-item active']
+                           ],
+                       ],
+                       'buttons' => [
+                           'save_entry' => [
+                                            'link'       => 'javascript:;',
+                                            'title'      => __('admin_save'),
+                                            'attributes' => ['class' => 'js-save-editor-form-submit float-right btn']
+                                        ],
+                       ]
+                ]
+            );
+        } else {
+            return $this->view->render(
+                $response,
+                'plugins/admin/views/templates/content/entries/edit.html',
+                [
+                       'parts' => $_id,
+                       'i' => count($_id),
+                       'last' => Arr::last($_id),
+                       'id' => $id,
+                       'data' => $entry,
+                       'fieldsets' => $fieldsets,
+                       'form' => $this->fetchForm($fieldsets, $entry, $request),
+                       'templates' => $this->themes->getTemplates(),
+                       'files' => $this->getMediaList($id),
+                       'menu_item' => 'entries',
+                       'links' => [
+                           'edit_entry' => [
+                               'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id,
+                               'title' => __('admin_content'),
+                               'attributes' => ['class' => 'navbar-item active']
+                           ],
+                           'edit_entry_media' => [
+                               'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=media',
+                               'title' => __('admin_media'),
+                               'attributes' => ['class' => 'navbar-item']
+                           ],
+                           'edit_entry_source' => [
+                               'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=source',
+                               'title' => __('admin_source'),
+                               'attributes' => ['class' => 'navbar-item']
+                           ],
+                       ],
+                       'buttons' => [
+                           'save_entry' => [
+                                            'link'       => 'javascript:;',
+                                            'title'      => __('admin_save'),
+                                            'attributes' => ['class' => 'js-save-editor-form-submit float-right btn']
+                                        ],
+                       ]
+                ]
+            );
+        }
     }
 
     public function getMediaList(string $entry, bool $path = false) : array
