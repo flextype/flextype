@@ -13,10 +13,10 @@
 - Flextype Core: New Add CSRF service for better cross-site request forgery protection.
 - Flextype Site: New plugin Site added.
 - Flextype Core: Respect Validation - The most awesome validation engine ever created for PHP - added.
+- Flextype Admin Panel: New admin panel plugin based on Slim Framework.
 
 ### Changed
-- Flextype Core: Symfony Yaml updated to 4.2.3.
-- Flextype Core: Thunderer Shortcode updated to 0.7.1.
+- Flextype Core: Thunderer Shortcode updated to 0.7.2.
 - Flextype Core: Flextype Components Arr updated to 1.2.5
 - Flextype Core: Flextype Components Number updated to 1.1.0
 - Admin Panel: Bootstrap updated to 4.3.1
@@ -26,8 +26,11 @@
 
 ### Fixed
 - Admin Panel: Translates fixes.
-- Flextype Core: Typo updates
 - Admin Panel: Issue with js error for codemirror - fixed.
+
+### Removed
+- Flextype Admin Panel: Menus Manager removed.
+- Flextype Core: YAML Parser removed.
 
 ## [0.8.3] - 2019-01-16
 ### Added
