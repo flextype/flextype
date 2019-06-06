@@ -14,10 +14,10 @@ class TemplatesController extends Controller
             $response,
             'plugins/admin/views/templates/extends/templates/index.html',
             [
-           'menu_item' => 'templates',
-           'templates_list' => $this->themes->getTemplates(),
-           'partials_list' => $this->themes->getPartials(),
-           'links' =>  [
+            'menu_item' => 'templates',
+            'templates_list' => $this->themes->getTemplates(),
+            'partials_list' => $this->themes->getPartials(),
+            'links' =>  [
                             'templates' => [
                                 'link' => $this->router->pathFor('admin.templates.index'),
                                 'title' => __('admin_templates'),
@@ -31,8 +31,8 @@ class TemplatesController extends Controller
                                 'attributes' => ['class' => 'float-right btn']
                             ],
                         ]
-       ]
-       );
+        ]
+        );
     }
 
     public function add($request, $response)
@@ -41,16 +41,16 @@ class TemplatesController extends Controller
             $response,
             'plugins/admin/views/templates/extends/templates/add.html',
             [
-           'menu_item' => 'templates',
-           'links' =>  [
+            'menu_item' => 'templates',
+            'links' =>  [
                             'templates' => [
                                 'link' => $this->router->pathFor('admin.templates.index'),
                                 'title' => __('admin_templates'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ]
-       ]
-       );
+        ]
+        );
     }
 
     public function addProcess($request, $response)
@@ -65,7 +65,7 @@ class TemplatesController extends Controller
             if (Filesystem::write(
                 $file,
                 ""
-           )) {
+            )) {
                 $this->flash->addMessage('success', __('admin_message_'.$type.'_created'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_created'));
@@ -85,17 +85,17 @@ class TemplatesController extends Controller
             $response,
             'plugins/admin/views/templates/extends/templates/edit.html',
             [
-           'menu_item' => 'templates',
-           'id' => $request->getQueryParams()['id'],
-           'data' => Filesystem::read(PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getQueryParams()['id'] . '.html'),
-           'type' => (($request->getQueryParams()['type'] && $request->getQueryParams()['type'] == 'partial') ? 'partial' : 'template'),
-           'links' => [
+            'menu_item' => 'templates',
+            'id' => $request->getQueryParams()['id'],
+            'data' => Filesystem::read(PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getQueryParams()['id'] . '.html'),
+            'type' => (($request->getQueryParams()['type'] && $request->getQueryParams()['type'] == 'partial') ? 'partial' : 'template'),
+            'links' => [
                             'templates' => [
                                 'link' => $this->router->pathFor('admin.templates.index'),
                                 'title' => __('admin_templates'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
-                       ],
+                        ],
             'buttons' => [
                             'save_template' => [
                                     'link'       => 'javascript:;',
@@ -103,8 +103,8 @@ class TemplatesController extends Controller
                                     'attributes' => ['class' => 'js-save-form-submit float-right btn']
                                 ]
             ]
-       ]
-       );
+        ]
+        );
     }
 
     public function editProcess($request, $response)
@@ -112,9 +112,9 @@ class TemplatesController extends Controller
         $type = $request->getParsedBody()['type_current'];
 
         if (Filesystem::write(PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()['id'] . '.html', $request->getParsedBody()['data'])) {
-            $this->flash->addMessage('success', __('admin_message_'.$type.'_saved'));
+            $this->flash->addMessage('success', __('admin_message_' . $type . '_saved'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_saved'));
+            $this->flash->addMessage('error', __('admin_message_' . $type . '_was_not_saved'));
         }
 
         return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
@@ -126,19 +126,19 @@ class TemplatesController extends Controller
             $response,
             'plugins/admin/views/templates/extends/templates/rename.html',
             [
-           'menu_item' => 'templates',
-           'types' => ['partial' => __('admin_partial'), 'template' => __('admin_template')],
-           'id_current' => $request->getQueryParams()['id'],
-           'type_current' => (($request->getQueryParams()['type'] && $request->getQueryParams()['type'] == 'partial') ? 'partial' : 'template'),
-           'links' => [
+            'menu_item' => 'templates',
+            'types' => ['partial' => __('admin_partial'), 'template' => __('admin_template')],
+            'id_current' => $request->getQueryParams()['id'],
+            'type_current' => (($request->getQueryParams()['type'] && $request->getQueryParams()['type'] == 'partial') ? 'partial' : 'template'),
+            'links' => [
                             'templates' => [
                                 'link' => $this->router->pathFor('admin.templates.index'),
                                 'title' => __('admin_templates'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
-                       ]
-       ]
-       );
+                        ]
+        ]
+        );
     }
 
     public function renameProcess($request, $response)
@@ -149,8 +149,8 @@ class TemplatesController extends Controller
             if (Filesystem::rename(
                 PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()['id_current'] . '.html',
                 PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()['id'] . '.html'
-           )
-           ) {
+            )
+            ) {
                 $this->flash->addMessage('success', __('admin_message_'.$type.'_renamed'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_renamed'));
@@ -166,12 +166,12 @@ class TemplatesController extends Controller
     {
         $type = $request->getParsedBody()['type'];
 
-        $file_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()[$type.'-id'] . '.html';
+        $file_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()[$type . '-id'] . '.html';
 
         if (Filesystem::delete($file_path)) {
-            $this->flash->addMessage('success', __('admin_message_'.$type.'_deleted'));
+            $this->flash->addMessage('success', __('admin_message_' . $type . '_deleted'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_deleted'));
+            $this->flash->addMessage('error', __('admin_message_' . $type . '_was_not_deleted'));
         }
 
         return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
@@ -181,13 +181,13 @@ class TemplatesController extends Controller
     {
         $type = $request->getParsedBody()['type'];
 
-        $file_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()[$type.'-id'] . '.html';
-        $file_path_new = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()[$type.'-id'] . '-duplicate-' . date("Ymd_His") . '.html';
+        $file_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()[$type . '-id'] . '.html';
+        $file_path_new = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()[$type . '-id'] . '-duplicate-' . date("Ymd_His") . '.html';
 
         if (Filesystem::copy($file_path, $file_path_new)) {
-            $this->flash->addMessage('success', __('admin_message_'.$type.'_duplicated'));
+            $this->flash->addMessage('success', __('admin_message_' . $type . '_duplicated'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_duplicated'));
+            $this->flash->addMessage('error', __('admin_message_' . $type . '_was_not_duplicated'));
         }
 
         return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));

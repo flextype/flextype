@@ -16,7 +16,7 @@ class UsersController extends Controller
         return $this->container->get('view')->render(
             $response,
             'plugins/admin/views/templates/users/profile.html'
-      );
+        );
     }
 
     public function login($request, $response)
@@ -26,9 +26,9 @@ class UsersController extends Controller
                 $response,
                 'plugins/admin/views/templates/users/login.html',
                 [
-                                  'user_is_logged' => Users::isLoggedIn()
-                                 ]
-          );
+                                    'user_is_logged' => Users::isLoggedIn()
+                                    ]
+            );
         } else {
             return $response->withRedirect($this->container->get('router')->pathFor('admin.users.registration'));
         }
@@ -76,10 +76,10 @@ class UsersController extends Controller
             if (Filesystem::write(
                 PATH['site'] . '/accounts/' . $data['username'] . '.json',
                 JsonParser::encode(['username' => Text::safeString($data['username']),
-                                         'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
-                                         'email' => $data['email'],
-                                         'role'  => 'admin',
-                                         'state' => 'enabled'])
+                                            'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
+                                            'email' => $data['email'],
+                                            'role'  => 'admin',
+                                            'state' => 'enabled'])
             )) {
                 return $response->withRedirect($this->container->get('router')->pathFor('admin.users.login'));
             } else {

@@ -14,9 +14,9 @@ class SnippetsController extends Controller
             $response,
             'plugins/admin/views/templates/extends/snippets/index.html',
             [
-           'menu_item' => 'snippets',
-           'snippets_list' => $this->snippets->fetchAll(),
-           'links' =>  [
+            'menu_item' => 'snippets',
+            'snippets_list' => $this->snippets->fetchAll(),
+            'links' =>  [
                             'snippets' => [
                                 'link' => $this->router->pathFor('admin.snippets.index'),
                                 'title' => __('admin_snippets'),
@@ -30,8 +30,8 @@ class SnippetsController extends Controller
                                 'attributes' => ['class' => 'float-right btn']
                             ],
                         ]
-       ]
-       );
+        ]
+        );
     }
 
     public function add($request, $response)
@@ -40,16 +40,16 @@ class SnippetsController extends Controller
             $response,
             'plugins/admin/views/templates/extends/snippets/add.html',
             [
-           'menu_item' => 'snippets',
-           'links' =>  [
+            'menu_item' => 'snippets',
+            'links' =>  [
                             'snippets' => [
                                 'link' => $this->router->pathFor('admin.snippets.index'),
                                 'title' => __('admin_snippets'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ]
-       ]
-       );
+        ]
+        );
     }
 
     public function addProcess($request, $response)
@@ -69,16 +69,16 @@ class SnippetsController extends Controller
             $response,
             'plugins/admin/views/templates/extends/snippets/edit.html',
             [
-           'menu_item' => 'snippets',
-           'id' => $request->getQueryParams()['id'],
-           'data' => $this->snippets->fetch($request->getQueryParams()['id']),
-           'links' => [
+            'menu_item' => 'snippets',
+            'id' => $request->getQueryParams()['id'],
+            'data' => $this->snippets->fetch($request->getQueryParams()['id']),
+            'links' => [
                             'snippets' => [
                                 'link' => $this->router->pathFor('admin.snippets.index'),
                                 'title' => __('admin_snippets'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
-                       ],
+                        ],
             'buttons' => [
                             'save_snippet' => [
                                     'link'       => 'javascript:;',
@@ -86,8 +86,8 @@ class SnippetsController extends Controller
                                     'attributes' => ['class' => 'js-save-form-submit float-right btn']
                                 ]
             ]
-       ]
-       );
+        ]
+        );
     }
 
     public function editProcess($request, $response)
@@ -107,17 +107,17 @@ class SnippetsController extends Controller
             $response,
             'plugins/admin/views/templates/extends/snippets/rename.html',
             [
-           'menu_item' => 'snippets',
-           'id_current' => $request->getQueryParams()['id'],
-           'links' => [
+            'menu_item' => 'snippets',
+            'id_current' => $request->getQueryParams()['id'],
+            'links' => [
                             'templates' => [
                                 'link' => $this->router->pathFor('admin.snippets.index'),
                                 'title' => __('admin_templates'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
-                       ]
-       ]
-       );
+                        ]
+        ]
+        );
     }
 
     public function renameProcess($request, $response)
@@ -125,8 +125,8 @@ class SnippetsController extends Controller
         if ($this->snippets->rename(
             $request->getParsedBody()['id_current'],
             $request->getParsedBody()['id']
-       )
-       ) {
+        )
+        ) {
             $this->flash->addMessage('success', __('admin_message_snippets_renamed'));
         } else {
             $this->flash->addMessage('error', __('admin_message_snippets_was_not_renamed'));
