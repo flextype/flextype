@@ -66,7 +66,7 @@ class EntriesController extends Controller
         $fieldsets = [];
 
         // Get fieldsets files
-        $_fieldsets = Filesystem::listContents(PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/fieldsets/');
+        $_fieldsets = Filesystem::listContents(PATH['site'] . '/' . '/fieldsets/');
 
         // If there is any template file then go...
         if (count($_fieldsets) > 0) {
@@ -121,11 +121,11 @@ class EntriesController extends Controller
         if (!$this->entries->has($entry)) {
 
             // Get fieldset
-            $fieldset = JsonParser::decode(Filesystem::read(PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/fieldsets/' . $data['fieldset'] . '.json'));
+            $fieldset = JsonParser::decode(Filesystem::read(PATH['site'] . '/' . '/fieldsets/' . $data['fieldset'] . '.json'));
 
             // We need to check if template for current fieldset is exists
             // if template is not exist then default template will be used!
-            $template_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/templates/' . $data['fieldset'] . '.html';
+            $template_path = PATH['site'] . '/' . '/templates/' . $data['fieldset'] . '.html';
             if (Filesystem::has($template_path)) {
                 $template = $data['fieldset'];
             } else {
@@ -191,7 +191,7 @@ class EntriesController extends Controller
         $fieldsets = [];
 
         // Get fieldsets files
-        $_fieldsets = Filesystem::listContents(PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/fieldsets/');
+        $_fieldsets = Filesystem::listContents(PATH['site'] . '/' . '/fieldsets/');
 
         // If there is any template file then go...
         if (count($_fieldsets) > 0) {
@@ -503,7 +503,7 @@ class EntriesController extends Controller
         $entry = $this->entries->fetch($entry_name);
 
         // Fieldset for current entry template
-        $fieldsets_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.json';
+        $fieldsets_path = PATH['site'] . '/' . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.json';
         $fieldsets = JsonParser::decode(Filesystem::read($fieldsets_path));
         is_null($fieldsets) and $fieldsets = [];
 

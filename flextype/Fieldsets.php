@@ -180,7 +180,7 @@ class Fieldsets
      */
     private function _dir_location() : string
     {
-        return PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/fieldsets/';
+        return PATH['site'] . '/fieldsets/';
     }
 
     /**
@@ -192,6 +192,6 @@ class Fieldsets
      */
     private function _file_location(string $id) : string
     {
-        return PATH['themes'] . '/' . $this->flextype['registry']->get('settings.theme') . '/fieldsets/' . $id . '.json';
+        return PATH['site'] . '/fieldsets/' . $id . '.json';
     }
 }
