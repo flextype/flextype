@@ -26,6 +26,8 @@ class FilesystemTwigExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFunction('filesystem_has', [$this, 'has']),
             new \Twig_SimpleFunction('filesystem_read', [$this, 'read']),
+            new \Twig_SimpleFunction('filesystem_ext', [$this, 'ext']),
+            new \Twig_SimpleFunction('filesystem_basename', [$this, 'basename']),
         ];
     }
 
@@ -37,5 +39,15 @@ class FilesystemTwigExtension extends \Twig_Extension
     public function read($path)
     {
         return Filesystem::read($path);
+    }
+
+    public function ext($file)
+    {
+        return substr(strrchr($file, '.'), 1);
+    }
+
+    public function basename($value, $suffix = '')
+    {
+        return basename($value, $suffix);
     }
 }
