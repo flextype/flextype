@@ -178,7 +178,7 @@
             </nav>
             {% endif %}
 
-            {% if is_current_path('admin.entries.index') %}
+            {% if is_current_path('admin.entries.index') or is_current_path('admin.entries.edit') %}
             <div class="entry-editor-heading">
                 {% for part in parts %}
                     {% set i = i - 1 %}
@@ -372,7 +372,7 @@
                 });
 
                 $.validate({});
-                {% if is_current_path('admin.fieldsets.edit') or is_current_path('admin.templates.edit') or is_current_path('admin.snippets.edit') %}
+                {% if is_current_path('admin.fieldsets.edit') or is_current_path('admin.templates.edit') or is_current_path('admin.snippets.edit') or (is_current_path('admin.entries.edit') and type == 'source') %}
                 var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
                     lineNumbers: true,
                     {% if is_current_path('admin.fieldsets.edit') %}
