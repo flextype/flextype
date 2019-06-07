@@ -2,22 +2,18 @@
 
 namespace Flextype;
 
-// Set base admin route
-$admin_route = '/admin';
-
 // Site
 $app->get('/', '')->setName('admin.site.index');
 
-
 // UsersController
-$app->group($admin_route, function () use ($flextype, $app) {
+$app->group('/' . $admin_route, function () use ($flextype, $app) {
     $app->get('/registration', 'UsersController:registration')->setName('admin.users.registration');
     $app->post('/registration', 'UsersController:registrationProcess')->setName('admin.users.registrationProcess');
     $app->get('/login', 'UsersController:login')->setName('admin.users.login');
     $app->post('/login', 'UsersController:loginProcess')->setName('admin.users.loginProcess');
 });
 
-$app->group($admin_route, function () use ($flextype, $app) {
+$app->group('/' . $admin_route, function () use ($flextype, $app) {
 
     // UsersController
     $app->get('/profile', 'UsersController:profile')->setName('admin.users.profile');

@@ -17,9 +17,14 @@ use Flextype\Component\Arr\Arr;
 use Flextype\Component\I18n\I18n;
 use function Flextype\Component\I18n\__;
 
+// Get URI
 $uri = explode('/', \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getPath());
 
-if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
+// Set base admin route
+$admin_route = 'admin';
+
+// Run Admin for admin_route
+if (isset($uri) && isset($uri[0]) && $uri[0] == $admin_route) {
 
     // Ensure vendor libraries exist
     !is_file($autoload = __DIR__ . '/vendor/autoload.php') and exit("Please run: <i>composer install</i>");
