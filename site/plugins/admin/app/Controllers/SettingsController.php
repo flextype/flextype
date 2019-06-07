@@ -5,12 +5,21 @@ namespace Flextype;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Date\Date;
 use Flextype\Component\Arr\Arr;
-use Flextype\Component\Registry\Registry;
 use function Flextype\Component\I18n\__;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class SettingsController extends Controller
 {
-    public function index($request, $response)
+    /**
+     * Index page
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function index(Request $request, Response $response) : Response
     {
         $entries = [];
         foreach ($this->entries->fetchAll('', 'date', 'DESC') as $entry) {
@@ -78,7 +87,15 @@ class SettingsController extends Controller
         );
     }
 
-    public function update($request, $response)
+    /**
+     * Update settings process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function updateSettingsProcess(Request $request, Response $response) : Response
     {
         $data = $request->getParsedBody();
 
@@ -102,7 +119,15 @@ class SettingsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.settings.index'));
     }
 
-    public function clearCache($request, $response)
+    /**
+     * Clear cache process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function clearCacheProcess(Request $request, Response $response) : Response
     {
         Cache::clear();
         $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
