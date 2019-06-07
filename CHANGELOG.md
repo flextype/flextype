@@ -2,14 +2,15 @@
 ### Added
 - Flextype Core: Slim Framework Integration!
 - Flextype Core: Twig Template Engine Integration!
+- Flextype Core: Whoops Error Handler Integration!
+- Flextype Core: Complete Glide/Intervention Image Implemented for Image manipulation on fly!
+- Flextype Core: New Event handler from The League of Extraordinary Packages for better event handling.
 - Flextype Core: New Entries API
 - Flextype Core: New Fieldsets API
 - Flextype Core: New Snippets API
 - Flextype Core: New JSON Parser instead of old YAML Parser.
 - Flextype Core: Using new languages files format and JSON extension instead of YAML.
 - Flextype Core: Using JSON extension instead of YAML for all kind of data to store.
-- Flextype Core: Complete Glide/Intervention Image Implemented for Image manipulation on fly!
-- Flextype Core: New Event handler from The League of Extraordinary Packages for better event handling.
 - Flextype Core: New Add CSRF service for better cross-site request forgery protection.
 - Flextype Site: New plugin Site added.
 - Flextype Core: Respect Validation - The most awesome validation engine ever created for PHP - added.
