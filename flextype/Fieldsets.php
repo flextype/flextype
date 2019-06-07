@@ -32,20 +32,20 @@ class Fieldsets
     }
 
     /**
-     * Fetch fieldsets
+     * Fetch fieldset
      *
      * @access public
-     * @param string $id Fieldsets id
+     * @param string $id Fieldset id
      * @return array|false The entry contents or false on failure.
      */
     public function fetch(string $id)
     {
-        $fieldsets_file = $this->_file_location($id);
+        $fieldset_file = $this->_file_location($id);
 
-        if (Filesystem::has($fieldsets_file)) {
-            if ($fieldsets_body = Filesystem::read($fieldsets_file)) {
-                if ($fieldsets_decoded = JsonParser::decode($fieldsets_body)) {
-                    return $fieldsets_decoded;
+        if (Filesystem::has($fieldset_file)) {
+            if ($fieldset_body = Filesystem::read($fieldset_file)) {
+                if ($fieldset_decoded = JsonParser::decode($fieldset_body)) {
+                    return $fieldset_decoded;
                 } else {
                     return false;
                 }
@@ -58,13 +58,14 @@ class Fieldsets
     }
 
     /**
-     * Fetch Fieldsets for current theme
+     * Fetch all fieldsets
      *
      * @access public
      * @return array
      */
     public function fetchAll() : array
     {
+        // Init Fieldsets array
         $fieldsets = [];
 
         // Get fieldsets files
@@ -80,16 +81,16 @@ class Fieldsets
             }
         }
 
-        // return fieldsets
+        // return fieldsets array
         return $fieldsets;
     }
 
     /**
-     * Rename fieldsets
+     * Rename fieldset
      *
      * @access public
-     * @param string $id     Fieldsets id
-     * @param string $new_id New fieldsets id
+     * @param string $id     Fieldset id
+     * @param string $new_id New fieldset id
      * @return bool True on success, false on failure.
      */
     public function rename(string $id, string $new_id) : bool
@@ -98,48 +99,48 @@ class Fieldsets
     }
 
     /**
-     * Update fieldsets
+     * Update fieldset
      *
      * @access public
-     * @param string $id    Fieldsets id
-     * @param array  $data  Data to save
+     * @param string $id    Fieldset id
+     * @param array  $data  Fieldset data to save
      * @return bool True on success, false on failure.
      */
     public function update(string $id, array $data) : bool
     {
-        $fieldsets_file = $this->_file_location($id);
+        $fieldset_file = $this->_file_location($id);
 
-        if (Filesystem::has($fieldsets_file)) {
-            return Filesystem::write($fieldsets_file, JsonParser::encode($data));
+        if (Filesystem::has($fieldset_file)) {
+            return Filesystem::write($fieldset_file, JsonParser::encode($data));
         } else {
             return false;
         }
     }
 
     /**
-     * Create fieldsets
+     * Create fieldset
      *
      * @access public
-     * @param string $id    Fieldsets id
-     * @param array  $data  Data to save
+     * @param string $id    Fieldset id
+     * @param array  $data  Fieldset data to save
      * @return bool True on success, false on failure.
      */
     public function create(string $id, array $data) : bool
     {
-        $fieldsets_file = $this->_file_location($id);
+        $fieldset_file = $this->_file_location($id);
 
-        if (!Filesystem::has($fieldsets_file)) {
-            return Filesystem::write($fieldsets_file, JsonParser::encode($data));
+        if (!Filesystem::has($fieldset_file)) {
+            return Filesystem::write($fieldset_file, JsonParser::encode($data));
         } else {
             return false;
         }
     }
 
     /**
-     * Delete fieldsets
+     * Delete fieldset
      *
      * @access public
-     * @param string $id Fieldsets id
+     * @param string $id Fieldset id
      * @return bool True on success, false on failure.
      */
     public function delete(string $id) : bool
@@ -151,8 +152,8 @@ class Fieldsets
      * Copy fieldset
      *
      * @access public
-     * @param string $id      Fieldsets id
-     * @param string $new_id  New fieldsets id
+     * @param string $id      Fieldset id
+     * @param string $new_id  New fieldset id
      * @return bool True on success, false on failure.
      */
     public function copy(string $id, string $new_id) : bool
@@ -161,7 +162,7 @@ class Fieldsets
     }
 
     /**
-     * Check whether fieldsets exists.
+     * Check whether fieldset exists.
      *
      * @access public
      * @param string $id Fieldset id
