@@ -3,9 +3,19 @@
 namespace Flextype;
 
 use function Flextype\Component\I18n\__;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class InformationController extends Controller
 {
+    /**
+     * Index page
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
     public function index(/** @scrutinizer ignore-unused */ $request, $response)
     {
         if (function_exists('apache_get_modules')) {
