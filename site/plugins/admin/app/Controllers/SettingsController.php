@@ -9,6 +9,9 @@ use function Flextype\Component\I18n\__;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+/**
+ * @property View $view
+ */
 class SettingsController extends Controller
 {
     /**
