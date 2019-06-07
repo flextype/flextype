@@ -41,7 +41,7 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == 'admin') {
     $flextype->registry->set('admin_navigation.extends.plugins', ['title' => '<i class="fas fa-plug"></i>' . __('admin_plugins'), 'link' => $flextype->router->pathFor('admin.plugins.index'), 'attributes' => ['class' => 'nav-link']]);
     $flextype->registry->set('admin_navigation.settings.settings', ['title' => '<i class="fas fa-cog"></i>' . __('admin_settings'), 'link' => $flextype->router->pathFor('admin.settings.index'), 'attributes' => ['class' => 'nav-link']]);
     $flextype->registry->set('admin_navigation.settings.infomation', ['title' => '<i class="fas fa-info"></i>' . __('admin_information'), 'link' => $flextype->router->pathFor('admin.information.index'), 'attributes' => ['class' => 'nav-link']]);
-    $flextype->registry->set('admin_navigation.help.docs', ['title' => '<i class="far fa-question-circle"></i>' . __('admin_documentation'), 'link' => 'http://flextype.org/documentation', 'attributes' => ['class' => 'nav-link', 'target' => '_blank']]);
+    $flextype->registry->set('admin_navigation.help.docs', ['title' => '<i class="far fa-question-circle"></i>' . __('admin_documentation'), 'link' => 'http://flextype.org/en/documentation', 'attributes' => ['class' => 'nav-link', 'target' => '_blank']]);
 
     // Add Global Vars Admin Twig Extension
     $flextype->view->addExtension(new GlobalVarsAdminTwigExtension($flextype));
