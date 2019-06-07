@@ -15,15 +15,15 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class EntriesController extends Controller
 {
-    protected function getEntriesQuery($entry)
+    protected function getEntryID($query)
     {
-        if ($entry && $entry != '') {
-            $query = $entry;
+        if (isset($query['id'])) {
+            $_id = $query['id'];
         } else {
-            $query = '';
+            $_id = '';
         }
 
-        return $query;
+        return $_id;
     }
 
     /**
@@ -36,24 +36,26 @@ class EntriesController extends Controller
      */
     public function index(Request $request, Response $response)
     {
-        $id = $request->getQueryParams()['id'];
+        // Get Query Params
+        $query = $request->getQueryParams();
 
-        if ($id == null) {
-            $id = [0 => ''];
+        // Set Entries ID in parts
+        if (isset($query['id'])) {
+            $parts = explode("/", $query);
         } else {
-            $id = explode("/", $request->getQueryParams()['id']);
+            $parts = [0 => ''];
         }
 
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/content/entries/index.html',
             [
-                            'entries_list' => $this->entries->fetchAll($this->getEntriesQuery($request->getQueryParams()['id']), 'date', 'DESC'),
-                            'id_current' => $this->getEntriesQuery($request->getQueryParams()['id']),
+                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), 'date', 'DESC'),
+                            'id_current' => $this->getEntryID($query),
                             'menu_item' => 'entries',
-                            'parts' => $id,
-                            'i' => count($id),
-                            'last' => Arr::last($id),
+                            'parts' => $parts,
+                            'i' => count($parts),
+                            'last' => Arr::last($parts),
                             'links' => [
                                         'entries' => [
                                                 'link' => $this->router->pathFor('admin.entries.index'),
@@ -63,7 +65,7 @@ class EntriesController extends Controller
                                         ],
                             'buttons'  => [
                                         'create' => [
-                                                'link'       => $this->router->pathFor('admin.entries.add') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
+                                                'link'       => $this->router->pathFor('admin.entries.add') . '?id=' . $this->getEntryID($query),
                                                 'title'      => __('admin_create_new_entry'),
                                                 'attributes' => ['class' => 'float-right btn']
                                             ]
@@ -82,14 +84,18 @@ class EntriesController extends Controller
      */
     public function add(Request $request, Response $response)
     {
+        // Get Query Params
+        $query = $request->getQueryParams();
+
+        // Init Fieldsets
         $fieldsets = [];
 
         // Get fieldsets files
-        $_fieldsets = Filesystem::listContents(PATH['site'] . '/' . '/fieldsets/');
+        $fieldsets_list = Filesystem::listContents(PATH['site'] . '/fieldsets/');
 
-        // If there is any template file then go...
-        if (count($_fieldsets) > 0) {
-            foreach ($_fieldsets as $fieldset) {
+        // If there is any fieldset file then go...
+        if (count($fieldsets_list) > 0) {
+            foreach ($fieldsets_list as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'json') {
                     $fieldset_content = JsonParser::decode(Filesystem::read($fieldset['path']));
                     if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
@@ -103,7 +109,7 @@ class EntriesController extends Controller
             $response,
             'plugins/admin/views/templates/content/entries/add.html',
             [
-                            'entries_list' => $this->entries->fetchAll($this->getEntriesQuery($request->getQueryParams()['entry']), 'date', 'DESC'),
+                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), 'date', 'DESC'),
                             'menu_item' => 'entries',
                             'fieldsets' => $fieldsets,
                             'links' => [
@@ -113,7 +119,7 @@ class EntriesController extends Controller
                                             'attributes' => ['class' => 'navbar-item']
                                         ],
                                         'entries_add' => [
-                                            'link' => $this->router->pathFor('admin.entries.add') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
+                                            'link' => $this->router->pathFor('admin.entries.add') . '?id=' . $this->getEntryID($query),
                                             'title' => __('admin_create_new_entry'),
                                             'attributes' => ['class' => 'navbar-item active']
                                             ]
@@ -132,6 +138,7 @@ class EntriesController extends Controller
      */
     public function addProcess(Request $request, Response $response)
     {
+        // Get data from POST
         $data = $request->getParsedBody();
 
         // Set parent entry
@@ -207,13 +214,13 @@ class EntriesController extends Controller
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
             }
 
-            return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
+            return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
         }
     }
 
     public function type(Request $request, Response $response)
     {
-        $entry = $this->entries->fetch($this->getEntriesQuery($request->getQueryParams()['entry']));
+        $entry = $this->entries->fetch($this->getEntryID($request->getQueryParams()['id']));
 
         $fieldsets = [];
 
@@ -237,7 +244,7 @@ class EntriesController extends Controller
             'plugins/admin/views/templates/content/entries/type.html',
             [
                             'fieldset' => $entry['fieldset'],
-                            'entry_name' => $this->getEntriesQuery($request->getQueryParams()['entry']),
+                            'entry_name' => $this->getEntryID($request->getQueryParams()['id']),
                             'fieldsets' => $fieldsets,
                             'menu_item' => 'entries',
                             'links' => [
@@ -247,7 +254,7 @@ class EntriesController extends Controller
                                     'attributes' => ['class' => 'navbar-item']
                                 ],
                                 'entries_type' => [
-                                    'link' => $this->router->pathFor('admin.entries.type') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
+                                    'link' => $this->router->pathFor('admin.entries.type') . '?id=' . $this->getEntryID($request->getQueryParams()['id']),
                                     'title' => __('admin_type'),
                                     'attributes' => ['class' => 'navbar-item active']
                                     ]
@@ -281,13 +288,13 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?entry=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
     }
 
     public function move(Request $request, Response $response)
     {
-        $entry_name = $this->getEntriesQuery($request->getQueryParams()['entry']);
-        $entry = $this->entries->fetch($this->getEntriesQuery($request->getQueryParams()['entry']));
+        $entry_name = $this->getEntryID($request->getQueryParams()['id']);
+        $entry = $this->entries->fetch($this->getEntryID($request->getQueryParams()['id']));
 
         $_entries_list = $this->entries->fetchAll('', 'slug');
         $entries_list['/'] = '/';
@@ -338,7 +345,7 @@ class EntriesController extends Controller
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
             }
 
-            return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
+            return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
         }
     }
 
@@ -348,9 +355,9 @@ class EntriesController extends Controller
             $response,
             'plugins/admin/views/templates/content/entries/rename.html',
             [
-                            'name_current' => Arr::last(explode("/", $this->getEntriesQuery($request->getQueryParams()['entry']))),
-                            'entry_path_current' => $this->getEntriesQuery($request->getQueryParams()['entry']),
-                            'entry_parent' => implode('/', array_slice(explode("/", $this->getEntriesQuery($request->getQueryParams()['entry'])), 0, -1)),
+                            'name_current' => Arr::last(explode("/", $this->getEntryID($request->getQueryParams()['id']))),
+                            'entry_path_current' => $this->getEntryID($request->getQueryParams()['id']),
+                            'entry_parent' => implode('/', array_slice(explode("/", $this->getEntryID($request->getQueryParams()['id'])), 0, -1)),
                             'menu_item' => 'entries',
                             'links' => [
                                 'entries' => [
@@ -359,7 +366,7 @@ class EntriesController extends Controller
                                     'attributes' => ['class' => 'navbar-item']
                                 ],
                                 'entries_type' => [
-                                    'link' => $this->router->pathFor('admin.entries.rename') . '?entry=' . $this->getEntriesQuery($request->getQueryParams()['entry']),
+                                    'link' => $this->router->pathFor('admin.entries.rename') . '?id=' . $this->getEntryID($request->getQueryParams()['id']),
                                     'title' => __('admin_rename'),
                                     'attributes' => ['class' => 'navbar-item active']
                                     ]
@@ -381,7 +388,7 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?entry=' . $data['parent_entry']);
+        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
     }
 
     public function deleteProcess(Request $request, Response $response)
@@ -783,7 +790,7 @@ class EntriesController extends Controller
 
             $this->flash->addMessage('success', __('admin_message_entry_file_uploaded'));
         } else {
-            $this->flash->addMessage('success', __('admin_message_entry_file_not_uploaded'));
+            $this->flash->addMessage('error', __('admin_message_entry_file_not_uploaded'));
         }
 
         return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=media');
@@ -792,7 +799,7 @@ class EntriesController extends Controller
     /**
      * Upload files on the Server with several type of Validations!
      *
-     * Entries::uploadFile($_FILES['file'], $files_directory);
+     * uploadFile($_FILES['file'], $files_directory);
      *
      * @param   array   $file             Uploaded file data
      * @param   string  $upload_directory Upload directory
