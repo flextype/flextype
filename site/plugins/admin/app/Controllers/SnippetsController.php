@@ -91,7 +91,7 @@ class SnippetsController extends Controller
             $this->flash->addMessage('error', __('admin_message_snippet_was_not_created'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
     }
 
     /**
@@ -145,7 +145,7 @@ class SnippetsController extends Controller
             $this->flash->addMessage('error', __('admin_message_snippets_was_not_saved'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
     }
 
     /**
@@ -195,7 +195,7 @@ class SnippetsController extends Controller
             $this->flash->addMessage('error', __('admin_message_snippets_was_not_renamed'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
     }
 
     /**
@@ -214,7 +214,7 @@ class SnippetsController extends Controller
             $this->flash->addMessage('error', __('admin_message_snippets_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
     }
 
     /**
@@ -233,6 +233,6 @@ class SnippetsController extends Controller
             $this->flash->addMessage('error', __('admin_message_snippets_was_not_duplicated'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
     }
 }
