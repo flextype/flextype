@@ -20,8 +20,8 @@ $app->group($admin_route, function () use ($flextype, $app) {
 $app->group($admin_route, function () use ($flextype, $app) {
 
     // UsersController
-    $app->get('/admin/profile', 'UsersController:profile')->setName('admin.users.profile');
-    $app->post('/admin/logout', 'UsersController:logoutProcess')->setName('admin.users.logoutProcess');
+    $app->get('/profile', 'UsersController:profile')->setName('admin.users.profile');
+    $app->post('/logout', 'UsersController:logoutProcess')->setName('admin.users.logoutProcess');
 
     // EntriesController
     $app->get('/entries', 'EntriesController:index')->setName('admin.entries.index');
