@@ -6,6 +6,9 @@ use function Flextype\Component\I18n\__;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+/**
+ * @property View  $view
+ */
 class InformationController extends Controller
 {
     /**
@@ -16,7 +19,7 @@ class InformationController extends Controller
      *
      * @return Response
      */
-    public function index(/** @scrutinizer ignore-unused */ $request, $response)
+    public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
         if (function_exists('apache_get_modules')) {
             if (!in_array('mod_rewrite', apache_get_modules())) {
