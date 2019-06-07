@@ -10,9 +10,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * @property $view
- * @property $router
- * @property $cache
+ * @property View $view
+ * @property Router $router
+ * @property Cache $cache
  */
 class SettingsController extends Controller
 {

@@ -5,12 +5,27 @@ namespace Flextype;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Date\Date;
 use Flextype\Component\Arr\Arr;
-use Flextype\Component\Registry\Registry;
 use function Flextype\Component\I18n\__;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
+/**
+ * @property View $view
+ * @property Router $router
+ * @property Cache $cache
+ * @property Registry $registry
+ */
 class PluginsController extends Controller
 {
-    public function index($request, $response)
+    /**
+     * Index page
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
         return $this->view->render(
             $response,
@@ -36,7 +51,15 @@ class PluginsController extends Controller
         );
     }
 
-    public function pluginStatusProcess($request, $response)
+    /**
+     * Сhange plugin status process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function pluginStatusProcess(Request $request, Response $response) : Response
     {
         $data = $request->getParsedBody();
         $plugin_settings = JsonParser::decode(Filesystem::read(PATH['plugins'] . '/' . $data['plugin'] . '/' . 'settings.json'));
