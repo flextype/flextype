@@ -5,10 +5,26 @@ namespace Flextype;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Text\Text;
 use function Flextype\Component\I18n\__;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
+/**
+ * @property View $view
+ * @property Router $router
+ * @property Cache $cache
+ * @property Themes $themes
+ */
 class TemplatesController extends Controller
 {
-    public function index($request, $response)
+    /**
+     * Index page
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
         return $this->view->render(
             $response,
@@ -35,7 +51,15 @@ class TemplatesController extends Controller
         );
     }
 
-    public function add($request, $response)
+    /**
+     * Add template
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function add(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
         return $this->view->render(
             $response,
@@ -53,7 +77,15 @@ class TemplatesController extends Controller
         );
     }
 
-    public function addProcess($request, $response)
+    /**
+     * Add template process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function addProcess(Request $request, Response $response) : Response
     {
         $type = $request->getParsedBody()['type'];
 
@@ -74,10 +106,18 @@ class TemplatesController extends Controller
             $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_created'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
+        return $response->withRedirect($this->router->pathFor('admin.templates.index'));
     }
 
-    public function edit($request, $response)
+    /**
+     * Edit template
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function edit(Request $request, Response $response) : Response
     {
         $type = $request->getQueryParams()['type'];
 
@@ -107,7 +147,15 @@ class TemplatesController extends Controller
         );
     }
 
-    public function editProcess($request, $response)
+    /**
+     * Edit template process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function editProcess(Request $request, Response $response) : Response
     {
         $type = $request->getParsedBody()['type_current'];
 
@@ -117,10 +165,18 @@ class TemplatesController extends Controller
             $this->flash->addMessage('error', __('admin_message_' . $type . '_was_not_saved'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
     }
 
-    public function rename($request, $response)
+    /**
+     * Rename template
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function rename(Request $request, Response $response) : Response
     {
         return $this->view->render(
             $response,
@@ -141,7 +197,15 @@ class TemplatesController extends Controller
         );
     }
 
-    public function renameProcess($request, $response)
+    /**
+     * Rename template process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function renameProcess(Request $request, Response $response) : Response
     {
         $type = $request->getParsedBody()['type_current'];
 
@@ -159,10 +223,18 @@ class TemplatesController extends Controller
             $this->flash->addMessage('error', __('admin_message_'.$type.'_was_not_renamed'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
+        return $response->withRedirect($this->router->pathFor('admin.templates.index'));
     }
 
-    public function deleteProcess($request, $response)
+    /**
+     * Delete template process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function deleteProcess(Request $request, Response $response) : Response
     {
         $type = $request->getParsedBody()['type'];
 
@@ -174,10 +246,18 @@ class TemplatesController extends Controller
             $this->flash->addMessage('error', __('admin_message_' . $type . '_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
+        return $response->withRedirect($this->router->pathFor('admin.templates.index'));
     }
 
-    public function duplicateProcess($request, $response)
+    /**
+     * Duplicate template process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function duplicateProcess(Request $request, Response $response) : Response
     {
         $type = $request->getParsedBody()['type'];
 
@@ -190,7 +270,7 @@ class TemplatesController extends Controller
             $this->flash->addMessage('error', __('admin_message_' . $type . '_was_not_duplicated'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.templates.index'));
+        return $response->withRedirect($this->router->pathFor('admin.templates.index'));
     }
 
     private function _type_location($type)
