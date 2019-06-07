@@ -5,10 +5,25 @@ namespace Flextype;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Text\Text;
 use function Flextype\Component\I18n\__;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
+/**
+ * @property View $view
+ * @property Router $router
+ * @property Snippets $snippets
+ */
 class SnippetsController extends Controller
 {
-    public function index($request, $response)
+    /**
+     * Index page
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
         return $this->view->render(
             $response,
@@ -34,7 +49,15 @@ class SnippetsController extends Controller
         );
     }
 
-    public function add($request, $response)
+    /**
+     * Add snippet
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function add(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
         return $this->view->render(
             $response,
@@ -52,7 +75,15 @@ class SnippetsController extends Controller
         );
     }
 
-    public function addProcess($request, $response)
+    /**
+     * Add snippet process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function addProcess(Request $request, Response $response) : Response
     {
         if ($this->snippets->create($request->getParsedBody()['id'], "")) {
             $this->flash->addMessage('success', __('admin_message_snippet_created'));
@@ -63,7 +94,15 @@ class SnippetsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
     }
 
-    public function edit($request, $response)
+    /**
+     * Edit snippet
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function edit(Request $request, Response $response) : Response
     {
         return $this->view->render(
             $response,

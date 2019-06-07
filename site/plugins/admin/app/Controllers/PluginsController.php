@@ -66,5 +66,7 @@ class PluginsController extends Controller
         Arr::set($plugin_settings, 'enabled', ($data['status'] == 'true' ? true : false));
         Filesystem::write(PATH['plugins'] . '/' . $data['plugin'] . '/' . 'settings.json', JsonParser::encode($plugin_settings));
         $this->cache->clear();
+
+        return $response;
     }
 }
