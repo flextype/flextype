@@ -129,7 +129,7 @@ class SettingsController extends Controller
      */
     public function clearCacheProcess(Request $request, Response $response) : Response
     {
-        Cache::clear();
+        $this->cache->clear();
         $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
         return $response->withRedirect($this->container->get('router')->pathFor('admin.settings.index'));
     }
