@@ -39,6 +39,7 @@
         "league/glide-slim": "^1.0",
         "league/event": "^2.2",
         "slim/csrf": "^0.8.3",
+        "zeuxisoo/slim-whoops": "0.6.*",
         "respect/validation": "^1.0"
     },
     "autoload": {
