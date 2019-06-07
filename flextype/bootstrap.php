@@ -79,11 +79,6 @@ $flextype['csrf'] = function ($container) {
 $app->add($flextype->get('csrf'));
 
 /**
- * as
- */
-$app->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware($app));
-
-/**
  * Add emitter service to Flextype container
  */
 $flextype['emitter'] = function ($container) {
@@ -147,21 +142,15 @@ function_exists('mb_internal_encoding') and mb_internal_encoding($flextype['regi
 
 // Display Errors
 if ($flextype['registry']->get('settings.errors.display')) {
-    //define('DEVELOPMENT', true);
-    error_reporting(-1);
+
+    /**
+     * Add WhoopsMiddleware
+     */
+    $app->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware($app));
+
 } else {
-    //define('DEVELOPMENT', false);
     error_reporting(0);
 }
-
-// Create directory for logs
-!Filesystem::has(LOGS_PATH) and Filesystem::createDir(LOGS_PATH);
-
-// Set Error handler
-//set_error_handler('Flextype\Component\ErrorHandler\ErrorHandler::error');
-//register_shutdown_function('Flextype\Component\ErrorHandler\ErrorHandler::fatal');
-//set_exception_handler('Flextype\Component\ErrorHandler\ErrorHandler::exception');
-
 
 // Set default timezone
 date_default_timezone_set($flextype['registry']->get('settings.timezone'));
