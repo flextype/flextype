@@ -35,7 +35,7 @@
                 <span class="switch switch-sm">
                     <input id="switch-sm-{{ plugin.name }}" type="checkbox" class="switch js-switch" data-plugin="{{ key }}"
                     {% if plugin.enabled %}checked{% endif %}
-                    {% if key == 'admin' or key == '' %}disabled{% endif %}>
+                    {% if key == 'admin' or key == 'site' or key == '' %}disabled{% endif %}>
                   <label for="switch-sm-{{ plugin.name }}"></label>
                 </span>
               </div>
