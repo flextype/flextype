@@ -89,7 +89,7 @@ class Entries
     }
 
     /**
-     * Fetch entries
+     * Fetch all entries
      *
      * @access public
      * @param   string  $id         Entry id
