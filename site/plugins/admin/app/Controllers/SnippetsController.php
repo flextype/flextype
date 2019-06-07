@@ -129,7 +129,15 @@ class SnippetsController extends Controller
         );
     }
 
-    public function editProcess($request, $response)
+    /**
+     * Edit snippet process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function editProcess(Request $request, Response $response) : Response
     {
         if ($this->snippets->update($request->getParsedBody()['id'], $request->getParsedBody()['data'])) {
             $this->flash->addMessage('success', __('admin_message_snippets_saved'));
@@ -140,7 +148,15 @@ class SnippetsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
     }
 
-    public function rename($request, $response)
+    /**
+     * Rename snippet
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function rename(Request $request, Response $response) : Response
     {
         return $this->view->render(
             $response,
@@ -159,7 +175,15 @@ class SnippetsController extends Controller
         );
     }
 
-    public function renameProcess($request, $response)
+    /**
+     * Rename snippet process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function renameProcess(Request $request, Response $response) : Response
     {
         if ($this->snippets->rename(
             $request->getParsedBody()['id_current'],
@@ -174,7 +198,15 @@ class SnippetsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
     }
 
-    public function deleteProcess($request, $response)
+    /**
+     * Delete snippet process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function deleteProcess(Request $request, Response $response) : Response
     {
         if ($this->snippets->delete($request->getParsedBody()['snippet-id'])) {
             $this->flash->addMessage('success', __('admin_message_snippets_deleted'));
@@ -185,7 +217,15 @@ class SnippetsController extends Controller
         return $response->withRedirect($this->container->get('router')->pathFor('admin.snippets.index'));
     }
 
-    public function duplicateProcess($request, $response)
+    /**
+     * Duplicate snippet process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function duplicateProcess(Request $request, Response $response) : Response
     {
         if ($this->snippets->copy($request->getParsedBody()['snippet-id'], $request->getParsedBody()['snippet-id'] . '-duplicate-' . date("Ymd_His"))) {
             $this->flash->addMessage('success', __('admin_message_snippets_duplicated'));
