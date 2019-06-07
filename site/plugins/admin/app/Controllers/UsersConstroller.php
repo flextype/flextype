@@ -4,10 +4,8 @@ namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
-use Flextype\Component\Registry\Registry;
 use Flextype\Component\Text\Text;
 use function Flextype\Component\I18n\__;
-use Psr\Container\ContainerInterface;
 
 class UsersController extends Controller
 {
@@ -97,23 +95,5 @@ class UsersController extends Controller
     {
         Session::destroy();
         return $response->withRedirect($this->container->get('router')->pathFor('admin.users.login'));
-    }
-}
-
-
-class Users
-{
-    public static function isUsersExists() : bool
-    {
-        // Get Users Profiles
-        $users = Filesystem::listContents(PATH['site'] . '/accounts/');
-
-        // If any users exists then return true
-        return ($users && count($users) > 0) ? true : false;
-    }
-
-    public static function isLoggedIn() : bool
-    {
-        return (Session::exists('role') && Session::get('role') == 'admin') ? true : false;
     }
 }
