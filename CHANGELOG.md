@@ -11,7 +11,7 @@
 - Flextype Core: New JSON Parser instead of old YAML Parser.
 - Flextype Core: Using new languages files format and JSON extension instead of YAML.
 - Flextype Core: Using JSON extension instead of YAML for all kind of data to store.
-- Flextype Core: New Add CSRF service for better cross-site request forgery protection.
+- Flextype Core: New CSRF service for better cross-site request forgery protection.
 - Flextype Site: New plugin Site added.
 - Flextype Core: Respect Validation - The most awesome validation engine ever created for PHP - added.
 - Flextype Admin Panel: New admin panel plugin based on Slim Framework.
@@ -22,7 +22,7 @@
 - Flextype Core: Flextype Components Number updated to 1.1.0
 - Admin Panel: Bootstrap updated to 4.3.1
 - Admin Panel: Codemirror updated to 5.43.0
-- Admin Panel: Trumbowyg updated to 2.14.0
+- Admin Panel: Trumbowyg updated to 2.18.0
 - Admin Panel: Settings Manager - locales list - improvements!
 
 ### Fixed
