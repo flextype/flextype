@@ -24,7 +24,7 @@ class SettingsController extends Controller
      *
      * @return Response
      */
-    public function index(Request $request, Response $response) : Response
+    public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
         $entries = [];
         foreach ($this->entries->fetchAll('', 'date', 'DESC') as $entry) {
