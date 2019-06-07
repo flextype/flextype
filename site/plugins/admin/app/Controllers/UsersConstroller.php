@@ -21,17 +21,18 @@ class UsersController extends Controller
 
     public function login($request, $response)
     {
-        if (!Users::isLoggedIn()) {
+        // Get Users Profiles
+        $users = Filesystem::listContents(PATH['site'] . '/accounts/');
+
+        if ($users && count($users) > 0) {
             return $this->container->get('view')->render(
                 $response,
-                'plugins/admin/views/templates/users/login.html',
-                [
-                                    'user_is_logged' => Users::isLoggedIn()
-                                    ]
+                'plugins/admin/views/templates/users/login.html'
             );
         } else {
             return $response->withRedirect($this->container->get('router')->pathFor('admin.users.registration'));
         }
+
     }
 
     public function loginProcess($request, $response)
@@ -45,23 +46,21 @@ class UsersController extends Controller
                 Session::set('role', $user_file['role']);
                 return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index'));
             } else {
-                //Notification::set('error', __('admin_message_wrong_username_password'));
+                $this->flash->addMessage('error', __('admin_message_wrong_username_password'));
+                return $response->withRedirect($this->container->get('router')->pathFor('admin.users.login'));
             }
         } else {
-            //Notification::set('error', __('admin_message_wrong_username_password'));
+            $this->flash->addMessage('error', __('admin_message_wrong_username_password'));
+            return $response->withRedirect($this->container->get('router')->pathFor('admin.users.login'));
         }
     }
 
     public function registration($request, $response)
     {
-        if (!Users::isLoggedIn()) {
-            return $this->view->render(
-                $response,
-                'plugins/admin/views/templates/users/registration.html'
-            );
-        } else {
-            return $response->withRedirect($this->container->get('router')->pathFor('admin.entires.index'));
-        }
+        return $this->view->render(
+            $response,
+            'plugins/admin/views/templates/users/registration.html'
+        );
     }
 
     /**
@@ -73,6 +72,7 @@ class UsersController extends Controller
         $data = $request->getParsedBody();
 
         if (!Filesystem::has($_user_file = PATH['site'] . '/accounts/' . Text::safeString($data['username']) . '.json')) {
+            Filesystem::createDir(PATH['site'] . '/accounts/');
             if (Filesystem::write(
                 PATH['site'] . '/accounts/' . $data['username'] . '.json',
                 JsonParser::encode(['username' => Text::safeString($data['username']),
@@ -93,7 +93,7 @@ class UsersController extends Controller
     /**
      * logoutProcess
      */
-    public function logoutProcess($response)
+    public function logoutProcess($request, $response)
     {
         Session::destroy();
         return $response->withRedirect($this->container->get('router')->pathFor('admin.users.login'));
