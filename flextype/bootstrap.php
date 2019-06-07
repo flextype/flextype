@@ -13,7 +13,6 @@
 namespace Flextype;
 
 use Flextype\Component\Session\Session;
-use Flextype\Component\ErrorHandler\ErrorHandler;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Filesystem\Filesystem;
 use Thunder\Shortcode\ShortcodeFacade;
@@ -37,6 +36,9 @@ Session::start();
 // Configure application
 $config = [
     'settings' => [
+        'debug' => true,
+        'whoops.editor' => 'atom',
+        'whoops.page_title' => 'Error!',
         'displayErrorDetails' => true,
         'addContentLengthHeader' => true,
         'addContentLengthHeader' => false,
@@ -45,11 +47,9 @@ $config = [
         'outputBuffering' => 'append',
         'responseChunkSize' => 4096,
         'httpVersion' => '1.1',
-
         'twig' => [
             'cache' => PATH['site'] . '/cache/twig',
         ],
-
         'images' => [
             'driver' => 'gd',
         ],
@@ -77,6 +77,11 @@ $flextype['csrf'] = function ($container) {
  * Add middleware CSRF (cross-site request forgery) protection for all routes
  */
 $app->add($flextype->get('csrf'));
+
+/**
+ * as
+ */
+$app->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware($app));
 
 /**
  * Add emitter service to Flextype container
