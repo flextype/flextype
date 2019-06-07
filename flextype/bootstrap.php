@@ -47,8 +47,7 @@ $config = [
         'httpVersion' => '1.1',
 
         'twig' => [
-            'cache' => false,
-            'debug' => true,
+            'cache' => PATH['site'] . '/cache/twig',
         ],
 
         'images' => [
