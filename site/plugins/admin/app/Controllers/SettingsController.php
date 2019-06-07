@@ -116,7 +116,7 @@ class SettingsController extends Controller
             $this->flash->addMessage('error', __('admin_message_settings_was_not_saved'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.settings.index'));
+        return $response->withRedirect($this->router->pathFor('admin.settings.index'));
     }
 
     /**
@@ -127,10 +127,10 @@ class SettingsController extends Controller
      *
      * @return Response
      */
-    public function clearCacheProcess(Request $request, Response $response) : Response
+    public function clearCacheProcess(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
         $this->cache->clear();
         $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.settings.index'));
+        return $response->withRedirect($this->router->pathFor('admin.settings.index'));
     }
 }
