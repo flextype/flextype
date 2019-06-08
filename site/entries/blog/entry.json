@@ -1,5 +1,11 @@
 {
     "title": "Blog",
     "template": "blog",
-    "fieldset": "blog"
+    "fieldset": "blog",
+    "date": "June 07 2019 10:08:11",
+    "description": "",
+    "menu_item_title": "Blog",
+    "menu_item_url": "blog",
+    "menu_item_target": "self",
+    "menu_item_order": "3"
 }
