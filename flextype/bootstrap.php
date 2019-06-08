@@ -49,6 +49,7 @@ $config = [
         'httpVersion' => '1.1',
         'twig' => [
             'cache' => PATH['site'] . '/cache/twig',
+            'auto_reload' => true
         ],
         'images' => [
             'driver' => 'gd',
