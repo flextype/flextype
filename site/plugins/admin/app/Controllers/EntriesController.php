@@ -685,50 +685,54 @@ class EntriesController extends Controller
 
     public function editProcess(Request $request, Response $response)
     {
-        // Get Entry ID from GET param
-        $id = $request->getQueryParams()['id'];
+        $query = $request->getQueryParams();
 
-        // Data to save
-        $to_save_data = [];
+        // Get Entry ID and TYPE from GET param
+        $id = $query['id'];
+        $type = $query['type'];
 
-        // Result data to save
-        $result_data = [];
+        if ($type == 'source') {
 
-        // Data from POST
-        $data = $request->getParsedBody();
+            // Data from POST
+            $data = $request->getParsedBody();
 
-        // Foreach Data from POST
-        foreach ($data as $key => $value) {
-            $pos = strpos($key, '_json');
-
-            if ($pos === false) {
-                $to_save_data[$key] = $value;
+            // Update entry
+            if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.json', $data['data'])) {
+                $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
-                $to_save_data[str_replace('_json', '', $key)] = JsonParser::decode($value);
+                $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
             }
-        }
 
-        // Delete system fields
-        Arr::delete($to_save_data, 'slug');
-        Arr::delete($to_save_data, 'csrf_value');
-        Arr::delete($to_save_data, 'csrf_name');
-        Arr::delete($to_save_data, 'action');
-
-        // Fetch entry
-        $entry = $this->entries->fetch($id);
-        Arr::delete($entry, 'slug');
-
-        // Merge entry data with $to_save_data
-        $result_data = array_merge($entry, $to_save_data);
-
-        // Update entry
-        if ($this->entries->update($id, $result_data)) {
-            $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
+            // Result data to save
+            $result_data = [];
+
+            // Data from POST
+            $data = $request->getParsedBody();
+
+            // Delete system fields
+            Arr::delete($data, 'slug');
+            Arr::delete($data, 'csrf_value');
+            Arr::delete($data, 'csrf_name');
+            Arr::delete($data, 'action');
+
+            // Fetch entry
+            $entry = $this->entries->fetch($id);
+            Arr::delete($entry, 'slug');
+
+            // Merge entry data with $to_save_data
+            $result_data = array_merge($entry, $data);
+
+            // Update entry
+            if ($this->entries->update($id, $result_data)) {
+                $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
+            } else {
+                $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
+            }
+
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=editor');
+        return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=' . $type);
     }
 
     public function deleteMediaFileProcess(Request $request, Response $response)
