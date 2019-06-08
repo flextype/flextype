@@ -112,6 +112,7 @@ class EntriesController extends Controller
                             'entries_list' => $this->entries->fetchAll($this->getEntryID($query), 'date', 'DESC'),
                             'menu_item' => 'entries',
                             'fieldsets' => $fieldsets,
+                            'current_id' => $this->getEntryID($query),
                             'links' => [
                                         'entries' => [
                                             'link' => $this->router->pathFor('admin.entries.index'),
@@ -142,24 +143,24 @@ class EntriesController extends Controller
         $data = $request->getParsedBody();
 
         // Set parent entry
-        if ($data['parent_entry']) {
-            $parent_entry = '/' . $data['parent_entry'];
+        if ($data['current_id']) {
+            $parent_entry_id = $data['current_id'];
         } else {
-            $parent_entry = '/';
+            $parent_entry_id = '';
         }
 
         // Set new entry name
-        $entry = $parent_entry . Text::safeString($data['slug'], '-', true);
+        $id = $parent_entry_id . '/' . Text::safeString($data['id'], '-', true);
 
         // Check if new entry exists
-        if (!$this->entries->has($entry)) {
+        if (!$this->entries->has($id)) {
 
             // Get fieldset
-            $fieldset = JsonParser::decode(Filesystem::read(PATH['site'] . '/' . '/fieldsets/' . $data['fieldset'] . '.json'));
+            $fieldset = JsonParser::decode(Filesystem::read(PATH['site'] . '/fieldsets/' . $data['fieldset'] . '.json'));
 
             // We need to check if template for current fieldset is exists
             // if template is not exist then default template will be used!
-            $template_path = PATH['site'] . '/' . '/templates/' . $data['fieldset'] . '.html';
+            $template_path = PATH['site'] . '/templates/' . $data['fieldset'] . '.html';
             if (Filesystem::has($template_path)) {
                 $template = $data['fieldset'];
             } else {
@@ -208,13 +209,13 @@ class EntriesController extends Controller
             }
             */
 
-            if ($this->entries->create($entry, $default_data)) {
+            if ($this->entries->create($id, $default_data)) {
                 $this->flash->addMessage('success', __('admin_message_entry_created'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
             }
 
-            return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
+            return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $parent_entry_id);
         }
     }
 
@@ -225,7 +226,7 @@ class EntriesController extends Controller
         $fieldsets = [];
 
         // Get fieldsets files
-        $_fieldsets = Filesystem::listContents(PATH['site'] . '/' . '/fieldsets/');
+        $_fieldsets = Filesystem::listContents(PATH['site'] . '/fieldsets/');
 
         // If there is any template file then go...
         if (count($_fieldsets) > 0) {
