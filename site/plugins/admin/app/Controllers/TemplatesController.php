@@ -157,7 +157,7 @@ class TemplatesController extends Controller
      */
     public function editProcess(Request $request, Response $response) : Response
     {
-        $type = $request->getParsedBody()['type_current'];
+        $type = $request->getParsedBody()['type'];
 
         if (Filesystem::write(PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()['id'] . '.html', $request->getParsedBody()['data'])) {
             $this->flash->addMessage('success', __('admin_message_' . $type . '_saved'));
