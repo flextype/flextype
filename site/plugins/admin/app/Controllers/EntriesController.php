@@ -9,6 +9,7 @@ use Flextype\Component\Arr\Arr;
 use Flextype\Component\Text\Text;
 use Flextype\Component\Registry\Registry;
 use function Flextype\Component\I18n\__;
+use Respect\Validation\Validator as v;
 use Intervention\Image\ImageManagerStatic as Image;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -546,6 +547,7 @@ class EntriesController extends Controller
 
         // Get Entry
         $entry = $this->entries->fetch($this->getEntryID($query));
+        Arr::delete($entry, 'slug');
 
         // Fieldsets for current entry template
         $fieldsets_path = PATH['site'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.json';
@@ -696,13 +698,17 @@ class EntriesController extends Controller
             // Data from POST
             $data = $request->getParsedBody();
 
-            // Update entry
-            if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.json', $data['data'])) {
-                $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
-            } else {
-                $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
-            }
+            if (v::json()->validate($data['data'])) {
 
+                // Update entry
+                if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.json', $data['data'])) {
+                    $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
+                } else {
+                    $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
+                }
+            } else {
+                $this->flash->addMessage('error', __('admin_message_json_invalid'));
+            }
         } else {
             // Result data to save
             $result_data = [];
