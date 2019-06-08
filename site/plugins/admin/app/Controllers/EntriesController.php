@@ -41,7 +41,7 @@ class EntriesController extends Controller
 
         // Set Entries ID in parts
         if (isset($query['id'])) {
-            $parts = explode("/", $query);
+            $parts = explode("/", $query['id']);
         } else {
             $parts = [0 => ''];
         }
@@ -532,21 +532,22 @@ class EntriesController extends Controller
 
     public function edit(Request $request, Response $response)
     {
-        // Get Entry ID
-        $id = $request->getQueryParams()['id'];
-        $_id = $id;
 
-        if ($_id == null) {
-            $_id = [0 => ''];
+        // Get Query Params
+        $query = $request->getQueryParams();
+
+        // Set Entries ID in parts
+        if (isset($query['id'])) {
+            $parts = explode("/", $query['id']);
         } else {
-            $_id = explode("/", $id);
+            $parts = [0 => ''];
         }
 
         // Get Entry type
         $type = $request->getQueryParams()['type'];
 
         // Get Entry
-        $entry = $this->entries->fetch($id);
+        $entry = $this->entries->fetch($this->getEntryID($query));
 
         // Fieldsets for current entry template
         $fieldsets_path = PATH['site'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.json';
@@ -558,26 +559,26 @@ class EntriesController extends Controller
                 $response,
                 'plugins/admin/views/templates/content/entries/source.html',
                 [
-                        'parts' => $_id,
-                        'i' => count($_id),
-                        'last' => Arr::last($_id),
-                        'id' => $id,
+                        'parts' => $parts,
+                        'i' => count($parts),
+                        'last' => Arr::last($parts),
+                        'id' => $this->getEntryID($query),
                         'data' => JsonParser::encode($entry),
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
                             'edit_entry' => [
-                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id,
+                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query). '&type=editor',
                                 'title' => __('admin_content'),
                                 'attributes' => ['class' => 'navbar-item']
                             ],
                             'edit_entry_media' => [
-                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=media',
+                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
                                 'title' => __('admin_media'),
                                 'attributes' => ['class' => 'navbar-item']
                             ],
                             'edit_entry_source' => [
-                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=source',
+                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
                                 'title' => __('admin_source'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
@@ -596,27 +597,25 @@ class EntriesController extends Controller
                 $response,
                 'plugins/admin/views/templates/content/entries/media.html',
                 [
-                        'parts' => $_id,
-                        'i' => count($_id),
-                        'last' => Arr::last($_id),
-
-                            'id' => $id,
-                            'files' => $this->getMediaList($id, true),
-
+                        'parts' => $parts,
+                        'i' => count($parts),
+                        'last' => Arr::last($parts),
+                        'id' => $this->getEntryID($query),
+                        'files' => $this->getMediaList($this->getEntryID($query), true),
                         'menu_item' => 'entries',
                         'links' => [
                             'edit_entry' => [
-                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id,
+                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
                                 'title' => __('admin_content'),
                                 'attributes' => ['class' => 'navbar-item']
                             ],
                             'edit_entry_media' => [
-                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=media',
+                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
                                 'title' => __('admin_media'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                             'edit_entry_source' => [
-                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=source',
+                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
                                 'title' => __('admin_source'),
                                 'attributes' => ['class' => 'navbar-item']
                             ],
@@ -635,24 +634,24 @@ class EntriesController extends Controller
                 $response,
                 'plugins/admin/views/templates/content/entries/edit.html',
                 [
-                        'parts' => $_id,
-                        'i' => count($_id),
-                        'last' => Arr::last($_id),
+                        'parts' => $parts,
+                        'i' => count($parts),
+                        'last' => Arr::last($parts),
                         'form' => $this->fetchForm($fieldsets, $entry, $request),
                         'menu_item' => 'entries',
                         'links' => [
                             'edit_entry' => [
-                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id,
+                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
                                 'title' => __('admin_content'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                             'edit_entry_media' => [
-                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=media',
+                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
                                 'title' => __('admin_media'),
                                 'attributes' => ['class' => 'navbar-item']
                             ],
                             'edit_entry_source' => [
-                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=source',
+                                'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
                                 'title' => __('admin_source'),
                                 'attributes' => ['class' => 'navbar-item']
                             ],
