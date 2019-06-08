@@ -36,10 +36,10 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                {% for item in entries_fetch_all('', 'menu_order', 'DESC') %}
+                {% for item in entries_fetch_all('', 'menu_item_order', 'ASC') %}
                     {% if item.menu_item_title %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ base_url() }}/{{ item.menu_item_url }}">{{ item.menu_item_title }}</a>
+                            <a class="nav-link {% if item.menu_item_url in entry.slug %}active{% endif %}" href="{{ base_url() }}/{{ item.menu_item_url }}">{{ item.menu_item_title }}</a>
                         </li>
                     {% endif %}
                 {% endfor %}
