@@ -177,12 +177,9 @@ class EntriesController extends Controller
             $default_data['fieldset']  = $data['fieldset'];
             $default_data['date']      = date($this->registry->get('settings.date_format'), time());
 
-
             // Predefine data values based on selected fieldset
-            /*
             foreach ($fieldset['sections'] as $section) {
                 foreach ($section as $key => $field) {
-
 
                     // Get values from default data
                     if (isset($default_data[$key])) {
@@ -207,9 +204,9 @@ class EntriesController extends Controller
             } else {
                 $__data = $default_data;
             }
-            */
 
-            if ($this->entries->create($id, $default_data)) {
+
+            if ($this->entries->create($id, $__data)) {
                 $this->flash->addMessage('success', __('admin_message_entry_created'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
@@ -731,7 +728,7 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $id);
+        return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=editor');
     }
 
     public function deleteMediaFileProcess(Request $request, Response $response)
