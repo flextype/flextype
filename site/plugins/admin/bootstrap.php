@@ -51,6 +51,10 @@ if (isset($uri) && isset($uri[0]) && $uri[0] == $admin_route) {
     // Add Global Vars Admin Twig Extension
     $flextype->view->addExtension(new GlobalVarsAdminTwigExtension($flextype));
 
+    $flextype['DashboardController'] = function ($container) {
+        return new DashboardController($container);
+    };
+
     $flextype['SettingsController'] = function ($container) {
         return new SettingsController($container);
     };

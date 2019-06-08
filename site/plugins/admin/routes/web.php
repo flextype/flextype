@@ -15,6 +15,9 @@ $app->group('/' . $admin_route, function () use ($flextype, $app) {
 
 $app->group('/' . $admin_route, function () use ($flextype, $app) {
 
+    // Dashboard
+    $app->get('', 'DashboardController:index')->setName('admin.dashboard.index');
+
     // UsersController
     $app->get('/profile', 'UsersController:profile')->setName('admin.users.profile');
     $app->post('/logout', 'UsersController:logoutProcess')->setName('admin.users.logoutProcess');
