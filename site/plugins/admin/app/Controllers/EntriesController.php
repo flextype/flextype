@@ -143,74 +143,77 @@ class EntriesController extends Controller
         // Get data from POST
         $data = $request->getParsedBody();
 
-        // Set parent entry
+        // Set parent Entry ID
         if ($data['current_id']) {
             $parent_entry_id = $data['current_id'];
         } else {
             $parent_entry_id = '';
         }
 
-        // Set new entry name
+        // Set new Entry ID
         $id = $parent_entry_id . '/' . Text::safeString($data['id'], '-', true);
 
-        // Check if new entry exists
+        // Check if entry exists then try to create
         if (!$this->entries->has($id)) {
 
-            // Get fieldset
-            $fieldset = JsonParser::decode(Filesystem::read(PATH['site'] . '/fieldsets/' . $data['fieldset'] . '.json'));
+            if ($this->fieldsets->has($data['fieldset'])) {
 
-            // We need to check if template for current fieldset is exists
-            // if template is not exist then default template will be used!
-            $template_path = PATH['site'] . '/templates/' . $data['fieldset'] . '.html';
-            if (Filesystem::has($template_path)) {
-                $template = $data['fieldset'];
-            } else {
-                $template = 'default';
-            }
+                // Get fieldset
+                $fieldset = $this->fieldsets->fetch($data['fieldset']);
 
-            // Init entry data
-            $_data = [];
-            $default_data = [];
+                // We need to check if template for current fieldset is exists
+                // if template is not exist then default template will be used!
+                $template_path = PATH['site'] . '/templates/' . $data['fieldset'] . '.html';
+                $template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
 
-            // Define data values based on POST data
-            $default_data['title']     = $data['title'];
-            $default_data['template']  = $template;
-            $default_data['fieldset']  = $data['fieldset'];
-            $default_data['date']      = date($this->registry->get('settings.date_format'), time());
+                // Init entry data
+                $data_from_post = [];
+                $_data_from_post = [];
+                $data_result = [];
 
-            // Predefine data values based on selected fieldset
-            foreach ($fieldset['sections'] as $section) {
-                foreach ($section as $key => $field) {
+                // Define data values based on POST data
+                $data_from_post['title']     = $data['title'];
+                $data_from_post['template']  = $template;
+                $data_from_post['fieldset']  = $data['fieldset'];
+                $data_from_post['date']      = date($this->registry->get('settings.date_format'), time());
 
-                    // Get values from default data
-                    if (isset($default_data[$key])) {
-                        $_value = $default_data[$key];
+                // Predefine data values based on selected fieldset
+                foreach ($fieldset['sections'] as $key => $section) {
+                    foreach ($section['fields'] as $element => $property) {
 
-                    // Get values from fieldsets predefined field values
-                    } elseif (isset($field['value'])) {
-                        $_value = $field['value'];
+                        // Get values from default data
+                        if (isset($default_data[$element])) {
+                            $value = $default_data[$element];
 
-                    // or set empty value
-                    } else {
-                        $_value = '';
+                        // Get values from fieldsets predefined field values
+                        } elseif (isset($property['value'])) {
+                            $value = $property['value'];
+
+                        // or set empty value
+                        } else {
+                            $value = '';
+                        }
+
+                        $_data_from_post[$element] = $value;
+
                     }
-
-                    $_data[$key] = $_value;
                 }
-            }
 
-            // Merge data
-            if(count($_data) > 0) {
-                $__data = array_replace_recursive($_data, $default_data);
+                // Merge data
+                if(count($_data_from_post) > 0) {
+                    $data_result = array_replace_recursive($_data_from_post, $data_from_post);
+                } else {
+                    $data_result = $data_from_post;
+                }
+
+                if ($this->entries->create($id, $data_result)) {
+                    $this->flash->addMessage('success', __('admin_message_entry_created'));
+                } else {
+                    $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
+                }
+
             } else {
-                $__data = $default_data;
-            }
-
-
-            if ($this->entries->create($id, $__data)) {
-                $this->flash->addMessage('success', __('admin_message_entry_created'));
-            } else {
-                $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
+                $this->flash->addMessage('error', __('admin_message_fieldset_not_found'));
             }
 
             return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $parent_entry_id);
