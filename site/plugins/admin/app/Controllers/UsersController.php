@@ -28,7 +28,7 @@ class UsersController extends Controller
                 'plugins/admin/views/templates/users/login.html'
             );
         } else {
-            return $response->withRedirect($this->container->get('router')->pathFor('admin.users.registration'));
+            return $response->withRedirect($this->router->pathFor('admin.users.registration'));
         }
 
     }
@@ -42,14 +42,14 @@ class UsersController extends Controller
             if (password_verify(trim($data['password']), $user_file['hashed_password'])) {
                 Session::set('username', $user_file['username']);
                 Session::set('role', $user_file['role']);
-                return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index'));
+                return $response->withRedirect($this->router->pathFor('admin.entries.index'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_wrong_username_password'));
-                return $response->withRedirect($this->container->get('router')->pathFor('admin.users.login'));
+                return $response->withRedirect($this->router->pathFor('admin.users.login'));
             }
         } else {
             $this->flash->addMessage('error', __('admin_message_wrong_username_password'));
-            return $response->withRedirect($this->container->get('router')->pathFor('admin.users.login'));
+            return $response->withRedirect($this->router->pathFor('admin.users.login'));
         }
     }
 
@@ -79,12 +79,12 @@ class UsersController extends Controller
                                             'role'  => 'admin',
                                             'state' => 'enabled'])
             )) {
-                return $response->withRedirect($this->container->get('router')->pathFor('admin.users.login'));
+                return $response->withRedirect($this->router->pathFor('admin.users.login'));
             } else {
-                return $response->withRedirect($this->container->get('router')->pathFor('admin.users.registration'));
+                return $response->withRedirect($this->router->pathFor('admin.users.registration'));
             }
         } else {
-            return $response->withRedirect($this->container->get('router')->pathFor('admin.users.registration'));
+            return $response->withRedirect($this->router->pathFor('admin.users.registration'));
         }
     }
 
@@ -94,6 +94,6 @@ class UsersController extends Controller
     public function logoutProcess($request, $response)
     {
         Session::destroy();
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.users.login'));
+        return $response->withRedirect($this->router->pathFor('admin.users.login'));
     }
 }

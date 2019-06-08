@@ -76,7 +76,7 @@ class FieldsetsController extends Controller
             $this->flash->addMessage('error', __('admin_message_fieldset_was_not_created'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
     }
 
     public function edit($request, $response)
@@ -114,7 +114,7 @@ class FieldsetsController extends Controller
             $this->flash->addMessage('error', __('admin_message_fieldsets_was_not_saved'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
     }
 
     public function rename($request, $response)
@@ -149,7 +149,7 @@ class FieldsetsController extends Controller
             $this->flash->addMessage('error', __('admin_message_fieldset_was_not_renamed'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
     }
 
     public function deleteProcess($request, $response)
@@ -160,7 +160,7 @@ class FieldsetsController extends Controller
             $this->flash->addMessage('error', __('admin_message_fieldset_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
     }
 
     public function duplicateProcess($request, $response)
@@ -171,6 +171,6 @@ class FieldsetsController extends Controller
             $this->flash->addMessage('error', __('admin_message_fieldset_was_not_duplicated'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.fieldsets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
     }
 }
