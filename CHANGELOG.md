@@ -15,6 +15,8 @@
 - Flextype Site: New plugin Site added.
 - Flextype Core: Respect Validation - The most awesome validation engine ever created for PHP - added.
 - Flextype Admin Panel: New admin panel plugin based on Slim Framework.
+- Flextype Admin Panel: Fieldsets - sections/groups added.
+
 
 ### Changed
 - Flextype Core: Thunderer Shortcode updated to 0.7.2.
@@ -32,6 +34,12 @@
 ### Removed
 - Flextype Admin Panel: Menus Manager removed.
 - Flextype Core: YAML Parser removed.
+- Flextype Core: Symfony YAML Component removed.
+- Flextype Core: Flextype Token Component removed.
+- Flextype Core: Flextype Notification Component removed.
+- Flextype Core: Flextype Error Handler Component removed.
+- Flextype Core: Flextype Event Component removed.
+
 
 ## [0.8.3] - 2019-01-16
 ### Added
