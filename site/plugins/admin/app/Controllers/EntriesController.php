@@ -214,7 +214,7 @@ class EntriesController extends Controller
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
             }
 
-            return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
+            return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
         }
     }
 
@@ -288,7 +288,7 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
     }
 
     public function move(Request $request, Response $response)
@@ -345,7 +345,7 @@ class EntriesController extends Controller
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
             }
 
-            return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
+            return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
         }
     }
 
@@ -388,7 +388,7 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
     }
 
     public function deleteProcess(Request $request, Response $response)
@@ -404,7 +404,7 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?id=' . $id_current);
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $id_current);
     }
 
     public function duplicateProcess(Request $request, Response $response)
@@ -417,7 +417,7 @@ class EntriesController extends Controller
 
         $this->flash->addMessage('success', __('admin_message_entry_duplicated'));
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $id), 0, -1)));
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $id), 0, -1)));
     }
 
     /**
@@ -730,7 +730,7 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.edit') . '?id=' . $id);
+        return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $id);
     }
 
     public function deleteMediaFileProcess(Request $request, Response $response)
@@ -746,7 +746,7 @@ class EntriesController extends Controller
 
         $this->flash->addMessage('success', __('admin_message_entry_file_deleted'));
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.edit') . '?id=' . $entry_id . '&type=media');
+        return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $entry_id . '&type=media');
     }
 
     public function uploadMediaFileProcess(Request $request, Response $response)
@@ -792,7 +792,7 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_file_not_uploaded'));
         }
 
-        return $response->withRedirect($this->container->get('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=media');
+        return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=media');
     }
 
     /**
