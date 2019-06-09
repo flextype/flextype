@@ -15,8 +15,8 @@
 - Flextype Site: New plugin Site added.
 - Flextype Core: Respect Validation - The most awesome validation engine ever created for PHP - added.
 - Flextype Admin Panel: New admin panel plugin based on Slim Framework.
-- Flextype Admin Panel: Fieldsets - sections/groups added.
-
+- Flextype Admin Panel: Fieldset Sections(groups) added.
+- Flextype Admin Panel: New Field types - select, editor (instead of html)
 
 ### Changed
 - Flextype Core: Thunderer Shortcode updated to 0.7.2.
