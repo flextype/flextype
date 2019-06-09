@@ -12,7 +12,7 @@
                 },
                 "content": {
                     "title": "admin_content",
-                    "type": "html",
+                    "type": "editor",
                     "size": "col-12"
                 },
                 "image": {
