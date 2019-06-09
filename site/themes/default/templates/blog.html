@@ -9,7 +9,7 @@
     {% for entry in entries_fetch_all('blog', 'date', 'DESC') %}
         <a href="{{ entry.slug }}" class="blog-post">
             <h3>{{ entry.title }}</h3>
-            <p>{{ entry.summary|raw }}</p>
+            <p>{{ entry.summary|shortcode|raw}}</p>
             <div>{{ entry.date }}</div>
         </a>
     {% endfor %}

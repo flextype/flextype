@@ -316,6 +316,9 @@ $flextype['view'] = function ($container) {
     // Add Global Vars Twig Extension
     $view->addExtension(new GlobalVarsTwigExtension($container));
 
+    // Add Global Shortcodes Twig Extension
+    $view->addExtension(new ShortcodesTwigExtension($container));
+
     // Return view
     return $view;
 };

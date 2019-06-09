@@ -1,5 +1,5 @@
 {% extends "themes/default/templates/partials/base.html" %}
 
 {% block content %}
-    {{ entry.content|raw }}
+    {{ entry.content|shortcode|raw}}
 {% endblock %}

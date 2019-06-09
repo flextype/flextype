@@ -3,6 +3,6 @@
 {% block content %}
     <h1>{{ entry.title }}</h1>
     <div class="blog-post">
-        {{ entry.content|raw }}
+        {{ entry.content|shortcode|raw}}
     </div>
 {% endblock %}
