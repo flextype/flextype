@@ -39,7 +39,8 @@
         "league/event": "^2.2",
         "slim/csrf": "^0.8.3",
         "zeuxisoo/slim-whoops": "0.6.*",
-        "respect/validation": "^1.0"
+        "respect/validation": "^1.0",
+        "monolog/monolog": "^1.24"
     },
     "autoload": {
         "classmap": [

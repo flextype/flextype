@@ -74,6 +74,17 @@ $flextype['csrf'] = function ($container) {
     return new \Slim\Csrf\Guard;
 };
 
+
+/**
+ * Add logger
+ */
+$flextype['logger'] = function($container) {
+    $logger = new \Monolog\Logger('flextype');
+    $file_handler = new \Monolog\Handler\StreamHandler(PATH['site'] . '/logs/' . date('Y-m-d') . '.log');
+    $logger->pushHandler($file_handler);
+    return $logger;
+};
+
 /**
  * Add middleware CSRF (cross-site request forgery) protection for all routes
  */
