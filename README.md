@@ -44,8 +44,10 @@ Make sure your server meets the following requirements.
 #### PHP extensions
 Flextype needs the following PHP extensions to be enabled:
 
-- Multibyte String
-- PHP Fileinfo
+- PHP [mbstring](http://php.net/manual/en/book.mbstring.php) module for full UTF-8 support.
+- PHP [gd](http://php.net/manual/en/book.image.php) module for image processing.
+- PHP [json](https://php.net/manual/en/book.json.php) module for JSON manipulation.
+- PHP [Fileinfo](https://www.php.net/manual/ru/book.fileinfo.php)
 - SPL
 
 Although it is optional, we strongly recommend enabling the following PHP extensions:
@@ -90,10 +92,19 @@ npm install
 gulp
 ```
 
-Install vendor libs for Admin Panel
+Install vendor libs for Admin Panel plugin
 
 ```
 cd site/plugins/admin
+composer install
+npm install
+gulp
+```
+
+Install vendor libs for Site plugin
+
+```
+cd site/plugins/site
 composer install
 npm install
 gulp
