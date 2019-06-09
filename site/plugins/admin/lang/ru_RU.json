@@ -135,7 +135,7 @@
   "admin_message_template_renamed": "Шаблон переименован",
   "admin_message_template_duplicated": "Шаблон дублировался",
   "admin_message_template_saved": "Шаблон сохранен",
-  "admin_message_template_was_not_created": "Template was not renamed",
+  "admin_message_template_was_not_created": "Шаблон не был переименован",
   "admin_message_partial_was_not_created": "Partial was not renamed",
   "admin_message_partial_created": "Partial created",
   "admin_message_partial_deleted": "Partial deleted",
