@@ -109,9 +109,9 @@ class FieldsetsController extends Controller
     public function editProcess($request, $response)
     {
         if ($this->fieldsets->update($request->getParsedBody()['id'], JsonParser::decode($request->getParsedBody()['data']))) {
-            $this->flash->addMessage('success', __('admin_message_fieldsets_saved'));
+            $this->flash->addMessage('success', __('admin_message_fieldset_saved'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_fieldsets_was_not_saved'));
+            $this->flash->addMessage('error', __('admin_message_fieldset_was_not_saved'));
         }
 
         return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));

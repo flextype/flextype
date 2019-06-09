@@ -140,9 +140,9 @@ class SnippetsController extends Controller
     public function editProcess(Request $request, Response $response) : Response
     {
         if ($this->snippets->update($request->getParsedBody()['id'], $request->getParsedBody()['data'])) {
-            $this->flash->addMessage('success', __('admin_message_snippets_saved'));
+            $this->flash->addMessage('success', __('admin_message_snippet_saved'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_snippets_was_not_saved'));
+            $this->flash->addMessage('error', __('admin_message_snippet_was_not_saved'));
         }
 
         return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
@@ -190,9 +190,9 @@ class SnippetsController extends Controller
             $request->getParsedBody()['id']
         )
         ) {
-            $this->flash->addMessage('success', __('admin_message_snippets_renamed'));
+            $this->flash->addMessage('success', __('admin_message_snippet_renamed'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_snippets_was_not_renamed'));
+            $this->flash->addMessage('error', __('admin_message_snippet_was_not_renamed'));
         }
 
         return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
@@ -209,9 +209,9 @@ class SnippetsController extends Controller
     public function deleteProcess(Request $request, Response $response) : Response
     {
         if ($this->snippets->delete($request->getParsedBody()['snippet-id'])) {
-            $this->flash->addMessage('success', __('admin_message_snippets_deleted'));
+            $this->flash->addMessage('success', __('admin_message_snippet_deleted'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_snippets_was_not_deleted'));
+            $this->flash->addMessage('error', __('admin_message_snippet_was_not_deleted'));
         }
 
         return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
@@ -228,9 +228,9 @@ class SnippetsController extends Controller
     public function duplicateProcess(Request $request, Response $response) : Response
     {
         if ($this->snippets->copy($request->getParsedBody()['snippet-id'], $request->getParsedBody()['snippet-id'] . '-duplicate-' . date("Ymd_His"))) {
-            $this->flash->addMessage('success', __('admin_message_snippets_duplicated'));
+            $this->flash->addMessage('success', __('admin_message_snippet_duplicated'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_snippets_was_not_duplicated'));
+            $this->flash->addMessage('error', __('admin_message_snippet_was_not_duplicated'));
         }
 
         return $response->withRedirect($this->router->pathFor('admin.snippets.index'));

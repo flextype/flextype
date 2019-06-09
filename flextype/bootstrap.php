@@ -28,7 +28,7 @@ use League\Event\Emitter;
  *
  * @var string
  */
-define('FLEXTYPE_VERSION', '0.8.3');
+define('FLEXTYPE_VERSION', '0.9.0-beta');
 
 // Start the session
 Session::start();
