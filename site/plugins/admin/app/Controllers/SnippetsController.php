@@ -85,7 +85,9 @@ class SnippetsController extends Controller
      */
     public function addProcess(Request $request, Response $response) : Response
     {
-        if ($this->snippets->create($request->getParsedBody()['id'], "")) {
+        $id = Text::safeString($request->getParsedBody()['id'], '-', true);
+
+        if ($this->snippets->create($id, "")) {
             $this->flash->addMessage('success', __('admin_message_snippet_created'));
         } else {
             $this->flash->addMessage('error', __('admin_message_snippet_was_not_created'));
@@ -104,13 +106,15 @@ class SnippetsController extends Controller
      */
     public function edit(Request $request, Response $response) : Response
     {
+        $id = $request->getQueryParams()['id'];
+
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/extends/snippets/edit.html',
             [
             'menu_item' => 'snippets',
-            'id' => $request->getQueryParams()['id'],
-            'data' => $this->snippets->fetch($request->getQueryParams()['id']),
+            'id' => $id,
+            'data' => $this->snippets->fetch($id),
             'links' => [
                             'snippets' => [
                                 'link' => $this->router->pathFor('admin.snippets.index'),
@@ -139,7 +143,10 @@ class SnippetsController extends Controller
      */
     public function editProcess(Request $request, Response $response) : Response
     {
-        if ($this->snippets->update($request->getParsedBody()['id'], $request->getParsedBody()['data'])) {
+        $id = $request->getParsedBody()['id'];
+        $data = $request->getParsedBody()['data'];
+
+        if ($this->snippets->update($id, $data)) {
             $this->flash->addMessage('success', __('admin_message_snippet_saved'));
         } else {
             $this->flash->addMessage('error', __('admin_message_snippet_was_not_saved'));
@@ -158,6 +165,7 @@ class SnippetsController extends Controller
      */
     public function rename(Request $request, Response $response) : Response
     {
+
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/extends/snippets/rename.html',
@@ -185,9 +193,12 @@ class SnippetsController extends Controller
      */
     public function renameProcess(Request $request, Response $response) : Response
     {
+        $id = Text::safeString($request->getParsedBody()['id'], '-', true);
+        $id_current = $request->getParsedBody()['id_current'];
+
         if ($this->snippets->rename(
-            $request->getParsedBody()['id_current'],
-            $request->getParsedBody()['id']
+            $id_current,
+            $id
         )
         ) {
             $this->flash->addMessage('success', __('admin_message_snippet_renamed'));
@@ -208,7 +219,9 @@ class SnippetsController extends Controller
      */
     public function deleteProcess(Request $request, Response $response) : Response
     {
-        if ($this->snippets->delete($request->getParsedBody()['snippet-id'])) {
+        $id = Text::safeString($request->getParsedBody()['snippet-id'], '-', true);
+
+        if ($this->snippets->delete($id)) {
             $this->flash->addMessage('success', __('admin_message_snippet_deleted'));
         } else {
             $this->flash->addMessage('error', __('admin_message_snippet_was_not_deleted'));
@@ -227,7 +240,9 @@ class SnippetsController extends Controller
      */
     public function duplicateProcess(Request $request, Response $response) : Response
     {
-        if ($this->snippets->copy($request->getParsedBody()['snippet-id'], $request->getParsedBody()['snippet-id'] . '-duplicate-' . date("Ymd_His"))) {
+        $id = Text::safeString($request->getParsedBody()['snippet-id'], '-', true);
+
+        if ($this->snippets->copy($id, $id . '-duplicate-' . date("Ymd_His"))) {
             $this->flash->addMessage('success', __('admin_message_snippet_duplicated'));
         } else {
             $this->flash->addMessage('error', __('admin_message_snippet_was_not_duplicated'));
