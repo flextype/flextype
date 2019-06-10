@@ -19,6 +19,7 @@
 - Flextype Admin Panel: New Field types - select, editor (instead of html)
 
 ### Changed
+- Flextype Core: Thunderer Shortcodes don't parse fields by default, need to use filter.
 - Flextype Core: Thunderer Shortcode updated to 0.7.2.
 - Flextype Core: Flextype Components Arr updated to 1.2.5
 - Flextype Core: Flextype Components Number updated to 1.1.0
@@ -30,6 +31,7 @@
 ### Fixed
 - Admin Panel: Translates fixes.
 - Admin Panel: Issue with js error for codemirror - fixed.
+- Flextype Core: Plugins API - issue with plugins list fixed.
 
 ### Removed
 - Flextype Admin Panel: Menus Manager removed.
