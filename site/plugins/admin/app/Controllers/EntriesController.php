@@ -292,7 +292,7 @@ class EntriesController extends Controller
      * @return Response
      */
     public function typeProcess(Request $request, Response $response) : Response
-
+    {
         $_data = $request->getParsedBody();
         $entry_name = $_data['entry_name'];
         $entry = $this->entries->fetch($_data['entry_name']);
