@@ -4,6 +4,7 @@
 - Flextype Core: Twig Template Engine Integration!
 - Flextype Core: Whoops Error Handler Integration!
 - Flextype Core: Monolog library Integration!
+- Flextype Core: Slugify library Integration!
 - Flextype Core: Complete Glide/Intervention Image Implemented for Image manipulation on fly!
 - Flextype Core: New Event handler from The League of Extraordinary Packages for better event handling.
 - Flextype Core: New Entries API
