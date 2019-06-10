@@ -22,6 +22,7 @@
 
         "doctrine/cache": "1.8.0",
         "thunderer/shortcode": "0.7.2",
+
         "flextype-components/arr" : "1.2.5",
         "flextype-components/assets" : "1.0.3",
         "flextype-components/cookie" : "1.2.0",
@@ -34,14 +35,17 @@
         "flextype-components/session" : "1.1.1",
         "flextype-components/text" : "1.1.2",
         "flextype-components/form" : "1.0.2",
-        "league/glide": "^1.5",
+
         "slim/slim": "^3.0",
         "slim/twig-view": "^2.5",
         "slim/flash": "^0.4.0",
-        "league/glide-slim": "^1.0",
-        "league/event": "^2.2",
         "slim/csrf": "^0.8.3",
         "zeuxisoo/slim-whoops": "0.6.*",
+
+        "league/glide-slim": "^1.0",
+        "league/event": "^2.2",
+        "league/glide": "^1.5",
+
         "respect/validation": "^1.0",
         "monolog/monolog": "^1.24"
     },
