@@ -74,7 +74,6 @@ $flextype['csrf'] = function ($container) {
     return new \Slim\Csrf\Guard;
 };
 
-
 /**
  * Add logger
  */
