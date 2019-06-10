@@ -47,7 +47,8 @@
         "league/glide": "^1.5",
 
         "respect/validation": "^1.0",
-        "monolog/monolog": "^1.24"
+        "monolog/monolog": "^1.24",
+        "cocur/slugify": "^3.2"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
