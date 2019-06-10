@@ -57,7 +57,14 @@ class Plugins
         $this->flextype['registry']->set('plugins', []);
 
         // Get Plugins List
-        $plugins_list = Filesystem::listContents(PATH['plugins']);
+        $_plugins_list = Filesystem::listContents(PATH['plugins']);
+        $plugins_list = [];
+
+        foreach($_plugins_list as $plugin) {
+            if ($plugin['type'] == 'dir') {
+                $plugins_list[] = $plugin;
+            }
+        }
 
         // Get plugins cache ID
         $plugins_cache_id = $this->getPluginsCacheID($plugins_list);
