@@ -14,6 +14,11 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+/**
+ * @property View $view
+ * @property Router $router
+ * @property Registry $registry
+ */
 class EntriesController extends Controller
 {
     protected function getEntryID($query)
@@ -30,12 +35,12 @@ class EntriesController extends Controller
     /**
      * Index page
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  PSR7 request
-     * @param \Psr\Http\Message\ResponseInterface      $response PSR7 response
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return Response
      */
-    public function index(Request $request, Response $response)
+    public function index(Request $request, Response $response) : Response
     {
         // Get Query Params
         $query = $request->getQueryParams();
@@ -78,12 +83,12 @@ class EntriesController extends Controller
     /**
      * Create new entry page
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  PSR7 request
-     * @param \Psr\Http\Message\ResponseInterface      $response PSR7 response
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return Response
      */
-    public function add(Request $request, Response $response)
+    public function add(Request $request, Response $response) : Response
     {
         // Get Query Params
         $query = $request->getQueryParams();
@@ -133,12 +138,12 @@ class EntriesController extends Controller
     /**
      * Create new entry - process
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  PSR7 request
-     * @param \Psr\Http\Message\ResponseInterface      $response PSR7 response
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return Response
      */
-    public function addProcess(Request $request, Response $response)
+    public function addProcess(Request $request, Response $response) : Response
     {
         // Get data from POST
         $data = $request->getParsedBody();
@@ -220,7 +225,15 @@ class EntriesController extends Controller
         }
     }
 
-    public function type(Request $request, Response $response)
+    /**
+     * Change entry type
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function type(Request $request, Response $response) : Response
     {
         $entry = $this->entries->fetch($this->getEntryID($request->getQueryParams()['id']));
 
@@ -265,7 +278,15 @@ class EntriesController extends Controller
         );
     }
 
-    public function typeProcess(Request $request, Response $response)
+    /**
+     * Change entry type - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function typeProcess(Request $request, Response $response) : Response
     {
         $data  = [];
 
@@ -293,7 +314,15 @@ class EntriesController extends Controller
         return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
     }
 
-    public function move(Request $request, Response $response)
+    /**
+     * Move entry
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function move(Request $request, Response $response) : Response
     {
         $entry_name = $this->getEntryID($request->getQueryParams()['id']);
         $entry = $this->entries->fetch($this->getEntryID($request->getQueryParams()['id']));
@@ -333,6 +362,14 @@ class EntriesController extends Controller
         );
     }
 
+    /**
+     * Move entry - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
     public function moveProcess(Request $request, Response $response)
     {
         $data = $request->getParsedBody();
@@ -351,7 +388,15 @@ class EntriesController extends Controller
         }
     }
 
-    public function rename(Request $request, Response $response)
+    /**
+     * Rename entry
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function rename(Request $request, Response $response) : Response
     {
         return $this->view->render(
             $response,
@@ -377,7 +422,15 @@ class EntriesController extends Controller
         );
     }
 
-    public function renameProcess(Request $request, Response $response)
+    /**
+     * Rename entry - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function renameProcess(Request $request, Response $response) : Response
     {
         $data = $request->getParsedBody();
 
@@ -393,7 +446,15 @@ class EntriesController extends Controller
         return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
     }
 
-    public function deleteProcess(Request $request, Response $response)
+    /**
+     * Delete entry - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function deleteProcess(Request $request, Response $response) : Response
     {
         $data = $request->getParsedBody();
 
@@ -409,7 +470,15 @@ class EntriesController extends Controller
         return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $id_current);
     }
 
-    public function duplicateProcess(Request $request, Response $response)
+    /**
+     * Duplicate entry - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function duplicateProcess(Request $request, Response $response) : Response
     {
         $data = $request->getParsedBody();
 
@@ -532,7 +601,15 @@ class EntriesController extends Controller
         return $form;
     }
 
-    public function edit(Request $request, Response $response)
+    /**
+     * Edit entry
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function edit(Request $request, Response $response) : Response
     {
 
         // Get Query Params
@@ -688,7 +765,15 @@ class EntriesController extends Controller
         return $files;
     }
 
-    public function editProcess(Request $request, Response $response)
+    /**
+     * Edit entry process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function editProcess(Request $request, Response $response) : Response
     {
         $query = $request->getQueryParams();
 
@@ -744,7 +829,15 @@ class EntriesController extends Controller
         return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=' . $type);
     }
 
-    public function deleteMediaFileProcess(Request $request, Response $response)
+    /**
+     * Delete media file - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function deleteMediaFileProcess(Request $request, Response $response) : Response
     {
         $data = $request->getParsedBody();
 
@@ -760,7 +853,15 @@ class EntriesController extends Controller
         return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $entry_id . '&type=media');
     }
 
-    public function uploadMediaFileProcess(Request $request, Response $response)
+    /**
+     * Upload media file - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function uploadMediaFileProcess(Request $request, Response $response) : Response
     {
         $data = $request->getParsedBody();
 
@@ -809,7 +910,7 @@ class EntriesController extends Controller
     /**
      * Upload files on the Server with several type of Validations!
      *
-     * uploadFile($_FILES['file'], $files_directory);
+     * _uploadFile($_FILES['file'], $files_directory);
      *
      * @param   array   $file             Uploaded file data
      * @param   string  $upload_directory Upload directory
@@ -925,6 +1026,7 @@ class EntriesController extends Controller
                 }
             }
         }
+
         return false;
     }
 }
