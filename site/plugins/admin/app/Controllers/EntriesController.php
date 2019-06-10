@@ -18,6 +18,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * @property View $view
  * @property Router $router
  * @property Registry $registry
+ * @property Entries $entries
+ * @property Fieldsets $fieldsets
+ * @property Flash $flash
+ * @property Csrf $csrf
+ * @property Themes $themes
  */
 class EntriesController extends Controller
 {
@@ -186,9 +191,9 @@ class EntriesController extends Controller
                 foreach ($fieldset['sections'] as $key => $section) {
                     foreach ($section['fields'] as $element => $property) {
 
-                        // Get values from default data
-                        if (isset($default_data[$element])) {
-                            $value = $default_data[$element];
+                        // Get values from $data_from_post
+                        if (isset($data_from_post[$element])) {
+                            $value = $data_from_post[$element];
 
                         // Get values from fieldsets predefined field values
                         } elseif (isset($property['value'])) {
@@ -287,8 +292,6 @@ class EntriesController extends Controller
      * @return Response
      */
     public function typeProcess(Request $request, Response $response) : Response
-    {
-        $data  = [];
 
         $_data = $request->getParsedBody();
         $entry_name = $_data['entry_name'];
@@ -327,6 +330,7 @@ class EntriesController extends Controller
         $entry_name = $this->getEntryID($request->getQueryParams()['id']);
         $entry = $this->entries->fetch($this->getEntryID($request->getQueryParams()['id']));
 
+        $entries_list = [];
         $_entries_list = $this->entries->fetchAll('', 'slug');
         $entries_list['/'] = '/';
         foreach ($_entries_list as $_entry) {
