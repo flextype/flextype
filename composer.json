@@ -49,6 +49,12 @@
         "respect/validation": "^1.0",
         "monolog/monolog": "^1.24"
     },
+    "config": {
+        "apcu-autoloader": true,
+        "platform": {
+            "php": "7.1.3"
+        }
+    },
     "autoload": {
         "classmap": [
             "flextype"
