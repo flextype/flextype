@@ -49,6 +49,12 @@
         "respect/validation": "^1.0",
         "monolog/monolog": "^1.24"
     },
+    "suggest": {
+        "ext-zend-opcache": "Recommended for better performance",
+        "ext-memcache": "Needed to support Memcache servers",
+        "ext-memcached": "Needed to support Memcached servers",
+        "ext-redis": "Needed to support Redis servers"
+    },
     "config": {
         "apcu-autoloader": true,
         "platform": {
