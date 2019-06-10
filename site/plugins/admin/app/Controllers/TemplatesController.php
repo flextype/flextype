@@ -13,6 +13,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * @property Router $router
  * @property Cache $cache
  * @property Themes $themes
+ * @property Slugify $slugify
  */
 class TemplatesController extends Controller
 {
@@ -89,7 +90,7 @@ class TemplatesController extends Controller
     {
         $type = $request->getParsedBody()['type'];
 
-        $id = Text::safeString($request->getParsedBody()['id'], '-', true) . '.html';
+        $id = $this->slugify->slugify($request->getParsedBody()['id']) . '.html';
 
         $file = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $id;
 

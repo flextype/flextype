@@ -67,7 +67,7 @@ class FieldsetsController extends Controller
         Arr::delete($data, 'csrf_name');
         Arr::delete($data, 'csrf_value');
 
-        $id = Text::safeString($data['id'], '-', true);
+        $id = $this->slugify->slugify($data['id']);
         $data = ['title' => $data['title']];
 
         if ($this->fieldsets->create($id, $data)) {

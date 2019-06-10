@@ -22,6 +22,7 @@ use Slim\Flash\Messages;
 use League\Glide\ServerFactory;
 use League\Glide\Responses\SlimResponseFactory;
 use League\Event\Emitter;
+use Cocur\Slugify\Slugify;
 
 /**
  * The version of Flextype
@@ -94,6 +95,13 @@ $app->add($flextype->get('csrf'));
  */
 $flextype['emitter'] = function ($container) {
     return new Emitter();
+};
+
+/**
+ * Add slugify service to Flextype container
+ */
+$flextype['slugify'] = function ($container) {
+    return new Slugify(['separator' => '-', 'lowercase' => true, 'trim' => true]);
 };
 
 /**

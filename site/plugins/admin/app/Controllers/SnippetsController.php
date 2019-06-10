@@ -12,6 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * @property View $view
  * @property Router $router
  * @property Snippets $snippets
+ * @property Slugify $slugify
  */
 class SnippetsController extends Controller
 {
@@ -85,7 +86,7 @@ class SnippetsController extends Controller
      */
     public function addProcess(Request $request, Response $response) : Response
     {
-        $id = Text::safeString($request->getParsedBody()['id'], '-', true);
+        $id = $this->slugify->slugify($request->getParsedBody()['id']);
 
         if ($this->snippets->create($id, "")) {
             $this->flash->addMessage('success', __('admin_message_snippet_created'));
@@ -193,7 +194,7 @@ class SnippetsController extends Controller
      */
     public function renameProcess(Request $request, Response $response) : Response
     {
-        $id = Text::safeString($request->getParsedBody()['id'], '-', true);
+        $id = $this->slugify->slugify($request->getParsedBody()['id']);
         $id_current = $request->getParsedBody()['id_current'];
 
         if ($this->snippets->rename(
@@ -219,7 +220,7 @@ class SnippetsController extends Controller
      */
     public function deleteProcess(Request $request, Response $response) : Response
     {
-        $id = Text::safeString($request->getParsedBody()['snippet-id'], '-', true);
+        $id = $this->slugify->slugify($request->getParsedBody()['snippet-id']);
 
         if ($this->snippets->delete($id)) {
             $this->flash->addMessage('success', __('admin_message_snippet_deleted'));
@@ -240,7 +241,7 @@ class SnippetsController extends Controller
      */
     public function duplicateProcess(Request $request, Response $response) : Response
     {
-        $id = Text::safeString($request->getParsedBody()['snippet-id'], '-', true);
+        $id = $this->slugify->slugify($request->getParsedBody()['snippet-id']);
 
         if ($this->snippets->copy($id, $id . '-duplicate-' . date("Ymd_His"))) {
             $this->flash->addMessage('success', __('admin_message_snippet_duplicated'));

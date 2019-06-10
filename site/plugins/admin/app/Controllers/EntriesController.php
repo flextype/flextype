@@ -23,6 +23,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * @property Flash $flash
  * @property Csrf $csrf
  * @property Themes $themes
+ * @property Slugify $slugify
  */
 class EntriesController extends Controller
 {
@@ -161,7 +162,7 @@ class EntriesController extends Controller
         }
 
         // Set new Entry ID
-        $id = $parent_entry_id . '/' . Text::safeString($data['id'], '-', true);
+        $id = $parent_entry_id . '/' . $this->slugify->slugify($data['id']);
 
         // Check if entry exists then try to create
         if (!$this->entries->has($id)) {
@@ -381,7 +382,7 @@ class EntriesController extends Controller
         if (!$this->entries->has($data['parent_entry'] . '/' . $data['name_current'])) {
             if ($this->entries->rename(
                 $data['entry_path_current'],
-                $data['parent_entry'] . '/' . Text::safeString($data['name_current'], '-', true)
+                $data['parent_entry'] . '/' . $this->slugify->slugify($data['name_current'])
             )) {
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
             } else {
@@ -440,7 +441,7 @@ class EntriesController extends Controller
 
         if ($this->entries->rename(
             $data['entry_path_current'],
-            $data['entry_parent'] . '/' . Text::safeString($data['name'], '-', true)
+            $data['entry_parent'] . '/' . $this->slugify->slugify($data['name'])
         )) {
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
@@ -1013,7 +1014,7 @@ class EntriesController extends Controller
                         }
                         if ($remove_spaces === true) {
                             // Remove spaces from the filename
-                            $filename = Text::safeString(pathinfo($filename)['filename'], '-', true) . '.' . pathinfo($filename)['extension'];
+                            $filename = $this->slugify->slugify(pathinfo($filename)['filename']) . '.' . pathinfo($filename)['extension'];
                         }
                         if (!is_dir($upload_directory) or !is_writable(realpath($upload_directory))) {
                             throw new \RuntimeException("Directory {$upload_directory} must be writable");

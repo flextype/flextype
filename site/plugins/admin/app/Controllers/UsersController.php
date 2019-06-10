@@ -69,11 +69,11 @@ class UsersController extends Controller
         // Get POST data
         $data = $request->getParsedBody();
 
-        if (!Filesystem::has($_user_file = PATH['site'] . '/accounts/' . Text::safeString($data['username']) . '.json')) {
+        if (!Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $this->slugify->slugify($data['username']) . '.json')) {
             Filesystem::createDir(PATH['site'] . '/accounts/');
             if (Filesystem::write(
                 PATH['site'] . '/accounts/' . $data['username'] . '.json',
-                JsonParser::encode(['username' => Text::safeString($data['username']),
+                JsonParser::encode(['username' => $this->slugify->slugify($data['username']),
                                             'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
                                             'email' => $data['email'],
                                             'role'  => 'admin',
