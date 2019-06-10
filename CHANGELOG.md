@@ -14,6 +14,8 @@
 - Flextype Core: Using JSON extension instead of YAML for all kind of data to store.
 - Flextype Core: New CSRF service for better cross-site request forgery protection.
 - Flextype Core: composer.json ext-json and ext-mbstring added into require section.
+- Flextype Core: composer.json suggest section added.
+- Flextype Core: composer.json: apcu-autoloader added for APCu cache as a fallback for the class map.
 - Flextype Site: New plugin Site added.
 - Flextype Core: Respect Validation - The most awesome validation engine ever created for PHP - added.
 - Flextype Admin Panel: New admin panel plugin based on Slim Framework.
