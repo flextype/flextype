@@ -165,7 +165,7 @@ class TemplatesController extends Controller
             $this->flash->addMessage('error', __('admin_message_' . $type . '_was_not_saved'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.templates.index'));
     }
 
     /**
