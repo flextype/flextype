@@ -85,7 +85,7 @@
                 <label for="entries[main]">{{ tr('admin_entry_main') }}</label>
                 <select id="systemSettingsSystemEntriesMain" name="entries[main]" class="form-control" required="required">
                     {% for key, value in entries %}
-                        <option value="{{ key }}" {% if key == entries.main %}selected{% endif %}>{{ value }}</option>
+                        <option value="{{ key }}" {% if key == settings.entries.main %}selected{% endif %}>{{ value }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -250,7 +250,7 @@
             <h3 class="h3">{{ tr('admin_admin_panel') }}</h3>
             <hr>
         </div>
-        
+
         <div class="col-md-6">
             <div class="form-group">
                 <label for="admin_panel[theme]">{{ tr('admin_theme') }}</label>
