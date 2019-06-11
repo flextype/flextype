@@ -23,7 +23,6 @@
   "admin_view_site": "View Site",
   "admin_snippets": "Snippets",
   "admin_not_installed": "Not Installed",
-  "admin_template_code": "Template code",
   "admin_off": "Off",
   "admin_on": "On",
   "admin_add": "Add",
@@ -202,5 +201,6 @@
   "admin_menu_item_title": "Title",
   "admin_menu_item_url": "Url",
   "admin_menu_item_target": "Target",
-  "admin_menu_item_order": "Order"
+  "admin_menu_item_order": "Order",
+  "admin_template_code": "Template code"
 }
