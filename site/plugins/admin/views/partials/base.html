@@ -178,7 +178,12 @@
             </nav>
             {% endif %}
 
-            {% if is_current_path('admin.entries.index') or is_current_path('admin.entries.edit') %}
+            {% if is_current_path('admin.entries.index') or
+                  is_current_path('admin.entries.edit') or
+                  is_current_path('admin.entries.add') or
+                  is_current_path('admin.entries.move') or
+                  is_current_path('admin.entries.rename') or
+                  is_current_path('admin.entries.type') %}
             <div class="entry-editor-heading">
                 {% for part in parts %}
                     {% set i = i - 1 %}

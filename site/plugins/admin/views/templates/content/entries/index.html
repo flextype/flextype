@@ -49,7 +49,7 @@
                     <a class="dropdown-item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.slug }}">{{ tr('admin_rename') }}</a>
                     <a class="dropdown-item" href="{{ path_for('admin.entries.move') }}?id={{ entry.slug }}">{{ tr('admin_move') }}</a>
                     <a class="dropdown-item" href="{{ base_url() }}/{{ entry.slug }}" target="_blank">{{ tr('admin_preview') }}</a>
-                    <a class="dropdown-item" href="{{ path_for('admin.entries.type') }}?entry={{ entry.slug }}">{{ tr('admin_type') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.type') }}?id={{ entry.slug }}">{{ tr('admin_type') }}</a>
                   </div>
                 </div>
                 <form id="duplicate-id-{{ entry.slug }}" action="{{ path_for('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">

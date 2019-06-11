@@ -10,7 +10,7 @@
                 <label for="title">{{ tr('admin_type') }}</label>
                 <select class="form-control" name="fieldset">
                 {% for key, value in fieldsets %}
-                    <option value="{{ key }}" {% if key == fieldset %}selected{% endif %}>{{ value }}</option>
+                    <option value="{{ key }}-{{fieldset}}" {% if key == fieldset %}selected{% endif %}>{{ value }}</option>
                 {% endfor %}
                 </select>
             </div>
