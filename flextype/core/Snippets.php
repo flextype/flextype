@@ -41,11 +41,7 @@ class Snippets
      */
     public function display(string $id)
     {
-        $vars = [];
-
-        $vars['fetch'] = $id;
-
-        return $this->_display_snippet($vars);
+        return $this->_display_snippet(['fetch' => $id]);
     }
 
     /**
@@ -195,12 +191,11 @@ class Snippets
      */
     private function _display_snippet(array $vars)
     {
-
         // Extracst attributes
         extract($vars);
 
         // Get snippet name
-        $name = (isset($id)) ? (string) $id : '';
+        $name = (isset($fetch)) ? (string) $fetch : '';
 
         // Define snippet path
         $snippet_file = $this->_file_location($name);
