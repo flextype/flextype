@@ -1,3 +1,4 @@
 {
-    "enabled": true
+    "enabled": true,
+    "priority": -1000000
 }
