@@ -201,5 +201,6 @@
   "admin_menu_item_title": "Cím",
   "admin_menu_item_url": "URL",
   "admin_menu_item_target": "Cél",
-  "admin_menu_item_order": "Sorrend"
+  "admin_menu_item_order": "Sorrend",
+  "admin_template_code": "Template code"
 }
