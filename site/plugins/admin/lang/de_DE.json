@@ -201,5 +201,6 @@
   "admin_menu_item_title": "Titel",
   "admin_menu_item_url": "URL",
   "admin_menu_item_target": "Ziel",
-  "admin_menu_item_order": "Reihenfolge"
+  "admin_menu_item_order": "Reihenfolge",
+  "admin_template_code": "Template code"
 }
