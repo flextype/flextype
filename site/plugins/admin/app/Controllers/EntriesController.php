@@ -285,8 +285,8 @@ class EntriesController extends Controller
             'plugins/admin/views/templates/content/entries/type.html',
             [
                             'fieldset' => $entry['fieldset'],
-                            'entry_name' => $this->getEntryID($query),
                             'fieldsets' => $fieldsets,
+                            'id' => $this->getEntryID($query),
                             'menu_item' => 'entries',
                             'parts' => $parts,
                             'i' => count($parts),
@@ -318,19 +318,21 @@ class EntriesController extends Controller
     public function typeProcess(Request $request, Response $response) : Response
     {
         $_data = $request->getParsedBody();
-        $entry_name = $_data['entry_name'];
-        $entry = $this->entries->fetch($_data['entry_name']);
+
+        $id = $_data['id'];
+
+        $entry = $this->entries->fetch($id);
 
         Arr::delete($entry, 'slug');
         Arr::delete($_data, 'csrf_name');
         Arr::delete($_data, 'csrf_value');
-        Arr::delete($_data, 'type_entry');
-        Arr::delete($_data, 'entry_name');
+        Arr::delete($_data, 'save_entry');
+        Arr::delete($_data, 'id');
 
         $data = array_merge($entry, $_data);
 
         if ($this->entries->update(
-            $entry_name,
+            $id,
             $data
         )) {
             $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
@@ -338,7 +340,7 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $entry_name), 0, -1)));
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $id), 0, -1)));
     }
 
     /**
