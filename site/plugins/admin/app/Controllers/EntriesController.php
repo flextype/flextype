@@ -99,6 +99,13 @@ class EntriesController extends Controller
         // Get Query Params
         $query = $request->getQueryParams();
 
+        // Set Entries ID in parts
+        if (isset($query['id'])) {
+            $parts = explode("/", $query['id']);
+        } else {
+            $parts = [0 => ''];
+        }
+
         // Init Fieldsets
         $fieldsets = [];
 
@@ -125,6 +132,9 @@ class EntriesController extends Controller
                             'menu_item' => 'entries',
                             'fieldsets' => $fieldsets,
                             'current_id' => $this->getEntryID($query),
+                            'parts' => $parts,
+                            'i' => count($parts),
+                            'last' => Arr::last($parts),
                             'links' => [
                                         'entries' => [
                                             'link' => $this->router->pathFor('admin.entries.index'),
@@ -241,7 +251,17 @@ class EntriesController extends Controller
      */
     public function type(Request $request, Response $response) : Response
     {
-        $entry = $this->entries->fetch($this->getEntryID($request->getQueryParams()['id']));
+        // Get Query Params
+        $query = $request->getQueryParams();
+
+        // Set Entries ID in parts
+        if (isset($query['id'])) {
+            $parts = explode("/", $query['id']);
+        } else {
+            $parts = [0 => ''];
+        }
+
+        $entry = $this->entries->fetch($this->getEntryID($query));
 
         $fieldsets = [];
 
@@ -265,9 +285,12 @@ class EntriesController extends Controller
             'plugins/admin/views/templates/content/entries/type.html',
             [
                             'fieldset' => $entry['fieldset'],
-                            'entry_name' => $this->getEntryID($request->getQueryParams()['id']),
+                            'entry_name' => $this->getEntryID($query),
                             'fieldsets' => $fieldsets,
                             'menu_item' => 'entries',
+                            'parts' => $parts,
+                            'i' => count($parts),
+                            'last' => Arr::last($parts),
                             'links' => [
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
@@ -275,7 +298,7 @@ class EntriesController extends Controller
                                     'attributes' => ['class' => 'navbar-item']
                                 ],
                                 'entries_type' => [
-                                    'link' => $this->router->pathFor('admin.entries.type') . '?id=' . $this->getEntryID($request->getQueryParams()['id']),
+                                    'link' => $this->router->pathFor('admin.entries.type') . '?id=' . $this->getEntryID($query),
                                     'title' => __('admin_type'),
                                     'attributes' => ['class' => 'navbar-item active']
                                     ]
@@ -328,8 +351,18 @@ class EntriesController extends Controller
      */
     public function move(Request $request, Response $response) : Response
     {
-        $entry_name = $this->getEntryID($request->getQueryParams()['id']);
-        $entry = $this->entries->fetch($this->getEntryID($request->getQueryParams()['id']));
+        // Get Query Params
+        $query = $request->getQueryParams();
+
+        $entry_name = $this->getEntryID($query);
+        $entry = $this->entries->fetch($this->getEntryID($query));
+
+        // Set Entries ID in parts
+        if (isset($query['id'])) {
+            $parts = explode("/", $query['id']);
+        } else {
+            $parts = [0 => ''];
+        }
 
         $entries_list = [];
         $_entries_list = $this->entries->fetchAll('', 'slug');
@@ -351,6 +384,9 @@ class EntriesController extends Controller
                             'name_current' => Arr::last(explode("/", $entry_name)),
                             'entry_parent' => implode('/', array_slice(explode("/", $entry_name), 0, -1)),
                             'menu_item' => 'entries',
+                            'parts' => $parts,
+                            'i' => count($parts),
+                            'last' => Arr::last($parts),
                             'links' => [
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
@@ -403,14 +439,27 @@ class EntriesController extends Controller
      */
     public function rename(Request $request, Response $response) : Response
     {
+        // Get Query Params
+        $query = $request->getQueryParams();
+
+        // Set Entries ID in parts
+        if (isset($query['id'])) {
+            $parts = explode("/", $query['id']);
+        } else {
+            $parts = [0 => ''];
+        }
+
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/content/entries/rename.html',
             [
-                            'name_current' => Arr::last(explode("/", $this->getEntryID($request->getQueryParams()['id']))),
-                            'entry_path_current' => $this->getEntryID($request->getQueryParams()['id']),
-                            'entry_parent' => implode('/', array_slice(explode("/", $this->getEntryID($request->getQueryParams()['id'])), 0, -1)),
+                            'name_current' => Arr::last(explode("/", $this->getEntryID($query))),
+                            'entry_path_current' => $this->getEntryID($query),
+                            'entry_parent' => implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                             'menu_item' => 'entries',
+                            'parts' => $parts,
+                            'i' => count($parts),
+                            'last' => Arr::last($parts),
                             'links' => [
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
@@ -418,7 +467,7 @@ class EntriesController extends Controller
                                     'attributes' => ['class' => 'navbar-item']
                                 ],
                                 'entries_type' => [
-                                    'link' => $this->router->pathFor('admin.entries.rename') . '?id=' . $this->getEntryID($request->getQueryParams()['id']),
+                                    'link' => $this->router->pathFor('admin.entries.rename') . '?id=' . $this->getEntryID($query),
                                     'title' => __('admin_rename'),
                                     'attributes' => ['class' => 'navbar-item active']
                                     ]
@@ -616,7 +665,6 @@ class EntriesController extends Controller
      */
     public function edit(Request $request, Response $response) : Response
     {
-
         // Get Query Params
         $query = $request->getQueryParams();
 
