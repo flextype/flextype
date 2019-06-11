@@ -14,6 +14,7 @@ namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\I18n\I18n;
+use Flextype\Component\Arr\Arr;
 
 class Plugins
 {
@@ -104,7 +105,15 @@ class Plugins
                         }
 
                         $_plugins_config[$plugin['dirname']] = array_merge($plugin_settings, $plugin_config);
+
+                        // Set default plugin priority 0
+                        if (!isset($_plugins_config[$plugin['dirname']]['priority'])) {
+                            $_plugins_config[$plugin['dirname']]['priority'] = 0;
+                        }
                     }
+
+                    // Sort plugins list by priority.
+                    $_plugins_config = Arr::sort($_plugins_config, 'priority', 'DESC');
 
                     $this->flextype['registry']->set('plugins', $_plugins_config);
                     $this->flextype['cache']->save($plugins_cache_id, $_plugins_config);
