@@ -209,6 +209,9 @@ $flextype['view'] = function ($container) {
     // Add Global Shortcodes Twig Extension
     $view->addExtension(new ShortcodesTwigExtension($container));
 
+    // Add Global Snippets Twig Extension
+    $view->addExtension(new SnippetsTwigExtension($container));
+
     // Return view
     return $view;
 };
