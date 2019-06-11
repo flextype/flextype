@@ -71,10 +71,9 @@ include_once 'dependencies.php';
 include_once 'middlewares.php';
 
 /**
- * Include Routes
+ * Include Routes (web)
  */
 include_once 'routes/web.php';
-
 
 // Set empty settings array
 $flextype['registry']->set('settings', []);
