@@ -1,14 +1,24 @@
 <?php
 
+/**
+ * @package Flextype
+ *
+ * @author Romanenko Sergey <hello@romanenko.digital>
+ * @link http://romanenko.digital
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Flextype;
 
 use Flextype\Component\Registry\Registry;
 use Thunder\Shortcode\ShortcodeFacade;
 use Slim\Flash\Messages;
+use Cocur\Slugify\Slugify;
 use League\Glide\ServerFactory;
 use League\Glide\Responses\SlimResponseFactory;
 use League\Event\Emitter;
-use Cocur\Slugify\Slugify;
 
 /**
  * Add CSRF (cross-site request forgery) protection service to Flextype container
@@ -210,9 +220,9 @@ $flextype['themes'] = function ($container) use ($flextype, $app) {
      return new Themes($flextype, $app);
 };
 
- /**
-  * Add plugins service to Flextype container
-  */
+/**
+ * Add plugins service to Flextype container
+ */
 $flextype['plugins'] = function ($container) use ($flextype, $app) {
      return new Plugins($flextype, $app);
 };
