@@ -20,8 +20,8 @@
         "ext-json": "*",
         "ext-mbstring": "*",
 
-        "doctrine/cache": "1.8.0",
-        "thunderer/shortcode": "0.7.2",
+        "doctrine/cache": "^1.8.0",
+        "thunderer/shortcode": "^0.7.2",
 
         "flextype-components/arr" : "1.2.5",
         "flextype-components/assets" : "1.0.3",
@@ -40,7 +40,7 @@
         "slim/twig-view": "^2.5",
         "slim/flash": "^0.4.0",
         "slim/csrf": "^0.8.3",
-        "zeuxisoo/slim-whoops": "0.6.*",
+        "zeuxisoo/slim-whoops": "^0.6.*",
 
         "league/glide-slim": "^1.0",
         "league/event": "^2.2",
