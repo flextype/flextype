@@ -10,6 +10,7 @@
 - Flextype Core: New Entries API
 - Flextype Core: New Fieldsets API
 - Flextype Core: New Snippets API
+- Flextype Core: New Plugins API
 - Flextype Core: New JSON Parser instead of old YAML Parser.
 - Flextype Core: Using new languages files format and JSON extension instead of YAML.
 - Flextype Core: Using JSON extension instead of YAML for all kind of data to store.
@@ -25,7 +26,7 @@
 
 ### Changed
 - Flextype Core: Thunderer Shortcodes don't parse fields by default, need to use filter.
-- Flextype Core: Thunderer Shortcode updated to 0.7.2.
+- Flextype Core: Thunderer Shortcodes updated to 0.7.2.
 - Flextype Core: Flextype Components Arr updated to 1.2.5
 - Flextype Core: Flextype Components Number updated to 1.1.0
 - Admin Panel: Bootstrap updated to 4.3.1
