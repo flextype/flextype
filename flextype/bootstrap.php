@@ -41,7 +41,7 @@ $config = [
         'responseChunkSize' => 4096,
         'httpVersion' => '1.1',
         'twig' => [
-            'cache' => PATH['site'] . '/cache/twig',
+            'cache' => PATH['cache'] . '/twig',
             'auto_reload' => true
         ],
         'images' => [
