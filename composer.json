@@ -48,7 +48,8 @@
 
         "respect/validation": "^1.0",
         "monolog/monolog": "^1.24",
-        "cocur/slugify": "^3.2"
+        "cocur/slugify": "^3.2",
+        "oscarotero/psr7-middlewares": "^3.21"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
