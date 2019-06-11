@@ -755,12 +755,13 @@ class EntriesController extends Controller
 
     public function getMediaList(string $entry, bool $path = false) : array
     {
+        $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
         $files = [];
         foreach (array_diff(scandir(PATH['entries'] . '/' . $entry), ['..', '.']) as $file) {
             if (strpos($this->registry->get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($path) {
-                        $files[$this->router->pathFor('admin.site.index') . '/' . $entry . '/' . $file] = $this->router->pathFor('admin.site.index') . '/' . $entry . '/' . $file;
+                        $files[$base_url . '/' . $entry . '/' . $file] = $base_url . '/' . $entry . '/' . $file;
                     } else {
                         $files[$file] = $file;
                     }

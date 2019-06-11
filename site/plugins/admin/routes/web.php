@@ -2,9 +2,6 @@
 
 namespace Flextype;
 
-// Site
-$app->get('/', '')->setName('admin.site.index');
-
 // UsersController
 $app->group('/' . $admin_route, function () use ($flextype, $app) {
     $app->get('/registration', 'UsersController:registration')->setName('admin.users.registration');
