@@ -18,6 +18,8 @@ use Flextype\Component\Filesystem\Filesystem;
 use Thunder\Shortcode\ShortcodeFacade;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr7Middlewares\Middleware;
+use Psr7Middlewares\Middleware\TrailingSlash;
 use Slim\Flash\Messages;
 use League\Glide\ServerFactory;
 use League\Glide\Responses\SlimResponseFactory;
@@ -89,6 +91,11 @@ $flextype['logger'] = function($container) {
  * Add middleware CSRF (cross-site request forgery) protection for all routes
  */
 $app->add($flextype->get('csrf'));
+
+/**
+ * Add middleware TrailingSlash for all routes
+ */
+$app->add((new TrailingSlash(false))->redirect(301));
 
 /**
  * Add emitter service to Flextype container
