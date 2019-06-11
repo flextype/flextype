@@ -27,6 +27,7 @@
                     <a class="dropdown-item" href="javascript:;"
                        onclick="event.preventDefault();
                                 document.getElementById('duplicate-snippet-id-{{ id }}').submit();">{{ tr('admin_duplicate') }}</a>
+                    <a class="dropdown-item js-snippets-info" href="javascript:;"  data-toggle="modal" data-target="#snippetsInfoModal" data-name="{{ id }}">{{ tr('admin_embeded_code') }}</a>
                   </div>
                 </div>
                 <form id="duplicate-snippet-id-{{ id }}" action="{{ path_for('admin.snippets.duplicateProcess') }}" method="POST" style="display: none;">
@@ -47,4 +48,37 @@
     </tbody>
 </table>
 {% endif %}
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="snippetsInfoModal" tabindex="-1" role="dialog" aria-labelledby="snippetsInfoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="snippetsInfoModalLabel">{{ tr('admin_embeded_code') }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <label for="shortcode">{{ tr('admin_shortcode') }}</label>
+          <div class="alert alert-dark clipboard" role="alert">
+              <span id="snippet">[snippet fetch="<span class="js-snippets-snippet-placeholder"></span>"]</span>
+              <button class="js-clipboard-btn btn" data-clipboard-target="#snippet">
+                  {{ tr('admin_copy') }}
+              </button>
+          </div>
+          <br>
+          <label for="template_code">{{ tr('admin_template_code') }}</label>
+           <div id="template_code" class="alert alert-dark clipboard" role="alert">
+               <span id="html">&lcub;&lcub; snippet('<span class="js-snippets-php-placeholder"></span>') &rcub;&rcub;</span>
+               <button class="js-clipboard-btn btn" data-clipboard-target="#html">
+                    {{ tr('admin_copy') }}
+               </button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
