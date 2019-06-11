@@ -201,5 +201,6 @@
   "admin_menu_item_title": "Titel",
   "admin_menu_item_url": "Url",
   "admin_menu_item_target": "Destination",
-  "admin_menu_item_order": "Rækkefølge"
+  "admin_menu_item_order": "Rækkefølge",
+  "admin_template_code": "Template code"
 }
