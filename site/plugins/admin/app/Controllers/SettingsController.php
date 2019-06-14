@@ -67,6 +67,7 @@ class SettingsController extends Controller
                                         'locales' => $locales,
                                         'entries' => $entries,
                                         'themes' => $themes,
+                                        'menu_item' => 'settings',
                                         'links' => [
                                                                 'settings' => [
                                                                                     'link' => $this->router->pathFor('admin.settings.index'),

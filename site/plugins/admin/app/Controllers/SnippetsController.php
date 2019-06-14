@@ -220,7 +220,7 @@ class SnippetsController extends Controller
      */
     public function deleteProcess(Request $request, Response $response) : Response
     {
-        $id = $this->slugify->slugify($request->getParsedBody()['snippet-id']);
+        $id = $request->getParsedBody()['snippet-id'];
 
         if ($this->snippets->delete($id)) {
             $this->flash->addMessage('success', __('admin_message_snippet_deleted'));
@@ -241,7 +241,7 @@ class SnippetsController extends Controller
      */
     public function duplicateProcess(Request $request, Response $response) : Response
     {
-        $id = $this->slugify->slugify($request->getParsedBody()['snippet-id']);
+        $id = $request->getParsedBody()['snippet-id'];
 
         if ($this->snippets->copy($id, $id . '-duplicate-' . date("Ymd_His"))) {
             $this->flash->addMessage('success', __('admin_message_snippet_duplicated'));

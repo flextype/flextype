@@ -36,7 +36,7 @@ class InformationController extends Controller
             $response,
             'plugins/admin/views/templates/system/information/index.html',
             [
-            'menu_item' => 'information',
+            'menu_item' => 'infomation',
             'php_uname' => php_uname(),
             'webserver' => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : @getenv('SERVER_SOFTWARE'),
             'php_sapi_name' => php_sapi_name(),
