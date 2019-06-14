@@ -1,4 +1,4 @@
-## [0.9.0] - 2019-06-xx
+## [0.9.0] - 2019-06-14
 ### Added
 - Flextype Core: Slim Framework Integration!
 - Flextype Core: Twig Template Engine Integration!
