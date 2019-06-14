@@ -273,30 +273,6 @@
 
             if (typeof $.flextype == 'undefined') $.flextype = {};
 
-            $.flextype.plugins = {
-
-                init: function() {
-                    this.changeStatusProcess();
-                },
-
-                changeStatus: function(plugin, status, token) {
-                    $.ajax({
-                        type: "post",
-                        data: "plugin_change_status=1&plugin="+plugin+"&status="+status+"&csrf_name="+$('form input[name="csrf_name"]').val()+"&csrf_value="+$('form input[name="csrf_value"]').val(),
-                        url: $('form input[name="url"]').val()
-                    });
-                },
-
-                changeStatusProcess: function() {
-                    $(".js-switch").click(function() {
-                        if ($(this).is(':checked')) {
-                            $.flextype.plugins.changeStatus($(this).data("plugin"), "true", $(this).data("token"));
-                        } else {
-                            $.flextype.plugins.changeStatus($(this).data("plugin"), "false", $(this).data("token"));
-                        }
-                    });
-                }
-            };
 
             $(document).ready(function() {
 
@@ -325,8 +301,6 @@
                     autogrow: false,
                     removeformatPasted: true
                 });
-
-                $.flextype.plugins.init();
 
                 $('.js-save-form-submit').click(function() {
                     $("#form" ).submit();

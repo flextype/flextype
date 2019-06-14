@@ -45,8 +45,8 @@ $app->group('/' . $admin_route, function () use ($flextype, $app) {
     $app->post('/settings/clear-cache', 'SettingsController:clearCacheProcess')->setName('admin.settings.clear-cache');
 
     // Plugins Controller
-    $app->get('/admin/plugins', 'PluginsController:index')->setName('admin.plugins.index');
-    $app->post('/admin/plugins/update-status', 'PluginsController:pluginStatusProcess')->setName('admin.plugins.update-status');
+    $app->get('/plugins', 'PluginsController:index')->setName('admin.plugins.index');
+    $app->post('/plugins/update-status', 'PluginsController:pluginStatusProcess')->setName('admin.plugins.update-status');
 
     // FieldsetsController
     $app->get('/fieldsets', 'FieldsetsController:index')->setName('admin.fieldsets.index');

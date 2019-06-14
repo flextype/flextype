@@ -1,10 +1,6 @@
 {% extends "plugins/admin/views/partials/base.html" %}
 
 {% block content %}
-<form>
-    <input type="hidden" name="url" value="{{ base_url() }}/admin/plugins/update-status">
-    {{ csrf() }}
-</form>
 <table class="table no-margin">
   <thead>
       <tr>
@@ -33,11 +29,19 @@
           <td class="text-right">
               <div class="form-group no-margin">
                 <span class="switch switch-sm">
-                    <input id="switch-sm-{{ plugin.name }}" type="checkbox" class="switch js-switch" data-plugin="{{ key }}"
+                    <input id="switch-sm-{{ key }}"
+                       onclick="event.preventDefault();
+                                document.getElementById('update-status-{{ key }}').submit();"
+                    type="checkbox" class="switch js-switch" data-plugin="{{ key }}"
                     {% if plugin.enabled %}checked{% endif %}
                     {% if key == 'admin' or key == 'site' or key == '' %}disabled{% endif %}>
-                  <label for="switch-sm-{{ plugin.name }}"></label>
+                  <label for="switch-sm-{{ key }}"></label>
                 </span>
+                <form id="update-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="plugin-key" value="{{ key }}">
+                    <input type="hidden" name="plugin-status" value="{% if plugin.enabled %}false{% else %}true{% endif %}">
+                </form>
               </div>
           </td>
       </tr>
