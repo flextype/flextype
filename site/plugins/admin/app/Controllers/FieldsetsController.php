@@ -5,6 +5,7 @@ namespace Flextype;
 use Flextype\Component\Arr\Arr;
 use Flextype\Component\Text\Text;
 use function Flextype\Component\I18n\__;
+use Respect\Validation\Validator as v;
 
 /**
  * @property View $view
@@ -114,13 +115,22 @@ class FieldsetsController extends Controller
 
     public function editProcess($request, $response)
     {
-        if ($this->fieldsets->update($request->getParsedBody()['id'], JsonParser::decode($request->getParsedBody()['data']))) {
-            $this->flash->addMessage('success', __('admin_message_fieldset_saved'));
-        } else {
-            $this->flash->addMessage('error', __('admin_message_fieldset_was_not_saved'));
-        }
+        $data = $request->getParsedBody()['data'];
 
-        return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
+        if (v::json()->validate($data)) {
+
+            if ($this->fieldsets->update($request->getParsedBody()['id'], JsonParser::decode($data))) {
+                $this->flash->addMessage('success', __('admin_message_fieldset_saved'));
+            } else {
+                $this->flash->addMessage('error', __('admin_message_fieldset_was_not_saved'));
+            }
+
+            return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
+
+        } else {
+            $this->flash->addMessage('error', __('admin_message_json_invalid'));
+            return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
+        }
     }
 
     public function rename($request, $response)
