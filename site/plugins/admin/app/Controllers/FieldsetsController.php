@@ -6,6 +6,12 @@ use Flextype\Component\Arr\Arr;
 use Flextype\Component\Text\Text;
 use function Flextype\Component\I18n\__;
 
+/**
+ * @property View $view
+ * @property Fieldsets $fieldsets
+ * @property Router $router
+ * @property Slugify $slugify
+ */
 class FieldsetsController extends Controller
 {
     public function index($request, $response)

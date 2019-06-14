@@ -7,6 +7,11 @@ use Flextype\Component\Session\Session;
 use Flextype\Component\Text\Text;
 use function Flextype\Component\I18n\__;
 
+/**
+ * @property View $view
+ * @property Router $router
+ * @property Slugify $slugify
+ */
 class UsersController extends Controller
 {
     public function profile($request, $response)
