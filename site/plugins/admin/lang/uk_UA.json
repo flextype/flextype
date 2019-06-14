@@ -18,6 +18,7 @@
   "admin_themes": "Тема оформлення",
   "admin_help": "Допомога",
   "admin_getting_help": "Отримати довідку",
+  "admin_message_json_invalid": "Invalid JSON",
   "admin_logout": "Вихід",
   "admin_profile": "Профіль",
   "admin_view_site": "Переглянути сайт",
