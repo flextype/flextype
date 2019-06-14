@@ -29,10 +29,10 @@ Session::start();
 // Configure application
 $config = [
     'settings' => [
-        'debug' => true,
+        'debug' => false,
         'whoops.editor' => 'atom',
         'whoops.page_title' => 'Error!',
-        'displayErrorDetails' => true,
+        'displayErrorDetails' => false,
         'addContentLengthHeader' => true,
         'addContentLengthHeader' => false,
         'routerCacheFile' => false,

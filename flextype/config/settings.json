@@ -28,10 +28,10 @@
     }
   },
   "errors":{
-    "display":true
+    "display":false
   },
   "cache":{
-    "enabled":false,
+    "enabled":true,
     "prefix":"flextype",
     "driver":"auto",
     "lifetime":604800,
