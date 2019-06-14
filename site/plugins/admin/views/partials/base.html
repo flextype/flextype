@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="{{ registry.settings.locale }}">
+  <head>
+    {% block head %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        {{ emmiter_emmit('onAdminThemeMeta') }}
+
+    	<title>FLEXTYPE</title>
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+        {% set admin_build = base_url() ~ '/site/plugins/admin/assets/dist/css/admin-build.min.css' %}
+        {% set admin_elegant = base_url() ~ '/site/plugins/admin/assets/dist/css/elegant.css' %}
+        {% set admin_light = base_url() ~ '/site/plugins/admin/assets/dist/css/admin-light.min.css' %}
+        {% set admin_monokai = base_url() ~ '/site/plugins/admin/assets/dist/css/monokai.css' %}
+
+        {% do assets_add('css', admin_build, 'admin', 1) %}
+
+        {% if registry.settings.admin_panel.theme == 'light' %}
+            {% do assets_add('css', admin_elegant, 'admin', 2) %}
+            {% do assets_add('css', admin_light, 'admin', 3) %}
+        {% else %}
+            {% do assets_add('css', admin_monokai, 'admin', 4) %}
+        {% endif %}
+
+        {% for assets_admin in assets_get('css', 'admin') %}
+            {% for assets_by_priorities in assets_admin %}
+                <link href="{{ assets_by_priorities.asset }}" rel="stylesheet">
+            {% endfor %}
+        {% endfor %}
+
+        <style media="screen">
+            .editor {
+                background-color: #fff;
+                border: 1px solid #dbdbdc;
+            }
+            .codex-editor__redactor {
+                padding-bottom: 0!important;
+            }
+
+            .content-full-size .main-panel .navbar-fixed+.content {
+                padding-top: 61px;
+            }
+
+            .content-full-size .main-panel .content {
+                padding: 0;
+            }
+
+            .content-full-size .container-fluid {
+                padding: 0;
+            }
+
+            .main-panel.width-full {
+                width: 100%;
+            }
+        </style>
+
+        {{ emmiter_emmit('onAdminThemeHeader') }}
+    {% endblock %}
+  </head>
+  <body {% if not is_logged %} class="content-full-size" {% endif %}>
+      <div class="wrapper">
+
+          {% if is_logged %}
+              <div class="sidebar">
+                  <div class="sidebar-wrapper">
+                      <div class="flextype-logo">
+                          <a href="{{ path_for('admin.entries.index') }}">
+                              FLEXTYPE
+                          </a>
+                          <a href="{{ base_url() }}" class="view-site-link" target="_blank">
+                              <i class="fas fa-external-link-alt"></i>
+                          </a>
+                      </div>
+                        <ul class="nav">
+                          {% for key, item in registry.admin_navigation.content %}
+                              <li class="nav-item {% if key == menu_item %} active {% endif %}">
+                                  <a href="{{ base_url() }}{{ item.link|raw }}"
+                                  {% for key, attribute in item.attributes %}
+                                      {{ key }} = {{ attribute }}
+                                  {% endfor %}
+                                  >{{ item.title|raw }}</a>
+                              </li>
+                          {% endfor %}
+                          {% for key, item in registry.admin_navigation.extends %}
+                              <li class="nav-item {% if key == menu_item %} active {% endif %}">
+                                  <a href="{{ base_url() }}{{ item.link|raw }}"
+                                  {% for key, attribute in item.attributes %}
+                                      {{ key }} = {{ attribute }}
+                                  {% endfor %}
+                                  >{{ item.title|raw }}</a>
+                              </li>
+                          {% endfor %}
+                          {% for key, item in registry.admin_navigation.settings %}
+                              <li class="nav-item {% if key == menu_item %} active {% endif %}">
+                                  <a href="{{ base_url() }}{{ item.link|raw }}"
+                                  {% for key, attribute in item.attributes %}
+                                      {{ key }} = {{ attribute }}
+                                  {% endfor %}
+                                  >{{ item.title|raw }}</a>
+                              </li>
+                          {% endfor %}
+                          {% for key, item in registry.admin_navigation.help %}
+                              <li class="nav-item {% if key == menu_item %} active {% endif %}">
+                                  <a href="{{ item.link|raw }}"
+                                  {% for key, attribute in item.attributes %}
+                                      {{ key }} = {{ attribute }}
+                                  {% endfor %}
+                                  >{{ item.title|raw }}</a>
+                              </li>
+                          {% endfor %}
+                      </ul>
+                      <div class="flextype-user">
+                            <ul class="nav">
+                                <li class="nav-item {% if item.item == menu_item %} active {% endif %}">
+                                    <a class="nav-link" href="{{ path_for('admin.users.profile') }}">
+                                        <i class="fas fa-user-circle"></i>
+                                        <p>
+                                            {{ username }}
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                      </div>
+                  </div>
+              </div>
+              <div class="sidebar-off-canvas"></div>
+          {% endif %}
+
+        <div class="main-panel {% if not is_logged %}width-full{% endif %}">
+
+            {% if links or buttons %}
+            <nav class="navbar navbar-expand-lg navbar-fixed">
+                <div class="container-fluid">
+                    {% if links %}
+                    <div class="navbar-wrapper">
+                        {% for link in links %}
+                            <a href="{{ link.link }}"
+                            {% for key, attribute in link.attributes %}
+                                {{ key }} = "{{ attribute }}"
+                            {% endfor %}
+                            >{{ link.title }}</a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% if buttons %}
+                    <div class="navbar-buttons">
+                        {% for button in buttons %}
+                            {% if button.type == 'action' %}
+                            <a href="{{ button.link }}"
+                               onclick="event.preventDefault();
+                                             document.getElementById('{{ button.id }}').submit();"
+                                             {% for key, attribute in button.attributes %}
+                                                 {{ key }} = "{{ attribute }}"
+                                             {% endfor %}>
+                                {{ button.title }}
+                            </a>
+
+                            <form id="{{ button.id }}" action="{{ button.link }}" method="POST" style="display: none;">
+                                {{ csrf() }}
+                            </form>
+                            {% else %}
+                            <a href="{{ button.link }}"
+                            {% for key, attribute in button.attributes %}
+                                {{ key }} = "{{ attribute }}"
+                            {% endfor %}
+                            >{{ button.title }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </nav>
+            {% endif %}
+
+            {% if is_current_path('admin.entries.index') or
+                  is_current_path('admin.entries.edit') or
+                  is_current_path('admin.entries.add') or
+                  is_current_path('admin.entries.move') or
+                  is_current_path('admin.entries.rename') or
+                  is_current_path('admin.entries.type') %}
+            <div class="entry-editor-heading">
+                {% for part in parts %}
+                    {% set i = i - 1 %}
+                    {% if (part != last) %}
+                        <a href="{{ path_for('admin.entries.index') }}?id={{ (parts|slice(0, -i))|join('/') }}"> / {{ part }}</a>
+                    {% else %}
+                        / {{ part }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if is_current_path('admin.templates.index') or
+                  is_current_path('admin.templates.edit') or
+                  is_current_path('admin.templates.rename') or
+                  is_current_path('admin.templates.add') or
+                  is_current_path('admin.fieldsets.index') or
+                  is_current_path('admin.fieldsets.edit') or
+                  is_current_path('admin.fieldsets.rename') or
+                  is_current_path('admin.fieldsets.add') or
+                  is_current_path('admin.snippets.index') or
+                  is_current_path('admin.snippets.edit') or
+                  is_current_path('admin.snippets.rename') or
+                  is_current_path('admin.snippets.add') %}
+            <div class="entry-editor-heading">
+                / {{ id }}
+            </div>
+            {% endif %}
+
+            <div class="content entry-editor">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% block content %}{% endblock %}
+                        </div> <!-- .col-md-12 -->
+                    </div> <!-- .row -->
+                </div> <!-- .container-fluid -->
+            </div> <!-- .content -->
+
+        </div>
+
+        {% if registry.settings.locale == 'en_US' %}
+            {% set locale = 'en' %}
+        {% else %}
+            {% set locale = registry.settings.locale %}
+        {% endif %}
+
+        {% if registry.settings.locale != 'en_US' %}
+            {% set admin_trumbowyg_build = base_url() ~ '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/' ~ registry.settings.locale|lower|slice(0,2) ~ '.min.js' %}
+            {% do assets_add('js', admin_trumbowyg_build, 'admin', 10) %}
+        {% endif %}
+
+        {% set admin_build = base_url() ~ '/site/plugins/admin/assets/dist/js/admin-build.min.js' %}
+
+        {% do assets_add('js', admin_build, 'admin', 1) %}
+
+        {% for assets_admin in assets_get('js', 'admin') %}
+            {% for assets_by_priorities in assets_admin %}
+                <script type="text/javascript" src="{{ assets_by_priorities.asset }}"></script>
+            {% endfor %}
+        {% endfor %}
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+
+    <script type="text/javascript">
+
+            new ClipboardJS('.js-clipboard-btn');
+            bsCustomFileInput.init();
+
+            Messenger.options = {
+                extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+                theme: 'flat'
+            }
+
+            {% for message in flash()['success'] %}
+                Messenger().post({ type: "success", message : "{{ message }}", hideAfter: '3' });
+            {% endfor %}
+
+            {% for message in flash()['warning'] %}
+                Messenger().post({ type: "warning", message : "{{ message }}", hideAfter: '3' });
+            {% endfor %}
+
+            {% for message in flash()['error'] %}
+                Messenger().post({ type: "error", message : "{{ message }}", hideAfter: '3' });
+            {% endfor %}
+
+            if (typeof $.flextype == 'undefined') $.flextype = {};
+
+
+            $(document).ready(function() {
+
+                $.trumbowyg.svgPath =  '{{base_url()}}/site/plugins/admin/assets/dist/fonts/trumbowyg/icons.svg';
+                $('.js-html-editor').trumbowyg({
+                    btnsDef: {
+                        // Customizables dropdowns
+                        image: {
+                            dropdown: ['insertImage', 'noembed'],
+                            ico: 'insertImage'
+                        }
+                    },
+                    btns: [
+                        ['undo', 'redo'], // Only supported in Blink browsers
+                        ['formatting'],
+                        ['strong', 'em', 'del'],
+                        ['link'],
+                        ['image'],
+                        ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+                        ['unorderedList', 'orderedList'],
+                        ['table'],
+                        ['removeformat'],
+                        ['fullscreen']
+                    ],
+                    lang: '{{ locale }}',
+                    autogrow: false,
+                    removeformatPasted: true
+                });
+
+                $('.js-save-form-submit').click(function() {
+                    $("#form" ).submit();
+                });
+
+                $('.js-save-editor-form-submit').click(function() {
+                    $("#form").submit();
+                });
+
+                $('.navbar-toggler').click(function () {
+                    $('.sidebar').addClass('show-sidebar');
+                    $('.sidebar-off-canvas').addClass('show-sidebar-off-canvas');
+                });
+
+                $('.sidebar-off-canvas').click(function () {
+                    $('.sidebar').removeClass('show-sidebar');
+                    $('.sidebar-off-canvas').removeClass('show-sidebar-off-canvas');
+                });
+
+                $('.js-plugins-info').click(function () {
+                    $('#pluginInfoModal').modal();
+                    $('.js-plugin-name-placeholder').html($(this).attr('data-name'));
+                    $('.js-plugin-version-placeholder').html($(this).attr('data-version'));
+                    $('.js-plugin-description-placeholder').html($(this).attr('data-description'));
+                    $('.js-plugin-author-name-placeholder').html($(this).attr('data-author-name'));
+                    $('.js-plugin-author-email-placeholder').html($(this).attr('data-author-email'));
+                    $('.js-plugin-author-url-placeholder').html($(this).attr('data-author-url'));
+                    $('.js-plugin-homepage-placeholder').html($(this).attr('data-homepage'));
+                    $('.js-plugin-bugs-placeholder').html($(this).attr('data-bugs'));
+                    $('.js-plugin-license-placeholder').html($(this).attr('data-license'));
+                });
+
+                $('.js-snippets-info').click(function () {
+                    $('#snippetsInfoModal').modal();
+                    $('.js-snippets-snippet-placeholder').html($(this).attr('data-name'));
+                    $('.js-snippets-php-placeholder').html($(this).attr('data-name'));
+                });
+
+                $('.js-entries-image-preview').click(function () {
+                    $('#entriesImagePreview').modal();
+                    $('.js-entry-image-preview-placeholder').css('background-image', 'url(' + $(this).attr('data-image-url') + ')');
+                    $('.js-entry-image-url-placeholder').val($(this).attr('data-image-url'));
+                    $('.js-media-id').attr('value', $(this).attr('data-media-id'));
+                    $('.js-entry-id').attr('value', $(this).attr('data-entry-id'));
+                });
+
+                $('.js-settings-entry-modal').click(function () {
+                    $('#settingsEntryModal').modal();
+                });
+
+                $.validate({});
+                {% if is_current_path('admin.fieldsets.edit') or is_current_path('admin.templates.edit') or is_current_path('admin.snippets.edit') or (is_current_path('admin.entries.edit') and type == 'source') %}
+                var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
+                    lineNumbers: true,
+                    {% if is_current_path('admin.fieldsets.edit') %}
+                    indentUnit: 4,
+                    tabSize: 4,
+                    {% else %}
+                    tabSize: 4,
+                    indentUnit: 4,
+                    {% endif %}
+                    {% if is_current_path('admin.fieldsets.edit') %}
+                    mode: "application/json",
+                    {% else %}
+                    mode: "application/x-httpd-php",
+                    {% endif %}
+                    indentWithTabs: false,
+                    {% if registry.settings.admin_panel.theme == light %}
+                    theme: "elegant",
+                    {% elseif registry.settings.admin_panel.theme == dark %}
+                    theme: "monokai",
+                    {% endif %}
+                    styleActiveLine: true,
+                });
+
+                editor.addKeyMap({
+                    "Tab": function (cm) {
+                        if (cm.somethingSelected()) {
+                            var sel = editor.getSelection("\n");
+                            // Indent only if there are multiple lines selected, or if the selection spans a full line
+                            if (sel.length > 0 && (sel.indexOf("\n") > -1 || sel.length === cm.getLine(cm.getCursor().line).length)) {
+                                cm.indentSelection("add");
+                                return;
+                            }
+                        }
+
+                        if (cm.options.indentWithTabs)
+                            cm.execCommand("insertTab");
+                        else
+                            cm.execCommand("insertSoftTab");
+                    },
+                    "Shift-Tab": function (cm) {
+                        cm.indentSelection("subtract");
+                    }
+                });
+                {% endif %}
+            });
+        </script>
+    </body>
+</html>

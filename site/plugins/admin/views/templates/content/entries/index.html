@@ -1,0 +1,73 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+{% if entries_list|length > 0 %}
+<table class="table no-margin">
+    <thead>
+        <tr>
+            <th>{{ tr('admin_entry') }}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in entries_list %}
+        <tr>
+            <td>
+                {% set entries = entries_fetch_all(entry.slug, 'slug', 'ASC') %}
+                <a href="{% if entries|length > 0 %}{{ base_url() }}/admin/entries?id={{ entry.slug }}{% else %}{{ base_url() }}/admin/entries/edit?id={{ entry.slug }}&type=editor{% endif %}">
+                    {% if entry.fieldset %}
+                        {% set fieldset_path = PATH_SITE ~ '/fieldsets/' ~ entry.fieldset ~ '.json' %}
+                        {% if filesystem_has(fieldset_path) %}
+                            {% set fieldset = json_parser_decode(filesystem_read(fieldset_path)) %}
+                            {% if fieldset.default_field %}
+                                {{ entry[fieldset.default_field] }}
+                            {% else %}
+                                {{ entry.slug }}
+                            {% endif %}
+                        {% else %}
+                            {{ entry.slug }}
+                        {% endif %}
+                    {% else %}
+                        {{ entry.slug }}
+                    {% endif %}
+                    {% if entries|length > 0 %}
+                        ({{ entries|length }})
+                    {% endif %}
+                </a>
+            </td>
+            <td class="text-right">
+                <div class="btn-group">
+                  <a class="btn btn-default" href="{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor">{{ tr('admin_edit') }}</a>
+                  <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.add') }}?id={{ entry.slug }}">{{ tr('admin_add') }}</a>
+                    <a class="dropdown-item" href="javascript:;"
+                       onclick="event.preventDefault();
+                                document.getElementById('duplicate-id-{{ entry.slug }}').submit();">{{ tr('admin_duplicate') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.slug }}">{{ tr('admin_rename') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.move') }}?id={{ entry.slug }}">{{ tr('admin_move') }}</a>
+                    <a class="dropdown-item" href="{{ base_url() }}/{{ entry.slug }}" target="_blank">{{ tr('admin_preview') }}</a>
+                    <a class="dropdown-item" href="{{ path_for('admin.entries.type') }}?id={{ entry.slug }}">{{ tr('admin_type') }}</a>
+                  </div>
+                </div>
+                <form id="duplicate-id-{{ entry.slug }}" action="{{ path_for('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="id" value="{{ entry.slug }}">
+                </form>
+                <form id="delete-id-{{ entry.slug }}" action="{{ path_for('admin.entries.deleteProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="id" value="{{ entry.slug }}">
+                    <input type="hidden" name="id-current" value="{{ id_current }}">
+                </form>
+                <a class="btn btn-default" href="javascript:;"
+                   onclick="event.preventDefault();
+                            document.getElementById('delete-id-{{ entry.slug }}').submit();">{{ tr('admin_delete') }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

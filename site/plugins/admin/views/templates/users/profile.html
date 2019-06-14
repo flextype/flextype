@@ -1,0 +1,16 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+<div class="profile">
+    <i class="fas fa-user-circle"></i>
+    {{ tr('admin_username') }}: {{ username }} <br>
+    {{ tr('admin_role') }}: {{ rolename }}<br>
+    <br>
+    <form id="logoutProcess" action="{{ path_for('admin.users.logoutProcess') }}" method="POST" style="display: none;">
+        {{ csrf() }}
+    </form>
+    <a class="btn btn-default" href="javascript:;"
+       onclick="event.preventDefault();
+                document.getElementById('logoutProcess').submit();">{{ tr('admin_logout') }}</a>
+</div>
+{% endblock %}

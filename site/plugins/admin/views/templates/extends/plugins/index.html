@@ -1,0 +1,77 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+<table class="table no-margin">
+  <thead>
+      <tr>
+          <th>{{ tr('admin_name') }}</th>
+          <th></th>
+          <th width="90" class="text-right">{{ tr('admin_status') }}</th>
+      </tr>
+  </thead>
+  <tbody>
+      {% for key, plugin in plugins_list %}
+      <tr>
+          <td>{{ plugin.name }}</td>
+          <td class="text-right">
+              <a href="javascript:;" class="btn js-plugins-info" data-toggle="modal" data-target="#pluginInfoModal"
+                  data-name="{{ plugin.name }}"
+                  data-version="{{ plugin.version }}"
+                  data-description="{{ plugin.description }}"
+                  data-author-name="{{ plugin.author.name }}"
+                  data-author-email="{{ plugin.author.email }}"
+                  data-author-url="{{ plugin.author.url }}"
+                  data-homepage="{{ plugin.homepage }}"
+                  data-bugs="{{ plugin.bugs }}"
+                  data-license="{{ plugin.license }}"
+                  >{{ tr('admin_info') }}</a>
+          </td>
+          <td class="text-right">
+              <div class="form-group no-margin">
+                <span class="switch switch-sm">
+                    <input id="switch-sm-{{ key }}"
+                       onclick="event.preventDefault();
+                                document.getElementById('update-status-{{ key }}').submit();"
+                    type="checkbox" class="switch js-switch" data-plugin="{{ key }}"
+                    {% if plugin.enabled %}checked{% endif %}
+                    {% if key == 'admin' or key == 'site' or key == '' %}disabled{% endif %}>
+                  <label for="switch-sm-{{ key }}"></label>
+                </span>
+                <form id="update-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="plugin-key" value="{{ key }}">
+                    <input type="hidden" name="plugin-status" value="{% if plugin.enabled %}false{% else %}true{% endif %}">
+                </form>
+              </div>
+          </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="pluginInfoModal" tabindex="-1" role="dialog" aria-labelledby="pluginInfoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pluginInfoModalLabel">{{ tr('admin_info') }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p><b>{{ tr('admin_name') }}: </b><span class="js-plugin-name-placeholder"></span></p>
+          <p><b>{{ tr('admin_version') }}: </b><span class="js-plugin-version-placeholder"></span></p>
+          <p><b>{{ tr('admin_description') }}: </b><span class="js-plugin-description-placeholder"></span></p>
+          <p><b>{{ tr('admin_author_name') }}: </b><span class="js-plugin-author-name-placeholder"></span></p>
+          <p><b>{{ tr('admin_author_email') }}: </b><span class="js-plugin-author-email-placeholder"></span></p>
+          <p><b>{{ tr('admin_author_url') }}: </b><span class="js-plugin-author-url-placeholder"></span></p>
+          <p><b>{{ tr('admin_homepage') }}: </b><span class="js-plugin-homepage-placeholder"></span></p>
+          <p><b>{{ tr('admin_bugs') }}: </b><span class="js-plugin-bugs-placeholder"></span></p>
+          <p><b>{{ tr('admin_license') }}: </b><span class="js-plugin-license-placeholder"></span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

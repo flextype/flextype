@@ -1,0 +1,5 @@
+{% extends "themes/default/templates/partials/base.html" %}
+
+{% block content %}
+    {{ entry.content|shortcode|raw}}
+{% endblock %}

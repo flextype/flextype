@@ -1,0 +1,84 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+{% if snippets_list|length > 0 %}
+<table class="table no-margin">
+    <thead>
+        <tr>
+            <th>{{ tr('admin_name') }}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% if snippets_list|length > 0 %}
+        {% for id in snippets_list %}
+        <tr>
+            <td>
+                <a href="{{ path_for('admin.snippets.edit') }}?id={{ id }}">{{ id }}</a>
+            </td>
+            <td class="text-right">
+                <div class="btn-group">
+                  <a class="btn btn-default" href="{{ path_for('admin.snippets.edit') }}?id={{ id }}">{{ tr('admin_edit') }}</a>
+                  <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{ path_for('admin.snippets.rename') }}?id={{ id }}">{{ tr('admin_rename') }}</a>
+                    <a class="dropdown-item" href="javascript:;"
+                       onclick="event.preventDefault();
+                                document.getElementById('duplicate-snippet-id-{{ id }}').submit();">{{ tr('admin_duplicate') }}</a>
+                    <a class="dropdown-item js-snippets-info" href="javascript:;"  data-toggle="modal" data-target="#snippetsInfoModal" data-name="{{ id }}">{{ tr('admin_embeded_code') }}</a>
+                  </div>
+                </div>
+                <form id="duplicate-snippet-id-{{ id }}" action="{{ path_for('admin.snippets.duplicateProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="snippet-id" value="{{ id }}">
+                </form>
+                <form id="delete-snippet-id-{{ id }}" action="{{ path_for('admin.snippets.deleteProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="snippet-id" value="{{ id }}">
+                </form>
+                <a class="btn btn-default" href="javascript:;"
+                   onclick="event.preventDefault();
+                            document.getElementById('delete-snippet-id-{{ id }}').submit();">{{ tr('admin_delete') }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% endif %}
+    </tbody>
+</table>
+{% endif %}
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="snippetsInfoModal" tabindex="-1" role="dialog" aria-labelledby="snippetsInfoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="snippetsInfoModalLabel">{{ tr('admin_embeded_code') }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <label for="shortcode">{{ tr('admin_shortcode') }}</label>
+          <div class="alert alert-dark clipboard" role="alert">
+              <span id="snippet">[snippet fetch="<span class="js-snippets-snippet-placeholder"></span>"]</span>
+              <button class="js-clipboard-btn btn" data-clipboard-target="#snippet">
+                  {{ tr('admin_copy') }}
+              </button>
+          </div>
+          <br>
+          <label for="template_code">{{ tr('admin_template_code') }}</label>
+           <div id="template_code" class="alert alert-dark clipboard" role="alert">
+               <span id="html">&lcub;&lcub; snippet('<span class="js-snippets-php-placeholder"></span>') &rcub;&rcub;</span>
+               <button class="js-clipboard-btn btn" data-clipboard-target="#html">
+                    {{ tr('admin_copy') }}
+               </button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

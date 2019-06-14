@@ -1,0 +1,15 @@
+{% extends "themes/default/templates/partials/base.html" %}
+
+{% block content %}
+
+    <h1>{{ entry.title }}</h1>
+    
+    {% for entry in entries_fetch_all('blog', 'date', 'DESC') %}
+        <a href="{{ entry.slug }}" class="blog-post">
+            <h3>{{ entry.title }}</h3>
+            <p>{{ entry.summary|shortcode|raw}}</p>
+            <div>{{ entry.date }}</div>
+        </a>
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+<form method="post" id="form">
+    {{ csrf() }}
+    <input type="hidden" id="current_id" name="current_id" value="{{ current_id }}">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="title">{{ tr('admin_title') }}</label>
+                <input type="text" id="title" name="title" value="" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_title_empty_input') }}">
+            </div>
+            <div class="form-group">
+                <label for="id">{{ tr('admin_name') }}</label>
+                <input type="text" id="id" name="id" value="" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_name_empty_input') }}">
+            </div>
+            <div class="form-group">
+                <label>{{ tr('admin_type') }}</label>
+                <select class="form-control" name="fieldset">
+                {% for key, fieldset in fieldsets %}
+                    <option value="{{ key }}">{{ fieldset }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="btn btn-black">
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

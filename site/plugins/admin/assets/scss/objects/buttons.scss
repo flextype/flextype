@@ -38,6 +38,10 @@
     border: 1px solid #000;
 }
 
+.input-group-append > .btn {
+    padding: 6.5px 16px;
+}
+
 .dropdown-item {
     color: $btn-text-color;
 

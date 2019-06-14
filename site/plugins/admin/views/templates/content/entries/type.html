@@ -1,0 +1,23 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <form method="post" id="form">
+            {{ csrf() }}
+            <input type="hidden" name="id" value="{{ id }}">
+            <div class="form-group">
+                <label for="title">{{ tr('admin_type') }}</label>
+                <select class="form-control" name="fieldset">
+                {% for key, value in fieldsets %}
+                    <option value="{{ key }}" {% if key == fieldset %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" id="saveEntry" name="save_entry" value="{{ tr('admin_save') }}" class="btn btn-black btn-fill btn-wd">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

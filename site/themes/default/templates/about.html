@@ -1,0 +1,6 @@
+{% extends "themes/default/templates/partials/base.html" %}
+
+{% block content %}
+    {{ entry.content|shortcode|raw}}
+    <img src="{{ base_url() }}/image/{{ entry.slug }}/{{ entry.image }}?w=670&dpr=2" alt="">
+{% endblock %}

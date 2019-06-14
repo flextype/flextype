@@ -1,5 +1,6 @@
 # Composer
 .composer
+composer.lock
 vendor/*
 !*/vendor/*
 

@@ -7,3 +7,4 @@ Flextype is an open source project and community contributions are essential to 
 * Find and [report issues.](https://github.com/flextype/flextype/issues)
 * Link back to [Flextype](http://flextype.org).
 * [Donate to keep Flextype free.](http://flextype.org/about/sponsors)
+* [Join Flextype International Translator Team](https://crowdin.com/project/flextype/invite)

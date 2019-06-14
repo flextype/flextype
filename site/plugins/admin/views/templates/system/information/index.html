@@ -1,0 +1,63 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+<h3 class="h3">{{ tr('admin_system') }}</h3>
+<table class="table no-margin">
+    <tbody>
+        <tr>
+            <td width="200">{{ tr('admin_flextype_version') }}</td>
+            <td>{{ flextype_version }}</td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_debugging') }}</td>
+            <td>
+                {% if registry.settings.errors.display %}
+                    {{ tr('admin_on') }}
+                {% else %}
+                    {{ tr('admin_off') }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_cache') }}</td>
+            <td>
+                {% if registry.settings.cache.enabled %}
+                    {{ tr('admin_on') }}
+                {% else %}
+                    {{ tr('admin_off') }}
+                {% endif %}
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<br><br>
+
+<h3 class="h3">{{ tr('admin_server') }}</h3>
+
+<table class="table no-margin">
+    <tbody>
+        <tr>
+            <td width="180">{{ tr('admin_php_version') }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_php_built_on') }}</td>
+            <td>{{ php_uname }}</td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_web_server') }}</td>
+            <td>{{ webserver }}</td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_web_server_php_interface') }}</td>
+            <td>{{ php_sapi_name }}</td>
+        </tr>
+            {% if apache_mod_rewrite_installed %}
+                <tr><td>Apache Mod Rewrite</td><td>{{ tr('admin_installed') }}</td></tr>
+            {% else %}
+                <tr><td>Apache Mod Rewrite</td><td>{{ tr('admin_not_installed') }}</td></tr>
+            {% endif %}
+    </tbody>
+</table>
+{% endblock %}

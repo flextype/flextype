@@ -1,0 +1,8 @@
+{% extends "themes/default/templates/partials/base.html" %}
+
+{% block content %}
+    <h1>{{ entry.title }}</h1>
+    <div class="blog-post">
+        {{ entry.content|shortcode|raw}}
+    </div>
+{% endblock %}

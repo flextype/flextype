@@ -1,0 +1,36 @@
+{
+    "title": "Blog Post",
+    "default_field": "title",
+    "sections": {
+        "main": {
+            "title": "Main",
+            "fields": {
+                "title": {
+                    "title": "admin_title",
+                    "type": "text",
+                    "size": "col-12"
+                },
+                "summary": {
+                    "title": "admin_summary",
+                    "type": "editor",
+                    "size": "col-12"
+                },
+                "content": {
+                    "title": "admin_content",
+                    "type": "editor",
+                    "size": "col-12"
+                }
+            }
+        },
+        "seo": {
+            "title": "Seo",
+            "fields": {
+                "description": {
+                    "title": "admin_description",
+                    "type": "textarea",
+                    "size": "col-12"
+                }
+            }
+        }
+    }
+}

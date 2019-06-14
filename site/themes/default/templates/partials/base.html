@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="{{ registry.settings.locale }}">
+    <head>
+        {% block head %}
+            <meta charset="{{ registry.settings.charset|lower }}">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description" content="{% if entry.description %}{{ entry.description }}{% else %}{{ registry.settings.description }}{% endif %}">
+            <meta name="keywords" content="{% if entry.keywords %}{{ entry.keywords }}{% else %}{{ registry.settings.keywords }}{% endif %}">
+            <meta name="robots" content="{% if entry.robots %}{{ entry.robots }}{% else %}{{ registry.settings.robots }}{% endif %}">
+            <meta name="generator" content="Powered by Flextype Flextype::VERSION" />
+
+            {{ emmiter_emmit('onThemeMeta') }}
+
+            <title>{% if entry.title %}{{ entry.title|e('html') }} | {% endif %}{{ registry.settings.title|e('html') }}</title>
+
+            <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css'>
+
+            {% set bootstrap = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/css/bootstrap.min.css' %}
+            {% set default = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/css/default.min.css' %}
+            {% do assets_add('css', bootstrap, 'site', 1) %}
+            {% do assets_add('css', default, 'site', 2) %}
+            {% for assets_site in assets_get('css', 'site') %}
+                {% for assets_by_priorities in assets_site %}
+                    <link href="{{ assets_by_priorities.asset }}" rel="stylesheet">
+                {% endfor %}
+            {% endfor %}
+            {{ emmiter_emmit('onThemeHeader') }}
+        {% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow">
+        <div class="container">
+          <a class="navbar-brand" href="{{ base_url() }}">{{ registry.settings.title|e('html') }}</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                {% for item in entries_fetch_all('', 'menu_item_order', 'ASC') %}
+                    {% if item.menu_item_title %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if item.menu_item_url in entry.slug %}active{% endif %}" href="{{ base_url() }}/{{ item.menu_item_url }}">{{ item.menu_item_title }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+          </div>
+        </div>
+        </nav>
+        <main role="main" class="container content">
+            <div id="content">{% block content %}{% endblock %}</div>
+            <div class="powered">
+                {% block footer %}
+                  Powered by <a href="http://flextype.org">Flextype</a>
+                {% endblock %}
+            </div>
+        </main>
+        {% set default = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/js/default.min.js' %}
+        {% do assets_add('js', default, 'site', 1) %}
+        {% for assets_site in assets_get('js', 'site') %}
+            {% for assets_by_priorities in assets_site %}
+                <script src="{{ assets_by_priorities.asset }}"></script>
+            {% endfor %}
+        {% endfor %}
+        {{ emmiter_emmit('onThemeTail') }}
+    </body>
+</html>
