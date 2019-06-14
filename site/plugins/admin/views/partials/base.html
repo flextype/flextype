@@ -232,7 +232,7 @@
         {% endif %}
 
         {% if registry.settings.locale != 'en_US' %}
-            {% set admin_trumbowyg_build = base_url() ~ '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/' ~ registry.settings.locale ~ '.min.js' %}
+            {% set admin_trumbowyg_build = base_url() ~ '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/' ~ registry.settings.locale|lower|slice(0,2) ~ '.min.js' %}
             {% do assets_add('js', admin_trumbowyg_build, 'admin', 10) %}
         {% endif %}
 
