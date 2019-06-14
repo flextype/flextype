@@ -18,6 +18,7 @@
   "admin_themes": "Temi",
   "admin_help": "Aiuto",
   "admin_getting_help": "Ottenere aiuto",
+  "admin_message_json_invalid": "Invalid JSON",
   "admin_logout": "Disconnetti",
   "admin_profile": "Profilo",
   "admin_view_site": "Visualizza il sito",
