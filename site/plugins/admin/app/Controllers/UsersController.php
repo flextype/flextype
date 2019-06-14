@@ -19,18 +19,20 @@ class UsersController extends Controller
 
     public function login($request, $response)
     {
-        // Get Users Profiles
-        $users = Filesystem::listContents(PATH['site'] . '/accounts/');
+        $users = $this->getUsers();
 
-        if ($users && count($users) > 0) {
-            return $this->container->get('view')->render(
-                $response,
-                'plugins/admin/views/templates/users/login.html'
-            );
+        if ((Session::exists('role') && Session::get('role') == 'admin')) {
+            return $response->withRedirect($this->router->pathFor('admin.entries.index'));
         } else {
-            return $response->withRedirect($this->router->pathFor('admin.users.registration'));
+            if ($users && count($users) > 0) {
+                return $this->container->get('view')->render(
+                    $response,
+                    'plugins/admin/views/templates/users/login.html'
+                );
+            } else {
+                return $response->withRedirect($this->router->pathFor('admin.users.registration'));
+            }
         }
-
     }
 
     public function loginProcess($request, $response)
@@ -55,10 +57,14 @@ class UsersController extends Controller
 
     public function registration($request, $response)
     {
-        return $this->view->render(
-            $response,
-            'plugins/admin/views/templates/users/registration.html'
-        );
+        if ((Session::exists('role') && Session::get('role') == 'admin')) {
+            return $response->withRedirect($this->router->pathFor('admin.entries.index'));
+        } else {
+            return $this->view->render(
+                $response,
+                'plugins/admin/views/templates/users/registration.html'
+            );
+        }
     }
 
     /**
@@ -95,5 +101,23 @@ class UsersController extends Controller
     {
         Session::destroy();
         return $response->withRedirect($this->router->pathFor('admin.users.login'));
+    }
+
+    public function getUsers()
+    {
+        // Get Users Profiles
+        $users = Filesystem::listContents(PATH['site'] . '/accounts/');
+
+        // Get Plugins List
+        $_users_list = Filesystem::listContents(PATH['plugins']);
+        $users_list = [];
+
+        foreach($_users_list as $user) {
+            if ($user['type'] == 'dir') {
+                $users_list[] = $user;
+            }
+        }
+
+        return $users;
     }
 }
