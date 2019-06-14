@@ -136,6 +136,8 @@ class SettingsController extends Controller
     public function clearCacheProcess(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
         $this->cache->clear();
+        Filesystem::has(PATH['cache'] . '/twig') and Filesystem::deleteDir(PATH['cache'] . '/twig');
+
         $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
         return $response->withRedirect($this->router->pathFor('admin.settings.index'));
     }
