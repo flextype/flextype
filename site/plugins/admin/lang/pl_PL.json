@@ -18,6 +18,7 @@
   "admin_themes": "Motywy",
   "admin_help": "Pomoc",
   "admin_getting_help": "Pomoc",
+  "admin_message_json_invalid": "Invalid JSON",
   "admin_logout": "Wyloguj",
   "admin_profile": "Profil",
   "admin_view_site": "Wyświetl stronę",
