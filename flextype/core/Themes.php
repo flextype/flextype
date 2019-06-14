@@ -42,14 +42,14 @@ class Themes
 
         // Create Unique Cache ID for Theme
         $theme_cache_id = md5('theme' . filemtime(PATH['themes'] . '/' . $theme . '/' . 'settings.json') .
-                                        filemtime(PATH['themes'] . '/' . $theme . '/' . $theme . '.json'));
+                                        filemtime(PATH['themes'] . '/' . $theme . '/' . 'theme.json'));
 
         // Get Theme mafifest file and write to settings.themes array
         if ($this->flextype['cache']->contains($theme_cache_id)) {
             $this->flextype['registry']->set('themes.' . $this->flextype['registry']->get('settings.theme'), $this->flextype['cache']->fetch($theme_cache_id));
         } else {
             if (Filesystem::has($theme_settings = PATH['themes'] . '/' . $theme . '/' . 'settings.json') and
-                Filesystem::has($theme_config = PATH['themes'] . '/' . $theme . '/' . $theme . '.json')) {
+                Filesystem::has($theme_config = PATH['themes'] . '/' . $theme . '/' . 'theme.json')) {
                 $theme_settings = JsonParser::decode(Filesystem::read($theme_settings));
                 $theme_config = JsonParser::decode(Filesystem::read($theme_config));
                 $_theme = array_merge($theme_settings, $theme_config);

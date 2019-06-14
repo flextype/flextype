@@ -33,7 +33,7 @@ class SettingsController extends Controller
 
         $themes = [];
         foreach (Filesystem::listContents(PATH['themes']) as $theme) {
-            if ($theme['type'] == 'dir' && Filesystem::has($theme['path'] . '/' . $theme['dirname'] . '.json')) {
+            if ($theme['type'] == 'dir' && Filesystem::has($theme['path'] . '/' . 'theme.json')) {
                 $themes[$theme['dirname']] = $theme['dirname'];
             }
         }
