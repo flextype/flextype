@@ -18,6 +18,7 @@
   "admin_themes": "Temalar",
   "admin_help": "Yardım et",
   "admin_getting_help": "Yardım Alma",
+  "admin_message_json_invalid": "Invalid JSON",
   "admin_logout": "Çıkış Yap",
   "admin_profile": "Profil",
   "admin_view_site": "Siteyi Görüntüle",
