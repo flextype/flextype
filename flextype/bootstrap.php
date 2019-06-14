@@ -21,7 +21,7 @@ use Flextype\Component\Filesystem\Filesystem;
  *
  * @var string
  */
-define('FLEXTYPE_VERSION', '0.9.0-beta');
+define('FLEXTYPE_VERSION', '0.9.0');
 
 // Start the session
 Session::start();
