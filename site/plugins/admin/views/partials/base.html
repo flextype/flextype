@@ -188,7 +188,7 @@
                 {% for part in parts %}
                     {% set i = i - 1 %}
                     {% if (part != last) %}
-                        <a href="{{ base_url() }}/admin/entries?id={{ (parts|slice(0, -i))|join('/') }}"> / {{ part }}</a>
+                        <a href="{{ path_for('admin.entries.index') }}?id={{ (parts|slice(0, -i))|join('/') }}"> / {{ part }}</a>
                     {% else %}
                         / {{ part }}
                     {% endif %}
