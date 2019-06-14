@@ -18,6 +18,7 @@
   "admin_themes": "Sablonok",
   "admin_help": "Segítség",
   "admin_getting_help": "Segítség",
+  "admin_message_json_invalid": "Invalid JSON",
   "admin_logout": "Kilépés",
   "admin_profile": "Profil",
   "admin_view_site": "Honlap megtekintése",

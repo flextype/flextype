@@ -18,6 +18,7 @@
   "admin_themes": "الثيمات",
   "admin_help": "المساعدة",
   "admin_getting_help": "الحصول على مساعدة",
+  "admin_message_json_invalid": "Invalid JSON",
   "admin_logout": "تسجيل الخروج",
   "admin_profile": "الملفّ الشّخصي",
   "admin_view_site": "عرض الموقع",
