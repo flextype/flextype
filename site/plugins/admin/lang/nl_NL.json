@@ -18,6 +18,7 @@
   "admin_themes": "Thema's",
   "admin_help": "Help",
   "admin_getting_help": "Help-informatie opvragen",
+  "admin_message_json_invalid": "Invalid JSON",
   "admin_logout": "Uitloggen",
   "admin_profile": "Profiel",
   "admin_view_site": "Bekijk site",
