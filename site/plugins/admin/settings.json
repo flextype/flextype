@@ -1,3 +1,4 @@
 {
-    "enabled": true
+    "enabled": true,
+    "route": "admin"
 }
