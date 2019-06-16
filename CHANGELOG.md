@@ -1,3 +1,11 @@
+## [0.9.1] - 2019-06-XX
+### Added
+- Flextype Admin Panel: new setting `route` added to customize admin base route.
+
+### Changed
+- Flextype Site: code refactoring
+- Flextype Admin Panel: code refactoring
+
 ## [0.9.0] - 2019-06-14
 ### Added
 - Flextype Core: Slim Framework Integration!
