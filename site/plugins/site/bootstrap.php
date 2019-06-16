@@ -11,9 +11,5 @@ $loader = require_once $autoload;
 // Include routes
 include_once 'routes/web.php';
 
-/**
- * Add site controller to Flextype container
- */
-$flextype['SiteController'] = function($container) {
-    return new SiteController($container);
-};
+// Include dependencies
+include_once 'dependencies.php';
