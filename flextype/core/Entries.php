@@ -44,17 +44,13 @@ class Entries
         $entry_file = $this->_file_location($id);
 
         if (Filesystem::has($entry_file)) {
+
+            // Create unique entry cache_id
             $cache_id = md5('entry' . $entry_file . ((Filesystem::getTimestamp($entry_file) === false) ? '' : Filesystem::getTimestamp($entry_file)));
 
             // Try to get the entry from cache
             if ($this->flextype['cache']->contains($cache_id)) {
                 if ($entry_decoded = $this->flextype['cache']->fetch($cache_id)) {
-
-                    // Apply Shortcodes for each entry fields
-                    foreach ($entry_decoded as $key => $_entry_decoded) {
-                        $entry_decoded[$key] = $_entry_decoded;//$this->flextype['shortcodes']->process($_entry_decoded);
-                    }
-
                     return $entry_decoded;
                 } else {
                     return false;
@@ -67,14 +63,10 @@ class Entries
                         $entry_decoded['date'] = $entry_decoded['date'] ?? date($this->flextype['registry']->get('settings.date_format'), Filesystem::getTimestamp($entry_file));
                         $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($id, '/'), '/');
 
-                        // Save to cache
+                        // Save decoded entry content into the cache
                         $this->flextype['cache']->save($cache_id, $entry_decoded);
 
-                        // Apply Shortcodes for each entry fields
-                        foreach ($entry_decoded as $key => $_entry_decoded) {
-                            $entry_decoded[$key] = $_entry_decoded;//$this->flextype['shortcodes']->process($_entry_decoded);
-                        }
-
+                        // Return decoded entry
                         return $entry_decoded;
                     } else {
                         return false;
@@ -97,23 +89,24 @@ class Entries
      * @param   string  $order_type Order type: DESC or ASC
      * @param   int     $offset     Offset
      * @param   int     $length     Length
+     * @param   bool    $recursive  Whether to list recursively.
      * @return array The entries
      */
-    public function fetchAll(string $id, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null) : array
+    public function fetchAll(string $id, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null, bool $recursive = false) : array
     {
-        // Entries array where founded entries will stored
+        // Set empty entries array where founded entries will stored
         $entries = [];
 
-        // Сache id
+        // Set empty cache id for the entries
         $cache_id = '';
 
-        // Entries path
+        // Get entries path
         $entries_path = $this->_dir_location($id);
 
         // Get entries list
-        $entries_list = Filesystem::listContents($entries_path);
+        $entries_list = Filesystem::listContents($entries_path, $recursive);
 
-        // Create entries cached id
+        // Create unique entries cache_id
         foreach ($entries_list as $current_entry) {
             if (strpos($current_entry['path'], $id . '/entry.json') !== false) {
                 // ignore ...
@@ -124,6 +117,8 @@ class Entries
             }
         }
 
+        // If the entries exist at a specific cache_id,
+        // then we take them from the cache otherwise we look for them.
         if ($this->flextype['cache']->contains($cache_id)) {
             $entries = $this->flextype['cache']->fetch($cache_id);
         } else {
@@ -133,24 +128,38 @@ class Entries
                 if (strpos($current_entry['path'], $id . '/entry.json') !== false) {
                     // ignore ...
                 } else {
+                    // We are checking...
+                    // Whether the requested entry is a director and whether the file entry.json is in this directory.
                     if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
-                        $entries[$current_entry['dirname']] = $this->fetch($id . '/' . $current_entry['dirname']);
+
+                        // Get entry uid
+                        // 1. Remove entries path
+                        // 2. Remove left and right slashes
+                        $uid = ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/');
+
+                        // For each founded entry we should create $entries array.
+                        $entries[$uid] = $this->fetch($uid);
                     }
                 }
             }
 
+            // Save entries into the cache
             $this->flextype['cache']->save($cache_id, $entries);
         }
 
-        // Sort and Slice entries if $raw === false
+        // If count of the entries more then 0 then sort and slice them.
         if (count($entries) > 0) {
+
+            // Sort entries
             $entries = Arr::sort($entries, $order_by, $order_type);
 
+            // Slice entries
             if ($offset !== null && $length !== null) {
                 $entries = array_slice($entries, $offset, $length);
             }
         }
-
+        
+        // Return entries
         return $entries;
     }
 
@@ -171,7 +180,7 @@ class Entries
      * Update entry
      *
      * @access public
-     * @param string $id Entry
+     * @param string $id    Entry
      * @param array  $data  Data
      * @return bool
      */
@@ -190,7 +199,7 @@ class Entries
      * Create entry
      *
      * @access public
-     * @param string $id Entry id
+     * @param string $id    Entry id
      * @param array  $data  Data
      * @return bool
      */
@@ -203,6 +212,8 @@ class Entries
 
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
+
+                // Entry file path
                 $entry_file = $entry_dir . '/entry.json';
 
                 // Check if new entry file exists
