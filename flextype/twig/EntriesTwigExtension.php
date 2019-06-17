@@ -45,8 +45,8 @@ class EntriesTwigExtension extends \Twig_Extension
         return $this->flextype['entries']->fetch($entry);
     }
 
-    public function fetchAll(string $entry, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null) : array
+    public function fetchAll(string $entry, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null,  bool $recursive = false) : array
     {
-        return $this->flextype['entries']->fetchAll($entry, $order_by, $order_type, $offset, $length);
+        return $this->flextype['entries']->fetchAll($entry, $order_by, $order_type, $offset, $length, $recursive);
     }
 }
