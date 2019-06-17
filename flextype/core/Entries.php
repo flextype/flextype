@@ -18,7 +18,25 @@ use Flextype\Component\Filesystem\Filesystem;
 class Entries
 {
     /**
+     * Current entry data array
+     *
+     * @var array
+     * @access public
+     */
+    public $entry = [];
+
+    /**
+     * Current entries data array
+     *
+     * @var array
+     * @access public
+     */
+    public $entries = [];
+
+    /**
      * Flextype Dependency Container
+     *
+     * @access private
      */
     private $flextype;
 
@@ -66,8 +84,14 @@ class Entries
                         // Save decoded entry content into the cache
                         $this->flextype['cache']->save($cache_id, $entry_decoded);
 
-                        // Return decoded entry
-                        return $entry_decoded;
+                        // Set entry
+                        $this->entry = $entry_decoded;
+
+                        // Run event onEntryAfterInitialized
+                        $this->flextype['emitter']->emit('onEntryAfterInitialized');
+
+                        // Return entry
+                        return $this->entry;
                     } else {
                         return false;
                     }
@@ -158,9 +182,15 @@ class Entries
                 $entries = array_slice($entries, $offset, $length);
             }
         }
-        
+
+        // Set entries
+        $this->entries = $entries;
+
+        // Run event onEntriesAfterInitialized
+        $this->flextype['emitter']->emit('onEntriesAfterInitialized');
+
         // Return entries
-        return $entries;
+        return $this->entries;
     }
 
     /**
