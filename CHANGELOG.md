@@ -1,11 +1,17 @@
 ## [0.9.1] - 2019-06-XX
 ### Added
-- Flextype Admin Panel: new setting `route` added to customize admin base route.
-- Flextype Core: GlobalVarsTwigExtension - new global constant `PATH_FIELDSETS` added.
+- Flextype Admin Panel: new setting `route` added to customize admin base route. #154
+- Flextype Core: GlobalVarsTwigExtension - new global constant `PATH_FIELDSETS` added. #154
+
+### Fixed
+- Flextype Core: Entries API - method fetchALL() issue with fetching entries recursively. #154 #161
 
 ### Changed
-- Flextype Site: code refactoring
-- Flextype Admin Panel: code refactoring
+- Flextype Site: code refactoring #154
+- Flextype Admin Panel: code refactoring #154
+
+### Removed
+- Flextype Core: Entries API - remove unused Shortcodes code from method fetch() #162
 
 ## [0.9.0] - 2019-06-14
 ### Added
@@ -56,7 +62,6 @@
 - Flextype Core: Flextype Notification Component removed.
 - Flextype Core: Flextype Error Handler Component removed.
 - Flextype Core: Flextype Event Component removed.
-
 
 ## [0.8.3] - 2019-01-16
 ### Added
