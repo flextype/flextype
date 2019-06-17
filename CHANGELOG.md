@@ -2,6 +2,10 @@
 ### Added
 - Flextype Admin Panel: new setting `route` added to customize admin base route. #154
 - Flextype Core: GlobalVarsTwigExtension - new global constant `PATH_FIELDSETS` added. #154
+- Flextype Core: Entries API - public property $entry added. #154
+- Flextype Core: Entries API - public property $entries added. #154
+- Flextype Core: Entries API - new event onEntryAfterInitialized added. #154
+- Flextype Core: Entries API - new event onEntriesAfterInitialized added. #154
 
 ### Fixed
 - Flextype Core: Entries API - method fetchALL() issue with fetching entries recursively. #154 #161
