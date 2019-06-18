@@ -21,7 +21,7 @@ use Flextype\Component\Filesystem\Filesystem;
  *
  * @var string
  */
-define('FLEXTYPE_VERSION', '0.9.0');
+define('FLEXTYPE_VERSION', '0.9.1');
 
 // Start the session
 Session::start();
@@ -29,10 +29,10 @@ Session::start();
 // Configure application
 $config = [
     'settings' => [
-        'debug' => false,
+        'debug' => true,
         'whoops.editor' => 'atom',
         'whoops.page_title' => 'Error!',
-        'displayErrorDetails' => false,
+        'displayErrorDetails' => true,
         'addContentLengthHeader' => true,
         'addContentLengthHeader' => false,
         'routerCacheFile' => false,

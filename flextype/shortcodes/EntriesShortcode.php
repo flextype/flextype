@@ -14,8 +14,9 @@ namespace Flextype;
 
 use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
+use Flextype\Component\Arr\Arr;
 
-// Shortcode: [site_url]
-$flextype['shortcodes']->addHandler('site_url', function () {
-    return \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
+// Shortcode: [entries_fetch id="entry-id" field="field-name" default="default-value"]
+$flextype['shortcodes']->addHandler('entries_fetch', function (ShortcodeInterface $s) use ($flextype) {
+    return Arr::get($flextype['entries']->fetch($s->getParameter('id')), $s->getParameter('field'), $s->getParameter('default'));
 });

@@ -15,7 +15,7 @@ namespace Flextype;
 use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
-// Shortcode: [snippets_fetch id="snippet-name"]
-$flextype['shortcodes']->addHandler('snippets_fetch', function (ShortcodeInterface $s) use ($flextype) {
-    return $flextype['snippets']->exec($s->getParameter('id'));
+// Shortcode: [base_url]
+$flextype['shortcodes']->addHandler('base_url', function () {
+    return \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
 });

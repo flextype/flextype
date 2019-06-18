@@ -22,26 +22,32 @@ class Snippets
     private $flextype;
 
     /**
+     * Flextype Application
+     */
+    private $app;
+
+    /**
      * Constructor
      *
      * @access public
      */
-    public function __construct($flextype)
+    public function __construct($flextype, $app)
     {
         $this->flextype = $flextype;
+        $this->app = $app;
     }
 
     /**
-     * Get snippet
+     * Exec snippet
      *
      * @access public
      * @param  string  $id  Snippet id
      * @return string|bool Returns the contents of the output buffer and end output buffering.
      *                     If output buffering isn't active then FALSE is returned.
      */
-    public function display(string $id)
+    public function exec(string $id)
     {
-        return $this->_display_snippet(['fetch' => $id]);
+        return $this->_exec_snippet(['id' => $id]);
     }
 
     /**
@@ -93,7 +99,7 @@ class Snippets
     }
 
     /**
-     * Rename snippet.
+     * Rename snippet
      *
      * @access public
      * @param string $id     Snippet id
@@ -182,23 +188,23 @@ class Snippets
     }
 
     /**
-     * Helper private method _display_snippet
+     * Helper private method _exec_snippet
      *
      * @access private
      * @param  array  $vars Vars
      * @return string|bool Returns the contents of the output buffer and end output buffering.
      *                     If output buffering isn't active then FALSE is returned.
      */
-    private function _display_snippet(array $vars)
+    private function _exec_snippet(array $vars)
     {
-        // Extracst attributes
-        extract($vars);
+        // Extracts vars and set prefix bind_ for all of them
+        extract($vars, EXTR_PREFIX_ALL, 'bind');
 
-        // Get snippet name
-        $name = (isset($fetch)) ? (string) $fetch : '';
+        // Get snippet id
+        $snippet_id = (string) $bind_id ?? '';
 
-        // Define snippet path
-        $snippet_file = $this->_file_location($name);
+        // Define snippet file path
+        $snippet_file = $this->_file_location($snippet_id);
 
         // Process snippet
         if (Filesystem::has($snippet_file)) {
@@ -206,13 +212,19 @@ class Snippets
             // Turn on output buffering
             ob_start();
 
-            // Include view file
+            // Re-init $flextype for snippets
+            $flextype = $this->flextype;
+
+            // Re-init $app for snippets
+            $app = $this->app;
+
+            // Include snippet file
             include $snippet_file;
 
             // Output...
             return ob_get_clean();
         } else {
-            throw new \RuntimeException("Snippet {$name} does not exist.");
+            throw new \RuntimeException("Snippet {$snippet_id} does not exist.");
         }
     }
 

@@ -64,7 +64,7 @@
       <div class="modal-body">
           <label for="shortcode">{{ tr('admin_shortcode') }}</label>
           <div class="alert alert-dark clipboard" role="alert">
-              <span id="snippet">[snippet fetch="<span class="js-snippets-snippet-placeholder"></span>"]</span>
+              <span id="snippet">[snippets_fetch id="<span class="js-snippets-snippet-placeholder"></span>"]</span>
               <button class="js-clipboard-btn btn" data-clipboard-target="#snippet">
                   {{ tr('admin_copy') }}
               </button>
@@ -72,7 +72,7 @@
           <br>
           <label for="template_code">{{ tr('admin_template_code') }}</label>
            <div id="template_code" class="alert alert-dark clipboard" role="alert">
-               <span id="html">&lcub;&lcub; snippet('<span class="js-snippets-php-placeholder"></span>') &rcub;&rcub;</span>
+               <span id="html">&lcub;&lcub; snippets_exec('<span class="js-snippets-php-placeholder"></span>') &rcub;&rcub;</span>
                <button class="js-clipboard-btn btn" data-clipboard-target="#html">
                     {{ tr('admin_copy') }}
                </button>

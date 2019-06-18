@@ -12,8 +12,6 @@
 
 namespace Flextype;
 
-use Flextype\Component\Session\Session;
-
 class GlobalVarsTwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /**
@@ -37,10 +35,11 @@ class GlobalVarsTwigExtension extends \Twig_Extension implements \Twig_Extension
             'PATH_THEMES' => PATH['themes'],
             'PATH_ENTRIES' => PATH['entries'],
             'PATH_SNIPPETS' => PATH['snippets'],
+            'PATH_FIELDSETS' => PATH['fieldsets'],
             'PATH_CONFIG_DEFAULT' => PATH['config']['default'],
             'PATH_CONFIG_SITE' => PATH['config']['site'],
             'PATH_CACHE' => PATH['cache'],
-            'flextype_version' => FLEXTYPE_VERSION,
+            'FLEXTYPE_VERSION' => FLEXTYPE_VERSION,
             'registry' => $this->flextype['registry']->dump()
         ];
     }
