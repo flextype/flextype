@@ -13,6 +13,7 @@
 - Flextype Core: Snippets - `_exec_snippet()` method added. #154
 - Flextype Core: Snippets - `exec()` method added. #154
 - Flextype Core: Snippets - added ability to access $flextype and $app inside snippets. #154
+- Flextype Core: GlobalVarsTwigExtension `FLEXTYPE_VERSION` added. #154
 - Flextype Site Plugin: public property `$entry` added. #154
 - Flextype Site Plugin: new event `onSiteEntryAfterInitialized` added. #154
 
@@ -31,6 +32,7 @@
 - Flextype Core: Snippets - `[snippets]` shortcode removed. #154
 - Flextype Core: Snippets - `_display_snippet()` method removed. #154
 - Flextype Core: Snippets - `- display()` method removed. #154
+- Flextype Core: GlobalVarsTwigExtension `flextype_version` removed. #154
 
 ## [0.9.0] - 2019-06-14
 ### Added
