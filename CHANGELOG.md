@@ -7,7 +7,7 @@
 - Flextype Core: Entries API - new event `onEntryAfterInitialized` added. #154
 - Flextype Core: Entries API - new event `onEntriesAfterInitialized` added. #154
 - Flextype Site Plugin: public property `$entry` added. #154
-- Flextype Site Plugin: new event `onSiteEntryAfterInitialized` added.#154
+- Flextype Site Plugin: new event `onSiteEntryAfterInitialized` added. #154
 
 ### Fixed
 - Flextype Core: Entries API - `fetchALL()` issue with fetching entries recursively fixed. #154 #161
