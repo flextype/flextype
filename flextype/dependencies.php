@@ -140,8 +140,8 @@ $flextype['fieldsets'] = function ($container) use ($flextype) {
 /**
  * Add snippets service to Flextype container
  */
-$flextype['snippets'] = function ($container) use ($flextype) {
-    return new Snippets($flextype);
+$flextype['snippets'] = function ($container) use ($flextype, $app) {
+    return new Snippets($flextype, $app);
 };
 
 /**

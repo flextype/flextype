@@ -35,12 +35,12 @@ class SnippetsTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('snippet', [$this, 'snippet'])
+            new \Twig_SimpleFunction('snippets_exec', [$this, 'exec'])
         ];
     }
 
-    public function snippet(string $id)
+    public function exec(string $id)
     {
-        return $this->flextype['snippets']->display($id);
+        return $this->flextype['snippets']->exec($id);
     }
 }

@@ -15,7 +15,7 @@ namespace Flextype;
 use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
-// Shortcode: [snippets fetch=snippet-name]
+// Shortcode: [snippets_fetch id="snippet-name"]
 $flextype['shortcodes']->addHandler('snippets', function (ShortcodeInterface $s) use ($flextype) {
-    return $flextype['snippets']->display($s->getParameter('fetch'));
+    return $flextype['snippets']->exec($s->getParameter('id'));
 });
