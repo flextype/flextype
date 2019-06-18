@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
- 
+
 namespace Flextype;
 
 use Flextype\Component\Arr\Arr;
@@ -18,6 +18,14 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class SiteController extends Controller
 {
+    /**
+     * Current entry data array
+     *
+     * @var array
+     * @access private
+     */
+    public $entry = [];
+
     /**
      * Index page
      *
@@ -70,12 +78,19 @@ class SiteController extends Controller
             $is_entry_not_found = true;
        }
 
-       $path = 'themes/' . $this->registry->get('settings.theme') . '/' . (empty($entry['template']) ? 'templates/default' : 'templates/' . $entry['template']) . '.html';
+       // Set entry
+       $this->entry = $entry;
+
+       // Run event onSiteEntryAfterInitialized
+       $this->emitter->emit('onSiteEntryAfterInitialized');
+
+       // Set template path for current entry
+       $path = 'themes/' . $this->registry->get('settings.theme') . '/' . (empty($this->entry['template']) ? 'templates/default' : 'templates/' . $this->entry['template']) . '.html';
 
        if ($is_entry_not_found) {
-           return $this->view->render($response->withStatus(404), $path, ['entry' => $entry]);
+           return $this->view->render($response->withStatus(404), $path, ['entry' => $this->entry]);
        } else {
-           return $this->view->render($response, $path, ['entry' => $entry]);
+           return $this->view->render($response, $path, ['entry' => $this->entry]);
        }
    }
 
