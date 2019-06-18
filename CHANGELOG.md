@@ -6,13 +6,15 @@
 - Flextype Core: Entries API - public property $entries added. #154
 - Flextype Core: Entries API - new event onEntryAfterInitialized added. #154
 - Flextype Core: Entries API - new event onEntriesAfterInitialized added. #154
+- Flextype Site Plugin: public property $entry added. #154
+- Flextype Site Plugin: new event onSiteEntryAfterInitialized added.#154
 
 ### Fixed
-- Flextype Core: Entries API - method fetchALL() issue with fetching entries recursively. #154 #161
+- Flextype Core: Entries API - fetchALL() issue with fetching entries recursively fixed. #154 #161
 
 ### Changed
-- Flextype Site: code refactoring #154
-- Flextype Admin Panel: code refactoring #154
+- Flextype Site: code refactoring. #154
+- Flextype Admin Panel: code refactoring. #154
 
 ### Removed
 - Flextype Core: Entries API - remove unused Shortcodes code from method fetch() #162
