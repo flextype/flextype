@@ -57,16 +57,31 @@ class SettingsController extends Controller
                             'zend' => 'Zend',
                             'array' => 'Array'];
 
+        $image_driver = ['gd' => 'gd',
+                        'imagick' => 'imagick'];
+
+        $whoops_editor = ['emacs' => 'Emacs',
+                          'idea' => 'IDEA',
+                          'macvim' => 'MacVim',
+                          'phpstorm' => 'PhpStorm (macOS only)',
+                          'sublime' => 'Sublime Text',
+                          'textmate' => 'Textmate',
+                          'xdebug' => 'xDebug',
+                          'vscode' => 'VSCode',
+                          'atom' => 'Atom',
+                          'espresso' => 'Espresso'];
+
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/system/settings/index.html',
             [
                                         'timezones' => Date::timezones(),
-                                        'settings' => $this->registry->get('settings'),
                                         'cache_driver' => $cache_driver,
                                         'locales' => $locales,
                                         'entries' => $entries,
                                         'themes' => $themes,
+                                        'image_driver' => $image_driver,
+                                        'whoops_editor' => $whoops_editor,
                                         'menu_item' => 'settings',
                                         'links' => [
                                                                 'settings' => [
