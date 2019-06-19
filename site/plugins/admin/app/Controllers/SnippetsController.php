@@ -69,6 +69,11 @@ class SnippetsController extends Controller
                             'snippets' => [
                                 'link' => $this->router->pathFor('admin.snippets.index'),
                                 'title' => __('admin_snippets'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
+                            'snippets_rename' => [
+                                'link' => $this->router->pathFor('admin.snippets.add'),
+                                'title' => __('admin_create_new_snippet'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ]
@@ -174,9 +179,14 @@ class SnippetsController extends Controller
             'menu_item' => 'snippets',
             'id_current' => $request->getQueryParams()['id'],
             'links' => [
-                            'templates' => [
+                            'snippets' => [
                                 'link' => $this->router->pathFor('admin.snippets.index'),
-                                'title' => __('admin_templates'),
+                                'title' => __('admin_snippets'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
+                            'snippets_rename' => [
+                                'link' => $this->router->pathFor('admin.snippets.rename') . '?id=' . $request->getQueryParams()['id'],
+                                'title' => __('admin_rename'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ]

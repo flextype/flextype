@@ -71,6 +71,11 @@ class TemplatesController extends Controller
                             'templates' => [
                                 'link' => $this->router->pathFor('admin.templates.index'),
                                 'title' => __('admin_templates'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
+                            'templates_create' => [
+                                'link' => $this->router->pathFor('admin.templates.add'),
+                                'title' => __('admin_create_new_template'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ]
@@ -191,6 +196,11 @@ class TemplatesController extends Controller
                             'templates' => [
                                 'link' => $this->router->pathFor('admin.templates.index'),
                                 'title' => __('admin_templates'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
+                            'templates_rename' => [
+                                'link' => $this->router->pathFor('admin.templates.rename') . '?id=' . $request->getQueryParams()['id'] . '&type=' . (($request->getQueryParams()['type'] && $request->getQueryParams()['type'] == 'partial') ? 'partial' : 'template'),
+                                'title' => __('admin_rename'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ]
