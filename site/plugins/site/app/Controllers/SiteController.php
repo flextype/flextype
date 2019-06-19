@@ -36,6 +36,9 @@ class SiteController extends Controller
      */
    public function index(Request $request, Response $response, array $args) {
 
+       // Get Query Params
+       $query = $request->getQueryParams();
+
        // Get uri
        $uri = $args['uri'];
 
@@ -90,7 +93,7 @@ class SiteController extends Controller
        if ($is_entry_not_found) {
            return $this->view->render($response->withStatus(404), $path, ['entry' => $this->entry]);
        } else {
-           return $this->view->render($response, $path, ['entry' => $this->entry]);
+           return $this->view->render($response, $path, ['entry' => $this->entry, 'page' => ($query['page']) ?? '']);
        }
    }
 
