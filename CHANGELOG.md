@@ -1,6 +1,9 @@
 ## [0.9.2] - 2019-06-XX
 ### Added
+- Flextype Core Theme: pagination for blog entries added. #164 #165
 
+### Changed
+- Flextype Admin Panel: Entires - improved styles for fieldsets tabs. #165
 
 ## [0.9.1] - 2019-06-18
 ### Added
