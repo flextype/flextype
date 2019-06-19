@@ -69,7 +69,7 @@
   "response_chunk_size": 4096,
   "http_version": "1.1",
   "twig": {
-    "auto_reload": "atom"
+    "auto_reload": true
   },
   "image": {
     "driver": "gd"
