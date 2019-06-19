@@ -203,5 +203,9 @@
   "admin_menu_item_url": "URL",
   "admin_menu_item_target": "Cél",
   "admin_menu_item_order": "Sorrend",
-  "admin_template_code": "Template code"
+  "admin_template_code": "Template code",
+  "admin_you_have_not_created_any_entries_yet": "You haven't created any entries yet!",
+  "admin_you_have_not_created_any_snippets_yet": "You haven't created any snippets yet!",
+  "admin_you_have_not_created_any_templates_yet": "You haven't created any templates yet!",
+  "admin_you_have_not_created_any_fieldsets_yet": "You haven't created any fieldsets yet!"
 }
