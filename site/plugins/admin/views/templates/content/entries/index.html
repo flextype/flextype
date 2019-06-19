@@ -69,5 +69,11 @@
         {% endfor %}
     </tbody>
 </table>
+{% else %}
+<div class="empty-list-message">
+    <i class="far fa-newspaper"></i>
+    <h3>{{ tr('admin_you_have_not_created_any_entries_yet') }}</h3>
+    <a href="{{ path_for('admin.entries.add') }}?id={{ entry.slug }}" class="btn">{{ tr('admin_create_new_entry') }}</a>
+</div>
 {% endif %}
 {% endblock %}

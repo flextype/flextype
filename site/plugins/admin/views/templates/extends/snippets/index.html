@@ -10,7 +10,6 @@
         </tr>
     </thead>
     <tbody>
-    {% if snippets_list|length > 0 %}
         {% for id in snippets_list %}
         <tr>
             <td>
@@ -44,9 +43,14 @@
             </td>
         </tr>
         {% endfor %}
-    {% endif %}
     </tbody>
 </table>
+{% else %}
+<div class="empty-list-message">
+    <i class="far fa-file-code"></i>
+    <h3>{{ tr('admin_you_have_not_created_any_snippets_yet') }}</h3>
+    <a href="{{ path_for('admin.snippets.add') }}" class="btn">{{ tr('admin_create_new_snippet') }}</a>
+</div>
 {% endif %}
 
 

@@ -11,3 +11,22 @@
     margin-top: 28%;
     padding: 0;
 }
+
+.empty-list-message {
+    text-align: center;
+    width: 100%;
+    text-align: center;
+    margin-top: 13%;
+    padding: 0;
+
+    .far,
+    .fas {
+        font-size: 84px;
+    }
+
+    h3 {
+        font-weight: normal;
+        padding-top: 0;
+        padding-bottom: 10px;
+    }
+}
