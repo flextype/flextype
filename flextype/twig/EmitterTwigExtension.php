@@ -35,7 +35,7 @@ class EmitterTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('emmiter_emmit', [$this, 'emit']),
+            new \Twig_SimpleFunction('emitter_emit', [$this, 'emit']),
         ];
     }
 

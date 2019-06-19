@@ -9,7 +9,7 @@
             <meta name="robots" content="{% if entry.robots %}{{ entry.robots }}{% else %}{{ registry.settings.robots }}{% endif %}">
             <meta name="generator" content="Powered by Flextype Flextype::VERSION" />
 
-            {{ emmiter_emmit('onThemeMeta') }}
+            {{ emitter_emit('onThemeMeta') }}
 
             <title>{% if entry.title %}{{ entry.title|e('html') }} | {% endif %}{{ registry.settings.title|e('html') }}</title>
 
@@ -24,7 +24,7 @@
                     <link href="{{ assets_by_priorities.asset }}" rel="stylesheet">
                 {% endfor %}
             {% endfor %}
-            {{ emmiter_emmit('onThemeHeader') }}
+            {{ emitter_emit('onThemeHeader') }}
         {% endblock %}
     </head>
     <body>
@@ -62,6 +62,6 @@
                 <script src="{{ assets_by_priorities.asset }}"></script>
             {% endfor %}
         {% endfor %}
-        {{ emmiter_emmit('onThemeTail') }}
+        {{ emitter_emit('onThemeTail') }}
     </body>
 </html>

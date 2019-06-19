@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        {{ emmiter_emmit('onAdminThemeMeta') }}
+        {{ emitter_emit('onAdminThemeMeta') }}
 
     	<title>FLEXTYPE</title>
 
@@ -60,7 +60,7 @@
             }
         </style>
 
-        {{ emmiter_emmit('onAdminThemeHeader') }}
+        {{ emitter_emit('onAdminThemeHeader') }}
     {% endblock %}
   </head>
   <body {% if not is_logged %} class="content-full-size" {% endif %}>
