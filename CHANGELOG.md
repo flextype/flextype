@@ -1,4 +1,8 @@
-## [0.9.1] - 2019-06-XX
+## [0.9.2] - 2019-06-XX
+### Added
+
+
+## [0.9.1] - 2019-06-18
 ### Added
 - Flextype Admin Panel: new setting `route` added to customize admin base route. #154
 - Flextype Core: GlobalVarsTwigExtension - new global constant `PATH_FIELDSETS` added. #154
