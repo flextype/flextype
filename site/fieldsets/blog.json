@@ -9,6 +9,11 @@
                     "title": "admin_title",
                     "type": "text",
                     "size": "col-12"
+                },
+                "entries_limit": {
+                    "title": "admin_entries_limit",
+                    "type": "text",
+                    "size": "col-4"
                 }
             }
         },
