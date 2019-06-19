@@ -14,13 +14,17 @@
         <tr>
             <td>
                 {% set entries = entries_fetch_all(entry.slug, 'slug', 'ASC') %}
-                <a href="{% if entries|length > 0 %}{{ path_for('admin.entries.index') }}?id={{ entry.slug }}{% else %}{{ path_for('admin.entries.index') }}?id={{ entry.slug }}&type=editor{% endif %}">
+                <a href="{% if entries|length > 0 %}{{ path_for('admin.entries.index') }}?id={{ entry.slug }}{% else %}{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor{% endif %}">
                     {% if entry.fieldset %}
                         {% set fieldset_path = PATH_FIELDSETS ~ '/' ~ entry.fieldset ~ '.json' %}
                         {% if filesystem_has(fieldset_path) %}
                             {% set fieldset = json_parser_decode(filesystem_read(fieldset_path)) %}
                             {% if fieldset.default_field %}
-                                {{ entry[fieldset.default_field] }}
+                                {% if entry[fieldset.default_field] != '' %}
+                                    {{ entry[fieldset.default_field] }}
+                                {% else %}
+                                    {{ entry.slug }}
+                                {% endif %}
                             {% else %}
                                 {{ entry.slug }}
                             {% endif %}
