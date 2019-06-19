@@ -14,7 +14,7 @@
         <tr>
             <td>
                 {% set entries = entries_fetch_all(entry.slug, 'slug', 'ASC') %}
-                <a href="{% if entries|length > 0 %}{{ base_url() }}/admin/entries?id={{ entry.slug }}{% else %}{{ base_url() }}/admin/entries/edit?id={{ entry.slug }}&type=editor{% endif %}">
+                <a href="{% if entries|length > 0 %}{{ path_for('admin.entries.index') }}?id={{ entry.slug }}{% else %}{{ path_for('admin.entries.index') }}?id={{ entry.slug }}&type=editor{% endif %}">
                     {% if entry.fieldset %}
                         {% set fieldset_path = PATH_SITE ~ '/fieldsets/' ~ entry.fieldset ~ '.json' %}
                         {% if filesystem_has(fieldset_path) %}
