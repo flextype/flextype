@@ -23,62 +23,24 @@ use Flextype\Component\Filesystem\Filesystem;
  */
 define('FLEXTYPE_VERSION', '0.9.1');
 
-// Start the session
+/**
+ * Start the session
+ */
 Session::start();
 
-// Configure application
-$config = [
-    'settings' => [
-        'debug' => true,
-        'whoops.editor' => 'atom',
-        'whoops.page_title' => 'Error!',
-        'displayErrorDetails' => true,
-        'addContentLengthHeader' => true,
-        'addContentLengthHeader' => false,
-        'routerCacheFile' => false,
-        'determineRouteBeforeAppMiddleware' => false,
-        'outputBuffering' => 'append',
-        'responseChunkSize' => 4096,
-        'httpVersion' => '1.1',
-        'twig' => [
-            'cache' => PATH['cache'] . '/twig',
-            'auto_reload' => true
-        ],
-        'images' => [
-            'driver' => 'gd',
-        ],
-    ],
-];
+/**
+ * Init Registry
+ */
+$registry = new Registry();
 
 /**
- * Create new application
+ * Load core settings
+ *
+ * 1. Set settings files paths.
+ * 2. Load system default and site settings files.
+ * 3. Merge settings.
+ * 4. Add settings into the registry.
  */
-$app = new \Slim\App($config);
-
-/**
- * Set Flextype Dependency Injection Container
- */
-$flextype = $app->getContainer();
-
-/**
- * Include Dependencies
- */
-include_once 'dependencies.php';
-
-/**
- * Include Middlewares
- */
-include_once 'middlewares.php';
-
-/**
- * Include Routes (web)
- */
-include_once 'routes/web.php';
-
-// Set empty settings array
-$flextype['registry']->set('settings', []);
-
-// Set settings files path
 $default_settings_file_path = PATH['config']['default'] . '/settings.json';
 $site_settings_file_path    = PATH['config']['site'] . '/settings.json';
 
@@ -100,17 +62,66 @@ if (Filesystem::has($default_settings_file_path) && Filesystem::has($site_settin
     $settings = array_replace_recursive($default_settings, $site_settings);
 
     // Set settings
-    $flextype['registry']->set('settings', $settings);
+    $registry->set('settings', $settings);
 } else {
     throw new \RuntimeException("Flextype settings and Site settings config files does not exist.");
 }
 
-// Set internal encoding
+/**
+ * Create new application
+ */
+$app = new \Slim\App(['settings' => [
+                            'debug' => $registry->get('settings.errors.display'),
+                            'whoops.editor' => $registry->get('settings.whoops.editor'),
+                            'whoops.page_title' => $registry->get('settings.whoops.page_title'),
+                            'displayErrorDetails' => $registry->get('settings.display_error_details'),
+                            'addContentLengthHeader' => $registry->get('settings.add_content_length_header'),
+                            'routerCacheFile' => $registry->get('settings.router_cache_file'),
+                            'determineRouteBeforeAppMiddleware' => $registry->get('settings.determine_route_before_app_middleware'),
+                            'outputBuffering' => $registry->get('settings.output_buffering'),
+                            'responseChunkSize' => $registry->get('settings.response_chunk_size'),
+                            'httpVersion' => $registry->get('settings.http_version'),
+                            'twig' => [
+                                'cache' => PATH['cache'] . '/twig',
+                                'auto_reload' => $registry->get('settings.twig.auto_reload'),
+                            ],
+                            'images' => [
+                                'driver' => $registry->get('settings.image.driver'),
+                            ]
+                        ]
+                    ]);
+
+/**
+ * Set Flextype Dependency Injection Container
+ */
+$flextype = $app->getContainer();
+
+/**
+ * Include Dependencies
+ */
+include_once 'dependencies.php';
+
+/**
+ * Include Middlewares
+ */
+include_once 'middlewares.php';
+
+/**
+ * Include Routes (web)
+ */
+include_once 'routes/web.php';
+
+
+/**
+ * Set internal encoding
+ */
 function_exists('mb_language') and mb_language('uni');
 function_exists('mb_regex_encoding') and mb_regex_encoding($flextype['registry']->get('settings.charset'));
 function_exists('mb_internal_encoding') and mb_internal_encoding($flextype['registry']->get('settings.charset'));
 
-// Display Errors
+/**
+ * Display Errors
+ */
 if ($flextype['registry']->get('settings.errors.display')) {
 
     /**
@@ -122,14 +133,15 @@ if ($flextype['registry']->get('settings.errors.display')) {
     error_reporting(0);
 }
 
-// Set default timezone
+/**
+ * Set default timezone
+ */
 date_default_timezone_set($flextype['registry']->get('settings.timezone'));
 
-// Get Default Shortocdes List
-$shortcodes_list = Filesystem::listContents(ROOT_DIR . '/flextype/shortcodes');
-
-// Include default shortcodes
-foreach ($shortcodes_list as $shortcode) {
+/**
+ * Get and Include default shortcodes
+ */
+foreach (Filesystem::listContents(ROOT_DIR . '/flextype/shortcodes') as $shortcode) {
     include_once $shortcode['path'];
 }
 

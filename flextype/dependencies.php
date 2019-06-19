@@ -21,6 +21,13 @@ use League\Glide\Responses\SlimResponseFactory;
 use League\Event\Emitter;
 
 /**
+ * Add registry service to Flextype container
+ */
+$flextype['registry'] = function ($container) use ($registry) {
+    return $registry;
+};
+
+/**
  * Add CSRF (cross-site request forgery) protection service to Flextype container
  */
 $flextype['csrf'] = function ($container) {
@@ -56,13 +63,6 @@ $flextype['slugify'] = function ($container) {
  */
 $flextype['flash'] = function ($container) {
     return new Messages();
-};
-
-/**
- * Add registry service to Flextype container
- */
-$flextype['registry'] = function ($container) {
-    return new Registry();
 };
 
 /**
