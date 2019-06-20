@@ -219,5 +219,7 @@
   "admin_twig_auto_reload": "Twig auto reload",
   "admin_image_driver": "Image driver",
   "admin_whoops_editor": "Whoops editor",
-  "admin_whoops_page_title": "Whoops page title"
+  "admin_whoops_page_title": "Whoops page title",
+  "admin_editor": "Editor",
+  "admin_tools": "Tools"
 }

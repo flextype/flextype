@@ -81,4 +81,7 @@ $app->group('/' . $admin_route, function () use ($flextype, $app) {
     $app->post('/snippets/duplicate', 'SnippetsController:duplicateProcess')->setName('admin.snippets.duplicateProcess');
     $app->post('/snippets/delete', 'SnippetsController:deleteProcess')->setName('admin.snippets.deleteProcess');
 
+    // ToolsController
+    $app->get('/tools', 'ToolsController:index')->setName('admin.tools.index');
+
 })->add(new AuthMiddleware($flextype));
