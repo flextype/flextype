@@ -158,7 +158,7 @@ class SnippetsController extends Controller
             $this->flash->addMessage('error', __('admin_message_snippet_was_not_saved'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.snippets.edit') . '?id=' . $id);
     }
 
     /**

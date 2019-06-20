@@ -163,6 +163,7 @@ class TemplatesController extends Controller
      */
     public function editProcess(Request $request, Response $response) : Response
     {
+        $id = $request->getParsedBody()['id'];
         $type = $request->getParsedBody()['type'];
 
         if (Filesystem::write(PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()['id'] . '.html', $request->getParsedBody()['data'])) {
@@ -171,7 +172,7 @@ class TemplatesController extends Controller
             $this->flash->addMessage('error', __('admin_message_' . $type . '_was_not_saved'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.templates.index'));
+        return $response->withRedirect($this->router->pathFor('admin.templates.edit') . '?id=' . $id . '&type=' . $type);
     }
 
     /**

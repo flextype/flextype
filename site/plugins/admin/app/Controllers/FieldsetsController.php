@@ -113,6 +113,7 @@ class FieldsetsController extends Controller
 
     public function editProcess($request, $response)
     {
+        $id = $request->getParsedBody()['id'];
         $data = $request->getParsedBody()['data'];
 
         if (v::json()->validate($data)) {
@@ -123,11 +124,11 @@ class FieldsetsController extends Controller
                 $this->flash->addMessage('error', __('admin_message_fieldset_was_not_saved'));
             }
 
-            return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
+            return $response->withRedirect($this->router->pathFor('admin.fieldsets.edit') . '?id=' . $id);
 
         } else {
             $this->flash->addMessage('error', __('admin_message_json_invalid'));
-            return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
+            return $response->withRedirect($this->router->pathFor('admin.fieldsets.edit') . '?id=' . $id);
         }
     }
 
