@@ -83,5 +83,7 @@ $app->group('/' . $admin_route, function () use ($flextype, $app) {
 
     // ToolsController
     $app->get('/tools', 'ToolsController:index')->setName('admin.tools.index');
+    $app->get('/tools/information', 'ToolsController:information')->setName('admin.tools.information');
+    $app->get('/tools/cache', 'ToolsController:cache')->setName('admin.tools.cache');
 
 })->add(new AuthMiddleware($flextype));
