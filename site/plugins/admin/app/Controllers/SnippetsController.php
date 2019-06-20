@@ -125,6 +125,11 @@ class SnippetsController extends Controller
                             'snippets' => [
                                 'link' => $this->router->pathFor('admin.snippets.index'),
                                 'title' => __('admin_snippets'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
+                            'snippets_editor' => [
+                                'link' => $this->router->pathFor('admin.snippets.edit') . '?id=' . $id,
+                                'title' => __('admin_editor'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ],

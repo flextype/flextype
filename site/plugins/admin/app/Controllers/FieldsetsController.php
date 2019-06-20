@@ -95,8 +95,13 @@ class FieldsetsController extends Controller
             'data' => JsonParser::encode($this->fieldsets->fetch($request->getQueryParams()['id'])),
             'links' =>  [
                             'fieldsets' => [
-                                'link' => $this->router->pathFor('admin.fieldsets.edit') . '?id=' . $request->getQueryParams()['id'],
+                                'link' => $this->router->pathFor('admin.fieldsets.index'),
                                 'title' => __('admin_fieldsets'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
+                            'fieldsets_editor' => [
+                                'link' => $this->router->pathFor('admin.fieldsets.edit') . '?id=' . $request->getQueryParams()['id'],
+                                'title' => __('admin_editor'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ],

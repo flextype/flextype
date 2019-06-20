@@ -702,9 +702,14 @@ class EntriesController extends Controller
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
+                            'entries' => [
+                                'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                                'title' => __('admin_entries'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
                             'edit_entry' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query). '&type=editor',
-                                'title' => __('admin_content'),
+                                'title' => __('admin_editor'),
                                 'attributes' => ['class' => 'navbar-item']
                             ],
                             'edit_entry_media' => [
@@ -739,9 +744,14 @@ class EntriesController extends Controller
                         'files' => $this->getMediaList($this->getEntryID($query), true),
                         'menu_item' => 'entries',
                         'links' => [
+                            'entries' => [
+                                'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                                'title' => __('admin_entries'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
                             'edit_entry' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
-                                'title' => __('admin_content'),
+                                'title' => __('admin_editor'),
                                 'attributes' => ['class' => 'navbar-item']
                             ],
                             'edit_entry_media' => [
@@ -775,9 +785,14 @@ class EntriesController extends Controller
                         'form' => $this->fetchForm($fieldsets, $entry, $request),
                         'menu_item' => 'entries',
                         'links' => [
+                            'entries' => [
+                                'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                                'title' => __('admin_entries'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
                             'edit_entry' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
-                                'title' => __('admin_content'),
+                                'title' => __('admin_editor'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                             'edit_entry_media' => [

@@ -139,6 +139,11 @@ class TemplatesController extends Controller
                             'templates' => [
                                 'link' => $this->router->pathFor('admin.templates.index'),
                                 'title' => __('admin_templates'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
+                            'templates_editor' => [
+                                'link' => $this->router->pathFor('admin.templates.edit') . '?id=' . $request->getQueryParams()['id'] . '&type=' . (($request->getQueryParams()['type'] && $request->getQueryParams()['type'] == 'partial') ? 'partial' : 'template'),
+                                'title' => __('admin_editor'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ],
