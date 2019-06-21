@@ -220,5 +220,8 @@
   "admin_whoops_editor": "Whoops editor",
   "admin_whoops_page_title": "Whoops page title",
   "admin_editor": "Editor",
-  "admin_tools": "Tools"
+  "admin_tools": "Tools",
+  "admin_size": "Size",
+  "admin_clear": "Clear",
+  "admin_clear_cache_all": "Clear All"
 }
