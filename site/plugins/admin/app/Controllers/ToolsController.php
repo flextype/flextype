@@ -3,6 +3,8 @@
 namespace Flextype;
 
 use function Flextype\Component\I18n\__;
+use Flextype\Component\Filesystem\Filesystem;
+use Flextype\Component\Number\Number;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -82,11 +84,18 @@ class ToolsController extends Controller
     public function cache(Request $request, Response $response) : Response
     {
 
+        $doctrine_size = Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/doctrine'));
+        $glide_size = Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/glide'));
+        $twig_size = Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/twig'));
+
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/system/tools/cache.html',
             [
                 'menu_item' => 'tools',
+                'doctrine_size' => $doctrine_size,
+                'glide_size' => $glide_size,
+                'twig_size' => $twig_size,
                 'links' =>  [
                                 'information' => [
                                     'link' => $this->router->pathFor('admin.tools.index'),
@@ -98,8 +107,42 @@ class ToolsController extends Controller
                                     'title' => __('admin_cache'),
                                     'attributes' => ['class' => 'navbar-item active']
                                 ],
-                        ]
+                        ],
+                'buttons' => [
+                    'settings_clear_cache' => [
+                        'type' => 'action',
+                        'id' => 'clear-cache',
+                        'link' => $this->router->pathFor('admin.settings.clear-cache'),
+                        'title' => __('admin_clear_cache_all'),
+                        'attributes' => ['class' => 'float-right btn']
+                    ]
+                ]
             ]
         );
+    }
+
+
+    public function clearCacheProcess($request, $response)
+    {
+        $id = $request->getParsedBody()['cache-id'];
+
+        $this->cache->clear($id);
+
+        $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
+
+        return $response->withRedirect($this->router->pathFor('admin.tools.cache'));
+    }
+
+
+    public function getDirectorySize($path)
+    {
+        $bytestotal = 0;
+        $path = realpath($path);
+        if($path!==false && $path!='' && file_exists($path)){
+            foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS)) as $object){
+                $bytestotal += $object->getSize();
+            }
+        }
+        return $bytestotal;
     }
 }

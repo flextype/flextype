@@ -85,5 +85,6 @@ $app->group('/' . $admin_route, function () use ($flextype, $app) {
     $app->get('/tools', 'ToolsController:index')->setName('admin.tools.index');
     $app->get('/tools/information', 'ToolsController:information')->setName('admin.tools.information');
     $app->get('/tools/cache', 'ToolsController:cache')->setName('admin.tools.cache');
+    $app->post('/tools/cache', 'ToolsController:clearCacheProcess')->setName('admin.tools.clearCacheProcess');
 
 })->add(new AuthMiddleware($flextype));
