@@ -95,14 +95,7 @@ class SettingsController extends Controller
                                                                                         'link'       => 'javascript:;',
                                                                                         'title'      => __('admin_save'),
                                                                                         'attributes' => ['class' => 'js-save-form-submit float-right btn']
-                                                                                    ],
-                                                                    'settings_clear_cache' => [
-                                                                                        'type' => 'action',
-                                                                                        'id' => 'clear-cache',
-                                                                                        'link' => $this->router->pathFor('admin.settings.clear-cache'),
-                                                                                        'title' => __('admin_clear_cache'),
-                                                                                        'attributes' => ['class' => 'float-right btn']
-                                                                                ]
+                                                                                    ]
                                                             ]
                                     ]
         );
