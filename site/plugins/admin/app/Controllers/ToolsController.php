@@ -68,6 +68,11 @@ class ToolsController extends Controller
                                     'title' => __('admin_cache'),
                                     'attributes' => ['class' => 'navbar-item']
                                 ],
+                                'registry' => [
+                                    'link' => $this->router->pathFor('admin.tools.registry'),
+                                    'title' => __('admin_registry'),
+                                    'attributes' => ['class' => 'navbar-item']
+                                ],
                         ]
             ]
         );
@@ -107,6 +112,11 @@ class ToolsController extends Controller
                                     'title' => __('admin_cache'),
                                     'attributes' => ['class' => 'navbar-item active']
                                 ],
+                                'registry' => [
+                                    'link' => $this->router->pathFor('admin.tools.registry'),
+                                    'title' => __('admin_registry'),
+                                    'attributes' => ['class' => 'navbar-item']
+                                ],
                         ],
                 'buttons' => [
                     'tools_clear_cache' => [
@@ -117,6 +127,55 @@ class ToolsController extends Controller
                         'attributes' => ['class' => 'float-right btn']
                     ]
                 ]
+            ]
+        );
+    }
+
+
+    /**
+     * Information page
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function registry(Request $request, Response $response) : Response
+    {
+
+        if (function_exists('apache_get_modules')) {
+            if (!in_array('mod_rewrite', apache_get_modules())) {
+                $apache_mod_rewrite_installed = false;
+            } else {
+                $apache_mod_rewrite_installed = true;
+            }
+        } else {
+            $apache_mod_rewrite_installed = true;
+        }
+
+        return $this->view->render(
+            $response,
+            'plugins/admin/views/templates/system/tools/registry.html',
+            [
+                'menu_item' => 'tools',
+                'registry_dump' => $this->niceArray($this->registry->dump()),
+                'links' =>  [
+                                'information' => [
+                                    'link' => $this->router->pathFor('admin.tools.index'),
+                                    'title' => __('admin_information'),
+                                    'attributes' => ['class' => 'navbar-item']
+                                ],
+                                'cache' => [
+                                    'link' => $this->router->pathFor('admin.tools.cache'),
+                                    'title' => __('admin_cache'),
+                                    'attributes' => ['class' => 'navbar-item']
+                                ],
+                                'registry' => [
+                                    'link' => $this->router->pathFor('admin.tools.registry'),
+                                    'title' => __('admin_registry'),
+                                    'attributes' => ['class' => 'navbar-item active']
+                                ],
+                        ]
             ]
         );
     }
@@ -142,6 +201,22 @@ class ToolsController extends Controller
         return $response->withRedirect($this->router->pathFor('admin.tools.cache'));
     }
 
+
+    function niceArray($arr){
+        $retStr = '<ul>';
+        if (is_array($arr)){
+            foreach ($arr as $key=>$val){
+                if (is_array($val)){
+                    $retStr .= '<li> <b>' . $key . '</b> => array(' . $this->niceArray($val) . ')</li>';
+                }else{
+                    $retStr .= '<li>' . $key . ' => ' . ($val == '' ? '""' : $val) . '</li>';
+                }
+            }
+        }
+        $retStr .= '</ul>';
+
+        return $retStr;
+    }
 
     public function getDirectorySize($path)
     {
