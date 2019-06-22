@@ -109,10 +109,10 @@ class ToolsController extends Controller
                                 ],
                         ],
                 'buttons' => [
-                    'settings_clear_cache' => [
+                    'tools_clear_cache' => [
                         'type' => 'action',
-                        'id' => 'clear-cache',
-                        'link' => $this->router->pathFor('admin.settings.clear-cache'),
+                        'id' => 'clear-cache-all',
+                        'link' => $this->router->pathFor('admin.tools.clearCacheAllProcess'),
                         'title' => __('admin_clear_cache_all'),
                         'attributes' => ['class' => 'float-right btn']
                     ]
@@ -127,6 +127,15 @@ class ToolsController extends Controller
         $id = $request->getParsedBody()['cache-id'];
 
         $this->cache->clear($id);
+
+        $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
+
+        return $response->withRedirect($this->router->pathFor('admin.tools.cache'));
+    }
+
+    public function clearCacheAllProcess($request, $response)
+    {
+        $this->cache->clearAll();
 
         $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
 
