@@ -225,5 +225,7 @@
   "admin_size": "Size",
   "admin_clear": "Clear",
   "admin_clear_cache_all": "Clear All",
-  "admin_registry": "Registry"
+  "admin_registry": "Registry",
+  "admin_key": "Key",
+  "admin_value": "Value"
 }
