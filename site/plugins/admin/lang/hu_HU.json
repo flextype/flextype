@@ -223,5 +223,6 @@
   "admin_tools": "Tools",
   "admin_size": "Size",
   "admin_clear": "Clear",
-  "admin_clear_cache_all": "Clear All"
+  "admin_clear_cache_all": "Clear All",
+  "admin_registry": "Registry"
 }
