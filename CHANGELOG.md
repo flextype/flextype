@@ -1,9 +1,25 @@
 ## [0.9.2] - 2019-06-XX
 ### Added
 - Flextype Core Theme: pagination for blog entries added. #164 #165
-
+- Flextype: GlobalVarsTwig new variable - `PHP_VERSION` - added #165
+- Flextype Admin Panel: Show nice message if there is no items for current area. #158 #165
+- Flextype Admin Panel: Tools - added. #170 #165
+- Flextype Admin Panel: Tools - Cache area added. #170 #165
 ### Changed
 - Flextype Admin Panel: Entires - improved styles for fieldsets tabs. #165
+- Flextype Admin Panel: Entires - styles for Fieldsets tabs improved #165
+- Flextype Admin Panel & Flextype Core: Settings improvements #153 #165
+- Flextype Admin Panel: Entries - show entry slug if entry default field is empty. #165
+- Flextype Admin Panel: Stay on current page after saving. #155 #165
+
+### Fixed
+- Flextype Core & Admin and Default theme: wrong `emmiter_emmit` renamed to correct `emitter_emit` #165
+- Flextype Admin Panel: Entries - issues with hardcoded admin url - fixed. #165
+- Flextype Admin Panel: Entries - `PATH_FIELDSETS` used instead of hardcoded path. #165
+- Flextype Admin Panel: fix all tabs state for Fieldsets, Snippets, Templates areas. #165
+
+### Removed
+- Flextype Admin Panel: Left Navigation - documentation link - removed #165
 
 ## [0.9.1] - 2019-06-18
 ### Added
