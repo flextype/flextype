@@ -158,7 +158,7 @@ class ToolsController extends Controller
             'plugins/admin/views/templates/system/tools/registry.html',
             [
                 'menu_item' => 'tools',
-                'registry_dump' => $this->niceArray($this->registry->dump()),
+                'registry_dump' => $this->dotArray($this->registry->dump()),
                 'links' =>  [
                                 'information' => [
                                     'link' => $this->router->pathFor('admin.tools.index'),
@@ -202,20 +202,18 @@ class ToolsController extends Controller
     }
 
 
-    function niceArray($arr){
-        $retStr = '<ul>';
-        if (is_array($arr)){
-            foreach ($arr as $key=>$val){
-                if (is_array($val)){
-                    $retStr .= '<li> <b>' . $key . '</b> => array(' . $this->niceArray($val) . ')</li>';
-                }else{
-                    $retStr .= '<li>' . $key . ' => ' . ($val == '' ? '""' : $val) . '</li>';
-                }
+    function dotArray($array, $prepend = '')
+    {
+        $results = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value) && ! empty($value)) {
+                $results = array_merge($results, $this->dotArray($value, $prepend.$key.'.'));
+            } else {
+                $results[$prepend.$key] = $value;
             }
         }
-        $retStr .= '</ul>';
+        return $results;
 
-        return $retStr;
     }
 
     public function getDirectorySize($path)
