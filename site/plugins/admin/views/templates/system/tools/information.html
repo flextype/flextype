@@ -1,21 +1,15 @@
 {% extends "plugins/admin/views/partials/base.html" %}
 
 {% block content %}
-<div class="card">
-    <div class="card-body">
-        {{ tr('admin_flextype_version') }}: {{ FLEXTYPE_VERSION }}
-    </div>
-</div>
-
-<br>
-
-<h3 class="h3">{{ tr('admin_server') }}</h3>
-
 <table class="table no-margin">
     <tbody>
         <tr>
+            <td>{{ tr('admin_flextype_version') }}</td>
+            <td>{{ FLEXTYPE_VERSION }}</td>
+        </tr>
+        <tr>
             <td width="180">{{ tr('admin_php_version') }}</td>
-            <td></td>
+            <td>{{ PHP_VERSION }}</td>
         </tr>
         <tr>
             <td>{{ tr('admin_php_built_on') }}</td>
@@ -29,11 +23,6 @@
             <td>{{ tr('admin_web_server_php_interface') }}</td>
             <td>{{ php_sapi_name }}</td>
         </tr>
-            {% if apache_mod_rewrite_installed %}
-                <tr><td>Apache Mod Rewrite</td><td>{{ tr('admin_installed') }}</td></tr>
-            {% else %}
-                <tr><td>Apache Mod Rewrite</td><td>{{ tr('admin_not_installed') }}</td></tr>
-            {% endif %}
     </tbody>
 </table>
 {% endblock %}
