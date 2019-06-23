@@ -51,7 +51,7 @@
             <div id="content">{% block content %}{% endblock %}</div>
             <div class="powered">
                 {% block footer %}
-                  Powered by <a href="http://flextype.org">Flextype</a>
+                    {{ tr('site_powered_by_flextype')|raw }}
                 {% endblock %}
             </div>
         </main>
