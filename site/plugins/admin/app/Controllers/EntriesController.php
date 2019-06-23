@@ -624,7 +624,19 @@ class EntriesController extends Controller
                         break;
                         // Template select field for selecting entry template
                         case 'template_select':
-                            $form_element = Form::select($form_element_name, $this->themes->getTemplates(), $form_value, $property['attributes']);
+                            $templates_list = [];
+
+                            $_templates_list = $this->themes->getTemplates($this->registry->get('settings.theme'));
+
+                            if (count($_templates_list) > 0) {
+                                foreach ($_templates_list as $template) {
+                                    if ($template['type'] == 'file' && $template['extension'] == 'html') {
+                                        $templates_list[$template['basename']] = $template['basename'];
+                                    }
+                                }
+                            }
+
+                            $form_element = Form::select($form_element_name, $templates_list, $form_value, $property['attributes']);
                         break;
                         // Visibility select field for selecting entry visibility state
                         case 'visibility_select':
