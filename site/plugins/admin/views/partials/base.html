@@ -199,8 +199,13 @@
             {% if is_current_path('admin.templates.index') or
                   is_current_path('admin.templates.edit') or
                   is_current_path('admin.templates.rename') or
-                  is_current_path('admin.templates.add') or
-                  is_current_path('admin.fieldsets.index') or
+                  is_current_path('admin.templates.add') %}
+            <div class="entry-editor-heading">
+                / {{ theme }} {% if id %} / {{ id }}{% endif %}
+            </div>
+            {% endif %}
+
+            {% if is_current_path('admin.fieldsets.index') or
                   is_current_path('admin.fieldsets.edit') or
                   is_current_path('admin.fieldsets.rename') or
                   is_current_path('admin.fieldsets.add') or
@@ -363,7 +368,7 @@
                     indentUnit: 4,
                     {% endif %}
                     {% if is_current_path('admin.fieldsets.edit') %}
-                    mode: "application/json",
+                    mode: "text/javascript",
                     {% else %}
                     mode: "application/x-httpd-php",
                     {% endif %}
