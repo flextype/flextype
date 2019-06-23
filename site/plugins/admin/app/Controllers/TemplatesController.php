@@ -27,14 +27,23 @@ class TemplatesController extends Controller
      */
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
+
+        $theme = $request->getQueryParams()['theme'];
+
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/templates/index.html',
+            'plugins/admin/views/templates/extends/themes/templates/index.html',
             [
-            'menu_item' => 'templates',
-            'templates_list' => $this->themes->getTemplates(),
-            'partials_list' => $this->themes->getPartials(),
+            'menu_item' => 'themes',
+            'theme' => $theme,
+            'templates_list' => $this->themes->getTemplates($theme),
+            'partials_list' => $this->themes->getPartials($theme),
             'links' =>  [
+                            'themes' => [
+                                'link' => $this->router->pathFor('admin.themes.index'),
+                                'title' => __('admin_themes'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
                             'templates' => [
                                 'link' => $this->router->pathFor('admin.templates.index'),
                                 'title' => __('admin_templates'),
@@ -64,7 +73,7 @@ class TemplatesController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/templates/add.html',
+            'plugins/admin/views/templates/extends/themes/templates/add.html',
             [
             'menu_item' => 'templates',
             'links' =>  [
@@ -129,7 +138,7 @@ class TemplatesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/templates/edit.html',
+            'plugins/admin/views/templates/extends/themes/templates/edit.html',
             [
             'menu_item' => 'templates',
             'id' => $request->getQueryParams()['id'],
@@ -192,7 +201,7 @@ class TemplatesController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/templates/rename.html',
+            'plugins/admin/views/templates/extends/themes/templates/rename.html',
             [
             'menu_item' => 'templates',
             'types' => ['partial' => __('admin_partial'), 'template' => __('admin_template')],
