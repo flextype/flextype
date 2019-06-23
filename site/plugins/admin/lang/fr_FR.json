@@ -215,10 +215,16 @@
   "admin_determine_route_before_app_middleware": "Determine route before app middleware",
   "admin_output_buffering": "Output buffering",
   "admin_response_chunk_size": "Response chunk size",
-  "admin_http_version": "HTTP Version",
+  "admin_http_version": "Version HTTP",
   "admin_image_driver": "Image driver",
   "admin_whoops_editor": "Whoops editor",
   "admin_whoops_page_title": "Whoops page title",
   "admin_editor": "Editor",
-  "admin_tools": "Tools"
+  "admin_tools": "Tools",
+  "admin_size": "Size",
+  "admin_clear": "Clear",
+  "admin_clear_cache_all": "Clear All",
+  "admin_registry": "Registry",
+  "admin_key": "Key",
+  "admin_value": "Value"
 }
