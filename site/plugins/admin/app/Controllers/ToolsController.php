@@ -37,17 +37,6 @@ class ToolsController extends Controller
      */
     public function information(Request $request, Response $response) : Response
     {
-
-        if (function_exists('apache_get_modules')) {
-            if (!in_array('mod_rewrite', apache_get_modules())) {
-                $apache_mod_rewrite_installed = false;
-            } else {
-                $apache_mod_rewrite_installed = true;
-            }
-        } else {
-            $apache_mod_rewrite_installed = true;
-        }
-
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/system/tools/information.html',
@@ -56,7 +45,6 @@ class ToolsController extends Controller
                 'php_uname' => php_uname(),
                 'webserver' => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : @getenv('SERVER_SOFTWARE'),
                 'php_sapi_name' => php_sapi_name(),
-                'apache_mod_rewrite_installed' => $apache_mod_rewrite_installed,
                 'links' =>  [
                                 'information' => [
                                     'link' => $this->router->pathFor('admin.tools.index'),
@@ -88,19 +76,14 @@ class ToolsController extends Controller
      */
     public function cache(Request $request, Response $response) : Response
     {
-
-        $doctrine_size = Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/doctrine'));
-        $glide_size = Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/glide'));
-        $twig_size = Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/twig'));
-
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/system/tools/cache.html',
             [
                 'menu_item' => 'tools',
-                'doctrine_size' => $doctrine_size,
-                'glide_size' => $glide_size,
-                'twig_size' => $twig_size,
+                'doctrine_size' => Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/doctrine')),
+                'glide_size' => Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/glide')),
+                'twig_size' => Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/twig')),
                 'links' =>  [
                                 'information' => [
                                     'link' => $this->router->pathFor('admin.tools.index'),
@@ -142,17 +125,6 @@ class ToolsController extends Controller
      */
     public function registry(Request $request, Response $response) : Response
     {
-
-        if (function_exists('apache_get_modules')) {
-            if (!in_array('mod_rewrite', apache_get_modules())) {
-                $apache_mod_rewrite_installed = false;
-            } else {
-                $apache_mod_rewrite_installed = true;
-            }
-        } else {
-            $apache_mod_rewrite_installed = true;
-        }
-
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/system/tools/registry.html',
@@ -180,8 +152,15 @@ class ToolsController extends Controller
         );
     }
 
-
-    public function clearCacheProcess($request, $response)
+    /**
+     * Clear cache process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function clearCacheProcess(Request $request, Response $response) : Response
     {
         $id = $request->getParsedBody()['cache-id'];
 
@@ -192,7 +171,15 @@ class ToolsController extends Controller
         return $response->withRedirect($this->router->pathFor('admin.tools.cache'));
     }
 
-    public function clearCacheAllProcess($request, $response)
+    /**
+     * Clear all cache process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function clearCacheAllProcess(Request $request, Response $response) : Response
     {
         $this->cache->clearAll();
 
@@ -201,10 +188,13 @@ class ToolsController extends Controller
         return $response->withRedirect($this->router->pathFor('admin.tools.cache'));
     }
 
-
-    function dotArray($array, $prepend = '')
+    /**
+     * dotArray
+     */
+    private function dotArray($array, $prepend = '') : array
     {
         $results = [];
+
         foreach ($array as $key => $value) {
             if (is_array($value) && ! empty($value)) {
                 $results = array_merge($results, $this->dotArray($value, $prepend.$key.'.'));
@@ -212,11 +202,15 @@ class ToolsController extends Controller
                 $results[$prepend.$key] = $value;
             }
         }
+
         return $results;
 
     }
 
-    public function getDirectorySize($path)
+    /**
+     * getDirectorySize
+     */
+    private function getDirectorySize($path)
     {
         $bytestotal = 0;
         $path = realpath($path);
