@@ -6,7 +6,7 @@
 
 </p>
 
-<h2 align="center">Supporting Flextype</h2>
+<h1 align="center">Supporting Flextype</h1>
 
 Flextype is an MIT-licensed open source project and completely free to use..
 
@@ -15,7 +15,7 @@ However, the amount of effort needed to maintain and develop new features for th
 - [Become a backer or sponsor on Patreon](https://www.patreon.com/awilum).
 - [One-time donation via PayPal, QIWI, Sberbank, Yandex](http://flextype.org/en/about/sponsors)
 
-# Introduction
+## INTRODUCTION
 
 Flextype is Open Source, fast and flexible file-based Content Management System.  
 That's Easy to install, upgrade and use. Flextype provides amazing API's for plugins, themes and core developers!
