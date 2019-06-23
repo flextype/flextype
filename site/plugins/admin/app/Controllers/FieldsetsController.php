@@ -36,7 +36,7 @@ class FieldsetsController extends Controller
                                 'title' => __('admin_create_new_fieldset'),
                                 'attributes' => ['class' => 'float-right btn']
                             ]
-                            ]
+                        ]
         ]
         );
     }
