@@ -1,0 +1,23 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+{% if (themes_list|length > 0) %}
+<div class="card-deck">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                     Default
+                </div>
+                <img src="{{ base_url() }}/site/themes/default/preview.png" class="card-img-top" alt="...">
+                <div class="card-footer">
+                  <small class="text-muted text-center">Active theme</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+
+{% endif %}
+{% endblock %}
