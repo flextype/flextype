@@ -13,6 +13,10 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * @property View $view
  * @property Router $router
  * @property Cache $cache
+ * @property Entries $entries
+ * @property Plugins $plugins
+ * @property Registry $registry
+ * @property Flash $flash
  */
 class SettingsController extends Controller
 {
