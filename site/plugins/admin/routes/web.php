@@ -57,6 +57,7 @@ $app->group('/' . $admin_route, function () use ($flextype, $app) {
 
     // ThemesController
     $app->get('/themes', 'ThemesController:index')->setName('admin.themes.index');
+    $app->post('/themes/activateProcess', 'ThemesController:activateProcess')->setName('admin.themes.activateProcess');
 
     // TemplatesController
     $app->get('/templates', 'TemplatesController:index')->setName('admin.templates.index');
