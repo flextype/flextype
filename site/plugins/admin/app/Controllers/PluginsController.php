@@ -66,7 +66,7 @@ class PluginsController extends Controller
         $plugin_settings = JsonParser::decode(Filesystem::read(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.json'));
         Arr::set($plugin_settings, 'enabled', ($data['plugin-status'] == 'true' ? true : false));
         Filesystem::write(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.json', JsonParser::encode($plugin_settings));
-        $this->cache->clear();
+        $this->cache->clear('doctrine');
 
         return $response->withRedirect($this->router->pathFor('admin.plugins.index'));
     }
