@@ -55,7 +55,7 @@ class Snippets
      *
      * @access public
      * @param string $id Snippet id
-     * @return array|false The entry contents or false on failure.
+     * @return string|false The snippet contents or false on failure.
      */
     public function fetch(string $id)
     {
