@@ -227,5 +227,8 @@
   "admin_clear_cache_all": "Clear All",
   "admin_registry": "Registry",
   "admin_key": "Key",
-  "admin_value": "Value"
+  "admin_value": "Value",
+  "admin_activate": "Activate",
+  "admin_active_theme": "Active Theme",
+  "admin_get_more_themes": "Get More Themes"
 }
