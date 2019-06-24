@@ -3,6 +3,7 @@
 {% block content %}
 <form method="post" id="form">
     {{ csrf() }}
+    <input type="hidden" name="theme" value="{{ theme }}">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
