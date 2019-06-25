@@ -88,12 +88,12 @@ class SettingsController extends Controller
                                         'whoops_editor' => $whoops_editor,
                                         'menu_item' => 'settings',
                                         'links' => [
-                                                                'settings' => [
-                                                                                    'link' => $this->router->pathFor('admin.settings.index'),
-                                                                                    'title' => __('admin_settings'),
-                                                                                    'attributes' => ['class' => 'navbar-item active']
-                                                                                ]
-                                                            ],
+                                            'settings' => [
+                                                'link' => $this->router->pathFor('admin.settings.index'),
+                                                'title' => __('admin_settings'),
+                                                'attributes' => ['class' => 'navbar-item active']
+                                            ]
+                                        ],
                                         'buttons'  => [
                                                                     'save' => [
                                                                                         'link'       => 'javascript:;',
@@ -123,6 +123,10 @@ class SettingsController extends Controller
 
         Arr::set($data, 'errors.display', ($data['errors']['display'] == '1' ? true : false));
         Arr::set($data, 'cache.enabled', ($data['cache']['enabled'] == '1' ? true : false));
+        Arr::set($data, 'slugify.lowercase_after_regexp', ($data['slugify']['lowercase_after_regexp'] == '1' ? true : false));
+        Arr::set($data, 'slugify.strip_tags', ($data['slugify']['strip_tags'] == '1' ? true : false));
+        Arr::set($data, 'slugify.trim', ($data['slugify']['trim'] == '1' ? true : false));
+        Arr::set($data, 'slugify.lowercase', ($data['slugify']['lowercase'] == '1' ? true : false));
         Arr::set($data, 'cache.lifetime', (int) $data['cache']['lifetime']);
         Arr::set($data, 'entries.media.upload_images_quality', (int) $data['entries']['media']['upload_images_quality']);
         Arr::set($data, 'entries.media.upload_images_width', (int) $data['entries']['media']['upload_images_width']);
@@ -137,20 +141,4 @@ class SettingsController extends Controller
         return $response->withRedirect($this->router->pathFor('admin.settings.index'));
     }
 
-    /**
-     * Clear cache process
-     *
-     * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
-     *
-     * @return Response
-     */
-    public function clearCacheProcess(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
-    {
-        $this->cache->clear();
-        Filesystem::has(PATH['cache'] . '/twig') and Filesystem::deleteDir(PATH['cache'] . '/twig');
-
-        $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
-        return $response->withRedirect($this->router->pathFor('admin.settings.index'));
-    }
 }

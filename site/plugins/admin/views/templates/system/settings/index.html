@@ -343,6 +343,61 @@
 
         <div class="col-md-12">
             <br>
+            <h3 class="h3">{{ tr('admin_slug') }}</h3>
+            <hr>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="slugify[separator]">{{ tr('admin_slugify_separator') }}</label>
+                <input type="text" id="systemSettingsSlugifySeparator" name="slugify[separator]" value="{{ registry.settings.slugify.separator }}" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="slugify[lowercase]">{{ tr('admin_slugify_lowercase') }}</label>
+                <select id="systemSettingsSlugifyLowercase" name="slugify[lowercase]" class="form-control" required="required">
+                    <option value="0" {% if registry.settings.slugify.lowercase == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                    <option value="1" {% if registry.settings.slugify.lowercase == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="slugify[trim]">{{ tr('admin_slugify_trim') }}</label>
+                <select id="systemSettingsSlugifyTrim" name="slugify[trim]" class="form-control" required="required">
+                    <option value="0" {% if registry.settings.slugify.trim == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                    <option value="1" {% if registry.settings.slugify.trim == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="slugify[strip_tags]">{{ tr('admin_slugify_strip_tags') }}</label>
+                <select id="systemSettingsSlugifyStripTags" name="slugify[strip_tags]" class="form-control" required="required">
+                    <option value="0" {% if registry.settings.slugify.strip_tags == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                    <option value="1" {% if registry.settings.slugify.strip_tags == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="slugify[lowercase_after_regexp]">{{ tr('admin_slugify_lowercase_after_regexp') }}</label>
+                <select id="systemSettingsSlugifyLowercaseAfterRegexp" name="slugify[lowercase_after_regexp]" class="form-control" required="required">
+                    <option value="0" {% if registry.settings.slugify.lowercase_after_regexp == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                    <option value="1" {% if registry.settings.slugify.lowercase_after_regexp == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="slugify[regexp]">{{ tr('admin_slugify_regexp') }}</label>
+                <input type="text" id="systemSettingsSlugifyRegexp" name="slugify[regexp]" value="{{ registry.settings.slugify.regexp }}" class="form-control" required="required">
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <br>
             <h3 class="h3">{{ tr('admin_admin_panel') }}</h3>
             <hr>
         </div>
