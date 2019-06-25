@@ -232,6 +232,11 @@ class TemplatesController extends Controller
             'id_current' => $request->getQueryParams()['id'],
             'type_current' => (($request->getQueryParams()['type'] && $request->getQueryParams()['type'] == 'partial') ? 'partial' : 'template'),
             'links' => [
+                            'themes' => [
+                                'link' => $this->router->pathFor('admin.themes.index'),
+                                'title' => __('admin_themes'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
                             'templates' => [
                                 'link' => $this->router->pathFor('admin.templates.index') . '?theme=' . $theme,
                                 'title' => __('admin_templates'),
