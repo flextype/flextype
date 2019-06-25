@@ -126,7 +126,7 @@ class Themes
      * @access public
      * @return array
      */
-    public function getThemes()
+    public function getThemes() : array
     {
         // Init themes list
         $themes_list = [];
