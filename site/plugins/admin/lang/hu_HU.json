@@ -229,5 +229,7 @@
   "admin_value": "Value",
   "admin_activate": "Activate",
   "admin_active_theme": "Active Theme",
-  "admin_get_more_themes": "Get More Themes"
+  "admin_get_more_themes": "Get More Themes",
+  "admin_images": "Images",
+  "admin_data": "Data"
 }
