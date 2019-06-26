@@ -71,6 +71,14 @@
   "twig": {
     "auto_reload": true
   },
+  "slugify": {
+      "separator": "-",
+      "lowercase": true,
+      "trim": true,
+      "regexp": "/[^A-Za-z0-9]+/",
+      "lowercase_after_regexp": false,
+      "strip_tags": false
+  },
   "image": {
     "driver": "gd"
   }
