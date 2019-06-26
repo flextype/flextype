@@ -15,7 +15,7 @@ namespace Flextype;
 class JsonParserTwigExtension extends \Twig_Extension
 {
     /**
-     * Callback for twig.
+     * Returns a list of functions to add to the existing list.
      *
      * @return array
      */
@@ -27,11 +27,17 @@ class JsonParserTwigExtension extends \Twig_Extension
         ];
     }
 
+    /**
+     * Encode JSON
+     */
     public function encode($input, int $encode_options = 0, int $encode_depth = 512) : string
     {
         return JsonParser::encode($input, $encode_options, $encode_depth);
     }
 
+    /**
+     * Decode JSON
+     */
     public function decode(string $input, bool $decode_assoc = true, int $decode_depth = 512, int $decode_options = 0)
     {
         return JsonParser::decode($input, $decode_assoc, $decode_depth, $decode_options);

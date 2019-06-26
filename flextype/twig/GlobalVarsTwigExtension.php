@@ -27,6 +27,9 @@ class GlobalVarsTwigExtension extends \Twig_Extension implements \Twig_Extension
         $this->flextype = $flextype;
     }
 
+    /**
+     * Register Global variables in an extension
+     */
     public function getGlobals()
     {
         return [
