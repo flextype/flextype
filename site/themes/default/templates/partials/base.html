@@ -9,7 +9,7 @@
             <meta name="robots" content="{% if entry.robots %}{{ entry.robots }}{% else %}{{ registry.settings.robots }}{% endif %}">
             <meta name="generator" content="Powered by Flextype Flextype::VERSION" />
 
-            {{ emitter_emit('onThemeMeta') }}
+            {{ emitter.emit('onThemeMeta') }}
 
             <title>{% if entry.title %}{{ entry.title|e('html') }} | {% endif %}{{ registry.settings.title|e('html') }}</title>
 
@@ -17,14 +17,14 @@
 
             {% set bootstrap = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/css/bootstrap.min.css' %}
             {% set default = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/css/default.min.css' %}
-            {% do assets_add('css', bootstrap, 'site', 1) %}
-            {% do assets_add('css', default, 'site', 2) %}
-            {% for assets_site in assets_get('css', 'site') %}
+            {% do assets.add('css', bootstrap, 'site', 1) %}
+            {% do assets.add('css', default, 'site', 2) %}
+            {% for assets_site in assets.get('css', 'site') %}
                 {% for assets_by_priorities in assets_site %}
                     <link href="{{ assets_by_priorities.asset }}" rel="stylesheet">
                 {% endfor %}
             {% endfor %}
-            {{ emitter_emit('onThemeHeader') }}
+            {{ emitter.emit('onThemeHeader') }}
         {% endblock %}
     </head>
     <body>
@@ -36,7 +36,7 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                {% for item in entries_fetch_all('', 'menu_item_order', 'ASC') %}
+                {% for item in entries.fetchAll('', 'menu_item_order', 'ASC') %}
                     {% if item.menu_item_title %}
                         <li class="nav-item">
                             <a class="nav-link {% if item.menu_item_url in entry.slug %}active{% endif %}" href="{{ base_url() }}/{{ item.menu_item_url }}">{{ item.menu_item_title }}</a>
@@ -56,12 +56,12 @@
             </div>
         </main>
         {% set default = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/js/default.min.js' %}
-        {% do assets_add('js', default, 'site', 1) %}
-        {% for assets_site in assets_get('js', 'site') %}
+        {% do assets.add('js', default, 'site', 1) %}
+        {% for assets_site in assets.get('js', 'site') %}
             {% for assets_by_priorities in assets_site %}
                 <script src="{{ assets_by_priorities.asset }}"></script>
             {% endfor %}
         {% endfor %}
-        {{ emitter_emit('onThemeTail') }}
+        {{ emitter.emit('onThemeTail') }}
     </body>
 </html>
