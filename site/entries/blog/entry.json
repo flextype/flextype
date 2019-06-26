@@ -7,5 +7,6 @@
     "menu_item_title": "Blog",
     "menu_item_url": "blog",
     "menu_item_target": "self",
-    "menu_item_order": "2"
+    "menu_item_order": "2",
+    "entries_limit": "2"
 }
