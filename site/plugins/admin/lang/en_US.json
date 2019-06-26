@@ -233,5 +233,6 @@
   "admin_get_more_themes": "Get More Themes",
   "admin_images": "Images",
   "admin_data": "Data",
-  "admin_slugify": "Slug"
+  "admin_slugify": "Slug",
+  "admin_entries_limit": "Entries limit"
 }
