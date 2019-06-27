@@ -22,8 +22,11 @@
     {% endfor %}
 
     {# pagination navigation #}
-    {% if (page - 1) > 0 %}<a href="?page={{ page - 1 }}">&larr;</a>{% endif %}
-    {% if (page) < entries_pages %}<a href="?page={{ page + 1 }} ">&rarr;</a>{% endif %}
+    <div class="text-center">
+        {% if (page - 1) > 0 %}<a href="?page={{ page - 1 }}">&larr;</a>{% endif %}
+        {{ page }} / {{ entries_pages }}
+        {% if (page) < entries_pages %}<a href="?page={{ page + 1 }} ">&rarr;</a>{% endif %}
+    </div>
     {# /pagination navigation #}
 
 {% endblock %}
