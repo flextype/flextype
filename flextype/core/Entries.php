@@ -136,53 +136,72 @@ class Entries
      * @param array $args Query arguments
      * @return array The entries
      */
-    public function fetchAll(array $args) : array
+    public function fetchAll(string $id, array $args = []) : array
     {
+        // Set Expression
+        $expression = [
+                    '=' => Comparison::EQ,
+                    '<>' => Comparison::NEQ,
+                    '<' => Comparison::LT,
+                    '<=' => Comparison::LTE,
+                    '>' => Comparison::GT,
+                    '>=' => Comparison::GTE,
+                    'is' => Comparison::IS,
+                    'in' => Comparison::IN,
+                    'nin' => Comparison::NIN,
+                    'contains' => Comparison::CONTAINS,
+                    'member_of' => Comparison::MEMBER_OF,
+                    'start_with' => Comparison::STARTS_WITH,
+                    'ends_with' => Comparison::ENDS_WITH,
+                ];
+
+        // Set Direction
+        $direction = [
+            'asc' => Criteria::ASC,
+            'desc' => Criteria::DESC
+        ];
+
         // Bind: entry id
-        $bind_id = ($args['id']) ?? '';
+        $bind_id = $id;
 
         // Bind: recursive
-        $bind_recursive = ($args['recursive']) ? true : false;
+        $bind_recursive = (isset($args['recursive'])) ? $args['recursive'] : false;
 
         // Bind: set first result
-        $bind_set_first_result = ($args['set_first_result']) ?? false;
+        $bind_set_first_result = (isset($args['set_first_result'])) ? $args['set_first_result'] : false;
 
         // Bind: set max result
-        $bind_set_max_result = ($args['set_max_result']) ?? false;
+        $bind_set_max_result = (isset($args['set_max_result'])) ? $args['set_max_result'] : false;
 
         // Bind: where
-        if ($args['where'] && is_array($args['where'])) {
-            $bind_where['where'] = [];
+        if (isset($args['where']['key']) && isset($args['where']['expr']) && isset($args['where']['value'])) {
             $bind_where['where']['key'] = $args['where']['key'];
-            $bind_where['where']['expr'] = $args['where']['expr'];
+            $bind_where['where']['expr'] = $expression[$args['where']['expr']];
             $bind_where['where']['value'] = $args['where']['value'];
         } else {
             $bind_where = false;
         }
 
         // Bind: and where
-        if ($args['and_where'] && is_array($args['and_where'])) {
-            $bind_and_where['and_where'] = [];
+        if (isset($args['and_where']['key']) && isset($args['and_where']['expr']) && isset($args['and_where']['value'])) {
             $bind_and_where['and_where']['key'] = $args['and_where']['key'];
-            $bind_and_where['and_where']['expr'] = $args['and_where']['expr'];
+            $bind_and_where['and_where']['expr'] = $expression[$args['and_where']['expr']];
             $bind_and_where['and_where']['value'] = $args['and_where']['value'];
         } else {
             $bind_and_where = false;
         }
 
         // Bind: or where
-        if ($args['or_where'] && is_array($args['or_where'])) {
-            $bind_or_where['or_where'] = [];
+        if (isset($args['or_where']['key']) && isset($args['or_where']['expr']) && isset($args['or_where']['value'])) {
             $bind_or_where['or_where']['key'] = $args['or_where']['key'];
-            $bind_or_where['or_where']['expr'] = $args['or_where']['expr'];
+            $bind_or_where['or_where']['expr'] = $expression[$args['or_where']['expr']];
             $bind_or_where['or_where']['value'] = $args['or_where']['value'];
         } else {
             $bind_or_where = false;
         }
 
         // Bind: order by
-        if ($args['order_by'] && is_array($args['order_by'])) {
-            $bind_order_by['order_by'] = [];
+        if (isset($args['order_by']['field']) && isset($args['order_by']['direction'])) {
             $bind_order_by['order_by']['field'] = $args['order_by']['field'];
             $bind_order_by['order_by']['direction'] = $args['order_by']['direction'];
         } else {
@@ -215,7 +234,6 @@ class Entries
                          ($bind_recursive) ? 'true' : 'false' .
                          ($bind_set_max_result) ? $bind_set_max_result : 'false' .
                          ($bind_set_first_result) ? $bind_set_first_result : 'false' .
-                         ($bind_set_max_result) ? $bind_set_max_result : 'false' .
                          ($bind_where['where']) ? 'true' : 'false' .
                          ($bind_where['where']['key']) ? $bind_where['where']['key'] : 'false' .
                          ($bind_where['where']['expr']) ? $bind_where['where']['expr'] : 'false' .
@@ -269,26 +287,26 @@ class Entries
             $criteria = new Criteria();
 
             // Exec: where
-            if ($bind_where) {
+            if (isset($bind_and_where['where']['key']) && isset($bind_and_where['where']['expr']) && isset($bind_and_where['where']['value'])) {
                 $expr = new Comparison($bind_where['where']['key'], $bind_where['where']['expr'], $bind_where['where']['value']);
                 $criteria->where($expr);
             }
 
             // Exec: and where
-            if ($bind_and_where) {
+            if (isset($bind_and_where['and_where']['key']) && isset($bind_and_where['and_where']['expr']) && isset($bind_and_where['and_where']['value'])) {
                 $expr = new Comparison($bind_and_where['and_where']['key'], $bind_and_where['and_where']['expr'], $bind_and_where['and_where']['value']);
                 $criteria->where($expr);
             }
 
             // Exec: or where
-            if ($bind_or_where) {
+            if (isset($bind_or_where['or_where']['key']) && isset($bind_or_where['or_where']['expr']) && isset($bind_or_where['or_where']['value'])) {
                 $expr = new Comparison($bind_or_where['or_where']['key'], $bind_or_where['or_where']['expr'], $bind_or_where['or_where']['value']);
                 $criteria->where($expr);
             }
 
             // Exec: order by
-            if ($bind_order_by) {
-                $criteria->orderBy($bind_order_by['field'], $bind_order_by['direction']);
+            if (isset($bind_order_by['order_by']['field']) && isset($bind_order_by['order_by']['direction'])) {
+                $criteria->orderBy([$bind_order_by['order_by']['field'] => $direction[$bind_order_by['order_by']['direction']]]);
             }
 
             // Exec: set max result
@@ -303,6 +321,9 @@ class Entries
 
             // Get entries for matching criterias
             $entries = $collection->matching($criteria);
+
+            // Gets a native PHP array representation of the collection.
+            $entries = $entries->toArray();
 
             // Save entries into the cache
             $this->flextype['cache']->save($cache_id, $entries);
