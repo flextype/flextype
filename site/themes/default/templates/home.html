@@ -4,7 +4,7 @@
 
     {{ entry.content|shortcode|raw}}
 
-    {% for entry in entries.fetchAll('blog', 'date', 'DESC', 0, 3) %}
+    {% for entry in entries.fetchAll('blog', {'order_by': {'field': 'date', 'direction': 'desc'}, 'set_max_result': '3'}) %}
         <a href="{{ entry.slug }}" class="blog-post">
             <h3>{{ entry.title }}</h3>
             <p>{{ entry.summary|shortcode|raw}}</p>
