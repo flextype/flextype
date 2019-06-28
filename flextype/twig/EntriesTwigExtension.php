@@ -56,16 +56,16 @@ class EntriesTwig
     /**
      * Fetch single entry
      */
-    public function fetch(string $entry)
+    public function fetch(string $id)
     {
-        return $this->flextype['entries']->fetch($entry);
+        return $this->flextype['entries']->fetch($id);
     }
 
     /**
      * Fetch all entries
      */
-    public function fetchAll(string $entry, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null,  bool $recursive = false) : array
+    public function fetchAll(string $id, array $args = []) : array
     {
-        return $this->flextype['entries']->fetchAll($entry, $order_by, $order_type, $offset, $length, $recursive);
+        return $this->flextype['entries']->fetchAll($id, $args);
     }
 }
