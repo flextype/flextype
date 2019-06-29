@@ -138,6 +138,9 @@ class Entries
      */
     public function fetchAll(string $id, array $args = []) : array
     {
+        // Init Entries
+        $entries = [];
+
         // Set Expression
         $expression = [
                     '=' => Comparison::EQ,
