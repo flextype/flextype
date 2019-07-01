@@ -7,7 +7,7 @@
             <meta name="description" content="{% if entry.description %}{{ entry.description }}{% else %}{{ registry.settings.description }}{% endif %}">
             <meta name="keywords" content="{% if entry.keywords %}{{ entry.keywords }}{% else %}{{ registry.settings.keywords }}{% endif %}">
             <meta name="robots" content="{% if entry.robots %}{{ entry.robots }}{% else %}{{ registry.settings.robots }}{% endif %}">
-            <meta name="generator" content="Powered by Flextype Flextype::VERSION" />
+            <meta name="generator" content="Powered by Flextype {{ FLEXTYPE_VERSION }}" />
 
             {{ emitter.emit('onThemeMeta') }}
 
@@ -25,6 +25,7 @@
                 {% endfor %}
             {% endfor %}
             {{ emitter.emit('onThemeHeader') }}
+            {{ snippets.exec('google-analytics')|raw }}
         {% endblock %}
     </head>
     <body>
