@@ -20,7 +20,7 @@ p,
 select,
 textarea {
     font-family: $base-font-family;
-    font-weight: 400;
+    font-weight: 300;
 
     color: black;
 }
@@ -51,4 +51,6 @@ pre {
 
 h1 {
     font-size: 60px;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
