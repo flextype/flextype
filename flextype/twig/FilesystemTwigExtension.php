@@ -24,11 +24,17 @@ class FilesystemTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
+            new \Twig_SimpleFunction('filesystem_get_files_list', [$this, 'get_files_list']),
             new \Twig_SimpleFunction('filesystem_has', [$this, 'has']),
             new \Twig_SimpleFunction('filesystem_read', [$this, 'read']),
             new \Twig_SimpleFunction('filesystem_ext', [$this, 'ext']),
             new \Twig_SimpleFunction('filesystem_basename', [$this, 'basename']),
         ];
+    }
+
+    public function get_files_list(string $folder, $type = null, bool $file_path = true, bool $multilevel = true)
+    {
+        return Filesystem::getFilesList($folder, $type, $file_path, $multilevel);
     }
 
     public function has($path)
