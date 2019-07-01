@@ -1,11 +1,20 @@
-## [0.9.2] - 2019-06-XX
+## [0.9.2] - 2019-07-XX
 ### Added
 - Flextype Core Theme: pagination for blog entries added. #164 #165
-- Flextype: GlobalVarsTwig new variable - `PHP_VERSION` - added #165
+- Flextype Core: Doctrine Collections - added. #175 #165
+- Flextype Core: GlobalVarsTwig new variable - `PHP_VERSION` - added #165
 - Flextype Admin Panel: Show nice message if there is no items for current area. #158 #165
 - Flextype Admin Panel: Tools - added. #170 #165
 - Flextype Admin Panel: Tools - Cache area added. #170 #165
+- Flextype Admin Panel: Tools - Registry area added. #170 #165
+- Flextype Admin Panel: Themes manager - added. #171 #165
+- Flextype Admin Panel: New Translates added. #165
+- Flextype Core: New Shortcode [registry_get] - added. #165
+
 ### Changed
+- Flextype Core: Twig Extensions updated. #165
+- Flextype Core: Entries - fetching methods updated and ready to work with Collections. #175 #165
+- Flextype Core: Snippets Shortcode - renamed `snippets_fetch` to `snippets_exec`. #165
 - Flextype Admin Panel: Entires - improved styles for fieldsets tabs. #165
 - Flextype Admin Panel: Entires - styles for Fieldsets tabs improved #165
 - Flextype Admin Panel & Flextype Core: Settings improvements #153 #165
