@@ -491,7 +491,7 @@ class EntriesController extends Controller
 
         if ($this->entries->rename(
             $data['entry_path_current'],
-            $data['entry_parent'] . $this->slugify->slugify($data['name'])
+            $data['entry_parent'] . '/' . $this->slugify->slugify($data['name'])
         )) {
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
