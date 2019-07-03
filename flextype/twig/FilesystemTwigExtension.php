@@ -24,7 +24,7 @@ class FilesystemTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('filesystem_get_files_list', [$this, 'get_files_list']),
+            new \Twig_SimpleFunction('filesystem_list_contents', [$this, 'list_contents']),
             new \Twig_SimpleFunction('filesystem_has', [$this, 'has']),
             new \Twig_SimpleFunction('filesystem_read', [$this, 'read']),
             new \Twig_SimpleFunction('filesystem_ext', [$this, 'ext']),
@@ -32,9 +32,9 @@ class FilesystemTwigExtension extends \Twig_Extension
         ];
     }
 
-    public function get_files_list(string $folder, $type = null, bool $file_path = true, bool $multilevel = true)
+    public function list_contents(string $directory = '', bool $recursive = false)
     {
-        return Filesystem::getFilesList($folder, $type, $file_path, $multilevel);
+        return Filesystem::listContents($directory, $recursive);
     }
 
     public function has($path)
