@@ -123,12 +123,11 @@ class EntriesController extends Controller
                 }
             }
         }
-
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/content/entries/add.html',
             [
-                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), 'date', 'DESC'),
+                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), ['order_by' => ['field' => 'title', 'direction' => 'asc']]),
                             'menu_item' => 'entries',
                             'fieldsets' => $fieldsets,
                             'current_id' => $this->getEntryID($query),
@@ -184,7 +183,7 @@ class EntriesController extends Controller
 
                 // We need to check if template for current fieldset is exists
                 // if template is not exist then default template will be used!
-                $template_path = PATH['site'] . '/templates/' . $data['fieldset'] . '.html';
+                $template_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/templates/' . $data['fieldset'] . '.html';
                 $template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
 
                 // Init entry data
@@ -367,7 +366,7 @@ class EntriesController extends Controller
         }
 
         $entries_list = [];
-        $_entries_list = $this->entries->fetchAll('', 'slug');
+        $_entries_list = $this->entries->fetchAll('', ['order_by' => ['field' => ['slug']]]);
         $entries_list['/'] = '/';
         foreach ($_entries_list as $_entry) {
             if ($_entry['slug'] != '') {
@@ -492,14 +491,14 @@ class EntriesController extends Controller
 
         if ($this->entries->rename(
             $data['entry_path_current'],
-            $data['entry_parent'] . '/' . $this->slugify->slugify($data['name'])
+            $data['entry_parent'] . $this->slugify->slugify($data['name'])
         )) {
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $data['entry_parent']);
     }
 
     /**
