@@ -1,7 +1,7 @@
 {% extends "themes/default/templates/partials/base.html" %}
 
 {% block content %}
-    <h1>{{ entry.title }}</h1>
+    <h1 class="text-center">{{ entry.title }}</h1>
     <div class="blog-post">
         {{ entry.content|shortcode|raw}}
     </div>

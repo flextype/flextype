@@ -1,0 +1,23 @@
+{% extends "themes/default/templates/partials/base.html" %}
+
+{% block content %}
+
+    <h1 class="text-center">{{ entry.title }}</h1>
+
+    {% set entries_gallery = entries.fetchAll(entry.slug) %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="gallery-grid-sizer"></div>
+            {% for entry_gallery in entries_gallery %}
+            <div class="gallery-grid-item animated fadeIn">
+                <a href="{{ entry_gallery.slug }}">
+                  <h4 class="gallery-grid-item-title">{{ entry_gallery.title }}</h4>
+                  <img src="{{ base_url() }}/image/{{ entry_gallery.slug }}/{{ entry_gallery.gallery_img }}?dpr=2&w=350&q=60" class="grid-item-img" alt="">
+                </a>
+            </div>
+           {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

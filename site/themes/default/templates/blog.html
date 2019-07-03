@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <h1>{{ entry.title }}</h1>
+    <h1 class="text-center">{{ entry.title }}</h1>
 
     {# pagination #}
     {% set entries_limit = entries.fetch('blog').entries_limit %}

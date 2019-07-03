@@ -1,0 +1,21 @@
+{% extends "themes/default/templates/partials/base.html" %}
+
+{% block content %}
+
+    <h1 class="text-center">{{ entry.title }}</h1>
+
+    {% set media = filesystem_list_contents(PATH_ENTRIES ~ '/' ~ entry.slug) %}
+
+    <div class="gallery-grid are-images-unloaded">
+    {% for image in media %}
+        {% if image.extension == 'jpg' %}
+            <div class="gallery-grid-item animated fadeIn">
+                <a href="{{ base_url() }}/image/{{ entry.slug }}/{{ image.filename }}?dpr=2&w=800&q=70">
+                    <img src="{{ base_url() }}/image/{{ entry.slug }}/{{ image.filename }}?dpr=2&w=350&q=60" class="gallery-grid-item-img" alt="">
+                </a>
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+
+{% endblock %}
