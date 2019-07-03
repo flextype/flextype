@@ -556,12 +556,6 @@ class EntriesController extends Controller
      */
     public function fetchForm(array $fieldset, array $values = [], Request $request) : string
     {
-        // CSRF token name and value
-        $csrfNameKey = $this->csrf->getTokenNameKey();
-        $csrfValueKey = $this->csrf->getTokenValueKey();
-        $csrfName = $this->csrf->getTokenName();
-        $csrfValue = $this->csrf->getTokenValue();
-
         $form = '';
         $form .= Form::open(null, ['id' => 'form']);
         $form .= '<input type="hidden" name="' . $this->csrf->getTokenNameKey() . '" value="' . $this->csrf->getTokenName() . '">' .
@@ -623,19 +617,22 @@ class EntriesController extends Controller
                         break;
                         // Template select field for selecting entry template
                         case 'template_select':
-                            $templates_list = [];
+                            if ($this->registry->has('settings.theme')) {
 
-                            $_templates_list = $this->themes->getTemplates($this->registry->get('settings.theme'));
+                                $_templates_list = $this->themes->getTemplates($this->registry->get('settings.theme'));
 
-                            if (count($_templates_list) > 0) {
-                                foreach ($_templates_list as $template) {
-                                    if ($template['type'] == 'file' && $template['extension'] == 'html') {
-                                        $templates_list[$template['basename']] = $template['basename'];
+                                $templates_list = [];
+
+                                if (count($_templates_list) > 0) {
+                                    foreach ($_templates_list as $template) {
+                                        if ($template['type'] == 'file' && $template['extension'] == 'html') {
+                                            $templates_list[$template['basename']] = $template['basename'];
+                                        }
                                     }
                                 }
-                            }
 
-                            $form_element = Form::select($form_element_name, $templates_list, $form_value, $property['attributes']);
+                                $form_element = Form::select($form_element_name, $templates_list, $form_value, $property['attributes']);
+                            }
                         break;
                         // Visibility select field for selecting entry visibility state
                         case 'visibility_select':
