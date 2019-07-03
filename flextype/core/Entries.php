@@ -70,7 +70,7 @@ class Entries
 
             // Create unique entry cache_id
             // Entry Cache ID = entry + entry file + entry file time stamp
-            $entry_cache_id = md5('entry' . $entry_file . Filesystem::getTimestamp($entry_file));
+            $entry_cache_id = md5('entry' . $entry_file . ((Filesystem::getTimestamp($entry_file)) ? Filesystem::getTimestamp($entry_file) : '') );
 
             // Try to get the requested entry from cache
             if ($this->flextype['cache']->contains($entry_cache_id)) {
@@ -226,7 +226,7 @@ class Entries
                 // ignore ...
             } else {
                 if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
-                    $_entries_ids .= 'entry:' . ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/') . ' timestamp:' . Filesystem::getTimestamp($current_entry['path'] . '/entry.json') . ' ';
+                    $_entries_ids .= 'entry:' . ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/') . ' timestamp:' . ((Filesystem::getTimestamp($current_entry['path'] . '/entry.json')) ? Filesystem::getTimestamp($current_entry['path'] . '/entry.json') : '') . ' ';
                 }
             }
         }
