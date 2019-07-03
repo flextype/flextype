@@ -12,6 +12,7 @@ use Respect\Validation\Validator as v;
  * @property Fieldsets $fieldsets
  * @property Router $router
  * @property Slugify $slugify
+ * @property Flash $flash
  */
 class FieldsetsController extends Controller
 {

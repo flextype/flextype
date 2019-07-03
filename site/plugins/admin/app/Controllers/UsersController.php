@@ -11,6 +11,7 @@ use function Flextype\Component\I18n\__;
  * @property View $view
  * @property Router $router
  * @property Slugify $slugify
+ * @property Flash $flash
  */
 class UsersController extends Controller
 {

@@ -13,6 +13,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * @property Router $router
  * @property Snippets $snippets
  * @property Slugify $slugify
+ * @property Flash $flash
  */
 class SnippetsController extends Controller
 {

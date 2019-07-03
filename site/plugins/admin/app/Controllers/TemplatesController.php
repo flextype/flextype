@@ -14,6 +14,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * @property Cache $cache
  * @property Themes $themes
  * @property Slugify $slugify
+ * @property Flash $flash
  */
 class TemplatesController extends Controller
 {

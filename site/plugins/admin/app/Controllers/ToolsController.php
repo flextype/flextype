@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /**
  * @property View $view
  * @property Router $router
+ * @property Flash $flash
  */
 class ToolsController extends Controller
 {
