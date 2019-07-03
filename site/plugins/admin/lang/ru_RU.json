@@ -18,7 +18,7 @@
   "admin_themes": "Темы",
   "admin_help": "Помощь",
   "admin_getting_help": "Документация",
-  "admin_message_json_invalid": "Invalid JSON",
+  "admin_message_json_invalid": "Недопустимый JSON",
   "admin_logout": "Выход",
   "admin_profile": "Профайл",
   "admin_view_site": "Просмотреть Сайт",
