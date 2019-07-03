@@ -240,5 +240,6 @@
   "admin_slugify_trim": "Trim",
   "admin_slugify_strip_tags": "Strip tags",
   "admin_slugify_lowercase_after_regexp": "Lowercase after regexp",
-  "admin_slugify_regexp": "Regexp"
+  "admin_slugify_regexp": "Regexp",
+  "admin_gallery_img": "Gallery Image"
 }
