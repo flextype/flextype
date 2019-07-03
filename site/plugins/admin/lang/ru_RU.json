@@ -114,7 +114,7 @@
   "admin_delete_category": "Удалить категорию",
   "admin_create_new_item": "Создать Новый Элемент",
   "admin_delete": "Удалить",
-  "admin_order": "Счет",
+  "admin_order": "Порядок",
   "admin_edit_category": "Редактировать категорию",
   "admin_fieldsets": "Наборы полей",
   "admin_template_create_new": "Создать новый шаблон",
@@ -239,7 +239,7 @@
   "admin_slugify_lowercase": "Нижний регистр",
   "admin_slugify_trim": "Обрезать",
   "admin_slugify_strip_tags": "Убрать теги",
-  "admin_slugify_lowercase_after_regexp": "Lowercase after regexp",
+  "admin_slugify_lowercase_after_regexp": "Переводить в нижний регистр после regexp",
   "admin_slugify_regexp": "Regexp",
-  "admin_gallery_img": "Gallery Image"
+  "admin_gallery_img": "Изображение галереи"
 }
