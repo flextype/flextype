@@ -5,14 +5,16 @@
     <div class="col-md-6">
         <form method="post" id="form">
             {{ csrf() }}
-            <input type="hidden" name="entry_path_current" value="{{entry_path_current}}">
-            <input type="hidden" name="entry_parent_current" value="{{entry_parent_current}}">
-            <input type="hidden" name="name_current" value="{{name_current}}">
+            <input type="hidden" name="entry_id_current" value="{{ entry_id_current }}">
+            <input type="hidden" name="entry_id_path_parent" value="{{ entry_id_path_parent }}">
+            <input type="hidden" name="entry_id_path_current" value="{{ entry_id_path_current }}">
             <div class="form-group">
                 <label for="title">{{ tr('admin_parent_entry') }}</label>
                 <select class="form-control" name="parent_entry">
                 {% for key, value in entries_list %}
-                    <option value="{{ key }}" {% if key == entry_parent %}selected{% endif %}>{{ value }}</option>
+                    {% if key != entry_id_path_current %}
+                        <option value="{{ key }}" {% if key == entry_id_path_parent %}selected{% endif %}>{{ value }}</option>
+                    {% endif %}
                 {% endfor %}
                 </select>
             </div>
