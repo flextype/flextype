@@ -233,5 +233,13 @@
   "admin_images": "Images",
   "admin_data": "Data",
   "admin_slugify": "Slug",
-  "admin_entries_limit": "Entries limit"
+  "admin_entries_limit": "Entries limit",
+  "admin_slug": "Slug",
+  "admin_slugify_separator": "Separator",
+  "admin_slugify_lowercase": "Lowercase",
+  "admin_slugify_trim": "Trim",
+  "admin_slugify_strip_tags": "Strip tags",
+  "admin_slugify_lowercase_after_regexp": "Lowercase after regexp",
+  "admin_slugify_regexp": "Regexp",
+  "admin_gallery_img": "Gallery Image"
 }
