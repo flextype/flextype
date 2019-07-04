@@ -82,6 +82,7 @@ $app = new \Slim\App(['settings' => [
                             'responseChunkSize' => $registry->get('settings.response_chunk_size'),
                             'httpVersion' => $registry->get('settings.http_version'),
                             'twig' => [
+                                'debug' => $registry->get('settings.errors.display'),
                                 'cache' => PATH['cache'] . '/twig',
                                 'auto_reload' => $registry->get('settings.twig.auto_reload'),
                             ],
