@@ -14,11 +14,12 @@
 - Flextype Admin Panel: Tools - added. #170 #165
 - Flextype Admin Panel: Tools - Cache area added. #170 #165
 - Flextype Admin Panel: Tools - Registry area added. #170 #165
-- Flextype Admin Panel: Themes manager - added. #171 #165
+- Flextype Admin Panel: Themes manager added. #171 #165
 - Flextype Admin Panel: New Translates added. #165
 
 ### Changed
-- Flextype Core: Twig Extensions updated. #165
+- Flextype Core: All Twig Extensions - refactored and updated. #165
+- Flextype Core: Entries - new params `$id` and `$args` for `fetchAll()` method. #165
 - Flextype Core: Entries - fetching methods updated and ready to work with Collections. #175 #165
 - Flextype Core: Snippets Shortcode - renamed `snippets_fetch` to `snippets_exec`. #165
 - Flextype Admin Panel: Entires - improved styles for fieldsets tabs. #165
