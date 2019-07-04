@@ -32,6 +32,7 @@
 - Flextype Admin Panel: Entries - issues with hardcoded admin url - fixed. #165
 - Flextype Admin Panel: Entries - `PATH_FIELDSETS` used instead of hardcoded path. #165
 - Flextype Admin Panel: fix all tabs state for Fieldsets, Snippets, Templates areas. #165
+- Flextype Admin Panel: Entries - move functionality issues #179 #165
 
 ### Removed
 - Flextype Admin Panel: Left Navigation - documentation link - removed #165
