@@ -355,20 +355,25 @@ class EntriesController extends Controller
         // Get Query Params
         $query = $request->getQueryParams();
 
-        $entry_name = $this->getEntryID($query);
+        // Get Entry from Query Params
+        $entry_id = $this->getEntryID($query);
+
+        // Get current Entry ID
+        $entry_id_current = Arr::last(explode("/", $entry_id));
+
+        // Fetch entry
         $entry = $this->entries->fetch($this->getEntryID($query));
 
-        // Set Entries ID in parts
+        // Set Entries IDs in parts
         if (isset($query['id'])) {
             $parts = explode("/", $query['id']);
         } else {
             $parts = [0 => ''];
         }
 
-        $entries_list = [];
-        $_entries_list = $this->entries->fetchAll('', ['order_by' => ['field' => ['slug']]]);
+        // Get entries list
         $entries_list['/'] = '/';
-        foreach ($_entries_list as $_entry) {
+        foreach ($this->entries->fetchAll('', ['order_by' => ['field' => ['slug']], 'recursive' => true]) as $_entry) {
             if ($_entry['slug'] != '') {
                 $entries_list[$_entry['slug']] = $_entry['slug'];
             } else {
@@ -380,11 +385,11 @@ class EntriesController extends Controller
             $response,
             'plugins/admin/views/templates/content/entries/move.html',
             [
-                            'entry_path_current' => $entry_name,
-                            'entries_list' => $entries_list,
-                            'name_current' => Arr::last(explode("/", $entry_name)),
-                            'entry_parent' => implode('/', array_slice(explode("/", $entry_name), 0, -1)),
                             'menu_item' => 'entries',
+                            'entries_list' => $entries_list,
+                            'entry_id_current' => $entry_id_current,
+                            'entry_id_path_current' => $entry_id,
+                            'entry_id_path_parent' => implode('/', array_slice(explode("/", $entry_id), 0, -1)),
                             'parts' => $parts,
                             'i' => count($parts),
                             'last' => Arr::last($parts),
@@ -414,20 +419,24 @@ class EntriesController extends Controller
      */
     public function moveProcess(Request $request, Response $response)
     {
+        // Get data from POST
         $data = $request->getParsedBody();
 
-        if (!$this->entries->has($data['parent_entry'] . '/' . $data['name_current'])) {
+        if (!$this->entries->has($data['parent_entry'] . '/' . $data['entry_id_current'])) {
+
             if ($this->entries->rename(
-                $data['entry_path_current'],
-                $data['parent_entry'] . '/' . $this->slugify->slugify($data['name_current'])
+                $data['entry_id_path_current'],
+                $data['parent_entry'] . '/' . $this->slugify->slugify($data['entry_id_current'])
             )) {
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
             }
-
-            return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
+        } else {
+            $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
         }
+
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . (($data['parent_entry'] == '/') ? '' : $data['parent_entry']));
     }
 
     /**
