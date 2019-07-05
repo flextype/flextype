@@ -234,26 +234,22 @@ class Entries
         // Create unique entries $cache_id
         $cache_id =  md5($_entries_ids .
                          $bind_id .
-                         ($bind_recursive) ? 'true' : 'false' .
-                         ($bind_set_max_result) ? $bind_set_max_result : 'false' .
-                         ($bind_set_first_result) ? $bind_set_first_result : 'false' .
-                         ($bind_where['where']) ? 'true' : 'false' .
-                         ($bind_where['where']['key']) ? $bind_where['where']['key'] : 'false' .
-                         ($bind_where['where']['expr']) ? $bind_where['where']['expr'] : 'false' .
-                         ($bind_where['where']['value']) ? $bind_where['where']['value'] : 'false' .
-                         ($bind_and_where['and_where']) ? 'true' : 'false' .
-                         ($bind_and_where['and_where']['key']) ? $bind_and_where['and_where']['key'] : 'false' .
-                         ($bind_and_where['and_where']['expr']) ? $bind_and_where['and_where']['expr'] : 'false' .
-                         ($bind_and_where['and_where']['value']) ? $bind_and_where['and_where']['value'] : 'false' .
-                         ($bind_or_where['or_where']) ? 'true' : 'false' .
-                         ($bind_or_where['or_where']['key']) ? $bind_or_where['or_where']['key'] : 'false' .
-                         ($bind_or_where['or_where']['expr']) ? $bind_or_where['or_where']['expr'] : 'false' .
-                         ($bind_or_where['or_where']['value']) ? $bind_or_where['or_where']['value'] : 'false' .
-                         ($bind_or_where['order_by']) ? 'true' : 'false' .
-                         ($bind_or_where['order_by']['field']) ? $bind_or_where['order_by']['field'] : 'false' .
-                         ($bind_or_where['order_by']['direction']) ? $bind_or_where['order_by']['direction'] : 'false'
+                         (($bind_recursive) ? 'true' : 'false') .
+                         (($bind_set_max_result) ? $bind_set_max_result : 'false') .
+                         (($bind_set_first_result) ? $bind_set_first_result : 'false') .
+                         (($bind_where['where']['key']) ? $bind_where['where']['key'] : 'false') .
+                         (($bind_where['where']['expr']) ? $bind_where['where']['expr'] : 'false') .
+                         (($bind_where['where']['value']) ? $bind_where['where']['value'] : 'false') .
+                         (($bind_and_where['and_where']['key']) ? $bind_and_where['and_where']['key'] : 'false') .
+                         (($bind_and_where['and_where']['expr']) ? $bind_and_where['and_where']['expr'] : 'false') .
+                         (($bind_and_where['and_where']['value']) ? $bind_and_where['and_where']['value'] : 'false') .
+                         (($bind_or_where['or_where']['key']) ? $bind_or_where['or_where']['key'] : 'false') .
+                         (($bind_or_where['or_where']['expr']) ? $bind_or_where['or_where']['expr'] : 'false') .
+                         (($bind_or_where['or_where']['value']) ? $bind_or_where['or_where']['value'] : 'false') .
+                         (($bind_or_where['order_by']['field']) ? $bind_or_where['order_by']['field'] : 'false') .
+                         (($bind_or_where['order_by']['direction']) ? $bind_or_where['order_by']['direction'] : 'false')
                        );
-
+                       
         // If requested entries exist with a specific cache_id,
         // then we take them from the cache otherwise we look for them.
         if ($this->flextype['cache']->contains($cache_id)) {
