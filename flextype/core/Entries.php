@@ -246,10 +246,10 @@ class Entries
                          (($bind_or_where['or_where']['key']) ? $bind_or_where['or_where']['key'] : 'false') .
                          (($bind_or_where['or_where']['expr']) ? $bind_or_where['or_where']['expr'] : 'false') .
                          (($bind_or_where['or_where']['value']) ? $bind_or_where['or_where']['value'] : 'false') .
-                         (($bind_or_where['order_by']['field']) ? $bind_or_where['order_by']['field'] : 'false') .
-                         (($bind_or_where['order_by']['direction']) ? $bind_or_where['order_by']['direction'] : 'false')
+                         (($bind_order_by['order_by']['field']) ? $bind_order_by['order_by']['field'] : 'false') .
+                         (($bind_order_by['order_by']['direction']) ? $bind_order_by['order_by']['direction'] : 'false')
                        );
-                       
+
         // If requested entries exist with a specific cache_id,
         // then we take them from the cache otherwise we look for them.
         if ($this->flextype['cache']->contains($cache_id)) {
