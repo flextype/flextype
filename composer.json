@@ -21,7 +21,7 @@
         "ext-mbstring": "*",
 
         "doctrine/cache": "^1.8.0",
-        "thunderer/shortcode": "^0.7.2",
+        "doctrine/collections": "^1.6",
 
         "flextype-components/arr" : "1.2.5",
         "flextype-components/assets" : "1.0.3",
@@ -49,7 +49,8 @@
         "respect/validation": "^1.0",
         "monolog/monolog": "^1.24",
         "cocur/slugify": "^3.2",
-        "oscarotero/psr7-middlewares": "^3.21"
+        "oscarotero/psr7-middlewares": "^3.21",
+        "thunderer/shortcode": "^0.7.2"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
