@@ -79,7 +79,7 @@ class TemplatesController extends Controller
             $response,
             'plugins/admin/views/templates/extends/themes/templates/add.html',
             [
-            'menu_item' => 'templates',
+            'menu_item' => 'themes',
             'theme' => $theme,
             'links' =>  [
                             'themes' => [
@@ -153,7 +153,7 @@ class TemplatesController extends Controller
             $response,
             'plugins/admin/views/templates/extends/themes/templates/edit.html',
             [
-            'menu_item' => 'templates',
+            'menu_item' => 'themes',
             'theme' => $theme,
             'id' => $request->getQueryParams()['id'],
             'data' => Filesystem::read(PATH['themes'] . '/' . $theme . '/' . $this->_type_location($type) . $request->getQueryParams()['id'] . '.html'),
@@ -227,7 +227,7 @@ class TemplatesController extends Controller
             $response,
             'plugins/admin/views/templates/extends/themes/templates/rename.html',
             [
-            'menu_item' => 'templates',
+            'menu_item' => 'themes',
             'theme' => $theme,
             'types' => ['partial' => __('admin_partial'), 'template' => __('admin_template')],
             'id_current' => $request->getQueryParams()['id'],
