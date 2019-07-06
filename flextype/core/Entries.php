@@ -70,7 +70,11 @@ class Entries
 
             // Create unique entry cache_id
             // Entry Cache ID = entry + entry file + entry file time stamp
-            $entry_cache_id = md5('entry' . $entry_file . Filesystem::getTimestamp($entry_file));
+            if ($timestamp = Filesystem::getTimestamp($entry_file)) {
+                $entry_cache_id = md5('entry' . $entry_file . $timestamp);
+            } else {
+                $entry_cache_id = md5('entry' . $entry_file);
+            }
 
             // Try to get the requested entry from cache
             if ($this->flextype['cache']->contains($entry_cache_id)) {
