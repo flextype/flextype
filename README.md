@@ -128,6 +128,7 @@ Flextype is open source, community driven project, and maintained by community!
 
 * [Github Repository](https://github.com/flextype/flextype)
 * [Discord](https://discord.gg/CCKPKVG)
+* [Forum](http://forum.flextype.org)
 * [Vkontakte](https://vk.com/flextype)
 * [Twitter](https://twitter.com/getflextype)
 
