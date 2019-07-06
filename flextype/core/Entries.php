@@ -178,6 +178,7 @@ class Entries
 
         // Bind: where
         if (isset($args['where']['key']) && isset($args['where']['expr']) && isset($args['where']['value'])) {
+            $bind_where = [];
             $bind_where['where']['key'] = $args['where']['key'];
             $bind_where['where']['expr'] = $expression[$args['where']['expr']];
             $bind_where['where']['value'] = $args['where']['value'];
@@ -187,6 +188,7 @@ class Entries
 
         // Bind: and where
         if (isset($args['and_where']['key']) && isset($args['and_where']['expr']) && isset($args['and_where']['value'])) {
+            $bind_and_where = [];
             $bind_and_where['and_where']['key'] = $args['and_where']['key'];
             $bind_and_where['and_where']['expr'] = $expression[$args['and_where']['expr']];
             $bind_and_where['and_where']['value'] = $args['and_where']['value'];
@@ -196,6 +198,7 @@ class Entries
 
         // Bind: or where
         if (isset($args['or_where']['key']) && isset($args['or_where']['expr']) && isset($args['or_where']['value'])) {
+            $bind_or_where = [];
             $bind_or_where['or_where']['key'] = $args['or_where']['key'];
             $bind_or_where['or_where']['expr'] = $expression[$args['or_where']['expr']];
             $bind_or_where['or_where']['value'] = $args['or_where']['value'];
@@ -205,6 +208,7 @@ class Entries
 
         // Bind: order by
         if (isset($args['order_by']['field']) && isset($args['order_by']['direction'])) {
+            $bind_order_by = [];
             $bind_order_by['order_by']['field'] = $args['order_by']['field'];
             $bind_order_by['order_by']['direction'] = $args['order_by']['direction'];
         } else {
