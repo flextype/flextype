@@ -1,4 +1,4 @@
-## [0.9.2] - 2019-07-XX
+## [0.9.2] - 2019-07-06
 ### Added
 - Flextype Default Theme: pagination for blog entries added. #164 #165
 - Flextype Default Theme: New templates for entry Gallery - added. #165
