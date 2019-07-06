@@ -2,6 +2,7 @@
 ### Fixed
 - Flextype Admin Panel: critical issue with possibility to register two admins! - fixed. #183 #182
 - Flextype Default Theme: issue with `TypeError: undefined is not an object` for lightbox - fixed. #182
+- Flextype Core: Entries - issue with binding arguments inside method fetchAll() - fixed. #182
 
 ## [0.9.2] - 2019-07-06
 ### Added
