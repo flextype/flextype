@@ -40,7 +40,7 @@ class UsersController extends Controller
         if ((Session::exists('role') && Session::get('role') == 'admin')) {
             return $response->withRedirect($this->router->pathFor('admin.entries.index'));
         } else {
-            if ($users && count($users) > 0) {
+            if (count($users) > 0) {
                 return $this->container->get('view')->render(
                     $response,
                     'plugins/admin/views/templates/users/login.html'
@@ -91,7 +91,7 @@ class UsersController extends Controller
     {
         $users = $this->getUsers();
 
-        if ($users && count($users) > 0) {
+        if (count($users) > 0) {
             return $response->withRedirect($this->router->pathFor('admin.users.login'));
         } else {
             if ((Session::exists('role') && Session::get('role') == 'admin')) {
