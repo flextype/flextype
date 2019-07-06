@@ -6,6 +6,8 @@ use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
 use Flextype\Component\Text\Text;
 use function Flextype\Component\I18n\__;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * @property View $view
@@ -23,7 +25,15 @@ class UsersController extends Controller
         );
     }
 
-    public function login($request, $response)
+    /**
+     * Login page
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function login(Request $request, Response $response) : Response
     {
         $users = $this->getUsers();
 
@@ -41,7 +51,15 @@ class UsersController extends Controller
         }
     }
 
-    public function loginProcess($request, $response)
+    /**
+     * Login page process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function loginProcess(Request $request, Response $response) : Response
     {
         $data = $request->getParsedBody();
 
@@ -61,22 +79,41 @@ class UsersController extends Controller
         }
     }
 
-    public function registration($request, $response)
+    /**
+     * Registration page
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function registration(Request $request, Response $response) : Response
     {
-        if ((Session::exists('role') && Session::get('role') == 'admin')) {
-            return $response->withRedirect($this->router->pathFor('admin.entries.index'));
+        $users = $this->getUsers();
+
+        if ($users && count($users) > 0) {
+            return $response->withRedirect($this->router->pathFor('admin.users.login'));
         } else {
-            return $this->view->render(
-                $response,
-                'plugins/admin/views/templates/users/registration.html'
-            );
+            if ((Session::exists('role') && Session::get('role') == 'admin')) {
+                return $response->withRedirect($this->router->pathFor('admin.entries.index'));
+            } else {
+                return $this->view->render(
+                    $response,
+                    'plugins/admin/views/templates/users/registration.html'
+                );
+            }
         }
     }
 
     /**
-     * registrationProcess
+     * Registration page process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
      */
-    public function registrationProcess($request, $response)
+    public function registrationProcess(Request $request, Response $response) : Response
     {
         // Get POST data
         $data = $request->getParsedBody();
@@ -101,26 +138,35 @@ class UsersController extends Controller
     }
 
     /**
-     * logoutProcess
+     * Logout page process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
      */
-    public function logoutProcess($request, $response)
+    public function logoutProcess(Request $request, Response $response) : Response
     {
         Session::destroy();
         return $response->withRedirect($this->router->pathFor('admin.users.login'));
     }
 
-    public function getUsers()
+    /**
+     * Get Users list
+     *
+     * @return array
+     */
+    public function getUsers() : array
     {
         // Get Users Profiles
-        $users = Filesystem::listContents(PATH['site'] . '/accounts/');
+        $users_list = Filesystem::listContents(PATH['site'] . '/accounts/');
 
-        // Get Plugins List
-        $_users_list = Filesystem::listContents(PATH['plugins']);
-        $users_list = [];
+        // Users
+        $users = [];
 
-        foreach($_users_list as $user) {
-            if ($user['type'] == 'dir') {
-                $users_list[] = $user;
+        foreach($users_list as $user) {
+            if ($user['type'] == 'file' && $user['extension'] == 'json') {
+                $users[$user['basename']] = $user;
             }
         }
 
