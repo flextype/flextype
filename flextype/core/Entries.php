@@ -230,7 +230,11 @@ class Entries
                 // ignore ...
             } else {
                 if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
-                    $_entries_ids .= 'entry:' . ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/') . ' timestamp:' . Filesystem::getTimestamp($current_entry['path'] . '/entry.json') . ' ';
+                    if ($timestamp = Filesystem::getTimestamp($current_entry['path'] . '/entry.json')) {
+                        $_entries_ids .= 'entry:' . ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/') . ' timestamp:' . $timestamp;
+                    } else {
+                        $_entries_ids .= 'entry:' . ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/');
+                    }
                 }
             }
         }
