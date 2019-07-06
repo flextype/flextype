@@ -11,8 +11,8 @@ var Promise = require("es6-promise").Promise,
     autoprefixer = require('gulp-autoprefixer'),
     sass = require('gulp-sass');
 
-gulp.task('simple-css', function() {
-    return gulp.src('assets/scss/simple.scss')
+gulp.task('default-css', function() {
+    return gulp.src('assets/scss/default.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer({
             browsers: ['last 2 versions'],
@@ -24,7 +24,7 @@ gulp.task('simple-css', function() {
 });
 
 gulp.task('js', function(){
-  return gulp.src(['node_modules/jquery/dist/jquery.slim.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js'])
+  return gulp.src(['node_modules/jquery/dist/jquery.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js'])
     .pipe(sourcemaps.init())
     .pipe(concat('default.min.js'))
     .pipe(sourcemaps.write())
@@ -36,4 +36,19 @@ gulp.task('bootstrap-css', function() {
         .pipe(gulp.dest('assets/dist/css/'));
 });
 
-gulp.task('default', ['simple-css', 'js', 'bootstrap-css']);
+gulp.task('animate-css', function() {
+    return gulp.src('node_modules/animate.css/animate.min.css')
+        .pipe(gulp.dest('assets/dist/css/'));
+});
+
+gulp.task('simplelightbox-css', function() {
+    return gulp.src('node_modules/simplelightbox/dist/simplelightbox.min.css')
+        .pipe(gulp.dest('assets/dist/css/'));
+});
+
+gulp.task('simplelightbox-js', function() {
+    return gulp.src('node_modules/simplelightbox/dist/simple-lightbox.min.js')
+        .pipe(gulp.dest('assets/dist/js/'));
+});
+
+gulp.task('default', ['default-css', 'js', 'bootstrap-css', 'animate-css', 'simplelightbox-css', 'simplelightbox-js']);

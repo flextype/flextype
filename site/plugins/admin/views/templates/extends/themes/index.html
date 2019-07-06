@@ -1,0 +1,48 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+{% if (themes_list|length > 0) %}
+<div class="card-deck">
+    <div class="col-md-12">
+        <div class="row">
+            {% for key, theme in themes_list %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        {{ theme.name }}
+                    </div>
+                    <div style="padding: 0px;">
+                    <img src="{{ base_url() }}/site/themes/default/thumbnail.jpg" class="card-img-top" alt="{{ theme.name }}">
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="btn-group">
+                          {% if key == registry.settings.theme %}
+                              <a class="btn btn-default" href="javascript:;">{{ tr('admin_active_theme') }}</a>
+                          {% else %}
+                              <form id="activate-theme-id-{{ key }}" action="{{ path_for('admin.themes.activateProcess') }}" method="POST" style="display: none;">
+                                  {{ csrf() }}
+                                  <input type="hidden" name="theme-id" value="{{ key }}">
+                                  <input type="hidden" name="theme-status" value="true">
+                              </form>
+                              <a class="btn btn-default" href="javascript:;"
+                                 onclick="event.preventDefault();
+                                          document.getElementById('activate-theme-id-{{ key }}').submit();">{{ tr('admin_activate') }}</a>
+                          {% endif %}
+                          <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path_for('admin.templates.index') }}?theme={{ key }}">{{ tr('admin_edit') }}</a>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% else %}
+
+{% endif %}
+{% endblock %}

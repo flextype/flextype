@@ -20,11 +20,17 @@ class CsrfTwigExtension extends \Twig_Extension implements \Twig_Extension_Globa
      */
     protected $csrf;
 
+    /**
+     * Constructor
+     */
     public function __construct(\Slim\Csrf\Guard $csrf)
     {
         $this->csrf = $csrf;
     }
 
+    /**
+     * Register Global variables in an extension
+     */
     public function getGlobals()
     {
         // CSRF token name and value
@@ -51,7 +57,7 @@ class CsrfTwigExtension extends \Twig_Extension implements \Twig_Extension_Globa
     }
 
     /**
-     * Callback for twig.
+     * Returns a list of functions to add to the existing list.
      *
      * @return array
      */

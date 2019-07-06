@@ -358,7 +358,7 @@ class Cache
     /**
      * Clear Cache
      */
-    public function clear() : void
+    public function clear(string $id) : void
     {
         // Clear stat cache
         @clearstatcache();
@@ -367,8 +367,22 @@ class Cache
         function_exists('opcache_reset') and @opcache_reset();
 
         // Remove cache dirs
-        Filesystem::deleteDir(PATH['cache'] . '/doctrine/');
-        Filesystem::deleteDir(PATH['cache'] . '/glide/');
+        Filesystem::deleteDir(PATH['cache'] . '/' . $id);
+    }
+
+    /**
+     * Clear ALL Cache
+     */
+    public function clearAll() : void
+    {
+        // Clear stat cache
+        @clearstatcache();
+
+        // Clear opcache
+        function_exists('opcache_reset') and @opcache_reset();
+
+        // Remove cache directory
+        Filesystem::deleteDir(PATH['cache']);
     }
 
     /**

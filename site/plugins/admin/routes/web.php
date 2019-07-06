@@ -36,13 +36,9 @@ $app->group('/' . $admin_route, function () use ($flextype, $app) {
     $app->post('/entries/delete-media-file', 'EntriesController:deleteMediaFileProcess')->setName('admin.entries.deleteMediaFileProcess');
     $app->post('/entries/upload-media-file', 'EntriesController:uploadMediaFileProcess')->setName('admin.entries.uploadMediaFileProcess');
 
-    // Information Controller
-    $app->get('/information', 'InformationController:index')->setName('admin.information.index');
-
     // Settings Controller
     $app->get('/settings', 'SettingsController:index')->setName('admin.settings.index');
     $app->post('/settings', 'SettingsController:updateSettingsProcess')->setName('admin.settings.update');
-    $app->post('/settings/clear-cache', 'SettingsController:clearCacheProcess')->setName('admin.settings.clear-cache');
 
     // Plugins Controller
     $app->get('/plugins', 'PluginsController:index')->setName('admin.plugins.index');
@@ -58,6 +54,10 @@ $app->group('/' . $admin_route, function () use ($flextype, $app) {
     $app->post('/fieldsets/rename', 'FieldsetsController:renameProcess')->setName('admin.fieldsets.renameProcess');
     $app->post('/fieldsets/duplicate', 'FieldsetsController:duplicateProcess')->setName('admin.fieldsets.duplicateProcess');
     $app->post('/fieldsets/delete', 'FieldsetsController:deleteProcess')->setName('admin.fieldsets.deleteProcess');
+
+    // ThemesController
+    $app->get('/themes', 'ThemesController:index')->setName('admin.themes.index');
+    $app->post('/themes/activateProcess', 'ThemesController:activateProcess')->setName('admin.themes.activateProcess');
 
     // TemplatesController
     $app->get('/templates', 'TemplatesController:index')->setName('admin.templates.index');
@@ -80,5 +80,13 @@ $app->group('/' . $admin_route, function () use ($flextype, $app) {
     $app->post('/snippets/rename', 'SnippetsController:renameProcess')->setName('admin.snippets.renameProcess');
     $app->post('/snippets/duplicate', 'SnippetsController:duplicateProcess')->setName('admin.snippets.duplicateProcess');
     $app->post('/snippets/delete', 'SnippetsController:deleteProcess')->setName('admin.snippets.deleteProcess');
+
+    // ToolsController
+    $app->get('/tools', 'ToolsController:index')->setName('admin.tools.index');
+    $app->get('/tools/information', 'ToolsController:information')->setName('admin.tools.information');
+    $app->get('/tools/registry', 'ToolsController:registry')->setName('admin.tools.registry');
+    $app->get('/tools/cache', 'ToolsController:cache')->setName('admin.tools.cache');
+    $app->post('/tools/cache', 'ToolsController:clearCacheProcess')->setName('admin.tools.clearCacheProcess');
+    $app->post('/tools/cache-all', 'ToolsController:clearCacheAllProcess')->setName('admin.tools.clearCacheAllProcess');
 
 })->add(new AuthMiddleware($flextype));

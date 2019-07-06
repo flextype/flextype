@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-class EntriesTwigExtension extends \Twig_Extension
+class EntriesTwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /**
      * Flextype Dependency Container
@@ -28,25 +28,44 @@ class EntriesTwigExtension extends \Twig_Extension
     }
 
     /**
-     * Callback for twig.
-     *
-     * @return array
+     * Register Global variables in an extension
      */
-    public function getFunctions()
+    public function getGlobals()
     {
         return [
-            new \Twig_SimpleFunction('entries_fetch', [$this, 'fetch']),
-            new \Twig_SimpleFunction('entries_fetch_all', [$this, 'fetchAll']),
+            'entries' => new EntriesTwig($this->flextype)
         ];
     }
+}
 
-    public function fetch(string $entry)
+class EntriesTwig
+{
+    /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * Constructor
+     */
+    public function __construct($flextype)
     {
-        return $this->flextype['entries']->fetch($entry);
+        $this->flextype = $flextype;
     }
 
-    public function fetchAll(string $entry, string $order_by = 'date', string $order_type = 'DESC', int $offset = null, int $length = null,  bool $recursive = false) : array
+    /**
+     * Fetch single entry
+     */
+    public function fetch(string $id)
     {
-        return $this->flextype['entries']->fetchAll($entry, $order_by, $order_type, $offset, $length, $recursive);
+        return $this->flextype['entries']->fetch($id);
+    }
+
+    /**
+     * Fetch all entries
+     */
+    public function fetchAll(string $id, array $args = []) : array
+    {
+        return $this->flextype['entries']->fetchAll($id, $args);
     }
 }

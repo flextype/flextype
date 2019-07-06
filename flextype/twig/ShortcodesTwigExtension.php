@@ -29,7 +29,7 @@ class ShortcodesTwigExtension extends \Twig_Extension
     }
 
     /**
-     * Callback for twig.
+     * Returns a list of filters to add to the existing list.
      *
      * @return array
      */
@@ -40,6 +40,9 @@ class ShortcodesTwigExtension extends \Twig_Extension
         ];
     }
 
+    /**
+     * Shorcode process
+     */
     public function shortcode(string $value) : string
     {
         return $this->flextype->shortcodes->process($value);

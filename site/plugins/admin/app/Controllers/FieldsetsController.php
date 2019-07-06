@@ -12,6 +12,7 @@ use Respect\Validation\Validator as v;
  * @property Fieldsets $fieldsets
  * @property Router $router
  * @property Slugify $slugify
+ * @property Flash $flash
  */
 class FieldsetsController extends Controller
 {
@@ -36,7 +37,7 @@ class FieldsetsController extends Controller
                                 'title' => __('admin_create_new_fieldset'),
                                 'attributes' => ['class' => 'float-right btn']
                             ]
-                            ]
+                        ]
         ]
         );
     }
@@ -53,16 +54,14 @@ class FieldsetsController extends Controller
                             'fieldsets' => [
                                 'link' => $this->router->pathFor('admin.fieldsets.index'),
                                 'title' => __('admin_fieldsets'),
-                                'attributes' => ['class' => 'navbar-item active']
+                                'attributes' => ['class' => 'navbar-item']
                             ],
-                        ],
-            'buttons' => [
                             'fieldsets_add' => [
                                 'link' => $this->router->pathFor('admin.fieldsets.add'),
                                 'title' => __('admin_create_new_fieldset'),
-                                'attributes' => ['class' => 'float-right btn']
+                                'attributes' => ['class' => 'navbar-item active']
                             ]
-                            ]
+                        ],
         ]
         );
     }
@@ -97,8 +96,13 @@ class FieldsetsController extends Controller
             'data' => JsonParser::encode($this->fieldsets->fetch($request->getQueryParams()['id'])),
             'links' =>  [
                             'fieldsets' => [
-                                'link' => $this->router->pathFor('admin.fieldsets.edit') . '?id=' . $request->getQueryParams()['id'],
+                                'link' => $this->router->pathFor('admin.fieldsets.index'),
                                 'title' => __('admin_fieldsets'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
+                            'fieldsets_editor' => [
+                                'link' => $this->router->pathFor('admin.fieldsets.edit') . '?id=' . $request->getQueryParams()['id'],
+                                'title' => __('admin_editor'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ],
@@ -115,6 +119,7 @@ class FieldsetsController extends Controller
 
     public function editProcess($request, $response)
     {
+        $id = $request->getParsedBody()['id'];
         $data = $request->getParsedBody()['data'];
 
         if (v::json()->validate($data)) {
@@ -125,11 +130,11 @@ class FieldsetsController extends Controller
                 $this->flash->addMessage('error', __('admin_message_fieldset_was_not_saved'));
             }
 
-            return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
+            return $response->withRedirect($this->router->pathFor('admin.fieldsets.edit') . '?id=' . $id);
 
         } else {
             $this->flash->addMessage('error', __('admin_message_json_invalid'));
-            return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
+            return $response->withRedirect($this->router->pathFor('admin.fieldsets.edit') . '?id=' . $id);
         }
     }
 
@@ -145,7 +150,7 @@ class FieldsetsController extends Controller
                             'fieldsets' => [
                                 'link' => $this->router->pathFor('admin.fieldsets.index'),
                                 'title' => __('admin_fieldsets'),
-                                'attributes' => ['class' => 'navbar-item active']
+                                'attributes' => ['class' => 'navbar-item']
                             ],
                             'fieldsets_rename' => [
                                 'link' => $this->router->pathFor('admin.fieldsets.rename') . '?id=' . $request->getQueryParams()['id'],

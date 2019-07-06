@@ -62,7 +62,7 @@ class EntriesController extends Controller
             $response,
             'plugins/admin/views/templates/content/entries/index.html',
             [
-                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), 'date', 'DESC'),
+                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), ['order_by' => ['field' => 'date', 'direction' => 'desc']]),
                             'id_current' => $this->getEntryID($query),
                             'menu_item' => 'entries',
                             'parts' => $parts,
@@ -123,12 +123,11 @@ class EntriesController extends Controller
                 }
             }
         }
-
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/content/entries/add.html',
             [
-                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), 'date', 'DESC'),
+                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), ['order_by' => ['field' => 'title', 'direction' => 'asc']]),
                             'menu_item' => 'entries',
                             'fieldsets' => $fieldsets,
                             'current_id' => $this->getEntryID($query),
@@ -184,7 +183,7 @@ class EntriesController extends Controller
 
                 // We need to check if template for current fieldset is exists
                 // if template is not exist then default template will be used!
-                $template_path = PATH['site'] . '/templates/' . $data['fieldset'] . '.html';
+                $template_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/templates/' . $data['fieldset'] . '.html';
                 $template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
 
                 // Init entry data
@@ -356,20 +355,25 @@ class EntriesController extends Controller
         // Get Query Params
         $query = $request->getQueryParams();
 
-        $entry_name = $this->getEntryID($query);
+        // Get Entry from Query Params
+        $entry_id = $this->getEntryID($query);
+
+        // Get current Entry ID
+        $entry_id_current = Arr::last(explode("/", $entry_id));
+
+        // Fetch entry
         $entry = $this->entries->fetch($this->getEntryID($query));
 
-        // Set Entries ID in parts
+        // Set Entries IDs in parts
         if (isset($query['id'])) {
             $parts = explode("/", $query['id']);
         } else {
             $parts = [0 => ''];
         }
 
-        $entries_list = [];
-        $_entries_list = $this->entries->fetchAll('', 'slug');
+        // Get entries list
         $entries_list['/'] = '/';
-        foreach ($_entries_list as $_entry) {
+        foreach ($this->entries->fetchAll('', ['order_by' => ['field' => ['slug']], 'recursive' => true]) as $_entry) {
             if ($_entry['slug'] != '') {
                 $entries_list[$_entry['slug']] = $_entry['slug'];
             } else {
@@ -381,11 +385,11 @@ class EntriesController extends Controller
             $response,
             'plugins/admin/views/templates/content/entries/move.html',
             [
-                            'entry_path_current' => $entry_name,
-                            'entries_list' => $entries_list,
-                            'name_current' => Arr::last(explode("/", $entry_name)),
-                            'entry_parent' => implode('/', array_slice(explode("/", $entry_name), 0, -1)),
                             'menu_item' => 'entries',
+                            'entries_list' => $entries_list,
+                            'entry_id_current' => $entry_id_current,
+                            'entry_id_path_current' => $entry_id,
+                            'entry_id_path_parent' => implode('/', array_slice(explode("/", $entry_id), 0, -1)),
                             'parts' => $parts,
                             'i' => count($parts),
                             'last' => Arr::last($parts),
@@ -415,20 +419,24 @@ class EntriesController extends Controller
      */
     public function moveProcess(Request $request, Response $response)
     {
+        // Get data from POST
         $data = $request->getParsedBody();
 
-        if (!$this->entries->has($data['parent_entry'] . '/' . $data['name_current'])) {
+        if (!$this->entries->has($data['parent_entry'] . '/' . $data['entry_id_current'])) {
+
             if ($this->entries->rename(
-                $data['entry_path_current'],
-                $data['parent_entry'] . '/' . $this->slugify->slugify($data['name_current'])
+                $data['entry_id_path_current'],
+                $data['parent_entry'] . '/' . $this->slugify->slugify($data['entry_id_current'])
             )) {
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
             }
-
-            return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
+        } else {
+            $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
         }
+
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . (($data['parent_entry'] == '/') ? '' : $data['parent_entry']));
     }
 
     /**
@@ -499,7 +507,7 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $data['parent_entry']);
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $data['entry_parent']);
     }
 
     /**
@@ -557,12 +565,6 @@ class EntriesController extends Controller
      */
     public function fetchForm(array $fieldset, array $values = [], Request $request) : string
     {
-        // CSRF token name and value
-        $csrfNameKey = $this->csrf->getTokenNameKey();
-        $csrfValueKey = $this->csrf->getTokenValueKey();
-        $csrfName = $this->csrf->getTokenName();
-        $csrfValue = $this->csrf->getTokenValue();
-
         $form = '';
         $form .= Form::open(null, ['id' => 'form']);
         $form .= '<input type="hidden" name="' . $this->csrf->getTokenNameKey() . '" value="' . $this->csrf->getTokenName() . '">' .
@@ -624,7 +626,22 @@ class EntriesController extends Controller
                         break;
                         // Template select field for selecting entry template
                         case 'template_select':
-                            $form_element = Form::select($form_element_name, $this->themes->getTemplates(), $form_value, $property['attributes']);
+                            if ($this->registry->has('settings.theme')) {
+
+                                $_templates_list = $this->themes->getTemplates($this->registry->get('settings.theme'));
+
+                                $templates_list = [];
+
+                                if (count($_templates_list) > 0) {
+                                    foreach ($_templates_list as $template) {
+                                        if ($template['type'] == 'file' && $template['extension'] == 'html') {
+                                            $templates_list[$template['basename']] = $template['basename'];
+                                        }
+                                    }
+                                }
+
+                                $form_element = Form::select($form_element_name, $templates_list, $form_value, $property['attributes']);
+                            }
                         break;
                         // Visibility select field for selecting entry visibility state
                         case 'visibility_select':
@@ -702,9 +719,14 @@ class EntriesController extends Controller
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
+                            'entries' => [
+                                'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                                'title' => __('admin_entries'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
                             'edit_entry' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query). '&type=editor',
-                                'title' => __('admin_content'),
+                                'title' => __('admin_editor'),
                                 'attributes' => ['class' => 'navbar-item']
                             ],
                             'edit_entry_media' => [
@@ -739,9 +761,14 @@ class EntriesController extends Controller
                         'files' => $this->getMediaList($this->getEntryID($query), true),
                         'menu_item' => 'entries',
                         'links' => [
+                            'entries' => [
+                                'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                                'title' => __('admin_entries'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
                             'edit_entry' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
-                                'title' => __('admin_content'),
+                                'title' => __('admin_editor'),
                                 'attributes' => ['class' => 'navbar-item']
                             ],
                             'edit_entry_media' => [
@@ -775,9 +802,14 @@ class EntriesController extends Controller
                         'form' => $this->fetchForm($fieldsets, $entry, $request),
                         'menu_item' => 'entries',
                         'links' => [
+                            'entries' => [
+                                'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                                'title' => __('admin_entries'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
                             'edit_entry' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
-                                'title' => __('admin_content'),
+                                'title' => __('admin_editor'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                             'edit_entry_media' => [

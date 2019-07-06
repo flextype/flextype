@@ -646,3 +646,15 @@ ul.messenger-theme-flat .messenger-message {
 ul.messenger-theme-flat .messenger-message-slot.messenger-first.messenger-last .messenger-message {
     box-shadow: inset 48px 0 0 $navbar-background-color;
 }
+
+.nav-pills .nav-item {
+    background: $navbar-background-color;
+}
+
+.nav-pills .nav-item .nav-link:focus,
+.nav-pills .nav-item .nav-link:hover,
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    background: $navbar-item-background-color-hover;
+    border-bottom: 2px solid $border-color;
+}

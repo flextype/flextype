@@ -21,6 +21,13 @@ use League\Glide\Responses\SlimResponseFactory;
 use League\Event\Emitter;
 
 /**
+ * Add registry service to Flextype container
+ */
+$flextype['registry'] = function ($container) use ($registry) {
+    return $registry;
+};
+
+/**
  * Add CSRF (cross-site request forgery) protection service to Flextype container
  */
 $flextype['csrf'] = function ($container) {
@@ -48,7 +55,12 @@ $flextype['emitter'] = function ($container) {
  * Add slugify service to Flextype container
  */
 $flextype['slugify'] = function ($container) {
-    return new Slugify(['separator' => '-', 'lowercase' => true, 'trim' => true]);
+    return new Slugify(['separator' => $container['registry']->get('settings.slugify.separator'),
+                        'lowercase' => $container['registry']->get('settings.slugify.lowercase'),
+                        'trim' => $container['registry']->get('settings.slugify.trim'),
+                        'regexp' => $container['registry']->get('settings.slugify.regexp'),
+                        'lowercase_after_regexp' => $container['registry']->get('settings.slugify.lowercase_after_regexp'),
+                        'strip_tags' => $container['registry']->get('settings.slugify.strip_tags'),]);
 };
 
 /**
@@ -56,13 +68,6 @@ $flextype['slugify'] = function ($container) {
  */
 $flextype['flash'] = function ($container) {
     return new Messages();
-};
-
-/**
- * Add registry service to Flextype container
- */
-$flextype['registry'] = function ($container) {
-    return new Registry();
 };
 
 /**

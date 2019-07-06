@@ -56,5 +56,30 @@
   },
   "admin_panel":{
     "theme":"light"
+  },
+  "whoops" : {
+    "editor": "atom",
+    "page_title": "Error!"
+  },
+  "display_error_details": true,
+  "add_content_length_header": true,
+  "router_cache_file": false,
+  "determine_route_before_app_middleware": false,
+  "output_buffering": "append",
+  "response_chunk_size": 4096,
+  "http_version": "1.1",
+  "twig": {
+    "auto_reload": true
+  },
+  "slugify": {
+      "separator": "-",
+      "lowercase": true,
+      "trim": true,
+      "regexp": "/[^A-Za-z0-9]+/",
+      "lowercase_after_regexp": false,
+      "strip_tags": false
+  },
+  "image": {
+    "driver": "gd"
   }
 }

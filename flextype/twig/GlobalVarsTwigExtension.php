@@ -27,6 +27,9 @@ class GlobalVarsTwigExtension extends \Twig_Extension implements \Twig_Extension
         $this->flextype = $flextype;
     }
 
+    /**
+     * Register Global variables in an extension
+     */
     public function getGlobals()
     {
         return [
@@ -40,6 +43,7 @@ class GlobalVarsTwigExtension extends \Twig_Extension implements \Twig_Extension
             'PATH_CONFIG_SITE' => PATH['config']['site'],
             'PATH_CACHE' => PATH['cache'],
             'FLEXTYPE_VERSION' => FLEXTYPE_VERSION,
+            'PHP_VERSION' => PHP_VERSION,
             'registry' => $this->flextype['registry']->dump()
         ];
     }

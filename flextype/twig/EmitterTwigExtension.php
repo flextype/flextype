@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-class EmitterTwigExtension extends \Twig_Extension
+class EmitterTwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /**
      * Flextype Dependency Container
@@ -28,19 +28,44 @@ class EmitterTwigExtension extends \Twig_Extension
     }
 
     /**
-     * Callback for twig.
-     *
-     * @return array
+     * Register Global variables in an extension
      */
-    public function getFunctions()
+    public function getGlobals()
     {
         return [
-            new \Twig_SimpleFunction('emmiter_emmit', [$this, 'emit']),
+            'emmiter' => new EmitterTwig($this->flextype)
         ];
     }
+}
 
-    public function emit(string $event)
+class EmitterTwig
+{
+    /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * Constructor
+     */
+    public function __construct($flextype)
     {
-        $this->flextype['emitter']->emit($event);
+        $this->flextype = $flextype;
+    }
+
+    /**
+     * Emitting event
+     */
+    public function emmit($event)
+    {
+        return $this->flextype['emitter']->emit($event);
+    }
+
+    /**
+     * Emitting events in batches
+     */
+    public function emitBatch(array $events)
+    {
+        return $this->flextype['emitter']->emitBatch($events);
     }
 }

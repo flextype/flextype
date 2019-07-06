@@ -1,0 +1,67 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+
+<table class="table no-margin">
+    <thead>
+        <tr>
+            <th>{{ tr('admin_cache') }}</th>
+            <th>{{ tr('admin_size') }}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                {{ tr('admin_data') }}
+            </td>
+            <td>
+                {% if doctrine_size %}{{ doctrine_size }}{% else %}0 KB{% endif %}
+            </td>
+            <td class="text-right">
+                <form id="clear-id-doctrine" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="cache-id" value="doctrine">
+                </form>
+                <a class="btn btn-default" href="javascript:;"
+                   onclick="event.preventDefault();
+                            document.getElementById('clear-id-doctrine').submit();">{{ tr('admin_clear') }}</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ tr('admin_templates') }}
+            </td>
+            <td>
+                {% if twig_size %}{{ twig_size }}{% else %}0 KB{% endif %}
+            </td>
+            <td class="text-right">
+                <form id="clear-id-twig" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="cache-id" value="twig">
+                </form>
+                <a class="btn btn-default" href="javascript:;"
+                   onclick="event.preventDefault();
+                            document.getElementById('clear-id-twig').submit();">{{ tr('admin_clear') }}</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ tr('admin_images') }}
+            </td>
+            <td>
+                {% if glide_size %}{{ glide_size }}{% else %}0 KB{% endif %}
+            </td>
+            <td class="text-right">
+                <form id="clear-id-glide" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="cache-id" value="glide">
+                </form>
+                <a class="btn btn-default" href="javascript:;"
+                   onclick="event.preventDefault();
+                            document.getElementById('clear-id-glide').submit();">{{ tr('admin_clear') }}</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

@@ -9,6 +9,11 @@
                     "title": "admin_title",
                     "type": "text",
                     "size": "col-12"
+                },
+                "entries_limit": {
+                    "title": "admin_entries_limit",
+                    "type": "text",
+                    "size": "col-4"
                 }
             }
         },
@@ -39,10 +44,10 @@
                     "title": "admin_menu_item_target",
                     "type": "select",
                     "options": {
-                        "self": "_self",
-                        "blank": "_blank",
-                        "parent": "_parent",
-                        "top": "_top"
+                        "_self": "_self",
+                        "_blank": "_blank",
+                        "_parent": "_parent",
+                        "_top": "_top"
                     },
                     "size": "col-4"
                 },

@@ -10,7 +10,6 @@
         </tr>
     </thead>
     <tbody>
-    {% if snippets_list|length > 0 %}
         {% for id in snippets_list %}
         <tr>
             <td>
@@ -44,9 +43,14 @@
             </td>
         </tr>
         {% endfor %}
-    {% endif %}
     </tbody>
 </table>
+{% else %}
+<div class="empty-list-message">
+    <i class="far fa-file-code"></i>
+    <h3>{{ tr('admin_you_have_not_created_any_snippets_yet') }}</h3>
+    <a href="{{ path_for('admin.snippets.add') }}" class="btn">{{ tr('admin_create_new_snippet') }}</a>
+</div>
 {% endif %}
 
 
@@ -64,7 +68,7 @@
       <div class="modal-body">
           <label for="shortcode">{{ tr('admin_shortcode') }}</label>
           <div class="alert alert-dark clipboard" role="alert">
-              <span id="snippet">[snippets_fetch id="<span class="js-snippets-snippet-placeholder"></span>"]</span>
+              <span id="snippet">[snippets_exec id="<span class="js-snippets-snippet-placeholder"></span>"]</span>
               <button class="js-clipboard-btn btn" data-clipboard-target="#snippet">
                   {{ tr('admin_copy') }}
               </button>
@@ -72,7 +76,7 @@
           <br>
           <label for="template_code">{{ tr('admin_template_code') }}</label>
            <div id="template_code" class="alert alert-dark clipboard" role="alert">
-               <span id="html">&lcub;&lcub; snippets_exec('<span class="js-snippets-php-placeholder"></span>') &rcub;&rcub;</span>
+               <span id="html">&lcub;&lcub; snippets.exec('<span class="js-snippets-php-placeholder"></span>') &rcub;&rcub;</span>
                <button class="js-clipboard-btn btn" data-clipboard-target="#html">
                     {{ tr('admin_copy') }}
                </button>

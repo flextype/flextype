@@ -12,7 +12,7 @@
 
 namespace Flextype;
 
-class SnippetsTwigExtension extends \Twig_Extension
+class SnippetsTwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /**
      * Flextype Dependency Container
@@ -28,18 +28,35 @@ class SnippetsTwigExtension extends \Twig_Extension
     }
 
     /**
-     * Callback for twig.
-     *
-     * @return array
+     * Register Global variables in an extension
      */
-    public function getFunctions()
+    public function getGlobals()
     {
         return [
-            new \Twig_SimpleFunction('snippets_exec', [$this, 'exec'])
+            'snippets' => new SnippetsTwig($this->flextype)
         ];
     }
+}
 
-    public function exec(string $id)
+class SnippetsTwig
+{
+    /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * Constructor
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
+
+    /**
+     * Execute snippet
+     */
+    public function exec($id)
     {
         return $this->flextype['snippets']->exec($id);
     }

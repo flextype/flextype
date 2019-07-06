@@ -17,7 +17,7 @@ use Flextype\Component\I18n\I18n;
 class I18nTwigExtension extends \Twig_Extension
 {
     /**
-     * Callback for twig.
+     * Returns a list of functions to add to the existing list.
      *
      * @return array
      */
@@ -28,6 +28,9 @@ class I18nTwigExtension extends \Twig_Extension
         ];
     }
 
+    /**
+     * Translate string
+     */
     public function tr(string $translate, string $locale = null, array $values = []) : string
     {
         return I18n::find($translate, $locale, $values);

@@ -13,6 +13,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * @property Router $router
  * @property Snippets $snippets
  * @property Slugify $slugify
+ * @property Flash $flash
  */
 class SnippetsController extends Controller
 {
@@ -69,6 +70,11 @@ class SnippetsController extends Controller
                             'snippets' => [
                                 'link' => $this->router->pathFor('admin.snippets.index'),
                                 'title' => __('admin_snippets'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
+                            'snippets_rename' => [
+                                'link' => $this->router->pathFor('admin.snippets.add'),
+                                'title' => __('admin_create_new_snippet'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ]
@@ -120,6 +126,11 @@ class SnippetsController extends Controller
                             'snippets' => [
                                 'link' => $this->router->pathFor('admin.snippets.index'),
                                 'title' => __('admin_snippets'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
+                            'snippets_editor' => [
+                                'link' => $this->router->pathFor('admin.snippets.edit') . '?id=' . $id,
+                                'title' => __('admin_editor'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ],
@@ -153,7 +164,7 @@ class SnippetsController extends Controller
             $this->flash->addMessage('error', __('admin_message_snippet_was_not_saved'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
+        return $response->withRedirect($this->router->pathFor('admin.snippets.edit') . '?id=' . $id);
     }
 
     /**
@@ -174,9 +185,14 @@ class SnippetsController extends Controller
             'menu_item' => 'snippets',
             'id_current' => $request->getQueryParams()['id'],
             'links' => [
-                            'templates' => [
+                            'snippets' => [
                                 'link' => $this->router->pathFor('admin.snippets.index'),
-                                'title' => __('admin_templates'),
+                                'title' => __('admin_snippets'),
+                                'attributes' => ['class' => 'navbar-item']
+                            ],
+                            'snippets_rename' => [
+                                'link' => $this->router->pathFor('admin.snippets.rename') . '?id=' . $request->getQueryParams()['id'],
+                                'title' => __('admin_rename'),
                                 'attributes' => ['class' => 'navbar-item active']
                             ],
                         ]

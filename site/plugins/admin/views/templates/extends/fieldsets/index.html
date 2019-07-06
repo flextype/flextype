@@ -44,5 +44,11 @@
         {% endfor %}
     </tbody>
 </table>
+{% else %}
+<div class="empty-list-message">
+    <i class="fas fa-list"></i>
+    <h3>{{ tr('admin_you_have_not_created_any_fieldsets_yet') }}</h3>
+    <a href="{{ path_for('admin.fieldsets.add') }}" class="btn">{{ tr('admin_create_new_fieldset') }}</a>
+</div>
 {% endif %}
 {% endblock %}

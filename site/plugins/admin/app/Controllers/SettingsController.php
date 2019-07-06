@@ -13,6 +13,10 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * @property View $view
  * @property Router $router
  * @property Cache $cache
+ * @property Entries $entries
+ * @property Plugins $plugins
+ * @property Registry $registry
+ * @property Flash $flash
  */
 class SettingsController extends Controller
 {
@@ -27,7 +31,7 @@ class SettingsController extends Controller
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
         $entries = [];
-        foreach ($this->entries->fetchAll('', 'date', 'DESC') as $entry) {
+        foreach ($this->entries->fetchAll('', ['order_by' => ['field' => 'date', 'direction' => 'desc']]) as $entry) {
             $entries[$entry['slug']] = $entry['title'];
         }
 
@@ -57,37 +61,45 @@ class SettingsController extends Controller
                             'zend' => 'Zend',
                             'array' => 'Array'];
 
+        $image_driver = ['gd' => 'gd',
+                        'imagick' => 'imagick'];
+
+        $whoops_editor = ['emacs' => 'Emacs',
+                          'idea' => 'IDEA',
+                          'macvim' => 'MacVim',
+                          'phpstorm' => 'PhpStorm (macOS only)',
+                          'sublime' => 'Sublime Text',
+                          'textmate' => 'Textmate',
+                          'xdebug' => 'xDebug',
+                          'vscode' => 'VSCode',
+                          'atom' => 'Atom',
+                          'espresso' => 'Espresso'];
+
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/system/settings/index.html',
             [
                                         'timezones' => Date::timezones(),
-                                        'settings' => $this->registry->get('settings'),
                                         'cache_driver' => $cache_driver,
                                         'locales' => $locales,
                                         'entries' => $entries,
                                         'themes' => $themes,
+                                        'image_driver' => $image_driver,
+                                        'whoops_editor' => $whoops_editor,
                                         'menu_item' => 'settings',
                                         'links' => [
-                                                                'settings' => [
-                                                                                    'link' => $this->router->pathFor('admin.settings.index'),
-                                                                                    'title' => __('admin_settings'),
-                                                                                    'attributes' => ['class' => 'navbar-item active']
-                                                                                ]
-                                                            ],
+                                            'settings' => [
+                                                'link' => $this->router->pathFor('admin.settings.index'),
+                                                'title' => __('admin_settings'),
+                                                'attributes' => ['class' => 'navbar-item active']
+                                            ]
+                                        ],
                                         'buttons'  => [
                                                                     'save' => [
                                                                                         'link'       => 'javascript:;',
                                                                                         'title'      => __('admin_save'),
                                                                                         'attributes' => ['class' => 'js-save-form-submit float-right btn']
-                                                                                    ],
-                                                                    'settings_clear_cache' => [
-                                                                                        'type' => 'action',
-                                                                                        'id' => 'clear-cache',
-                                                                                        'link' => $this->router->pathFor('admin.settings.clear-cache'),
-                                                                                        'title' => __('admin_clear_cache'),
-                                                                                        'attributes' => ['class' => 'float-right btn']
-                                                                                ]
+                                                                                    ]
                                                             ]
                                     ]
         );
@@ -111,6 +123,10 @@ class SettingsController extends Controller
 
         Arr::set($data, 'errors.display', ($data['errors']['display'] == '1' ? true : false));
         Arr::set($data, 'cache.enabled', ($data['cache']['enabled'] == '1' ? true : false));
+        Arr::set($data, 'slugify.lowercase_after_regexp', ($data['slugify']['lowercase_after_regexp'] == '1' ? true : false));
+        Arr::set($data, 'slugify.strip_tags', ($data['slugify']['strip_tags'] == '1' ? true : false));
+        Arr::set($data, 'slugify.trim', ($data['slugify']['trim'] == '1' ? true : false));
+        Arr::set($data, 'slugify.lowercase', ($data['slugify']['lowercase'] == '1' ? true : false));
         Arr::set($data, 'cache.lifetime', (int) $data['cache']['lifetime']);
         Arr::set($data, 'entries.media.upload_images_quality', (int) $data['entries']['media']['upload_images_quality']);
         Arr::set($data, 'entries.media.upload_images_width', (int) $data['entries']['media']['upload_images_width']);
@@ -125,20 +141,4 @@ class SettingsController extends Controller
         return $response->withRedirect($this->router->pathFor('admin.settings.index'));
     }
 
-    /**
-     * Clear cache process
-     *
-     * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
-     *
-     * @return Response
-     */
-    public function clearCacheProcess(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
-    {
-        $this->cache->clear();
-        Filesystem::has(PATH['cache'] . '/twig') and Filesystem::deleteDir(PATH['cache'] . '/twig');
-
-        $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
-        return $response->withRedirect($this->router->pathFor('admin.settings.index'));
-    }
 }

@@ -30,7 +30,7 @@ class FlashTwigExtension extends \Twig_Extension
     }
 
     /**
-     * Callback for twig.
+     * Returns a list of functions to add to the existing list.
      *
      * @return array
      */

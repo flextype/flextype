@@ -1,0 +1,101 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+{% if (templates_list|length > 0) or (partials_list|length > 0) %}
+<table class="table no-margin">
+    <thead>
+        <tr>
+            <th>{{ tr('admin_name') }}</th>
+            <th>{{ tr('admin_type') }}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% if templates_list|length > 0 %}
+        {% for template in templates_list %}
+        <tr>
+            <td>
+                <a href="{{ path_for('admin.templates.edit') }}?id={{ template.basename }}&type=template&theme={{ theme }}">{{ template.basename }}</a>
+            </td>
+            <td>{{ tr('admin_template') }}</td>
+            <td class="text-right">
+                <div class="btn-group">
+                  <a class="btn btn-default" href="{{ path_for('admin.templates.edit') }}?theme={{ theme }}&id={{ template.basename }}&type=template">{{ tr('admin_edit') }}</a>
+                  <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{ path_for('admin.templates.rename') }}?theme={{ theme }}&id={{ template.basename }}&type=template">{{ tr('admin_rename') }}</a>
+                    <a class="dropdown-item" href="javascript:;"
+                       onclick="event.preventDefault();
+                                document.getElementById('duplicate-template-id-{{ template.basename }}').submit();">{{ tr('admin_duplicate') }}</a>
+                  </div>
+                </div>
+                <form id="duplicate-template-id-{{ template.basename }}" action="{{ path_for('admin.templates.duplicateProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="template-id" value="{{ template.basename }}">
+                    <input type="hidden" name="type" value="template">
+                    <input type="hidden" name="theme" value="{{ theme }}">
+                </form>
+                <form id="delete-template-id-{{ template.basename }}" action="{{ path_for('admin.templates.deleteProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="template-id" value="{{ template.basename }}">
+                    <input type="hidden" name="type" value="template">
+                    <input type="hidden" name="theme" value="{{ theme }}">
+                </form>
+                <a class="btn btn-default" href="javascript:;"
+                   onclick="event.preventDefault();
+                            document.getElementById('delete-template-id-{{ template.basename }}').submit();">{{ tr('admin_delete') }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% endif %}
+    {% if partials_list|length > 0 %}
+        {% for partial in partials_list %}
+        <tr>
+            <td>
+                <a href="{{ path_for('admin.templates.edit') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}">{{ partial.basename }}</a>
+            </td>
+            <td>{{ tr('admin_partial') }}</td>
+            <td class="text-right">
+                <div class="btn-group">
+                  <a class="btn btn-default" href="{{ path_for('admin.templates.edit') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}">{{ tr('admin_edit') }}</a>
+                  <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{ path_for('admin.templates.rename') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}">{{ tr('admin_rename') }}</a>
+                    <a class="dropdown-item" href="javascript:;"
+                       onclick="event.preventDefault();
+                                document.getElementById('duplicate-partial-id-{{ partial.basename }}').submit();">{{ tr('admin_duplicate') }}</a>
+                  </div>
+                </div>
+                <form id="duplicate-partial-id-{{ partial.basename }}" action="{{ path_for('admin.templates.duplicateProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="partial-id" value="{{ partial.basename }}">
+                    <input type="hidden" name="type" value="partial">
+                    <input type="hidden" name="theme" value="{{ theme }}">
+                </form>
+                <form id="delete-partial-id-{{ partial.basename }}" action="{{ path_for('admin.templates.deleteProcess') }}" method="POST" style="display: none;">
+                    {{ csrf() }}
+                    <input type="hidden" name="partial-id" value="{{ partial.basename }}">
+                    <input type="hidden" name="type" value="partial">
+                    <input type="hidden" name="theme" value="{{ theme }}">
+                </form>
+                <a class="btn btn-default" href="javascript:;"
+                   onclick="event.preventDefault();
+                            document.getElementById('delete-partial-id-{{ partial.basename }}').submit();">{{ tr('admin_delete') }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% endif %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-list-message">
+    <i class="fas fa-layer-group"></i>
+    <h3>{{ tr('admin_you_have_not_created_any_templates_yet') }}</h3>
+    <a href="{{ path_for('admin.templates.add') }}" class="btn">{{ tr('admin_create_new_template') }}</a>
+</div>
+{% endif %}
+{% endblock %}

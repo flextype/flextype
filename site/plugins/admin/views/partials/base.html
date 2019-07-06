@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        {{ emmiter_emmit('onAdminThemeMeta') }}
+        {{ emitter.emit('onAdminThemeMeta') }}
 
     	<title>FLEXTYPE</title>
 
@@ -19,16 +19,16 @@
         {% set admin_light = base_url() ~ '/site/plugins/admin/assets/dist/css/admin-light.min.css' %}
         {% set admin_monokai = base_url() ~ '/site/plugins/admin/assets/dist/css/monokai.css' %}
 
-        {% do assets_add('css', admin_build, 'admin', 1) %}
+        {% do assets.add('css', admin_build, 'admin', 1) %}
 
         {% if registry.settings.admin_panel.theme == 'light' %}
-            {% do assets_add('css', admin_elegant, 'admin', 2) %}
-            {% do assets_add('css', admin_light, 'admin', 3) %}
+            {% do assets.add('css', admin_elegant, 'admin', 2) %}
+            {% do assets.add('css', admin_light, 'admin', 3) %}
         {% else %}
-            {% do assets_add('css', admin_monokai, 'admin', 4) %}
+            {% do assets.add('css', admin_monokai, 'admin', 4) %}
         {% endif %}
 
-        {% for assets_admin in assets_get('css', 'admin') %}
+        {% for assets_admin in assets.get('css', 'admin') %}
             {% for assets_by_priorities in assets_admin %}
                 <link href="{{ assets_by_priorities.asset }}" rel="stylesheet">
             {% endfor %}
@@ -60,7 +60,7 @@
             }
         </style>
 
-        {{ emmiter_emmit('onAdminThemeHeader') }}
+        {{ emitter.emit('onAdminThemeHeader') }}
     {% endblock %}
   </head>
   <body {% if not is_logged %} class="content-full-size" {% endif %}>
@@ -199,8 +199,13 @@
             {% if is_current_path('admin.templates.index') or
                   is_current_path('admin.templates.edit') or
                   is_current_path('admin.templates.rename') or
-                  is_current_path('admin.templates.add') or
-                  is_current_path('admin.fieldsets.index') or
+                  is_current_path('admin.templates.add') %}
+            <div class="entry-editor-heading">
+                / {{ theme }} {% if id %} / {{ id }}{% endif %}
+            </div>
+            {% endif %}
+
+            {% if is_current_path('admin.fieldsets.index') or
                   is_current_path('admin.fieldsets.edit') or
                   is_current_path('admin.fieldsets.rename') or
                   is_current_path('admin.fieldsets.add') or
@@ -233,14 +238,14 @@
 
         {% if registry.settings.locale != 'en_US' %}
             {% set admin_trumbowyg_build = base_url() ~ '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/' ~ registry.settings.locale|lower|slice(0,2) ~ '.min.js' %}
-            {% do assets_add('js', admin_trumbowyg_build, 'admin', 10) %}
+            {% do assets.add('js', admin_trumbowyg_build, 'admin', 10) %}
         {% endif %}
 
         {% set admin_build = base_url() ~ '/site/plugins/admin/assets/dist/js/admin-build.min.js' %}
 
-        {% do assets_add('js', admin_build, 'admin', 1) %}
+        {% do assets.add('js', admin_build, 'admin', 1) %}
 
-        {% for assets_admin in assets_get('js', 'admin') %}
+        {% for assets_admin in assets.get('js', 'admin') %}
             {% for assets_by_priorities in assets_admin %}
                 <script type="text/javascript" src="{{ assets_by_priorities.asset }}"></script>
             {% endfor %}
@@ -363,7 +368,7 @@
                     indentUnit: 4,
                     {% endif %}
                     {% if is_current_path('admin.fieldsets.edit') %}
-                    mode: "application/json",
+                    mode: "text/javascript",
                     {% else %}
                     mode: "application/x-httpd-php",
                     {% endif %}

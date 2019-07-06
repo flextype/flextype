@@ -11,6 +11,8 @@
     "gulp-sourcemaps": "^2.6.4",
     "bootstrap": "^4.2.1",
     "popper.js": "^1.14.6",
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "simplelightbox": "^1.17.2",
+    "animate.css": "^3.7.2"
   }
 }
