@@ -70,7 +70,11 @@ class Entries
 
             // Create unique entry cache_id
             // Entry Cache ID = entry + entry file + entry file time stamp
-            $entry_cache_id = md5('entry' . $entry_file . Filesystem::getTimestamp($entry_file));
+            if ($timestamp = Filesystem::getTimestamp($entry_file)) {
+                $entry_cache_id = md5('entry' . $entry_file . $timestamp);
+            } else {
+                $entry_cache_id = md5('entry' . $entry_file);
+            }
 
             // Try to get the requested entry from cache
             if ($this->flextype['cache']->contains($entry_cache_id)) {
@@ -178,6 +182,7 @@ class Entries
 
         // Bind: where
         if (isset($args['where']['key']) && isset($args['where']['expr']) && isset($args['where']['value'])) {
+            $bind_where = [];
             $bind_where['where']['key'] = $args['where']['key'];
             $bind_where['where']['expr'] = $expression[$args['where']['expr']];
             $bind_where['where']['value'] = $args['where']['value'];
@@ -187,6 +192,7 @@ class Entries
 
         // Bind: and where
         if (isset($args['and_where']['key']) && isset($args['and_where']['expr']) && isset($args['and_where']['value'])) {
+            $bind_and_where = [];
             $bind_and_where['and_where']['key'] = $args['and_where']['key'];
             $bind_and_where['and_where']['expr'] = $expression[$args['and_where']['expr']];
             $bind_and_where['and_where']['value'] = $args['and_where']['value'];
@@ -196,6 +202,7 @@ class Entries
 
         // Bind: or where
         if (isset($args['or_where']['key']) && isset($args['or_where']['expr']) && isset($args['or_where']['value'])) {
+            $bind_or_where = [];
             $bind_or_where['or_where']['key'] = $args['or_where']['key'];
             $bind_or_where['or_where']['expr'] = $expression[$args['or_where']['expr']];
             $bind_or_where['or_where']['value'] = $args['or_where']['value'];
@@ -205,6 +212,7 @@ class Entries
 
         // Bind: order by
         if (isset($args['order_by']['field']) && isset($args['order_by']['direction'])) {
+            $bind_order_by = [];
             $bind_order_by['order_by']['field'] = $args['order_by']['field'];
             $bind_order_by['order_by']['direction'] = $args['order_by']['direction'];
         } else {
@@ -226,7 +234,11 @@ class Entries
                 // ignore ...
             } else {
                 if ($current_entry['type'] == 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
-                    $_entries_ids .= 'entry:' . ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/') . ' timestamp:' . Filesystem::getTimestamp($current_entry['path'] . '/entry.json') . ' ';
+                    if ($timestamp = Filesystem::getTimestamp($current_entry['path'] . '/entry.json')) {
+                        $_entries_ids .= 'entry:' . ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/') . ' timestamp:' . $timestamp;
+                    } else {
+                        $_entries_ids .= 'entry:' . ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/');
+                    }
                 }
             }
         }

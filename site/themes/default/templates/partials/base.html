@@ -76,8 +76,11 @@
         <script src="//unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
         <script type="text/javascript">
 
-          var lightbox = $('.gallery-grid a').simpleLightbox({'fileExt': false});
+        if ($('.gallery-grid a').length) {
+             var lightbox = $('.gallery-grid a').simpleLightbox({'fileExt': false});
+        }
 
+        if ($('.gallery-grid').length) {
           var $grid = $('.gallery-grid').imagesLoaded()
             .done( function( instance ) {
                $('.preloader').hide();
@@ -89,6 +92,7 @@
             .progress( function( instance, image ) {
 
             });
+        }
         </script>
 
         {{ emitter.emit('onThemeTail') }}
