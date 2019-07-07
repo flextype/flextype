@@ -21,7 +21,7 @@ use Flextype\Component\Filesystem\Filesystem;
  *
  * @var string
  */
-define('FLEXTYPE_VERSION', '0.9.2');
+define('FLEXTYPE_VERSION', '0.9.3');
 
 /**
  * Start the session
