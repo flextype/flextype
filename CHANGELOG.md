@@ -1,3 +1,5 @@
+## [0.9.4] - 2019-08-xx
+
 ## [0.9.3] - 2019-07-07
 ### Fixed
 - Flextype Core: Entries - issue with binding arguments inside method fetchAll() - fixed. #182
