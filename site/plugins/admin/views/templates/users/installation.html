@@ -2,11 +2,17 @@
 
 {% block content %}
 
+<div class="row">
+    <div class="col-4 float-center">
+        <h3 class="h3 auth-header text-center">{{ tr('admin_welcome') }}!</h3>
+        <p class="text-center">{{ tr('admin_create_new_user_welcome') }}</p>
+    </div>
+</div>
+
 <form action="" method="post">
     {{ csrf() }}
     <div class="row">
         <div class="col-4 float-center">
-            <h3 class="h3 auth-header text-center">{{ tr('admin_create_new_user') }}</h3>
             <div class="form-group">
                 <label>{{ tr('admin_username') }}</label>
                 <input type="text" name="username" value="" class="form-control" placeholder="lowercase chars only, e.g. admin" pattern="^[a-z0-9_-]{3,16}$" required="required">

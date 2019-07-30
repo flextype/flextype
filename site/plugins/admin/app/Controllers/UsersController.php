@@ -46,7 +46,7 @@ class UsersController extends Controller
                     'plugins/admin/views/templates/users/login.html'
                 );
             } else {
-                return $response->withRedirect($this->router->pathFor('admin.users.registration'));
+                return $response->withRedirect($this->router->pathFor('admin.users.installation'));
             }
         }
     }
@@ -80,14 +80,14 @@ class UsersController extends Controller
     }
 
     /**
-     * Registration page
+     * Installation page
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      *
      * @return Response
      */
-    public function registration(Request $request, Response $response) : Response
+    public function installation(Request $request, Response $response) : Response
     {
         $users = $this->getUsers();
 
@@ -99,21 +99,21 @@ class UsersController extends Controller
             } else {
                 return $this->view->render(
                     $response,
-                    'plugins/admin/views/templates/users/registration.html'
+                    'plugins/admin/views/templates/users/installation.html'
                 );
             }
         }
     }
 
     /**
-     * Registration page process
+     * Installation page process
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      *
      * @return Response
      */
-    public function registrationProcess(Request $request, Response $response) : Response
+    public function installationProcess(Request $request, Response $response) : Response
     {
         // Get POST data
         $data = $request->getParsedBody();
@@ -130,10 +130,10 @@ class UsersController extends Controller
             )) {
                 return $response->withRedirect($this->router->pathFor('admin.users.login'));
             } else {
-                return $response->withRedirect($this->router->pathFor('admin.users.registration'));
+                return $response->withRedirect($this->router->pathFor('admin.users.installation'));
             }
         } else {
-            return $response->withRedirect($this->router->pathFor('admin.users.registration'));
+            return $response->withRedirect($this->router->pathFor('admin.users.installation'));
         }
     }
 

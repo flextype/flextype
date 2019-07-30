@@ -4,8 +4,8 @@ namespace Flextype;
 
 // UsersController
 $app->group('/' . $admin_route, function () use ($flextype, $app) {
-    $app->get('/registration', 'UsersController:registration')->setName('admin.users.registration');
-    $app->post('/registration', 'UsersController:registrationProcess')->setName('admin.users.registrationProcess');
+    $app->get('/installation', 'UsersController:installation')->setName('admin.users.installation');
+    $app->post('/installation', 'UsersController:installationProcess')->setName('admin.users.installationProcess');
     $app->get('/login', 'UsersController:login')->setName('admin.users.login');
     $app->post('/login', 'UsersController:loginProcess')->setName('admin.users.loginProcess');
 });
