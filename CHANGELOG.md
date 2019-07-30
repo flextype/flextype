@@ -1,4 +1,6 @@
 ## [0.9.4] - 2019-08-xx
+### Added
+Flextype Admin Panel: Trumbowyg view html code - added. #193 #186
 
 ## [0.9.3] - 2019-07-07
 ### Fixed
