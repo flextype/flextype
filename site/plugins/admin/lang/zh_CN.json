@@ -1,5 +1,7 @@
 {
   "admin": "管理员",
+  "admin_welcome": "Welcome",
+  "admin_create_new_user_welcome": "To finish setup and secure your site, please create the first user by entering the necessary information below.",
   "admin_cancel": "取消",
   "admin_create": "创建",
   "admin_debugging": "调试",
