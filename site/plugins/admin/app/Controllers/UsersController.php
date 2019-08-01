@@ -8,6 +8,8 @@ use Flextype\Component\Text\Text;
 use function Flextype\Component\I18n\__;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 /**
  * @property View $view
@@ -68,6 +70,7 @@ class UsersController extends Controller
             if (password_verify(trim($data['password']), $user_file['hashed_password'])) {
                 Session::set('username', $user_file['username']);
                 Session::set('role', $user_file['role']);
+                Session::set('uuid', $user_file['uuid']);
                 return $response->withRedirect($this->router->pathFor('admin.entries.index'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_wrong_username_password'));
@@ -126,7 +129,9 @@ class UsersController extends Controller
                                             'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
                                             'email' => $data['email'],
                                             'role'  => 'admin',
-                                            'state' => 'enabled'])
+                                            'state' => 'enabled',
+                                            'uuid' => Uuid::uuid4()
+                                        ])
             )) {
                 return $response->withRedirect($this->router->pathFor('admin.users.login'));
             } else {
