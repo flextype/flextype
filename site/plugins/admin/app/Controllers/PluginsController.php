@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flextype;
 
-use Flextype\Component\Filesystem\Filesystem;
-use Flextype\Component\Date\Date;
 use Flextype\Component\Arr\Arr;
-use function Flextype\Component\I18n\__;
+use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use function Flextype\Component\I18n\__;
 
 /**
  * @property View $view
@@ -22,8 +23,6 @@ class PluginsController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
@@ -31,23 +30,23 @@ class PluginsController extends Controller
             $response,
             'plugins/admin/views/templates/extends/plugins/index.html',
             [
-                           'plugins_list' => $this->registry->get('plugins'),
-                           'menu_item' => 'plugins',
-                           'links' =>  [
-                                            'plugins' => [
-                                                'link' => $this->router->pathFor('admin.plugins.index'),
-                                                'title' => __('admin_plugins'),
-                                                'attributes' => ['class' => 'navbar-item active']
-                                            ],
-                            ],
-                            'buttons' =>  [
-                                             'plugins_get_more' => [
-                                                 'link' => 'https://github.com/flextype/plugins',
-                                                 'title' => __('admin_get_more_plugins'),
-                                                 'attributes' => ['class' => 'float-right btn', 'target' => '_blank']
-                                             ],
-                             ]
-                        ]
+                'plugins_list' => $this->registry->get('plugins'),
+                'menu_item' => 'plugins',
+                'links' =>  [
+                    'plugins' => [
+                        'link' => $this->router->pathFor('admin.plugins.index'),
+                        'title' => __('admin_plugins'),
+                        'attributes' => ['class' => 'navbar-item active'],
+                    ],
+                ],
+                'buttons' =>  [
+                    'plugins_get_more' => [
+                        'link' => 'https://github.com/flextype/plugins',
+                        'title' => __('admin_get_more_plugins'),
+                        'attributes' => ['class' => 'float-right btn', 'target' => '_blank'],
+                    ],
+                ],
+            ]
         );
     }
 
@@ -56,8 +55,6 @@ class PluginsController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function pluginStatusProcess(Request $request, Response $response) : Response
     {
@@ -66,7 +63,7 @@ class PluginsController extends Controller
 
         // Update settings
         $plugin_settings = JsonParser::decode(Filesystem::read(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.json'));
-        Arr::set($plugin_settings, 'enabled', ($data['plugin-status'] == 'true' ? true : false));
+        Arr::set($plugin_settings, 'enabled', ($data['plugin-status'] === 'true'));
         Filesystem::write(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.json', JsonParser::encode($plugin_settings));
 
         // Clear doctrine cache

@@ -1,9 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,8 +11,18 @@
 
 namespace Flextype;
 
+use Doctrine\Common\Cache as DoctrineCache;
 use Flextype\Component\Filesystem\Filesystem;
-use \Doctrine\Common\Cache as DoctrineCache;
+use Memcached;
+use Redis;
+use RedisException;
+use SQLite3;
+use function clearstatcache;
+use function extension_loaded;
+use function function_exists;
+use function md5;
+use function opcache_reset;
+use function time;
 
 class Cache
 {
@@ -60,7 +69,7 @@ class Cache
         $this->flextype = $flextype;
 
         // Create Cache Directory
-        !Filesystem::has(PATH['cache']) and Filesystem::createDir(PATH['cache']);
+        ! Filesystem::has(PATH['cache']) and Filesystem::createDir(PATH['cache']);
 
         // Set current time
         $this->now = time();
@@ -79,9 +88,8 @@ class Cache
      * Get Cache Driver
      *
      * @access public
-     * @return object
      */
-    public function getCacheDriver()
+    public function getCacheDriver() : object
     {
         // Try to set default cache driver name
         $driver_name = $this->setDefaultCacheDriverName($this->flextype['registry']->get('settings.cache.driver'));
@@ -94,29 +102,29 @@ class Cache
     {
         switch ($driver_name) {
             case 'apcu':
-               $driver = $this->setApcuCacheDriver();
-            break;
+                $driver = $this->setApcuCacheDriver();
+                break;
             case 'array':
                 $driver = $this->setArrayCacheDriver();
-            break;
+                break;
             case 'wincache':
-               $driver = $this->setWinCacheDriver();
-            break;
+                $driver = $this->setWinCacheDriver();
+                break;
             case 'memcached':
                 $driver = $this->setMemcachedCacheDriver();
-            break;
+                break;
             case 'sqlite3':
                 $driver = $this->setSQLite3CacheDriver();
-            break;
+                break;
             case 'zend':
                 $driver = $this->setZendDataCacheDriver();
-            break;
+                break;
             case 'redis':
                 $driver = $this->setRedisCacheDriver();
-            break;
+                break;
             default:
                 $driver = $this->setFilesystemCacheDriver();
-            break;
+                break;
         }
 
         return $driver;
@@ -129,9 +137,7 @@ class Cache
      */
     protected function setZendDataCacheDriver()
     {
-        $driver = new DoctrineCache\ZendDataCache();
-
-        return $driver;
+        return new DoctrineCache\ZendDataCache();
     }
 
     /**
@@ -146,12 +152,11 @@ class Cache
         $cache_directory = PATH['cache'] . '/doctrine/';
 
         // Create doctrine cache directory if its not exists
-        !Filesystem::has($cache_directory) and Filesystem::createDir($cache_directory);
+        ! Filesystem::has($cache_directory) and Filesystem::createDir($cache_directory);
 
-        $db = new \SQLite3($cache_directory . $this->flextype['registry']->get('settings.cache.sqlite3.database', 'flextype') . '.db');
-        $driver = new DoctrineCache\SQLite3Cache($db, $this->flextype['registry']->get('settings.cache.sqlite3.table', 'flextype'));
+        $db = new SQLite3($cache_directory . $this->flextype['registry']->get('settings.cache.sqlite3.database', 'flextype') . '.db');
 
-        return $driver;
+        return new DoctrineCache\SQLite3Cache($db, $this->flextype['registry']->get('settings.cache.sqlite3.table', 'flextype'));
     }
 
     /**
@@ -161,7 +166,7 @@ class Cache
      */
     protected function setMemcachedCacheDriver()
     {
-        $memcached = new \Memcached();
+        $memcached = new Memcached();
         $memcached->addServer(
             $this->flextype['registry']->get('settings.cache.memcached.server', 'localhost'),
             $this->flextype['registry']->get('settings.cache.memcache.port', 11211)
@@ -181,21 +186,18 @@ class Cache
      */
     protected function setWinCacheDriver()
     {
-        $driver = new DoctrineCache\WinCacheCache();
-
-        return $driver;
+        return new DoctrineCache\WinCacheCache();
     }
 
     /**
      * The ArrayCache driver stores the cache data in PHPs memory and is not persisted anywhere.
      * This can be useful for caching things in memory for a single process when you don't need the cache to be persistent across processes.
+     *
      * @access protected
      */
     protected function setArrayCacheDriver()
     {
-        $driver = new DoctrineCache\ArrayCache();
-
-        return $driver;
+        return new DoctrineCache\ArrayCache();
     }
 
     /**
@@ -206,9 +208,7 @@ class Cache
      */
     protected function setApcuCacheDriver()
     {
-        $driver = new DoctrineCache\ApcuCache();
-
-        return $driver;
+        return new DoctrineCache\ApcuCache();
     }
 
     /**
@@ -219,7 +219,7 @@ class Cache
      */
     protected function setRedisCacheDriver()
     {
-        $redis    = new \Redis();
+        $redis    = new Redis();
         $socket   = $this->flextype['registry']->get('settings.cache.redis.socket', false);
         $password = $this->flextype['registry']->get('settings.cache.redis.password', false);
 
@@ -233,8 +233,8 @@ class Cache
         }
 
         // Authenticate with password if set
-        if ($password && !$redis->auth($password)) {
-            throw new \RedisException('Redis authentication failed');
+        if ($password && ! $redis->auth($password)) {
+            throw new RedisException('Redis authentication failed');
         }
 
         $driver = new DoctrineCache\RedisCache();
@@ -254,22 +254,21 @@ class Cache
         $cache_directory = PATH['cache'] . '/doctrine/';
 
         // Create doctrine cache directory if its not exists
-        !Filesystem::has($cache_directory) and Filesystem::createDir($cache_directory);
-        $driver = new DoctrineCache\FilesystemCache($cache_directory);
+        ! Filesystem::has($cache_directory) and Filesystem::createDir($cache_directory);
 
-        return $driver;
+        return new DoctrineCache\FilesystemCache($cache_directory);
     }
 
     /**
      * Set Default Cache Driver Name
      *
-     * @access protected
      * @param string $driver_name Driver name.
-     * @return string
+     *
+     * @access protected
      */
-    protected function setDefaultCacheDriverName(string $driver_name)
+    protected function setDefaultCacheDriverName(string $driver_name) : string
     {
-        if (!$driver_name || $driver_name == 'auto') {
+        if (! $driver_name || $driver_name === 'auto') {
             if (extension_loaded('apcu')) {
                 $driver_name = 'apcu';
             } elseif (extension_loaded('wincache')) {
@@ -286,9 +285,8 @@ class Cache
      * Returns driver variable
      *
      * @access public
-     * @return object
      */
-    public function driver()
+    public function driver() : object
     {
         return $this->driver;
     }
@@ -297,7 +295,6 @@ class Cache
      * Get cache key.
      *
      * @access public
-     * @return string
      */
     public function getKey() : string
     {
@@ -307,52 +304,58 @@ class Cache
     /**
      * Fetches an entry from the cache.
      *
-     * @access public
      * @param string $id The id of the cache entry to fetch.
+     *
      * @return mixed The cached data or FALSE, if no cache entry exists for the given id.
+     *
+     * @access public
      */
     public function fetch(string $id)
     {
         if ($this->flextype['registry']->get('settings.cache.enabled')) {
             return $this->driver->fetch($id);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Returns a boolean state of whether or not the item exists in the cache based on id key
      *
-     * @param string $id    the id of the cached data entry
+     * @param string $id the id of the cached data entry
+     *
      * @return bool         true if the cached items exists
      */
-    public function contains($id)
+    public function contains(string $id) : bool
     {
         if ($this->flextype['registry']->get('settings.cache.enabled')) {
             return $this->driver->contains($id);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Puts data into the cache.
      *
-     * @access public
      * @param string $id       The cache id.
      * @param mixed  $data     The cache entry/data.
      * @param int    $lifetime The lifetime in number of seconds for this cache entry.
      *                         If zero (the default), the entry never expires (although it may be deleted from the cache
      *                         to make place for other entries).
+     *
+     * @access public
      */
-    public function save(string $id, $data, $lifetime = null)
+    public function save(string $id, $data, ?int $lifetime = null) : void
     {
-        if ($this->flextype['registry']->get('settings.cache.enabled')) {
-            if ($lifetime === null) {
-                $lifetime = $this->getLifetime();
-            }
-            $this->driver->save($id, $data, $lifetime);
+        if (! $this->flextype['registry']->get('settings.cache.enabled')) {
+            return;
         }
+
+        if ($lifetime === null) {
+            $lifetime = $this->getLifetime();
+        }
+        $this->driver->save($id, $data, $lifetime);
     }
 
     /**
@@ -388,27 +391,31 @@ class Cache
     /**
      * Set the cache lifetime.
      *
-     * @access public
      * @param int $future timestamp
+     *
+     * @access public
      */
-    public function setLifetime(int $future)
+    public function setLifetime(int $future) : void
     {
-        if (!$future) {
+        if (! $future) {
             return;
         }
 
         $interval = $future-$this->now;
 
-        if ($interval > 0 && $interval < $this->getLifetime()) {
-            $this->lifetime = $interval;
+        if ($interval <= 0 || $interval >= $this->getLifetime()) {
+            return;
         }
+
+        $this->lifetime = $interval;
     }
 
     /**
      * Retrieve the cache lifetime (in seconds)
      *
-     * @access public
      * @return mixed
+     *
+     * @access public
      */
     public function getLifetime()
     {

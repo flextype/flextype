@@ -1,21 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Romanenko Sergey <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
- 
+
 namespace Flextype;
+
+use function is_file;
 
 /**
  * Ensure vendor libraries exist
  */
-!is_file($site_autoload = __DIR__ . '/vendor/autoload.php') and exit("Please run: <i>composer install</i>");
+! is_file($site_autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i>');
 
 /**
  * Register The Auto Loader

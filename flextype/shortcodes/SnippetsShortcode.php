@@ -1,9 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,10 +11,9 @@
 
 namespace Flextype;
 
-use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Shortcode: [snippets_exec id="snippet-name"]
-$flextype['shortcodes']->addHandler('snippets_exec', function (ShortcodeInterface $s) use ($flextype) {
+$flextype['shortcodes']->addHandler('snippets_exec', static function (ShortcodeInterface $s) use ($flextype) {
     return $flextype['snippets']->exec($s->getParameter('id'));
 });

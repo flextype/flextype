@@ -1,9 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
@@ -13,6 +12,8 @@
 namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
+use function count;
+use function rename;
 
 class Fieldsets
 {
@@ -34,9 +35,11 @@ class Fieldsets
     /**
      * Fetch fieldset
      *
-     * @access public
      * @param string $id Fieldset id
+     *
      * @return array|false The entry contents or false on failure.
+     *
+     * @access public
      */
     public function fetch(string $id)
     {
@@ -46,22 +49,23 @@ class Fieldsets
             if ($fieldset_body = Filesystem::read($fieldset_file)) {
                 if ($fieldset_decoded = JsonParser::decode($fieldset_body)) {
                     return $fieldset_decoded;
-                } else {
-                    return false;
                 }
-            } else {
+
                 return false;
             }
-        } else {
+
             return false;
         }
+
+        return false;
     }
 
     /**
      * Fetch all fieldsets
      *
-     * @access public
      * @return array
+     *
+     * @access public
      */
     public function fetchAll() : array
     {
@@ -74,10 +78,12 @@ class Fieldsets
         // If there is any fieldsets file then go...
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
-                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'json') {
-                    $fieldset_content = JsonParser::decode(Filesystem::read($fieldset['path']));
-                    $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
+                if ($fieldset['type'] !== 'file' || $fieldset['extension'] !== 'json') {
+                    continue;
                 }
+
+                $fieldset_content                 = JsonParser::decode(Filesystem::read($fieldset['path']));
+                $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
             }
         }
 
@@ -88,10 +94,12 @@ class Fieldsets
     /**
      * Rename fieldset
      *
-     * @access public
      * @param string $id     Fieldset id
      * @param string $new_id New fieldset id
+     *
      * @return bool True on success, false on failure.
+     *
+     * @access public
      */
     public function rename(string $id, string $new_id) : bool
     {
@@ -101,10 +109,12 @@ class Fieldsets
     /**
      * Update fieldset
      *
-     * @access public
-     * @param string $id    Fieldset id
-     * @param array  $data  Fieldset data to save
+     * @param string $id   Fieldset id
+     * @param array  $data Fieldset data to save
+     *
      * @return bool True on success, false on failure.
+     *
+     * @access public
      */
     public function update(string $id, array $data) : bool
     {
@@ -112,36 +122,40 @@ class Fieldsets
 
         if (Filesystem::has($fieldset_file)) {
             return Filesystem::write($fieldset_file, JsonParser::encode($data));
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Create fieldset
      *
-     * @access public
-     * @param string $id    Fieldset id
-     * @param array  $data  Fieldset data to save
+     * @param string $id   Fieldset id
+     * @param array  $data Fieldset data to save
+     *
      * @return bool True on success, false on failure.
+     *
+     * @access public
      */
     public function create(string $id, array $data) : bool
     {
         $fieldset_file = $this->_file_location($id);
 
-        if (!Filesystem::has($fieldset_file)) {
+        if (! Filesystem::has($fieldset_file)) {
             return Filesystem::write($fieldset_file, JsonParser::encode($data));
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Delete fieldset
      *
-     * @access public
      * @param string $id Fieldset id
+     *
      * @return bool True on success, false on failure.
+     *
+     * @access public
      */
     public function delete(string $id) : bool
     {
@@ -151,10 +165,12 @@ class Fieldsets
     /**
      * Copy fieldset
      *
-     * @access public
-     * @param string $id      Fieldset id
-     * @param string $new_id  New fieldset id
+     * @param string $id     Fieldset id
+     * @param string $new_id New fieldset id
+     *
      * @return bool True on success, false on failure.
+     *
+     * @access public
      */
     public function copy(string $id, string $new_id) : bool
     {
@@ -164,9 +180,11 @@ class Fieldsets
     /**
      * Check whether fieldset exists.
      *
-     * @access public
      * @param string $id Fieldset id
+     *
      * @return bool True on success, false on failure.
+     *
+     * @access public
      */
     public function has(string $id) : bool
     {
@@ -177,7 +195,6 @@ class Fieldsets
      * Helper method _dir_location
      *
      * @access private
-     * @return string
      */
     private function _dir_location() : string
     {
@@ -187,9 +204,9 @@ class Fieldsets
     /**
      * Helper method _file_location
      *
-     * @access private
      * @param string $id Fieldsets id
-     * @return string
+     *
+     * @access private
      */
     private function _file_location(string $id) : string
     {

@@ -1,9 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,10 +11,9 @@
 
 namespace Flextype;
 
-use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Shortcode: [registry_get name="item-name" default="default-value"]
-$flextype['shortcodes']->addHandler('registry_get', function (ShortcodeInterface $s) use ($flextype) {
+$flextype['shortcodes']->addHandler('registry_get', static function (ShortcodeInterface $s) use ($flextype) {
     return $flextype['registry']->get($s->getParameter('name'), $s->getParameter('default'));
 });

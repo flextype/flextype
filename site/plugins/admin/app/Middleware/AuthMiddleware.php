@@ -1,9 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
@@ -21,19 +20,16 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  */
 class AuthMiddleware extends Middleware
 {
-
     /**
      * __invoke
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      * @param callable $next     Next middleware
-     *
-     * @return Response
      */
-    public function __invoke(Request $request, Response $response, $next) : Response
+    public function __invoke(Request $request, Response $response, callable $next) : Response
     {
-        if (Session::exists('role') && Session::get('role') == 'admin') {
+        if (Session::exists('role') && Session::get('role') === 'admin') {
             $response = $next($request, $response);
         } else {
             $response = $response->withRedirect($this->router->pathFor('admin.users.login'));
