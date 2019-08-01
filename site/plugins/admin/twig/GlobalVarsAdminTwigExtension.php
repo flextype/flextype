@@ -1,9 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
@@ -13,8 +12,10 @@
 namespace Flextype;
 
 use Flextype\Component\Session\Session;
+use Twig_Extension;
+use Twig_Extension_GlobalsInterface;
 
-class GlobalVarsAdminTwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class GlobalVarsAdminTwigExtension extends Twig_Extension implements Twig_Extension_GlobalsInterface
 {
     /**
      * Flextype Dependency Container
@@ -35,9 +36,9 @@ class GlobalVarsAdminTwigExtension extends \Twig_Extension implements \Twig_Exte
     public function getGlobals()
     {
         return [
-            'is_logged' => ((Session::exists('role') && Session::get('role') == 'admin') ? true : false),
+            'is_logged' => (Session::exists('role') && Session::get('role') === 'admin'),
             'username' => Session::exists('username') ? Session::get('username') : '',
-            'rolename' => Session::exists('role') ? Session::get('role') : ''
+            'rolename' => Session::exists('role') ? Session::get('role') : '',
         ];
     }
 }

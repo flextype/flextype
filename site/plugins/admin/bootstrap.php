@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- *
  * Flextype Admin Plugin
  *
- * @author Romanenko Sergey / Awilum <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,6 +12,8 @@
  */
 
 namespace Flextype;
+
+use function is_file;
 
 /**
  * Set base admin route
@@ -21,7 +23,7 @@ $admin_route = $flextype->registry->get('plugins.admin.route');
 /**
  * Ensure vendor libraries exist
  */
-!is_file($admin_autoload = __DIR__ . '/vendor/autoload.php') and exit("Please run: <i>composer install</i>");
+! is_file($admin_autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i>');
 
 /**
  * Register The Auto Loader
