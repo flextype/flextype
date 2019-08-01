@@ -48,7 +48,7 @@ Flextype is an open-source project licensed under the MIT LICENSE to set the wor
 Make sure your server meets the following requirements.
 
 - Webserver (Apache with Mod Rewrite)
-- PHP 7.1.3 or higher
+- PHP 7.2.0 or higher
 
 #### PHP extensions
 Flextype needs the following PHP extensions to be enabled:
