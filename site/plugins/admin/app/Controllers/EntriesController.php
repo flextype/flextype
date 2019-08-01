@@ -62,7 +62,7 @@ class EntriesController extends Controller
             $response,
             'plugins/admin/views/templates/content/entries/index.html',
             [
-                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), ['order_by' => ['field' => 'date', 'direction' => 'desc']]),
+                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]),
                             'id_current' => $this->getEntryID($query),
                             'menu_item' => 'entries',
                             'parts' => $parts,
@@ -192,10 +192,11 @@ class EntriesController extends Controller
                 $data_result = [];
 
                 // Define data values based on POST data
-                $data_from_post['title']     = $data['title'];
-                $data_from_post['template']  = $template;
-                $data_from_post['fieldset']  = $data['fieldset'];
-                $data_from_post['date']      = date($this->registry->get('settings.date_format'), time());
+                $data_from_post['title']        = $data['title'];
+                $data_from_post['template']     = $template;
+                $data_from_post['fieldset']     = $data['fieldset'];
+                $data_from_post['published_at'] = time();
+                $data_from_post['created_at']   = time();
 
                 // Predefine data values based on selected fieldset
                 foreach ($fieldset['sections'] as $key => $section) {
@@ -323,6 +324,7 @@ class EntriesController extends Controller
         $entry = $this->entries->fetch($id);
 
         Arr::delete($entry, 'slug');
+        Arr::delete($entry, 'modified_at');
         Arr::delete($_data, 'csrf_name');
         Arr::delete($_data, 'csrf_value');
         Arr::delete($_data, 'save_entry');
@@ -700,6 +702,7 @@ class EntriesController extends Controller
         // Get Entry
         $entry = $this->entries->fetch($this->getEntryID($query));
         Arr::delete($entry, 'slug');
+        Arr::delete($entry, 'modified_at');
 
         // Fieldsets for current entry template
         $fieldsets_path = PATH['site'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.json';
@@ -901,6 +904,7 @@ class EntriesController extends Controller
             // Fetch entry
             $entry = $this->entries->fetch($id);
             Arr::delete($entry, 'slug');
+            Arr::delete($entry, 'modified_at');
 
             // Merge entry data with $to_save_data
             $result_data = array_merge($entry, $data);
@@ -911,7 +915,6 @@ class EntriesController extends Controller
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
             }
-
         }
 
         return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=' . $type);

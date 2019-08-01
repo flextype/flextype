@@ -6,18 +6,18 @@
 
     {# pagination #}
     {% set entries_limit = entries.fetch('blog').entries_limit %}
-    {% set entries_length = entries.fetchAll('blog', {'order_by': {'field': 'date', 'direction': 'desc'}})|length %}
+    {% set entries_length = entries.fetchAll('blog', {'order_by': {'field': 'published_at', 'direction': 'desc'}})|length %}
     {% set entries_pages = (entries_length/entries_limit)|round %}
     {% if page < 1 %}{% set page = 1 %}{% elseif page > entries_pages %}{% set page = entries_pages %}{% endif %}
     {% set entries_offset = (page-1)*entries_limit %}
     {% if entries_offset < 0 %}{% set entries_offset = 0 %}{% endif %}
     {# /pagination #}
 
-    {% for entry in entries.fetchAll('blog', {'order_by': {'field': 'date', 'direction': 'desc'}, 'set_max_result': entries_limit, 'set_first_result': entries_offset}) %}
+    {% for entry in entries.fetchAll('blog', {'order_by': {'field': 'published_at', 'direction': 'desc'}, 'set_max_result': entries_limit, 'set_first_result': entries_offset}) %}
         <a href="{{ entry.slug }}" class="blog-post">
             <h3>{{ entry.title }}</h3>
             <p>{{ entry.summary|shortcode|raw}}</p>
-            <div>{{ entry.date }}</div>
+            <div>{{ entry.published_at|date(settings.date_format) }}</div>
         </a>
     {% endfor %}
 

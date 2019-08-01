@@ -24,11 +24,6 @@
                     "title": "admin_visibility",
                     "type": "visibility_select",
                     "size": "col-4"
-                },
-                "date": {
-                    "title": "admin_date",
-                    "type": "text",
-                    "size": "col-4"
                 }
             }
         },

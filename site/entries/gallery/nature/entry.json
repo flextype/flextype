@@ -4,5 +4,6 @@
     "description": "",
     "template": "gallery-item",
     "fieldset": "gallery-item",
-    "date": "July 02 2019 19:11:57"
+    "published_at": 1564409150,
+    "created_at": 1564409150
 }

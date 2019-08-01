@@ -4,11 +4,11 @@
 
     {{ entry.content|shortcode|raw}}
 
-    {% for entry in entries.fetchAll('blog', {'order_by': {'field': 'date', 'direction': 'desc'}, 'set_max_result': '3'}) %}
+    {% for entry in entries.fetchAll('blog', {'order_by': {'field': 'published_at', 'direction': 'desc'}, 'set_max_result': '3'}) %}
         <a href="{{ entry.slug }}" class="blog-post">
             <h3>{{ entry.title }}</h3>
             <p>{{ entry.summary|shortcode|raw}}</p>
-            <div>{{ entry.date }}</div>
+            <div>{{ entry.published_at|date(settings.date_format) }}</div>
         </a>
     {% endfor %}
 
