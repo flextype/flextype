@@ -69,5 +69,8 @@
         "classmap": [
             "flextype"
         ]
+    },
+    "require-dev": {
+        "doctrine/coding-standard": "^6.0"
     }
 }
