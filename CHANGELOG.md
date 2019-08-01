@@ -5,7 +5,7 @@
 ### Changed
 - Flextype Admin Panel: Installation page improvements #194 #186
 - Flextype Core: Moving to PHP 7.2 #198 #186
-- Flextype Core: remove date field and add new created_at, modified_at, published_at fields #196 #186 
+- Flextype Core: remove date field and add new created_at, modified_at, published_at fields #196 #186
 
 ## [0.9.3] - 2019-07-07
 ### Fixed
