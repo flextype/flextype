@@ -407,9 +407,6 @@ class Entries
                 // Entry file path
                 $entry_file = $entry_dir . '/entry.json';
 
-                // Merge data
-                $data = array_merge($data, ['created_at' => Filesystem::getTimestamp($entry_file)]);
-
                 // Check if new entry file exists
                 if (!Filesystem::has($entry_file)) {
                     return Filesystem::write($entry_file, JsonParser::encode($data));
