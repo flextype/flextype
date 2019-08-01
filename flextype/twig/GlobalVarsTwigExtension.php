@@ -1,9 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,7 +11,11 @@
 
 namespace Flextype;
 
-class GlobalVarsTwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+use Twig_Extension;
+use Twig_Extension_GlobalsInterface;
+use const PHP_VERSION;
+
+class GlobalVarsTwigExtension extends Twig_Extension implements Twig_Extension_GlobalsInterface
 {
     /**
      * Flextype Dependency Container
@@ -44,7 +47,7 @@ class GlobalVarsTwigExtension extends \Twig_Extension implements \Twig_Extension
             'PATH_CACHE' => PATH['cache'],
             'FLEXTYPE_VERSION' => FLEXTYPE_VERSION,
             'PHP_VERSION' => PHP_VERSION,
-            'registry' => $this->flextype['registry']->dump()
+            'registry' => $this->flextype['registry']->dump(),
         ];
     }
 }

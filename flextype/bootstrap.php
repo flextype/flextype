@@ -1,9 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Romanenko Sergey <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,9 +11,20 @@
 
 namespace Flextype;
 
-use Flextype\Component\Session\Session;
-use Flextype\Component\Registry\Registry;
 use Flextype\Component\Filesystem\Filesystem;
+use Flextype\Component\Registry\Registry;
+use Flextype\Component\Session\Session;
+use RuntimeException;
+use Slim\App;
+use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
+use function array_replace_recursive;
+use function date_default_timezone_set;
+use function define;
+use function error_reporting;
+use function function_exists;
+use function mb_internal_encoding;
+use function mb_language;
+use function mb_regex_encoding;
 
 /**
  * The version of Flextype
@@ -45,52 +55,53 @@ $default_settings_file_path = PATH['config']['default'] . '/settings.json';
 $site_settings_file_path    = PATH['config']['site'] . '/settings.json';
 
 // Set settings if Flextype settings and Site settings config files exist
-if (Filesystem::has($default_settings_file_path) && Filesystem::has($site_settings_file_path)) {
-    if (($content = Filesystem::read($default_settings_file_path)) === false) {
-        throw new \RuntimeException('Load file: ' . $default_settings_file_path . ' - failed!');
-    } else {
-        $default_settings = JsonParser::decode($content);
-    }
-
-    if (($content = Filesystem::read($site_settings_file_path)) === false) {
-        throw new \RuntimeException('Load file: ' . $site_settings_file_path . ' - failed!');
-    } else {
-        $site_settings = JsonParser::decode($content);
-    }
-
-    // Merge settings
-    $settings = array_replace_recursive($default_settings, $site_settings);
-
-    // Set settings
-    $registry->set('settings', $settings);
-} else {
-    throw new \RuntimeException("Flextype settings and Site settings config files does not exist.");
+if (! Filesystem::has($default_settings_file_path) || ! Filesystem::has($site_settings_file_path)) {
+    throw new RuntimeException('Flextype settings and Site settings config files does not exist.');
 }
+
+if (($content = Filesystem::read($default_settings_file_path)) === false) {
+    throw new RuntimeException('Load file: ' . $default_settings_file_path . ' - failed!');
+} else {
+    $default_settings = JsonParser::decode($content);
+}
+
+if (($content = Filesystem::read($site_settings_file_path)) === false) {
+    throw new RuntimeException('Load file: ' . $site_settings_file_path . ' - failed!');
+} else {
+    $site_settings = JsonParser::decode($content);
+}
+
+// Merge settings
+$settings = array_replace_recursive($default_settings, $site_settings);
+
+// Set settings
+$registry->set('settings', $settings);
 
 /**
  * Create new application
  */
-$app = new \Slim\App(['settings' => [
-                            'debug' => $registry->get('settings.errors.display'),
-                            'whoops.editor' => $registry->get('settings.whoops.editor'),
-                            'whoops.page_title' => $registry->get('settings.whoops.page_title'),
-                            'displayErrorDetails' => $registry->get('settings.display_error_details'),
-                            'addContentLengthHeader' => $registry->get('settings.add_content_length_header'),
-                            'routerCacheFile' => $registry->get('settings.router_cache_file'),
-                            'determineRouteBeforeAppMiddleware' => $registry->get('settings.determine_route_before_app_middleware'),
-                            'outputBuffering' => $registry->get('settings.output_buffering'),
-                            'responseChunkSize' => $registry->get('settings.response_chunk_size'),
-                            'httpVersion' => $registry->get('settings.http_version'),
-                            'twig' => [
-                                'debug' => $registry->get('settings.errors.display'),
-                                'cache' => PATH['cache'] . '/twig',
-                                'auto_reload' => $registry->get('settings.twig.auto_reload'),
-                            ],
-                            'images' => [
-                                'driver' => $registry->get('settings.image.driver'),
-                            ]
-                        ]
-                    ]);
+$app = new App([
+    'settings' => [
+        'debug' => $registry->get('settings.errors.display'),
+        'whoops.editor' => $registry->get('settings.whoops.editor'),
+        'whoops.page_title' => $registry->get('settings.whoops.page_title'),
+        'displayErrorDetails' => $registry->get('settings.display_error_details'),
+        'addContentLengthHeader' => $registry->get('settings.add_content_length_header'),
+        'routerCacheFile' => $registry->get('settings.router_cache_file'),
+        'determineRouteBeforeAppMiddleware' => $registry->get('settings.determine_route_before_app_middleware'),
+        'outputBuffering' => $registry->get('settings.output_buffering'),
+        'responseChunkSize' => $registry->get('settings.response_chunk_size'),
+        'httpVersion' => $registry->get('settings.http_version'),
+        'twig' => [
+            'debug' => $registry->get('settings.errors.display'),
+            'cache' => PATH['cache'] . '/twig',
+            'auto_reload' => $registry->get('settings.twig.auto_reload'),
+        ],
+        'images' => [
+            'driver' => $registry->get('settings.image.driver'),
+        ],
+    ],
+]);
 
 /**
  * Set Flextype Dependency Injection Container
@@ -128,8 +139,7 @@ if ($flextype['registry']->get('settings.errors.display')) {
     /**
      * Add WhoopsMiddleware
      */
-    $app->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware($app));
-
+    $app->add(new WhoopsMiddleware($app));
 } else {
     error_reporting(0);
 }

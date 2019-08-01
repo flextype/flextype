@@ -1,9 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,18 +11,21 @@
 
 namespace Flextype;
 
-class JsonParserTwigExtension extends \Twig_Extension
+use Twig_Extension;
+use Twig_SimpleFunction;
+
+class JsonParserTwigExtension extends Twig_Extension
 {
     /**
      * Returns a list of functions to add to the existing list.
      *
      * @return array
      */
-    public function getFunctions()
+    public function getFunctions() : array
     {
         return [
-            new \Twig_SimpleFunction('json_parser_decode', [$this, 'decode']),
-            new \Twig_SimpleFunction('json_parser_encode', [$this, 'encode'])
+            new Twig_SimpleFunction('json_parser_decode', [$this, 'decode']),
+            new Twig_SimpleFunction('json_parser_encode', [$this, 'encode']),
         ];
     }
 

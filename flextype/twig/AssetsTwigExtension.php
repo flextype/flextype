@@ -1,9 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
@@ -13,8 +12,10 @@
 namespace Flextype;
 
 use Flextype\Component\Assets\Assets;
+use Twig_Extension;
+use Twig_Extension_GlobalsInterface;
 
-class AssetsTwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class AssetsTwigExtension extends Twig_Extension implements Twig_Extension_GlobalsInterface
 {
     /**
      * Register Global variables in an extension
@@ -22,7 +23,7 @@ class AssetsTwigExtension extends \Twig_Extension implements \Twig_Extension_Glo
     public function getGlobals()
     {
         return [
-            'assets' => new AssetsTwig()
+            'assets' => new AssetsTwig(),
         ];
     }
 }

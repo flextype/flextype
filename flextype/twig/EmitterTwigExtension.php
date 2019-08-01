@@ -1,9 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,7 +11,10 @@
 
 namespace Flextype;
 
-class EmitterTwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+use Twig_Extension;
+use Twig_Extension_GlobalsInterface;
+
+class EmitterTwigExtension extends Twig_Extension implements Twig_Extension_GlobalsInterface
 {
     /**
      * Flextype Dependency Container
@@ -33,7 +35,7 @@ class EmitterTwigExtension extends \Twig_Extension implements \Twig_Extension_Gl
     public function getGlobals()
     {
         return [
-            'emmiter' => new EmitterTwig($this->flextype)
+            'emmiter' => new EmitterTwig($this->flextype),
         ];
     }
 }
