@@ -13,6 +13,9 @@ use Respect\Validation\Validator as v;
 use Intervention\Image\ImageManagerStatic as Image;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+
 
 /**
  * @property View $view
@@ -197,6 +200,7 @@ class EntriesController extends Controller
                 $data_from_post['fieldset']     = $data['fieldset'];
                 $data_from_post['published_at'] = time();
                 $data_from_post['created_at']   = time();
+                $data_from_post['uuid']         = Uuid::uuid4();
 
                 // Predefine data values based on selected fieldset
                 foreach ($fieldset['sections'] as $key => $section) {
