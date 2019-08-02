@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Flextype;
 
 // UsersController
-$app->group('/' . $admin_route, static function () use ($app) : void {
+$app->group('/' . $admin_route, function () use ($app) : void {
     $app->get('/installation', 'UsersController:installation')->setName('admin.users.installation');
     $app->post('/installation', 'UsersController:installationProcess')->setName('admin.users.installationProcess');
     $app->get('/login', 'UsersController:login')->setName('admin.users.login');
     $app->post('/login', 'UsersController:loginProcess')->setName('admin.users.loginProcess');
 });
 
-$app->group('/' . $admin_route, static function () use ($app) : void {
+$app->group('/' . $admin_route, function () use ($app) : void {
     // Dashboard
     $app->get('', 'DashboardController:index')->setName('admin.dashboard.index');
 
