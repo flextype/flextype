@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 /**
- * @link http://romanenko.digital
+ * Flextype (http://flextype.org)
+ * Maintained by Sergey Romanenko and Flextype Community.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @license https://github.com/flextype/flextype/blob/dev/LICENSE.txt (MIT License)
  */
 
 namespace Flextype;
