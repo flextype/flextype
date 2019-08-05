@@ -15,14 +15,8 @@
 
             <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext" rel="stylesheet">
 
-            {% set bootstrap = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/css/bootstrap.min.css' %}
-            {% set animate = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/css/animate.min.css' %}
-            {% set lightbox = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/css/simplelightbox.min.css' %}
-            {% set default = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/css/default.min.css' %}
-            {% do assets.add('css', bootstrap, 'site', 1) %}
-            {% do assets.add('css', animate, 'site', 2) %}
-            {% do assets.add('css', lightbox, 'site', 3) %}
-            {% do assets.add('css', default, 'site', 4) %}
+            {% set build_css = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/css/build.min.css' %}
+            {% do assets.add('css', build_css, 'site', 1) %}
             {% for assets_site in assets.get('css', 'site') %}
                 {% for assets_by_priorities in assets_site %}
                     <link href="{{ assets_by_priorities.asset }}" rel="stylesheet">
