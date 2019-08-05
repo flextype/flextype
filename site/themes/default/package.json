@@ -2,17 +2,18 @@
   "name": "Default",
   "version": "1.0.0",
   "devDependencies": {
+    "animate.css": "^3.7.2",
+    "bootstrap": "^4.3.1",
+    "del": "^5.0.0",
     "es6-promise": "^4.2.4",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^5.0.0",
-    "gulp-csso": "^3.0.1",
-    "gulp-sass": "^4.0.1",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^6.0.0",
     "gulp-concat": "^2.6.1",
-    "gulp-sourcemaps": "^2.6.4",
-    "bootstrap": "^4.2.1",
-    "popper.js": "^1.14.6",
-    "jquery": "^3.3.1",
-    "simplelightbox": "^1.17.2",
-    "animate.css": "^3.7.2"
+    "gulp-csso": "^3.0.1",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.15.0",
+    "simplelightbox": "^1.17.2"
   }
 }
