@@ -1,7 +1,7 @@
 {
   "admin": "Admin",
-  "admin_welcome": "Welcome",
-  "admin_create_new_user_welcome": "To finish setup and secure your site, please create the first user by entering the necessary information below.",
+  "admin_welcome": "Bienvenue",
+  "admin_create_new_user_welcome": "Afin de terminer l'installation de votre site et de le sécuriser, merci de créer le premier utilisateur en renseignant ci-dessous les informations requises.",
   "admin_cancel": "Annuler",
   "admin_create": "Créer",
   "admin_debugging": "Debugging",
