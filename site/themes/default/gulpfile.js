@@ -17,12 +17,6 @@ function moveBootstrapCss() {
         .pipe(dest('assets/dist/css/tmp'));
 }
 
-function moveAnimateCss() {
-    return src('node_modules/animate.css/animate.min.css')
-        .pipe(concat('2.min.css'))
-        .pipe(dest('assets/dist/css/tmp'));
-}
-
 function moveSimpleLightboxCss() {
     return src('node_modules/simplelightbox/dist/simplelightbox.min.css')
         .pipe(concat('3.min.css'))
@@ -82,7 +76,6 @@ function cleanTmpJs() {
 }
 
 exports.default = series(moveBootstrapCss,
-                         moveAnimateCss,
                          moveSimpleLightboxCss,
                          buldDefaultCss,
                          mergeCss,
