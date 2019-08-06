@@ -23,7 +23,7 @@ function moveAnimateCss() {
         .pipe(dest('assets/dist/css/tmp'));
 }
 
-function moveSimpleLightbox() {
+function moveSimpleLightboxCss() {
     return src('node_modules/simplelightbox/dist/simplelightbox.min.css')
         .pipe(concat('3.min.css'))
         .pipe(dest('assets/dist/css/tmp'));
@@ -34,6 +34,24 @@ function buldDefaultCss() {
           .pipe(sass().on('error', sass.logError))
           .pipe(concat('4.min.css'))
           .pipe(dest('assets/dist/css/tmp'));
+}
+
+function moveJqueryJs() {
+    return src('node_modules/jquery/dist/jquery.min.js')
+        .pipe(concat('1.min.js'))
+        .pipe(dest('assets/dist/js/tmp'));
+}
+
+function moveBootstrapJs() {
+    return src('node_modules/bootstrap/dist/js/bootstrap.min.js')
+        .pipe(concat('2.min.js'))
+        .pipe(dest('assets/dist/js/tmp'));
+}
+
+function moveSimpleLightboxJs() {
+    return src('node_modules/simplelightbox/dist/simple-lightbox.min.js')
+        .pipe(concat('3.min.js'))
+        .pipe(dest('assets/dist/js/tmp'));
 }
 
 function mergeCss() {
@@ -49,8 +67,28 @@ function mergeCss() {
         .pipe(dest('assets/dist/css/'));
 }
 
-function cleanTmp() {
+function mergeJs() {
+    return src('assets/dist/js/tmp/**')
+        .pipe(concat('build.min.js'))
+        .pipe(dest('assets/dist/js/'));
+}
+
+function cleanTmpCss() {
     return del('assets/dist/css/tmp/');
 }
 
-exports.default = series(moveBootstrapCss, moveAnimateCss, moveSimpleLightbox, buldDefaultCss, mergeCss, cleanTmp);
+function cleanTmpJs() {
+    return del('assets/dist/js/tmp/');
+}
+
+exports.default = series(moveBootstrapCss,
+                         moveAnimateCss,
+                         moveSimpleLightboxCss,
+                         buldDefaultCss,
+                         mergeCss,
+                         cleanTmpCss,
+                         moveJqueryJs,
+                         moveBootstrapJs,
+                         moveSimpleLightboxJs,
+                         mergeJs,
+                         cleanTmpJs);
