@@ -55,10 +55,9 @@
                 {% endblock %}
             </div>
         </main>
-        {% set default = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/js/default.min.js' %}
-        {% set lightbox = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/js/simple-lightbox.min.js' %}
-        {% do assets.add('js', default, 'site', 1) %}
-        {% do assets.add('js', lightbox, 'site', 2) %}
+
+        {% set build_js = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/js/build.min.js' %}
+        {% do assets.add('js', build_js, 'site', 1) %}
         {% for assets_site in assets.get('js', 'site') %}
             {% for assets_by_priorities in assets_site %}
                 <script src="{{ assets_by_priorities.asset }}"></script>
