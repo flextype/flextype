@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * Flextype (http://flextype.org)
- * Maintained by Sergey Romanenko and Flextype Community.
+ * Founded by Sergey Romanenko and maintained Flextype Community.
  *
  * @license https://github.com/flextype/flextype/blob/dev/LICENSE.txt (MIT License)
  */

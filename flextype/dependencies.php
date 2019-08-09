@@ -2,7 +2,7 @@
 
 /**
  * Flextype (http://flextype.org)
- * Maintained by Sergey Romanenko and Flextype Community.
+ * Founded by Sergey Romanenko and maintained Flextype Community.
  *
  * @license https://github.com/flextype/flextype/blob/master/LICENSE.txt (MIT License)
  */
