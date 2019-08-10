@@ -269,12 +269,12 @@ class Entries
         } else {
             // Create entries array from entries list and ignore current requested entry
             foreach ($entries_list as $current_entry) {
-                if (strpos($current_entry['path'], $bind_id . '/entry.json') !== false) {
+                if (strpos($current_entry['path'], $bind_id . '/entry') !== false) {
                     // ignore ...
                 } else {
                     // We are checking...
                     // Whether the requested entry is a director and whether the file entry.json is in this directory.
-                    if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
+                    if ($current_entry['type'] === 'dir' && $this->_one_of($id)) {
                         // Get entry uid
                         // 1. Remove entries path
                         // 2. Remove left and right slashes
@@ -375,8 +375,8 @@ class Entries
     {
         $entry_file = $this->_file_location($id);
 
-        if (Filesystem::has($entry_file)) {
-            return Filesystem::write($entry_file, Parser::encode($data));
+        if (Filesystem::has($entry_file['file'])) {
+            return Filesystem::write($entry_file['file'], Parser::encode($data, $entry_file['driver']));
         }
 
         return false;
@@ -455,6 +455,17 @@ class Entries
     public function has(string $id) : bool
     {
         return Filesystem::has($this->_file_location($id));
+    }
+
+    private function _one_of(string $id)
+    {
+        foreach (Parser::$drivers as $driver) {
+            $driver_file = PATH['entries'] . '/' . $id . '/entry' . '.' . $driver['ext'];
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

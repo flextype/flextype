@@ -32,7 +32,7 @@ class Parser
 
                 break;
             case 'yaml':
-                return JsonParser::encode($input);
+                return YamlParser::encode($input);
 
                 break;
             case 'frontmatter':
