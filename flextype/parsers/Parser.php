@@ -11,6 +11,16 @@ namespace Flextype;
 
 class Parser
 {
+    public static $drivers = [
+        'json' => [
+            'name' => 'json',
+            'ext' => 'json',
+        ], 'yaml' => [
+            'name' => 'yaml',
+            'ext' => 'yaml',
+        ],
+    ];
+
     public static function encode($input, string $driver) : string
     {
         switch ($driver) {

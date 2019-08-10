@@ -466,15 +466,15 @@ class Entries
      */
     private function _file_location(string $id)
     {
-        $json_file = PATH['entries'] . '/' . $id . '/entry.json';
-        $yaml_file = PATH['entries'] . '/' . $id . '/entry.yaml';
+        foreach (Parser::$drivers as $driver) {
+            $driver_file = PATH['entries'] . '/' . $id . '/entry' . '.' . $driver['ext'];
 
-        if (Filesystem::has($json_file)) {
-            return ['file' => $json_file, 'driver' => 'json'];
-        }
-
-        if (Filesystem::has($yaml_file)) {
-            return ['file' => $yaml_file, 'driver' => 'yaml'];
+            if (Filesystem::has($driver_file)) {
+                return [
+                    'file' => $driver_file,
+                    'driver' => $driver['name'],
+                ];
+            }
         }
 
         return false;
