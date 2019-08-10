@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use Flextype\Component\Arr\Arr;
 use const PHP_EOL;
 use function array_slice;
 use function count;
@@ -28,7 +29,7 @@ class FrontmatterParser
      *
      * @access public
      */
-    public static function frontMatterParser(string $content) : array
+    public static function parser(string $content) : array
     {
         $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . ltrim($content));
         if (count($parts) < 3) {
@@ -40,11 +41,25 @@ class FrontmatterParser
 
     public static function encode($input) : string
     {
-        return '';
+        if ($input['content']) {
+            $content = $input['content'];
+            Arr::delete($input, 'content');
+            $matter = YamlParser::encode($input);
+        } else {
+            $content = '';
+            $matter  = YamlParser::encode($input);
+        }
+
+        $encoded = '---' . "\n" .
+                   $matter .
+                   '---' . "\n" .
+                   $content;
+
+        return $encoded;
     }
 
     public static function decode(string $input)
     {
-        return self::frontMatterParser($input);
+        return self::parser($input);
     }
 }
