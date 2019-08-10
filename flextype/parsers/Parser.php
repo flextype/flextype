@@ -18,6 +18,12 @@ class Parser
         ], 'yaml' => [
             'name' => 'yaml',
             'ext' => 'yaml',
+        ], 'md' => [
+            'name' => 'md',
+            'ext' => 'md',
+        ], 'toml' => [
+            'name' => 'toml',
+            'ext' => 'toml',
         ],
     ];
 

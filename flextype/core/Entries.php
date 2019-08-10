@@ -376,7 +376,7 @@ class Entries
         $entry_file = $this->_file_location($id);
 
         if (Filesystem::has($entry_file)) {
-            return Filesystem::write($entry_file, JsonParser::encode($data));
+            return Filesystem::write($entry_file, Parser::encode($data));
         }
 
         return false;
@@ -403,7 +403,7 @@ class Entries
 
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file)) {
-                    return Filesystem::write($entry_file, JsonParser::encode($data));
+                    return Filesystem::write($entry_file, Parser::encode($data));
                 }
 
                 return false;
