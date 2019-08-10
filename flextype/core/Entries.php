@@ -5,8 +5,6 @@ declare(strict_types=1);
 /**
  * Flextype (http://flextype.org)
  * Founded by Sergey Romanenko and maintained Flextype Community.
- *
- * @license https://github.com/flextype/flextype/blob/master/LICENSE.txt (MIT License)
  */
 
 namespace Flextype;
@@ -72,13 +70,13 @@ class Entries
         $entry_file = $this->_file_location($id);
 
         // If requested entry founded then process it
-        if (Filesystem::has($entry_file)) {
+        if ($entry_file) {
             // Create unique entry cache_id
             // Entry Cache ID = entry + entry file + entry file time stamp
-            if ($timestamp = Filesystem::getTimestamp($entry_file)) {
-                $entry_cache_id = md5('entry' . $entry_file . $timestamp);
+            if ($timestamp = Filesystem::getTimestamp($entry_file['file'])) {
+                $entry_cache_id = md5('entry' . $entry_file['file'] . $timestamp);
             } else {
-                $entry_cache_id = md5('entry' . $entry_file);
+                $entry_cache_id = md5('entry' . $entry_file['file']);
             }
 
             // Try to get the requested entry from cache
@@ -98,16 +96,16 @@ class Entries
             }
 
             // Try to get requested entry body content
-            if ($entry_body = Filesystem::read($entry_file)) {
+            if ($entry_body = Filesystem::read($entry_file['file'])) {
                 // Try to decode requested entry body content
-                if ($entry_decoded = JsonParser::decode($entry_body)) {
+                if ($entry_decoded = Parser::decode($entry_body, $entry_file['driver'])) {
                     // Add predefined entry items
                     // Entry Date
-                    $entry_decoded['published_at'] = $entry_decoded['published_at'] ? $entry_decoded['published_at'] : Filesystem::getTimestamp($entry_file);
-                    $entry_decoded['created_at']   = $entry_decoded['created_at'] ? $entry_decoded['created_at'] : Filesystem::getTimestamp($entry_file);
+                    $entry_decoded['published_at'] = $entry_decoded['published_at'] ? $entry_decoded['published_at'] : Filesystem::getTimestamp($entry_file['file']);
+                    $entry_decoded['created_at']   = $entry_decoded['created_at'] ? $entry_decoded['created_at'] : Filesystem::getTimestamp($entry_file['file']);
 
                     // Entry Timestamp
-                    $entry_decoded['modified_at'] = Filesystem::getTimestamp($entry_file);
+                    $entry_decoded['modified_at'] = Filesystem::getTimestamp($entry_file['file']);
 
                     // Entry Slug
                     $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($id, '/'), '/');
@@ -466,9 +464,20 @@ class Entries
      *
      * @access private
      */
-    private function _file_location(string $id) : string
+    private function _file_location(string $id)
     {
-        return PATH['entries'] . '/' . $id . '/entry.json';
+        $json_file = PATH['entries'] . '/' . $id . '/entry.json';
+        $yaml_file = PATH['entries'] . '/' . $id . '/entry.yaml';
+
+        if (Filesystem::has($json_file)) {
+            return ['file' => $json_file, 'driver' => 'json'];
+        }
+
+        if (Filesystem::has($yaml_file)) {
+            return ['file' => $yaml_file, 'driver' => 'yaml'];
+        }
+
+        return false;
     }
 
     /**

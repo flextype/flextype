@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Flextype (http://flextype.org)
+ * Founded by Sergey Romanenko and maintained Flextype Community.
+ */
+
+namespace Flextype;
+
+class Parser
+{
+    public static function encode($input, string $driver) : string
+    {
+        switch ($driver) {
+            case 'json':
+                return JsonParser::encode($input);
+
+                break;
+            case 'yaml':
+                return JsonParser::encode($input);
+
+                break;
+            default:
+                // code...
+                break;
+        }
+    }
+
+    public static function decode(string $input, string $driver)
+    {
+        switch ($driver) {
+            case 'json':
+                return JsonParser::decode($input);
+
+                break;
+            case 'yaml':
+                return YamlParser::decode($input);
+
+                break;
+            default:
+                // code...
+                break;
+        }
+    }
+}

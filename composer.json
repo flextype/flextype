@@ -51,7 +51,8 @@
         "cocur/slugify": "^3.2",
         "oscarotero/psr7-middlewares": "^3.21",
         "thunderer/shortcode": "^0.7.2",
-        "ramsey/uuid": "^3.8"
+        "ramsey/uuid": "^3.8",
+        "symfony/yaml": "^4.3.3"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
