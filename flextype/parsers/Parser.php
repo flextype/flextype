@@ -18,12 +18,9 @@ class Parser
         ], 'yaml' => [
             'name' => 'yaml',
             'ext' => 'yaml',
-        ], 'md' => [
-            'name' => 'md',
+        ], 'frontmatter' => [
+            'name' => 'frontmatter',
             'ext' => 'md',
-        ], 'toml' => [
-            'name' => 'toml',
-            'ext' => 'toml',
         ],
     ];
 
@@ -36,6 +33,10 @@ class Parser
                 break;
             case 'yaml':
                 return JsonParser::encode($input);
+
+                break;
+            case 'frontmatter':
+                return FrontmatterParser::encode($input);
 
                 break;
             default:
@@ -53,6 +54,10 @@ class Parser
                 break;
             case 'yaml':
                 return YamlParser::decode($input);
+
+                break;
+            case 'frontmatter':
+                return FrontmatterParser::decode($input);
 
                 break;
             default:
