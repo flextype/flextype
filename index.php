@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 /**
  * Flextype (http://flextype.org)
- * Founded by Sergey Romanenko and maintained Flextype Community.
- *
- * @license https://github.com/flextype/flextype/blob/master/LICENSE.txt (MIT License)
+ * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
-
+ 
 namespace Flextype;
 
 use const DIRECTORY_SEPARATOR;
