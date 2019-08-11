@@ -244,6 +244,9 @@ $flextype['view'] = static function ($container) {
     // Add Global Shortcodes Twig Extension
     $view->addExtension(new ShortcodesTwigExtension($container));
 
+    // Add Global Markdown Twig Extension
+    $view->addExtension(new MarkdownTwigExtension($container));
+
     // Add Global Snippets Twig Extension
     $view->addExtension(new SnippetsTwigExtension($container));
 
