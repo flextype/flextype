@@ -457,7 +457,16 @@ class Entries
         return Filesystem::has($this->_file_location($id));
     }
 
-    private function _one_of(string $id)
+    /**
+     * Helper method _one_of
+     *
+     * @param string $id Entry id
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access private
+     */
+    private function _one_of(string $id) : bool
     {
         foreach (Parser::$drivers as $driver) {
             $driver_file = PATH['entries'] . '/' . $id . '/entry' . '.' . $driver['ext'];
