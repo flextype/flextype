@@ -52,7 +52,10 @@
         "oscarotero/psr7-middlewares": "^3.21",
         "thunderer/shortcode": "^0.7.2",
         "ramsey/uuid": "^3.8",
-        "symfony/yaml": "^4.3.3"
+        "symfony/yaml": "^4.3.3",
+
+        "erusev/parsedown": "1.7.3",
+        "erusev/parsedown-extra": "0.7.1"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
