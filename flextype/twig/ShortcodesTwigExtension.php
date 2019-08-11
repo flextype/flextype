@@ -42,8 +42,12 @@ class ShortcodesTwigExtension extends Twig_Extension
     /**
      * Shorcode process
      */
-    public function shortcode(string $value) : string
+    public function shortcode($value) : string
     {
-        return $this->flextype->shortcodes->process($value);
+        if ($value !== null) {
+            return $this->flextype->shortcodes->process($value);
+        }
+
+        return '';
     }
 }
