@@ -11,8 +11,8 @@ namespace Flextype;
 
 use Flextype\Component\I18n\I18n;
 use Twig_Extension;
-use Twig_SimpleFunction;
 use Twig_SimpleFilter;
+use Twig_SimpleFunction;
 
 class I18nTwigExtension extends Twig_Extension
 {
