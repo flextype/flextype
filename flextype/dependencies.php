@@ -33,6 +33,7 @@ use League\Glide\Responses\SlimResponseFactory;
 use League\Glide\ServerFactory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use ParsedownExtra as Markdown;
 use Slim\Csrf\Guard;
 use Slim\Flash\Messages;
 use Slim\Http\Environment;
@@ -177,6 +178,13 @@ $flextype['snippets'] = static function ($container) use ($flextype, $app) {
  */
 $flextype['shortcodes'] = static function ($container) {
     return new ShortcodeFacade();
+};
+
+/**
+ * Add Markdown service to Flextype container
+ */
+$flextype['markdown'] = static function ($container) {
+    return new Markdown();
 };
 
 /**
