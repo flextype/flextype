@@ -390,7 +390,7 @@ class Entries
      *
      * @access public
      */
-    public function create(string $id, array $data) : bool
+    public function create(string $id, array $data, string $driver = 'json') : bool
     {
         $entry_dir = $this->_dir_location($id);
 
@@ -399,7 +399,7 @@ class Entries
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
                 // Entry file path
-                $entry_file = $entry_dir . '/entry.json';
+                $entry_file = $entry_dir . '/entry' . '.' . $driver;
 
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file)) {
