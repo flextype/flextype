@@ -12,6 +12,7 @@ namespace Flextype;
 use Flextype\Component\I18n\I18n;
 use Twig_Extension;
 use Twig_SimpleFunction;
+use Twig_SimpleFilter;
 
 class I18nTwigExtension extends Twig_Extension
 {
@@ -24,6 +25,18 @@ class I18nTwigExtension extends Twig_Extension
     {
         return [
             new Twig_SimpleFunction('tr', [$this, 'tr']),
+        ];
+    }
+
+    /**
+     * Returns a list of filters to add to the existing list.
+     *
+     * @return array
+     */
+    public function getFilters() : array
+    {
+        return [
+            new Twig_SimpleFilter('tr', [$this, 'tr']),
         ];
     }
 
