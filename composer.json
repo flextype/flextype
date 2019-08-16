@@ -76,6 +76,7 @@
         ]
     },
     "require-dev": {
-        "doctrine/coding-standard": "^6.0"
+        "doctrine/coding-standard": "^6.0",
+        "victorjonsson/markdowndocs": "dev-master"
     }
 }
