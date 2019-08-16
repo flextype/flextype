@@ -12,12 +12,12 @@
                 },
                 "summary": {
                     "title": "admin_summary",
-                    "type": "editor",
+                    "type": "html",
                     "size": "col-12"
                 },
                 "content": {
                     "title": "admin_content",
-                    "type": "editor",
+                    "type": "html",
                     "size": "col-12"
                 }
             }
