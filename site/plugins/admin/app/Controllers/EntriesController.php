@@ -622,7 +622,7 @@ class EntriesController extends Controller
                             $form_element = Form::hidden($element, $form_value);
                         break;
                         // A WYSIWYG HTML field.
-                        case 'editor':
+                        case 'html':
                             $property['attributes']['class'] .= ' js-html-editor';
                             $form_element = Form::textarea($element, $form_value, $property['attributes']);
                         break;
