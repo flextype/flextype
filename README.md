@@ -136,19 +136,13 @@ With Flextype you can create any project you want.
 ## CONTRIBUTE
 Flextype is an open source project and community contributions are essential to its growing and success. Contributing to the Flextype is easy and you can give as little or as much time as you want.
 
-- Help on the [Communities.](http://flextype.org/en/documentation/guide/basics/getting-help)
+- Help on the [Communities.](http://flextype.org/en/community)
 - Develop a new plugin.
 - Create a new theme.
 - Find and [report issues.](https://github.com/flextype/flextype/issues)
 - Link back to [Flextype](http://flextype.org).
 - [Donate to keep Flextype free.](http://flextype.org/en/about/sponsors)
 - [Join Flextype International Translator Team](https://crowdin.com/project/flextype/invite)
-
-
-## LINKS
-- [Site](http://flextype.org)
-- [Documentation](http://flextype.org/en/documentation)
-
 
 ## LICENSE
 See [LICENSE](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
