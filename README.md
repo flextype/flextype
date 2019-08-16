@@ -20,27 +20,13 @@ Flextype was **founded in March 2018** as lightweight alternative to other heavy
 
 With Flextype, you are in complete control. Design your data structure the way you want. Update and share your data with others and teams using version control. Flextype does not require MySQL database, because all the data are collected in a simple files.  Perfect portability when changing your hosting provider. Just copy all the files from one account to another.
 
-## FEATURES
+The underlying architecture of Flextype is built using well established and best-in-class technologies. This is to ensure that Flextype is simple to use and easy to extend. Some of these key technologies include:
 
-#### Simple
-Easy to install, upgrade and use.  
-No installation needed, just copy files to your server!  
-
-#### Fast
-Flextype is really fast and lightweight!  
-No database required, flat files only!  
-
-#### Flexible
-Flextype provides amazing API for plugins, themes and core developers!  
-
-#### Easy editing
-Use your favorite editor to write your content with plain HTML and Flextype Shortcodes.  
-
-#### Dynamic Content Types
-The flat-file nature of Flextype lets you define custom fields for any of your pages.  
-
-#### Open Source
-Flextype is an open-source project licensed under the MIT LICENSE to set the world free!  
+* [Slim PHP](http://www.slimframework.com): Framework for powerful web applications and APIs.
+* [Twig Templating](https://twig.symfony.com): Flexible, fast, and secure
+template engine for PHP.
+* [Doctrine Project](https://www.doctrine-project.org): A set of decoupled and reusable PHP libraries for powerful web applications.
+* [The PHP League](https://thephpleague.com): The League of Extraordinary PHP Packages well tested and using modern coding standards.
 
 ## REQUIREMENTS
 
