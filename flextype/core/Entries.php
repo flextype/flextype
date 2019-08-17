@@ -71,6 +71,7 @@ class Entries
 
         // If requested entry founded then process it
         if ($entry_file) {
+
             // Create unique entry cache_id
             // Entry Cache ID = entry + entry file + entry file time stamp
             if ($timestamp = Filesystem::getTimestamp($entry_file['file'])) {
@@ -272,9 +273,17 @@ class Entries
                 if (strpos($current_entry['path'], $bind_id . '/entry') !== false) {
                     // ignore ...
                 } else {
+
                     // We are checking...
-                    // Whether the requested entry is a director and whether the file entry.json is in this directory.
-                    if ($current_entry['type'] === 'dir' && $this->_one_of($id)) {
+                    // Whether the requested entry is a director and whether the file entry is in this directory.
+                    if ($current_entry['type'] === 'dir' && (
+                            // @todo need refactoring here!
+                            Filesystem::has($current_entry['path'] . '/entry.md') ||
+                            Filesystem::has($current_entry['path'] . '/entry.json') ||
+                            Filesystem::has($current_entry['path'] . '/entry.yaml')
+                            )
+                        ) {
+
                         // Get entry uid
                         // 1. Remove entries path
                         // 2. Remove left and right slashes
@@ -392,7 +401,7 @@ class Entries
      *
      * @access public
      */
-    public function create(string $id, array $data, string $driver = 'json') : bool
+    public function create(string $id, array $data, string $driver = 'frontmatter') : bool
     {
         $entry_dir = $this->_dir_location($id);
 
@@ -401,11 +410,11 @@ class Entries
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
                 // Entry file path
-                $entry_file = $entry_dir . '/entry' . '.' . $driver;
+                $entry_file = $entry_dir . '/entry' . '.' . Parser::$drivers[$driver]['ext'];
 
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file)) {
-                    return Filesystem::write($entry_file, Parser::encode($data));
+                    return Filesystem::write($entry_file, Parser::encode($data, $driver));
                 }
 
                 return false;
@@ -456,26 +465,9 @@ class Entries
      */
     public function has(string $id) : bool
     {
-        return Filesystem::has($this->_file_location($id)['file']);
-    }
-
-    /**
-     * Helper method _one_of
-     *
-     * @param string $id Entry id
-     *
-     * @return bool True on success, false on failure.
-     *
-     * @access private
-     */
-    private function _one_of(string $id) : bool
-    {
-        foreach (Parser::$drivers as $driver) {
-            $driver_file = PATH['entries'] . '/' . $id . '/entry' . '.' . $driver['ext'];
-
-            return true;
+        if ($this->_file_location($id)) {
+            return Filesystem::has($this->_file_location($id)['file']);
         }
-
         return false;
     }
 
