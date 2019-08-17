@@ -16,7 +16,7 @@ class Parser
      *
      * @var array
      */
-     public static $default_driver = 'frontmatter';
+    public static $default_driver = 'frontmatter';
 
     /**
      * Drivers
@@ -25,8 +25,8 @@ class Parser
      */
     public static $drivers = [
         'frontmatter' => [
-           'name' => 'frontmatter',
-           'ext' => 'md',
+            'name' => 'frontmatter',
+            'ext' => 'md',
         ],
         'json' => [
             'name' => 'json',
@@ -34,7 +34,7 @@ class Parser
         ], 'yaml' => [
             'name' => 'yaml',
             'ext' => 'yaml',
-        ]
+        ],
     ];
 
     public static function encode($input, string $driver) : string
