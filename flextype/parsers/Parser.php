@@ -11,6 +11,18 @@ namespace Flextype;
 
 class Parser
 {
+    /**
+     * Default driver
+     *
+     * @var array
+     */
+     public static $default_driver = 'frontmatter';
+
+    /**
+     * Drivers
+     *
+     * @var array
+     */
     public static $drivers = [
         'frontmatter' => [
            'name' => 'frontmatter',
