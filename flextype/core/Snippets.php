@@ -168,7 +168,7 @@ class Snippets
     }
 
     /**
-     * Delete snippet.
+     * Delete snippet
      *
      * @param string $id Snippet id
      *
@@ -193,7 +193,7 @@ class Snippets
      */
     public function copy(string $id, string $new_id) : bool
     {
-        return Filesystem::copy($this->_file_location($id), $this->_file_location($new_id), false);
+        return Filesystem::copy($this->_file_location($id), $this->_file_location($new_id));
     }
 
     /**
@@ -211,7 +211,7 @@ class Snippets
     }
 
     /**
-     * Helper private method _exec_snippet
+     * Helper method _exec_snippet
      *
      * @param  array $vars Vars
      *
@@ -257,6 +257,8 @@ class Snippets
      *
      * @param string $id Snippet id
      *
+     * @return string Snippet file path
+     *
      * @access private
      */
     private function _file_location(string $id) : string
@@ -266,6 +268,8 @@ class Snippets
 
     /**
      * Helper method _dir_location
+     *
+     * @return string Snippet dir path
      *
      * @access private
      */
