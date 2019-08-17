@@ -98,7 +98,7 @@ class Entries
             // Try to get requested entry body content
             if ($entry_body = Filesystem::read($entry_file['file'])) {
                 // Try to decode requested entry body content
-                if ($entry_decoded = Parser::decode($entry_body, $entry_file['driver'])) {
+                if ($entry_decoded = Parser::decode($entry_body, $entry_file['driver_name'])) {
                     // Add predefined entry items
                     // Entry Date
                     $entry_decoded['published_at'] = $entry_decoded['published_at'] ? $entry_decoded['published_at'] : Filesystem::getTimestamp($entry_file['file']);
@@ -137,7 +137,7 @@ class Entries
      *
      * @param array $args Query arguments
      *
-     * @return array The entries
+     * @return array The entries array
      *
      * @access public
      */
@@ -349,7 +349,7 @@ class Entries
     }
 
     /**
-     * Rename entry.
+     * Rename entry
      *
      * @param string $id     Entry id
      * @param string $new_id New entry id
@@ -370,6 +370,8 @@ class Entries
      * @param array  $data Data
      *
      * @access public
+     *
+     * @return bool True on success, false on failure.
      */
     public function update(string $id, array $data) : bool
     {
@@ -454,7 +456,7 @@ class Entries
      */
     public function has(string $id) : bool
     {
-        return Filesystem::has($this->_file_location($id));
+        return Filesystem::has($this->_file_location($id)['file']);
     }
 
     /**
@@ -486,13 +488,21 @@ class Entries
      */
     private function _file_location(string $id)
     {
+        // Go through all parser drivers
         foreach (Parser::$drivers as $driver) {
+
+            // define driver file path
             $driver_file = PATH['entries'] . '/' . $id . '/entry' . '.' . $driver['ext'];
 
+            // if we have this file in the filesystem then return:
+            // - file path and driver name
+            // - driver name
+            // - driver extension
             if (Filesystem::has($driver_file)) {
                 return [
                     'file' => $driver_file,
-                    'driver' => $driver['name'],
+                    'driver_name' => $driver['name'],
+                    'driver_ext' => $driver['ext'],
                 ];
             }
         }
@@ -504,6 +514,8 @@ class Entries
      * Helper method _dir_location
      *
      * @param string $id Entry id
+     *
+     * @return string Directory path
      *
      * @access private
      */
