@@ -27,6 +27,8 @@ The underlying architecture of Flextype is built using well established and best
 template engine for PHP.
 * [Doctrine Project](https://www.doctrine-project.org): A set of decoupled and reusable PHP libraries for powerful web applications.
 * [The PHP League](https://thephpleague.com): The League of Extraordinary PHP Packages well tested and using modern coding standards.
+* [Respect Validation](https://respect-validation.readthedocs.io/): The most awesome validation engine ever created for PHP.
+* [Thunderer Shortcode](https://github.com/thunderer/Shortcode): Advanced shortcode (BBCode) parser and engine for PHP.
 
 ## REQUIREMENTS
 
