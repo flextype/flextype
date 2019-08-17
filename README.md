@@ -113,25 +113,15 @@ gulp
 ## COMMUNITY
 Flextype is open source, community driven project, and maintained by community!
 
-- [Github Repository](https://github.com/flextype/flextype)
-- [Discord](https://discord.gg/CCKPKVG)
-- [Forum](http://forum.flextype.org)
-- [Vkontakte](https://vk.com/flextype)
-- [Twitter](https://twitter.com/getflextype)
-
-
-## NO LIMITS
-With Flextype you can create any project you want.
-
-- Business site
-- Landing page
-- Personal site
-- Portfolio
-- Product site
-- Documentation
-- Personal resume
-- Blog
-
+<table>
+    <tr>
+        <td>[Github Repository](https://github.com/flextype/flextype)</td>
+        <td>[Discord](https://discord.gg/CCKPKVG)</td>
+        <td>[Forum](http://forum.flextype.org)</td>
+        <td>[Vkontakte](https://vk.com/flextype)</td>
+        <td>[Twitter](https://twitter.com/getflextype)</td>
+    </tr>
+</table>
 
 ## CONTRIBUTE
 Flextype is an open source project and community contributions are essential to its growing and success. Contributing to the Flextype is easy and you can give as little or as much time as you want.
