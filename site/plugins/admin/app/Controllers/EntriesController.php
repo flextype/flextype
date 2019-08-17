@@ -200,7 +200,7 @@ class EntriesController extends Controller
                 $data_from_post['fieldset']     = $data['fieldset'];
                 $data_from_post['published_at'] = time();
                 $data_from_post['created_at']   = time();
-                $data_from_post['uuid']         = Uuid::uuid4();
+                $data_from_post['uuid']         = Uuid::uuid4()->toString();
 
                 // Predefine data values based on selected fieldset
                 foreach ($fieldset['sections'] as $key => $section) {

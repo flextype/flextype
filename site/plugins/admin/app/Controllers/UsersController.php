@@ -131,7 +131,7 @@ class UsersController extends Controller
                     'email' => $data['email'],
                     'role'  => 'admin',
                     'state' => 'enabled',
-                    'uuid' => Uuid::uuid4(),
+                    'uuid' => Uuid::uuid4()->toString(),
                 ])
             )) {
                 return $response->withRedirect($this->router->pathFor('admin.users.login'));
