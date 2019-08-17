@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
 use Intervention\Image\ImageManager;
 use League\Event\Emitter;
@@ -43,6 +44,13 @@ use Slim\Views\TwigExtension;
 use Thunder\Shortcode\ShortcodeFacade;
 use Twig\Extension\DebugExtension;
 use function date;
+
+/**
+ * Supply a custom callable resolver, which resolves PSR-15 middlewares.
+ */
+$flextype['callableResolver'] = static function ($container) {
+    return new CallableResolver($container);
+};
 
 /**
  * Add registry service to Flextype container

@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Psr7Middlewares\Middleware\ResponseTime;
-use Psr7Middlewares\Middleware\TrailingSlash;
+use Middlewares\ResponseTime;
+use Middlewares\TrailingSlash;
 
 /**
  * Add middleware CSRF (cross-site request forgery) protection for all routes
@@ -20,7 +20,7 @@ $app->add($flextype->get('csrf'));
 /**
  * Add middleware TrailingSlash for all routes
  */
-$app->add((new TrailingSlash(false))->redirect(301));
+$app->add((new TrailingSlash(false))->redirect(true));
 
 /**
  * Add middleware ResponseTime for all routes

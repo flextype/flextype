@@ -50,13 +50,17 @@
         "respect/validation": "^1.0",
         "monolog/monolog": "^1.24",
         "cocur/slugify": "^3.2",
-        "oscarotero/psr7-middlewares": "^3.21",
         "thunderer/shortcode": "^0.7.2",
         "ramsey/uuid": "^3.8",
         "symfony/yaml": "^4.3.3",
 
         "erusev/parsedown": "1.7.3",
-        "erusev/parsedown-extra": "0.7.1"
+        "erusev/parsedown-extra": "0.7.1",
+
+
+        "middlewares/trailing-slash": "^1.1",
+        "middlewares/response-time": "^1.1",
+        "bnf/slim3-psr15": "^1.1"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
