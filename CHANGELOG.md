@@ -1,11 +1,30 @@
 ## [0.9.4] - 2019-08-xx
 ### Added
+- Flextype Core: Add ability to work with different types of content #212 #186
+- Flextype Core: I18nTwigExtension - new filter `tr` added. #186
+- Flextype Core: Markdown parser - added. #212 #186
+- Flextype Core: Middleware - ResponseTime - added. #186
+- Flextype Core: UUID implementation #197 #186
+- Flextype Core: Glide - display message if image not found #189 #186
+- Flextype Core: victorjonsson/markdowndocs - added. #186
+- Flextype Core: Supply a custom callable resolver, which resolves PSR-15 middlewares. #213 #186
 - Flextype Admin Panel: Trumbowyg view html code - added. #193 #186
+- Flextype Admin Panel: field `editor` changed to `html` #186
+
+### Fixed
+Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 
 ### Changed
-- Flextype Admin Panel: Installation page improvements #194 #186
 - Flextype Core: Moving to PHP 7.2 #198 #186
 - Flextype Core: remove date field and add new created_at, modified_at, published_at fields #196 #186
+- Flextype Core: Default theme - update assets building process and GULP to 4.X.X #206 #186
+- Flextype Core: .gitignore updated.
+- Flextype Core: copyrights updated.
+- Flextype Core: composer.json updated.
+- Flextype Admin Panel: Installation page improvements #194 #186
+
+### Removed
+- Flextype Admin Panel: remove unused css #186
 
 ## [0.9.3] - 2019-07-07
 ### Fixed
