@@ -133,5 +133,5 @@ Flextype is an open source project and community contributions are essential to 
 - [Join Flextype International Translator Team](https://crowdin.com/project/flextype/invite)
 
 ## LICENSE
-See [LICENSE](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
-Copyright (c) 2018-2019 Sergey Romanenko
+[The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
+Copyright (c) 2018-2019 [Sergey Romanenko](https://github.com/Awilum)
