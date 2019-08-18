@@ -12,7 +12,7 @@ namespace Flextype;
 use Twig_Extension;
 use Twig_SimpleFunction;
 
-class JsonParserTwigExtension extends Twig_Extension
+class JsonTwigExtension extends Twig_Extension
 {
     /**
      * Returns a list of functions to add to the existing list.
@@ -22,8 +22,8 @@ class JsonParserTwigExtension extends Twig_Extension
     public function getFunctions() : array
     {
         return [
-            new Twig_SimpleFunction('json_parser_decode', [$this, 'decode']),
-            new Twig_SimpleFunction('json_parser_encode', [$this, 'encode']),
+            new Twig_SimpleFunction('json_decode', [$this, 'decode']),
+            new Twig_SimpleFunction('json_encode', [$this, 'encode']),
         ];
     }
 
