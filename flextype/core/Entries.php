@@ -70,14 +70,13 @@ class Entries
         $entry_file = $this->_file_location($id);
 
         // If requested entry founded then process it
-        if ($entry_file) {
-
+        if (Filesystem::has($entry_file)) {
             // Create unique entry cache_id
             // Entry Cache ID = entry + entry file + entry file time stamp
-            if ($timestamp = Filesystem::getTimestamp($entry_file['file'])) {
-                $entry_cache_id = md5('entry' . $entry_file['file'] . $timestamp);
+            if ($timestamp = Filesystem::getTimestamp($entry_file)) {
+                $entry_cache_id = md5('entry' . $entry_file . $timestamp);
             } else {
-                $entry_cache_id = md5('entry' . $entry_file['file']);
+                $entry_cache_id = md5('entry' . $entry_file);
             }
 
             // Try to get the requested entry from cache
@@ -97,16 +96,16 @@ class Entries
             }
 
             // Try to get requested entry body content
-            if ($entry_body = Filesystem::read($entry_file['file'])) {
+            if ($entry_body = Filesystem::read($entry_file)) {
                 // Try to decode requested entry body content
-                if ($entry_decoded = Parser::decode($entry_body, $entry_file['driver_name'])) {
+                if ($entry_decoded = JsonParser::decode($entry_body)) {
                     // Add predefined entry items
                     // Entry Date
-                    $entry_decoded['published_at'] = $entry_decoded['published_at'] ? $entry_decoded['published_at'] : Filesystem::getTimestamp($entry_file['file']);
-                    $entry_decoded['created_at']   = $entry_decoded['created_at'] ? $entry_decoded['created_at'] : Filesystem::getTimestamp($entry_file['file']);
+                    $entry_decoded['published_at'] = $entry_decoded['published_at'] ? $entry_decoded['published_at'] : Filesystem::getTimestamp($entry_file);
+                    $entry_decoded['created_at']   = $entry_decoded['created_at'] ? $entry_decoded['created_at'] : Filesystem::getTimestamp($entry_file);
 
                     // Entry Timestamp
-                    $entry_decoded['modified_at'] = Filesystem::getTimestamp($entry_file['file']);
+                    $entry_decoded['modified_at'] = Filesystem::getTimestamp($entry_file);
 
                     // Entry Slug
                     $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($id, '/'), '/');
@@ -138,7 +137,7 @@ class Entries
      *
      * @param array $args Query arguments
      *
-     * @return array The entries array
+     * @return array The entries
      *
      * @access public
      */
@@ -270,20 +269,12 @@ class Entries
         } else {
             // Create entries array from entries list and ignore current requested entry
             foreach ($entries_list as $current_entry) {
-                if (strpos($current_entry['path'], $bind_id . '/entry') !== false) {
+                if (strpos($current_entry['path'], $bind_id . '/entry.json') !== false) {
                     // ignore ...
                 } else {
-
                     // We are checking...
-                    // Whether the requested entry is a director and whether the file entry is in this directory.
-                    if ($current_entry['type'] === 'dir' && (
-                            // @todo need refactoring here!
-                            Filesystem::has($current_entry['path'] . '/entry.md') ||
-                            Filesystem::has($current_entry['path'] . '/entry.json') ||
-                            Filesystem::has($current_entry['path'] . '/entry.yaml')
-                            )
-                        ) {
-
+                    // Whether the requested entry is a director and whether the file entry.json is in this directory.
+                    if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
                         // Get entry uid
                         // 1. Remove entries path
                         // 2. Remove left and right slashes
@@ -358,7 +349,7 @@ class Entries
     }
 
     /**
-     * Rename entry
+     * Rename entry.
      *
      * @param string $id     Entry id
      * @param string $new_id New entry id
@@ -379,15 +370,13 @@ class Entries
      * @param array  $data Data
      *
      * @access public
-     *
-     * @return bool True on success, false on failure.
      */
     public function update(string $id, array $data) : bool
     {
         $entry_file = $this->_file_location($id);
 
-        if (Filesystem::has($entry_file['file'])) {
-            return Filesystem::write($entry_file['file'], Parser::encode($data, $entry_file['driver']));
+        if (Filesystem::has($entry_file)) {
+            return Filesystem::write($entry_file, JsonParser::encode($data));
         }
 
         return false;
@@ -401,7 +390,7 @@ class Entries
      *
      * @access public
      */
-    public function create(string $id, array $data, string $driver = 'frontmatter') : bool
+    public function create(string $id, array $data) : bool
     {
         $entry_dir = $this->_dir_location($id);
 
@@ -410,11 +399,11 @@ class Entries
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
                 // Entry file path
-                $entry_file = $entry_dir . '/entry' . '.' . Parser::$drivers[$driver]['ext'];
+                $entry_file = $entry_dir . '/entry.json';
 
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file)) {
-                    return Filesystem::write($entry_file, Parser::encode($data, $driver));
+                    return Filesystem::write($entry_file, JsonParser::encode($data));
                 }
 
                 return false;
@@ -465,10 +454,7 @@ class Entries
      */
     public function has(string $id) : bool
     {
-        if ($this->_file_location($id)) {
-            return Filesystem::has($this->_file_location($id)['file']);
-        }
-        return false;
+        return Filesystem::has($this->_file_location($id));
     }
 
     /**
@@ -478,36 +464,15 @@ class Entries
      *
      * @access private
      */
-    private function _file_location(string $id)
+    private function _file_location(string $id) : string
     {
-        // Go through all parser drivers
-        foreach (Parser::$drivers as $driver) {
-
-            // define driver file path
-            $driver_file = PATH['entries'] . '/' . $id . '/entry' . '.' . $driver['ext'];
-
-            // if we have this file in the filesystem then return:
-            // - file path and driver name
-            // - driver name
-            // - driver extension
-            if (Filesystem::has($driver_file)) {
-                return [
-                    'file' => $driver_file,
-                    'driver_name' => $driver['name'],
-                    'driver_ext' => $driver['ext'],
-                ];
-            }
-        }
-
-        return false;
+        return PATH['entries'] . '/' . $id . '/entry.json';
     }
 
     /**
      * Helper method _dir_location
      *
      * @param string $id Entry id
-     *
-     * @return string Directory path
      *
      * @access private
      */
