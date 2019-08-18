@@ -234,10 +234,13 @@ $flextype['view'] = static function ($container) {
     // Add I18n Twig Extension
     $view->addExtension(new I18nTwigExtension());
 
-    // Add JsonParser Extension
-    $view->addExtension(new JsonParserTwigExtension());
+    // Add Json Twig Extension
+    $view->addExtension(new JsonTwigExtension());
 
-    // Add Filesystem Extension
+    // Add Markdown Twig Extension
+    $view->addExtension(new MarkdownTwigExtension($container));
+
+    // Add Filesystem Twig Extension
     $view->addExtension(new FilesystemTwigExtension());
 
     // Add Assets Twig Extension
@@ -251,9 +254,6 @@ $flextype['view'] = static function ($container) {
 
     // Add Global Shortcodes Twig Extension
     $view->addExtension(new ShortcodesTwigExtension($container));
-
-    // Add Global Markdown Twig Extension
-    $view->addExtension(new MarkdownTwigExtension($container));
 
     // Add Global Snippets Twig Extension
     $view->addExtension(new SnippetsTwigExtension($container));
