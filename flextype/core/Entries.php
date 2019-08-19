@@ -100,16 +100,19 @@ class Entries
     public function fetch(string $id)
     {
         // Get entry file location
-        $entry_file = $this->_file_location($id);
+        //$entry_file = $this->_file_location($id);
 
         // If requested entry file founded then process it
-        if (Filesystem::has($entry_file)) {
+        if ($this->has($id)) {
+
+            $_entry = $this->read($id);
+
             // Create unique entry cache_id
             // Entry Cache ID = entry + entry file + entry file time stamp
-            if ($timestamp = Filesystem::getTimestamp($entry_file)) {
-                $entry_cache_id = md5('entry' . $entry_file . $timestamp);
+            if ($timestamp = Filesystem::getTimestamp($_entry['file_path'])) {
+                $entry_cache_id = md5('entry' . $_entry['file_path'] . $timestamp);
             } else {
-                $entry_cache_id = md5('entry' . $entry_file);
+                $entry_cache_id = md5('entry' . $_entry['file_path']);
             }
 
             // Try to get the requested entry from cache
@@ -128,38 +131,30 @@ class Entries
             // else Try to get requested entry from the filesystem
             }
 
-            // Try to get requested entry body content
-            if ($entry_body = Filesystem::read($entry_file)) {
-                // Try to decode requested entry body content
-                if ($entry_decoded = JsonParser::decode($entry_body)) {
-                    // Add predefined entry items
-                    // Entry Date
-                    $entry_decoded['published_at'] = $entry_decoded['published_at'] ? $entry_decoded['published_at'] : Filesystem::getTimestamp($entry_file);
-                    $entry_decoded['created_at']   = $entry_decoded['created_at'] ? $entry_decoded['created_at'] : Filesystem::getTimestamp($entry_file);
+            $entry_decoded = $_entry['file_data'];
 
-                    // Entry Timestamp
-                    $entry_decoded['modified_at'] = Filesystem::getTimestamp($entry_file);
+            // Add predefined entry items
+            // Entry Date
+            $entry_decoded['published_at'] = $entry_decoded['published_at'] ? $entry_decoded['published_at'] : Filesystem::getTimestamp($_entry['file_path']);
+            $entry_decoded['created_at']   = $entry_decoded['created_at'] ? $entry_decoded['created_at'] : Filesystem::getTimestamp($_entry['file_path']);
 
-                    // Entry Slug
-                    $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($id, '/'), '/');
+            // Entry Timestamp
+            $entry_decoded['modified_at'] = Filesystem::getTimestamp($_entry['file_path']);
 
-                    // Save decoded entry content into the cache
-                    $this->flextype['cache']->save($entry_cache_id, $entry_decoded);
+            // Entry Slug
+            $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($id, '/'), '/');
 
-                    // Set entry to the Entry class property $entry
-                    $this->entry = $entry_decoded;
+            // Save decoded entry content into the cache
+            $this->flextype['cache']->save($entry_cache_id, $entry_decoded);
 
-                    // Run event onEntryAfterInitialized
-                    $this->flextype['emitter']->emit('onEntryAfterInitialized');
+            // Set entry to the Entry class property $entry
+            $this->entry = $entry_decoded;
 
-                    // Return entry from the Entry class property $entry
-                    return $this->entry;
-                }
+            // Run event onEntryAfterInitialized
+            $this->flextype['emitter']->emit('onEntryAfterInitialized');
 
-                return false;
-            }
-
-            return false;
+            // Return entry from the Entry class property $entry
+            return $this->entry;
         }
 
         return false;
@@ -284,13 +279,20 @@ class Entries
             $entries = $this->flextype['cache']->fetch($cache_id);
         } else {
             // Create entries array from entries list and ignore current requested entry
+            //echo count($entries_list);
             foreach ($entries_list as $current_entry) {
-                if (strpos($current_entry['path'], $bind_id . '/entry.json') !== false) {
+
+                if (strpos($current_entry['path'], $bind_id . '/entry' . '.' . $current_entry['ext']) !== false) {
                     // ignore ...
                 } else {
                     // We are checking...
                     // Whether the requested entry is a director and whether the file entry.json is in this directory.
-                    if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
+                    if ($current_entry['type'] === 'dir' && (
+                        // @todo refactoring this
+                        Filesystem::has($current_entry['path'] . '/entry.md') ||
+                        Filesystem::has($current_entry['path'] . '/entry.json') ||
+                        Filesystem::has($current_entry['path'] . '/entry.yaml')
+                        )) {
                         // Get entry uid
                         // 1. Remove entries path
                         // 2. Remove left and right slashes
@@ -476,7 +478,27 @@ class Entries
      */
     public function has(string $id) : bool
     {
-        return Filesystem::has($this->_file_location($id));
+        foreach (Parser::$parsers as $parser) {
+           if (Filesystem::has(PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'])) {
+               return true;
+           }
+       }
+
+       return false;
+    }
+
+
+    public function read(string $id) {
+        foreach (Parser::$parsers as $parser) {
+           if (Filesystem::has(PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'])) {
+               $file_path = PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'];
+               $file_data = Parser::decode(Filesystem::read($file_path), $parser['name']);
+               return ['file_path' => $file_path,
+                       'file_data' => $file_data];
+           }
+       }
+
+       return false;
     }
 
     /**
