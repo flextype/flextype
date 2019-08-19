@@ -487,7 +487,15 @@ class Entries
        return false;
     }
 
-
+    /**
+     * Read entry
+     *
+     * @param string $id Entry ID
+     *
+     * @return bool|array Array of file path and decoded file data, false on failure.
+     *
+     * @access public
+     */
     public function read(string $id) {
         foreach (Parser::$parsers as $parser) {
            if (Filesystem::has(PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'])) {
