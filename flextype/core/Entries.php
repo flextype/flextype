@@ -39,6 +39,39 @@ class Entries
     public $entries = [];
 
     /**
+     * Set Expression
+     *
+     * @var array
+     * @access public
+     */
+    public $expression = [
+        '=' => Comparison::EQ,
+        '<>' => Comparison::NEQ,
+        '<' => Comparison::LT,
+        '<=' => Comparison::LTE,
+        '>' => Comparison::GT,
+        '>=' => Comparison::GTE,
+        'is' => Comparison::IS,
+        'in' => Comparison::IN,
+        'nin' => Comparison::NIN,
+        'contains' => Comparison::CONTAINS,
+        'member_of' => Comparison::MEMBER_OF,
+        'start_with' => Comparison::STARTS_WITH,
+        'ends_with' => Comparison::ENDS_WITH,
+    ];
+
+    /**
+     * Set Order Direction
+     *
+     * @var array
+     * @access public
+     */
+    public $direction = [
+        'asc' => Criteria::ASC,
+        'desc' => Criteria::DESC,
+    ];
+
+    /**
      * Flextype Dependency Container
      *
      * @access private
@@ -137,7 +170,7 @@ class Entries
      *
      * @param array $args Query arguments
      *
-     * @return array The entries
+     * @return array The entries array data
      *
      * @access public
      */
@@ -147,27 +180,10 @@ class Entries
         $entries = [];
 
         // Set Expression
-        $expression = [
-            '=' => Comparison::EQ,
-            '<>' => Comparison::NEQ,
-            '<' => Comparison::LT,
-            '<=' => Comparison::LTE,
-            '>' => Comparison::GT,
-            '>=' => Comparison::GTE,
-            'is' => Comparison::IS,
-            'in' => Comparison::IN,
-            'nin' => Comparison::NIN,
-            'contains' => Comparison::CONTAINS,
-            'member_of' => Comparison::MEMBER_OF,
-            'start_with' => Comparison::STARTS_WITH,
-            'ends_with' => Comparison::ENDS_WITH,
-        ];
+        $expression = $this->expression;
 
         // Set Direction
-        $direction = [
-            'asc' => Criteria::ASC,
-            'desc' => Criteria::DESC,
-        ];
+        $direction = $this->direction;
 
         // Bind: entry id
         $bind_id = $id;
