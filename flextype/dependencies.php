@@ -237,6 +237,9 @@ $flextype['view'] = static function ($container) {
     // Add Json Twig Extension
     $view->addExtension(new JsonTwigExtension());
 
+    // Add Yaml Twig Extension
+    $view->addExtension(new YamlTwigExtension());
+
     // Add Markdown Twig Extension
     $view->addExtension(new MarkdownTwigExtension($container));
 
