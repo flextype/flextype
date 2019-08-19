@@ -60,7 +60,7 @@ class Entries
      *
      * @param string $id Entry ID
      *
-     * @return array|false The entry contents or false on failure.
+     * @return array|false The entry array data or false on failure.
      *
      * @access public
      */
@@ -69,10 +69,12 @@ class Entries
         // Get entry file location
         $entry_file = $this->_file_location($id);
 
-        // If requested entry founded then process it
+        // If requested entry file founded then process it
         if (Filesystem::has($entry_file)) {
+            //
             // Create unique entry cache_id
             // Entry Cache ID = entry + entry file + entry file time stamp
+            //
             if ($timestamp = Filesystem::getTimestamp($entry_file)) {
                 $entry_cache_id = md5('entry' . $entry_file . $timestamp);
             } else {
@@ -81,7 +83,9 @@ class Entries
 
             // Try to get the requested entry from cache
             if ($this->flextype['cache']->contains($entry_cache_id)) {
+                //
                 // Try to fetch requested entry from the cache
+                //
                 if ($entry = $this->flextype['cache']->fetch($entry_cache_id)) {
                     // Run event onEntryAfterInitialized
                     $this->flextype['emitter']->emit('onEntryAfterInitialized');
@@ -97,10 +101,14 @@ class Entries
 
             // Try to get requested entry body content
             if ($entry_body = Filesystem::read($entry_file)) {
+                //
                 // Try to decode requested entry body content
+                //
                 if ($entry_decoded = JsonParser::decode($entry_body)) {
+                    //
                     // Add predefined entry items
                     // Entry Date
+                    //
                     $entry_decoded['published_at'] = $entry_decoded['published_at'] ? $entry_decoded['published_at'] : Filesystem::getTimestamp($entry_file);
                     $entry_decoded['created_at']   = $entry_decoded['created_at'] ? $entry_decoded['created_at'] : Filesystem::getTimestamp($entry_file);
 
