@@ -365,7 +365,7 @@ class Entries
     }
 
     /**
-     * Rename entry.
+     * Rename entry
      *
      * @param string $id     Entry ID
      * @param string $new_id New entry ID
@@ -466,7 +466,7 @@ class Entries
     }
 
     /**
-     * Check whether entry exists.
+     * Check whether entry exists
      *
      * @param string $id Entry ID
      *
