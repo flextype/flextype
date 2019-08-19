@@ -359,8 +359,8 @@ class Entries
     /**
      * Rename entry.
      *
-     * @param string $id     Entry id
-     * @param string $new_id New entry id
+     * @param string $id     Entry ID
+     * @param string $new_id New entry ID
      *
      * @return bool True on success, false on failure.
      *
@@ -374,8 +374,10 @@ class Entries
     /**
      * Update entry
      *
-     * @param string $id   Entry
+     * @param string $id   Entry ID
      * @param array  $data Data
+     *
+     * @return bool True on success, false on failure.
      *
      * @access public
      */
@@ -393,8 +395,10 @@ class Entries
     /**
      * Create entry
      *
-     * @param string $id   Entry id
+     * @param string $id   Entry ID
      * @param array  $data Data
+     *
+     * @return bool True on success, false on failure.
      *
      * @access public
      */
@@ -424,9 +428,9 @@ class Entries
     }
 
     /**
-     * Delete entry.
+     * Delete entry
      *
-     * @param string $id Entry id
+     * @param string $id Entry ID
      *
      * @return bool True on success, false on failure.
      *
@@ -456,7 +460,9 @@ class Entries
     /**
      * Check whether entry exists.
      *
-     * @param string $id Entry
+     * @param string $id Entry ID
+     *
+     * @return bool True on success, false on failure.
      *
      * @access public
      */
@@ -468,7 +474,9 @@ class Entries
     /**
      * Helper method _file_location
      *
-     * @param string $id Entry id
+     * @param string $id Entry ID
+     *
+     * @return string entry file location
      *
      * @access private
      */
@@ -480,7 +488,9 @@ class Entries
     /**
      * Helper method _dir_location
      *
-     * @param string $id Entry id
+     * @param string $id Entry ID
+     *
+     * @return string entry directory location
      *
      * @access private
      */
