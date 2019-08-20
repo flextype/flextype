@@ -401,14 +401,15 @@ class Entries
     /**
      * Create entry
      *
-     * @param string $id   Entry ID
-     * @param array  $data Data
+     * @param string $id     Entry ID
+     * @param array  $data   Data
+     * @param string $parser Parser - on of Parser::$parsers
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function create(string $id, array $data, $parser = 'frontmatter') : bool
+    public function create(string $id, array $data, string $parser = 'frontmatter') : bool
     {
         $entry_dir = $this->_dir_location($id);
 
@@ -486,21 +487,27 @@ class Entries
      *
      * @param string $id Entry ID
      *
-     * @return bool|array Array of file path and decoded file data, false on failure.
+     * @return bool|array Array of file path, decoded file data and file parser,
+     * false on failure.
      *
      * @access public
      */
-    public function read(string $id)
+    public function read(string $id, $raw = false)
     {
         foreach (Parser::$parsers as $parser) {
             if (Filesystem::has(PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'])) {
                 $file_path = PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'];
-                $file_data = Parser::decode(Filesystem::read($file_path), $parser['name']);
+
+                if ($raw) {
+                    $file_data = Filesystem::read($file_path);
+                } else {
+                    $file_data = Parser::decode(Filesystem::read($file_path), $parser['name']);
+                }
 
                 return [
                     'file_path' => $file_path,
                     'file_data' => $file_data,
-                    'file_parser' => $parser['name']
+                    'file_parser' => $parser['name'],
                 ];
             }
         }
