@@ -41,7 +41,7 @@ class FrontmatterParser
 
     public static function encode($input) : string
     {
-        if ($input['content']) {
+        if (isset($input['content'])) {
             $content = $input['content'];
             Arr::delete($input, 'content');
             $matter = YamlParser::encode($input);
