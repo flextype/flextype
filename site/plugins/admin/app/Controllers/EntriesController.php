@@ -231,6 +231,7 @@ class EntriesController extends Controller
                     $data_result = $data_from_post;
                 }
 
+    
                 if ($this->entries->create($id, $data_result)) {
                     $this->flash->addMessage('success', __('admin_message_entry_created'));
                 } else {
@@ -722,7 +723,7 @@ class EntriesController extends Controller
                         'i' => count($parts),
                         'last' => Arr::last($parts),
                         'id' => $this->getEntryID($query),
-                        'data' => JsonParser::encode($entry),
+                        'data' => $this->entries->read($this->getEntryID($query), true)['file_data'],
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
