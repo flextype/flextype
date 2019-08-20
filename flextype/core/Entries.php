@@ -104,7 +104,6 @@ class Entries
 
         // If requested entry file founded then process it
         if ($this->has($id)) {
-
             $_entry = $this->read($id);
 
             // Create unique entry cache_id
@@ -281,7 +280,6 @@ class Entries
             // Create entries array from entries list and ignore current requested entry
             //echo count($entries_list);
             foreach ($entries_list as $current_entry) {
-
                 if (strpos($current_entry['path'], $bind_id . '/entry' . '.' . $current_entry['ext']) !== false) {
                     // ignore ...
                 } else {
@@ -412,7 +410,7 @@ class Entries
      *
      * @access public
      */
-    public function create(string $id, array $data) : bool
+    public function create(string $id, array $data, $parser = 'frontmatter') : bool
     {
         $entry_dir = $this->_dir_location($id);
 
@@ -421,17 +419,15 @@ class Entries
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
                 // Entry file path
-                $entry_file = $entry_dir . '/entry.json';
+                $entry_file = $entry_dir . '/entry' . '.' . Parser::$parsers[$parser]['ext'];
 
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file)) {
-                    return Filesystem::write($entry_file, JsonParser::encode($data));
+                    return Filesystem::write($entry_file, Parser::encode($data, $parser));
                 }
 
                 return false;
             }
-
-            return false;
         }
 
         return false;
@@ -479,12 +475,12 @@ class Entries
     public function has(string $id) : bool
     {
         foreach (Parser::$parsers as $parser) {
-           if (Filesystem::has(PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'])) {
-               return true;
-           }
-       }
+            if (Filesystem::has(PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'])) {
+                return true;
+            }
+        }
 
-       return false;
+        return false;
     }
 
     /**
@@ -496,17 +492,21 @@ class Entries
      *
      * @access public
      */
-    public function read(string $id) {
+    public function read(string $id)
+    {
         foreach (Parser::$parsers as $parser) {
-           if (Filesystem::has(PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'])) {
-               $file_path = PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'];
-               $file_data = Parser::decode(Filesystem::read($file_path), $parser['name']);
-               return ['file_path' => $file_path,
-                       'file_data' => $file_data];
-           }
-       }
+            if (Filesystem::has(PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'])) {
+                $file_path = PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'];
+                $file_data = Parser::decode(Filesystem::read($file_path), $parser['name']);
 
-       return false;
+                return [
+                    'file_path' => $file_path,
+                    'file_data' => $file_data,
+                ];
+            }
+        }
+
+        return false;
     }
 
     /**
