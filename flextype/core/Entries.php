@@ -99,12 +99,8 @@ class Entries
      */
     public function fetch(string $id)
     {
-        // Get entry file location
-        //$entry_file = $this->_file_location($id);
-
         // If requested entry file founded then process it
-        if ($this->has($id)) {
-            $_entry = $this->read($id);
+        if ($_entry = $this->read($id)) {
 
             // Create unique entry cache_id
             // Entry Cache ID = entry + entry file + entry file time stamp
