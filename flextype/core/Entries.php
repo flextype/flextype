@@ -391,10 +391,8 @@ class Entries
      */
     public function update(string $id, array $data) : bool
     {
-        $entry_file = $this->_file_location($id);
-
-        if (Filesystem::has($entry_file)) {
-            return Filesystem::write($entry_file, JsonParser::encode($data));
+        if ($_entry = $this->read($id)) {
+            return Filesystem::write($_entry['file_path'], Parser::encode($data, $_entry['file_parser']));
         }
 
         return false;
@@ -502,6 +500,7 @@ class Entries
                 return [
                     'file_path' => $file_path,
                     'file_data' => $file_data,
+                    'file_parser' => $parser['name']
                 ];
             }
         }
