@@ -486,13 +486,14 @@ class Entries
      * Read entry
      *
      * @param string $id Entry ID
+     * @param bool   $raw Return raw or decoded content
      *
      * @return bool|array Array of file path, decoded file data and file parser,
      * false on failure.
      *
      * @access public
      */
-    public function read(string $id, $raw = false)
+    public function read(string $id, bool $raw = false)
     {
         foreach (Parser::$parsers as $parser) {
             if (Filesystem::has(PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'])) {
