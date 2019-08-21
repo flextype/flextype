@@ -67,7 +67,7 @@ class UsersController extends Controller
         $data = $request->getParsedBody();
 
         if (Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $data['username'] . '.yaml')) {
-            $user_file = JsonParser::decode(Filesystem::read($_user_file));
+            $user_file = Parser::decode(Filesystem::read($_user_file), 'yaml');
             if (password_verify(trim($data['password']), $user_file['hashed_password'])) {
                 Session::set('username', $user_file['username']);
                 Session::set('role', $user_file['role']);
@@ -125,14 +125,14 @@ class UsersController extends Controller
             Filesystem::createDir(PATH['site'] . '/accounts/');
             if (Filesystem::write(
                 PATH['site'] . '/accounts/' . $data['username'] . '.yaml',
-                JsonParser::encode([
+                Parser::encode([
                     'username' => $this->slugify->slugify($data['username']),
                     'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
                     'email' => $data['email'],
                     'role'  => 'admin',
                     'state' => 'enabled',
                     'uuid' => Uuid::uuid4()->toString(),
-                ])
+                ], 'yaml')
             )) {
                 return $response->withRedirect($this->router->pathFor('admin.users.login'));
             }

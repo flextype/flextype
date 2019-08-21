@@ -64,9 +64,9 @@ class ThemesController extends Controller
         $data = $request->getParsedBody();
 
         // Update current theme settings
-        $theme_settings = JsonParser::decode(Filesystem::read(PATH['themes'] . '/' . $data['theme-id'] . '/' . 'settings.yaml'));
+        $theme_settings = Parser::decode(Filesystem::read(PATH['themes'] . '/' . $data['theme-id'] . '/' . 'settings.yaml'), 'yaml');
         Arr::set($theme_settings, 'enabled', ($data['theme-status'] === 'true'));
-        Filesystem::write(PATH['themes'] . '/' . $data['theme-id'] . '/' . 'settings.yaml', JsonParser::encode($theme_settings));
+        Filesystem::write(PATH['themes'] . '/' . $data['theme-id'] . '/' . 'settings.yaml', Parser::encode($theme_settings, 'yaml'));
 
         // Get themes list
         $themes_list = $this->themes->getThemes();
@@ -82,16 +82,16 @@ class ThemesController extends Controller
                     continue;
                 }
 
-                $theme_settings = JsonParser::decode(Filesystem::read($theme_settings_file));
+                $theme_settings = Parser::decode(Filesystem::read($theme_settings_file), 'yaml');
                 Arr::set($theme_settings, 'enabled', false);
-                Filesystem::write($theme_settings_file, JsonParser::encode($theme_settings));
+                Filesystem::write($theme_settings_file, Parser::encode($theme_settings, 'yaml'));
             }
         }
 
         // Update theme in the site settings
-        $settings = JsonParser::decode(Filesystem::read(PATH['config']['site'] . '/settings.yaml'));
+        $settings = Parser::decode(Filesystem::read(PATH['config']['site'] . '/settings.yaml'), 'yaml');
         Arr::set($settings, 'theme', $data['theme-id']);
-        Filesystem::write(PATH['config']['site'] . '/settings.yaml', JsonParser::encode($settings));
+        Filesystem::write(PATH['config']['site'] . '/settings.yaml', Parser::encode($settings, 'yaml'));
 
         // clear cache
         $this->cache->clear('doctrine');
