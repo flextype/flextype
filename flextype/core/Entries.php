@@ -268,9 +268,9 @@ class Entries
                     // Whether the requested entry is a director and whether the file entry is in this directory.
                     if ($current_entry['type'] === 'dir' && (
                         // @todo refactoring this
-                        Filesystem::has($current_entry['path'] . '/entry.md') ||
-                        Filesystem::has($current_entry['path'] . '/entry.json') ||
-                        Filesystem::has($current_entry['path'] . '/entry.yaml')
+                        Filesystem::has($current_entry['path'] . '/entry' . '.' . Parser::$parsers['frontmatter']['ext']) ||
+                        Filesystem::has($current_entry['path'] . '/entry' . '.' . Parser::$parsers['json']['ext']) ||
+                        Filesystem::has($current_entry['path'] . '/entry' . '.' . Parser::$parsers['yaml']['ext'])
                         )) {
                         // Get entry uid
                         // 1. Remove entries path
