@@ -64,9 +64,9 @@ class ThemesController extends Controller
         $data = $request->getParsedBody();
 
         // Update current theme settings
-        $theme_settings = JsonParser::decode(Filesystem::read(PATH['themes'] . '/' . $data['theme-id'] . '/' . 'settings.json'));
+        $theme_settings = JsonParser::decode(Filesystem::read(PATH['themes'] . '/' . $data['theme-id'] . '/' . 'settings.yaml'));
         Arr::set($theme_settings, 'enabled', ($data['theme-status'] === 'true'));
-        Filesystem::write(PATH['themes'] . '/' . $data['theme-id'] . '/' . 'settings.json', JsonParser::encode($theme_settings));
+        Filesystem::write(PATH['themes'] . '/' . $data['theme-id'] . '/' . 'settings.yaml', JsonParser::encode($theme_settings));
 
         // Get themes list
         $themes_list = $this->themes->getThemes();
@@ -78,7 +78,7 @@ class ThemesController extends Controller
                     continue;
                 }
 
-                if (! Filesystem::has($theme_settings_file = PATH['themes'] . '/' . $theme['dirname'] . '/settings.json')) {
+                if (! Filesystem::has($theme_settings_file = PATH['themes'] . '/' . $theme['dirname'] . '/settings.yaml')) {
                     continue;
                 }
 
@@ -89,9 +89,9 @@ class ThemesController extends Controller
         }
 
         // Update theme in the site settings
-        $settings = JsonParser::decode(Filesystem::read(PATH['config']['site'] . '/settings.json'));
+        $settings = JsonParser::decode(Filesystem::read(PATH['config']['site'] . '/settings.yaml'));
         Arr::set($settings, 'theme', $data['theme-id']);
-        Filesystem::write(PATH['config']['site'] . '/settings.json', JsonParser::encode($settings));
+        Filesystem::write(PATH['config']['site'] . '/settings.yaml', JsonParser::encode($settings));
 
         // clear cache
         $this->cache->clear('doctrine');

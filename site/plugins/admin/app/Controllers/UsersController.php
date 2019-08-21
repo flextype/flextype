@@ -66,7 +66,7 @@ class UsersController extends Controller
     {
         $data = $request->getParsedBody();
 
-        if (Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $data['username'] . '.json')) {
+        if (Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $data['username'] . '.yaml')) {
             $user_file = JsonParser::decode(Filesystem::read($_user_file));
             if (password_verify(trim($data['password']), $user_file['hashed_password'])) {
                 Session::set('username', $user_file['username']);
@@ -121,10 +121,10 @@ class UsersController extends Controller
         // Get POST data
         $data = $request->getParsedBody();
 
-        if (! Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $this->slugify->slugify($data['username']) . '.json')) {
+        if (! Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $this->slugify->slugify($data['username']) . '.yaml')) {
             Filesystem::createDir(PATH['site'] . '/accounts/');
             if (Filesystem::write(
-                PATH['site'] . '/accounts/' . $data['username'] . '.json',
+                PATH['site'] . '/accounts/' . $data['username'] . '.yaml',
                 JsonParser::encode([
                     'username' => $this->slugify->slugify($data['username']),
                     'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
@@ -170,7 +170,7 @@ class UsersController extends Controller
         $users = [];
 
         foreach ($users_list as $user) {
-            if ($user['type'] !== 'file' || $user['extension'] !== 'json') {
+            if ($user['type'] !== 'file' || $user['extension'] !== 'yaml') {
                 continue;
             }
 

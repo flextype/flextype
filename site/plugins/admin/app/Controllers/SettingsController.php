@@ -38,7 +38,7 @@ class SettingsController extends Controller
 
         $themes = [];
         foreach (Filesystem::listContents(PATH['themes']) as $theme) {
-            if ($theme['type'] !== 'dir' || ! Filesystem::has($theme['path'] . '/' . 'theme.json')) {
+            if ($theme['type'] !== 'dir' || ! Filesystem::has($theme['path'] . '/' . 'theme.yaml')) {
                 continue;
             }
 
@@ -49,7 +49,7 @@ class SettingsController extends Controller
         $system_locales    = $this->plugins->getLocales();
         $locales           = [];
         foreach ($available_locales as $locale) {
-            if ($locale['type'] !== 'file' || $locale['extension'] !== 'json') {
+            if ($locale['type'] !== 'file' || $locale['extension'] !== 'yaml') {
                 continue;
             }
 
@@ -141,7 +141,7 @@ class SettingsController extends Controller
         Arr::set($data, 'entries.media.upload_images_width', (int) $data['entries']['media']['upload_images_width']);
         Arr::set($data, 'entries.media.upload_images_height', (int) $data['entries']['media']['upload_images_height']);
 
-        if (Filesystem::write(PATH['config']['site'] . '/settings.json', JsonParser::encode(array_merge($this->registry->get('settings'), $data)))) {
+        if (Filesystem::write(PATH['config']['site'] . '/settings.yaml', JsonParser::encode(array_merge($this->registry->get('settings'), $data)))) {
             $this->flash->addMessage('success', __('admin_message_settings_saved'));
         } else {
             $this->flash->addMessage('error', __('admin_message_settings_was_not_saved'));
