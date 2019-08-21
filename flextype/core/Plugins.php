@@ -92,20 +92,20 @@ class Plugins
 
                 // Go through...
                 foreach ($plugins_list as $plugin) {
-                    if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.json')) {
+                    if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml')) {
                         if (($content = Filesystem::read($_plugin_settings)) === false) {
                             throw new RuntimeException('Load file: ' . $_plugin_settings . ' - failed!');
                         }
 
-                        $plugin_settings = JsonParser::decode($content);
+                        $plugin_settings = Parser::decode($content, 'yaml');
                     }
 
-                    if (Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.json')) {
+                    if (Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml')) {
                         if (($content = Filesystem::read($_plugin_config)) === false) {
                             throw new RuntimeException('Load file: ' . $_plugin_config . ' - failed!');
                         }
 
-                        $plugin_config = JsonParser::decode($content);
+                        $plugin_config = Parser::decode($content, 'yaml');
                     }
 
                     $_plugins_config[$plugin['dirname']] = array_merge($plugin_settings, $plugin_config);
@@ -148,7 +148,7 @@ class Plugins
 
         foreach ($this->locales as $locale => $locale_title) {
             foreach ($plugins_list as $plugin) {
-                $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/lang/' . $locale . '.json';
+                $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
                 if (! Filesystem::has($language_file)) {
                     continue;
                 }
@@ -157,7 +157,7 @@ class Plugins
                     throw new RuntimeException('Load file: ' . $language_file . ' - failed!');
                 }
 
-                I18n::add(JsonParser::decode($content), $locale);
+                I18n::add(Parser::decode($content, 'yaml'), $locale);
             }
         }
     }
@@ -177,8 +177,8 @@ class Plugins
         // Go through...
         if (is_array($plugins_list) && count($plugins_list) > 0) {
             foreach ($plugins_list as $plugin) {
-                if (! Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.json') or
-                    ! Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.json')) {
+                if (! Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml') or
+                    ! Filesystem::has($_plugin_config = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml')) {
                     continue;
                 }
 

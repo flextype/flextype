@@ -232,26 +232,11 @@ class Entries
         // Get entries list
         $entries_list = Filesystem::listContents($entries_path, $bind_recursive);
 
-        // Create unique entries $_entries_ids
-        // 1. Go through all entries
-        // 2. set all entries IDs and their timestamps into the $_entries_ids
-        $_entries_ids = '';
-        foreach ($entries_list as $current_entry) {
-            if (strpos($current_entry['path'], $bind_id . '/entry.json') !== false) {
-                // ignore ...
-            } else {
-                if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
-                    if ($timestamp = Filesystem::getTimestamp($current_entry['path'] . '/entry.json')) {
-                        $_entries_ids .= 'entry:' . ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/') . ' timestamp:' . $timestamp;
-                    } else {
-                        $_entries_ids .= 'entry:' . ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/');
-                    }
-                }
-            }
-        }
+        // Get Entries Timestamp
+        $entries_timestamp = Filesystem::getDirTimestamp($entries_path);
 
         // Create unique entries $cache_id
-        $cache_id =  md5($_entries_ids .
+        $cache_id =  md5($entries_timestamp .
                          $bind_id .
                          ($bind_recursive ? 'true' : 'false') .
                          ($bind_set_max_result ? $bind_set_max_result : 'false') .
@@ -280,7 +265,7 @@ class Entries
                     // ignore ...
                 } else {
                     // We are checking...
-                    // Whether the requested entry is a director and whether the file entry.json is in this directory.
+                    // Whether the requested entry is a director and whether the file entry is in this directory.
                     if ($current_entry['type'] === 'dir' && (
                         // @todo refactoring this
                         Filesystem::has($current_entry['path'] . '/entry.md') ||
@@ -510,20 +495,6 @@ class Entries
         }
 
         return false;
-    }
-
-    /**
-     * Helper method _file_location
-     *
-     * @param string $id Entry ID
-     *
-     * @return string entry file location
-     *
-     * @access private
-     */
-    private function _file_location(string $id) : string
-    {
-        return PATH['entries'] . '/' . $id . '/entry.json';
     }
 
     /**
