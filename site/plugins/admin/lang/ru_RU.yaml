@@ -1,0 +1,246 @@
+---
+admin: Админ
+admin_welcome: Welcome
+admin_create_new_user_welcome: To finish setup and secure your site, please create the first user by entering the necessary information below.
+admin_cancel: Отмена
+admin_create: Создать
+admin_debugging: Отладка
+admin_email: E-mail
+admin_flextype_version: Flextype Версия
+admin_information: Информация
+admin_installed: Установлено
+admin_keywords: Ключевые слова
+admin_documentation: Документация
+admin_memcache_server: Сервер Memcache
+admin_memcache_port: Порт Memcache
+admin_login: Логин
+admin_entries: Записи
+admin_extends: Расширения
+admin_plugins: Плагины
+admin_themes: Темы
+admin_help: Помощь
+admin_getting_help: Документация
+admin_message_json_invalid: Недопустимый JSON
+admin_logout: Выход
+admin_profile: Профайл
+admin_view_site: Просмотреть Сайт
+admin_snippets: Сниппеты
+admin_not_installed: Не установлено
+admin_off: 'Выключено'
+admin_on: 'Включено'
+admin_add: Добавить
+admin_entry_attributes: Атрибуты Записи
+admin_fieldset_for_template: Набор полей для шаблона
+admin_content: Контент
+admin_create_new_entry: Создать Новую Запись
+admin_date: Дата
+admin_draft: Черновик
+admin_edit: Редактировать
+admin_blocks: Блоки
+admin_media: Медиа
+admin_settings: Настройки
+admin_templates: Шаблоны
+admin_entry: Записи
+admin_fieldset: Поле
+admin_source: Код
+admin_upload: Загрузить
+admin_hidden: Скрытый
+admin_image_preview: Просмотр изображения
+admin_move: Переместить
+admin_parent_entry: Родитель записи
+admin_preview: Просмотр
+admin_publish: Публиковать
+admin_rename: Переименовать
+admin_save_entry: Сохранить запись
+admin_template: Шаблон
+admin_title: Заголовок
+admin_url: Ссылка
+admin_view: Просмотр
+admin_visibility: Видимость
+admin_visible: Видимый
+admin_password: Пароль
+admin_php_built_on: PHP включен
+admin_php_version: PHP Версия
+admin_author_url: Ссылка Автора
+admin_bugs: Баги
+admin_description: Описание
+admin_get_more_plugins: Скачать Новые Плагины
+admin_homepage: Домашняя страничка
+admin_info: Информация
+admin_license: Лицензия
+admin_status: Статус
+admin_disabled: Выключено
+admin_enabled: Включено
+admin_version: Версия
+admin_role: Роль
+admin_save: Сохранить
+admin_security_check_results: Результаты проверки безопасности
+admin_security_check_results_debug: Система работает в режиме ОТЛАДКИ Мы рекомендуем вам УБРАТЬ режим ОТЛАДКИ на живом сайте.
+admin_security_check_results_htaccess: 'Главный .htaccess доступен для записи. Мы рекомендуем вам удалить права записи на главный .htaccess файл. <br> Вы можете сделать это на UNIX системах так: <code>chmod -R a-w :path</code>'
+admin_security_check_results_index: 'Главный index.php файл доступен для записи. Мы рекомендуем вам удалить права записи на главный index.php файл. <br> Вы можете сделать это на UNIX системах так: <code>chmod -R a-w :path</code>'
+admin_server: Сервер
+admin_site: Сайт
+admin_clear_cache: Очистить кеш
+admin_error404_title: Заголовок страницы про - Ошибку 404
+admin_error404_description: Описание страницы про - Ошибку 404
+admin_error404_content: Контент страницы про - Ошибку 404
+admin_error404_template: Шаблон страницы про - Ошибку 404
+admin_heading: Настройки
+admin_general: Основное
+admin_error_404_page: Страница ошибки 404
+admin_cache: Кеш
+admin_author_email: Электронная почта автора
+admin_author_name: Имя автора
+admin_site_description: Описание сайта
+admin_site_keywords: Ключевые слова сайта
+admin_site_robots: Роботы
+admin_site_title: Заголовок сайта
+admin_system: Система
+admin_cache_driver: Драйвер кеша
+admin_cache_enabled: Кэш включен
+admin_cache_lifetime: Время жизни кеша
+admin_cache_prefix: Префикс кэша
+admin_charset: Кодировка
+admin_date_format: Формат даты
+admin_errors_display: Показывать ошибки
+admin_locale: Язык
+admin_entry_main: Главная запись
+admin_theme: Тема
+admin_timezone: Часовой пояс
+admin_username: Имя пользователя
+admin_create_user: Создать пользователя
+admin_create_new_user: Создать нового пользователя
+admin_web_server: Веб-сервер
+admin_web_server_php_interface: PHP интерфейс веб-сервера
+admin_create_new_category: Создать новую категорию
+admin_delete_category: Удалить категорию
+admin_create_new_item: Создать Новый Элемент
+admin_delete: Удалить
+admin_order: Порядок
+admin_edit_category: Редактировать категорию
+admin_fieldsets: Наборы полей
+admin_template_create_new: Создать новый шаблон
+admin_create_new_fieldset: Создать новый набор полей
+admin_duplicate: Дублировать
+admin_summary: Краткое описание
+admin_snippet: Сниппет
+admin_type: Тип
+admin_partial: Партиал
+admin_clone: Клон
+admin_create_new_snippet: Создать новый сниппет
+admin_message_snippet_was_not_deleted: Сниппет не был удален
+admin_message_snippet_was_not_renamed: Сниппет не был переименован
+admin_message_snippet_was_not_duplicated: Сниппет не был дублирован
+admin_message_snippet_was_not_saved: Сниппет не был сохранен
+admin_create_new_template: Создать новый шаблон
+admin_message_template_created: Шаблон создан
+admin_message_template_deleted: Шаблон удален
+admin_message_template_renamed: Шаблон переименован
+admin_message_template_duplicated: Шаблон дублировался
+admin_message_template_saved: Шаблон сохранен
+admin_message_template_was_not_created: Шаблон не был переименован
+admin_message_partial_was_not_created: Partial не был переименован
+admin_message_partial_created: Partial создан
+admin_message_partial_deleted: Partial удален
+admin_message_partial_was_not_deleted: Partial не удален
+admin_message_snippet_saved: Сниппет сохранен
+admin_message_snippet_created: Сниппет создан
+admin_message_snippet_was_not_created: Сниппет не был создан
+admin_message_snippet_deleted: Сниппет удален
+admin_message_snippet_renamed: Сниппет переименован
+admin_message_snippet_duplicated: Сниппет дублирован 
+admin_message_fieldset_saved: Набор полей сохранен
+admin_message_fieldset_created: Набор полей создан
+admin_message_fieldset_deleted: Набор полей удален
+admin_message_fieldset_renamed: Набор полей создан
+admin_message_fieldset_duplicated: Набор полей удален
+admin_message_entry_duplicated: Запись дублировалась
+admin_message_entry_was_not_duplicated: Запись не была дублирована
+admin_message_cache_files_deleted: Файлы кеша удалены
+admin_message_entry_changes_saved: Изменения успешно сохранены
+admin_message_entry_changes_not_saved: Изменения не сохранены
+admin_message_entry_cloned: Запись клонировалась
+admin_message_entry_created: Запись создана
+admin_message_entry_was_not_created: Запись не была создана
+admin_message_entry_deleted: Запись удалена
+admin_message_entry_was_not_renamed: Запись не была переименована
+admin_message_entry_was_not_deleted: Запись не удалена
+admin_message_entry_file_deleted: Файл успешно удален
+admin_message_entry_file_uploaded: Файл успешно загружен
+admin_message_entry_file_not_uploaded: Файл не был загружен
+admin_message_entry_moved: Запись перемещена
+admin_message_entry_was_not_moved: Запись не была перемещена
+admin_message_entry_renamed: Запись переименована
+admin_message_settings_saved: Настройки сохранены
+admin_message_settings_was_not_saved: Настройки не сохранены
+admin_message_wrong_username_password: Неверное имя пользователя или пароль
+admin_quality: Качество
+admin_width: Ширина
+admin_height: Высота
+admin_accept_file_types: Допустимые типы файлов
+admin_embeded_code: Код для вставки
+admin_shortcode: Короткий код
+admin_php_code: PHP код
+admin_choose_files_to_upload: Выберите файл
+admin_browse_files: Просмотреть
+admin_copy: Копировать
+admin_admin_panel: Админ панель
+admin_light: Светлая
+admin_dark: Темная
+admin_name: Название
+admin_memcached_server: Сервер Memcache
+admin_memcached_port: Порт Memcache
+admin_redis_socket: Сокет Redis
+admin_redis_password: Redis пароль
+admin_redis_server: Сервер Redis
+admin_redis_port: Redis Порт
+admin_sqlite3_database: База данных SQLite3
+admin_sqlite3_table: Таблица SQLite3
+admin_error_name_empty_input: Название должно быть буквенно-цифровое значение (от 1 симв.)
+admin_error_title_empty_input: Заголовок должен иметь буквенно-цифровое значение (от 1 симв.)
+admin_entries_visible: Видимый
+admin_entries_draft: Черновик
+admin_entries_hidden: Скрытый
+admin_menu_item_title: Заголовок
+admin_menu_item_url: Ссылка
+admin_menu_item_target: Цель
+admin_menu_item_order: Порядок
+admin_template_code: Код для вставки
+admin_you_have_not_created_any_entries_yet: Вы еще не создали ни одной записи!
+admin_you_have_not_created_any_snippets_yet: Вы еще не создали сниппетов!
+admin_you_have_not_created_any_templates_yet: Вы еще не создали ни одного шаблона!
+admin_you_have_not_created_any_fieldsets_yet: Вы еще не создали ни одного набора полей!
+admin_twig_auto_reload: Автоперезагрузка Twig
+admin_display_error_details: Показывать детали ошибок
+admin_add_content_length_header: Добавить заголовок длины содержимого
+admin_router_cache_file: Кэш-файл маршрута
+admin_determine_route_before_app_middleware: Определить маршрут перед middleware приложения
+admin_output_buffering: Выходный буфер
+admin_response_chunk_size: Размер чанка ответа
+admin_http_version: Версия HTTP
+admin_image_driver: Драйвер изображений
+admin_whoops_editor: Whoops редактор
+admin_whoops_page_title: Whoops заголовок страницы 
+admin_editor: Редактор
+admin_tools: Инструменты
+admin_size: Размер
+admin_clear: Очистить
+admin_clear_cache_all: Очистить все
+admin_registry: Реестр
+admin_key: Ключ
+admin_value: Значение
+admin_activate: Активировать
+admin_active_theme: Активная тема
+admin_get_more_themes: Получить больше тем
+admin_images: Изображения
+admin_data: Данные
+admin_slugify: ЧПУ
+admin_entries_limit: Лимит записей
+admin_slug: ЧПУ
+admin_slugify_separator: Разделитель
+admin_slugify_lowercase: Нижний регистр
+admin_slugify_trim: Обрезать
+admin_slugify_strip_tags: Убрать теги
+admin_slugify_lowercase_after_regexp: Переводить в нижний регистр после regexp
+admin_slugify_regexp: Regexp
+admin_gallery_img: Изображение галереи
