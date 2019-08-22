@@ -714,6 +714,9 @@ class EntriesController extends Controller
         Arr::delete($entry, 'slug');
         Arr::delete($entry, 'modified_at');
 
+        // Read Entry
+        $_entry = $this->entries->read($this->getEntryID($query), true);
+
         // Fieldsets for current entry template
         $fieldsets_path = PATH['site'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
         $fieldsets = Parser::decode(Filesystem::read($fieldsets_path), 'yaml');
@@ -728,7 +731,8 @@ class EntriesController extends Controller
                         'i' => count($parts),
                         'last' => Arr::last($parts),
                         'id' => $this->getEntryID($query),
-                        'data' => $this->entries->read($this->getEntryID($query), true)['file_data'],
+                        'data' => $_entry['file_data'],
+                        'parser' => $_entry['file_parser'],
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
@@ -884,14 +888,11 @@ class EntriesController extends Controller
 
         if ($type == 'source') {
 
-            // Read entry
-            $_entry = $this->entries->read($id);
-
             // Data from POST
             $data = $request->getParsedBody();
 
             // Update entry
-            if ($this->entries->update($id, Parser::decode($data['data'], $_entry['file_parser']))) {
+            if ($this->entries->update($id, Parser::decode($data['data'], $data['parser']))) {
                 $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
