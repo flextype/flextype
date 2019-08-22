@@ -26,7 +26,7 @@ class Parser
     public static $parsers = [
         'frontmatter' => [
             'name' => 'frontmatter',
-            'ext' => 'html',
+            'ext' => 'md',
         ],
         'json' => [
             'name' => 'json',
