@@ -12,18 +12,18 @@ namespace Flextype;
 class Parser
 {
     /**
-     * Default driver
+     * Default parser
      *
      * @var array
      */
-    public static $default_driver = 'frontmatter';
+    public static $default_parser = 'frontmatter';
 
     /**
-     * Drivers
+     * Parsers
      *
      * @var array
      */
-    public static $drivers = [
+    public static $parsers = [
         'frontmatter' => [
             'name' => 'frontmatter',
             'ext' => 'md',
@@ -37,9 +37,9 @@ class Parser
         ],
     ];
 
-    public static function encode($input, string $driver) : string
+    public static function encode($input, string $parser) : string
     {
-        switch ($driver) {
+        switch ($parser) {
             case 'frontmatter':
                 return FrontmatterParser::encode($input);
 
@@ -58,9 +58,9 @@ class Parser
         }
     }
 
-    public static function decode(string $input, string $driver)
+    public static function decode(string $input, string $parser)
     {
-        switch ($driver) {
+        switch ($parser) {
             case 'frontmatter':
                 return FrontmatterParser::decode($input);
 

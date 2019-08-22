@@ -99,17 +99,15 @@ class Entries
      */
     public function fetch(string $id)
     {
-        // Get entry file location
-        $entry_file = $this->_file_location($id);
-
         // If requested entry file founded then process it
-        if (Filesystem::has($entry_file)) {
+        if ($_entry = $this->read($id)) {
+
             // Create unique entry cache_id
             // Entry Cache ID = entry + entry file + entry file time stamp
-            if ($timestamp = Filesystem::getTimestamp($entry_file)) {
-                $entry_cache_id = md5('entry' . $entry_file . $timestamp);
+            if ($timestamp = Filesystem::getTimestamp($_entry['file_path'])) {
+                $entry_cache_id = md5('entry' . $_entry['file_path'] . $timestamp);
             } else {
-                $entry_cache_id = md5('entry' . $entry_file);
+                $entry_cache_id = md5('entry' . $_entry['file_path']);
             }
 
             // Try to get the requested entry from cache
@@ -128,38 +126,30 @@ class Entries
             // else Try to get requested entry from the filesystem
             }
 
-            // Try to get requested entry body content
-            if ($entry_body = Filesystem::read($entry_file)) {
-                // Try to decode requested entry body content
-                if ($entry_decoded = JsonParser::decode($entry_body)) {
-                    // Add predefined entry items
-                    // Entry Date
-                    $entry_decoded['published_at'] = $entry_decoded['published_at'] ? $entry_decoded['published_at'] : Filesystem::getTimestamp($entry_file);
-                    $entry_decoded['created_at']   = $entry_decoded['created_at'] ? $entry_decoded['created_at'] : Filesystem::getTimestamp($entry_file);
+            $entry_decoded = $_entry['file_data'];
 
-                    // Entry Timestamp
-                    $entry_decoded['modified_at'] = Filesystem::getTimestamp($entry_file);
+            // Add predefined entry items
+            // Entry Date
+            $entry_decoded['published_at'] = $entry_decoded['published_at'] ? $entry_decoded['published_at'] : Filesystem::getTimestamp($_entry['file_path']);
+            $entry_decoded['created_at']   = $entry_decoded['created_at'] ? $entry_decoded['created_at'] : Filesystem::getTimestamp($_entry['file_path']);
 
-                    // Entry Slug
-                    $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($id, '/'), '/');
+            // Entry Timestamp
+            $entry_decoded['modified_at'] = Filesystem::getTimestamp($_entry['file_path']);
 
-                    // Save decoded entry content into the cache
-                    $this->flextype['cache']->save($entry_cache_id, $entry_decoded);
+            // Entry Slug
+            $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($id, '/'), '/');
 
-                    // Set entry to the Entry class property $entry
-                    $this->entry = $entry_decoded;
+            // Save decoded entry content into the cache
+            $this->flextype['cache']->save($entry_cache_id, $entry_decoded);
 
-                    // Run event onEntryAfterInitialized
-                    $this->flextype['emitter']->emit('onEntryAfterInitialized');
+            // Set entry to the Entry class property $entry
+            $this->entry = $entry_decoded;
 
-                    // Return entry from the Entry class property $entry
-                    return $this->entry;
-                }
+            // Run event onEntryAfterInitialized
+            $this->flextype['emitter']->emit('onEntryAfterInitialized');
 
-                return false;
-            }
-
-            return false;
+            // Return entry from the Entry class property $entry
+            return $this->entry;
         }
 
         return false;
@@ -242,26 +232,11 @@ class Entries
         // Get entries list
         $entries_list = Filesystem::listContents($entries_path, $bind_recursive);
 
-        // Create unique entries $_entries_ids
-        // 1. Go through all entries
-        // 2. set all entries IDs and their timestamps into the $_entries_ids
-        $_entries_ids = '';
-        foreach ($entries_list as $current_entry) {
-            if (strpos($current_entry['path'], $bind_id . '/entry.json') !== false) {
-                // ignore ...
-            } else {
-                if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
-                    if ($timestamp = Filesystem::getTimestamp($current_entry['path'] . '/entry.json')) {
-                        $_entries_ids .= 'entry:' . ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/') . ' timestamp:' . $timestamp;
-                    } else {
-                        $_entries_ids .= 'entry:' . ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/');
-                    }
-                }
-            }
-        }
+        // Get Entries Timestamp
+        $entries_timestamp = Filesystem::getDirTimestamp($entries_path);
 
         // Create unique entries $cache_id
-        $cache_id =  md5($_entries_ids .
+        $cache_id =  md5($entries_timestamp .
                          $bind_id .
                          ($bind_recursive ? 'true' : 'false') .
                          ($bind_set_max_result ? $bind_set_max_result : 'false') .
@@ -284,13 +259,19 @@ class Entries
             $entries = $this->flextype['cache']->fetch($cache_id);
         } else {
             // Create entries array from entries list and ignore current requested entry
+            //echo count($entries_list);
             foreach ($entries_list as $current_entry) {
-                if (strpos($current_entry['path'], $bind_id . '/entry.json') !== false) {
+                if (strpos($current_entry['path'], $bind_id . '/entry' . '.' . $current_entry['ext']) !== false) {
                     // ignore ...
                 } else {
                     // We are checking...
-                    // Whether the requested entry is a director and whether the file entry.json is in this directory.
-                    if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry.json')) {
+                    // Whether the requested entry is a director and whether the file entry is in this directory.
+                    if ($current_entry['type'] === 'dir' && (
+                        // @todo refactoring this
+                        Filesystem::has($current_entry['path'] . '/entry' . '.' . Parser::$parsers['frontmatter']['ext']) ||
+                        Filesystem::has($current_entry['path'] . '/entry' . '.' . Parser::$parsers['json']['ext']) ||
+                        Filesystem::has($current_entry['path'] . '/entry' . '.' . Parser::$parsers['yaml']['ext'])
+                        )) {
                         // Get entry uid
                         // 1. Remove entries path
                         // 2. Remove left and right slashes
@@ -391,10 +372,8 @@ class Entries
      */
     public function update(string $id, array $data) : bool
     {
-        $entry_file = $this->_file_location($id);
-
-        if (Filesystem::has($entry_file)) {
-            return Filesystem::write($entry_file, JsonParser::encode($data));
+        if ($_entry = $this->read($id)) {
+            return Filesystem::write($_entry['file_path'], Parser::encode($data, $_entry['file_parser']));
         }
 
         return false;
@@ -403,14 +382,15 @@ class Entries
     /**
      * Create entry
      *
-     * @param string $id   Entry ID
-     * @param array  $data Data
+     * @param string $id     Entry ID
+     * @param array  $data   Data
+     * @param string $parser Parser - on of Parser::$parsers
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function create(string $id, array $data) : bool
+    public function create(string $id, array $data, string $parser = 'frontmatter') : bool
     {
         $entry_dir = $this->_dir_location($id);
 
@@ -419,17 +399,15 @@ class Entries
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
                 // Entry file path
-                $entry_file = $entry_dir . '/entry.json';
+                $entry_file = $entry_dir . '/entry' . '.' . Parser::$parsers[$parser]['ext'];
 
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file)) {
-                    return Filesystem::write($entry_file, JsonParser::encode($data));
+                    return Filesystem::write($entry_file, Parser::encode($data, $parser));
                 }
 
                 return false;
             }
-
-            return false;
         }
 
         return false;
@@ -476,21 +454,47 @@ class Entries
      */
     public function has(string $id) : bool
     {
-        return Filesystem::has($this->_file_location($id));
+        foreach (Parser::$parsers as $parser) {
+            if (Filesystem::has(PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
-     * Helper method _file_location
+     * Read entry
      *
      * @param string $id Entry ID
+     * @param bool   $raw Return raw or decoded content
      *
-     * @return string entry file location
+     * @return bool|array Array of file path, decoded file data and file parser,
+     * false on failure.
      *
-     * @access private
+     * @access public
      */
-    private function _file_location(string $id) : string
+    public function read(string $id, bool $raw = false)
     {
-        return PATH['entries'] . '/' . $id . '/entry.json';
+        foreach (Parser::$parsers as $parser) {
+            if (Filesystem::has(PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'])) {
+                $file_path = PATH['entries'] . '/' . $id . '/' . 'entry' . '.' . $parser['ext'];
+
+                if ($raw) {
+                    $file_data = Filesystem::read($file_path);
+                } else {
+                    $file_data = Parser::decode(Filesystem::read($file_path), $parser['name']);
+                }
+
+                return [
+                    'file_path' => $file_path,
+                    'file_data' => $file_data,
+                    'file_parser' => $parser['name'],
+                ];
+            }
+        }
+
+        return false;
     }
 
     /**

@@ -45,7 +45,7 @@ class Fieldsets
 
         if (Filesystem::has($fieldset_file)) {
             if ($fieldset_body = Filesystem::read($fieldset_file)) {
-                if ($fieldset_decoded = JsonParser::decode($fieldset_body)) {
+                if ($fieldset_decoded = Parser::decode($fieldset_body, 'yaml')) {
                     return $fieldset_decoded;
                 }
 
@@ -76,11 +76,11 @@ class Fieldsets
         // If there is any fieldsets file then go...
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
-                if ($fieldset['type'] !== 'file' || $fieldset['extension'] !== 'json') {
+                if ($fieldset['type'] !== 'file' || $fieldset['extension'] !== 'yaml') {
                     continue;
                 }
 
-                $fieldset_content                 = JsonParser::decode(Filesystem::read($fieldset['path']));
+                $fieldset_content                 = Parser::decode(Filesystem::read($fieldset['path']), 'yaml');
                 $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
             }
         }
@@ -119,7 +119,7 @@ class Fieldsets
         $fieldset_file = $this->_file_location($id);
 
         if (Filesystem::has($fieldset_file)) {
-            return Filesystem::write($fieldset_file, JsonParser::encode($data));
+            return Filesystem::write($fieldset_file, Parser::encode($data, 'yaml'));
         }
 
         return false;
@@ -140,7 +140,7 @@ class Fieldsets
         $fieldset_file = $this->_file_location($id);
 
         if (! Filesystem::has($fieldset_file)) {
-            return Filesystem::write($fieldset_file, JsonParser::encode($data));
+            return Filesystem::write($fieldset_file, Parser::encode($data, 'yaml'));
         }
 
         return false;
@@ -208,6 +208,6 @@ class Fieldsets
      */
     private function _file_location(string $id) : string
     {
-        return PATH['site'] . '/fieldsets/' . $id . '.json';
+        return PATH['site'] . '/fieldsets/' . $id . '.yaml';
     }
 }

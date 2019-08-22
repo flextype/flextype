@@ -95,7 +95,7 @@ class FieldsetsController extends Controller
             [
                 'menu_item' => 'fieldsets',
                 'id' => $request->getQueryParams()['id'],
-                'data' => JsonParser::encode($this->fieldsets->fetch($request->getQueryParams()['id'])),
+                'data' => Parser::encode($this->fieldsets->fetch($request->getQueryParams()['id']), 'yaml'),
                 'links' =>  [
                     'fieldsets' => [
                         'link' => $this->router->pathFor('admin.fieldsets.index'),
@@ -124,17 +124,11 @@ class FieldsetsController extends Controller
         $id   = $request->getParsedBody()['id'];
         $data = $request->getParsedBody()['data'];
 
-        if (v::json()->validate($data)) {
-            if ($this->fieldsets->update($request->getParsedBody()['id'], JsonParser::decode($data))) {
-                $this->flash->addMessage('success', __('admin_message_fieldset_saved'));
-            } else {
-                $this->flash->addMessage('error', __('admin_message_fieldset_was_not_saved'));
-            }
-
-            return $response->withRedirect($this->router->pathFor('admin.fieldsets.edit') . '?id=' . $id);
+        if ($this->fieldsets->update($request->getParsedBody()['id'], Parser::decode($data, 'yaml'))) {
+            $this->flash->addMessage('success', __('admin_message_fieldset_saved'));
+        } else {
+            $this->flash->addMessage('error', __('admin_message_fieldset_was_not_saved'));
         }
-
-        $this->flash->addMessage('error', __('admin_message_json_invalid'));
 
         return $response->withRedirect($this->router->pathFor('admin.fieldsets.edit') . '?id=' . $id);
     }

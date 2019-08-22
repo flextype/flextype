@@ -18,9 +18,9 @@
                    {% set _entries = entries.fetchAll(entry.slug, {'order_by': {field: 'slug', direction: 'asc'}}) %}
                    <a href="{% if _entries|length > 0 %}{{ path_for('admin.entries.index') }}?id={{ entry.slug }}{% else %}{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor{% endif %}">
                        {% if entry.fieldset %}
-                           {% set fieldset_path = PATH_FIELDSETS ~ '/' ~ entry.fieldset ~ '.json' %}
+                           {% set fieldset_path = PATH_FIELDSETS ~ '/' ~ entry.fieldset ~ '.yaml' %}
                            {% if filesystem_has(fieldset_path) %}
-                               {% set fieldset = json_decode(filesystem_read(fieldset_path)) %}
+                               {% set fieldset = yaml_decode(filesystem_read(fieldset_path)) %}
                                {% if fieldset.default_field %}
                                    {% if entry[fieldset.default_field] != '' %}
                                        {{ entry[fieldset.default_field] }}

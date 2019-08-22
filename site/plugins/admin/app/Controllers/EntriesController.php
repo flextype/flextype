@@ -118,8 +118,8 @@ class EntriesController extends Controller
         // If there is any fieldset file then go...
         if (count($fieldsets_list) > 0) {
             foreach ($fieldsets_list as $fieldset) {
-                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'json') {
-                    $fieldset_content = JsonParser::decode(Filesystem::read($fieldset['path']));
+                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
+                    $fieldset_content = Parser::decode(Filesystem::read($fieldset['path']), 'yaml');
                     if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
                         $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
                     }
@@ -231,7 +231,13 @@ class EntriesController extends Controller
                     $data_result = $data_from_post;
                 }
 
-                if ($this->entries->create($id, $data_result)) {
+                if (isset($fieldset['parser'])) {
+                    $parser = $fieldset['parser'];
+                } else {
+                    $parser = 'frontmatter';
+                }
+
+                if ($this->entries->create($id, $data_result, $parser)) {
                     $this->flash->addMessage('success', __('admin_message_entry_created'));
                 } else {
                     $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
@@ -275,8 +281,8 @@ class EntriesController extends Controller
         // If there is any template file then go...
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
-                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'json') {
-                    $fieldset_content = JsonParser::decode(Filesystem::read($fieldset['path']));
+                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
+                    $fieldset_content = Parser::decode(Filesystem::read($fieldset['path']), 'yaml');
                     if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
                         $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
                     }
@@ -708,9 +714,12 @@ class EntriesController extends Controller
         Arr::delete($entry, 'slug');
         Arr::delete($entry, 'modified_at');
 
+        // Read Entry
+        $_entry = $this->entries->read($this->getEntryID($query), true);
+
         // Fieldsets for current entry template
-        $fieldsets_path = PATH['site'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.json';
-        $fieldsets = JsonParser::decode(Filesystem::read($fieldsets_path));
+        $fieldsets_path = PATH['site'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
+        $fieldsets = Parser::decode(Filesystem::read($fieldsets_path), 'yaml');
         is_null($fieldsets) and $fieldsets = [];
 
         if ($type == 'source') {
@@ -722,7 +731,8 @@ class EntriesController extends Controller
                         'i' => count($parts),
                         'last' => Arr::last($parts),
                         'id' => $this->getEntryID($query),
-                        'data' => JsonParser::encode($entry),
+                        'data' => $_entry['file_data'],
+                        'parser' => $_entry['file_parser'],
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
@@ -881,16 +891,11 @@ class EntriesController extends Controller
             // Data from POST
             $data = $request->getParsedBody();
 
-            if (v::json()->validate($data['data'])) {
-
-                // Update entry
-                if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.json', $data['data'])) {
-                    $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
-                } else {
-                    $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
-                }
+            // Update entry
+            if ($this->entries->update($id, Parser::decode($data['data'], $data['parser']))) {
+                $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
-                $this->flash->addMessage('error', __('admin_message_json_invalid'));
+                $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
             }
         } else {
             // Result data to save

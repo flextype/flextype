@@ -49,8 +49,8 @@ $registry = new Registry();
  * 3. Merge settings.
  * 4. Add settings into the registry.
  */
-$default_settings_file_path = PATH['config']['default'] . '/settings.json';
-$site_settings_file_path    = PATH['config']['site'] . '/settings.json';
+$default_settings_file_path = PATH['config']['default'] . '/settings.yaml';
+$site_settings_file_path    = PATH['config']['site'] . '/settings.yaml';
 
 // Set settings if Flextype settings and Site settings config files exist
 if (! Filesystem::has($default_settings_file_path) || ! Filesystem::has($site_settings_file_path)) {
@@ -60,13 +60,13 @@ if (! Filesystem::has($default_settings_file_path) || ! Filesystem::has($site_se
 if (($content = Filesystem::read($default_settings_file_path)) === false) {
     throw new RuntimeException('Load file: ' . $default_settings_file_path . ' - failed!');
 } else {
-    $default_settings = JsonParser::decode($content);
+    $default_settings = Parser::decode($content, 'yaml');
 }
 
 if (($content = Filesystem::read($site_settings_file_path)) === false) {
     throw new RuntimeException('Load file: ' . $site_settings_file_path . ' - failed!');
 } else {
-    $site_settings = JsonParser::decode($content);
+    $site_settings = Parser::decode($content, 'yaml');
 }
 
 // Merge settings

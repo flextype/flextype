@@ -62,9 +62,9 @@ class PluginsController extends Controller
         $data = $request->getParsedBody();
 
         // Update settings
-        $plugin_settings = JsonParser::decode(Filesystem::read(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.json'));
+        $plugin_settings = Parser::decode(Filesystem::read(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.yaml'), 'yaml');
         Arr::set($plugin_settings, 'enabled', ($data['plugin-status'] === 'true'));
-        Filesystem::write(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.json', JsonParser::encode($plugin_settings));
+        Filesystem::write(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.yaml', Parser::encode($plugin_settings, 'yaml'));
 
         // Clear doctrine cache
         $this->cache->clear('doctrine');
