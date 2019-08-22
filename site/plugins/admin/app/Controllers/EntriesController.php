@@ -884,11 +884,14 @@ class EntriesController extends Controller
 
         if ($type == 'source') {
 
+            // Read entry
+            $_entry = $this->entries->read($id);
+
             // Data from POST
             $data = $request->getParsedBody();
 
             // Update entry
-            if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.yaml', $data['data'])) {
+            if ($this->entries->update($id, Parser::decode($data['data'], $_entry['file_parser']))) {
                 $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
