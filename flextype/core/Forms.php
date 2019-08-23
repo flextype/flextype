@@ -49,45 +49,64 @@ class Forms
      */
     public function fetch(array $fieldset, array $values = [], Request $request, Response $response) : string
     {
-        $form  = '';
-        $form .= Form::open(null, ['id' => 'form']);
+        $form  = Form::open(null, ['id' => 'form']);
         $form .= $this->_csrfHiddenField();
         $form .= $this->_actionHiddenField();
+
         if (count($fieldset['sections']) > 0) {
+
             $form .= '<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">';
+
             foreach ($fieldset['sections'] as $key => $section) {
                 $form .= '<li class="nav-item">
                             <a class="nav-link ' . ($key === 'main' ? 'active' : '') . '" id="pills-' . $key . '-tab" data-toggle="pill" href="#pills-' . $key . '" role="tab" aria-controls="pills-' . $key . '" aria-selected="true">' . $section['title'] . '</a>
                           </li>';
             }
+
             $form .= '</ul>';
+
             $form .= '<div class="tab-content" id="pills-tabContent">';
+
+
             foreach ($fieldset['sections'] as $key => $section) {
+
                 $form .= '<div class="tab-pane fade show ' . ($key === 'main' ? 'active' : '') . '" id="pills-' . $key . '" role="tabpanel" aria-labelledby="pills-' . $key . '-tab">';
                 $form .= '<div class="row">';
+
                 foreach ($section['fields'] as $element => $property) {
+
                     // Create attributes
                     $property['attributes'] = Arr::keyExists($property, 'attributes') ? $property['attributes'] : [];
+
                     // Create attribute class
                     $property['attributes']['class'] = Arr::keyExists($property, 'attributes.class') ? 'form-control ' . $property['attributes']['class'] : 'form-control';
+
                     // Create attribute size
                     $property['size'] = Arr::keyExists($property, 'size') ? $property['size'] : 'col-12';
+
                     // Create attribute value
                     $property['value'] = Arr::keyExists($property, 'value') ? $property['value'] : '';
+
                     $pos               = strpos($element, '.');
+
                     if ($pos === false) {
                         $form_element_name = $element;
                     } else {
                         $form_element_name = str_replace('.', '][', "$element") . ']';
                     }
+
                     $pos = strpos($form_element_name, ']');
+
                     if ($pos !== false) {
                         $form_element_name = substr_replace($form_element_name, '', $pos, strlen(']'));
                     }
+
                     // Form value
                     $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : $property['value'];
+
                     // Form label
                     $form_label = Form::label($element, __($property['title']));
+
                     // Form elements
                     switch ($property['type']) {
                         // Simple text-input, for multi-line fields.
@@ -154,11 +173,11 @@ class Forms
             }
             $form .= '</div>';
         }
+
         $form .= Form::close();
 
         return $form;
     }
-
 
     protected function _csrfHiddenField()
     {
