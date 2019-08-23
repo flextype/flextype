@@ -85,9 +85,9 @@ class SiteController extends Controller
         $path = 'themes/' . $this->registry->get('settings.theme') . '/' . (empty($this->entry['template']) ? 'templates/default' : 'templates/' . $this->entry['template']) . '.html';
 
         if ($is_entry_not_found) {
-            return $this->view->render($response->withStatus(404), $path, ['entry' => $this->entry]);
+            return $this->view->render($response->withStatus(404), $path, ['entry' => $this->entry, 'query' => $query]);
         }
 
-        return $this->view->render($response, $path, ['entry' => $this->entry, 'page' => $query['page'] ?? '']);
+        return $this->view->render($response, $path, ['entry' => $this->entry, 'query' => $query]);
     }
 }
