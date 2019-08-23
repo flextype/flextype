@@ -11,6 +11,7 @@ namespace Flextype;
 
 use Flextype\Component\Arr\Arr;
 use Flextype\Component\Form\Form;
+use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use function count;
 use function Flextype\Component\I18n\__;
@@ -46,13 +47,12 @@ class Forms
      *
      * @access public
      */
-    public function fetch(array $fieldset, array $values = [], Request $request) : string
+    public function fetch(array $fieldset, array $values = [], Request $request, Response $response) : string
     {
         $form  = '';
         $form .= Form::open(null, ['id' => 'form']);
-        $form .= '<input type="hidden" name="' . $this->flextype['csrf']->getTokenNameKey() . '" value="' . $this->flextype['csrf']->getTokenName() . '">' .
-        $form .= '<input type="hidden" name="' . $this->flextype['csrf']->getTokenValueKey() . '" value="' . $this->flextype['csrf']->getTokenValue() . '">';
-        $form .= Form::hidden('action', 'save-form');
+        $form .= $this->csrfHiddenField();
+        $form .= $this->actionHiddenField();
         if (count($fieldset['sections']) > 0) {
             $form .= '<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">';
             foreach ($fieldset['sections'] as $key => $section) {
@@ -157,5 +157,18 @@ class Forms
         $form .= Form::close();
 
         return $form;
+    }
+
+    protected function csrfHiddenField()
+    {
+        $field  = '<input type="hidden" name="' . $this->flextype['csrf']->getTokenNameKey() . '" value="' . $this->flextype['csrf']->getTokenName() . '">';
+        $field .= '<input type="hidden" name="' . $this->flextype['csrf']->getTokenValueKey() . '" value="' . $this->flextype['csrf']->getTokenValue() . '">';
+
+        return $field;
+    }
+
+    protected function actionHiddenField()
+    {
+        return Form::hidden('action', 'save-form');
     }
 }
