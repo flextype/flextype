@@ -4,7 +4,9 @@
 
     <h1 class="text-center">{{ entry.title }}</h1>
 
+
     {# pagination #}
+    {% set page = query.page %}
     {% set entries_limit = entries.fetch('blog').entries_limit %}
     {% set entries_length = entries.fetchAll('blog', {'order_by': {'field': 'published_at', 'direction': 'desc'}})|length %}
     {% set entries_pages = (entries_length/entries_limit)|round %}
