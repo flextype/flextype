@@ -51,8 +51,8 @@ class Forms
     {
         $form  = '';
         $form .= Form::open(null, ['id' => 'form']);
-        $form .= $this->csrfHiddenField();
-        $form .= $this->actionHiddenField();
+        $form .= $this->_csrfHiddenField();
+        $form .= $this->_actionHiddenField();
         if (count($fieldset['sections']) > 0) {
             $form .= '<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">';
             foreach ($fieldset['sections'] as $key => $section) {
@@ -159,7 +159,8 @@ class Forms
         return $form;
     }
 
-    protected function csrfHiddenField()
+
+    protected function _csrfHiddenField()
     {
         $field  = '<input type="hidden" name="' . $this->flextype['csrf']->getTokenNameKey() . '" value="' . $this->flextype['csrf']->getTokenName() . '">';
         $field .= '<input type="hidden" name="' . $this->flextype['csrf']->getTokenValueKey() . '" value="' . $this->flextype['csrf']->getTokenValue() . '">';
@@ -167,7 +168,7 @@ class Forms
         return $field;
     }
 
-    protected function actionHiddenField()
+    protected function _actionHiddenField()
     {
         return Form::hidden('action', 'save-form');
     }
