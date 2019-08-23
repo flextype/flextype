@@ -175,6 +175,13 @@ $flextype['fieldsets'] = static function ($container) use ($flextype) {
 };
 
 /**
+ * Add forms service to Flextype container
+ */
+$flextype['forms'] = static function ($container) use ($flextype) {
+    return new Forms($flextype);
+};
+
+/**
  * Add snippets service to Flextype container
  */
 $flextype['snippets'] = static function ($container) use ($flextype, $app) {
