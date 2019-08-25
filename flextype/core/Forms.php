@@ -152,11 +152,11 @@ class Forms
                             break;
                         // Media select field
                         case 'media_select':
-                            //$form_element = Form::select($form_element_name, $this->getMediaList($request->getQueryParams()['id'], false), $form_value, $property['attributes']);
+                            $form_element = Form::select($form_element_name, $this->getMediaList($request->getQueryParams()['id'], false), $form_value, $property['attributes']);
                             break;
                         // Simple text-input, for single-line fields.
                         default:
-                            $form_element = Form::input($form_element_name, $form_value, $property['attributes']);
+                            $form_element = $this->textField($form_element_name, $form_value, $property['attributes']);
                             break;
                     }
                     // Render form elments with labels
@@ -177,6 +177,11 @@ class Forms
         $form .= Form::close();
 
         return $form;
+    }
+
+    protected function textField($name, $value, $attributes)
+    {
+        return Form::input($name, $value, $attributes);
     }
 
     protected function _csrfHiddenField()
