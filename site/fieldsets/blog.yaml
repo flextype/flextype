@@ -7,29 +7,29 @@ sections:
       title:
         title: admin_title
         type: text
-        size: col-12
+        size: 12
       entries_limit:
         title: admin_entries_limit
         type: text
-        size: col-4
+        size: 4/12
   seo:
     title: Seo
     fields:
       description:
         title: admin_description
         type: textarea
-        size: col-12
+        size: 4/12
   menu:
     title: Menu
     fields:
       menu_item_title:
         title: admin_menu_item_title
         type: text
-        size: col-4
+        size: 4/12
       menu_item_url:
         title: admin_menu_item_url
         type: text
-        size: col-4
+        size: 4/12
       menu_item_target:
         title: admin_menu_item_target
         type: select
@@ -38,8 +38,8 @@ sections:
           _blank: _blank
           _parent: _parent
           _top: _top
-        size: col-4
+        size: 4/12
       menu_item_order:
         title: admin_menu_item_order
         type: text
-        size: col-4
+        size: 4/12

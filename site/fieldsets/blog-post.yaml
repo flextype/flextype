@@ -7,19 +7,19 @@ sections:
       title:
         title: admin_title
         type: text
-        size: col-12
+        size: 12
       summary:
         title: admin_summary
         type: html
-        size: col-12
+        size: 12
       content:
         title: admin_content
         type: html
-        size: col-12
+        size: 12
   seo:
     title: Seo
     fields:
       description:
         title: admin_description
         type: textarea
-        size: col-12
+        size: 12

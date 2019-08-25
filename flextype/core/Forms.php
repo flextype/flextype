@@ -27,6 +27,21 @@ class Forms
      */
     private $flextype;
 
+    private $sizes = [
+        '1/12' => 'col-1',
+        '2/12' => 'col-2',
+        '3/12' => 'col-3',
+        '4/12' => 'col-4',
+        '5/12' => 'col-5',
+        '6/12' => 'col-6',
+        '7/12' => 'col-7',
+        '8/12' => 'col-8',
+        '9/12' => 'col-9',
+        '10/12' => 'col-19',
+        '12/12' => 'col-11',
+        '12' => 'col-12'
+    ];
+
     /**
      * Constructor
      *
@@ -78,7 +93,7 @@ class Forms
                     $property['attributes']['class'] = Arr::keyExists($property, 'attributes.class') ? 'form-control ' . $property['attributes']['class'] : 'form-control';
 
                     // Create attribute size
-                    $property['size'] = Arr::keyExists($property, 'size') ? $property['size'] : 'col-12';
+                    $property['size'] = Arr::keyExists($property, 'size') ? $this->sizes[$property['size']] : $this->sizes['12'];
 
                     // Create attribute value
                     $property['value'] = Arr::keyExists($property, 'value') ? $property['value'] : '';

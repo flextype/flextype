@@ -7,15 +7,15 @@ sections:
       title:
         title: admin_title
         type: text
-        size: col-12
+        size: 12
       gallery_img:
         title: admin_gallery_img
         type: media_select
-        size: col-4
+        size: 4/12
   seo:
     title: Seo
     fields:
       description:
         title: admin_description
         type: textarea
-        size: col-12
+        size: 12
