@@ -111,11 +111,11 @@ class Forms
                     switch ($property['type']) {
                         // Simple text-input, for multi-line fields.
                         case 'textarea':
-                            $form_element = Form::textarea($element, $form_value, $property['attributes']);
+                            $form_element = $this->textareaField($element, $form_value, $property['attributes']);
                             break;
                         // The hidden field is like the text field, except it's hidden from the content editor.
                         case 'hidden':
-                            $form_element = Form::hidden($element, $form_value);
+                            $form_element = $this->hiddenField($element, $form_value, $property['attributes']);
                             break;
                         // A WYSIWYG HTML field.
                         case 'html':
@@ -148,7 +148,7 @@ class Forms
                             break;
                         // Visibility select field for selecting entry visibility state
                         case 'visibility_select':
-                            $form_element = Form::select($form_element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (! empty($form_value) ? $form_value : 'visible'), $property['attributes']);
+                            $form_element = $this->visibilitySelectField($form_element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (! empty($form_value) ? $form_value : 'visible'), $property['attributes']);
                             break;
                         // Media select field
                         case 'media_select':
@@ -177,6 +177,21 @@ class Forms
         $form .= Form::close();
 
         return $form;
+    }
+
+    protected function hiddenField($name, $value, $attributes)
+    {
+        return Form::hidden($name, $value, $attributes);
+    }
+
+    protected function textareaField($name, $value, $attributes)
+    {
+        return Form::textarea($name, $value, $attributes);
+    }
+
+    protected function visibilitySelectField($name, $options, $value, $attributes)
+    {
+        return Form::select($name, $options, $value, $attributes);
     }
 
     protected function mediaSelectField($name, $options, $value, $attributes)
