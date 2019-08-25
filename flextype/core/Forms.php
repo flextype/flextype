@@ -98,6 +98,9 @@ class Forms
                     // Create attribute value
                     $property['value'] = Arr::keyExists($property, 'value') ? $property['value'] : '';
 
+                    // Create attribute value
+                    $property['label'] = Arr::keyExists($property, 'label') ? $property['label'] : true;
+
                     $pos = strpos($element, '.');
 
                     if ($pos === false) {
@@ -114,9 +117,6 @@ class Forms
 
                     // Form value
                     $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : $property['value'];
-
-                    // Form label
-                    $form_label = Form::label($element, __($property['title']));
 
                     // Form elements
                     switch ($property['type']) {
@@ -153,14 +153,16 @@ class Forms
                             $form_element = $this->textField($form_element_name, $form_value, $property);
                             break;
                     }
-                    // Render form elments with labels
-                    if ($property['type'] === 'hidden') {
-                        $form .= $form_element;
+
+                    if ($property['label'] == true) {
+                        $form_label = Form::label($element, __($property['title']));
                     } else {
-                        $form .= '<div class="form-group ' . $property['size'] . '">';
-                        $form .= $form_label . $form_element;
-                        $form .= '</div>';
+                        $form_label = '';
                     }
+
+                    $form .= '<div class="form-group ' . $property['size'] . '">';
+                    $form .= $form_label . $form_element;
+                    $form .= '</div>';
                 }
                 $form .= '</div>';
                 $form .= '</div>';
