@@ -152,7 +152,7 @@ class Forms
                             break;
                         // Media select field
                         case 'media_select':
-                            $form_element = Form::select($form_element_name, $this->getMediaList($request->getQueryParams()['id'], false), $form_value, $property['attributes']);
+                            $form_element = $this->mediaSelectField($form_element_name, $this->getMediaList($request->getQueryParams()['id'], false), $form_value, $property['attributes']);
                             break;
                         // Simple text-input, for single-line fields.
                         default:
@@ -177,6 +177,11 @@ class Forms
         $form .= Form::close();
 
         return $form;
+    }
+
+    protected function mediaSelectField($name, $options, $value, $attributes)
+    {
+        return Form::select($name, $options, $value, $attributes);
     }
 
     protected function textField($name, $value, $attributes)
