@@ -107,44 +107,27 @@ class Forms
                     switch ($property['type']) {
                         // Simple text-input, for multi-line fields.
                         case 'textarea':
-                            $form_element = $this->textareaField($element, $form_value, $property['attributes']);
+                            $form_element = $this->textareaField($element, $form_value, $property);
                             break;
                         // The hidden field is like the text field, except it's hidden from the content editor.
                         case 'hidden':
-                            $form_element = $this->hiddenField($element, $form_value, $property['attributes']);
+                            $form_element = $this->hiddenField($element, $form_value, $property);
                             break;
                         // A WYSIWYG HTML field.
                         case 'html':
-                            $property['attributes']['class'] .= ' js-html-editor';
-                            $form_element                     = Form::textarea($element, $form_value, $property['attributes']);
+                            $form_element = $this->htmlField($element, $form_value, $property);
                             break;
                         // Selectbox field
                         case 'select':
-                            $form_element = Form::select($form_element_name, $property['options'], $form_value, $property['attributes']);
+                            $form_element = $this->selectField($form_element_name, $property['options'], $form_value, $property);
                             break;
                         // Template select field for selecting entry template
                         case 'template_select':
-                            if ($this->flextype['registry']->has('settings.theme')) {
-                                $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
-
-                                $templates_list = [];
-
-                                if (count($_templates_list) > 0) {
-                                    foreach ($_templates_list as $template) {
-                                        if ($template['type'] !== 'file' || $template['extension'] !== 'html') {
-                                            continue;
-                                        }
-
-                                        $templates_list[$template['basename']] = $template['basename'];
-                                    }
-                                }
-
-                                $form_element = Form::select($form_element_name, $templates_list, $form_value, $property['attributes']);
-                            }
+                            $form_element = $this->templateSelectField($form_element_name, [], $form_value, $property);
                             break;
                         // Visibility select field for selecting entry visibility state
                         case 'visibility_select':
-                            $form_element = $this->visibilitySelectField($form_element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (! empty($form_value) ? $form_value : 'visible'), $property['attributes']);
+                            $form_element = $this->visibilitySelectField($form_element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (! empty($form_value) ? $form_value : 'visible'), $property);
                             break;
                         // Media select field
                         case 'media_select':
@@ -152,7 +135,7 @@ class Forms
                             break;
                         // Simple text-input, for single-line fields.
                         default:
-                            $form_element = $this->textField($form_element_name, $form_value, $property['attributes']);
+                            $form_element = $this->textField($form_element_name, $form_value, $property);
                             break;
                     }
                     // Render form elments with labels
@@ -175,29 +158,66 @@ class Forms
         return $form;
     }
 
-    protected function hiddenField($name, $value, $attributes)
+    protected function templateSelectField($name, $options, $value, $property)
     {
-        return Form::hidden($name, $value, $attributes);
+        $form_element = '';
+
+        if ($this->flextype['registry']->has('settings.theme')) {
+            $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
+
+            $options = [];
+
+            if (count($_templates_list) > 0) {
+                foreach ($_templates_list as $template) {
+                    if ($template['type'] !== 'file' || $template['extension'] !== 'html') {
+                        continue;
+                    }
+
+                    $options[$template['basename']] = $template['basename'];
+                }
+            }
+
+            $form_element = Form::select($name, $options, $value, $property['attributes']);
+        }
+
+        return $form_element;
     }
 
-    protected function textareaField($name, $value, $attributes)
+    protected function selectField($name, $options, $value, $property)
     {
-        return Form::textarea($name, $value, $attributes);
+        return Form::select($name, $options, $value, $property['attributes']);
     }
 
-    protected function visibilitySelectField($name, $options, $value, $attributes)
+    protected function htmlField($name, $value, $property)
     {
-        return Form::select($name, $options, $value, $attributes);
+        $property['attributes']['class'] .= ' js-html-editor';
+
+        return Form::textarea($name, $value, $property['attributes']);
     }
 
-    protected function mediaSelectField($name, $options, $value, $attributes)
+    protected function hiddenField($name, $value, $property)
     {
-        return Form::select($name, $options, $value, $attributes);
+        return Form::hidden($name, $value, $property['attributes']);
     }
 
-    protected function textField($name, $value, $attributes)
+    protected function textareaField($name, $value, $property)
     {
-        return Form::input($name, $value, $attributes);
+        return Form::textarea($name, $value, $property['attributes']);
+    }
+
+    protected function visibilitySelectField($name, $options, $value, $property)
+    {
+        return Form::select($name, $options, $value, $property['attributes']);
+    }
+
+    protected function mediaSelectField($name, $options, $value, $property)
+    {
+        return Form::select($name, $options, $value, $property['attributes']);
+    }
+
+    protected function textField($name, $value, $property)
+    {
+        return Form::input($name, $value, $property['attributes']);
     }
 
     protected function _csrfHiddenField()
