@@ -54,7 +54,6 @@ class Forms
         $form .= $this->_actionHiddenField();
 
         if (count($fieldset['sections']) > 0) {
-
             $form .= '<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">';
 
             foreach ($fieldset['sections'] as $key => $section) {
@@ -67,14 +66,11 @@ class Forms
 
             $form .= '<div class="tab-content" id="pills-tabContent">';
 
-
             foreach ($fieldset['sections'] as $key => $section) {
-
                 $form .= '<div class="tab-pane fade show ' . ($key === 'main' ? 'active' : '') . '" id="pills-' . $key . '" role="tabpanel" aria-labelledby="pills-' . $key . '-tab">';
                 $form .= '<div class="row">';
 
                 foreach ($section['fields'] as $element => $property) {
-
                     // Create attributes
                     $property['attributes'] = Arr::keyExists($property, 'attributes') ? $property['attributes'] : [];
 
@@ -87,7 +83,7 @@ class Forms
                     // Create attribute value
                     $property['value'] = Arr::keyExists($property, 'value') ? $property['value'] : '';
 
-                    $pos               = strpos($element, '.');
+                    $pos = strpos($element, '.');
 
                     if ($pos === false) {
                         $form_element_name = $element;
@@ -152,7 +148,7 @@ class Forms
                             break;
                         // Media select field
                         case 'media_select':
-                            $form_element = $this->mediaSelectField($form_element_name, $this->getMediaList($request->getQueryParams()['id'], false), $form_value, $property['attributes']);
+                            //$form_element = $this->mediaSelectField($form_element_name, $this->getMediaList($request->getQueryParams()['id'], false), $form_value, $property['attributes']);
                             break;
                         // Simple text-input, for single-line fields.
                         default:
