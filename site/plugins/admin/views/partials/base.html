@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
+        <meta name="robots" content="noindex,nofollow">
 
         {{ emitter.emit('onAdminThemeMeta') }}
 
@@ -220,10 +221,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             {% block content %}{% endblock %}
-                        </div> <!-- .col-md-12 -->
-                    </div> <!-- .row -->
-                </div> <!-- .container-fluid -->
-            </div> <!-- .content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
@@ -239,74 +240,24 @@
         {% endif %}
 
         {% set admin_build = base_url() ~ '/site/plugins/admin/assets/dist/js/admin-build.min.js' %}
-
         {% do assets.add('js', admin_build, 'admin', 1) %}
-
         {% for assets_admin in assets.get('js', 'admin') %}
             {% for assets_by_priorities in assets_admin %}
                 <script type="text/javascript" src="{{ assets_by_priorities.asset }}"></script>
             {% endfor %}
         {% endfor %}
 
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+    {% include "plugins/admin/views/partials/form-validator.html" %}
+    {% include "plugins/admin/views/partials/messenger.html" %}
+    {% include "plugins/admin/views/partials/clipboard.html" %}
+    {% include "plugins/admin/views/partials/custom-file-input.html" %}
+    {% include "plugins/admin/views/partials/trumbowyg.html" %}
 
     <script type="text/javascript">
-
-            new ClipboardJS('.js-clipboard-btn');
-            bsCustomFileInput.init();
-
-            Messenger.options = {
-                extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
-                theme: 'flat'
-            }
-
-            {% for message in flash()['success'] %}
-                Messenger().post({ type: "success", message : "{{ message }}", hideAfter: '3' });
-            {% endfor %}
-
-            {% for message in flash()['warning'] %}
-                Messenger().post({ type: "warning", message : "{{ message }}", hideAfter: '3' });
-            {% endfor %}
-
-            {% for message in flash()['error'] %}
-                Messenger().post({ type: "error", message : "{{ message }}", hideAfter: '3' });
-            {% endfor %}
-
-            if (typeof $.flextype == 'undefined') $.flextype = {};
-
-
             $(document).ready(function() {
 
-                $.trumbowyg.svgPath =  '{{base_url()}}/site/plugins/admin/assets/dist/fonts/trumbowyg/icons.svg';
-                $('.js-html-editor').trumbowyg({
-                    btnsDef: {
-                        // Customizables dropdowns
-                        image: {
-                            dropdown: ['insertImage', 'noembed'],
-                            ico: 'insertImage'
-                        }
-                    },
-                    btns: [
-                        ['undo', 'redo'], // Only supported in Blink browsers
-                        ['formatting'],
-                        ['strong', 'em', 'del'],
-                        ['link'],
-                        ['image'],
-                        ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
-                        ['unorderedList', 'orderedList'],
-                        ['table'],
-                        ['removeformat'],
-                        ['fullscreen'],
-                        ['viewHTML']
-                    ],
-                    lang: '{{ locale }}',
-                    autogrow: false,
-                    removeformatPasted: true
-                });
-
                 $('.js-save-form-submit').click(function() {
-                    $("#form" ).submit();
+                    $("#form").submit();
                 });
 
                 $('.js-save-editor-form-submit').click(function() {
@@ -354,7 +305,6 @@
                     $('#settingsEntryModal').modal();
                 });
 
-                $.validate({});
                 {% if is_current_path('admin.fieldsets.edit') or is_current_path('admin.templates.edit') or is_current_path('admin.snippets.edit') or (is_current_path('admin.entries.edit') and type == 'source') %}
                 var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
                     lineNumbers: true,

@@ -1,0 +1,18 @@
+<script type="text/javascript">
+    Messenger.options = {
+        extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+        theme: 'flat'
+    }
+
+    {% for message in flash()['success'] %}
+        Messenger().post({ type: "success", message : "{{ message }}", hideAfter: '3' });
+    {% endfor %}
+
+    {% for message in flash()['warning'] %}
+        Messenger().post({ type: "warning", message : "{{ message }}", hideAfter: '3' });
+    {% endfor %}
+
+    {% for message in flash()['error'] %}
+        Messenger().post({ type: "error", message : "{{ message }}", hideAfter: '3' });
+    {% endfor %}
+</script>
