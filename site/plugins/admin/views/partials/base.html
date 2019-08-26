@@ -262,10 +262,6 @@
                     $("#form").submit();
                 });
 
-                $('.js-save-editor-form-submit').click(function() {
-                    $("#form").submit();
-                });
-                
                 {% if is_current_path('admin.fieldsets.edit') or is_current_path('admin.templates.edit') or is_current_path('admin.snippets.edit') or (is_current_path('admin.entries.edit') and type == 'source') %}
                 var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
                     lineNumbers: true,

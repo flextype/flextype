@@ -761,7 +761,7 @@ class EntriesController extends Controller
                             'save_entry' => [
                                             'link'       => 'javascript:;',
                                             'title'      => __('admin_save'),
-                                            'attributes' => ['class' => 'js-save-editor-form-submit float-right btn']
+                                            'attributes' => ['class' => 'js-save-form-submit float-right btn']
                                         ],
                         ]
                 ]
@@ -803,7 +803,7 @@ class EntriesController extends Controller
                             'save_entry' => [
                                             'link'       => 'javascript:;',
                                             'title'      => __('admin_save'),
-                                            'attributes' => ['class' => 'js-save-editor-form-submit float-right btn']
+                                            'attributes' => ['class' => 'js-save-form-submit float-right btn']
                                         ],
                         ]
                 ]
@@ -844,7 +844,7 @@ class EntriesController extends Controller
                             'save_entry' => [
                                             'link'       => 'javascript:;',
                                             'title'      => __('admin_save'),
-                                            'attributes' => ['class' => 'js-save-editor-form-submit float-right btn']
+                                            'attributes' => ['class' => 'js-save-form-submit float-right btn']
                                         ],
                         ]
                 ]
