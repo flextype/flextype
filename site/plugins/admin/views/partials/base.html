@@ -264,16 +264,6 @@
                     $("#form").submit();
                 });
 
-                $('.navbar-toggler').click(function () {
-                    $('.sidebar').addClass('show-sidebar');
-                    $('.sidebar-off-canvas').addClass('show-sidebar-off-canvas');
-                });
-
-                $('.sidebar-off-canvas').click(function () {
-                    $('.sidebar').removeClass('show-sidebar');
-                    $('.sidebar-off-canvas').removeClass('show-sidebar-off-canvas');
-                });
-
                 $('.js-plugins-info').click(function () {
                     $('#pluginInfoModal').modal();
                     $('.js-plugin-name-placeholder').html($(this).attr('data-name'));
@@ -299,10 +289,6 @@
                     $('.js-entry-image-url-placeholder').val($(this).attr('data-image-url'));
                     $('.js-media-id').attr('value', $(this).attr('data-media-id'));
                     $('.js-entry-id').attr('value', $(this).attr('data-entry-id'));
-                });
-
-                $('.js-settings-entry-modal').click(function () {
-                    $('#settingsEntryModal').modal();
                 });
 
                 {% if is_current_path('admin.fieldsets.edit') or is_current_path('admin.templates.edit') or is_current_path('admin.snippets.edit') or (is_current_path('admin.entries.edit') and type == 'source') %}
