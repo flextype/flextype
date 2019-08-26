@@ -252,61 +252,17 @@
     {% include "plugins/admin/views/partials/clipboard.html" %}
     {% include "plugins/admin/views/partials/custom-file-input.html" %}
     {% include "plugins/admin/views/partials/trumbowyg.html" %}
+    {% include "plugins/admin/views/partials/codemirror.html" %}
 
     {% block tail %}{% endblock %}
 
-    <script type="text/javascript">
+        <script type="text/javascript">
             $(document).ready(function() {
 
                 $('.js-save-form-submit').click(function() {
                     $("#form").submit();
                 });
 
-                {% if is_current_path('admin.fieldsets.edit') or is_current_path('admin.templates.edit') or is_current_path('admin.snippets.edit') or (is_current_path('admin.entries.edit') and type == 'source') %}
-                var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
-                    lineNumbers: true,
-                    {% if is_current_path('admin.fieldsets.edit') %}
-                    indentUnit: 4,
-                    tabSize: 4,
-                    {% else %}
-                    tabSize: 4,
-                    indentUnit: 4,
-                    {% endif %}
-                    {% if is_current_path('admin.fieldsets.edit') %}
-                    mode: "text/javascript",
-                    {% else %}
-                    mode: "application/x-httpd-php",
-                    {% endif %}
-                    indentWithTabs: false,
-                    {% if registry.settings.admin_panel.theme == light %}
-                    theme: "elegant",
-                    {% elseif registry.settings.admin_panel.theme == dark %}
-                    theme: "monokai",
-                    {% endif %}
-                    styleActiveLine: true,
-                });
-
-                editor.addKeyMap({
-                    "Tab": function (cm) {
-                        if (cm.somethingSelected()) {
-                            var sel = editor.getSelection("\n");
-                            // Indent only if there are multiple lines selected, or if the selection spans a full line
-                            if (sel.length > 0 && (sel.indexOf("\n") > -1 || sel.length === cm.getLine(cm.getCursor().line).length)) {
-                                cm.indentSelection("add");
-                                return;
-                            }
-                        }
-
-                        if (cm.options.indentWithTabs)
-                            cm.execCommand("insertTab");
-                        else
-                            cm.execCommand("insertSoftTab");
-                    },
-                    "Shift-Tab": function (cm) {
-                        cm.indentSelection("subtract");
-                    }
-                });
-                {% endif %}
             });
         </script>
     </body>
