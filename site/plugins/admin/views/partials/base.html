@@ -273,9 +273,6 @@
                 Messenger().post({ type: "error", message : "{{ message }}", hideAfter: '3' });
             {% endfor %}
 
-            if (typeof $.flextype == 'undefined') $.flextype = {};
-
-
             $(document).ready(function() {
 
                 $.trumbowyg.svgPath =  '{{base_url()}}/site/plugins/admin/assets/dist/fonts/trumbowyg/icons.svg';
