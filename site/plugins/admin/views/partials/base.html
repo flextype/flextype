@@ -253,17 +253,8 @@
     {% include "plugins/admin/views/partials/custom-file-input.html" %}
     {% include "plugins/admin/views/partials/trumbowyg.html" %}
     {% include "plugins/admin/views/partials/codemirror.html" %}
+    {% include "plugins/admin/views/partials/forms-save.html" %}
 
     {% block tail %}{% endblock %}
-
-        <script type="text/javascript">
-            $(document).ready(function() {
-
-                $('.js-save-form-submit').click(function() {
-                    $("#form").submit();
-                });
-
-            });
-        </script>
     </body>
 </html>
