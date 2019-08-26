@@ -291,10 +291,6 @@
                     $('.js-entry-id').attr('value', $(this).attr('data-entry-id'));
                 });
 
-                $('.js-settings-entry-modal').click(function () {
-                    $('#settingsEntryModal').modal();
-                });
-
                 {% if is_current_path('admin.fieldsets.edit') or is_current_path('admin.templates.edit') or is_current_path('admin.snippets.edit') or (is_current_path('admin.entries.edit') and type == 'source') %}
                 var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
                     lineNumbers: true,
