@@ -264,16 +264,6 @@
                     $("#form").submit();
                 });
 
-                $('.navbar-toggler').click(function () {
-                    $('.sidebar').addClass('show-sidebar');
-                    $('.sidebar-off-canvas').addClass('show-sidebar-off-canvas');
-                });
-
-                $('.sidebar-off-canvas').click(function () {
-                    $('.sidebar').removeClass('show-sidebar');
-                    $('.sidebar-off-canvas').removeClass('show-sidebar-off-canvas');
-                });
-
                 $('.js-plugins-info').click(function () {
                     $('#pluginInfoModal').modal();
                     $('.js-plugin-name-placeholder').html($(this).attr('data-name'));
