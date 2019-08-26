@@ -248,30 +248,14 @@
             {% endfor %}
         {% endfor %}
 
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+    {% include "plugins/admin/views/partials/form-validator.html" %}
+    {% include "plugins/admin/views/partials/messenger.html" %}
+    {% include "plugins/admin/views/partials/clipboard.html" %}
 
     <script type="text/javascript">
 
-            new ClipboardJS('.js-clipboard-btn');
+
             bsCustomFileInput.init();
-
-            Messenger.options = {
-                extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
-                theme: 'flat'
-            }
-
-            {% for message in flash()['success'] %}
-                Messenger().post({ type: "success", message : "{{ message }}", hideAfter: '3' });
-            {% endfor %}
-
-            {% for message in flash()['warning'] %}
-                Messenger().post({ type: "warning", message : "{{ message }}", hideAfter: '3' });
-            {% endfor %}
-
-            {% for message in flash()['error'] %}
-                Messenger().post({ type: "error", message : "{{ message }}", hideAfter: '3' });
-            {% endfor %}
 
             $(document).ready(function() {
 
@@ -351,7 +335,6 @@
                     $('#settingsEntryModal').modal();
                 });
 
-                $.validate({});
                 {% if is_current_path('admin.fieldsets.edit') or is_current_path('admin.templates.edit') or is_current_path('admin.snippets.edit') or (is_current_path('admin.entries.edit') and type == 'source') %}
                 var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
                     lineNumbers: true,
