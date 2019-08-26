@@ -239,9 +239,7 @@
         {% endif %}
 
         {% set admin_build = base_url() ~ '/site/plugins/admin/assets/dist/js/admin-build.min.js' %}
-
         {% do assets.add('js', admin_build, 'admin', 1) %}
-
         {% for assets_admin in assets.get('js', 'admin') %}
             {% for assets_by_priorities in assets_admin %}
                 <script type="text/javascript" src="{{ assets_by_priorities.asset }}"></script>
@@ -252,38 +250,10 @@
     {% include "plugins/admin/views/partials/messenger.html" %}
     {% include "plugins/admin/views/partials/clipboard.html" %}
     {% include "plugins/admin/views/partials/custom-file-input.html" %}
-
+    {% include "plugins/admin/views/partials/trumbowyg.html" %}
 
     <script type="text/javascript">
-
             $(document).ready(function() {
-
-                $.trumbowyg.svgPath =  '{{base_url()}}/site/plugins/admin/assets/dist/fonts/trumbowyg/icons.svg';
-                $('.js-html-editor').trumbowyg({
-                    btnsDef: {
-                        // Customizables dropdowns
-                        image: {
-                            dropdown: ['insertImage', 'noembed'],
-                            ico: 'insertImage'
-                        }
-                    },
-                    btns: [
-                        ['undo', 'redo'], // Only supported in Blink browsers
-                        ['formatting'],
-                        ['strong', 'em', 'del'],
-                        ['link'],
-                        ['image'],
-                        ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
-                        ['unorderedList', 'orderedList'],
-                        ['table'],
-                        ['removeformat'],
-                        ['fullscreen'],
-                        ['viewHTML']
-                    ],
-                    lang: '{{ locale }}',
-                    autogrow: false,
-                    removeformatPasted: true
-                });
 
                 $('.js-save-form-submit').click(function() {
                     $("#form" ).submit();
