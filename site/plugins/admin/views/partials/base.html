@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
+        <meta name="robots" content="noindex,nofollow">
 
         {{ emitter.emit('onAdminThemeMeta') }}
 
@@ -220,10 +221,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             {% block content %}{% endblock %}
-                        </div> <!-- .col-md-12 -->
-                    </div> <!-- .row -->
-                </div> <!-- .container-fluid -->
-            </div> <!-- .content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
@@ -256,7 +257,7 @@
             $(document).ready(function() {
 
                 $('.js-save-form-submit').click(function() {
-                    $("#form" ).submit();
+                    $("#form").submit();
                 });
 
                 $('.js-save-editor-form-submit').click(function() {
