@@ -24,9 +24,18 @@ class Forms
 {
     /**
      * Flextype Dependency Container
+     *
+     * @var
+     * @access private
      */
     private $flextype;
 
+    /**
+     * Sizes
+     *
+     * @var array
+     * @access private
+     */
     private $sizes = [
         '1/12' => 'col-1',
         '2/12' => 'col-2',
