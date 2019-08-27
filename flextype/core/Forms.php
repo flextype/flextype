@@ -120,55 +120,44 @@ class Forms
                     // Create attribute value
                     $property['label'] = Arr::keyExists($property, 'label') ? $property['label'] : true;
 
-                    $pos = strpos($element, '.');
+                    // Set element name
+                    $element_name = $this->getElementName($element);
 
-                    if ($pos === false) {
-                        $form_element_name = $element;
-                    } else {
-                        $form_element_name = str_replace('.', '][', "$element") . ']';
-                    }
-
-                    $pos = strpos($form_element_name, ']');
-
-                    if ($pos !== false) {
-                        $form_element_name = substr_replace($form_element_name, '', $pos, strlen(']'));
-                    }
-
-                    // Form value
+                    // Set element value
                     $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : $property['value'];
 
-                    // Define form element
+                    // Set form element
                     $form_element = '';
 
                     // Form elements
                     switch ($property['type']) {
                         // Simple text-input, for multi-line fields.
                         case 'textarea':
-                            $form_element = $this->textareaField($element, $form_value, $property);
+                            $form_element = $this->textareaField($element_name, $form_value, $property);
                             break;
                         // The hidden field is like the text field, except it's hidden from the content editor.
                         case 'hidden':
-                            $form_element = $this->hiddenField($element, $form_value, $property);
+                            $form_element = $this->hiddenField($element_name, $form_value, $property);
                             break;
                         // A WYSIWYG HTML field.
                         case 'html':
-                            $form_element = $this->htmlField($element, $form_value, $property);
+                            $form_element = $this->htmlField($element_name, $form_value, $property);
                             break;
                         // Selectbox field
                         case 'select':
-                            $form_element = $this->selectField($form_element_name, $property['options'], $form_value, $property);
+                            $form_element = $this->selectField($element_name, $property['options'], $form_value, $property);
                             break;
                         // Template select field for selecting entry template
                         case 'template_select':
-                            $form_element = $this->templateSelectField($form_element_name, [], $form_value, $property);
+                            $form_element = $this->templateSelectField($element_name, [], $form_value, $property);
                             break;
                         // Visibility select field for selecting entry visibility state
                         case 'visibility_select':
-                            $form_element = $this->visibilitySelectField($form_element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (! empty($form_value) ? $form_value : 'visible'), $property);
+                            $form_element = $this->visibilitySelectField($element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (! empty($form_value) ? $form_value : 'visible'), $property);
                             break;
                         // Simple text-input, for single-line fields.
                         default:
-                            $form_element = $this->textField($form_element_name, $form_value, $property);
+                            $form_element = $this->textField($element_name, $form_value, $property);
                             break;
                     }
 
@@ -191,6 +180,25 @@ class Forms
         $form .= Form::close();
 
         return $form;
+    }
+
+    protected function getElementName(string $element) : string
+    {
+        $pos = strpos($element, '.');
+
+        if ($pos === false) {
+            $element_name = $element;
+        } else {
+            $element_name = str_replace('.', '][', "$element") . ']';
+        }
+
+        $pos = strpos($element_name, ']');
+
+        if ($pos !== false) {
+            $element_name = substr_replace($element_name, '', $pos, strlen(']'));
+        }
+
+        return $element_name;
     }
 
     protected function templateSelectField($name, $options, $value, $property)
