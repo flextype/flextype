@@ -137,6 +137,9 @@ class Forms
                     // Form value
                     $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : $property['value'];
 
+                    // Define form element
+                    $form_element = '';
+
                     // Form elements
                     switch ($property['type']) {
                         // Simple text-input, for multi-line fields.
@@ -192,8 +195,6 @@ class Forms
 
     protected function templateSelectField($name, $options, $value, $property)
     {
-        $form_element = '';
-
         if ($this->flextype['registry']->has('settings.theme')) {
             $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
 
