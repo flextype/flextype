@@ -163,10 +163,6 @@ class Forms
                         case 'visibility_select':
                             $form_element = $this->visibilitySelectField($form_element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (! empty($form_value) ? $form_value : 'visible'), $property);
                             break;
-                        // Media select field
-                        case 'media_select':
-                            //$form_element = $this->mediaSelectField($form_element_name, $this->getMediaList($request->getQueryParams()['id'], false), $form_value, $property['attributes']);
-                            break;
                         // Simple text-input, for single-line fields.
                         default:
                             $form_element = $this->textField($form_element_name, $form_value, $property);
@@ -242,11 +238,6 @@ class Forms
     }
 
     protected function visibilitySelectField($name, $options, $value, $property)
-    {
-        return Form::select($name, $options, $value, $property['attributes']);
-    }
-
-    protected function mediaSelectField($name, $options, $value, $property)
     {
         return Form::select($name, $options, $value, $property['attributes']);
     }
