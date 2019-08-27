@@ -1,6 +1,6 @@
 <a name="0.9.4"></a>
 # [0.9.4](https://github.com/flextype/flextype/compare/v0.9.3...v0.9.4) (2019-09-xx)
-## Added
+### Added
 * Flextype Core: Add ability to work with different types of content #212 #186
 * Flextype Core: I18nTwigExtension - new filter `tr` added. #186
 * Flextype Core: Markdown parser - added. #212 #186
@@ -41,7 +41,7 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 
 <a name="0.9.2"></a>
 # [0.9.2](https://github.com/flextype/flextype/compare/v0.9.1...v0.9.2) (2019-07-06)
-## Added
+### Added
 * Flextype Default Theme: pagination for blog entries added. #164 #165
 * Flextype Default Theme: New templates for entry Gallery - added. #165
 * Flextype Core: New Shortcode [registry_get] - added. #165
@@ -82,7 +82,7 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 
 <a name="0.9.1"></a>
 # [0.9.1](https://github.com/flextype/flextype/compare/v0.9.0...v0.9.1) (2019-06-18)
-## Added
+### Added
 * Flextype Admin Panel: new setting `route` added to customize admin base route. #154
 * Flextype Core: GlobalVarsTwigExtension - new global constant `PATH_FIELDSETS` added. #154
 * Flextype Core: Entries API - public property `$entry` added. #154
@@ -119,7 +119,7 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 
 <a name="0.9.0"></a>
 # [0.9.0](https://github.com/flextype/flextype/compare/v0.8.3...v0.9.0) (2019-06-14)
-## Added
+### Added
 * Flextype Core: Slim Framework Integration!
 * Flextype Core: Twig Template Engine Integration!
 * Flextype Core: Whoops Error Handler Integration!
@@ -170,7 +170,7 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 
 <a name="0.8.3"></a>
 # [0.8.3](https://github.com/flextype/flextype/compare/v0.8.2...v0.8.3) (2019-01-16)
-## Added
+### Added
 * Admin Panel: New Gorgeous Light Theme for Admin panel!
 * Admin Panel: Settings Manager - ability to change admin panel theme - added.
 * Admin Panel: Settings Manager - Select dropdown for cache driver - added.
@@ -191,7 +191,7 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 
 <a name="0.8.2"></a>
 # [0.8.2](https://github.com/flextype/flextype/compare/v0.8.1...v0.8.2) (2019-01-09)
-## Added
+### Added
 * Admin Panel: ClipboardJS added!
 * Admin Panel: Media Manager - Twitter Bootstrap File browser - added.
 * Admin Panel: Snippets Manager: Embeded code info modal added.
@@ -211,7 +211,7 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 
 <a name="0.8.1"></a>
 # [0.8.1](https://github.com/flextype/flextype/compare/v0.8.0...v0.8.1) (2019-01-07)
-## Added
+### Added
 * Flextype Core: Glide/Intervention Image Implemented for Image manipulation!
 * Flextype Core: Cache - ability to delete glide cache folder added.
 
@@ -236,7 +236,7 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 
 <a name="0.8.0"></a>
 # [0.8.0](https://github.com/flextype/flextype/compare/v0.7.4...v0.8.0) (2018-12-28)
-## Added
+### Added
 * Flextype Core: To improve engine flexibility was decided to use entity name Entries/Entry instead of entity name Pages/Page.
 * Flextype Core: New folder `/site/entries/` added.
 * Flextype Core: New entry variable `base_url` added.
