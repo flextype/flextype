@@ -182,6 +182,15 @@ class Forms
         return $form;
     }
 
+    /**
+     * Get element name
+     *
+     * @param string   $element Element
+     *
+     * @return string Returns form element name
+     *
+     * @access protected
+     */
     protected function getElementName(string $element) : string
     {
         $pos = strpos($element, '.');
@@ -201,6 +210,18 @@ class Forms
         return $element_name;
     }
 
+    /**
+     * Template select field
+     *
+     * @param string   $name Field name
+     * @param array    $options Field options
+     * @param string   $value Field value
+     * @param array    $property Field property
+     *
+     * @return string Returns field
+     *
+     * @access protected
+     */
     protected function templateSelectField($name, $options, $value, $property)
     {
         $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
@@ -220,11 +241,34 @@ class Forms
         return Form::select($name, $options, $value, $property['attributes']);
     }
 
+    /**
+     * Select field
+     *
+     * @param string   $name Field name
+     * @param array    $options Field options
+     * @param string   $value Field value
+     * @param array    $property Field property
+     *
+     * @return string Returns field
+     *
+     * @access protected
+     */
     protected function selectField($name, $options, $value, $property)
     {
         return Form::select($name, $options, $value, $property['attributes']);
     }
 
+    /**
+     * Html field
+     *
+     * @param string   $name Field name
+     * @param string   $value Field value
+     * @param array    $property Field property
+     *
+     * @return string Returns field
+     *
+     * @access protected
+     */
     protected function htmlField($name, $value, $property)
     {
         $property['attributes']['class'] .= ' js-html-editor';
@@ -232,26 +276,79 @@ class Forms
         return Form::textarea($name, $value, $property['attributes']);
     }
 
+
+    /**
+     * Hidden field
+     *
+     * @param string   $name Field name
+     * @param string   $value Field value
+     * @param array    $property Field property
+     *
+     * @return string Returns field
+     *
+     * @access protected
+     */
     protected function hiddenField($name, $value, $property)
     {
         return Form::hidden($name, $value, $property['attributes']);
     }
 
+    /**
+     * Textarea field
+     *
+     * @param string   $name Field name
+     * @param string   $value Field value
+     * @param array    $property Field property
+     *
+     * @return string Returns field
+     *
+     * @access protected
+     */
     protected function textareaField($name, $value, $property)
     {
         return Form::textarea($name, $value, $property['attributes']);
     }
 
+    /**
+     * Visibility field
+     *
+     * @param string   $name Field name
+     * @param array    $options Field options
+     * @param string   $value Field value
+     * @param array    $property Field property
+     *
+     * @return string Returns field
+     *
+     * @access protected
+     */
     protected function visibilitySelectField($name, $options, $value, $property)
     {
         return Form::select($name, $options, $value, $property['attributes']);
     }
 
+    /**
+     * Text field
+     *
+     * @param string   $name Field name
+     * @param string   $value Field value
+     * @param array    $property Field property
+     *
+     * @return string Returns field
+     *
+     * @access protected
+     */
     protected function textField($name, $value, $property)
     {
         return Form::input($name, $value, $property['attributes']);
     }
 
+    /**
+     * _csrfHiddenField
+     *
+     * @return string Returns field
+     *
+     * @access protected
+     */
     protected function _csrfHiddenField()
     {
         $field  = '<input type="hidden" name="' . $this->flextype['csrf']->getTokenNameKey() . '" value="' . $this->flextype['csrf']->getTokenName() . '">';
@@ -260,6 +357,13 @@ class Forms
         return $field;
     }
 
+    /**
+     * _actionHiddenField
+     *
+     * @return string Returns field
+     *
+     * @access protected
+     */
     protected function _actionHiddenField()
     {
         return Form::hidden('action', 'save-form');
