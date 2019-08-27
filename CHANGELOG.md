@@ -25,6 +25,7 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 
 ### Removed
 - Flextype Admin Panel: remove unused css #186
+- Flextype Admin Panel: remove unused js #186
 
 ## [0.9.3] - 2019-07-07
 ### Fixed
