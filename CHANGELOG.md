@@ -4,29 +4,53 @@
 * Flextype Core: Add ability to work with different types of content #212 #186
 * Flextype Core: I18nTwigExtension - new filter `tr` added. #186
 * Flextype Core: Markdown parser - added. #212 #186
+* Flextype Core: YamlTwigExtension added. #186
 * Flextype Core: Middleware - ResponseTime - added. #186
 * Flextype Core: UUID implementation #197 #186
 * Flextype Core: Glide - display message if image not found #189 #186
 * Flextype Core: victorjonsson/markdowndocs - added. #186
+* Flextype Core: I18nTwigExtension - new filter `tr` added. #186
 * Flextype Core: Supply a custom callable resolver, which resolves PSR-15 middlewares. #213 #186
+* Flextype Core: Add git commit message convention. #186
+* Flextype Core: Add AuthMiddleware to global #201 #186
 * Flextype Admin Panel: Trumbowyg view html code - added. #193 #186
 * Flextype Admin Panel: field `editor` changed to `html` #186
+* Flextype Admin Panel: Add tail section for base.html #186
+* Flextype Admin Panel: Add new event onAdminThemeFooter in base.html #186
+* Flextype Site Plugin: Add ability to get query inside twig templates #186
+* Flextype Default Theme: Add ability to work with tags for default theme #186
 
 ### Fixed
 Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
+Flextype Core: Fix issue with bind_where in the Entries #186
 
 ### Changed
 * Flextype Core: Moving to PHP 7.2 #198 #186
 * Flextype Core: remove date field and add new created_at, modified_at, published_at fields #196 #186
+* Flextype Core: JsonParserTwigExtension renamed to JsonTwigExtension #186
+* Flextype Core: Twig json_parser_decode renamed to json_decode #186
+* Flextype Core: Twig json_parser_encode renamed to json_encode #186
 * Flextype Core: Default theme - update assets building process and GULP to 4.X.X #206 #186
+* Flextype Core: Default theme - theme.json converted to theme.yaml #201 #186
+* Flextype Core: Default theme - settings.json converted to settings.yaml #201 #186
+* Flextype Core: Site entries move from JSON to FRONTMATTER (MD) #212 #186
+* Flextype Core: Entries - use getDirTimestamp for fetchAll method #212 #186
+* Flextype Site Plugin: settings.json converted to settings.yaml #201 #186
+* Flextype Site Plugin: plugin.json converted to plugin.yaml #201 #186
+* Flextype Site Plugin: en_US.json and ru_RU.json converted to en_US.yaml and ru_RU.yaml #201 #186
 * Flextype Core: .gitignore updated.
 * Flextype Core: copyrights updated.
 * Flextype Core: composer.json updated.
 * Flextype Admin Panel: Installation page improvements #194 #186
+* Flextype Admin Panel: settings.json converted to settings.yaml #201 #186
+* Flextype Admin Panel: plugin.json converted to plugin.yaml #201 #186
+* Flextype Admin Panel: en_US.json and ru_RU.json converted to en_US.yaml and ru_RU.yaml #201 #186
+* Flextype Admin Panel: JS decoupled in partials from base.html #186
 
 ### Removed
 * Flextype Admin Panel: remove unused css #186
 * Flextype Admin Panel: remove unused js #186
+
 
 <a name="0.9.3"></a>
 # [0.9.3](https://github.com/flextype/flextype/compare/v0.9.2...v0.9.3) (2019-07-07)
