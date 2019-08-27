@@ -1,5 +1,5 @@
 <a name="0.9.4"></a>
-## 0.9.4 (2019-08-xx)
+# [0.9.4](https://github.com/flextype/flextype/compare/0.9.4...0.9.3) (2019-09-xx)
 ### Added
 * Flextype Core: Add ability to work with different types of content #212 #186
 * Flextype Core: I18nTwigExtension - new filter `tr` added. #186
