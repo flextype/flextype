@@ -21,8 +21,8 @@
 * Flextype Default Theme: Add ability to work with tags for default theme #186
 
 ### Fixed
-Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
-Flextype Core: Fix issue with bind_where in the Entries #186
+* Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
+* Flextype Core: Fix issue with bind_where in the Entries #186
 
 ### Changed
 * Flextype Core: Moving to PHP 7.2 #198 #186
