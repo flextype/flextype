@@ -293,7 +293,7 @@ class Entries
             $criteria = new Criteria();
 
             // Exec: where
-            if (isset($bind_and_where['where']['key']) && isset($bind_and_where['where']['expr']) && isset($bind_and_where['where']['value'])) {
+            if (isset($bind_where['where']['key']) && isset($bind_where['where']['expr']) && isset($bind_where['where']['value'])) {
                 $expr = new Comparison($bind_where['where']['key'], $bind_where['where']['expr'], $bind_where['where']['value']);
                 $criteria->where($expr);
             }
