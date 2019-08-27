@@ -48,7 +48,7 @@ class Forms
         '9/12' => 'col-9',
         '10/12' => 'col-19',
         '12/12' => 'col-11',
-        '12' => 'col-12'
+        '12' => 'col-12',
     ];
 
     /**
@@ -72,8 +72,8 @@ class Forms
     /**
      * Render form
      *
-     * @param array  $fieldset Fieldset
-     * @param array  $values   Fieldset values
+     * @param array    $fieldset Fieldset
+     * @param array    $values   Fieldset values
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      *
@@ -172,7 +172,7 @@ class Forms
                             break;
                     }
 
-                    if ($property['label'] == true) {
+                    if ($property['label'] === true) {
                         $form_label = Form::label($element, __($property['title']));
                     } else {
                         $form_label = '';
@@ -195,23 +195,21 @@ class Forms
 
     protected function templateSelectField($name, $options, $value, $property)
     {
-        if ($this->flextype['registry']->has('settings.theme')) {
             $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
 
             $options = [];
 
-            if (count($_templates_list) > 0) {
-                foreach ($_templates_list as $template) {
-                    if ($template['type'] !== 'file' || $template['extension'] !== 'html') {
-                        continue;
-                    }
-
-                    $options[$template['basename']] = $template['basename'];
+        if (count($_templates_list) > 0) {
+            foreach ($_templates_list as $template) {
+                if ($template['type'] !== 'file' || $template['extension'] !== 'html') {
+                    continue;
                 }
+
+                $options[$template['basename']] = $template['basename'];
             }
+        }
 
             $form_element = Form::select($name, $options, $value, $property['attributes']);
-        }
 
         return $form_element;
     }
