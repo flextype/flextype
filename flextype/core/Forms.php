@@ -52,6 +52,14 @@ class Forms
     ];
 
     /**
+     * Field class
+     *
+     * @var string
+     * @access private
+     */
+    private $field_class = 'form-control';
+
+    /**
      * Constructor
      *
      * @access public
@@ -101,7 +109,7 @@ class Forms
                     $property['attributes'] = Arr::keyExists($property, 'attributes') ? $property['attributes'] : [];
 
                     // Create attribute class
-                    $property['attributes']['class'] = Arr::keyExists($property, 'attributes.class') ? 'form-control ' . $property['attributes']['class'] : 'form-control';
+                    $property['attributes']['class'] = Arr::keyExists($property, 'attributes.class') ? $this->field_class . ' ' . $property['attributes']['class'] : $this->field_class;
 
                     // Create attribute size
                     $property['size'] = Arr::keyExists($property, 'size') ? $this->sizes[$property['size']] : $this->sizes['12'];
