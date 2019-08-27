@@ -3,5 +3,6 @@
 
 Admin Plugin for Flextype.
 
-## License
-See [LICENSE](https://github.com/flextype/flextype/blob/master/LICENSE)
+## LICENSE
+[The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
+Copyright (c) 2018-2019 [Sergey Romanenko](https://github.com/Awilum)
