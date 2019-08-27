@@ -1,5 +1,5 @@
 <a name="0.9.4"></a>
-# [0.9.4](https://github.com/flextype/flextype/compare/0.9.4...0.9.3) (2019-09-xx)
+# [0.9.4](https://github.com/flextype/flextype/compare/0.9.3...0.9.4) (2019-09-xx)
 ### Added
 * Flextype Core: Add ability to work with different types of content #212 #186
 * Flextype Core: I18nTwigExtension - new filter `tr` added. #186
@@ -28,7 +28,8 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Flextype Admin Panel: remove unused css #186
 * Flextype Admin Panel: remove unused js #186
 
-## [0.9.3] - 2019-07-07
+<a name="0.9.3"></a>
+# [0.9.3](https://github.com/flextype/flextype/compare/0.9.2...0.9.3) (2019-07-07)
 ### Fixed
 * Flextype Core: Entries - issue with binding arguments inside method fetchAll() - fixed. #182
 * Flextype Core: Entries - issue with possible boolean false result from Filesystem::getTimestamp() inside method fetchAll() - fixed. #182
