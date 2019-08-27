@@ -195,9 +195,9 @@ class Forms
 
     protected function templateSelectField($name, $options, $value, $property)
     {
-            $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
+        $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
 
-            $options = [];
+        $options = [];
 
         if (count($_templates_list) > 0) {
             foreach ($_templates_list as $template) {
@@ -209,9 +209,7 @@ class Forms
             }
         }
 
-            $form_element = Form::select($name, $options, $value, $property['attributes']);
-
-        return $form_element;
+        return Form::select($name, $options, $value, $property['attributes']);
     }
 
     protected function selectField($name, $options, $value, $property)
