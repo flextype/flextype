@@ -1,6 +1,6 @@
 <a name="0.9.4"></a>
-# [0.9.4](https://github.com/flextype/flextype/compare/0.9.3...0.9.4) (2019-09-xx)
-### Added
+# [0.9.4](https://github.com/flextype/flextype/compare/v0.9.3...v0.9.4) (2019-09-xx)
+## Added
 * Flextype Core: Add ability to work with different types of content #212 #186
 * Flextype Core: I18nTwigExtension - new filter `tr` added. #186
 * Flextype Core: Markdown parser - added. #212 #186
@@ -29,7 +29,7 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Flextype Admin Panel: remove unused js #186
 
 <a name="0.9.3"></a>
-# [0.9.3](https://github.com/flextype/flextype/compare/0.9.2...0.9.3) (2019-07-07)
+# [0.9.3](https://github.com/flextype/flextype/compare/v0.9.2...v0.9.3) (2019-07-07)
 ### Fixed
 * Flextype Core: Entries - issue with binding arguments inside method fetchAll() - fixed. #182
 * Flextype Core: Entries - issue with possible boolean false result from Filesystem::getTimestamp() inside method fetchAll() - fixed. #182
@@ -39,9 +39,9 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Flextype Default Theme: issue with `TypeError: undefined is not an object` for lightbox - fixed. #182
 * Flextype Default Theme: fix thumbnail image for Default Theme #182
 
-
-## [0.9.2] - 2019-07-06
-### Added
+<a name="0.9.2"></a>
+# [0.9.2](https://github.com/flextype/flextype/compare/v0.9.1...v0.9.2) (2019-07-06)
+## Added
 * Flextype Default Theme: pagination for blog entries added. #164 #165
 * Flextype Default Theme: New templates for entry Gallery - added. #165
 * Flextype Core: New Shortcode [registry_get] - added. #165
@@ -80,8 +80,9 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 ### Removed
 * Flextype Admin Panel: Left Navigation - documentation link - removed #165
 
-## [0.9.1] - 2019-06-18
-### Added
+<a name="0.9.1"></a>
+# [0.9.1](https://github.com/flextype/flextype/compare/v0.9.0...v0.9.1) (2019-06-18)
+## Added
 * Flextype Admin Panel: new setting `route` added to customize admin base route. #154
 * Flextype Core: GlobalVarsTwigExtension - new global constant `PATH_FIELDSETS` added. #154
 * Flextype Core: Entries API - public property `$entry` added. #154
@@ -116,8 +117,9 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Flextype Core: Snippets - `- display()` method removed. #154
 * Flextype Core: GlobalVarsTwigExtension `flextype_version` removed. #154
 
-## [0.9.0] - 2019-06-14
-### Added
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/flextype/flextype/compare/v0.8.3...v0.9.0) (2019-06-14)
+## Added
 * Flextype Core: Slim Framework Integration!
 * Flextype Core: Twig Template Engine Integration!
 * Flextype Core: Whoops Error Handler Integration!
@@ -166,8 +168,9 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Flextype Core: Flextype Error Handler Component removed.
 * Flextype Core: Flextype Event Component removed.
 
-## [0.8.3] - 2019-01-16
-### Added
+<a name="0.8.3"></a>
+# [0.8.3](https://github.com/flextype/flextype/compare/v0.8.2...v0.8.3) (2019-01-16)
+## Added
 * Admin Panel: New Gorgeous Light Theme for Admin panel!
 * Admin Panel: Settings Manager - ability to change admin panel theme - added.
 * Admin Panel: Settings Manager - Select dropdown for cache driver - added.
@@ -186,8 +189,9 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Admin Panel: Translates fixes.
 * Admin Panel: Typo fixes.
 
-## [0.8.2] - 2019-01-09
-### Added
+<a name="0.8.2"></a>
+# [0.8.2](https://github.com/flextype/flextype/compare/v0.8.1...v0.8.2) (2019-01-09)
+## Added
 * Admin Panel: ClipboardJS added!
 * Admin Panel: Media Manager - Twitter Bootstrap File browser - added.
 * Admin Panel: Snippets Manager: Embeded code info modal added.
@@ -205,8 +209,9 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Flextype Core: Default theme - settings and manifest - fixes.
 * Admin Panel: Translates fixes.
 
-## [0.8.1] - 2019-01-07
-### Added
+<a name="0.8.1"></a>
+# [0.8.1](https://github.com/flextype/flextype/compare/v0.8.0...v0.8.1) (2019-01-07)
+## Added
 * Flextype Core: Glide/Intervention Image Implemented for Image manipulation!
 * Flextype Core: Cache - ability to delete glide cache folder added.
 
@@ -229,8 +234,9 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Admin Panel: Trumbowyg styles fixes.
 * Admin Panel: Plugins Manager - issue with broken homepage url in the Info Modal - fixed.
 
-## [0.8.0] - 2018-12-28
-### Added
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/flextype/flextype/compare/v0.7.4...v0.8.0) (2018-12-28)
+## Added
 * Flextype Core: To improve engine flexibility was decided to use entity name Entries/Entry instead of entity name Pages/Page.
 * Flextype Core: New folder `/site/entries/` added.
 * Flextype Core: New entry variable `base_url` added.
@@ -284,15 +290,16 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Flextype Core: Dot from `date_format` setting removed.
 * Flextype Simple Theme removed.
 
-
-## [0.7.4] - 2018-12-14
+<a name="0.7.4"></a>
+# [0.7.4](https://github.com/flextype/flextype/compare/v0.7.3...v0.7.4) (2018-12-14)
 * Content: new frontMatterParser() - added
 * Config: set error reporting - false
 * Update theme simple according to the php template syntax guidelines
 * Super heavy "imagine/imagine": "1.2.0" - removed
 * Flextype Component - Errorhandler updated to 1.0.5
 
-## [0.7.3] - 2018-12-13
+<a name="0.7.3"></a>
+# [0.7.3](https://github.com/flextype/flextype/compare/v0.7.2...v0.7.3) (2018-12-13)
 * Content: visibility hidden for pages - added
 * Settings merged into one settings.yaml file
 * Using Imagine library for image manipulation
@@ -300,15 +307,18 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Flextype Component * Filesystem updated to 1.1.3
 * Symfony YAML - updated to 4.2.1
 
-## [0.7.2] - 2018-11-24
+<a name="0.7.2"></a>
+# [0.7.2](https://github.com/flextype/flextype/compare/v0.7.1...v0.7.2) (2018-11-24)
 * Flextype Component - Cookie updated to 1.2.0
 * Flextype Component * Filesystem updated to 1.1.2
 
-## [0.7.1] - 2018-11-17
+<a name="0.7.1"></a>
+# [0.7.1](https://github.com/flextype/flextype/compare/v0.7.0...v0.7.1) (2018-11-17)
 * Plugins: New method getLocales() added
 * Content: processPage() - ability to ignore content parsing - added.
 
-## [0.7.0] - 2018-11-16
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/flextype/flextype/compare/v0.6.1...v0.7.0) (2018-11-16)
 * Update Symfony YAML to 4.1.1
 * Update Text Component to 1.1.0
 * Update Session Component to 1.1.1
@@ -323,19 +333,22 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Themes: added ability to load themes settings.yaml file
 * Themes: from now themes configurations stored in the theme-name/settings.yaml file
 
-## [0.6.1] - 2018-06-17
+<a name="0.6.1"></a>
+# [0.6.1](https://github.com/flextype/flextype/compare/v0.6.0...v0.6.1) (2018-06-17)
 * Fixed issue with not found pages status code
 * Fixed Singleton classes and methods visibility changed from protected to private
 * Added require vendors versions in composer.json
 * Fixed Simple Theme styles
 
-## [0.6.0] - 2018-06-09
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/flextype/flextype/compare/v0.5.0...v0.6.0) (2018-06-09)
 * Content: Markdown(Parsedown) parser removed! From now we are using plain HTML + Shortcodes
 * Theme Simple: Cross-site scripting Vulnerabilities fixes
 * Improving main .htaccess
 * Code cleanup and refactoring #5
 
-## [0.5.0] - 2018-06-03
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/flextype/flextype/compare/v0.4.0...v0.5.0) (2018-06-03)
 * Delete folders: site/data and site/accounts
 * Delete folders: site/blocks and site/cache and site/logs
 * Constants: accounts, blocks, data - removed.
@@ -350,7 +363,8 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Content: Prevents automatic linking of URLs for Markdown parser
 * Content: Method registerDefaultShortcodes() removed
 
-## [0.4.4] - 2018-05-29
+<a name="0.4.4"></a>
+# [0.4.4](https://github.com/flextype/flextype/compare/v0.4.3...v0.4.4) (2018-05-29)
 * Content: added ability to work with CONTENT SECTIONS with help of shortcodes [section] and [section_create]
 * Content: getPage() method will only return data about requested page and will not insert them in global $page array.
 * Content: events: onPageContentAfter and onPageContentRawAfter was removed from getPage(), use event onCurrentPageBeforeDisplayed instead.
@@ -362,7 +376,8 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Theme Simple: gulpfile: build process updated
 * Theme Simple: package.json: added gulp-concat and gulp-sourcemaps
 
-## [0.4.3] - 2018-05-28
+<a name="0.4.3"></a>
+# [0.4.3](https://github.com/flextype/flextype/compare/v0.4.2...v0.4.3) (2018-05-28)
 * Content: set text/html request headers for displayCurrentPage() method
 * Content: processCurrentPage() method added
 * Content: event names changed: onPageBeforeRender to onCurrentPageBeforeProcessed
@@ -370,18 +385,21 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * robots.txt file was removed, use Robots plugin instead
 * Code cleanup and refactoring #5
 
-## [0.4.2] - 2018-05-22
+<a name="0.4.2"></a>
+# [0.4.2](https://github.com/flextype/flextype/compare/v0.4.1...v0.4.2) (2018-05-22)
 * Settings: cache.enabled is true from now
 * Content: new methods added: initShortcodes() initMarkdown() markdown()
 * Events: new events added: onMarkdownInitialized and onShortcodesInitialized
 
-## [0.4.1] - 2018-05-20
+<a name="0.4.1"></a>
+# [0.4.1](https://github.com/flextype/flextype/compare/v0.4.0..v0.4.1) (2018-05-20)
 * Fixing issues with cache for getPages() method.
 * Fixing issues with processPage() method.
 * Fixing issues with all public methods in Cache class, from now all methods are static.
 * Setting site.pages.flush_cache was removed from site.yaml file.
 
-## [0.4.0] - 2018-05-16
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/flextype/flextype/compare/v0.3.0...v0.4.0) (2018-05-16)
 * Using SCSS for Simple theme
 * Using Flextype Form Component
 * Themes: class bug fixes
@@ -394,7 +412,8 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * define CONSTANTS in PHP7 style
 * Themes: changing from template() to view()
 
-## [0.3.0] - 2018-05-05
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/flextype/flextype/compare/v0.2.1...v0.3.0) (2018-05-05)
 * Using Flextype Components instead of Symphony Components
 * Available Flextype Components for developers: Arr, Assets, Cookie, Date, Debug, ErrorHandler, Event, Filesystem, Html, Http, I18n, Notification, Number, Registry, Session, Text, Token, View.
 * Using `.yaml` files instead of `.yml`
@@ -411,7 +430,8 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * ErrorHandler added with errors logs.
 * Code cleanup and refactoring #5
 
-## [0.2.1] - 2018-03-26
+<a name="0.2.1"></a>
+# [0.2.1](https://github.com/flextype/flextype/compare/v0.2.0...v0.2.1) (2018-03-26)
 * date_format setting added to /site/config.site.yml
 * Pages: Fixed bug with pages sort and slice in getPages() method
 * Pages: Fixed bug with pages list for /pages folder
@@ -419,12 +439,14 @@ Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
 * Pages: Added ability to create date field automatically for pages if date field is not exists.
 * Code cleanup and refactoring #5
 
-## [0.2.0] - 2018-03-23
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/flextype/flextype/compare/v0.1.0...v0.2.0) (2018-03-23)
 * Thunderer Shortcode Framework - added
 * Cache Flextype::VERSION for cache key - added
 * flextype/boot/shortcodes.php	- removed
 * flextype/boot/events.php - removed
 * Code cleanup and refactoring #5
 
-## [0.1.0] - 2018-03-21
+<a name="0.1.0"></a>
+# [0.1.0](https://github.com/flextype/flextype) (2018-03-21)
 * Initial Release
