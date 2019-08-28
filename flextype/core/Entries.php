@@ -101,7 +101,6 @@ class Entries
     {
         // If requested entry file founded then process it
         if ($_entry = $this->read($id)) {
-
             // Create unique entry cache_id
             // Entry Cache ID = entry + entry file + entry file time stamp
             if ($timestamp = Filesystem::getTimestamp($_entry['file_path'])) {
@@ -466,7 +465,7 @@ class Entries
     /**
      * Read entry
      *
-     * @param string $id Entry ID
+     * @param string $id  Entry ID
      * @param bool   $raw Return raw or decoded content
      *
      * @return bool|array Array of file path, decoded file data and file parser,
