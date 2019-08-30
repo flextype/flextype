@@ -40,6 +40,9 @@ class SiteController extends Controller
         // Get uri
         $uri = $args['uri'];
 
+        // Is JSON Format
+        $is_json = ($query['format'] && $query['format'] == 'json') ? true : false;
+
         // If uri is empty then it is main page else use entry uri
         if ($uri === '/') {
             $entry_uri = $this->registry->get('settings.entries.main');
@@ -80,6 +83,15 @@ class SiteController extends Controller
 
         // Run event onSiteEntryAfterInitialized
         $this->emitter->emit('onSiteEntryAfterInitialized');
+
+        // Return in JSON Format
+        if ($is_json) {
+            if ($is_entry_not_found) {
+                return $response->withJson($this->entry, 404);
+            }
+
+            return $response->withJson($this->entry);
+        }
 
         // Set template path for current entry
         $path = 'themes/' . $this->registry->get('settings.theme') . '/' . (empty($this->entry['template']) ? 'templates/default' : 'templates/' . $this->entry['template']) . '.html';
