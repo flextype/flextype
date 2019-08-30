@@ -122,18 +122,41 @@ class UsersController extends Controller
         $data = $request->getParsedBody();
 
         if (! Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $this->slugify->slugify($data['username']) . '.yaml')) {
+
+            // Generate UUID
+            $uuid = Uuid::uuid4()->toString();
+
+            // Get time
+            $time = time();
+
+            // Create accounts directory and account
             Filesystem::createDir(PATH['site'] . '/accounts/');
+
+            // Create admin account
             if (Filesystem::write(
-                PATH['site'] . '/accounts/' . $data['username'] . '.yaml',
-                Parser::encode([
-                    'username' => $this->slugify->slugify($data['username']),
-                    'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
-                    'email' => $data['email'],
-                    'role'  => 'admin',
-                    'state' => 'enabled',
-                    'uuid' => Uuid::uuid4()->toString(),
-                ], 'yaml')
-            )) {
+                        PATH['site'] . '/accounts/' . $data['username'] . '.yaml',
+                        Parser::encode([
+                            'username' => $this->slugify->slugify($data['username']),
+                            'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
+                            'email' => $data['email'],
+                            'role'  => 'admin',
+                            'state' => 'enabled',
+                            'uuid' => $uuid,
+                        ], 'yaml')
+                    )) {
+
+                // Update default entries
+                $this->entries->update('home', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('blog', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('blog/allamco-laboris-nisi-ut-aliquip', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('blog/cillum-dolore-eu-fugiat-nulla-pariatur', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('blog/excepteur-sint-occaecat-cupidatat-non-proident', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('blog/lorem-ipsum-dolor-sit-amet-consectetur-adipisicing-elit', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('blog/ullamco-laboris-nisi-ut-aliquip', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('gallery', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('gallery/nature', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('about', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+
                 return $response->withRedirect($this->router->pathFor('admin.users.login'));
             }
 
@@ -179,4 +202,5 @@ class UsersController extends Controller
 
         return $users;
     }
+
 }
