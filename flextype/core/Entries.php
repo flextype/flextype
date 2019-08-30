@@ -372,7 +372,7 @@ class Entries
     public function update(string $id, array $data) : bool
     {
         if ($_entry = $this->read($id)) {
-            return Filesystem::write($_entry['file_path'], Parser::encode($data, $_entry['file_parser']));
+            return Filesystem::write($_entry['file_path'], Parser::encode(array_replace_recursive($_entry['file_data'], $data), $_entry['file_parser']));
         }
 
         return false;
