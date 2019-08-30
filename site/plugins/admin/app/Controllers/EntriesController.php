@@ -201,6 +201,8 @@ class EntriesController extends Controller
                 $data_from_post['published_at'] = time();
                 $data_from_post['created_at']   = time();
                 $data_from_post['uuid']         = Uuid::uuid4()->toString();
+                $data_from_post['published_by'] = Session::get('uuid');
+                $data_from_post['created_by']   = Session::get('uuid');
 
                 // Predefine data values based on selected fieldset
                 foreach ($fieldset['sections'] as $key => $section) {
@@ -339,6 +341,8 @@ class EntriesController extends Controller
         Arr::delete($_data, 'csrf_value');
         Arr::delete($_data, 'save_entry');
         Arr::delete($_data, 'id');
+
+        $_data['published_by'] = Session::get('uuid');
 
         $data = array_merge($entry, $_data);
 
@@ -772,6 +776,8 @@ class EntriesController extends Controller
             // Data from POST
             $data = $request->getParsedBody();
 
+            $data['published_by'] = Session::get('uuid');
+
             // Update entry
             if ($this->entries->update($id, Parser::decode($data['data'], $data['parser']))) {
                 $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
@@ -790,6 +796,8 @@ class EntriesController extends Controller
             Arr::delete($data, 'csrf_value');
             Arr::delete($data, 'csrf_name');
             Arr::delete($data, 'action');
+
+            $data['published_by'] = Session::get('uuid');
 
             // Fetch entry
             $entry = $this->entries->fetch($id);
