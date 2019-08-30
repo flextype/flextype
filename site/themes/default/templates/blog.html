@@ -6,18 +6,27 @@
 
 
     {# pagination #}
+
     {% set page = query.page %}
+    {% set tag = query.tag %}
+    {% set category = query.category %}
+
+    {% set entries_length = entries.fetchAll('blog')|length %}
     {% set entries_limit = entries.fetch('blog').entries_limit %}
-    {% if query.tag %}
-        {% set entries = entries.fetchAll('blog', {'where': {'key': 'tag', 'expr': 'contains', 'value': query.tag}, 'order_by': {'field': 'published_at', 'direction': 'desc'}, 'set_max_result': entries_limit, 'set_first_result': entries_offset}) %}
-    {% else %}
-        {% set entries = entries.fetchAll('blog', {'order_by': {'field': 'published_at', 'direction': 'desc'}, 'set_max_result': entries_limit, 'set_first_result': entries_offset}) %}
-    {% endif %}
-    {% set entries_length = entries|length %}
+
     {% set entries_pages = (entries_length/entries_limit)|round %}
     {% if page < 1 %}{% set page = 1 %}{% elseif page > entries_pages %}{% set page = entries_pages %}{% endif %}
     {% set entries_offset = (page-1)*entries_limit %}
     {% if entries_offset < 0 %}{% set entries_offset = 0 %}{% endif %}
+
+    {% if tag %}
+        {% set entries = entries.fetchAll('blog', {'where': {'key': 'tag', 'expr': 'contains', 'value': query.tag}, 'order_by': {'field': 'published_at', 'direction': 'desc'}, 'set_max_result': entries_limit, 'set_first_result': entries_offset}) %}
+    {% elseif category %}
+        {% set entries = entries.fetchAll('blog', {'where': {'key': 'category', 'expr': 'contains', 'value': query.category}, 'order_by': {'field': 'published_at', 'direction': 'desc'}, 'set_max_result': entries_limit, 'set_first_result': entries_offset}) %}
+    {% else %}
+        {% set entries = entries.fetchAll('blog', {'order_by': {'field': 'published_at', 'direction': 'desc'}, 'set_max_result': entries_limit, 'set_first_result': entries_offset}) %}
+    {% endif %}
+
     {# /pagination #}
 
     {% for entry in entries %}
