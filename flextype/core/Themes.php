@@ -77,11 +77,11 @@ class Themes
                     $themes[$theme['dirname']] = array_merge($theme_settings, $theme_manifest);
                 }
 
-                    // Save parsed themes list in the registry themes
-                    $this->flextype['registry']->set('themes', $themes);
+                // Save parsed themes list in the registry themes
+                $this->flextype['registry']->set('themes', $themes);
 
-                    // Save parsed themes list in the cache
-                    $this->flextype['cache']->save($themes_cache_id, $themes);
+                // Save parsed themes list in the cache
+                $this->flextype['cache']->save($themes_cache_id, $themes);
             }
         }
 
