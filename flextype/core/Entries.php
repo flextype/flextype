@@ -300,7 +300,7 @@ class Entries
             // Exec: and where
             if (isset($bind_and_where['and_where']['key']) && isset($bind_and_where['and_where']['expr']) && isset($bind_and_where['and_where']['value'])) {
                 $expr = new Comparison($bind_and_where['and_where']['key'], $bind_and_where['and_where']['expr'], $bind_and_where['and_where']['value']);
-                $criteria->where($expr);
+                $criteria->andWhere($expr);
             }
 
             // Exec: or where
