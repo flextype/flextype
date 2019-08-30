@@ -18,11 +18,14 @@
 * Flextype Admin Panel: Add tail section for base.html #186
 * Flextype Admin Panel: Add new event onAdminThemeFooter in base.html #186
 * Flextype Site Plugin: Add ability to get query inside twig templates #186
+* Flextype Site Plugin: Add ability to return entries in JSON Format #186
 * Flextype Default Theme: Add ability to work with tags for default theme #186
 
 ### Fixed
 * Flextype Core: ShortcodesTwigExtension - issue with null variables - fixed. #186
-* Flextype Core: Fix issue with bind_where in the Entries #186
+* Flextype Core: Fix issue with bind_where expression for Entries fetchAll method #186
+* Flextype Core: Fix issue with and_where expression for Entries fetchAll method #186
+* Flextype Core: Fix issue with or_where expression for Entries fetchAll method #186
 
 ### Changed
 * Flextype Core: Moving to PHP 7.2 #198 #186
@@ -50,7 +53,6 @@
 ### Removed
 * Flextype Admin Panel: remove unused css #186
 * Flextype Admin Panel: remove unused js #186
-
 
 <a name="0.9.3"></a>
 # [0.9.3](https://github.com/flextype/flextype/compare/v0.9.2...v0.9.3) (2019-07-07)
