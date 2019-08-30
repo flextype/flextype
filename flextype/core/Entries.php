@@ -306,7 +306,7 @@ class Entries
             // Exec: or where
             if (isset($bind_or_where['or_where']['key']) && isset($bind_or_where['or_where']['expr']) && isset($bind_or_where['or_where']['value'])) {
                 $expr = new Comparison($bind_or_where['or_where']['key'], $bind_or_where['or_where']['expr'], $bind_or_where['or_where']['value']);
-                $criteria->where($expr);
+                $criteria->orWhere($expr);
             }
 
             // Exec: order by
