@@ -12,6 +12,7 @@
 * Flextype Core: Add custom callable resolver, which resolves PSR-15 middlewares. #213 #186
 * Flextype Core: Add git commit message convention. #186
 * Flextype Core: Add AuthMiddleware globally #201 #186
+* Flextype Core: Add new twig options `debug` `charset` `cache` #186
 * Flextype Admin Panel: Add Trumbowyg view html code #193 #186
 * Flextype Admin Panel: Add tail section for base.html template #186
 * Flextype Admin Panel: Add new event onAdminThemeFooter in base.html template #186
