@@ -16,6 +16,14 @@ sections:
         title: admin_content
         type: html
         size: 12
+      tag:
+        title: admin_tags
+        type: tags
+        size: 8/12
+      date:
+        title: admin_date
+        type: date
+        size: 4/12
   seo:
     title: Seo
     fields:

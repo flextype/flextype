@@ -155,6 +155,12 @@ class Forms
                         case 'visibility_select':
                             $form_element = $this->visibilitySelectField($element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (! empty($form_value) ? $form_value : 'visible'), $property);
                             break;
+                        case 'tags':
+                            $form_element = $this->tagsField($element_name, $form_value, $property);
+                            break;
+                        case 'date':
+                            $form_element = $this->dateField($element_name, $form_value, $property);
+                            break;
                         // Simple text-input, for single-line fields.
                         default:
                             $form_element = $this->textField($element_name, $form_value, $property);
@@ -338,6 +344,38 @@ class Forms
      * @access protected
      */
     protected function textField($name, $value, $property)
+    {
+        return Form::input($name, $value, $property['attributes']);
+    }
+
+    /**
+     * Tags field
+     *
+     * @param string   $name Field name
+     * @param string   $value Field value
+     * @param array    $property Field property
+     *
+     * @return string Returns field
+     *
+     * @access protected
+     */
+    protected function tagsField($name, $value, $property)
+    {
+        return Form::input($name, $value, $property['attributes']);
+    }
+
+    /**
+     * Date field
+     *
+     * @param string   $name Field name
+     * @param string   $value Field value
+     * @param array    $property Field property
+     *
+     * @return string Returns field
+     *
+     * @access protected
+     */
+    protected function dateField($name, $value, $property)
     {
         return Form::input($name, $value, $property['attributes']);
     }
