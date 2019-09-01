@@ -49,6 +49,7 @@
 * Flextype Admin Panel: en_US.json and ru_RU.json converted to en_US.yaml and ru_RU.yaml #201 #186
 * Flextype Admin Panel: JS decoupled in partials from base.html #186
 * Flextype Admin Panel: field `editor` changed to `html` #186
+* Flextype Admin Panel: improve admin settings page #186
 
 ### Removed
 * Flextype Core: Remove `date` field #196 #186
