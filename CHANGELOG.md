@@ -43,7 +43,9 @@
 * Flextype Core: .gitignore updated
 * Flextype Core: copyrights updated
 * Flextype Core: composer.json updated
+* Flextype Admin Panel: Settings page improvements #186
 * Flextype Admin Panel: Installation page improvements #194 #186
+* Flextype Admin Panel: Entries editor page improvements #186
 * Flextype Admin Panel: settings.json converted to settings.yaml #201 #186
 * Flextype Admin Panel: plugin.json converted to plugin.yaml #201 #186
 * Flextype Admin Panel: en_US.json and ru_RU.json converted to en_US.yaml and ru_RU.yaml #201 #186
