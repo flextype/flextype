@@ -445,3 +445,11 @@
     </div>
 </form>
 {% endblock %}
+
+{% block tail %}
+<script type="text/javascript">
+    if(window.location.hash != "") {
+        $('a[href="' + window.location.hash + '"]').click()
+    }
+</script>
+{% endblock %}
