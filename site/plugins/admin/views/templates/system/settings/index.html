@@ -128,7 +128,8 @@
                         </div>
                         <div class="form-group">
                             <label for="entries[media][upload_images_height]">{{ tr('admin_height') }}</label>
-                            <input type="text" id="systemSettingsSystemEntriesMain" name="entries[media][upload_images_height]" value="{{ registry.settings.entries.media.upload_images_height }}" class="form-control" required="required"> </div>
+                            <input type="text" id="systemSettingsSystemEntriesMain" name="entries[media][upload_images_height]" value="{{ registry.settings.entries.media.upload_images_height }}" class="form-control" required="required">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -139,7 +140,7 @@
                         <h3 class="h3 margin-top-none">{{ tr('admin_error_404_page') }}</h3>
                         <hr>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="entries[error404][title]">{{ tr('admin_error404_title') }}</label>
                             <input type="text" id="systemSettingsSystemEntriesError404Title" name="entries[error404][title]" value="{{ registry.settings.entries.error404.title }}" class="form-control" required="required">
@@ -149,14 +150,54 @@
                             <input type="text" id="systemSettingsSystemEntriesError404Description" name="entries[error404][description]" value="{{ registry.settings.entries.error404.description }}" class="form-control" required="required">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="entries[error404][content]">{{ tr('admin_error404_content') }}</label>
-                            <input type="text" id="systemSettingsSystemEntriesError404Content" name="entries[error404][content]" value="{{ registry.settings.entries.error404.content }}" class="form-control" required="required">
+                            <textarea id="systemSettingsSystemEntriesError404Content" name="entries[error404][content]" rows="4" cols="80" class="form-control">{{ registry.settings.entries.error404.content }}</textarea>
                         </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="entries[error404][template]">{{ tr('admin_error404_template') }}</label>
                             <input type="text" id="systemSettingsSystemEntriesError404Template" name="entries[error404][template]" value="{{ registry.settings.entries.error404.template }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade show" id="pills-twig" role="tabpanel" aria-labelledby="pills-twig-tab">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="h3 margin-top-none">{{ tr('admin_twig_templating') }}</h3>
+                        <hr>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="twig[auto_reload]">{{ tr('admin_twig_debug') }}</label>
+                            <select id="systemSettingsTwigDebug" name="twig[debug]" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.twig.debug == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.twig.debug == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="twig[auto_reload]">{{ tr('admin_twig_auto_reload') }}</label>
+                            <select id="systemSettingsTwigAutoReload" name="twig[auto_reload]" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.twig.auto_reload == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.twig.auto_reload == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="twig[cache]">{{ tr('admin_twig_cache') }}</label>
+                            <select id="systemSettingsTwigCache" name="twig[cache]" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.twig.cache == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.twig.cache == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="twig[charset]">{{ tr('admin_twig_charset') }}</label>
+                            <input type="text" id="systemSettingsTwigCharset" name="twig[charset]" value="{{ registry.settings.twig.charset }}" class="form-control" required="required">
                         </div>
                     </div>
                 </div>
@@ -183,15 +224,6 @@
                             <select id="systemSettingsSystemDisplayErrorEetails" name="display_error_details" class="form-control" required="required">
                                 <option value="0" {% if registry.settings.display_error_details == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
                                 <option value="1" {% if registry.settings.display_error_details == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="twig[auto_reload]">{{ tr('admin_twig_auto_reload') }}</label>
-                            <select id="systemSettingsAutoReload" name="twig[auto_reload]" class="form-control" required="required">
-                                <option value="0" {% if registry.settings.twig.auto_reload == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
-                                <option value="1" {% if registry.settings.twig.auto_reload == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
                             </select>
                         </div>
                     </div>
@@ -437,6 +469,7 @@
             <a class="nav-link" id="pills-content-tab" data-toggle="pill" href="#pills-content" role="tab" aria-controls="pills-content" aria-selected="true">{{ tr('admin_content') }}</a>
             <a class="nav-link" id="pills-media-tab" data-toggle="pill" href="#pills-media" role="tab" aria-controls="pills-media" aria-selected="true">{{ tr('admin_media') }}</a>
             <a class="nav-link" id="pills-error-tab" data-toggle="pill" href="#pills-error" role="tab" aria-controls="pills-error" aria-selected="true">{{ tr('admin_error_404_page') }}</a>
+            <a class="nav-link" id="pills-twig-tab" data-toggle="pill" href="#pills-twig" role="tab" aria-controls="pills-twig" aria-selected="true">{{ tr('admin_twig_templating') }}</a>
             <a class="nav-link" id="pills-debugging-tab" data-toggle="pill" href="#pills-debugging" role="tab" aria-controls="pills-debugging" aria-selected="true">{{ tr('admin_debugging') }}</a>
             <a class="nav-link" id="pills-slim-tab" data-toggle="pill" href="#pills-slim" role="tab" aria-controls="pills-slim" aria-selected="true">{{ tr('admin_slim') }}</a>
             <a class="nav-link" id="pills-cache-tab" data-toggle="pill" href="#pills-cache" role="tab" aria-controls="pills-cache" aria-selected="true">{{ tr('admin_cache') }}</a>

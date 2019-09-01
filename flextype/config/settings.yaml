@@ -173,8 +173,17 @@ http_version: '1.1'
 #                for the auto_reload option, it will be determined automatically
 #                based on the debug value.
 #
+# - debug:       When set to true, the generated templates have a __toString()
+#                method that you can use to display the generated nodes
+#
+# - charset:     The charset used by the templates.
+#
+# - cache:       Set false to disable caching.
 twig:
   auto_reload: true
+  cache: true
+  debug: false
+  charset: "UTF-8"
 
 # Slugify
 #

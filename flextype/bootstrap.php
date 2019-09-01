@@ -91,8 +91,9 @@ $app = new App([
         'responseChunkSize' => $registry->get('settings.response_chunk_size'),
         'httpVersion' => $registry->get('settings.http_version'),
         'twig' => [
-            'debug' => $registry->get('settings.errors.display'),
-            'cache' => PATH['cache'] . '/twig',
+            'charset' => $registry->get('settings.twig.charset'),
+            'debug' => $registry->get('settings.twig.debug'),
+            'cache' => $registry->get('settings.twig.cache') ? PATH['cache'] . '/twig' : false,
             'auto_reload' => $registry->get('settings.twig.auto_reload'),
         ],
         'images' => [
