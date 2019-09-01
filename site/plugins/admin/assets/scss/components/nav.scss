@@ -197,3 +197,13 @@
     border-bottom: 1px solid #ccc;
     color: black;
 }
+
+.flex-column.nav-pills .nav-link.active,
+.flex-column.nav-pills .show > .nav-link {
+    background: #e0e0e1;
+    border-bottom: none;
+}
+
+.flex-column.nav-pills .nav-link {
+    background: #eaeaeb;
+}
