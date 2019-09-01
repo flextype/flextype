@@ -204,6 +204,11 @@
     border-bottom: none;
 }
 
+.flex-column.nav-pills {
+    padding-right: 0;
+}
+
 .flex-column.nav-pills .nav-link {
     background: #eaeaeb;
+    font-size: 14px;
 }

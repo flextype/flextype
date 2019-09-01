@@ -6,20 +6,13 @@
     <input type="hidden" id="action" name="action" value="save-form">
 
     <div class="row">
-        <div class="nav flex-column nav-pills col-md-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active" id="pills-main-tab" data-toggle="pill" href="#pills-site" role="tab" aria-controls="pills-site" aria-selected="true">{{ tr('admin_site') }}</a>
-            <a class="nav-link" id="pills-general-tab" data-toggle="pill" href="#pills-general" role="tab" aria-controls="pills-general" aria-selected="true">{{ tr('admin_general') }}</a>
-            <a class="nav-link" id="pills-media-tab" data-toggle="pill" href="#pills-media" role="tab" aria-controls="pills-media" aria-selected="true">{{ tr('admin_media') }}</a>
-            <a class="nav-link" id="pills-error-tab" data-toggle="pill" href="#pills-error" role="tab" aria-controls="pills-error" aria-selected="true">{{ tr('admin_error_404_page') }}</a>
-            <a class="nav-link" id="pills-debugging-tab" data-toggle="pill" href="#pills-debugging" role="tab" aria-controls="pills-debugging" aria-selected="true">{{ tr('admin_debugging') }}</a>
-            <a class="nav-link" id="pills-slim-tab" data-toggle="pill" href="#pills-slim" role="tab" aria-controls="pills-slim" aria-selected="true">{{ tr('admin_slim') }}</a>
-            <a class="nav-link" id="pills-cache-tab" data-toggle="pill" href="#pills-cache" role="tab" aria-controls="pills-cache" aria-selected="true">{{ tr('admin_cache') }}</a>
-            <a class="nav-link" id="pills-slug-tab" data-toggle="pill" href="#pills-slug" role="tab" aria-controls="pills-slug" aria-selected="true">{{ tr('admin_slug') }}</a>
-            <a class="nav-link" id="pills-admin-tab" data-toggle="pill" href="#pills-admin" role="tab" aria-controls="pills-admin" aria-selected="true">{{ tr('admin_admin_panel') }}</a>
-        </div>
-        <div class="tab-content col-md-9" id="pills-tabContent">
+        <div class="tab-content col-md-8" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-site" role="tabpanel" aria-labelledby="pills-site-tab">
                 <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="h3 margin-top-none">{{ tr('admin_site') }}</h3>
+                        <hr>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="title">{{ tr('admin_site_title') }}</label>
@@ -52,6 +45,10 @@
             </div>
             <div class="tab-pane fade show" id="pills-general" role="tabpanel" aria-labelledby="pills-general-tab">
                 <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="h3 margin-top-none">{{ tr('admin_general') }}</h3>
+                        <hr>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="timezone">{{ tr('admin_timezone') }}</label>
@@ -101,6 +98,10 @@
 
             <div class="tab-pane fade show" id="pills-media" role="tabpanel" aria-labelledby="pills-media-tab">
                 <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="h3 margin-top-none">{{ tr('admin_media') }}</h3>
+                        <hr>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="entries[media][upload_images_quality]">{{ tr('admin_quality') }}</label>
@@ -133,6 +134,10 @@
 
             <div class="tab-pane fade show" id="pills-error" role="tabpanel" aria-labelledby="pills-error-tab">
                 <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="h3 margin-top-none">{{ tr('admin_error_404_page') }}</h3>
+                        <hr>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="entries[error404][title]">{{ tr('admin_error404_title') }}</label>
@@ -158,6 +163,10 @@
 
             <div class="tab-pane fade show" id="pills-debugging" role="tabpanel" aria-labelledby="pills-debugging-tab">
                 <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="h3 margin-top-none">{{ tr('admin_debugging') }}</h3>
+                        <hr>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="errors[display]">{{ tr('admin_errors_display') }}</label>
@@ -206,6 +215,10 @@
 
             <div class="tab-pane fade show" id="pills-slim" role="tabpanel" aria-labelledby="pills-slim-tab">
                 <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="h3 margin-top-none">{{ tr('admin_slim') }}</h3>
+                        <hr>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="add_content_length_header">{{ tr('admin_add_content_length_header') }}</label>
@@ -256,6 +269,10 @@
 
             <div class="tab-pane fade show" id="pills-cache" role="tabpanel" aria-labelledby="pills-cache-tab">
                 <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="h3 margin-top-none">{{ tr('admin_cache') }}</h3>
+                        <hr>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="cache[enabled]">{{ tr('admin_cache_enabled') }}</label>
@@ -290,7 +307,8 @@
                         </div>
                         <div class="form-group">
                             <label for="cache[memcache][port]">{{ tr('admin_memcache_port') }}</label>
-                            <input type="text" id="systemSettingsSystemCacheMemcachePort" name="cache[memcache][port]" value="{{ registry.settings.cache.memcache.port }}" class="form-control" required="required"> </div>
+                            <input type="text" id="systemSettingsSystemCacheMemcachePort" name="cache[memcache][port]" value="{{ registry.settings.cache.memcache.port }}" class="form-control" required="required">
+                       </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -339,6 +357,10 @@
 
             <div class="tab-pane fade show" id="pills-slug" role="tabpanel" aria-labelledby="pills-slug-tab">
                 <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="h3 margin-top-none">{{ tr('admin_slug') }}</h3>
+                        <hr>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="slugify[separator]">{{ tr('admin_slugify_separator') }}</label>
@@ -392,6 +414,10 @@
 
             <div class="tab-pane fade show" id="pills-admin" role="tabpanel" aria-labelledby="pills-admin-tab">
                 <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="h3 margin-top-none">{{ tr('admin_admin_panel') }}</h3>
+                        <hr>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="admin_panel[theme]">{{ tr('admin_theme') }}</label>
@@ -403,6 +429,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="nav flex-column nav-pills col-md-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="pills-main-tab" data-toggle="pill" href="#pills-site" role="tab" aria-controls="pills-site" aria-selected="true">{{ tr('admin_site') }}</a>
+            <a class="nav-link" id="pills-general-tab" data-toggle="pill" href="#pills-general" role="tab" aria-controls="pills-general" aria-selected="true">{{ tr('admin_general') }}</a>
+            <a class="nav-link" id="pills-media-tab" data-toggle="pill" href="#pills-media" role="tab" aria-controls="pills-media" aria-selected="true">{{ tr('admin_media') }}</a>
+            <a class="nav-link" id="pills-error-tab" data-toggle="pill" href="#pills-error" role="tab" aria-controls="pills-error" aria-selected="true">{{ tr('admin_error_404_page') }}</a>
+            <a class="nav-link" id="pills-debugging-tab" data-toggle="pill" href="#pills-debugging" role="tab" aria-controls="pills-debugging" aria-selected="true">{{ tr('admin_debugging') }}</a>
+            <a class="nav-link" id="pills-slim-tab" data-toggle="pill" href="#pills-slim" role="tab" aria-controls="pills-slim" aria-selected="true">{{ tr('admin_slim') }}</a>
+            <a class="nav-link" id="pills-cache-tab" data-toggle="pill" href="#pills-cache" role="tab" aria-controls="pills-cache" aria-selected="true">{{ tr('admin_cache') }}</a>
+            <a class="nav-link" id="pills-slug-tab" data-toggle="pill" href="#pills-slug" role="tab" aria-controls="pills-slug" aria-selected="true">{{ tr('admin_slug') }}</a>
+            <a class="nav-link" id="pills-admin-tab" data-toggle="pill" href="#pills-admin" role="tab" aria-controls="pills-admin" aria-selected="true">{{ tr('admin_admin_panel') }}</a>
         </div>
     </div>
 </form>
