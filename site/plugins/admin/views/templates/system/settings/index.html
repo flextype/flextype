@@ -43,11 +43,34 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade show" id="pills-general" role="tabpanel" aria-labelledby="pills-general-tab">
+
+            <div class="tab-pane fade show" id="pills-content" role="tabpanel" aria-labelledby="pills-content-tab">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="h3 margin-top-none">{{ tr('admin_general') }}</h3>
+                        <h3 class="h3 margin-top-none">{{ tr('admin_content') }}</h3>
                         <hr>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="entries[main]">{{ tr('admin_entry_main') }}</label>
+                            <select id="systemSettingsSystemEntriesMain" name="entries[main]" class="form-control" required="required">
+                                {% for key, value in entries %}
+                                    <option value="{{ key }}" {% if key == registry.settings.entries.main %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="theme">{{ tr('admin_theme') }}</label>
+                            <select id="systemSettingsSystemTheme" name="theme" class="form-control" required="required">
+                                {% for key, value in themes %}
+                                    <option value="{{ key }}" {% if key == registry.settings.theme %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="charset">{{ tr('admin_charset') }}</label>
+                            <input type="text" id="systemSettingsSystemCharset" name="charset" value="{{ registry.settings.charset }}" class="form-control" required="required">
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -63,32 +86,10 @@
                             <input type="text" id="systemSettingsSystemDateFormat" name="date_format" value="{{ registry.settings.date_format }}" class="form-control" required="required">
                         </div>
                         <div class="form-group">
-                            <label for="charset">{{ tr('admin_charset') }}</label>
-                            <input type="text" id="systemSettingsSystemCharset" name="charset" value="{{ registry.settings.charset }}" class="form-control" required="required">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="theme">{{ tr('admin_theme') }}</label>
-                            <select id="systemSettingsSystemTheme" name="theme" class="form-control" required="required">
-                                {% for key, value in themes %}
-                                    <option value="{{ key }}" {% if key == registry.settings.theme %}selected{% endif %}>{{ value }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="form-group">
                             <label for="locale">{{ tr('admin_locale') }}</label>
                             <select id="entryTemplate" name="locale" class="form-control">
                                 {% for key, value in locales %}
                                     <option value="{{ key }}" {% if key == registry.settings.locale %}selected{% endif %}>{{ value }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="entries[main]">{{ tr('admin_entry_main') }}</label>
-                            <select id="systemSettingsSystemEntriesMain" name="entries[main]" class="form-control" required="required">
-                                {% for key, value in entries %}
-                                    <option value="{{ key }}" {% if key == registry.settings.entries.main %}selected{% endif %}>{{ value }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -433,7 +434,7 @@
         <div class="col-md-1"></div>
         <div class="nav flex-column nav-pills col-md-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active" id="pills-main-tab" data-toggle="pill" href="#pills-site" role="tab" aria-controls="pills-site" aria-selected="true">{{ tr('admin_site') }}</a>
-            <a class="nav-link" id="pills-general-tab" data-toggle="pill" href="#pills-general" role="tab" aria-controls="pills-general" aria-selected="true">{{ tr('admin_general') }}</a>
+            <a class="nav-link" id="pills-content-tab" data-toggle="pill" href="#pills-content" role="tab" aria-controls="pills-content" aria-selected="true">{{ tr('admin_content') }}</a>
             <a class="nav-link" id="pills-media-tab" data-toggle="pill" href="#pills-media" role="tab" aria-controls="pills-media" aria-selected="true">{{ tr('admin_media') }}</a>
             <a class="nav-link" id="pills-error-tab" data-toggle="pill" href="#pills-error" role="tab" aria-controls="pills-error" aria-selected="true">{{ tr('admin_error_404_page') }}</a>
             <a class="nav-link" id="pills-debugging-tab" data-toggle="pill" href="#pills-debugging" role="tab" aria-controls="pills-debugging" aria-selected="true">{{ tr('admin_debugging') }}</a>
