@@ -141,7 +141,7 @@ class SettingsController extends Controller
         Arr::set($data, 'entries.media.upload_images_width', (int) $data['entries']['media']['upload_images_width']);
         Arr::set($data, 'entries.media.upload_images_height', (int) $data['entries']['media']['upload_images_height']);
 
-        if (Filesystem::write(PATH['config']['site'] . '/settings.yaml', Parser::encode(array_merge($this->registry->get('settings'), $data)), 'yaml')) {
+        if (Filesystem::write(PATH['config']['site'] . '/settings.yaml', Parser::encode(array_merge($this->registry->get('settings'), $data), 'yaml'))) {
             $this->flash->addMessage('success', __('admin_message_settings_saved'));
         } else {
             $this->flash->addMessage('error', __('admin_message_settings_was_not_saved'));

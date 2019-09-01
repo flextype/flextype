@@ -4,411 +4,404 @@
 <form method="post" id="form">
     {{ csrf() }}
     <input type="hidden" id="action" name="action" value="save-form">
+
     <div class="row">
+        <div class="nav flex-column nav-pills col-md-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="pills-main-tab" data-toggle="pill" href="#pills-site" role="tab" aria-controls="pills-site" aria-selected="true">{{ tr('admin_site') }}</a>
+            <a class="nav-link" id="pills-general-tab" data-toggle="pill" href="#pills-general" role="tab" aria-controls="pills-general" aria-selected="true">{{ tr('admin_general') }}</a>
+            <a class="nav-link" id="pills-media-tab" data-toggle="pill" href="#pills-media" role="tab" aria-controls="pills-media" aria-selected="true">{{ tr('admin_media') }}</a>
+            <a class="nav-link" id="pills-error-tab" data-toggle="pill" href="#pills-error" role="tab" aria-controls="pills-error" aria-selected="true">{{ tr('admin_error_404_page') }}</a>
+            <a class="nav-link" id="pills-debugging-tab" data-toggle="pill" href="#pills-debugging" role="tab" aria-controls="pills-debugging" aria-selected="true">{{ tr('admin_debugging') }}</a>
+            <a class="nav-link" id="pills-slim-tab" data-toggle="pill" href="#pills-slim" role="tab" aria-controls="pills-slim" aria-selected="true">{{ tr('admin_slim') }}</a>
+            <a class="nav-link" id="pills-cache-tab" data-toggle="pill" href="#pills-cache" role="tab" aria-controls="pills-cache" aria-selected="true">{{ tr('admin_cache') }}</a>
+            <a class="nav-link" id="pills-slug-tab" data-toggle="pill" href="#pills-slug" role="tab" aria-controls="pills-slug" aria-selected="true">{{ tr('admin_slug') }}</a>
+            <a class="nav-link" id="pills-admin-tab" data-toggle="pill" href="#pills-admin" role="tab" aria-controls="pills-admin" aria-selected="true">{{ tr('admin_admin_panel') }}</a>
+        </div>
+        <div class="tab-content col-md-9" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-site" role="tabpanel" aria-labelledby="pills-site-tab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="title">{{ tr('admin_site_title') }}</label>
+                            <input type="text" id="systemSettingsSiteTitle" name="title" value="{{ registry.settings.title }}" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">{{ tr('admin_site_description') }}</label>
+                            <input type="text" id="systemSettingsSiteDescription" name="description" value="{{ registry.settings.description }}" class="form-control margin-hard-bottom">
+                        </div>
+                        <div class="form-group">
+                            <label for="keywords">{{ tr('admin_site_keywords') }}</label>
+                            <input type="text" id="systemSettingsSiteKeywords" name="keywords" value="{{ registry.settings.keywords }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="robots">{{ tr('admin_site_robots') }}</label>
+                            <input type="text" id="systemSettingsSiteRobots" name="robots" value="{{ registry.settings.robots }}" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="author[name]">{{ tr('admin_author_name') }}</label>
+                            <input type="text" id="systemSettingsSiteAuthorName" name="author[name]" value="{{ registry.settings.author.name }}" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="author[email]">{{ tr('admin_author_email') }}</label>
+                            <input type="text" id="systemSettingsSiteAuthorEmail" name="author[email]" value="{{ registry.settings.author.email }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade show" id="pills-general" role="tabpanel" aria-labelledby="pills-general-tab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="timezone">{{ tr('admin_timezone') }}</label>
+                            <select id="systemSettingsSystemTimezone" name="timezone" class="form-control" required="required">
+                                {% for key, value in timezones %}
+                                    <option value="{{ key }}" {% if key == registry.settings.timezone %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_format">{{ tr('admin_date_format') }}</label>
+                            <input type="text" id="systemSettingsSystemDateFormat" name="date_format" value="{{ registry.settings.date_format }}" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="charset">{{ tr('admin_charset') }}</label>
+                            <input type="text" id="systemSettingsSystemCharset" name="charset" value="{{ registry.settings.charset }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="theme">{{ tr('admin_theme') }}</label>
+                            <select id="systemSettingsSystemTheme" name="theme" class="form-control" required="required">
+                                {% for key, value in themes %}
+                                    <option value="{{ key }}" {% if key == registry.settings.theme %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="locale">{{ tr('admin_locale') }}</label>
+                            <select id="entryTemplate" name="locale" class="form-control">
+                                {% for key, value in locales %}
+                                    <option value="{{ key }}" {% if key == registry.settings.locale %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="entries[main]">{{ tr('admin_entry_main') }}</label>
+                            <select id="systemSettingsSystemEntriesMain" name="entries[main]" class="form-control" required="required">
+                                {% for key, value in entries %}
+                                    <option value="{{ key }}" {% if key == registry.settings.entries.main %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="col-md-12">
-            <h3 class="h3">{{ tr('admin_site') }}</h3>
-            <hr>
-        </div>
+            <div class="tab-pane fade show" id="pills-media" role="tabpanel" aria-labelledby="pills-media-tab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="entries[media][upload_images_quality]">{{ tr('admin_quality') }}</label>
+                            <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_quality]" value="{{ registry.settings.entries.media.upload_images_quality }}" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="entries[media][accept_file_types]">{{ tr('admin_accept_file_types') }}</label>
+                            <input type="text" id="systemSettingsSystemTheme" name="entries[media][accept_file_types]" value="{{ registry.settings.entries.media.accept_file_types }}" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="image[driver]">{{ tr('admin_image_driver') }}</label>
+                            <select id="systemSettingsImageDriver" name="image[driver]" class="form-control" required="required">
+                                {% for key, value in image_driver %}
+                                    <option value="{{ key }}" {% if key == registry.settings.image.driver %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="entries[media][upload_images_width]">{{ tr('admin_width') }}</label>
+                            <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_width]" value="{{ registry.settings.entries.media.upload_images_width }}" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="entries[media][upload_images_height]">{{ tr('admin_height') }}</label>
+                            <input type="text" id="systemSettingsSystemEntriesMain" name="entries[media][upload_images_height]" value="{{ registry.settings.entries.media.upload_images_height }}" class="form-control" required="required"> </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="title">{{ tr('admin_site_title') }}</label>
-                <input type="text" id="systemSettingsSiteTitle" name="title" value="{{ registry.settings.title }}" class="form-control" required="required">
+            <div class="tab-pane fade show" id="pills-error" role="tabpanel" aria-labelledby="pills-error-tab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="entries[error404][title]">{{ tr('admin_error404_title') }}</label>
+                            <input type="text" id="systemSettingsSystemEntriesError404Title" name="entries[error404][title]" value="{{ registry.settings.entries.error404.title }}" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="entries[error404][description]">{{ tr('admin_error404_description') }}</label>
+                            <input type="text" id="systemSettingsSystemEntriesError404Description" name="entries[error404][description]" value="{{ registry.settings.entries.error404.description }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="entries[error404][content]">{{ tr('admin_error404_content') }}</label>
+                            <input type="text" id="systemSettingsSystemEntriesError404Content" name="entries[error404][content]" value="{{ registry.settings.entries.error404.content }}" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="entries[error404][template]">{{ tr('admin_error404_template') }}</label>
+                            <input type="text" id="systemSettingsSystemEntriesError404Template" name="entries[error404][template]" value="{{ registry.settings.entries.error404.template }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="description">{{ tr('admin_site_description') }}</label>
-                <input type="text" id="systemSettingsSiteDescription" name="description" value="{{ registry.settings.description }}" class="form-control margin-hard-bottom">
-            </div>
-            <div class="form-group">
-                <label for="keywords">{{ tr('admin_site_keywords') }}</label>
-                <input type="text" id="systemSettingsSiteKeywords" name="keywords" value="{{ registry.settings.keywords }}" class="form-control" required="required">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="robots">{{ tr('admin_site_robots') }}</label>
-                <input type="text" id="systemSettingsSiteRobots" name="robots" value="{{ registry.settings.robots }}" class="form-control" required="required">
-            </div>
-            <div class="form-group">
-                <label for="author[name]">{{ tr('admin_author_name') }}</label>
-                <input type="text" id="systemSettingsSiteAuthorName" name="author[name]" value="{{ registry.settings.author.name }}" class="form-control" required="required">
-            </div>
-            <div class="form-group">
-                <label for="author[email]">{{ tr('admin_author_email') }}</label>
-                <input type="text" id="systemSettingsSiteAuthorEmail" name="author[email]" value="{{ registry.settings.author.email }}" class="form-control" required="required">
-            </div>
-        </div>
 
-        <div class="col-md-12">
-            <br>
-            <h3 class="h3">{{ tr('admin_general') }}</h3>
-            <hr>
-        </div>
+            <div class="tab-pane fade show" id="pills-debugging" role="tabpanel" aria-labelledby="pills-debugging-tab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="errors[display]">{{ tr('admin_errors_display') }}</label>
+                            <select id="systemSettingsSystemErrorsDisplay" name="errors[display]" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.errors.display == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.errors.display == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="display_error_details">{{ tr('admin_display_error_details') }}</label>
+                            <select id="systemSettingsSystemDisplayErrorEetails" name="display_error_details" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.display_error_details == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.display_error_details == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="twig[auto_reload]">{{ tr('admin_twig_auto_reload') }}</label>
+                            <select id="systemSettingsAutoReload" name="twig[auto_reload]" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.twig.auto_reload == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.twig.auto_reload == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="whoops[editor]">{{ tr('admin_whoops_editor') }}</label>
+                            <select id="systemSettingsImageDriver" name="whoops[editor]" class="form-control" required="required">
+                                {% for key, value in whoops_editor %}
+                                    <option value="{{ key }}" {% if key == registry.settings.whoops.editor %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="whoops[page_title]">{{ tr('admin_whoops_page_title') }}</label>
+                            <input type="text" id="systemSettingsWhoopsPageTitle" name="whoops[page_title]" value="{{ registry.settings.whoops.page_title }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="timezone">{{ tr('admin_timezone') }}</label>
-                <select id="systemSettingsSystemTimezone" name="timezone" class="form-control" required="required">
-                    {% for key, value in timezones %}
-                        <option value="{{ key }}" {% if key == registry.settings.timezone %}selected{% endif %}>{{ value }}</option>
-                    {% endfor %}
-                </select>
+            <div class="tab-pane fade show" id="pills-slim" role="tabpanel" aria-labelledby="pills-slim-tab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="add_content_length_header">{{ tr('admin_add_content_length_header') }}</label>
+                            <select id="systemSettingsAddContentLengthHeader" name="add_content_length_header" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.add_content_length_header == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.add_content_length_header == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="router_cache_file">{{ tr('admin_router_cache_file') }}</label>
+                            <select id="systemSettingsRouterCacheFile" name="router_cache_file" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.router_cache_file == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.router_cache_file == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="determine_route_before_app_middleware">{{ tr('admin_determine_route_before_app_middleware') }}</label>
+                            <select id="systemSettingsDetermineRouteBeforeAppMiddleware" name="determine_route_before_app_middleware" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.determine_route_before_app_middleware == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.determine_route_before_app_middleware == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="output_buffering">{{ tr('admin_output_buffering') }}</label>
+                            <input type="text" id="systemSettingsOutputBuffering" name="output_buffering" value="{{ registry.settings.output_buffering }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="response_chunk_size">{{ tr('admin_response_chunk_size') }}</label>
+                            <input type="text" id="systemSettingsResponseChunkSize" name="response_chunk_size" value="{{ registry.settings.response_chunk_size }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="http_version">{{ tr('admin_http_version') }}</label>
+                            <input type="text" id="systemSettingsHttpVersion" name="http_version" value="{{ registry.settings.http_version }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="date_format">{{ tr('admin_date_format') }}</label>
-                <input type="text" id="systemSettingsSystemDateFormat" name="date_format" value="{{ registry.settings.date_format }}" class="form-control" required="required">
-            </div>
-            <div class="form-group">
-                <label for="charset">{{ tr('admin_charset') }}</label>
-                <input type="text" id="systemSettingsSystemCharset" name="charset" value="{{ registry.settings.charset }}" class="form-control" required="required">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="theme">{{ tr('admin_theme') }}</label>
-                <select id="systemSettingsSystemTheme" name="theme" class="form-control" required="required">
-                    {% for key, value in themes %}
-                        <option value="{{ key }}" {% if key == registry.settings.theme %}selected{% endif %}>{{ value }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="locale">{{ tr('admin_locale') }}</label>
-                <select id="entryTemplate" name="locale" class="form-control">
-                    {% for key, value in locales %}
-                        <option value="{{ key }}" {% if key == registry.settings.locale %}selected{% endif %}>{{ value }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="entries[main]">{{ tr('admin_entry_main') }}</label>
-                <select id="systemSettingsSystemEntriesMain" name="entries[main]" class="form-control" required="required">
-                    {% for key, value in entries %}
-                        <option value="{{ key }}" {% if key == registry.settings.entries.main %}selected{% endif %}>{{ value }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
 
-        <div class="col-md-12">
-            <br>
-            <h3 class="h3">{{ tr('admin_media') }}</h3>
-            <hr>
-        </div>
+            <div class="tab-pane fade show" id="pills-cache" role="tabpanel" aria-labelledby="pills-cache-tab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cache[enabled]">{{ tr('admin_cache_enabled') }}</label>
+                            <select id="systemSettingsSystemCacheEnabled" name="cache[enabled]" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.cache.enabled == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.cache.enabled == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cache[prefix]">{{ tr('admin_cache_prefix') }}</label>
+                            <input type="text" id="systemSettingsSystemCachePrefix" name="cache[prefix]" value="{{ registry.settings.cache.prefix }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cache[driver]">{{ tr('admin_cache_driver') }}</label>
+                            <select id="systemSettingsSystemCacheDriver" name="cache[driver]" class="form-control" required="required">
+                                {% for key, value in cache_driver %}
+                                    <option value="{{ key }}" {% if key == entries.main %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cache[lifetime]">{{ tr('admin_cache_lifetime') }}</label>
+                            <input type="text" id="systemSettingsSystemCacheLifetime" name="cache[lifetime]" value="{{ registry.settings.cache.lifetime }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cache[memcache][server]">{{ tr('admin_memcache_server') }}</label>
+                            <input type="text" id="systemSettingsSystemCacheMemcacheServer" name="cache[memcache][server]" value="{{ registry.settings.cache.memcache.server }}" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="cache[memcache][port]">{{ tr('admin_memcache_port') }}</label>
+                            <input type="text" id="systemSettingsSystemCacheMemcachePort" name="cache[memcache][port]" value="{{ registry.settings.cache.memcache.port }}" class="form-control" required="required"> </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cache[memcached][server]">{{ tr('admin_memcached_server') }}</label>
+                            <input type="text" id="systemSettingsSystemCacheMemcachedServer" name="cache[memcached][server]" value="{{ registry.settings.cache.memcache.server }}" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="cache[memcached][port]">{{ tr('admin_memcached_port') }}</label>
+                            <input type="text" id="systemSettingsSystemCacheMemcachedPort" name="cache[memcached][port]" value="{{ registry.settings.cache.memcache.port }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cache[redis][socket]">{{ tr('admin_redis_socket') }}</label>
+                            <input type="text" id="systemSettingsSystemCacheRedisSocket" name="cache[redis][socket]" value="{{ registry.settings.cache.redis.socket }}" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="cache[redis][password]">{{ tr('admin_redis_password') }}</label>
+                            <input type="text" id="systemSettingsSystemCacheRedisPassword" name="cache[redis][password]" value="{{ registry.settings.cache.redis.password }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cache[redis][server]">{{ tr('admin_redis_server') }}</label>
+                            <input type="text" id="systemSettingsSystemCacheRedisServer" name="cache[redis][server]" value="{{ registry.settings.cache.redis.server }}" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="cache[redis][port]">{{ tr('admin_redis_port') }}</label>
+                            <input type="text" id="systemSettingsSystemCacheRedisPort" name="cache[redis][port]" value="{{ registry.settings.cache.redis.port }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cache[sqlite3][database]">{{ tr('admin_sqlite3_database') }}</label>
+                            <input type="text" id="systemSettingsSystemCacheSQLite3Database" name="cache[sqlite3][database]" value="{{ registry.settings.cache.sqlite3.database }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cache[sqlite3][table]">{{ tr('admin_sqlite3_table') }}</label>
+                            <input type="text" id="systemSettingsSystemCacheSQLite3Table" name="cache[sqlite3][table]" value="{{ registry.settings.cache.sqlite3.table }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="entries[media][upload_images_quality]">{{ tr('admin_quality') }}</label>
-                <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_quality]" value="{{ registry.settings.entries.media.upload_images_quality }}" class="form-control" required="required">
+            <div class="tab-pane fade show" id="pills-slug" role="tabpanel" aria-labelledby="pills-slug-tab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="slugify[separator]">{{ tr('admin_slugify_separator') }}</label>
+                            <input type="text" id="systemSettingsSlugifySeparator" name="slugify[separator]" value="{{ registry.settings.slugify.separator }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="slugify[lowercase]">{{ tr('admin_slugify_lowercase') }}</label>
+                            <select id="systemSettingsSlugifyLowercase" name="slugify[lowercase]" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.slugify.lowercase == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.slugify.lowercase == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="slugify[trim]">{{ tr('admin_slugify_trim') }}</label>
+                            <select id="systemSettingsSlugifyTrim" name="slugify[trim]" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.slugify.trim == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.slugify.trim == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="slugify[strip_tags]">{{ tr('admin_slugify_strip_tags') }}</label>
+                            <select id="systemSettingsSlugifyStripTags" name="slugify[strip_tags]" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.slugify.strip_tags == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.slugify.strip_tags == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="slugify[lowercase_after_regexp]">{{ tr('admin_slugify_lowercase_after_regexp') }}</label>
+                            <select id="systemSettingsSlugifyLowercaseAfterRegexp" name="slugify[lowercase_after_regexp]" class="form-control" required="required">
+                                <option value="0" {% if registry.settings.slugify.lowercase_after_regexp == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
+                                <option value="1" {% if registry.settings.slugify.lowercase_after_regexp == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="slugify[regexp]">{{ tr('admin_slugify_regexp') }}</label>
+                            <input type="text" id="systemSettingsSlugifyRegexp" name="slugify[regexp]" value="{{ registry.settings.slugify.regexp }}" class="form-control" required="required">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="entries[media][accept_file_types]">{{ tr('admin_accept_file_types') }}</label>
-                <input type="text" id="systemSettingsSystemTheme" name="entries[media][accept_file_types]" value="{{ registry.settings.entries.media.accept_file_types }}" class="form-control" required="required">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="entries[media][upload_images_width]">{{ tr('admin_width') }}</label>
-                <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_width]" value="{{ registry.settings.entries.media.upload_images_width }}" class="form-control" required="required">
-            </div>
-            <div class="form-group">
-                <label for="entries[media][upload_images_height]">{{ tr('admin_height') }}</label>
-                <input type="text" id="systemSettingsSystemEntriesMain" name="entries[media][upload_images_height]" value="{{ registry.settings.entries.media.upload_images_height }}" class="form-control" required="required"> </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="image[driver]">{{ tr('admin_image_driver') }}</label>
-                <select id="systemSettingsImageDriver" name="image[driver]" class="form-control" required="required">
-                    {% for key, value in image_driver %}
-                        <option value="{{ key }}" {% if key == registry.settings.image.driver %}selected{% endif %}>{{ value }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <br>
-            <h3 class="h3">{{ tr('admin_error_404_page') }}</h3>
-            <hr>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="entries[error404][title]">{{ tr('admin_error404_title') }}</label>
-                <input type="text" id="systemSettingsSystemEntriesError404Title" name="entries[error404][title]" value="{{ registry.settings.entries.error404.title }}" class="form-control" required="required">
-            </div>
-            <div class="form-group">
-                <label for="entries[error404][description]">{{ tr('admin_error404_description') }}</label>
-                <input type="text" id="systemSettingsSystemEntriesError404Description" name="entries[error404][description]" value="{{ registry.settings.entries.error404.description }}" class="form-control" required="required">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="entries[error404][content]">{{ tr('admin_error404_content') }}</label>
-                <input type="text" id="systemSettingsSystemEntriesError404Content" name="entries[error404][content]" value="{{ registry.settings.entries.error404.content }}" class="form-control" required="required">
-            </div>
-            <div class="form-group">
-                <label for="entries[error404][template]">{{ tr('admin_error404_template') }}</label>
-                <input type="text" id="systemSettingsSystemEntriesError404Template" name="entries[error404][template]" value="{{ registry.settings.entries.error404.template }}" class="form-control" required="required">
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <br>
-            <h3 class="h3">{{ tr('admin_debugging') }}</h3>
-            <hr>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="errors[display]">{{ tr('admin_errors_display') }}</label>
-                <select id="systemSettingsSystemErrorsDisplay" name="errors[display]" class="form-control" required="required">
-                    <option value="0" {% if registry.settings.errors.display == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
-                    <option value="1" {% if registry.settings.errors.display == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="display_error_details">{{ tr('admin_display_error_details') }}</label>
-                <select id="systemSettingsSystemDisplayErrorEetails" name="display_error_details" class="form-control" required="required">
-                    <option value="0" {% if registry.settings.display_error_details == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
-                    <option value="1" {% if registry.settings.display_error_details == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="twig[auto_reload]">{{ tr('admin_twig_auto_reload') }}</label>
-                <select id="systemSettingsAutoReload" name="twig[auto_reload]" class="form-control" required="required">
-                    <option value="0" {% if registry.settings.twig.auto_reload == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
-                    <option value="1" {% if registry.settings.twig.auto_reload == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="whoops[editor]">{{ tr('admin_whoops_editor') }}</label>
-                <select id="systemSettingsImageDriver" name="whoops[editor]" class="form-control" required="required">
-                    {% for key, value in whoops_editor %}
-                        <option value="{{ key }}" {% if key == registry.settings.whoops.editor %}selected{% endif %}>{{ value }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="whoops[page_title]">{{ tr('admin_whoops_page_title') }}</label>
-                <input type="text" id="systemSettingsWhoopsPageTitle" name="whoops[page_title]" value="{{ registry.settings.whoops.page_title }}" class="form-control" required="required">
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <br>
-            <h3 class="h3">{{ tr('admin_system') }}</h3>
-            <hr>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="add_content_length_header">{{ tr('admin_add_content_length_header') }}</label>
-                <select id="systemSettingsAddContentLengthHeader" name="add_content_length_header" class="form-control" required="required">
-                    <option value="0" {% if registry.settings.add_content_length_header == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
-                    <option value="1" {% if registry.settings.add_content_length_header == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="router_cache_file">{{ tr('admin_router_cache_file') }}</label>
-                <select id="systemSettingsRouterCacheFile" name="router_cache_file" class="form-control" required="required">
-                    <option value="0" {% if registry.settings.router_cache_file == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
-                    <option value="1" {% if registry.settings.router_cache_file == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="determine_route_before_app_middleware">{{ tr('admin_determine_route_before_app_middleware') }}</label>
-                <select id="systemSettingsDetermineRouteBeforeAppMiddleware" name="determine_route_before_app_middleware" class="form-control" required="required">
-                    <option value="0" {% if registry.settings.determine_route_before_app_middleware == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
-                    <option value="1" {% if registry.settings.determine_route_before_app_middleware == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="output_buffering">{{ tr('admin_output_buffering') }}</label>
-                <input type="text" id="systemSettingsOutputBuffering" name="output_buffering" value="{{ registry.settings.output_buffering }}" class="form-control" required="required">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="response_chunk_size">{{ tr('admin_response_chunk_size') }}</label>
-                <input type="text" id="systemSettingsResponseChunkSize" name="response_chunk_size" value="{{ registry.settings.response_chunk_size }}" class="form-control" required="required">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="http_version">{{ tr('admin_http_version') }}</label>
-                <input type="text" id="systemSettingsHttpVersion" name="http_version" value="{{ registry.settings.http_version }}" class="form-control" required="required">
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <br>
-            <h3 class="h3">{{ tr('admin_cache') }}</h3>
-            <hr>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="cache[enabled]">{{ tr('admin_cache_enabled') }}</label>
-                <select id="systemSettingsSystemCacheEnabled" name="cache[enabled]" class="form-control" required="required">
-                    <option value="0" {% if registry.settings.cache.enabled == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
-                    <option value="1" {% if registry.settings.cache.enabled == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="cache[prefix]">{{ tr('admin_cache_prefix') }}</label>
-                <input type="text" id="systemSettingsSystemCachePrefix" name="cache[prefix]" value="{{ registry.settings.cache.prefix }}" class="form-control" required="required">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="cache[driver]">{{ tr('admin_cache_driver') }}</label>
-                <select id="systemSettingsSystemCacheDriver" name="cache[driver]" class="form-control" required="required">
-                    {% for key, value in cache_driver %}
-                        <option value="{{ key }}" {% if key == entries.main %}selected{% endif %}>{{ value }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="cache[lifetime]">{{ tr('admin_cache_lifetime') }}</label>
-                <input type="text" id="systemSettingsSystemCacheLifetime" name="cache[lifetime]" value="{{ registry.settings.cache.lifetime }}" class="form-control" required="required">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="cache[memcache][server]">{{ tr('admin_memcache_server') }}</label>
-                <input type="text" id="systemSettingsSystemCacheMemcacheServer" name="cache[memcache][server]" value="{{ registry.settings.cache.memcache.server }}" class="form-control" required="required">
-            </div>
-            <div class="form-group">
-                <label for="cache[memcache][port]">{{ tr('admin_memcache_port') }}</label>
-                <input type="text" id="systemSettingsSystemCacheMemcachePort" name="cache[memcache][port]" value="{{ registry.settings.cache.memcache.port }}" class="form-control" required="required"> </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="cache[memcached][server]">{{ tr('admin_memcached_server') }}</label>
-                <input type="text" id="systemSettingsSystemCacheMemcachedServer" name="cache[memcached][server]" value="{{ registry.settings.cache.memcache.server }}" class="form-control" required="required">
-            </div>
-            <div class="form-group">
-                <label for="cache[memcached][port]">{{ tr('admin_memcached_port') }}</label>
-                <input type="text" id="systemSettingsSystemCacheMemcachedPort" name="cache[memcached][port]" value="{{ registry.settings.cache.memcache.port }}" class="form-control" required="required">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="cache[redis][socket]">{{ tr('admin_redis_socket') }}</label>
-                <input type="text" id="systemSettingsSystemCacheRedisSocket" name="cache[redis][socket]" value="{{ registry.settings.cache.redis.socket }}" class="form-control" required="required">
-            </div>
-            <div class="form-group">
-                <label for="cache[redis][password]">{{ tr('admin_redis_password') }}</label>
-                <input type="text" id="systemSettingsSystemCacheRedisPassword" name="cache[redis][password]" value="{{ registry.settings.cache.redis.password }}" class="form-control" required="required">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="cache[redis][server]">{{ tr('admin_redis_server') }}</label>
-                <input type="text" id="systemSettingsSystemCacheRedisServer" name="cache[redis][server]" value="{{ registry.settings.cache.redis.server }}" class="form-control" required="required">
-            </div>
-            <div class="form-group">
-                <label for="cache[redis][port]">{{ tr('admin_redis_port') }}</label>
-                <input type="text" id="systemSettingsSystemCacheRedisPort" name="cache[redis][port]" value="{{ registry.settings.cache.redis.port }}" class="form-control" required="required">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="cache[sqlite3][database]">{{ tr('admin_sqlite3_database') }}</label>
-                <input type="text" id="systemSettingsSystemCacheSQLite3Database" name="cache[sqlite3][database]" value="{{ registry.settings.cache.sqlite3.database }}" class="form-control" required="required">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="cache[sqlite3][table]">{{ tr('admin_sqlite3_table') }}</label>
-                <input type="text" id="systemSettingsSystemCacheSQLite3Table" name="cache[sqlite3][table]" value="{{ registry.settings.cache.sqlite3.table }}" class="form-control" required="required">
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <br>
-            <h3 class="h3">{{ tr('admin_slug') }}</h3>
-            <hr>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="slugify[separator]">{{ tr('admin_slugify_separator') }}</label>
-                <input type="text" id="systemSettingsSlugifySeparator" name="slugify[separator]" value="{{ registry.settings.slugify.separator }}" class="form-control" required="required">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="slugify[lowercase]">{{ tr('admin_slugify_lowercase') }}</label>
-                <select id="systemSettingsSlugifyLowercase" name="slugify[lowercase]" class="form-control" required="required">
-                    <option value="0" {% if registry.settings.slugify.lowercase == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
-                    <option value="1" {% if registry.settings.slugify.lowercase == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="slugify[trim]">{{ tr('admin_slugify_trim') }}</label>
-                <select id="systemSettingsSlugifyTrim" name="slugify[trim]" class="form-control" required="required">
-                    <option value="0" {% if registry.settings.slugify.trim == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
-                    <option value="1" {% if registry.settings.slugify.trim == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="slugify[strip_tags]">{{ tr('admin_slugify_strip_tags') }}</label>
-                <select id="systemSettingsSlugifyStripTags" name="slugify[strip_tags]" class="form-control" required="required">
-                    <option value="0" {% if registry.settings.slugify.strip_tags == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
-                    <option value="1" {% if registry.settings.slugify.strip_tags == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="slugify[lowercase_after_regexp]">{{ tr('admin_slugify_lowercase_after_regexp') }}</label>
-                <select id="systemSettingsSlugifyLowercaseAfterRegexp" name="slugify[lowercase_after_regexp]" class="form-control" required="required">
-                    <option value="0" {% if registry.settings.slugify.lowercase_after_regexp == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
-                    <option value="1" {% if registry.settings.slugify.lowercase_after_regexp == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="slugify[regexp]">{{ tr('admin_slugify_regexp') }}</label>
-                <input type="text" id="systemSettingsSlugifyRegexp" name="slugify[regexp]" value="{{ registry.settings.slugify.regexp }}" class="form-control" required="required">
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <br>
-            <h3 class="h3">{{ tr('admin_admin_panel') }}</h3>
-            <hr>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="admin_panel[theme]">{{ tr('admin_theme') }}</label>
-                <select id="systemSettingsSystemAdminPanelTheme" name="admin_panel[theme]" class="form-control" required="required">
-                    <option value="light" {% if registry.settings.admin_panel.theme == 'light' %}selected{% endif %}>{{ tr('admin_light') }}</option>
-                    <option value="dark" {% if registry.settings.admin_panel.theme == 'dark' %}selected{% endif %}>{{ tr('admin_dark') }}</option>
-                </select>
+            <div class="tab-pane fade show" id="pills-admin" role="tabpanel" aria-labelledby="pills-admin-tab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="admin_panel[theme]">{{ tr('admin_theme') }}</label>
+                            <select id="systemSettingsSystemAdminPanelTheme" name="admin_panel[theme]" class="form-control" required="required">
+                                <option value="light" {% if registry.settings.admin_panel.theme == 'light' %}selected{% endif %}>{{ tr('admin_light') }}</option>
+                                <option value="dark" {% if registry.settings.admin_panel.theme == 'dark' %}selected{% endif %}>{{ tr('admin_dark') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
