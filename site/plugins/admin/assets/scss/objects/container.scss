@@ -35,3 +35,13 @@
 .bootstrap-datetimepicker-widget.dropdown-menu {
     width: auto!important;
 }
+
+.bootstrap-datetimepicker-widget table td.day {
+    height: 10px!important;
+    line-height: 10px!important;
+    width: 10px!important;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    padding: 0 !important;
+}
