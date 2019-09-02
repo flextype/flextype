@@ -127,7 +127,7 @@ class UsersController extends Controller
             $uuid = Uuid::uuid4()->toString();
 
             // Get time
-            $time = time();
+            $time = date($this->registry->get('settings.date_format'), time());
 
             // Create accounts directory and account
             Filesystem::createDir(PATH['site'] . '/accounts/');
