@@ -158,7 +158,7 @@ class Forms
                         case 'tags':
                             $form_element = $this->tagsField($element_name, $form_value, $property);
                             break;
-                        case 'date':
+                        case 'datetimepicker':
                             $form_element = $this->dateField($element_name, $form_value, $property);
                             break;
                         // Simple text-input, for single-line fields.
