@@ -45,3 +45,11 @@
 .bootstrap-datetimepicker-widget.dropdown-menu {
     padding: 0 !important;
 }
+
+.bootstrap-datetimepicker-widget a[data-action] {
+    border: none !important;
+}
+
+.tempusdominus-bootstrap-4 .btn:hover > span {
+    background: transparent!important;
+}
