@@ -377,7 +377,14 @@ class Forms
      */
     protected function dateField($name, $value, $property)
     {
-        return Form::input($name, $value, $property['attributes']);
+        return ('
+            <div class="input-group date" id="datetimepicker" data-target-input="nearest">
+                <input name="'.$name.'" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" value="'.$value.'" />
+                <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                </div>
+            </div>
+        ');
     }
 
     /**
