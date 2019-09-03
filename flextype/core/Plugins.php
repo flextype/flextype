@@ -67,10 +67,9 @@ class Plugins
         $this->flextype['registry']->set('plugins', []);
 
         // Get Plugins List
-        $_plugins_list = Filesystem::listContents(PATH['plugins']);
         $plugins_list  = [];
 
-        foreach ($_plugins_list as $plugin) {
+        foreach Filesystem::listContents(PATH['plugins']) as $plugin) {
             if ($plugin['type'] !== 'dir') {
                 continue;
             }
