@@ -69,7 +69,7 @@ class Plugins
         // Get Plugins List
         $plugins_list  = [];
 
-        foreach Filesystem::listContents(PATH['plugins']) as $plugin) {
+        foreach (Filesystem::listContents(PATH['plugins']) as $plugin) {
             if ($plugin['type'] !== 'dir') {
                 continue;
             }
@@ -94,7 +94,7 @@ class Plugins
                 // Init plugin configs
                 $plugins = [];
                 $plugin_settings = [];
-                $plugin_manifest   = [];
+                $plugin_manifest = [];
 
                 // Go through...
                 foreach ($plugins_list as $plugin) {
