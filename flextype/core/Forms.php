@@ -361,7 +361,9 @@ class Forms
      */
     protected function tagsField($name, $value, $property)
     {
-        return Form::input($name, $value, $property['attributes']);
+        return ('
+            <input type="text" value="'.$value.'" name="'.$name.'" class="form-control" data-role="tagsinput" />
+        ');
     }
 
     /**
