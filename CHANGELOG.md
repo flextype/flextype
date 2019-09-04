@@ -41,12 +41,14 @@
 * Flextype Core: Default theme - settings.json converted to settings.yaml #201 #186
 * Flextype Core: Site entries move from JSON to FRONTMATTER (MD) #212 #186
 * Flextype Core: Entries - use getDirTimestamp for fetchAll method #212 #186
-* Flextype Site Plugin: settings.json converted to settings.yaml #201 #186
-* Flextype Site Plugin: plugin.json converted to plugin.yaml #201 #186
-* Flextype Site Plugin: en_US.json and ru_RU.json converted to en_US.yaml and ru_RU.yaml #201 #186
 * Flextype Core: .gitignore updated
 * Flextype Core: copyrights updated
 * Flextype Core: composer.json updated
+* Flextype Core: Update path for media from `/image/` to `/image/entries/`
+* Flextype Core: Update path for media from `PATH['entries']` to `PATH['assets']`
+* Flextype Site Plugin: settings.json converted to settings.yaml #201 #186
+* Flextype Site Plugin: plugin.json converted to plugin.yaml #201 #186
+* Flextype Site Plugin: en_US.json and ru_RU.json converted to en_US.yaml and ru_RU.yaml #201 #186
 * Flextype Admin Panel: Settings page improvements #186
 * Flextype Admin Panel: Installation page improvements #194 #186
 * Flextype Admin Panel: Entries editor page improvements #186
