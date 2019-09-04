@@ -6,7 +6,7 @@ declare(strict_types=1);
  * Flextype (http://flextype.org)
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
- 
+
 namespace Flextype;
 
 use const DIRECTORY_SEPARATOR;
@@ -33,6 +33,7 @@ define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
  */
 define('PATH', [
     'site'      => ROOT_DIR . '/site',
+    'assets'    => ROOT_DIR . '/site/assets',
     'plugins'   => ROOT_DIR . '/site/plugins',
     'themes'    => ROOT_DIR . '/site/themes',
     'entries'   => ROOT_DIR . '/site/entries',
