@@ -13,6 +13,8 @@
 * Flextype Core: Add git commit message convention. #186
 * Flextype Core: Add AuthMiddleware globally #201 #186
 * Flextype Core: Add new twig options `debug` `charset` `cache` #186
+* Flextype Core: Add new field `tags` #186
+* Flextype Core: Add new field `datetimepicker` #186
 * Flextype Admin Panel: Add Trumbowyg view html code #193 #186
 * Flextype Admin Panel: Add tail section for base.html template #186
 * Flextype Admin Panel: Add new event onAdminThemeFooter in base.html template #186
@@ -56,6 +58,7 @@
 
 ### Removed
 * Flextype Core: Remove `date` field #196 #186
+* Flextype Admin Panel: Remove save button on the media page #225 #186
 * Flextype Admin Panel: Remove unused css code #186
 * Flextype Admin Panel: Remove unused js code #186
 
