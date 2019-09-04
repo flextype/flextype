@@ -684,13 +684,6 @@ class EntriesController extends Controller
                                 'title' => __('admin_source'),
                                 'attributes' => ['class' => 'navbar-item']
                             ],
-                        ],
-                        'buttons' => [
-                            'save_entry' => [
-                                            'link'       => 'javascript:;',
-                                            'title'      => __('admin_save'),
-                                            'attributes' => ['class' => 'js-save-form-submit float-right btn']
-                                        ],
                         ]
                 ]
             );
