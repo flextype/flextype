@@ -25,14 +25,14 @@
                 <div class="item">
                     <a href="javascript:;"
                        {% if (filesystem_ext(file) in ['jpeg', 'png', 'gif', 'jpg']) %}
-                       style="background-image: url('{{ base_url() }}/image/{{ id }}/{{ filesystem_basename(file) }}?w=200');"
+                       style="background-image: url('{{ base_url() }}/image/entries/{{ id }}/{{ filesystem_basename(file) }}?w=200');"
                        {% else %}
                        style="background: #000;"
                        {% endif %}
                        class="img-item js-entries-image-preview"
                        data-media-id="{{ filesystem_basename(file) }}"
                        data-entry-id="{{ id }}"
-                       data-image-url="{{ base_url() }}/image/{{ id }}/{{ filesystem_basename(file) }}">
+                       data-image-url="{{ base_url() }}/image/entries/{{ id }}/{{ filesystem_basename(file) }}">
                        <i class="fas fa-eye"></i>
                        {% if (filesystem_ext(file) in ['jpeg', 'png', 'gif', 'jpg']) %}
                        {% else %}

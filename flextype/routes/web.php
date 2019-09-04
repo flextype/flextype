@@ -17,7 +17,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * Generates and returns the image response
  */
 $app->get('/image/{path:.+}', function (Request $request, Response $response, array $args) use ($flextype) {
-    if (Filesystem::has(PATH['entries'] . '/' . $args['path'])) {
+    if (Filesystem::has(PATH['assets'] . '/' . $args['path'])) {
         return $flextype['images']->getImageResponse($args['path'], $_GET);
     }
 

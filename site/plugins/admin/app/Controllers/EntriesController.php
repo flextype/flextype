@@ -731,24 +731,6 @@ class EntriesController extends Controller
         }
     }
 
-    public function getMediaList(string $entry, bool $path = false) : array
-    {
-        $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
-        $files = [];
-        foreach (array_diff(scandir(PATH['entries'] . '/' . $entry), ['..', '.']) as $file) {
-            if (strpos($this->registry->get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
-                if (strpos($file, strtolower($file_ext), 1)) {
-                    if ($path) {
-                        $files[$base_url . '/' . $entry . '/' . $file] = $base_url . '/' . $entry . '/' . $file;
-                    } else {
-                        $files[$file] = $file;
-                    }
-                }
-            }
-        }
-        return $files;
-    }
-
     /**
      * Edit entry process
      *
@@ -827,7 +809,7 @@ class EntriesController extends Controller
         $entry_id = $data['entry-id'];
         $media_id = $data['media-id'];
 
-        $files_directory = PATH['entries'] . '/' . $entry_id . '/' . $media_id;
+        $files_directory = PATH['assets'] . '/entries/' . $entry_id . '/' . $media_id;
 
         Filesystem::delete($files_directory);
 
@@ -850,7 +832,10 @@ class EntriesController extends Controller
 
         $id = $data['entry-id'];
 
-        $files_directory = PATH['entries'] . '/' . $id . '/';
+        $files_directory = PATH['assets'] . '/entries/' . $id . '/';
+
+        // Create files directory if its not exists
+        ! Filesystem::has($files_directory) and Filesystem::createDir($files_directory);
 
         $file = $this->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('settings.entries.media.accept_file_types'), 27000000);
 
@@ -1012,4 +997,23 @@ class EntriesController extends Controller
 
         return false;
     }
+
+    public function getMediaList(string $entry, bool $path = false) : array
+    {
+        $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
+        $files = [];
+            foreach (array_diff(scandir(PATH['assets'] . '/entries/' . $entry), ['..', '.']) as $file) {
+            if (strpos($this->registry->get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
+                if (strpos($file, strtolower($file_ext), 1)) {
+                    if ($path) {
+                        $files[$base_url . '/' . $entry . '/' . $file] = $base_url . '/' . $entry . '/' . $file;
+                    } else {
+                        $files[$file] = $file;
+                    }
+                }
+            }
+        }
+        return $files;
+    }
+
 }

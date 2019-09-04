@@ -121,7 +121,7 @@ $flextype['images'] = static function ($container) {
 
     // Set source filesystem
     $source = new Filesystem(
-        new Local(PATH['entries'])
+        new Local(PATH['assets'])
     );
 
     // Set cache filesystem
