@@ -437,7 +437,7 @@ class Entries
      *
      * @access public
      */
-    public function copy(string $id, string $new_id, bool $recursive = false) : bool
+    public function copy(string $id, string $new_id, bool $recursive = false)
     {
         return Filesystem::copy($this->_dir_location($id), $this->_dir_location($new_id), $recursive);
     }
