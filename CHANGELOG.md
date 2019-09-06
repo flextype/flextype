@@ -41,9 +41,15 @@
 * Flextype Core: Default theme - settings.json converted to settings.yaml #201 #186
 * Flextype Core: Site entries move from JSON to FRONTMATTER (MD) #212 #186
 * Flextype Core: Entries - use getDirTimestamp for fetchAll method #212 #186
-* Flextype Core: .gitignore updated
-* Flextype Core: copyrights updated
-* Flextype Core: composer.json updated
+* Flextype Core: Update .gitignore
+* Flextype Core: Update copyrights information
+* Flextype Core: Update vendor flextype-components/filesystem to 2.0.6
+* Flextype Core: Update vendor zeuxisoo/slim-whoops to 0.6.5
+* Flextype Core: Update vendor doctrine/collections to 1.6.2
+* Flextype Core: Update vendor slim/slim to 3.12.2
+* Flextype Core: Update vendor respect/validation to 1.1.31
+* Flextype Core: Update vendor monolog/monolog to 2.0.0
+* Flextype Core: Update vendor symfony/yaml to 4.3.4
 * Flextype Core: Update path for media from `/image/` to `/image/entries/`
 * Flextype Core: Update path for media from `PATH['entries']` to `PATH['assets']`
 * Flextype Site Plugin: settings.json converted to settings.yaml #201 #186
