@@ -183,12 +183,12 @@ a {
         background-color: $navbar-table-background-color-hover;
     }
 
-    > tfoot,
+    > tbody,
      > thead,
-    > tbody {
+    > tfoot {
         > tr {
-            > th,
-            > td {
+            > td,
+            > th {
                 border-color: $border-color;
                 color: $base-font-color;
             }
@@ -681,3 +681,10 @@ ul.messenger-theme-flat .messenger-message-slot.messenger-first.messenger-last .
 .flex-column.nav-pills .nav-link:hover {
     background: $navbar-item-background-color-hover;
 }
+
+.input-group-text {
+    color: #495057;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+}
+
