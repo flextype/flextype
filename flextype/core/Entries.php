@@ -101,7 +101,7 @@ class Entries
     public function fetch(string $id)
     {
         // Get entry file location
-        $entry_file = $this->getEntryFileLocation($id);
+        $entry_file = $this->getFileLocation($id);
 
         // If requested entry file founded then process it
         if (Filesystem::has($entry_file)) {
@@ -230,7 +230,7 @@ class Entries
         }
 
         // Get entries path
-        $entries_path = $this->getEntryDirLocation($bind_id);
+        $entries_path = $this->getDirLocation($bind_id);
 
         // Get entries list
         $entries_list = Filesystem::listContents($entries_path, $bind_recursive);
@@ -355,7 +355,7 @@ class Entries
      */
     public function rename(string $id, string $new_id) : bool
     {
-        return rename($this->getEntryDirLocation($id), $this->getEntryDirLocation($new_id));
+        return rename($this->getDirLocation($id), $this->getDirLocation($new_id));
     }
 
     /**
@@ -370,7 +370,7 @@ class Entries
      */
     public function update(string $id, array $data) : bool
     {
-        $entry_file = $this->getEntryFileLocation($id);
+        $entry_file = $this->getFileLocation($id);
 
         if (Filesystem::has($entry_file)) {
             $entry = Parser::decode($entry_file, 'frontmatter');
@@ -393,7 +393,7 @@ class Entries
      */
     public function create(string $id, array $data) : bool
     {
-        $entry_dir = $this->getEntryDirLocation($id);
+        $entry_dir = $this->getDirLocation($id);
 
         // Check if new entry directory exists
         if (! Filesystem::has($entry_dir)) {
@@ -425,7 +425,7 @@ class Entries
      */
     public function delete(string $id) : bool
     {
-        return Filesystem::deleteDir($this->getEntryDirLocation($id));
+        return Filesystem::deleteDir($this->getDirLocation($id));
     }
 
     /**
@@ -441,7 +441,7 @@ class Entries
      */
     public function copy(string $id, string $new_id, bool $recursive = false)
     {
-        return Filesystem::copy($this->getEntryDirLocation($id), $this->getEntryDirLocation($new_id), $recursive);
+        return Filesystem::copy($this->getDirLocation($id), $this->getDirLocation($new_id), $recursive);
     }
 
     /**
@@ -455,7 +455,7 @@ class Entries
      */
     public function has(string $id) : bool
     {
-        return Filesystem::has($this->getEntryFileLocation($id));
+        return Filesystem::has($this->getFileLocation($id));
     }
 
     /**
@@ -467,7 +467,7 @@ class Entries
      *
      * @access private
      */
-    public function getEntryFileLocation(string $id) : string
+    public function getFileLocation(string $id) : string
     {
         return PATH['entries'] . '/' . $id . '/entry.md';
     }
@@ -481,7 +481,7 @@ class Entries
      *
      * @access private
      */
-    public function getEntryDirLocation(string $id) : string
+    public function getDirLocation(string $id) : string
     {
         return PATH['entries'] . '/' . $id;
     }
