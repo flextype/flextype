@@ -67,7 +67,7 @@ class Plugins
         $this->flextype['registry']->set('plugins', []);
 
         // Get Plugins List
-        $plugins_list  = [];
+        $plugins_list = [];
 
         foreach (Filesystem::listContents(PATH['plugins']) as $plugin) {
             if ($plugin['type'] !== 'dir') {
@@ -92,7 +92,7 @@ class Plugins
             // If Plugins List isnt empty
             if (is_array($plugins_list) && count($plugins_list) > 0) {
                 // Init plugin configs
-                $plugins = [];
+                $plugins         = [];
                 $plugin_settings = [];
                 $plugin_manifest = [];
 
