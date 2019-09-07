@@ -29,6 +29,7 @@
 * Flextype Core: Fix issue with bind_where expression for Entries fetchAll method #186
 * Flextype Core: Fix issue with and_where expression for Entries fetchAll method #186
 * Flextype Core: Fix issue with or_where expression for Entries fetchAll method #186
+* Flextype Admin Panel: Fix dark theme for admin panel #186 #168
 
 ### Changed
 * Flextype Core: Moving to PHP 7.2 #198 #186
