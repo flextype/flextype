@@ -161,6 +161,9 @@ class Forms
                         case 'datetimepicker':
                             $form_element = $this->dateField($element_name, $form_value, $property);
                             break;
+                        case 'media_select':
+                            $form_element = $this->mediaSelectField($element_name, $this->flextype->EntriesController->getMediaList($request->getQueryParams()['id'], false), $form_value, $property);
+                            break;
                         // Simple text-input, for single-line fields.
                         default:
                             $form_element = $this->textField($element_name, $form_value, $property);
@@ -214,6 +217,23 @@ class Forms
         }
 
         return $element_name;
+    }
+
+    /**
+     * Template select field
+     *
+     * @param string   $name Field name
+     * @param array    $options Field options
+     * @param string   $value Field value
+     * @param array    $property Field property
+     *
+     * @return string Returns field
+     *
+     * @access protected
+     */
+    protected function mediaSelectField($name, $options, $value, $property)
+    {
+        return Form::select($name, $options, $value, $property['attributes']);
     }
 
     /**
@@ -388,6 +408,7 @@ class Forms
             </div>
         ');
     }
+
 
     /**
      * _csrfHiddenField
