@@ -41,6 +41,8 @@
 * Flextype Core: Default theme - settings.json converted to settings.yaml #201 #186
 * Flextype Core: Site entries move from JSON to FRONTMATTER (MD) #212 #186
 * Flextype Core: Entries - use getDirTimestamp for fetchAll method #212 #186
+* Flextype Core: Entries - change private `_file_location()` to public `getFileLocation()` #186
+* Flextype Core: Entries - change private `_dir_location()` to public `getDirLocation()` #186
 * Flextype Core: Update .gitignore
 * Flextype Core: Update copyrights information
 * Flextype Core: Update vendor flextype-components/filesystem to 2.0.6
