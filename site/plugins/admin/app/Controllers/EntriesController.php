@@ -606,9 +606,6 @@ class EntriesController extends Controller
         Arr::delete($entry, 'slug');
         Arr::delete($entry, 'modified_at');
 
-        // Read Entry
-        $_entry = $this->entries->read($this->getEntryID($query), true);
-
         // Fieldsets for current entry template
         $fieldsets_path = PATH['site'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
         $fieldsets = Parser::decode(Filesystem::read($fieldsets_path), 'yaml');
@@ -623,8 +620,7 @@ class EntriesController extends Controller
                         'i' => count($parts),
                         'last' => Arr::last($parts),
                         'id' => $this->getEntryID($query),
-                        'data' => $_entry['file_data'],
-                        'parser' => $_entry['file_parser'],
+                        'data' => Parser::encode($entry, 'frontmatter'),
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
@@ -761,7 +757,7 @@ class EntriesController extends Controller
             $data['published_by'] = Session::get('uuid');
 
             // Update entry
-            if ($this->entries->update($id, Parser::decode($data['data'], $data['parser']))) {
+            if ($this->entries->update($id, Parser::decode($data['data'], 'frontmatter'))) {
                 $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
