@@ -31,6 +31,12 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
  */
 class EntriesController extends Controller
 {
+
+    /**
+     * Get Entry ID
+     *
+     * @param array Query
+     */
     protected function getEntryID($query)
     {
         if (isset($query['id'])) {
@@ -440,7 +446,6 @@ class EntriesController extends Controller
         $data = $request->getParsedBody();
 
         if (!$this->entries->has($data['parent_entry'] . '/' . $data['entry_id_current'])) {
-
             if ($this->entries->rename(
                 $data['entry_id_path_current'],
                 $data['parent_entry'] . '/' . $this->slugify->slugify($data['entry_id_current'])
@@ -543,6 +548,7 @@ class EntriesController extends Controller
         $id_current = $data['id-current'];
 
         if ($this->entries->delete($id)) {
+
             $this->flash->addMessage('success', __('admin_message_entry_deleted'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_was_not_deleted'));
@@ -809,7 +815,7 @@ class EntriesController extends Controller
         $entry_id = $data['entry-id'];
         $media_id = $data['media-id'];
 
-        $files_directory = PATH['assets'] . '/entries/' . $entry_id . '/' . $media_id;
+        $files_directory = PATH['entries'] . '/' . $entry_id . '/' . $media_id;
 
         Filesystem::delete($files_directory);
 
@@ -832,10 +838,7 @@ class EntriesController extends Controller
 
         $id = $data['entry-id'];
 
-        $files_directory = PATH['assets'] . '/entries/' . $id . '/';
-
-        // Create files directory if its not exists
-        ! Filesystem::has($files_directory) and Filesystem::createDir($files_directory);
+        $files_directory = PATH['entries'] . '/' . $id . '/';
 
         $file = $this->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('settings.entries.media.accept_file_types'), 27000000);
 
@@ -998,17 +1001,27 @@ class EntriesController extends Controller
         return false;
     }
 
-    public function getMediaList(string $entry, bool $path = false) : array
+    /**
+     * Get media list
+     *
+     * @param string $id Entry ID
+     * @param bool   $path if true returns with url paths
+     *
+     * @return array
+     */
+    public function getMediaList(string $id, bool $path = false) : array
     {
         $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
         $files = [];
-            foreach (array_diff(scandir(PATH['assets'] . '/entries/' . $entry), ['..', '.']) as $file) {
+        foreach (array_diff(scandir(PATH['entries'] . '/' . $id), ['..', '.']) as $file) {
             if (strpos($this->registry->get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
-                    if ($path) {
-                        $files[$base_url . '/' . $entry . '/' . $file] = $base_url . '/' . $entry . '/' . $file;
-                    } else {
-                        $files[$file] = $file;
+                    if ($file !== 'entry.md') {
+                        if ($path) {
+                            $files[$base_url . '/' . $id . '/' . $file] = $base_url . '/' . $id . '/' . $file;
+                        } else {
+                            $files[$file] = $file;
+                        }
                     }
                 }
             }
