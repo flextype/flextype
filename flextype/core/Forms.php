@@ -149,17 +149,17 @@ class Forms
                             break;
                         // Template select field for selecting entry template
                         case 'template_select':
-                            $form_element = $this->templateSelectField($element_name, [], $form_value, $property);
+                            $form_element = $this->templateSelectField($element_name, $form_value, $property);
                             break;
                         // Visibility select field for selecting entry visibility state
                         case 'visibility_select':
                             $form_element = $this->visibilitySelectField($element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (! empty($form_value) ? $form_value : 'visible'), $property);
                             break;
                         case 'tags':
-                            $form_element = $this->tagsField($element_name, $form_value, $property);
+                            $form_element = $this->tagsField($element_name, $form_value);
                             break;
                         case 'datetimepicker':
-                            $form_element = $this->dateField($element_name, $form_value, $property);
+                            $form_element = $this->dateField($element_name, $form_value);
                             break;
                         case 'media_select':
                             $form_element = $this->mediaSelectField($element_name, $this->flextype->EntriesController->getMediaList($request->getQueryParams()['id'], false), $form_value, $property);
@@ -240,7 +240,6 @@ class Forms
      * Template select field
      *
      * @param string $name     Field name
-     * @param array  $options  Field options
      * @param string $value    Field value
      * @param array  $property Field property
      *
@@ -248,11 +247,9 @@ class Forms
      *
      * @access protected
      */
-    protected function templateSelectField(string $name, array $options, string $value, array $property) : string
+    protected function templateSelectField(string $name, string $value, array $property) : string
     {
         $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
-
-        $options = [];
 
         if (count($_templates_list) > 0) {
             foreach ($_templates_list as $template) {
@@ -372,17 +369,14 @@ class Forms
      *
      * @param string $name     Field name
      * @param string $value    Field value
-     * @param array  $property Field property
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function tagsField(string $name, string $value, array $property) : string
+    protected function tagsField(string $name, string $value) : string
     {
-        return '
-            <input type="text" value="' . $value . '" name="' . $name . '" class="form-control" data-role="tagsinput" />
-        ';
+        return '<input type="text" value="' . $value . '" name="' . $name . '" class="form-control" data-role="tagsinput" />';
     }
 
     /**
@@ -396,7 +390,7 @@ class Forms
      *
      * @access protected
      */
-    protected function dateField(string $name, string $value, array $property) : string
+    protected function dateField(string $name, string $value) : string
     {
         return '
             <div class="input-group date" id="datetimepicker" data-target-input="nearest">
