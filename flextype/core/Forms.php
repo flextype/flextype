@@ -220,7 +220,7 @@ class Forms
     }
 
     /**
-     * Template select field
+     * Media select field
      *
      * @param string   $name Field name
      * @param array    $options Field options
