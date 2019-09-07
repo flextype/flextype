@@ -269,7 +269,7 @@ class Entries
                 } else {
                     // We are checking...
                     // Whether the requested entry is a director and whether the file entry is in this directory.
-                    if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry' . '.' . 'md')) {
+                    if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry.md')) {
                         // Get entry uid
                         // 1. Remove entries path
                         // 2. Remove left and right slashes
