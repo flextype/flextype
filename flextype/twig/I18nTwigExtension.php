@@ -43,7 +43,7 @@ class I18nTwigExtension extends Twig_Extension
     /**
      * Translate string
      */
-    public function tr(string $translate, ?string $locale = null, array $values = []) : string
+    public function tr(string $translate, string $locale = null, array $values = []) : string
     {
         return I18n::find($translate, $locale, $values);
     }
