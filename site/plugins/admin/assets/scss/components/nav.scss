@@ -209,7 +209,7 @@
 
 .flex-column.nav-pills .nav-link.active,
 .flex-column.nav-pills .show > .nav-link {
-    background: #e0e0e1;
+    background: #3b404b;
     border-bottom: none;
 }
 
@@ -218,6 +218,11 @@
 }
 
 .flex-column.nav-pills .nav-link {
-    background: #eaeaeb;
+    background: #21252b;
     font-size: 14px;
+}
+
+.flex-column.nav-pills .nav-link:focus,
+.flex-column.nav-pills .nav-link:hover {
+    background: #3b404b;
 }

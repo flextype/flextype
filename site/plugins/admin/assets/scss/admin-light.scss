@@ -183,12 +183,12 @@ a {
         background-color: $navbar-table-background-color-hover;
     }
 
-    > tbody,
+    > tfoot,
      > thead,
-    > tfoot {
+    > tbody {
         > tr {
-            > td,
-            > th {
+            > th,
+            > td {
                 border-color: $border-color;
                 color: $base-font-color;
             }
@@ -651,10 +651,33 @@ ul.messenger-theme-flat .messenger-message-slot.messenger-first.messenger-last .
     background: $navbar-background-color;
 }
 
+.nav-pills .nav-link {
+    background: $navbar-background-color;
+    color: $base-font-color;
+    border-bottom: 2px solid $navbar-background-color;
+}
+
 .nav-pills .nav-item .nav-link:focus,
 .nav-pills .nav-item .nav-link:hover,
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
     background: $navbar-item-background-color-hover;
     border-bottom: 2px solid $border-color;
+    color: $base-font-color;
+}
+
+.flex-column.nav-pills .nav-link.active,
+.flex-column.nav-pills .show > .nav-link {
+    background: $navbar-item-background-color-hover;
+}
+
+.flex-column.nav-pills .nav-link {
+    background: $navbar-background-color;
+    color: $base-font-color;
+    border-bottom: none;
+}
+
+.flex-column.nav-pills .nav-link:focus,
+.flex-column.nav-pills .nav-link:hover {
+    background: $navbar-item-background-color-hover;
 }
