@@ -15,7 +15,6 @@
 * Flextype Core: Add new twig options `debug` `charset` `cache` #186
 * Flextype Core: Add new field `tags` #186
 * Flextype Core: Add new field `datetimepicker` #186
-* Flextype Core: Add new constant - `PATH['assets']` #186 #225
 * Flextype Admin Panel: Add Trumbowyg view html code #193 #186
 * Flextype Admin Panel: Add tail section for base.html template #186
 * Flextype Admin Panel: Add new event onAdminThemeFooter in base.html template #186
@@ -50,8 +49,6 @@
 * Flextype Core: Update vendor respect/validation to 1.1.31
 * Flextype Core: Update vendor monolog/monolog to 2.0.0
 * Flextype Core: Update vendor symfony/yaml to 4.3.4
-* Flextype Core: Update path for media from `/image/` to `/image/entries/`
-* Flextype Core: Update path for media from `PATH['entries']` to `PATH['assets']`
 * Flextype Site Plugin: settings.json converted to settings.yaml #201 #186
 * Flextype Site Plugin: plugin.json converted to plugin.yaml #201 #186
 * Flextype Site Plugin: en_US.json and ru_RU.json converted to en_US.yaml and ru_RU.yaml #201 #186
