@@ -194,7 +194,7 @@ class Forms
     /**
      * Get element name
      *
-     * @param string   $element Element
+     * @param string $element Element
      *
      * @return string Returns form element name
      *
@@ -222,16 +222,16 @@ class Forms
     /**
      * Media select field
      *
-     * @param string   $name Field name
-     * @param array    $options Field options
-     * @param string   $value Field value
-     * @param array    $property Field property
+     * @param string $name     Field name
+     * @param array  $options  Field options
+     * @param string $value    Field value
+     * @param array  $property Field property
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function mediaSelectField($name, $options, $value, $property)
+    protected function mediaSelectField(string $name, array $options, string $value, array $property) : string
     {
         return Form::select($name, $options, $value, $property['attributes']);
     }
@@ -239,16 +239,16 @@ class Forms
     /**
      * Template select field
      *
-     * @param string   $name Field name
-     * @param array    $options Field options
-     * @param string   $value Field value
-     * @param array    $property Field property
+     * @param string $name     Field name
+     * @param array  $options  Field options
+     * @param string $value    Field value
+     * @param array  $property Field property
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function templateSelectField($name, $options, $value, $property)
+    protected function templateSelectField(string $name, array $options, string $value, array $property) : string
     {
         $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
 
@@ -270,16 +270,16 @@ class Forms
     /**
      * Select field
      *
-     * @param string   $name Field name
-     * @param array    $options Field options
-     * @param string   $value Field value
-     * @param array    $property Field property
+     * @param string $name     Field name
+     * @param array  $options  Field options
+     * @param string $value    Field value
+     * @param array  $property Field property
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function selectField($name, $options, $value, $property)
+    protected function selectField(string $name, array $options, string $value, array $property) : string
     {
         return Form::select($name, $options, $value, $property['attributes']);
     }
@@ -287,34 +287,33 @@ class Forms
     /**
      * Html field
      *
-     * @param string   $name Field name
-     * @param string   $value Field value
-     * @param array    $property Field property
+     * @param string $name     Field name
+     * @param string $value    Field value
+     * @param array  $property Field property
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function htmlField($name, $value, $property)
+    protected function htmlField(string $name, string $value, array $property) : string
     {
         $property['attributes']['class'] .= ' js-html-editor';
 
         return Form::textarea($name, $value, $property['attributes']);
     }
 
-
     /**
      * Hidden field
      *
-     * @param string   $name Field name
-     * @param string   $value Field value
-     * @param array    $property Field property
+     * @param string $name     Field name
+     * @param string $value    Field value
+     * @param array  $property Field property
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function hiddenField($name, $value, $property)
+    protected function hiddenField(string $name, string $value, array $property) : string
     {
         return Form::hidden($name, $value, $property['attributes']);
     }
@@ -322,15 +321,15 @@ class Forms
     /**
      * Textarea field
      *
-     * @param string   $name Field name
-     * @param string   $value Field value
-     * @param array    $property Field property
+     * @param string $name     Field name
+     * @param string $value    Field value
+     * @param array  $property Field property
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function textareaField($name, $value, $property)
+    protected function textareaField(string $name, string $value, array $property) : string
     {
         return Form::textarea($name, $value, $property['attributes']);
     }
@@ -338,16 +337,16 @@ class Forms
     /**
      * Visibility field
      *
-     * @param string   $name Field name
-     * @param array    $options Field options
-     * @param string   $value Field value
-     * @param array    $property Field property
+     * @param string $name     Field name
+     * @param array  $options  Field options
+     * @param string $value    Field value
+     * @param array  $property Field property
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function visibilitySelectField($name, $options, $value, $property)
+    protected function visibilitySelectField(string $name, array $options, string $value, array $property) : string
     {
         return Form::select($name, $options, $value, $property['attributes']);
     }
@@ -355,15 +354,15 @@ class Forms
     /**
      * Text field
      *
-     * @param string   $name Field name
-     * @param string   $value Field value
-     * @param array    $property Field property
+     * @param string $name     Field name
+     * @param string $value    Field value
+     * @param array  $property Field property
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function textField($name, $value, $property)
+    protected function textField(string $name, string $value, array $property) : string
     {
         return Form::input($name, $value, $property['attributes']);
     }
@@ -371,44 +370,43 @@ class Forms
     /**
      * Tags field
      *
-     * @param string   $name Field name
-     * @param string   $value Field value
-     * @param array    $property Field property
+     * @param string $name     Field name
+     * @param string $value    Field value
+     * @param array  $property Field property
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function tagsField($name, $value, $property)
+    protected function tagsField(string $name, string $value, array $property) : string
     {
-        return ('
-            <input type="text" value="'.$value.'" name="'.$name.'" class="form-control" data-role="tagsinput" />
-        ');
+        return '
+            <input type="text" value="' . $value . '" name="' . $name . '" class="form-control" data-role="tagsinput" />
+        ';
     }
 
     /**
      * Date field
      *
-     * @param string   $name Field name
-     * @param string   $value Field value
-     * @param array    $property Field property
+     * @param string $name     Field name
+     * @param string $value    Field value
+     * @param array  $property Field property
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function dateField($name, $value, $property)
+    protected function dateField(string $name, string $value, array $property) : string
     {
-        return ('
+        return '
             <div class="input-group date" id="datetimepicker" data-target-input="nearest">
-                <input name="'.$name.'" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" value="'.$value.'" />
+                <input name="' . $name . '" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" value="' . $value . '" />
                 <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
                     <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                 </div>
             </div>
-        ');
+        ';
     }
-
 
     /**
      * _csrfHiddenField
@@ -417,7 +415,7 @@ class Forms
      *
      * @access protected
      */
-    protected function _csrfHiddenField()
+    protected function _csrfHiddenField() : string
     {
         $field  = '<input type="hidden" name="' . $this->flextype['csrf']->getTokenNameKey() . '" value="' . $this->flextype['csrf']->getTokenName() . '">';
         $field .= '<input type="hidden" name="' . $this->flextype['csrf']->getTokenValueKey() . '" value="' . $this->flextype['csrf']->getTokenValue() . '">';
@@ -432,7 +430,7 @@ class Forms
      *
      * @access protected
      */
-    protected function _actionHiddenField()
+    protected function _actionHiddenField() : string
     {
         return Form::hidden('action', 'save-form');
     }
