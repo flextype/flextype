@@ -374,7 +374,6 @@ class Entries
 
         if (Filesystem::has($entry_file)) {
             $entry = Parser::decode($entry_file, 'frontmatter');
-
             return Filesystem::write($entry_file, Parser::encode(array_replace_recursive($entry, $data), 'frontmatter'));
         }
 
@@ -395,15 +394,11 @@ class Entries
     {
         $entry_dir = $this->getDirLocation($id);
 
-        // Check if new entry directory exists
         if (! Filesystem::has($entry_dir)) {
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
-                // Entry file path
-                $entry_file = $entry_dir . '/entry' . '.' . 'md';
-
                 // Check if new entry file exists
-                if (! Filesystem::has($entry_file)) {
+                if (! Filesystem::has($entry_file = $entry_dir . '/entry.md')) {
                     return Filesystem::write($entry_file, Parser::encode($data, 'frontmatter'));
                 }
 
