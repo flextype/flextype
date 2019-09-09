@@ -16,6 +16,7 @@
 * Flextype Core: Add new field `tags` #186
 * Flextype Core: Add new field `datetimepicker` #186
 * Flextype Core: Add block for all direct access to .md files in .htaccess #186
+* Flextype Core: Add block access to specific file types for these user folders in .htaccess #186
 * Flextype Admin Panel: Add Trumbowyg view html code #193 #186
 * Flextype Admin Panel: Add tail section for base.html template #186
 * Flextype Admin Panel: Add new event onAdminThemeFooter in base.html template #186
