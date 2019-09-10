@@ -261,7 +261,7 @@ class Snippets
      *
      * @access private
      */
-    private function getFileLocation(string $id) : string
+    public function getFileLocation(string $id) : string
     {
         return PATH['snippets'] . '/' . $id . '.php';
     }
@@ -273,7 +273,7 @@ class Snippets
      *
      * @access private
      */
-    private function getDirLocation() : string
+    public function getDirLocation() : string
     {
         return PATH['snippets'] . '/';
     }
