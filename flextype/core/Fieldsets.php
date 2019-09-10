@@ -41,7 +41,7 @@ class Fieldsets
      */
     public function fetch(string $id)
     {
-        $fieldset_file = $this->_file_location($id);
+        $fieldset_file = $this->getFileLocation($id);
 
         if (Filesystem::has($fieldset_file)) {
             if ($fieldset_body = Filesystem::read($fieldset_file)) {
@@ -71,7 +71,7 @@ class Fieldsets
         $fieldsets = [];
 
         // Get fieldsets files
-        $_fieldsets = Filesystem::listContents($this->_dir_location());
+        $_fieldsets = Filesystem::listContents($this->getDirLocation());
 
         // If there is any fieldsets file then go...
         if (count($_fieldsets) > 0) {
@@ -101,7 +101,7 @@ class Fieldsets
      */
     public function rename(string $id, string $new_id) : bool
     {
-        return rename($this->_file_location($id), $this->_file_location($new_id));
+        return rename($this->getFileLocation($id), $this->getFileLocation($new_id));
     }
 
     /**
@@ -116,7 +116,7 @@ class Fieldsets
      */
     public function update(string $id, array $data) : bool
     {
-        $fieldset_file = $this->_file_location($id);
+        $fieldset_file = $this->getFileLocation($id);
 
         if (Filesystem::has($fieldset_file)) {
             return Filesystem::write($fieldset_file, Parser::encode($data, 'yaml'));
@@ -137,7 +137,7 @@ class Fieldsets
      */
     public function create(string $id, array $data) : bool
     {
-        $fieldset_file = $this->_file_location($id);
+        $fieldset_file = $this->getFileLocation($id);
 
         if (! Filesystem::has($fieldset_file)) {
             return Filesystem::write($fieldset_file, Parser::encode($data, 'yaml'));
@@ -157,7 +157,7 @@ class Fieldsets
      */
     public function delete(string $id) : bool
     {
-        return Filesystem::delete($this->_file_location($id));
+        return Filesystem::delete($this->getFileLocation($id));
     }
 
     /**
@@ -172,7 +172,7 @@ class Fieldsets
      */
     public function copy(string $id, string $new_id) : bool
     {
-        return Filesystem::copy($this->_file_location($id), $this->_file_location($new_id), false);
+        return Filesystem::copy($this->getFileLocation($id), $this->getFileLocation($new_id), false);
     }
 
     /**
@@ -186,27 +186,27 @@ class Fieldsets
      */
     public function has(string $id) : bool
     {
-        return Filesystem::has($this->_file_location($id));
+        return Filesystem::has($this->getFileLocation($id));
     }
 
     /**
-     * Helper method _dir_location
+     * Helper method getDirLocation
      *
      * @access private
      */
-    private function _dir_location() : string
+    private function getDirLocation() : string
     {
         return PATH['site'] . '/fieldsets/';
     }
 
     /**
-     * Helper method _file_location
+     * Helper method getFileLocation
      *
      * @param string $id Fieldsets id
      *
      * @access private
      */
-    private function _file_location(string $id) : string
+    private function getFileLocation(string $id) : string
     {
         return PATH['site'] . '/fieldsets/' . $id . '.yaml';
     }
