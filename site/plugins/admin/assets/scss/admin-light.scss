@@ -183,12 +183,12 @@ a {
         background-color: $navbar-table-background-color-hover;
     }
 
-    > tfoot,
+    > tbody,
      > thead,
-    > tbody {
+    > tfoot {
         > tr {
-            > th,
-            > td {
+            > td,
+            > th {
                 border-color: $border-color;
                 color: $base-font-color;
             }
@@ -750,7 +750,7 @@ ul.messenger-theme-flat .messenger-message-slot.messenger-first.messenger-last .
 }
 
 .bootstrap-datetimepicker-widget table td span:hover {
-    background: #eaeaeb!important;
+    background: #f3f3f4!important;
 }
 
 .bootstrap-datetimepicker-widget.dropdown-menu.float-right:after {
