@@ -6,7 +6,7 @@
         $("#datetimepicker").datetimepicker({
             defaultDate: "{{ entry.published_at|date(settings.date_format) }}",
             locale: "{{ locale }}",
-            debug: true,
+            debug: false,
             icons: {
                 time: "far fa-clock",
                 date: "far fa-calendar-alt"
