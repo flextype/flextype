@@ -194,7 +194,7 @@ class Fieldsets
      *
      * @access private
      */
-    private function getDirLocation() : string
+    public function getDirLocation() : string
     {
         return PATH['site'] . '/fieldsets/';
     }
@@ -206,7 +206,7 @@ class Fieldsets
      *
      * @access private
      */
-    private function getFileLocation(string $id) : string
+    public function getFileLocation(string $id) : string
     {
         return PATH['site'] . '/fieldsets/' . $id . '.yaml';
     }
