@@ -52,6 +52,7 @@
 * Flextype Core: Update .gitignore
 * Flextype Core: Update copyrights information
 * Flextype Core: Update vendor flextype-components/filesystem to 2.0.6
+* Flextype Core: Update vendor flextype-components/date to 1.1.0
 * Flextype Core: Update vendor zeuxisoo/slim-whoops to 0.6.5
 * Flextype Core: Update vendor doctrine/collections to 1.6.2
 * Flextype Core: Update vendor slim/slim to 3.12.2
