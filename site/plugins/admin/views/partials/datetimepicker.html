@@ -5,7 +5,7 @@
     $(function () {
         $("#datetimepicker").datetimepicker({
             defaultDate: "{{ entry.published_at|date(registry.settings.date_format) }}",
-            format: 'MMMM DD YYYY, hh:mm:ss',
+            format: 'MMMM DD YYYY, HH:mm:ss',
             locale: "{{ locale }}",
             debug: false,
             icons: {
