@@ -101,7 +101,7 @@ admin_cache_enabled: "Cache enabled"
 admin_cache_lifetime: "Cache lifetime"
 admin_cache_prefix: "Prefijo de caché"
 admin_charset: "Sistema de caracteres"
-admin_date_format: Formato de fecha
+admin_date_format: "Date format"
 admin_errors_display: "Mostrar Errores"
 admin_locale: "Configuración regional"
 admin_entry_main: "Entrada principal"
