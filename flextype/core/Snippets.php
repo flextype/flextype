@@ -67,7 +67,7 @@ class Snippets
      */
     public function fetch(string $id)
     {
-        $snippet_file = $this->_file_location($id);
+        $snippet_file = $this->getFileLocation($id);
 
         if (Filesystem::has($snippet_file)) {
             if ($snippet_body = Filesystem::read($snippet_file)) {
@@ -92,7 +92,7 @@ class Snippets
         $snippets = [];
 
         // Get snippets files
-        $_snippets = Filesystem::listContents($this->_dir_location());
+        $_snippets = Filesystem::listContents($this->getDirLocation());
 
         // If there is any snippets file then go...
         if (count($_snippets) > 0) {
@@ -121,7 +121,7 @@ class Snippets
      */
     public function rename(string $id, string $new_id) : bool
     {
-        return rename($this->_file_location($id), $this->_file_location($new_id));
+        return rename($this->getFileLocation($id), $this->getFileLocation($new_id));
     }
 
     /**
@@ -136,7 +136,7 @@ class Snippets
      */
     public function update(string $id, string $data) : bool
     {
-        $snippet_file = $this->_file_location($id);
+        $snippet_file = $this->getFileLocation($id);
 
         if (Filesystem::has($snippet_file)) {
             return Filesystem::write($snippet_file, $data);
@@ -157,7 +157,7 @@ class Snippets
      */
     public function create(string $id, string $data = '') : bool
     {
-        $snippet_file = $this->_file_location($id);
+        $snippet_file = $this->getFileLocation($id);
 
         // Check if new entry file exists
         if (! Filesystem::has($snippet_file)) {
@@ -178,7 +178,7 @@ class Snippets
      */
     public function delete(string $id) : bool
     {
-        return Filesystem::delete($this->_file_location($id));
+        return Filesystem::delete($this->getFileLocation($id));
     }
 
     /**
@@ -193,7 +193,7 @@ class Snippets
      */
     public function copy(string $id, string $new_id) : bool
     {
-        return Filesystem::copy($this->_file_location($id), $this->_file_location($new_id));
+        return Filesystem::copy($this->getFileLocation($id), $this->getFileLocation($new_id));
     }
 
     /**
@@ -207,7 +207,7 @@ class Snippets
      */
     public function has(string $id) : bool
     {
-        return Filesystem::has($this->_file_location($id));
+        return Filesystem::has($this->getFileLocation($id));
     }
 
     /**
@@ -229,7 +229,7 @@ class Snippets
         $snippet_id = (string) $bind_id ?? '';
 
         // Define snippet file path
-        $snippet_file = $this->_file_location($snippet_id);
+        $snippet_file = $this->getFileLocation($snippet_id);
 
         // Process snippet
         if (Filesystem::has($snippet_file)) {
@@ -253,7 +253,7 @@ class Snippets
     }
 
     /**
-     * Helper method _file_location
+     * Helper method getFileLocation
      *
      * @param string $id Snippet id
      *
@@ -261,19 +261,19 @@ class Snippets
      *
      * @access private
      */
-    private function _file_location(string $id) : string
+    private function getFileLocation(string $id) : string
     {
         return PATH['snippets'] . '/' . $id . '.php';
     }
 
     /**
-     * Helper method _dir_location
+     * Helper method getDirLocation
      *
      * @return string Snippet dir path
      *
      * @access private
      */
-    private function _dir_location() : string
+    private function getDirLocation() : string
     {
         return PATH['snippets'] . '/';
     }
