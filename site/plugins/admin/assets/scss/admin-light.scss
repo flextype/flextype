@@ -723,3 +723,65 @@ ul.messenger-theme-flat .messenger-message-slot.messenger-first.messenger-last .
     border-radius: .25rem;
     padding: 3px 8px 3px 3px;
 }
+
+.card-deck .card {
+    border-color: #ced4da;
+}
+
+.card-footer,
+.card-header {
+    background: #eaeaeb;
+    color: #424243;
+    border-color: #ced4da;
+}
+
+.bootstrap-tagsinput > input {
+    border: none;
+    background-color: white;
+    color: #424243;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu.top:after {
+    border-top: 7px solid #dbdbdc!important;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu.top:after {
+    border-top: 7px solid black!important;
+}
+
+.bootstrap-datetimepicker-widget table td span:hover {
+    background: #eaeaeb!important;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu.float-right:after {
+    bottom: -8px;
+}
+
+.bootstrap-datetimepicker-widget table thead tr:first-child th:hover {
+    background: #eaeaeb!important;
+    color: #424243!important;
+}
+
+.bootstrap-datetimepicker-widget table td.day:hover,
+.bootstrap-datetimepicker-widget table td.hour:hover,
+.bootstrap-datetimepicker-widget table td.minute:hover,
+.bootstrap-datetimepicker-widget table td.second:hover {
+    background: #eaeaeb!important;
+    color: #424243!important;
+}
+
+.bootstrap-datetimepicker-widget .table tbody tr:hover td,
+.bootstrap-datetimepicker-widget .table tbody tr:hover th {
+    background-color: transparent;
+}
+
+.bootstrap-datetimepicker-widget table td span.active,
+.bootstrap-datetimepicker-widget table td.active,
+.bootstrap-datetimepicker-widget table td.active:hover {
+    background: #eaeaeb!important;
+    color: #424243!important;
+}
+
+.bootstrap-datetimepicker-widget table th {
+    border-color: #ced4da;
+}
