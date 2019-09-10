@@ -373,7 +373,8 @@ class Entries
         $entry_file = $this->getFileLocation($id);
 
         if (Filesystem::has($entry_file)) {
-            $entry = Parser::decode($entry_file, 'frontmatter');
+            $body = Filesystem::read($entry_file);
+            $entry = Parser::decode($body, 'frontmatter');
             return Filesystem::write($entry_file, Parser::encode(array_replace_recursive($entry, $data), 'frontmatter'));
         }
 
