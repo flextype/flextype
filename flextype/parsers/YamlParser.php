@@ -46,7 +46,7 @@ class YamlParser
      *
      * @var bool
      */
-    public static $native = true;
+    public static $native = false;
 
     /**
      * Flag
