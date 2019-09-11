@@ -104,7 +104,7 @@ errors:
 #
 # - sqlite3.table    SQLite3 Table
 cache:
-  enabled: false
+  enabled: true
   prefix: flextype
   driver: auto
   lifetime: 604800
