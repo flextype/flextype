@@ -5,8 +5,8 @@ template: blog-post
 fieldset: blog-post
 description: ''
 uuid: 5f830a3d-9a89-4f75-b95b-1057350654cd
-published_at: 'September 04 2019 04:23:53'
-created_at: 'September 04 2019 04:23:53'
+published_at: '09/10/2019 07:54 pm'
+created_at: '09/10/2019 07:54 pm'
 ---
 <p>
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod

@@ -4,8 +4,8 @@ summary: '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do ei
 template: blog-post
 fieldset: blog-post
 uuid: 3b4a5fa9-d7d7-4dec-84c8-80acf26d008c
-published_at: 'September 04 2019 04:23:53'
-created_at: 'September 04 2019 04:23:53'
+published_at: '09/10/2019 07:54 pm'
+created_at: '09/10/2019 07:54 pm'
 ---
 <p>
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
