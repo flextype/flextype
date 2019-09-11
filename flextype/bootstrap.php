@@ -29,7 +29,7 @@ use function mb_regex_encoding;
  *
  * @var string
  */
-define('FLEXTYPE_VERSION', '0.9.3');
+define('FLEXTYPE_VERSION', '0.9.4');
 
 /**
  * Start the session

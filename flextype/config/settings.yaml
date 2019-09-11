@@ -43,8 +43,8 @@ locale: en_US
 # - date_format: Valid date format
 #
 # - date_display_format: Valid date format to display
-date_format: 'm/d/Y h:i a'
-date_display_format: 'd-m-Y H:i'
+date_format: 'd-m-Y H:i'
+date_display_format: 'd-m-y G:i'
 
 # The entries settings§
 #
