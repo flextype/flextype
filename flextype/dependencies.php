@@ -253,6 +253,9 @@ $flextype['view'] = static function ($container) {
     // Add Filesystem Twig Extension
     $view->addExtension(new FilesystemTwigExtension());
 
+    // Add Date Twig Extension
+    $view->addExtension(new DateTwigExtension());
+
     // Add Assets Twig Extension
     $view->addExtension(new AssetsTwigExtension());
 

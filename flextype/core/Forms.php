@@ -394,7 +394,7 @@ class Forms
     {
         return '
             <div class="input-group date" id="datetimepicker" data-target-input="nearest">
-                <input name="' . $name . '" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" value="' . $value . '" />
+                <input name="' . $name . '" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" value="' . date($this->flextype->registry->get('settings.date_format'), strtotime($value)) . '" />
                 <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
                     <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                 </div>
