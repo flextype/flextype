@@ -28,10 +28,6 @@ timezone: UTC
 # http://php.net/manual/en/function.mb-regex-encoding.php#121645
 charset: UTF-8
 
-# Valid date format
-# see: http://php.net/manual/en/function.date.php
-date_format: F d Y H:i:s
-
 # The theme to use.
 #
 # Don't edit the provided theme templates directly, because they get updated
@@ -42,7 +38,16 @@ theme: default
 # The locale that'll be used by the Flextype.
 locale: en_US
 
-# The entries settings
+# Valid date format
+#
+# see: http://php.net/manual/en/function.date.php
+date_format: 'm/d/Y h:i a'
+date_display_format: 'd-m-Y H:i'
+
+# The entries settings§
+#
+# - main:        Main entry
+# - media.upload_images_quality: Image quality
 # Define the file types (extensions to be exact) that are acceptable for upload.
 entries:
   main: home
