@@ -40,7 +40,9 @@ locale: en_US
 
 # Valid date format
 #
-# see: http://php.net/manual/en/function.date.php
+# - date_format: Valid date format
+#
+# - date_display_format: Valid date format to display
 date_format: 'm/d/Y h:i a'
 date_display_format: 'd-m-Y H:i'
 
@@ -48,7 +50,7 @@ date_display_format: 'd-m-Y H:i'
 #
 # - main:        Main entry
 # - media.upload_images_quality: Image quality
-# Define the file types (extensions to be exact) that are acceptable for upload.
+# - media.accept_file_types: Define the file types (extensions to be exact) that are acceptable for upload.
 entries:
   main: home
   media:
