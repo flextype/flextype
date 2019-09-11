@@ -91,6 +91,8 @@ class SettingsController extends Controller
             'plugins/admin/views/templates/system/settings/index.html',
             [
                 'timezones' => Date::timezones(),
+                'date_formats' => $this->dateFormats(),
+                'date_display_format' => $this->displayDateFormats(),
                 'cache_driver' => $cache_driver,
                 'locales' => $locales,
                 'entries' => $entries,
@@ -148,5 +150,45 @@ class SettingsController extends Controller
         }
 
         return $response->withRedirect($this->router->pathFor('admin.settings.index'));
+    }
+
+    /**
+     * Return date formats allowed
+     *
+     * @return array
+     */
+    public function dateFormats()
+    {
+        $now = new \DateTime();
+
+        $date_formats = [
+            'd-m-Y H:i' => $now->format('d-m-Y H:i'),
+            'Y-m-d H:i' => $now->format('Y-m-d H:i'),
+            'm/d/Y h:i a' => $now->format('m/d/Y h:i a'),
+            'H:i d-m-Y' => $now->format('H:i d-m-Y'),
+            'h:i a m/d/Y' => $now->format('h:i a m/d/Y'),
+        ];
+
+        return $date_formats;
+    }
+
+    /**
+     * Return display date formats allowed
+     *
+     * @return array
+     */
+    public function displayDateFormats() : array
+    {
+        $now = new \DateTime();
+
+        $date_formats = [
+            'F jS \\a\\t g:ia' => $now->format('F jS \\a\\t g:ia'),
+            'l jS \\of F g:i A' => $now->format('l jS \\of F g:i A'),
+            'D, d M Y G:i:s' => $now->format('m/d/Y h:i a'),
+            'd-m-y G:i' => $now->format('d-m-y G:i'),
+            'jS M Y' => $now->format('jS M Y'),
+        ];
+
+        return $date_formats;
     }
 }
