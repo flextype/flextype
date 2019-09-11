@@ -57,10 +57,6 @@
     .nav {
         float: none;
         display: block;
-
-        a {
-            transition: all 150ms ease-in;
-        }
     }
 
     .nav .nav-item .nav-link {
@@ -167,11 +163,6 @@
 .sidebar,
 .sidebar-wrapper {
     -webkit-overflow-scrolling: touch;
-}
-
-.sidebar .nav .collapse a > span,
-.sidebar .sidebar-wrapper > .nav p {
-    transition: all 150ms linear;
 }
 
 .sidebar-off-canvas {

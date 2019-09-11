@@ -1,18 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
- * @link http://romanenko.digital
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Flextype (http://flextype.org)
+ * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
 namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
+use RuntimeException;
+use function array_merge;
+use function count;
+use function filemtime;
+use function is_array;
+use function md5;
 
 class Themes
 {
@@ -34,7 +37,7 @@ class Themes
     /**
      * Init themes
      */
-    public function init($flextype, $app)
+    public function init($flextype, $app) : void
     {
         // Set empty themes list item
         $this->flextype['registry']->set('themes', []);
@@ -44,7 +47,6 @@ class Themes
 
         // If themes list isnt empty then create themes cache ID and go through the themes list...
         if (is_array($themes_list) && count($themes_list) > 0) {
-
             // Get themes cache ID
             $themes_cache_id = $this->getThemesCacheID($themes_list);
 
@@ -52,36 +54,34 @@ class Themes
             if ($this->flextype['cache']->contains($themes_cache_id)) {
                 $this->flextype['registry']->set('themes', $this->flextype['cache']->fetch($themes_cache_id));
             } else {
-
                     // Go through the themes list...
-                    foreach ($themes_list as $theme) {
-
-                        // Get theme settings
-                        if (Filesystem::has($theme_settings_file = PATH['themes'] . '/' . $theme['dirname'] . '/settings.json')) {
-                            if (($content = Filesystem::read($theme_settings_file)) === false) {
-                                throw new \RuntimeException('Load file: ' . $theme_settings_file . ' - failed!');
-                            } else {
-                                $theme_settings = JsonParser::decode($content);
-                            }
+                foreach ($themes_list as $theme) {
+                    // Get theme settings
+                    if (Filesystem::has($theme_settings_file = PATH['themes'] . '/' . $theme['dirname'] . '/settings.yaml')) {
+                        if (($content = Filesystem::read($theme_settings_file)) === false) {
+                            throw new RuntimeException('Load file: ' . $theme_settings_file . ' - failed!');
                         }
 
-                        // Get theme manifest
-                        if (Filesystem::has($theme_manifest_file = PATH['themes'] . '/' . $theme['dirname'] . '/theme.json')) {
-                            if (($content = Filesystem::read($theme_manifest_file)) === false) {
-                                throw new \RuntimeException('Load file: ' . $theme_manifest_file . ' - failed!');
-                            } else {
-                                $theme_manifest = JsonParser::decode($content);
-                            }
-                        }
-
-                        $themes[$theme['dirname']] = array_merge($theme_settings, $theme_manifest);
+                        $theme_settings = Parser::decode($content, 'yaml');
                     }
 
-                    // Save parsed themes list in the registry themes
-                    $this->flextype['registry']->set('themes', $themes);
+                    // Get theme manifest
+                    if (Filesystem::has($theme_manifest_file = PATH['themes'] . '/' . $theme['dirname'] . '/theme.yaml')) {
+                        if (($content = Filesystem::read($theme_manifest_file)) === false) {
+                            throw new RuntimeException('Load file: ' . $theme_manifest_file . ' - failed!');
+                        }
 
-                    // Save parsed themes list in the cache
-                    $this->flextype['cache']->save($themes_cache_id, $themes);
+                        $theme_manifest = Parser::decode($content, 'yaml');
+                    }
+
+                    $themes[$theme['dirname']] = array_merge($theme_settings, $theme_manifest);
+                }
+
+                // Save parsed themes list in the registry themes
+                $this->flextype['registry']->set('themes', $themes);
+
+                // Save parsed themes list in the cache
+                $this->flextype['cache']->save($themes_cache_id, $themes);
             }
         }
 
@@ -89,13 +89,12 @@ class Themes
         $this->flextype['emitter']->emit('onThemesInitialized');
     }
 
-
     /**
      * Get themes cache ID
      *
      * @param  array $themes_list Themes list
+     *
      * @access protected
-     * @return string
      */
     private function getThemesCacheID(array $themes_list) : string
     {
@@ -105,10 +104,12 @@ class Themes
         // Go through themes list...
         if (is_array($themes_list) && count($themes_list) > 0) {
             foreach ($themes_list as $theme) {
-                if (Filesystem::has($_themes_settings = PATH['themes'] . '/' . $theme['dirname'] . '/settings.json') and
-                    Filesystem::has($_themes_manifest = PATH['themes'] . '/' . $theme['dirname'] . '/plugin.json')) {
-                    $_themes_cache_id .= filemtime($_themes_settings) . filemtime($_themes_manifest);
+                if (! Filesystem::has($_themes_settings = PATH['themes'] . '/' . $theme['dirname'] . '/settings.yaml') or
+                    ! Filesystem::has($_themes_manifest = PATH['themes'] . '/' . $theme['dirname'] . '/plugin.yaml')) {
+                    continue;
                 }
+
+                $_themes_cache_id .= filemtime($_themes_settings) . filemtime($_themes_manifest);
             }
         }
 
@@ -119,12 +120,12 @@ class Themes
         return $themes_cache_id;
     }
 
-
     /**
      * Get list of themes
      *
-     * @access public
      * @return array
+     *
+     * @access public
      */
     public function getThemes() : array
     {
@@ -135,10 +136,12 @@ class Themes
         $_themes_list = Filesystem::listContents(PATH['themes']);
 
         // Go through founded themes
-        foreach($_themes_list as $theme) {
-            if ($theme['type'] == 'dir' && Filesystem::has($theme['path'] . '/' . 'theme.json')) {
-                $themes_list[] = $theme;
+        foreach ($_themes_list as $theme) {
+            if ($theme['type'] !== 'dir' || ! Filesystem::has($theme['path'] . '/' . 'theme.yaml')) {
+                continue;
             }
+
+            $themes_list[] = $theme;
         }
 
         return $themes_list;
@@ -147,9 +150,11 @@ class Themes
     /**
      * Get partials for theme
      *
-     * @access public
      * @param string $theme Theme id
+     *
      * @return array
+     *
+     * @access public
      */
     public function getPartials(string $theme) : array
     {
@@ -162,9 +167,11 @@ class Themes
         // If there is any partials file then go...
         if (count($_partials_list) > 0) {
             foreach ($_partials_list as $partial) {
-                if ($partial['type'] == 'file' && $partial['extension'] == 'html') {
-                    $partials_list[] = $partial;
+                if ($partial['type'] !== 'file' || $partial['extension'] !== 'html') {
+                    continue;
                 }
+
+                $partials_list[] = $partial;
             }
         }
 
@@ -175,9 +182,11 @@ class Themes
     /**
      * Get templates for theme
      *
-     * @access public
      * @param string $theme Theme id
+     *
      * @return array
+     *
+     * @access public
      */
     public function getTemplates(string $theme) : array
     {
@@ -190,9 +199,11 @@ class Themes
         // If there is any template file then go...
         if (count($_templates_list) > 0) {
             foreach ($_templates_list as $template) {
-                if ($template['type'] == 'file' && $template['extension'] == 'html') {
-                    $templates_list[] = $template;
+                if ($template['type'] !== 'file' || $template['extension'] !== 'html') {
+                    continue;
                 }
+
+                $templates_list[] = $template;
             }
         }
 

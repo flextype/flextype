@@ -1,34 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
- * @link http://romanenko.digital
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Flextype (http://flextype.org)
+ * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
 namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
+use Twig_Extension;
+use Twig_SimpleFunction;
+use function basename;
+use function strrchr;
+use function substr;
 
-class FilesystemTwigExtension extends \Twig_Extension
+class FilesystemTwigExtension extends Twig_Extension
 {
     /**
      * Callback for twig.
      *
      * @return array
      */
-    public function getFunctions()
+    public function getFunctions() : array
     {
         return [
-            new \Twig_SimpleFunction('filesystem_list_contents', [$this, 'list_contents']),
-            new \Twig_SimpleFunction('filesystem_has', [$this, 'has']),
-            new \Twig_SimpleFunction('filesystem_read', [$this, 'read']),
-            new \Twig_SimpleFunction('filesystem_ext', [$this, 'ext']),
-            new \Twig_SimpleFunction('filesystem_basename', [$this, 'basename']),
+            new Twig_SimpleFunction('filesystem_list_contents', [$this, 'list_contents']),
+            new Twig_SimpleFunction('filesystem_has', [$this, 'has']),
+            new Twig_SimpleFunction('filesystem_read', [$this, 'read']),
+            new Twig_SimpleFunction('filesystem_ext', [$this, 'ext']),
+            new Twig_SimpleFunction('filesystem_basename', [$this, 'basename']),
         ];
     }
 

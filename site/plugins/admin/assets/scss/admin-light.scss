@@ -651,10 +651,137 @@ ul.messenger-theme-flat .messenger-message-slot.messenger-first.messenger-last .
     background: $navbar-background-color;
 }
 
+.nav-pills .nav-link {
+    background: $navbar-background-color;
+    color: $base-font-color;
+    border-bottom: 2px solid $navbar-background-color;
+}
+
 .nav-pills .nav-item .nav-link:focus,
 .nav-pills .nav-item .nav-link:hover,
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
     background: $navbar-item-background-color-hover;
     border-bottom: 2px solid $border-color;
+    color: $base-font-color;
+}
+
+.flex-column.nav-pills .nav-link.active,
+.flex-column.nav-pills .show > .nav-link {
+    background: $navbar-item-background-color-hover;
+}
+
+.flex-column.nav-pills .nav-link {
+    background: $navbar-background-color;
+    color: $base-font-color;
+    border-bottom: none;
+}
+
+.flex-column.nav-pills .nav-link:focus,
+.flex-column.nav-pills .nav-link:hover {
+    background: $navbar-item-background-color-hover;
+}
+
+.input-group-text {
+    color: #495057;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+}
+
+.bootstrap-tagsinput {
+    background-color: #fff;
+    border: 1px solid #dbdbdc;
+    color: #424243;
+
+    border-radius: 4px;
+    font-size: .875rem;
+
+    padding: 8px 12px;
+    height: 40px;
+    box-shadow: none;
+}
+
+.bootstrap-tagsinput .tag [data-role="remove"]:after {
+    content: "x";
+    padding: 3px 5px;
+    margin-right: -9px;
+    margin-left: 4px;
+    color: #424243;
+    background: #ced4da;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    cursor: pointer;
+}
+
+.bootstrap-tagsinput > input {
+    border: none;
+}
+
+.bootstrap-tagsinput .tag {
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    padding: 3px 8px 3px 3px;
+}
+
+.card-deck .card {
+    border-color: #ced4da;
+}
+
+.card-footer,
+.card-header {
+    background: #eaeaeb;
+    color: #424243;
+    border-color: #ced4da;
+}
+
+.bootstrap-tagsinput > input {
+    border: none;
+    background-color: white;
+    color: #424243;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu.top:after {
+    border-top: 7px solid #dbdbdc!important;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu.top:after {
+    border-top: 7px solid black!important;
+}
+
+.bootstrap-datetimepicker-widget table td span:hover {
+    background: #f3f3f4!important;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu.float-right:after {
+    bottom: -8px;
+}
+
+.bootstrap-datetimepicker-widget table thead tr:first-child th:hover {
+    background: #eaeaeb!important;
+    color: #424243!important;
+}
+
+.bootstrap-datetimepicker-widget table td.day:hover,
+.bootstrap-datetimepicker-widget table td.hour:hover,
+.bootstrap-datetimepicker-widget table td.minute:hover,
+.bootstrap-datetimepicker-widget table td.second:hover {
+    background: #eaeaeb!important;
+    color: #424243!important;
+}
+
+.bootstrap-datetimepicker-widget .table tbody tr:hover td,
+.bootstrap-datetimepicker-widget .table tbody tr:hover th {
+    background-color: transparent;
+}
+
+.bootstrap-datetimepicker-widget table td span.active,
+.bootstrap-datetimepicker-widget table td.active,
+.bootstrap-datetimepicker-widget table td.active:hover {
+    background: #eaeaeb!important;
+    color: #424243!important;
+}
+
+.bootstrap-datetimepicker-widget table th {
+    border-color: #ced4da;
 }

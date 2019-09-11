@@ -1,18 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
- * @link http://romanenko.digital
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Flextype (http://flextype.org)
+ * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
 namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
+use RuntimeException;
+use const EXTR_PREFIX_ALL;
+use function count;
+use function extract;
+use function ob_get_clean;
+use function ob_start;
+use function rename;
 
 class Snippets
 {
@@ -34,16 +38,18 @@ class Snippets
     public function __construct($flextype, $app)
     {
         $this->flextype = $flextype;
-        $this->app = $app;
+        $this->app      = $app;
     }
 
     /**
      * Exec snippet
      *
-     * @access public
-     * @param  string  $id  Snippet id
+     * @param  string $id Snippet id
+     *
      * @return string|bool Returns the contents of the output buffer and end output buffering.
      *                     If output buffering isn't active then FALSE is returned.
+     *
+     * @access public
      */
     public function exec(string $id)
     {
@@ -53,44 +59,49 @@ class Snippets
     /**
      * Fetch snippet
      *
-     * @access public
      * @param string $id Snippet id
+     *
      * @return string|false The snippet contents or false on failure.
+     *
+     * @access public
      */
     public function fetch(string $id)
     {
-        $snippet_file = $this->_file_location($id);
+        $snippet_file = $this->getFileLocation($id);
 
         if (Filesystem::has($snippet_file)) {
             if ($snippet_body = Filesystem::read($snippet_file)) {
                 return $snippet_body;
-            } else {
-                return false;
             }
-        } else {
+
             return false;
         }
+
+        return false;
     }
 
     /**
      * Fetch Snippets
      *
-     * @access public
      * @return array
+     *
+     * @access public
      */
     public function fetchAll() : array
     {
         $snippets = [];
 
         // Get snippets files
-        $_snippets = Filesystem::listContents($this->_dir_location());
+        $_snippets = Filesystem::listContents($this->getDirLocation());
 
         // If there is any snippets file then go...
         if (count($_snippets) > 0) {
             foreach ($_snippets as $snippet) {
-                if ($snippet['type'] == 'file' && $snippet['extension'] == 'php') {
-                    $snippets[$snippet['basename']] = $snippet['basename'];
+                if ($snippet['type'] !== 'file' || $snippet['extension'] !== 'php') {
+                    continue;
                 }
+
+                $snippets[$snippet['basename']] = $snippet['basename'];
             }
         }
 
@@ -101,99 +112,113 @@ class Snippets
     /**
      * Rename snippet
      *
-     * @access public
      * @param string $id     Snippet id
      * @param string $new_id New snippet id
+     *
      * @return bool True on success, false on failure.
+     *
+     * @access public
      */
     public function rename(string $id, string $new_id) : bool
     {
-        return rename($this->_file_location($id), $this->_file_location($new_id));
+        return rename($this->getFileLocation($id), $this->getFileLocation($new_id));
     }
 
     /**
      * Update Snippet
      *
-     * @access public
      * @param string $id   Snippet id
      * @param string $data Data
+     *
      * @return bool True on success, false on failure.
+     *
+     * @access public
      */
     public function update(string $id, string $data) : bool
     {
-        $snippet_file = $this->_file_location($id);
+        $snippet_file = $this->getFileLocation($id);
 
         if (Filesystem::has($snippet_file)) {
             return Filesystem::write($snippet_file, $data);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Create snippet
      *
-     * @access public
      * @param string $id   Snippet id
      * @param string $data Data
+     *
      * @return bool True on success, false on failure.
+     *
+     * @access public
      */
     public function create(string $id, string $data = '') : bool
     {
-        $snippet_file = $this->_file_location($id);
+        $snippet_file = $this->getFileLocation($id);
 
         // Check if new entry file exists
-        if (!Filesystem::has($snippet_file)) {
+        if (! Filesystem::has($snippet_file)) {
             return Filesystem::write($snippet_file, $data);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
-     * Delete snippet.
+     * Delete snippet
+     *
+     * @param string $id Snippet id
+     *
+     * @return bool True on success, false on failure.
      *
      * @access public
-     * @param string $id Snippet id
-     * @return bool True on success, false on failure.
      */
     public function delete(string $id) : bool
     {
-        return Filesystem::delete($this->_file_location($id));
+        return Filesystem::delete($this->getFileLocation($id));
     }
 
     /**
      * Copy snippet
      *
-     * @access public
-     * @param string $id      Snippet id
-     * @param string $new_id  New snippet id
+     * @param string $id     Snippet id
+     * @param string $new_id New snippet id
+     *
      * @return bool True on success, false on failure.
+     *
+     * @access public
      */
     public function copy(string $id, string $new_id) : bool
     {
-        return Filesystem::copy($this->_file_location($id), $this->_file_location($new_id), false);
+        return Filesystem::copy($this->getFileLocation($id), $this->getFileLocation($new_id));
     }
 
     /**
      * Check whether snippet exists.
      *
-     * @access public
      * @param  string $id Snippet id
+     *
      * @return bool True on success, false on failure.
+     *
+     * @access public
      */
     public function has(string $id) : bool
     {
-        return Filesystem::has($this->_file_location($id));
+        return Filesystem::has($this->getFileLocation($id));
     }
 
     /**
-     * Helper private method _exec_snippet
+     * Helper method _exec_snippet
      *
-     * @access private
-     * @param  array  $vars Vars
+     * @param  array $vars Vars
+     *
      * @return string|bool Returns the contents of the output buffer and end output buffering.
      *                     If output buffering isn't active then FALSE is returned.
+     *
+     * @access private
      */
     private function _exec_snippet(array $vars)
     {
@@ -204,11 +229,10 @@ class Snippets
         $snippet_id = (string) $bind_id ?? '';
 
         // Define snippet file path
-        $snippet_file = $this->_file_location($snippet_id);
+        $snippet_file = $this->getFileLocation($snippet_id);
 
         // Process snippet
         if (Filesystem::has($snippet_file)) {
-
             // Turn on output buffering
             ob_start();
 
@@ -223,30 +247,33 @@ class Snippets
 
             // Output...
             return ob_get_clean();
-        } else {
-            throw new \RuntimeException("Snippet {$snippet_id} does not exist.");
         }
+
+        throw new RuntimeException("Snippet {$snippet_id} does not exist.");
     }
 
     /**
-     * Helper method _file_location
+     * Helper method getFileLocation
+     *
+     * @param string $id Snippet id
+     *
+     * @return string Snippet file path
      *
      * @access private
-     * @param string $id Snippet id
-     * @return string
      */
-    private function _file_location(string $id) : string
+    public function getFileLocation(string $id) : string
     {
         return PATH['snippets'] . '/' . $id . '.php';
     }
 
     /**
-     * Helper method _dir_location
+     * Helper method getDirLocation
+     *
+     * @return string Snippet dir path
      *
      * @access private
-     * @return string
      */
-    private function _dir_location() : string
+    public function getDirLocation() : string
     {
         return PATH['snippets'] . '/';
     }

@@ -1,4 +1,3 @@
-
 ![preview](/site/plugins/admin/preview.png)
 
 <p align="center">
@@ -13,34 +12,23 @@ Flextype is an MIT-licensed open source project and completely free to use.
 However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing. You can support it's ongoing development by being a backer or a sponsor:
 
 - [Become a backer or sponsor on Patreon](https://www.patreon.com/awilum).
-- [One-time donation via PayPal, QIWI, Sberbank, Yandex](http://flextype.org/en/about/sponsors)
+- [One-time donation via PayPal, QIWI, Sberbank, Yandex](http://flextype.org/en/one-time-donation)
 
 ## INTRODUCTION
 
-Flextype is Open Source, fast and flexible file-based Content Management System.  
-That's Easy to install, upgrade and use. Flextype provides amazing API's for plugins, themes and core developers!
+Flextype was **founded in March 2018** as lightweight alternative to other heavy and outdated CMS. Many people use complex solutions for simple pages, unnecessarily. Building this content management system, we focused on simplicity - even novice webmaster adapt his template and writes his own plugin. To achieve this, we implemented a simple but powerful API's.
 
-## FEATURES
+With Flextype, you are in complete control. Design your data structure the way you want. Update and share your data with others and teams using version control. Flextype does not require MySQL database, because all the data are collected in a simple files.  Perfect portability when changing your hosting provider. Just copy all the files from one account to another.
 
-#### Simple
-Easy to install, upgrade and use.  
-No installation needed, just copy files to your server!  
+The underlying architecture of Flextype is built using well established and best-in-class technologies. This is to ensure that Flextype is simple to use and easy to extend. Some of these key technologies include:
 
-#### Fast
-Flextype is really fast and lightweight!  
-No database required, flat files only!  
-
-#### Flexible
-Flextype provides amazing API for plugins, themes and core developers!  
-
-#### Easy editing
-Use your favorite editor to write your content with plain HTML and Flextype Shortcodes.  
-
-#### Dynamic Content Types
-The flat-file nature of Flextype lets you define custom fields for any of your pages.  
-
-#### Open Source
-Flextype is an open-source project licensed under the MIT LICENSE to set the world free!  
+* [Slim PHP](http://www.slimframework.com): Framework for powerful web applications and APIs.
+* [Twig Templating](https://twig.symfony.com): Flexible, fast, and secure
+template engine for PHP.
+* [Doctrine Project](https://www.doctrine-project.org): A set of decoupled and reusable PHP libraries for powerful web applications.
+* [The PHP League](https://thephpleague.com): The League of Extraordinary PHP Packages well tested and using modern coding standards.
+* [Respect Validation](https://respect-validation.readthedocs.io/): The most awesome validation engine ever created for PHP.
+* [Thunderer Shortcode](https://github.com/thunderer/Shortcode): Advanced shortcode (BBCode) parser and engine for PHP.
 
 ## REQUIREMENTS
 
@@ -48,16 +36,17 @@ Flextype is an open-source project licensed under the MIT LICENSE to set the wor
 Make sure your server meets the following requirements.
 
 - Webserver (Apache with Mod Rewrite)
-- PHP 7.1.3 or higher
+- PHP 7.2.0 or higher
 
 #### PHP extensions
 Flextype needs the following PHP extensions to be enabled:
 
 - PHP [mbstring](http://php.net/manual/en/book.mbstring.php) module for full UTF-8 support.
-- PHP [gd](http://php.net/manual/en/book.image.php) module for image processing.
+- PHP [gd](http://php.net/manual/en/book.image.php) or [ImageMagick](http://php.net/manual/en/book.imagick.php) module for image processing.
 - PHP [json](https://php.net/manual/en/book.json.php) module for JSON manipulation.
 - PHP [Fileinfo](https://www.php.net/manual/en/book.fileinfo.php)
 - PHP [SPL](https://www.php.net/manual/en/book.spl.php)
+- PHP [DOM](https://www.php.net/manual/ru/class.domdocument.php)
 
 Although it is optional, we strongly recommend enabling the following PHP extensions:
 APC, APCu, XCache, Memcached, or Redis for better performance.
@@ -82,7 +71,7 @@ Mobile
 [Download the latest version.](http://flextype.org/en/downloads)  
 
 Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, be sure to chmod the following directories (with containing files) to 755(or 777), so they are readable and writable by Flextype:  
-* `site/`
+- `site/`
 
 #### Using Composer
 
@@ -126,42 +115,23 @@ gulp
 ## COMMUNITY
 Flextype is open source, community driven project, and maintained by community!
 
-* [Github Repository](https://github.com/flextype/flextype)
-* [Discord](https://discord.gg/CCKPKVG)
-* [Forum](http://forum.flextype.org)
-* [Vkontakte](https://vk.com/flextype)
-* [Twitter](https://twitter.com/getflextype)
-
-
-## NO LIMITS
-With Flextype you can create any project you want.
-
-* Business site
-* Landing page
-* Personal site
-* Portfolio
-* Product site
-* Documentation
-* Personal resume
-* Blog
-
+- [Github Repository](https://github.com/flextype/flextype)
+- [Discord](https://discord.gg/CCKPKVG)
+- [Forum](http://forum.flextype.org)
+- [Vkontakte](https://vk.com/flextype)
+- [Twitter](https://twitter.com/getflextype)
 
 ## CONTRIBUTE
 Flextype is an open source project and community contributions are essential to its growing and success. Contributing to the Flextype is easy and you can give as little or as much time as you want.
 
-* Help on the [Communities.](http://flextype.org/en/documentation/guide/basics/getting-help)
-* Develop a new plugin.
-* Create a new theme.
-* Find and [report issues.](https://github.com/flextype/flextype/issues)
-* Link back to [Flextype](http://flextype.org).
-* [Donate to keep Flextype free.](http://flextype.org/en/about/sponsors)
-* [Join Flextype International Translator Team](https://crowdin.com/project/flextype/invite)
-
-
-## LINKS
-- [Site](http://flextype.org)
-- [Documentation](http://flextype.org/en/documentation)
-
+- Help on the [Communities.](http://flextype.org/en/community)
+- Develop a new plugin.
+- Create a new theme.
+- Find and [report issues.](https://github.com/flextype/flextype/issues)
+- Link back to [Flextype](http://flextype.org).
+- [Donate to keep Flextype free.](http://flextype.org/en/about)
+- [Join Flextype International Translator Team](https://crowdin.com/project/flextype/invite)
 
 ## LICENSE
-See [LICENSE](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
+[The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
+Copyright (c) 2018-2019 [Sergey Romanenko](https://github.com/Awilum)

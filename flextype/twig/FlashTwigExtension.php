@@ -1,20 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
- * @link http://romanenko.digital
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Flextype (http://flextype.org)
+ * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
 namespace Flextype;
 
-use Slim\Flash\Messages;
+use Twig_Extension;
+use Twig_SimpleFunction;
 
-class FlashTwigExtension extends \Twig_Extension
+class FlashTwigExtension extends Twig_Extension
 {
     /**
      * Flextype Dependency Container
@@ -37,7 +35,7 @@ class FlashTwigExtension extends \Twig_Extension
     public function getFunctions() : array
     {
         return [
-            new \Twig_SimpleFunction('flash', [$this, 'getMessages']),
+            new Twig_SimpleFunction('flash', [$this, 'getMessages']),
         ];
     }
 
@@ -45,12 +43,11 @@ class FlashTwigExtension extends \Twig_Extension
      * Returns Flash messages; If key is provided then returns messages
      * for that key.
      *
-     * @param string $key
      * @return array
      */
-    public function getMessages($key = null) : array
+    public function getMessages(?string $key = null) : array
     {
-        if (null !== $key) {
+        if ($key !== null) {
             return $this->flextype['flash']->getMessage($key);
         }
 

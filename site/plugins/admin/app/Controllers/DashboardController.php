@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flextype;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -15,8 +17,6 @@ class DashboardController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {

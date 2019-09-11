@@ -1,18 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
- * @link http://romanenko.digital
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Flextype (http://flextype.org)
+ * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
 namespace Flextype;
 
-class EntriesTwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+use Twig_Extension;
+use Twig_Extension_GlobalsInterface;
+
+class EntriesTwigExtension extends Twig_Extension implements Twig_Extension_GlobalsInterface
 {
     /**
      * Flextype Dependency Container
@@ -33,7 +33,7 @@ class EntriesTwigExtension extends \Twig_Extension implements \Twig_Extension_Gl
     public function getGlobals()
     {
         return [
-            'entries' => new EntriesTwig($this->flextype)
+            'entries' => new EntriesTwig($this->flextype),
         ];
     }
 }

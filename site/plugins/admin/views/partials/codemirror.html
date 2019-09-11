@@ -1,0 +1,51 @@
+<script type="text/javascript">
+    function qsa(sel) {
+        return Array.apply(null, document.querySelectorAll(sel));
+    }
+
+    qsa(".js-code").forEach(function (editorEl) {
+        var editor = CodeMirror.fromTextArea(editorEl, {
+            lineNumbers: true,
+            {% if is_current_path('admin.fieldsets.edit') %}
+            indentUnit: 4,
+            tabSize: 4,
+            {% else %}
+            tabSize: 4,
+            indentUnit: 4,
+            {% endif %}
+            {% if is_current_path('admin.fieldsets.edit') %}
+            mode: "text/javascript",
+            {% else %}
+            mode: "application/x-httpd-php",
+            {% endif %}
+            indentWithTabs: false,
+            {% if registry.settings.admin_panel.theme == 'light' %}
+            theme: "elegant",
+            {% elseif registry.settings.admin_panel.theme == 'dark' %}
+            theme: "monokai",
+            {% endif %}
+            styleActiveLine: true,
+        });
+
+        editor.addKeyMap({
+            "Tab": function (cm) {
+                if (cm.somethingSelected()) {
+                    var sel = editor.getSelection("\n");
+                    // Indent only if there are multiple lines selected, or if the selection spans a full line
+                    if (sel.length > 0 && (sel.indexOf("\n") > -1 || sel.length === cm.getLine(cm.getCursor().line).length)) {
+                        cm.indentSelection("add");
+                        return;
+                    }
+                }
+
+                if (cm.options.indentWithTabs)
+                    cm.execCommand("insertTab");
+                else
+                    cm.execCommand("insertSoftTab");
+            },
+            "Shift-Tab": function (cm) {
+                cm.indentSelection("subtract");
+            }
+        });
+    });
+</script>

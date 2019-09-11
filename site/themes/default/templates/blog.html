@@ -4,28 +4,97 @@
 
     <h1 class="text-center">{{ entry.title }}</h1>
 
+
     {# pagination #}
+
+    {% set page = query.page %}
+    {% set tag = query.tag %}
+
     {% set entries_limit = entries.fetch('blog').entries_limit %}
-    {% set entries_length = entries.fetchAll('blog', {'order_by': {'field': 'date', 'direction': 'desc'}})|length %}
-    {% set entries_pages = (entries_length/entries_limit)|round %}
-    {% if page < 1 %}{% set page = 1 %}{% elseif page > entries_pages %}{% set page = entries_pages %}{% endif %}
-    {% set entries_offset = (page-1)*entries_limit %}
-    {% if entries_offset < 0 %}{% set entries_offset = 0 %}{% endif %}
+
+    {% if tag %}
+        {# @todo get count from cache! #}
+        {% set entries_length = entries.fetchAll('blog', {
+                                                            'where': {
+                                                                'key': 'tag',
+                                                                'expr': 'contains',
+                                                                'value': tag
+                                                            },
+                                                            'and_where': {
+                                                                'key': 'visibility',
+                                                                'expr': 'nin',
+                                                                'value': ['draft', 'hidden']
+                                                            }
+                                                        })|length %}
+
+        {% set entries_pages = (entries_length/entries_limit)|round %}
+        {% if page < 1 %}{% set page = 1 %}{% elseif page > entries_pages %}{% set page = entries_pages %}{% endif %}
+        {% set entries_offset = (page-1)*entries_limit %}
+        {% if entries_offset < 0 %}{% set entries_offset = 0 %}{% endif %}
+
+        {% set entries = entries.fetchAll('blog', {
+                                                    'where': {
+                                                        'key': 'tag',
+                                                        'expr': 'contains',
+                                                        'value': tag
+                                                    },
+                                                    'and_where': {
+                                                        'key': 'visibility',
+                                                        'expr': 'nin',
+                                                        'value': ['draft', 'hidden']
+                                                    },
+                                                    'order_by': {
+                                                        'field': 'published_at',
+                                                        'direction': 'desc'
+                                                    },
+                                                    'set_max_result': entries_limit,
+                                                    'set_first_result': entries_offset
+                                                }) %}
+    {% else %}
+
+        {# @todo get count from cache! #}
+        {% set entries_length = entries.fetchAll('blog', {
+                                                            'where': {
+                                                                'key': 'visibility',
+                                                                'expr': 'nin',
+                                                                'value': ['draft', 'hidden']
+                                                            }
+                                                        })|length %}
+
+        {% set entries_pages = (entries_length/entries_limit)|round %}
+        {% if page < 1 %}{% set page = 1 %}{% elseif page > entries_pages %}{% set page = entries_pages %}{% endif %}
+        {% set entries_offset = (page-1)*entries_limit %}
+        {% if entries_offset < 0 %}{% set entries_offset = 0 %}{% endif %}
+
+        {% set entries = entries.fetchAll('blog', {
+                                                    'where': {
+                                                        'key': 'visibility',
+                                                        'expr': 'nin',
+                                                        'value': ['draft', 'hidden']
+                                                    },
+                                                    'order_by': {
+                                                        'field': 'published_at',
+                                                        'direction': 'desc'
+                                                    },
+                                                    'set_max_result': entries_limit,
+                                                    'set_first_result': entries_offset}) %}
+    {% endif %}
+
     {# /pagination #}
 
-    {% for entry in entries.fetchAll('blog', {'order_by': {'field': 'date', 'direction': 'desc'}, 'set_max_result': entries_limit, 'set_first_result': entries_offset}) %}
+    {% for entry in entries %}
         <a href="{{ entry.slug }}" class="blog-post">
             <h3>{{ entry.title }}</h3>
             <p>{{ entry.summary|shortcode|raw}}</p>
-            <div>{{ entry.date }}</div>
+            <div>{{ entry.published_at|date(registry.settings.date_display_format) }}</div>
         </a>
     {% endfor %}
 
     {# pagination navigation #}
     <div class="text-center">
-        {% if (page - 1) > 0 %}<a href="?page={{ page - 1 }}">&larr;</a>{% endif %}
+        {% if (page - 1) > 0 %}<a href="?page={{ page - 1 }}{% if tag %}&tag={{ tag }}{% endif %}">&larr;</a>{% endif %}
         {{ page }} / {{ entries_pages }}
-        {% if (page) < entries_pages %}<a href="?page={{ page + 1 }} ">&rarr;</a>{% endif %}
+        {% if (page) < entries_pages %}<a href="?page={{ page + 1 }}{% if tag %}&tag={{ tag }}{% endif %}">&rarr;</a>{% endif %}
     </div>
     {# /pagination navigation #}
 

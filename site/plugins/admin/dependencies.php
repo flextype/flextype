@@ -1,9 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Romanenko Sergey <hello@romanenko.digital>
  * @link http://romanenko.digital
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,7 +11,6 @@
 
 namespace Flextype;
 
-use Flextype\Component\Arr\Arr;
 use Flextype\Component\I18n\I18n;
 use function Flextype\Component\I18n\__;
 
@@ -31,46 +29,46 @@ $flextype->registry->set('admin_navigation.settings.settings', ['title' => '<i c
 // Add Global Vars Admin Twig Extension
 $flextype->view->addExtension(new GlobalVarsAdminTwigExtension($flextype));
 
-$flextype['DashboardController'] = function ($container) {
+$flextype['DashboardController'] = static function ($container) {
     return new DashboardController($container);
 };
 
-$flextype['SettingsController'] = function ($container) {
+$flextype['SettingsController'] = static function ($container) {
     return new SettingsController($container);
 };
 
-$flextype['InformationController'] = function ($container) {
+$flextype['InformationController'] = static function ($container) {
     return new InformationController($container);
 };
 
-$flextype['PluginsController'] = function ($container) {
+$flextype['PluginsController'] = static function ($container) {
     return new PluginsController($container);
 };
 
-$flextype['EntriesController'] = function ($container) {
+$flextype['EntriesController'] = static function ($container) {
     return new EntriesController($container);
 };
 
-$flextype['FieldsetsController'] = function ($container) {
+$flextype['FieldsetsController'] = static function ($container) {
     return new FieldsetsController($container);
 };
 
-$flextype['SnippetsController'] = function ($container) {
+$flextype['SnippetsController'] = static function ($container) {
     return new SnippetsController($container);
 };
 
-$flextype['ThemesController'] = function ($container) {
+$flextype['ThemesController'] = static function ($container) {
     return new ThemesController($container);
 };
 
-$flextype['TemplatesController'] = function ($container) {
+$flextype['TemplatesController'] = static function ($container) {
     return new TemplatesController($container);
 };
 
-$flextype['UsersController'] = function ($container) {
+$flextype['UsersController'] = static function ($container) {
     return new UsersController($container);
 };
 
-$flextype['ToolsController'] = function ($container) {
+$flextype['ToolsController'] = static function ($container) {
     return new ToolsController($container);
 };

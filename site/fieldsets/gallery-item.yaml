@@ -1,0 +1,21 @@
+title: Gallery Item
+default_field: title
+sections:
+  main:
+    title: Main
+    fields:
+      title:
+        title: admin_title
+        type: text
+        size: 12
+      gallery_img:
+        title: admin_gallery_img
+        type: media_select
+        size: 4/12
+  seo:
+    title: Seo
+    fields:
+      description:
+        title: admin_description
+        type: textarea
+        size: 12

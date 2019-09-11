@@ -1,0 +1,35 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-4 float-center">
+        <h3 class="h3 auth-header text-center">{{ tr('admin_welcome') }}!</h3>
+        <p class="text-center">{{ tr('admin_create_new_user_welcome') }}</p>
+    </div>
+</div>
+
+<form action="" method="post">
+    {{ csrf() }}
+    <div class="row">
+        <div class="col-4 float-center">
+            <div class="form-group">
+                <label>{{ tr('admin_username') }}</label>
+                <input type="text" name="username" value="" class="form-control" placeholder="lowercase chars only, e.g. admin" pattern="^[a-z0-9_-]{3,16}$" required="required">
+            </div>
+            <div class="form-group">
+                <label for="email">{{ tr('admin_email') }}</label>
+                <input type="text" name="email" value="" class="form-control" placeholder="valid email address" required="required">
+            </div>
+            <div class="form-group">
+                <label for="password">{{ tr('admin_password') }}</label>
+                <input type="password" name="password" value="" class="form-control" placeholder="complex string at least 8 chars long" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required="required">
+            </div>
+            <div class="form-group">
+                <input type="submit" name="registration" value="{{ tr('admin_create_user') }}" class="btn btn-black btn-block">
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

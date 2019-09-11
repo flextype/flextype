@@ -3,6 +3,7 @@
 namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
+use Flextype\Component\Session\Session;
 use Flextype\Component\Date\Date;
 use Flextype\Component\Form\Form;
 use Flextype\Component\Arr\Arr;
@@ -13,6 +14,9 @@ use Respect\Validation\Validator as v;
 use Intervention\Image\ImageManagerStatic as Image;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+
 
 /**
  * @property View $view
@@ -27,6 +31,12 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  */
 class EntriesController extends Controller
 {
+
+    /**
+     * Get Entry ID
+     *
+     * @param array Query
+     */
     protected function getEntryID($query)
     {
         if (isset($query['id'])) {
@@ -62,7 +72,7 @@ class EntriesController extends Controller
             $response,
             'plugins/admin/views/templates/content/entries/index.html',
             [
-                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), ['order_by' => ['field' => 'date', 'direction' => 'desc']]),
+                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]),
                             'id_current' => $this->getEntryID($query),
                             'menu_item' => 'entries',
                             'parts' => $parts,
@@ -115,8 +125,8 @@ class EntriesController extends Controller
         // If there is any fieldset file then go...
         if (count($fieldsets_list) > 0) {
             foreach ($fieldsets_list as $fieldset) {
-                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'json') {
-                    $fieldset_content = JsonParser::decode(Filesystem::read($fieldset['path']));
+                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
+                    $fieldset_content = Parser::decode(Filesystem::read($fieldset['path']), 'yaml');
                     if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
                         $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
                     }
@@ -192,10 +202,14 @@ class EntriesController extends Controller
                 $data_result = [];
 
                 // Define data values based on POST data
-                $data_from_post['title']     = $data['title'];
-                $data_from_post['template']  = $template;
-                $data_from_post['fieldset']  = $data['fieldset'];
-                $data_from_post['date']      = date($this->registry->get('settings.date_format'), time());
+                $data_from_post['title']        = $data['title'];
+                $data_from_post['template']     = $template;
+                $data_from_post['fieldset']     = $data['fieldset'];
+                $data_from_post['published_at'] = date($this->registry->get('settings.date_format'), time());
+                $data_from_post['created_at']   = date($this->registry->get('settings.date_format'), time());
+                $data_from_post['uuid']         = Uuid::uuid4()->toString();
+                $data_from_post['published_by'] = Session::get('uuid');
+                $data_from_post['created_by']   = Session::get('uuid');
 
                 // Predefine data values based on selected fieldset
                 foreach ($fieldset['sections'] as $key => $section) {
@@ -226,7 +240,13 @@ class EntriesController extends Controller
                     $data_result = $data_from_post;
                 }
 
-                if ($this->entries->create($id, $data_result)) {
+                if (isset($fieldset['parser'])) {
+                    $parser = $fieldset['parser'];
+                } else {
+                    $parser = 'frontmatter';
+                }
+
+                if ($this->entries->create($id, $data_result, $parser)) {
                     $this->flash->addMessage('success', __('admin_message_entry_created'));
                 } else {
                     $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
@@ -270,8 +290,8 @@ class EntriesController extends Controller
         // If there is any template file then go...
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
-                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'json') {
-                    $fieldset_content = JsonParser::decode(Filesystem::read($fieldset['path']));
+                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
+                    $fieldset_content = Parser::decode(Filesystem::read($fieldset['path']), 'yaml');
                     if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
                         $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
                     }
@@ -323,10 +343,13 @@ class EntriesController extends Controller
         $entry = $this->entries->fetch($id);
 
         Arr::delete($entry, 'slug');
+        Arr::delete($entry, 'modified_at');
         Arr::delete($_data, 'csrf_name');
         Arr::delete($_data, 'csrf_value');
         Arr::delete($_data, 'save_entry');
         Arr::delete($_data, 'id');
+
+        $_data['published_by'] = Session::get('uuid');
 
         $data = array_merge($entry, $_data);
 
@@ -423,7 +446,6 @@ class EntriesController extends Controller
         $data = $request->getParsedBody();
 
         if (!$this->entries->has($data['parent_entry'] . '/' . $data['entry_id_current'])) {
-
             if ($this->entries->rename(
                 $data['entry_id_path_current'],
                 $data['parent_entry'] . '/' . $this->slugify->slugify($data['entry_id_current'])
@@ -526,6 +548,7 @@ class EntriesController extends Controller
         $id_current = $data['id-current'];
 
         if ($this->entries->delete($id)) {
+
             $this->flash->addMessage('success', __('admin_message_entry_deleted'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_was_not_deleted'));
@@ -556,125 +579,6 @@ class EntriesController extends Controller
     }
 
     /**
-     * Fetch Fieldset form
-     *
-     * @access public
-     * @param array  $fieldset Fieldset
-     * @param string $values   Fieldset values
-     * @return string Returns form based on fieldsets
-     */
-    public function fetchForm(array $fieldset, array $values = [], Request $request) : string
-    {
-        $form = '';
-        $form .= Form::open(null, ['id' => 'form']);
-        $form .= '<input type="hidden" name="' . $this->csrf->getTokenNameKey() . '" value="' . $this->csrf->getTokenName() . '">' .
-        $form .= '<input type="hidden" name="' . $this->csrf->getTokenValueKey() . '" value="' . $this->csrf->getTokenValue() . '">';
-        $form .= Form::hidden('action', 'save-form');
-        if (count($fieldset['sections']) > 0) {
-            $form .= '<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">';
-            foreach ($fieldset['sections'] as $key => $section) {
-                $form .= '<li class="nav-item">
-                            <a class="nav-link '.(($key == 'main') ? 'active' : '') . '" id="pills-' . $key . '-tab" data-toggle="pill" href="#pills-' . $key . '" role="tab" aria-controls="pills-' . $key . '" aria-selected="true">' . $section['title'] . '</a>
-                          </li>';
-            }
-            $form .= '</ul>';
-            $form .= '<div class="tab-content" id="pills-tabContent">';
-            foreach ($fieldset['sections'] as $key => $section) {
-                $form .= '<div class="tab-pane fade show ' . (($key == 'main') ? 'active' : '') . '" id="pills-' . $key . '" role="tabpanel" aria-labelledby="pills-' . $key . '-tab">';
-                $form .= '<div class="row">';
-                foreach ($section['fields'] as $element => $property) {
-                    // Create attributes
-                    $property['attributes'] = Arr::keyExists($property, 'attributes') ? $property['attributes'] : [];
-                    // Create attribute class
-                    $property['attributes']['class'] = Arr::keyExists($property, 'attributes.class') ? 'form-control ' . $property['attributes']['class'] : 'form-control';
-                    // Create attribute size
-                    $property['size'] = Arr::keyExists($property, 'size') ? $property['size'] : 'col-12';
-                    // Create attribute value
-                    $property['value'] = Arr::keyExists($property, 'value') ? $property['value'] : '';
-                    $pos = strpos($element, '.');
-                    if ($pos === false) {
-                        $form_element_name = $element;
-                    } else {
-                        $form_element_name = str_replace(".", "][", "$element") . ']';
-                    }
-                    $pos = strpos($form_element_name, ']');
-                    if ($pos !== false) {
-                        $form_element_name = substr_replace($form_element_name, '', $pos, strlen(']'));
-                    }
-                    // Form value
-                    $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : $property['value'];
-                    // Form label
-                    $form_label = Form::label($element, __($property['title']));
-                    // Form elements
-                    switch ($property['type']) {
-                        // Simple text-input, for multi-line fields.
-                        case 'textarea':
-                            $form_element = Form::textarea($element, $form_value, $property['attributes']);
-                        break;
-                        // The hidden field is like the text field, except it's hidden from the content editor.
-                        case 'hidden':
-                            $form_element = Form::hidden($element, $form_value);
-                        break;
-                        // A WYSIWYG HTML field.
-                        case 'editor':
-                            $property['attributes']['class'] .= ' js-html-editor';
-                            $form_element = Form::textarea($element, $form_value, $property['attributes']);
-                        break;
-                        // Selectbox field
-                        case 'select':
-                            $form_element = Form::select($form_element_name, $property['options'], $form_value, $property['attributes']);
-                        break;
-                        // Template select field for selecting entry template
-                        case 'template_select':
-                            if ($this->registry->has('settings.theme')) {
-
-                                $_templates_list = $this->themes->getTemplates($this->registry->get('settings.theme'));
-
-                                $templates_list = [];
-
-                                if (count($_templates_list) > 0) {
-                                    foreach ($_templates_list as $template) {
-                                        if ($template['type'] == 'file' && $template['extension'] == 'html') {
-                                            $templates_list[$template['basename']] = $template['basename'];
-                                        }
-                                    }
-                                }
-
-                                $form_element = Form::select($form_element_name, $templates_list, $form_value, $property['attributes']);
-                            }
-                        break;
-                        // Visibility select field for selecting entry visibility state
-                        case 'visibility_select':
-                            $form_element = Form::select($form_element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (!empty($form_value) ? $form_value : 'visible'), $property['attributes']);
-                        break;
-                        // Media select field
-                        case 'media_select':
-                            $form_element = Form::select($form_element_name, $this->getMediaList($request->getQueryParams()['id'], false), $form_value, $property['attributes']);
-                        break;
-                        // Simple text-input, for single-line fields.
-                        default:
-                            $form_element = Form::input($form_element_name, $form_value, $property['attributes']);
-                        break;
-                    }
-                    // Render form elments with labels
-                    if ($property['type'] == 'hidden') {
-                        $form .= $form_element;
-                    } else {
-                        $form .= '<div class="form-group ' . $property['size'] . '">';
-                        $form .= $form_label . $form_element;
-                        $form .= '</div>';
-                    }
-                }
-                $form .= '</div>';
-                $form .= '</div>';
-            }
-            $form .= '</div>';
-        }
-        $form .= Form::close();
-        return $form;
-    }
-
-    /**
      * Edit entry
      *
      * @param Request  $request  PSR7 request
@@ -700,10 +604,11 @@ class EntriesController extends Controller
         // Get Entry
         $entry = $this->entries->fetch($this->getEntryID($query));
         Arr::delete($entry, 'slug');
+        Arr::delete($entry, 'modified_at');
 
         // Fieldsets for current entry template
-        $fieldsets_path = PATH['site'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.json';
-        $fieldsets = JsonParser::decode(Filesystem::read($fieldsets_path));
+        $fieldsets_path = PATH['site'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
+        $fieldsets = Parser::decode(Filesystem::read($fieldsets_path), 'yaml');
         is_null($fieldsets) and $fieldsets = [];
 
         if ($type == 'source') {
@@ -715,7 +620,7 @@ class EntriesController extends Controller
                         'i' => count($parts),
                         'last' => Arr::last($parts),
                         'id' => $this->getEntryID($query),
-                        'data' => JsonParser::encode($entry),
+                        'data' => Parser::encode($entry, 'frontmatter'),
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
@@ -744,7 +649,7 @@ class EntriesController extends Controller
                             'save_entry' => [
                                             'link'       => 'javascript:;',
                                             'title'      => __('admin_save'),
-                                            'attributes' => ['class' => 'js-save-editor-form-submit float-right btn']
+                                            'attributes' => ['class' => 'js-save-form-submit float-right btn']
                                         ],
                         ]
                 ]
@@ -781,13 +686,6 @@ class EntriesController extends Controller
                                 'title' => __('admin_source'),
                                 'attributes' => ['class' => 'navbar-item']
                             ],
-                        ],
-                        'buttons' => [
-                            'save_entry' => [
-                                            'link'       => 'javascript:;',
-                                            'title'      => __('admin_save'),
-                                            'attributes' => ['class' => 'js-save-editor-form-submit float-right btn']
-                                        ],
                         ]
                 ]
             );
@@ -799,7 +697,7 @@ class EntriesController extends Controller
                         'parts' => $parts,
                         'i' => count($parts),
                         'last' => Arr::last($parts),
-                        'form' => $this->fetchForm($fieldsets, $entry, $request),
+                        'form' => $this->forms->render($fieldsets, $entry, $request, $response),
                         'menu_item' => 'entries',
                         'links' => [
                             'entries' => [
@@ -827,30 +725,12 @@ class EntriesController extends Controller
                             'save_entry' => [
                                             'link'       => 'javascript:;',
                                             'title'      => __('admin_save'),
-                                            'attributes' => ['class' => 'js-save-editor-form-submit float-right btn']
+                                            'attributes' => ['class' => 'js-save-form-submit float-right btn']
                                         ],
                         ]
                 ]
             );
         }
-    }
-
-    public function getMediaList(string $entry, bool $path = false) : array
-    {
-        $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
-        $files = [];
-        foreach (array_diff(scandir(PATH['entries'] . '/' . $entry), ['..', '.']) as $file) {
-            if (strpos($this->registry->get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
-                if (strpos($file, strtolower($file_ext), 1)) {
-                    if ($path) {
-                        $files[$base_url . '/' . $entry . '/' . $file] = $base_url . '/' . $entry . '/' . $file;
-                    } else {
-                        $files[$file] = $file;
-                    }
-                }
-            }
-        }
-        return $files;
     }
 
     /**
@@ -874,16 +754,13 @@ class EntriesController extends Controller
             // Data from POST
             $data = $request->getParsedBody();
 
-            if (v::json()->validate($data['data'])) {
+            $data['published_by'] = Session::get('uuid');
 
-                // Update entry
-                if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.json', $data['data'])) {
-                    $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
-                } else {
-                    $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
-                }
+            // Update entry
+            if ($this->entries->update($id, Parser::decode($data['data'], 'frontmatter'))) {
+                $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
-                $this->flash->addMessage('error', __('admin_message_json_invalid'));
+                $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
             }
         } else {
             // Result data to save
@@ -898,9 +775,12 @@ class EntriesController extends Controller
             Arr::delete($data, 'csrf_name');
             Arr::delete($data, 'action');
 
+            $data['published_by'] = Session::get('uuid');
+
             // Fetch entry
             $entry = $this->entries->fetch($id);
             Arr::delete($entry, 'slug');
+            Arr::delete($entry, 'modified_at');
 
             // Merge entry data with $to_save_data
             $result_data = array_merge($entry, $data);
@@ -911,7 +791,6 @@ class EntriesController extends Controller
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
             }
-
         }
 
         return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=' . $type);
@@ -1117,4 +996,33 @@ class EntriesController extends Controller
 
         return false;
     }
+
+    /**
+     * Get media list
+     *
+     * @param string $id Entry ID
+     * @param bool   $path if true returns with url paths
+     *
+     * @return array
+     */
+    public function getMediaList(string $id, bool $path = false) : array
+    {
+        $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
+        $files = [];
+        foreach (array_diff(scandir(PATH['entries'] . '/' . $id), ['..', '.']) as $file) {
+            if (strpos($this->registry->get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
+                if (strpos($file, strtolower($file_ext), 1)) {
+                    if ($file !== 'entry.md') {
+                        if ($path) {
+                            $files[$base_url . '/' . $id . '/' . $file] = $base_url . '/' . $id . '/' . $file;
+                        } else {
+                            $files[$file] = $file;
+                        }
+                    }
+                }
+            }
+        }
+        return $files;
+    }
+
 }

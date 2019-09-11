@@ -86,3 +86,13 @@
   </div>
 </div>
 {% endblock %}
+
+{% block tail %}
+<script type="text/javascript">
+    $('.js-snippets-info').click(function () {
+        $('#snippetsInfoModal').modal();
+        $('.js-snippets-snippet-placeholder').html($(this).attr('data-name'));
+        $('.js-snippets-php-placeholder').html($(this).attr('data-name'));
+    });
+</script>
+{% endblock %}

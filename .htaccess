@@ -1,12 +1,8 @@
 ##
-# @package Flextype
+# Flextype (http://flextype.org)
+# Founded by Sergey Romanenko and maintained by Flextype Community.
 #
-# @author Sergey Romanenko <hello@romanenko.digital>
-# @link http://romanenko.digital
-#
-# For the full copyright and license information, please view the LICENSE
-# file that was distributed with this source code.
-##
+
 
 ## Common PHP Overrides
 #
@@ -58,9 +54,9 @@ RewriteRule ^(\.git|flextype)/(.*) error [F]
 # Block access to specific file types for these system folders
 RewriteRule ^(flextype|vendor)/(.*)\.(txt|xml|md|html|yaml|yml|php|pl|py|cgi|sh|bat)$ error [F]
 # Block access to specific file types for these user folders
-RewriteRule ^(site)/(.*)\.(txt|html|yaml|php|pl|py|cgi|sh|bat)$ error [F]
-# Block all direct access to .html files:
-RewriteRule \.html$ error [F]
+RewriteRule ^(site)/(.*)\.(txt|md|yaml|yml|html|php|pl|py|cgi|twig|sh|bat)$ error [F]
+# Block all direct access to .md files:
+RewriteRule \.md$ error [F]
 # Block all direct access to files and folders beginning with a dot
 RewriteRule (^|/)\.(?!well-known) - [F]
 # Block access to specific files in the root folder

@@ -1,26 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
- * @link http://romanenko.digital
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Flextype (http://flextype.org)
+ * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
 namespace Flextype;
 
 class Middleware
 {
+    /**
+     * Flextype Dependency Container
+     */
     protected $container;
 
+    /**
+     * __construct
+     */
     public function __construct($container)
     {
         $this->container = $container;
     }
 
+    /**
+     * __get
+     */
     public function __get($property)
     {
         if ($this->container->{$property}) {

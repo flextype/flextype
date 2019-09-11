@@ -16,19 +16,19 @@
       "issues": "https://github.com/flextype/flextype/issues"
     },
     "require": {
-        "php": ">=7.1.3",
+        "php": ">=7.2.0",
         "ext-json": "*",
         "ext-mbstring": "*",
 
-        "doctrine/cache": "^1.8.0",
-        "doctrine/collections": "^1.6",
+        "doctrine/cache": "~1.8.0",
+        "doctrine/collections": "~1.6.2",
 
         "flextype-components/arr" : "1.2.5",
         "flextype-components/assets" : "1.0.3",
         "flextype-components/cookie" : "1.2.0",
-        "flextype-components/date" : "1.0.0",
+        "flextype-components/date" : "1.1.0",
         "flextype-components/debug" : "1.0.0",
-        "flextype-components/filesystem" : "2.0.3",
+        "flextype-components/filesystem" : "2.0.6",
         "flextype-components/i18n" : "1.2.0",
         "flextype-components/number" : "1.1.0",
         "flextype-components/registry" : "2.0.0",
@@ -36,21 +36,30 @@
         "flextype-components/text" : "1.1.2",
         "flextype-components/form" : "1.0.2",
 
-        "slim/slim": "^3.0",
-        "slim/twig-view": "^2.5",
-        "slim/flash": "^0.4.0",
-        "slim/csrf": "^0.8.3",
-        "zeuxisoo/slim-whoops": "^0.6.0",
+        "slim/slim": "~3.12.2",
+        "slim/twig-view": "~2.5.0",
+        "slim/flash": "~0.4.0",
+        "slim/csrf": "~0.8.3",
 
-        "league/glide-slim": "^1.0",
-        "league/event": "^2.2",
-        "league/glide": "^1.5",
+        "zeuxisoo/slim-whoops": "~0.6.5",
 
-        "respect/validation": "^1.0",
-        "monolog/monolog": "^1.24",
-        "cocur/slugify": "^3.2",
-        "oscarotero/psr7-middlewares": "^3.21",
-        "thunderer/shortcode": "^0.7.2"
+        "league/glide-slim": "~1.0.0",
+        "league/event": "~2.2.0",
+        "league/glide": "~1.5.0",
+
+        "respect/validation": "~1.1.31",
+        "monolog/monolog": "~2.0.0",
+        "cocur/slugify": "~3.2.0",
+        "thunderer/shortcode": "~0.7.2",
+        "ramsey/uuid": "~3.8.0",
+        "symfony/yaml": "~4.3.4",
+
+        "erusev/parsedown": "~1.7.3",
+        "erusev/parsedown-extra": "~0.7.1",
+
+        "middlewares/trailing-slash": "~1.1.0",
+        "middlewares/response-time": "~1.1.0",
+        "bnf/slim3-psr15": "~1.1.1"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
@@ -61,12 +70,16 @@
     "config": {
         "apcu-autoloader": true,
         "platform": {
-            "php": "7.1.3"
+            "php": "7.2.0"
         }
     },
     "autoload": {
         "classmap": [
             "flextype"
         ]
+    },
+    "require-dev": {
+        "doctrine/coding-standard": "~6.0.0",
+        "victorjonsson/markdowndocs": "dev-master"
     }
 }

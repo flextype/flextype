@@ -3,52 +3,85 @@
 // (c) Sergey Romanenko <http://romanenko.digital>
 //
 
-var Promise = require("es6-promise").Promise,
-    gulp = require('gulp'),
-    csso = require('gulp-csso'),
-    concat = require('gulp-concat'),
-    sourcemaps = require('gulp-sourcemaps'),
-    autoprefixer = require('gulp-autoprefixer'),
-    sass = require('gulp-sass');
+const { series, src, dest } = require('gulp');
+const del = require('del');
+const csso = require('gulp-csso');
+const concat = require('gulp-concat');
+const sourcemaps = require('gulp-sourcemaps');
+const autoprefixer = require('gulp-autoprefixer');
+const sass = require('gulp-sass');
 
-gulp.task('default-css', function() {
-    return gulp.src('assets/scss/default.scss')
-        .pipe(sass().on('error', sass.logError))
+function moveBootstrapCss() {
+    return src('node_modules/bootstrap/dist/css/bootstrap.min.css')
+        .pipe(concat('1.min.css'))
+        .pipe(dest('assets/dist/css/tmp'));
+}
+
+function moveSimpleLightboxCss() {
+    return src('node_modules/simplelightbox/dist/simplelightbox.min.css')
+        .pipe(concat('3.min.css'))
+        .pipe(dest('assets/dist/css/tmp'));
+}
+
+function buldDefaultCss() {
+      return src('assets/scss/default.scss')
+          .pipe(sass().on('error', sass.logError))
+          .pipe(concat('4.min.css'))
+          .pipe(dest('assets/dist/css/tmp'));
+}
+
+function moveJqueryJs() {
+    return src('node_modules/jquery/dist/jquery.min.js')
+        .pipe(concat('1.min.js'))
+        .pipe(dest('assets/dist/js/tmp'));
+}
+
+function moveBootstrapJs() {
+    return src('node_modules/bootstrap/dist/js/bootstrap.min.js')
+        .pipe(concat('2.min.js'))
+        .pipe(dest('assets/dist/js/tmp'));
+}
+
+function moveSimpleLightboxJs() {
+    return src('node_modules/simplelightbox/dist/simple-lightbox.min.js')
+        .pipe(concat('3.min.js'))
+        .pipe(dest('assets/dist/js/tmp'));
+}
+
+function mergeCss() {
+    return src('assets/dist/css/tmp/**')
         .pipe(autoprefixer({
-            browsers: ['last 2 versions'],
+            overrideBrowserslist: [
+                "last 1 version"
+            ],
             cascade: false
         }))
         .pipe(csso())
-        .pipe(concat('default.min.css'))
-        .pipe(gulp.dest('assets/dist/css/'));
-});
+        .pipe(concat('build.min.css'))
+        .pipe(dest('assets/dist/css/'));
+}
 
-gulp.task('js', function(){
-  return gulp.src(['node_modules/jquery/dist/jquery.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js'])
-    .pipe(sourcemaps.init())
-    .pipe(concat('default.min.js'))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('assets/dist/js/'));
-});
+function mergeJs() {
+    return src('assets/dist/js/tmp/**')
+        .pipe(concat('build.min.js'))
+        .pipe(dest('assets/dist/js/'));
+}
 
-gulp.task('bootstrap-css', function() {
-    return gulp.src('node_modules/bootstrap/dist/css/bootstrap.min.css')
-        .pipe(gulp.dest('assets/dist/css/'));
-});
+function cleanTmpCss() {
+    return del('assets/dist/css/tmp/');
+}
 
-gulp.task('animate-css', function() {
-    return gulp.src('node_modules/animate.css/animate.min.css')
-        .pipe(gulp.dest('assets/dist/css/'));
-});
+function cleanTmpJs() {
+    return del('assets/dist/js/tmp/');
+}
 
-gulp.task('simplelightbox-css', function() {
-    return gulp.src('node_modules/simplelightbox/dist/simplelightbox.min.css')
-        .pipe(gulp.dest('assets/dist/css/'));
-});
-
-gulp.task('simplelightbox-js', function() {
-    return gulp.src('node_modules/simplelightbox/dist/simple-lightbox.min.js')
-        .pipe(gulp.dest('assets/dist/js/'));
-});
-
-gulp.task('default', ['default-css', 'js', 'bootstrap-css', 'animate-css', 'simplelightbox-css', 'simplelightbox-js']);
+exports.default = series(moveBootstrapCss,
+                         moveSimpleLightboxCss,
+                         buldDefaultCss,
+                         mergeCss,
+                         cleanTmpCss,
+                         moveJqueryJs,
+                         moveBootstrapJs,
+                         moveSimpleLightboxJs,
+                         mergeJs,
+                         cleanTmpJs);

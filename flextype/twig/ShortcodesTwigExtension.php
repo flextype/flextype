@@ -1,20 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
- * @link http://romanenko.digital
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Flextype (http://flextype.org)
+ * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
 namespace Flextype;
 
-class ShortcodesTwigExtension extends \Twig_Extension
-{
+use Twig_Extension;
+use Twig_SimpleFilter;
 
+class ShortcodesTwigExtension extends Twig_Extension
+{
     /**
      * Flextype Dependency Container
      */
@@ -33,18 +32,22 @@ class ShortcodesTwigExtension extends \Twig_Extension
      *
      * @return array
      */
-    public function getFilters()
+    public function getFilters() : array
     {
         return [
-            new \Twig_SimpleFilter('shortcode', [$this, 'shortcode']),
+            new Twig_SimpleFilter('shortcode', [$this, 'shortcode']),
         ];
     }
 
     /**
      * Shorcode process
      */
-    public function shortcode(string $value) : string
+    public function shortcode($value) : string
     {
-        return $this->flextype->shortcodes->process($value);
+        if ($value !== null) {
+            return $this->flextype->shortcodes->process($value);
+        }
+
+        return '';
     }
 }

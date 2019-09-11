@@ -17,7 +17,9 @@ gulp.task('admin-css', function() {
     return gulp.src('assets/scss/admin.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer({
-            browsers: ['last 2 versions'],
+            overrideBrowserslist: [
+                "last 1 version"
+            ],
             cascade: false
         }))
         .pipe(csso())
@@ -29,7 +31,9 @@ gulp.task('admin-light-css', function() {
     return gulp.src('assets/scss/admin-light.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer({
-            browsers: ['last 2 versions'],
+            overrideBrowserslist: [
+                "last 1 version"
+            ],
             cascade: false
         }))
         .pipe(csso())
@@ -50,10 +54,12 @@ gulp.task('build-css', function(){
                    'node_modules/messenger-hubspot/build/css/messenger.css',
                    'node_modules/messenger-hubspot/build/css/messenger-theme-flat.css',
                    'assets/dist/css/admin.min.css'])
-       .pipe(autoprefixer({
-           browsers: ['last 2 versions'],
-           cascade: false
-       }))
+                   .pipe(autoprefixer({
+                       overrideBrowserslist: [
+                           "last 1 version"
+                       ],
+                       cascade: false
+                   }))
     .pipe(sourcemaps.init())
     .pipe(concat('admin-build.min.css'))
     .pipe(sourcemaps.write())

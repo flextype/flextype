@@ -1,21 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
- * @link http://romanenko.digital
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Flextype (http://flextype.org)
+ * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
 namespace Flextype;
 
+use const DIRECTORY_SEPARATOR;
+use const PHP_VERSION;
+use function define;
+use function getcwd;
+use function is_file;
+use function sprintf;
+use function str_replace;
+use function version_compare;
+
 /**
  * Define the application minimum supported PHP version.
  */
-define('FLEXTYPE_MINIMUM_PHP', '7.1.3');
+define('FLEXTYPE_MINIMUM_PHP', '7.2.0');
 
 /**
  * Define the PATH to the root directory (without trailing slash).
@@ -25,17 +31,19 @@ define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
 /**
  * Define the PATH (without trailing slash).
  */
-define('PATH', ['site'      => ROOT_DIR . '/site',
-                'plugins'   => ROOT_DIR . '/site/plugins',
-                'themes'    => ROOT_DIR . '/site/themes',
-                'entries'   => ROOT_DIR . '/site/entries',
-                'snippets'  => ROOT_DIR . '/site/snippets',
-                'fieldsets' => ROOT_DIR . '/site/fieldsets',
-                'config'    => [
-                                'default' => ROOT_DIR . '/flextype/config',
-                                'site'    => ROOT_DIR . '/site/config'
-                                ],
-                'cache'     => ROOT_DIR . '/site/cache']);
+define('PATH', [
+    'site'      => ROOT_DIR . '/site',
+    'plugins'   => ROOT_DIR . '/site/plugins',
+    'themes'    => ROOT_DIR . '/site/themes',
+    'entries'   => ROOT_DIR . '/site/entries',
+    'snippets'  => ROOT_DIR . '/site/snippets',
+    'fieldsets' => ROOT_DIR . '/site/fieldsets',
+    'config'    => [
+        'default' => ROOT_DIR . '/flextype/config',
+        'site'    => ROOT_DIR . '/site/config',
+    ],
+    'cache'     => ROOT_DIR . '/site/cache',
+]);
 
 /**
  * Check PHP Version
@@ -45,7 +53,7 @@ version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(s
 /**
  * Ensure vendor libraries exist
  */
-!is_file($autoload = __DIR__ . '/vendor/autoload.php') and exit("Please run: <i>composer install</i>");
+! is_file($autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i>');
 
 /**
  * Register The Auto Loader

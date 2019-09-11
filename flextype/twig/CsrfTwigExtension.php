@@ -1,29 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @package Flextype
- *
- * @author Sergey Romanenko <hello@romanenko.digital>
- * @link http://romanenko.digital
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Flextype (http://flextype.org)
+ * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
 namespace Flextype;
 
-class CsrfTwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
-{
+use Slim\Csrf\Guard;
+use Twig_Extension;
+use Twig_Extension_GlobalsInterface;
+use Twig_SimpleFunction;
 
-    /**
-     * @var \Slim\Csrf\Guard
-     */
+class CsrfTwigExtension extends Twig_Extension implements Twig_Extension_GlobalsInterface
+{
+    /** @var Guard */
     protected $csrf;
 
     /**
      * Constructor
      */
-    public function __construct(\Slim\Csrf\Guard $csrf)
+    public function __construct(Guard $csrf)
     {
         $this->csrf = $csrf;
     }
@@ -34,20 +33,20 @@ class CsrfTwigExtension extends \Twig_Extension implements \Twig_Extension_Globa
     public function getGlobals()
     {
         // CSRF token name and value
-        $csrfNameKey = $this->csrf->getTokenNameKey();
+        $csrfNameKey  = $this->csrf->getTokenNameKey();
         $csrfValueKey = $this->csrf->getTokenValueKey();
-        $csrfName = $this->csrf->getTokenName();
-        $csrfValue = $this->csrf->getTokenValue();
+        $csrfName     = $this->csrf->getTokenName();
+        $csrfValue    = $this->csrf->getTokenValue();
 
         return [
             'csrf'   => [
                 'keys' => [
                     'name'  => $csrfNameKey,
-                    'value' => $csrfValueKey
+                    'value' => $csrfValueKey,
                 ],
                 'name'  => $csrfName,
-                'value' => $csrfValue
-            ]
+                'value' => $csrfValue,
+            ],
         ];
     }
 
@@ -61,21 +60,19 @@ class CsrfTwigExtension extends \Twig_Extension implements \Twig_Extension_Globa
      *
      * @return array
      */
-    public function getFunctions()
+    public function getFunctions() : array
     {
         return [
-            new \Twig_SimpleFunction('csrf', [$this, 'csrf'], ['is_safe' => ['html']]),
+            new Twig_SimpleFunction('csrf', [$this, 'csrf'], ['is_safe' => ['html']]),
         ];
     }
 
     /**
      * CSRF
-     *
-     * @return string
      */
-    public function csrf()
+    public function csrf() : string
     {
-        return '<input type="hidden" name="'.$this->csrf->getTokenNameKey().'" value="'.$this->csrf->getTokenName().'">'.
-               '<input type="hidden" name="'.$this->csrf->getTokenValueKey().'" value="'.$this->csrf->getTokenValue().'">';
+        return '<input type="hidden" name="' . $this->csrf->getTokenNameKey() . '" value="' . $this->csrf->getTokenName() . '">' .
+               '<input type="hidden" name="' . $this->csrf->getTokenValueKey() . '" value="' . $this->csrf->getTokenValue() . '">';
     }
 }

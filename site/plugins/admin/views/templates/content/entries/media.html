@@ -72,3 +72,15 @@
   </div>
 </div>
 {% endblock %}
+
+{% block tail %}
+<script type="text/javascript">
+$('.js-entries-image-preview').click(function () {
+    $('#entriesImagePreview').modal();
+    $('.js-entry-image-preview-placeholder').css('background-image', 'url(' + $(this).attr('data-image-url') + ')');
+    $('.js-entry-image-url-placeholder').val($(this).attr('data-image-url'));
+    $('.js-media-id').attr('value', $(this).attr('data-media-id'));
+    $('.js-entry-id').attr('value', $(this).attr('data-entry-id'));
+});
+</script>
+{% endblock %}

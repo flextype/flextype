@@ -1,13 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
-use Flextype\Component\Text\Text;
-use function Flextype\Component\I18n\__;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Ramsey\Uuid\Uuid;
+use const PASSWORD_BCRYPT;
+use function count;
+use function Flextype\Component\I18n\__;
+use function password_hash;
+use function password_verify;
+use function trim;
 
 /**
  * @property View $view
@@ -30,25 +37,23 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function login(Request $request, Response $response) : Response
     {
         $users = $this->getUsers();
 
-        if ((Session::exists('role') && Session::get('role') == 'admin')) {
+        if ((Session::exists('role') && Session::get('role') === 'admin')) {
             return $response->withRedirect($this->router->pathFor('admin.entries.index'));
-        } else {
-            if (count($users) > 0) {
-                return $this->container->get('view')->render(
-                    $response,
-                    'plugins/admin/views/templates/users/login.html'
-                );
-            } else {
-                return $response->withRedirect($this->router->pathFor('admin.users.registration'));
-            }
         }
+
+        if (count($users) > 0) {
+            return $this->container->get('view')->render(
+                $response,
+                'plugins/admin/views/templates/users/login.html'
+            );
+        }
+
+        return $response->withRedirect($this->router->pathFor('admin.users.installation'));
     }
 
     /**
@@ -56,85 +61,109 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function loginProcess(Request $request, Response $response) : Response
     {
         $data = $request->getParsedBody();
 
-        if (Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $data['username'] . '.json')) {
-            $user_file = JsonParser::decode(Filesystem::read($_user_file));
+        if (Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $data['username'] . '.yaml')) {
+            $user_file = Parser::decode(Filesystem::read($_user_file), 'yaml');
             if (password_verify(trim($data['password']), $user_file['hashed_password'])) {
                 Session::set('username', $user_file['username']);
                 Session::set('role', $user_file['role']);
+                Session::set('uuid', $user_file['uuid']);
+
                 return $response->withRedirect($this->router->pathFor('admin.entries.index'));
-            } else {
-                $this->flash->addMessage('error', __('admin_message_wrong_username_password'));
-                return $response->withRedirect($this->router->pathFor('admin.users.login'));
             }
-        } else {
+
             $this->flash->addMessage('error', __('admin_message_wrong_username_password'));
+
             return $response->withRedirect($this->router->pathFor('admin.users.login'));
         }
+
+        $this->flash->addMessage('error', __('admin_message_wrong_username_password'));
+
+        return $response->withRedirect($this->router->pathFor('admin.users.login'));
     }
 
     /**
-     * Registration page
+     * Installation page
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
-    public function registration(Request $request, Response $response) : Response
+    public function installation(Request $request, Response $response) : Response
     {
         $users = $this->getUsers();
 
         if (count($users) > 0) {
             return $response->withRedirect($this->router->pathFor('admin.users.login'));
-        } else {
-            if ((Session::exists('role') && Session::get('role') == 'admin')) {
-                return $response->withRedirect($this->router->pathFor('admin.entries.index'));
-            } else {
-                return $this->view->render(
-                    $response,
-                    'plugins/admin/views/templates/users/registration.html'
-                );
-            }
         }
+
+        if ((Session::exists('role') && Session::get('role') === 'admin')) {
+            return $response->withRedirect($this->router->pathFor('admin.entries.index'));
+        }
+
+        return $this->view->render(
+            $response,
+            'plugins/admin/views/templates/users/installation.html'
+        );
     }
 
     /**
-     * Registration page process
+     * Installation page process
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
-    public function registrationProcess(Request $request, Response $response) : Response
+    public function installationProcess(Request $request, Response $response) : Response
     {
         // Get POST data
         $data = $request->getParsedBody();
 
-        if (!Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $this->slugify->slugify($data['username']) . '.json')) {
+        if (! Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $this->slugify->slugify($data['username']) . '.yaml')) {
+
+            // Generate UUID
+            $uuid = Uuid::uuid4()->toString();
+
+            // Get time
+            $time = date($this->registry->get('settings.date_format'), time());
+
+            // Create accounts directory and account
             Filesystem::createDir(PATH['site'] . '/accounts/');
+
+            // Create admin account
             if (Filesystem::write(
-                PATH['site'] . '/accounts/' . $data['username'] . '.json',
-                JsonParser::encode(['username' => $this->slugify->slugify($data['username']),
-                                            'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
-                                            'email' => $data['email'],
-                                            'role'  => 'admin',
-                                            'state' => 'enabled'])
-            )) {
+                        PATH['site'] . '/accounts/' . $data['username'] . '.yaml',
+                        Parser::encode([
+                            'username' => $this->slugify->slugify($data['username']),
+                            'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
+                            'email' => $data['email'],
+                            'role'  => 'admin',
+                            'state' => 'enabled',
+                            'uuid' => $uuid,
+                        ], 'yaml')
+                    )) {
+
+                // Update default entries
+                $this->entries->update('home', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('blog', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('blog/allamco-laboris-nisi-ut-aliquip', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('blog/cillum-dolore-eu-fugiat-nulla-pariatur', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('blog/excepteur-sint-occaecat-cupidatat-non-proident', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('blog/lorem-ipsum-dolor-sit-amet-consectetur-adipisicing-elit', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('blog/ullamco-laboris-nisi-ut-aliquip', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('gallery', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('gallery/nature', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+                $this->entries->update('about', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+
                 return $response->withRedirect($this->router->pathFor('admin.users.login'));
-            } else {
-                return $response->withRedirect($this->router->pathFor('admin.users.registration'));
             }
-        } else {
-            return $response->withRedirect($this->router->pathFor('admin.users.registration'));
+
+            return $response->withRedirect($this->router->pathFor('admin.users.installation'));
         }
+
+        return $response->withRedirect($this->router->pathFor('admin.users.installation'));
     }
 
     /**
@@ -142,12 +171,11 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function logoutProcess(Request $request, Response $response) : Response
     {
         Session::destroy();
+
         return $response->withRedirect($this->router->pathFor('admin.users.login'));
     }
 
@@ -164,12 +192,15 @@ class UsersController extends Controller
         // Users
         $users = [];
 
-        foreach($users_list as $user) {
-            if ($user['type'] == 'file' && $user['extension'] == 'json') {
-                $users[$user['basename']] = $user;
+        foreach ($users_list as $user) {
+            if ($user['type'] !== 'file' || $user['extension'] !== 'yaml') {
+                continue;
             }
+
+            $users[$user['basename']] = $user;
         }
 
         return $users;
     }
+
 }
