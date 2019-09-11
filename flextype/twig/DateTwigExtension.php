@@ -11,6 +11,7 @@ namespace Flextype;
 
 use Twig_Extension;
 use Twig_SimpleFunction;
+use function strlen;
 
 class DateTwigExtension extends Twig_Extension
 {
@@ -28,7 +29,7 @@ class DateTwigExtension extends Twig_Extension
 
     public function dateformatToMomentJS($php_format)
     {
-        $SYMBOLS_MATCHING = [
+        $symbols_matching = [
             // Day
             'd' => 'DD',
             'D' => 'ddd',
@@ -72,15 +73,14 @@ class DateTwigExtension extends Twig_Extension
             // Full Date/Time
             'c' => '',
             'r' => 'llll ZZ',
-            'U' => 'X'
+            'U' => 'X',
         ];
         $js_format        = '';
         $escaping         = false;
-        $len = strlen($php_format);
+        $len              = strlen($php_format);
         for ($i = 0; $i < $len; $i++) {
             $char = $php_format[$i];
-            if ($char === '\\') // PHP date format escaping character
-            {
+            if ($char === '\\') { // PHP date format escaping character
                 $i++;
                 if ($escaping) {
                     $js_format .= $php_format[$i];
@@ -91,10 +91,10 @@ class DateTwigExtension extends Twig_Extension
             } else {
                 if ($escaping) {
                     $js_format .= "'";
-                    $escaping = false;
+                    $escaping   = false;
                 }
-                if (isset($SYMBOLS_MATCHING[$char])) {
-                    $js_format .= $SYMBOLS_MATCHING[$char];
+                if (isset($symbols_matching[$char])) {
+                    $js_format .= $symbols_matching[$char];
                 } else {
                     $js_format .= $char;
                 }

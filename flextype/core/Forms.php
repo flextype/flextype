@@ -14,10 +14,12 @@ use Flextype\Component\Form\Form;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use function count;
+use function date;
 use function Flextype\Component\I18n\__;
 use function str_replace;
 use function strlen;
 use function strpos;
+use function strtotime;
 use function substr_replace;
 
 class Forms
@@ -367,8 +369,8 @@ class Forms
     /**
      * Tags field
      *
-     * @param string $name     Field name
-     * @param string $value    Field value
+     * @param string $name  Field name
+     * @param string $value Field value
      *
      * @return string Returns field
      *
