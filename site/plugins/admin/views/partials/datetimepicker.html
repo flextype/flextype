@@ -4,8 +4,8 @@
 <script type="text/javascript">
     $(function () {
         $("#datetimepicker").datetimepicker({
-            defaultDate: "{{ entry.published_at|date(registry.settings.date_format) }}",
             locale: "{{ locale }}",
+            format: "{{ dateformatToMomentJS(registry.settings.date_format) }}",
             debug: false,
             icons: {
                 time: "far fa-clock",
