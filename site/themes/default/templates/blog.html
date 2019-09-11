@@ -86,7 +86,7 @@
         <a href="{{ entry.slug }}" class="blog-post">
             <h3>{{ entry.title }}</h3>
             <p>{{ entry.summary|shortcode|raw}}</p>
-            <div>{{ entry.published_at|date(settings.date_format) }}</div>
+            <div>{{ entry.published_at|date(registry.settings.date_display_format) }}</div>
         </a>
     {% endfor %}
 
