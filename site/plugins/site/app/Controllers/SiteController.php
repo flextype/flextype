@@ -41,7 +41,7 @@ class SiteController extends Controller
         $uri = $args['uri'];
 
         // Is JSON Format
-        $is_json = ($query['format'] && $query['format'] == 'json') ? true : false;
+        $is_json = (isset($query['format']) && $query['format'] == 'json') ? true : false;
 
         // If uri is empty then it is main page else use entry uri
         if ($uri === '/') {
