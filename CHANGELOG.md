@@ -1,3 +1,24 @@
+<a name="0.9.5"></a>
+# [0.9.5](https://github.com/flextype/flextype/compare/v0.9.4...v0.9.5) (2019-09-xx)
+### Bug Fixes
+
+* **admin-plugin:** issue with emitter twig function #234 806b18e
+* **core:** issue with emitter twig function #234 426a073
+* **site-plugin:** notice for undefined $query['format'] #234 8bde8eb
+
+### BREAKING CHANGES
+Changed emitter execution in the templates
+
+FROM
+```
+{{ emitter.emit('EVENT_NAME') }}
+```
+
+TO
+```
+{% do emitter.emit('EVENT_NAME') %}
+```
+
 <a name="0.9.4"></a>
 # [0.9.4](https://github.com/flextype/flextype/compare/v0.9.3...v0.9.4) (2019-09-11)
 ### Added
