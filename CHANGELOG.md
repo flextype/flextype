@@ -3,6 +3,7 @@
 ### Bug Fixes
 
 * **admin-plugin:** issue with emitter twig function #234 806b18e
+* **admin-plugin:** russian translations #233
 * **core:** issue with emitter twig function #234 426a073
 * **site-plugin:** notice for undefined $query['format'] #234 8bde8eb
 
