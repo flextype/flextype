@@ -238,9 +238,38 @@ class Entries
         // Get Entries Timestamp
         $entries_timestamp = Filesystem::getDirTimestamp($entries_path);
 
+        // Entries IDs
+        $entries_ids = '';
+
+        // Create entries array from entries list and ignore current requested entry
+        foreach ($entries_list as $current_entry) {
+            if (strpos($current_entry['path'], $bind_id . '/entry' . '.' . 'md') !== false) {
+                // ignore ...
+            } else {
+                // We are checking...
+                // Whether the requested entry is a director and whether the file entry is in this directory.
+                if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry.md')) {
+                    // Get entry uid
+                    // 1. Remove entries path
+                    // 2. Remove left and right slashes
+                    $uid = ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/');
+
+                    // For each founded entry we should create $entries array.
+                    $entry = $this->fetch($uid);
+
+                    // Add entry into the entries
+                    $entries[$uid] = $entry;
+
+                    // Create entries IDs list
+                    $entries_ids .= $uid;
+                }
+            }
+        }
+
         // Create unique entries $cache_id
         $cache_id =  md5($entries_timestamp .
                          $bind_id .
+                         $entries_ids .
                          ($bind_recursive ? 'true' : 'false') .
                          ($bind_set_max_result ? $bind_set_max_result : 'false') .
                          ($bind_set_first_result ? $bind_set_first_result : 'false') .
@@ -261,28 +290,6 @@ class Entries
         if ($this->flextype['cache']->contains($cache_id)) {
             $entries = $this->flextype['cache']->fetch($cache_id);
         } else {
-            // Create entries array from entries list and ignore current requested entry
-            //echo count($entries_list);
-            foreach ($entries_list as $current_entry) {
-                if (strpos($current_entry['path'], $bind_id . '/entry' . '.' . 'md') !== false) {
-                    // ignore ...
-                } else {
-                    // We are checking...
-                    // Whether the requested entry is a director and whether the file entry is in this directory.
-                    if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry.md')) {
-                        // Get entry uid
-                        // 1. Remove entries path
-                        // 2. Remove left and right slashes
-                        $uid = ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/');
-
-                        // For each founded entry we should create $entries array.
-                        $entry = $this->fetch($uid);
-
-                        // Add entry into the entries
-                        $entries[$uid] = $entry;
-                    }
-                }
-            }
 
             // Create Array Collection from entries array
             $collection = new ArrayCollection($entries);
