@@ -270,8 +270,7 @@ class Entries
             }
 
             // Create unique entries $cache_id
-            $cache_id =  md5($entries_timestamp .
-                             $bind_id .
+            $cache_id =  md5($bind_id .
                              $entries_ids .
                              ($bind_recursive ? 'true' : 'false') .
                              ($bind_set_max_result ? $bind_set_max_result : 'false') .
