@@ -11,6 +11,9 @@
 * **admin-plugin:** russian translations #233
 * **site-plugin:** notice for undefined $query['format'] #234 8bde8eb
 
+### Code Refactoring
+* **core:** remove $response from Forms render method #234
+
 ### BREAKING CHANGES
 Changed emitter execution in the templates
 
