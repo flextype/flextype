@@ -5,6 +5,7 @@
 * **core:** issue with cache in the Entries API - fetchAll method #234 2779777
 * **core:** issue with emitter twig function #234 426a073
 * **core:** issue with empty entries folder Entries API - fetchAll method #234 cf61f2d
+* **core:** issue with Cache ID for Themes list #234 594f4a3
 * **admin-plugin:** issue with emitter twig function #234 806b18e
 * **admin-plugin:** russian translations #233
 * **site-plugin:** notice for undefined $query['format'] #234 8bde8eb
