@@ -8,11 +8,12 @@
 * **core:** issue with Cache ID for Themes list #234 594f4a3
 * **admin-plugin:** issue with active button styles on Themes Manager page #234 434f336
 * **admin-plugin:** issue with emitter twig function #234 806b18e
-* **admin-plugin:** russian translations #233
+* **admin-plugin:** Russian translations #233
 * **site-plugin:** notice for undefined $query['format'] #234 8bde8eb
 
 ### Code Refactoring
 * **core:** remove $response from Forms render method #234
+* **core:** add property forms to Flextype\EntriesController #234
 
 ### BREAKING CHANGES
 Changed emitter execution in the templates
