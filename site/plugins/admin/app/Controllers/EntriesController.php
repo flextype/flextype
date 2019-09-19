@@ -697,7 +697,7 @@ class EntriesController extends Controller
                         'parts' => $parts,
                         'i' => count($parts),
                         'last' => Arr::last($parts),
-                        'form' => $this->forms->render($fieldsets, $entry, $request, $response),
+                        'form' => $this->forms->render($fieldsets, $entry, $request),
                         'menu_item' => 'entries',
                         'links' => [
                             'entries' => [
