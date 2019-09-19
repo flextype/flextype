@@ -28,6 +28,7 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
  * @property Csrf $csrf
  * @property Themes $themes
  * @property Slugify $slugify
+ * @property Forms $forms
  */
 class EntriesController extends Controller
 {
