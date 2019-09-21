@@ -244,6 +244,9 @@ class Entries
             // Entries IDs
             $entries_ids = '';
 
+            // Entries IDs timestamps
+            $entries_ids_timestamps = '';
+
             // Create entries array from entries list and ignore current requested entry
             foreach ($entries_list as $current_entry) {
                 if (strpos($current_entry['path'], $bind_id . '/entry' . '.' . 'md') !== false) {
@@ -265,6 +268,9 @@ class Entries
 
                         // Create entries IDs list
                         $entries_ids .= $uid;
+
+                        // Create entries IDs timestamps
+                        $entries_ids_timestamps .= Filesystem::getTimestamp($current_entry['path'] . '/entry.md');
                     }
                 }
             }
@@ -272,6 +278,7 @@ class Entries
             // Create unique entries $cache_id
             $cache_id =  md5($bind_id .
                              $entries_ids .
+                             $entries_ids_timestamps .
                              ($bind_recursive ? 'true' : 'false') .
                              ($bind_set_max_result ? $bind_set_max_result : 'false') .
                              ($bind_set_first_result ? $bind_set_first_result : 'false') .
