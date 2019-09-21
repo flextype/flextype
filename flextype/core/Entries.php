@@ -172,6 +172,9 @@ class Entries
         // Init Entries
         $entries = [];
 
+        // Init Entries
+        $this->entries = $entries;
+
         // Set Expression
         $expression = $this->expression;
 
@@ -235,34 +238,16 @@ class Entries
         // Get entries list
         $entries_list = Filesystem::listContents($entries_path, $bind_recursive);
 
-        // Get Entries Timestamp
-        $entries_timestamp = Filesystem::getDirTimestamp($entries_path);
+        // If entries founded in entries folder
+        if (count($entries_list) > 0) {
 
-        // Create unique entries $cache_id
-        $cache_id =  md5($entries_timestamp .
-                         $bind_id .
-                         ($bind_recursive ? 'true' : 'false') .
-                         ($bind_set_max_result ? $bind_set_max_result : 'false') .
-                         ($bind_set_first_result ? $bind_set_first_result : 'false') .
-                         ($bind_where['where']['key'] ? $bind_where['where']['key'] : 'false') .
-                         ($bind_where['where']['expr'] ? $bind_where['where']['expr'] : 'false') .
-                         ($bind_where['where']['value'] ? $bind_where['where']['value'] : 'false') .
-                         ($bind_and_where['and_where']['key'] ? $bind_and_where['and_where']['key'] : 'false') .
-                         ($bind_and_where['and_where']['expr'] ? $bind_and_where['and_where']['expr'] : 'false') .
-                         ($bind_and_where['and_where']['value'] ? $bind_and_where['and_where']['value'] : 'false') .
-                         ($bind_or_where['or_where']['key'] ? $bind_or_where['or_where']['key'] : 'false') .
-                         ($bind_or_where['or_where']['expr'] ? $bind_or_where['or_where']['expr'] : 'false') .
-                         ($bind_or_where['or_where']['value'] ? $bind_or_where['or_where']['value'] : 'false') .
-                         ($bind_order_by['order_by']['field'] ? $bind_order_by['order_by']['field'] : 'false') .
-                         ($bind_order_by['order_by']['direction'] ? $bind_order_by['order_by']['direction'] : 'false'));
+            // Entries IDs
+            $entries_ids = '';
 
-        // If requested entries exist with a specific cache_id,
-        // then we take them from the cache otherwise we look for them.
-        if ($this->flextype['cache']->contains($cache_id)) {
-            $entries = $this->flextype['cache']->fetch($cache_id);
-        } else {
+            // Entries IDs timestamps
+            $entries_ids_timestamps = '';
+
             // Create entries array from entries list and ignore current requested entry
-            //echo count($entries_list);
             foreach ($entries_list as $current_entry) {
                 if (strpos($current_entry['path'], $bind_id . '/entry' . '.' . 'md') !== false) {
                     // ignore ...
@@ -280,64 +265,96 @@ class Entries
 
                         // Add entry into the entries
                         $entries[$uid] = $entry;
+
+                        // Create entries IDs list
+                        $entries_ids .= $uid;
+
+                        // Create entries IDs timestamps
+                        $entries_ids_timestamps .= Filesystem::getTimestamp($current_entry['path'] . '/entry.md');
                     }
                 }
             }
 
-            // Create Array Collection from entries array
-            $collection = new ArrayCollection($entries);
+            // Create unique entries $cache_id
+            $cache_id =  md5($bind_id .
+                             $entries_ids .
+                             $entries_ids_timestamps .
+                             ($bind_recursive ? 'true' : 'false') .
+                             ($bind_set_max_result ? $bind_set_max_result : 'false') .
+                             ($bind_set_first_result ? $bind_set_first_result : 'false') .
+                             ($bind_where['where']['key'] ? $bind_where['where']['key'] : 'false') .
+                             ($bind_where['where']['expr'] ? $bind_where['where']['expr'] : 'false') .
+                             ($bind_where['where']['value'] ? $bind_where['where']['value'] : 'false') .
+                             ($bind_and_where['and_where']['key'] ? $bind_and_where['and_where']['key'] : 'false') .
+                             ($bind_and_where['and_where']['expr'] ? $bind_and_where['and_where']['expr'] : 'false') .
+                             ($bind_and_where['and_where']['value'] ? $bind_and_where['and_where']['value'] : 'false') .
+                             ($bind_or_where['or_where']['key'] ? $bind_or_where['or_where']['key'] : 'false') .
+                             ($bind_or_where['or_where']['expr'] ? $bind_or_where['or_where']['expr'] : 'false') .
+                             ($bind_or_where['or_where']['value'] ? $bind_or_where['or_where']['value'] : 'false') .
+                             ($bind_order_by['order_by']['field'] ? $bind_order_by['order_by']['field'] : 'false') .
+                             ($bind_order_by['order_by']['direction'] ? $bind_order_by['order_by']['direction'] : 'false'));
 
-            // Create Criteria for filtering Selectable collections.
-            $criteria = new Criteria();
+            // If requested entries exist with a specific cache_id,
+            // then we take them from the cache otherwise we look for them.
+            if ($this->flextype['cache']->contains($cache_id)) {
+                $entries = $this->flextype['cache']->fetch($cache_id);
+            } else {
 
-            // Exec: where
-            if (isset($bind_where['where']['key']) && isset($bind_where['where']['expr']) && isset($bind_where['where']['value'])) {
-                $expr = new Comparison($bind_where['where']['key'], $bind_where['where']['expr'], $bind_where['where']['value']);
-                $criteria->where($expr);
+                // Create Array Collection from entries array
+                $collection = new ArrayCollection($entries);
+
+                // Create Criteria for filtering Selectable collections.
+                $criteria = new Criteria();
+
+                // Exec: where
+                if (isset($bind_where['where']['key']) && isset($bind_where['where']['expr']) && isset($bind_where['where']['value'])) {
+                    $expr = new Comparison($bind_where['where']['key'], $bind_where['where']['expr'], $bind_where['where']['value']);
+                    $criteria->where($expr);
+                }
+
+                // Exec: and where
+                if (isset($bind_and_where['and_where']['key']) && isset($bind_and_where['and_where']['expr']) && isset($bind_and_where['and_where']['value'])) {
+                    $expr = new Comparison($bind_and_where['and_where']['key'], $bind_and_where['and_where']['expr'], $bind_and_where['and_where']['value']);
+                    $criteria->andWhere($expr);
+                }
+
+                // Exec: or where
+                if (isset($bind_or_where['or_where']['key']) && isset($bind_or_where['or_where']['expr']) && isset($bind_or_where['or_where']['value'])) {
+                    $expr = new Comparison($bind_or_where['or_where']['key'], $bind_or_where['or_where']['expr'], $bind_or_where['or_where']['value']);
+                    $criteria->orWhere($expr);
+                }
+
+                // Exec: order by
+                if (isset($bind_order_by['order_by']['field']) && isset($bind_order_by['order_by']['direction'])) {
+                    $criteria->orderBy([$bind_order_by['order_by']['field'] => $direction[$bind_order_by['order_by']['direction']]]);
+                }
+
+                // Exec: set max result
+                if ($bind_set_max_result) {
+                    $criteria->setMaxResults($bind_set_max_result);
+                }
+
+                // Exec: set first result
+                if ($bind_set_first_result) {
+                    $criteria->setFirstResult($bind_set_first_result);
+                }
+
+                // Get entries for matching criterias
+                $entries = $collection->matching($criteria);
+
+                // Gets a native PHP array representation of the collection.
+                $entries = $entries->toArray();
+
+                // Save entries into the cache
+                $this->flextype['cache']->save($cache_id, $entries);
             }
 
-            // Exec: and where
-            if (isset($bind_and_where['and_where']['key']) && isset($bind_and_where['and_where']['expr']) && isset($bind_and_where['and_where']['value'])) {
-                $expr = new Comparison($bind_and_where['and_where']['key'], $bind_and_where['and_where']['expr'], $bind_and_where['and_where']['value']);
-                $criteria->andWhere($expr);
-            }
+            // Set entries into the property entries
+            $this->entries = $entries;
 
-            // Exec: or where
-            if (isset($bind_or_where['or_where']['key']) && isset($bind_or_where['or_where']['expr']) && isset($bind_or_where['or_where']['value'])) {
-                $expr = new Comparison($bind_or_where['or_where']['key'], $bind_or_where['or_where']['expr'], $bind_or_where['or_where']['value']);
-                $criteria->orWhere($expr);
-            }
-
-            // Exec: order by
-            if (isset($bind_order_by['order_by']['field']) && isset($bind_order_by['order_by']['direction'])) {
-                $criteria->orderBy([$bind_order_by['order_by']['field'] => $direction[$bind_order_by['order_by']['direction']]]);
-            }
-
-            // Exec: set max result
-            if ($bind_set_max_result) {
-                $criteria->setMaxResults($bind_set_max_result);
-            }
-
-            // Exec: set first result
-            if ($bind_set_first_result) {
-                $criteria->setFirstResult($bind_set_first_result);
-            }
-
-            // Get entries for matching criterias
-            $entries = $collection->matching($criteria);
-
-            // Gets a native PHP array representation of the collection.
-            $entries = $entries->toArray();
-
-            // Save entries into the cache
-            $this->flextype['cache']->save($cache_id, $entries);
+            // Run event onEntriesAfterInitialized
+            $this->flextype['emitter']->emit('onEntriesAfterInitialized');
         }
-
-        // Set entries into the property entries
-        $this->entries = $entries;
-
-        // Run event onEntriesAfterInitialized
-        $this->flextype['emitter']->emit('onEntriesAfterInitialized');
 
         // Return entries
         return $this->entries;

@@ -9,7 +9,7 @@
             <meta name="robots" content="{% if entry.robots %}{{ entry.robots }}{% else %}{{ registry.settings.robots }}{% endif %}">
             <meta name="generator" content="Powered by Flextype {{ FLEXTYPE_VERSION }}" />
 
-            {{ emitter.emit('onThemeMeta') }}
+            {% do emitter.emit('onThemeMeta') %}
 
             <title>{% if entry.title %}{{ entry.title|e('html') }} | {% endif %}{{ registry.settings.title|e('html') }}</title>
 
@@ -23,7 +23,7 @@
                 {% endfor %}
             {% endfor %}
 
-            {{ emitter.emit('onThemeHeader') }}
+            {% do emitter.emit('onThemeHeader') %}
             {{ snippets.exec('google-analytics')|raw }}
         {% endblock %}
     </head>
@@ -88,6 +88,6 @@
         }
         </script>
 
-        {{ emitter.emit('onThemeTail') }}
+        {% do emitter.emit('onThemeTail') %}
     </body>
 </html>

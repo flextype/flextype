@@ -19,14 +19,14 @@
                           {% if key == registry.settings.theme %}
                               <a class="btn btn-default" href="javascript:;">{{ tr('admin_active_theme') }}</a>
                           {% else %}
+                              <a class="btn btn-default" href="javascript:;"
+                                 onclick="event.preventDefault();
+                                          document.getElementById('activate-theme-id-{{ key }}').submit();">{{ tr('admin_activate') }}</a>
                               <form id="activate-theme-id-{{ key }}" action="{{ path_for('admin.themes.activateProcess') }}" method="POST" style="display: none;">
                                   {{ csrf() }}
                                   <input type="hidden" name="theme-id" value="{{ key }}">
                                   <input type="hidden" name="theme-status" value="true">
                               </form>
-                              <a class="btn btn-default" href="javascript:;"
-                                 onclick="event.preventDefault();
-                                          document.getElementById('activate-theme-id-{{ key }}').submit();">{{ tr('admin_activate') }}</a>
                           {% endif %}
                           <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="sr-only">Toggle Dropdown</span>

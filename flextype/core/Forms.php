@@ -77,13 +77,12 @@ class Forms
      * @param array    $fieldset Fieldset
      * @param array    $values   Fieldset values
      * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
      *
      * @return string Returns form based on fieldsets
      *
      * @access public
      */
-    public function render(array $fieldset, array $values = [], Request $request, Response $response) : string
+    public function render(array $fieldset, array $values = [], Request $request) : string
     {
         $form  = Form::open(null, ['id' => 'form']);
         $form .= $this->_csrfHiddenField();

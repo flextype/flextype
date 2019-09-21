@@ -33,7 +33,7 @@ class EmitterTwigExtension extends Twig_Extension implements Twig_Extension_Glob
     public function getGlobals()
     {
         return [
-            'emmiter' => new EmitterTwig($this->flextype),
+            'emitter' => new EmitterTwig($this->flextype),
         ];
     }
 }
@@ -56,7 +56,7 @@ class EmitterTwig
     /**
      * Emitting event
      */
-    public function emmit($event)
+    public function emit($event)
     {
         return $this->flextype['emitter']->emit($event);
     }

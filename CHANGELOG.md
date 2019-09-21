@@ -1,3 +1,33 @@
+<a name="0.9.5"></a>
+# [0.9.5](https://github.com/flextype/flextype/compare/v0.9.4...v0.9.5) (2019-09-21)
+### Bug Fixes
+
+* **core:** issue with cache in the Entries API - fetchAll method #234 2779777
+* **core:** issue with emitter twig function #234 426a073
+* **core:** issue with empty entries folder Entries API - fetchAll method #234 cf61f2d
+* **core:** issue with Cache ID for Themes list #234 594f4a3
+* **admin-plugin:** issue with active button styles on Themes Manager page #234 434f336
+* **admin-plugin:** issue with emitter twig function #234 806b18e
+* **admin-plugin:** Russian translations #233
+* **site-plugin:** notice for undefined $query['format'] #234 8bde8eb
+
+### Code Refactoring
+* **core:** remove $response from Forms render method #234
+* **core:** add property forms to Flextype\EntriesController #234
+
+### BREAKING CHANGES
+Changed emitter execution in the templates
+
+FROM
+```
+{{ emitter.emit('EVENT_NAME') }}
+```
+
+TO
+```
+{% do emitter.emit('EVENT_NAME') %}
+```
+
 <a name="0.9.4"></a>
 # [0.9.4](https://github.com/flextype/flextype/compare/v0.9.3...v0.9.4) (2019-09-11)
 ### Added

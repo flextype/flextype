@@ -105,11 +105,11 @@ class Themes
         if (is_array($themes_list) && count($themes_list) > 0) {
             foreach ($themes_list as $theme) {
                 if (! Filesystem::has($_themes_settings = PATH['themes'] . '/' . $theme['dirname'] . '/settings.yaml') or
-                    ! Filesystem::has($_themes_manifest = PATH['themes'] . '/' . $theme['dirname'] . '/plugin.yaml')) {
+                    ! Filesystem::has($_themes_manifest = PATH['themes'] . '/' . $theme['dirname'] . '/theme.yaml')) {
                     continue;
                 }
 
-                $_themes_cache_id .= filemtime($_themes_settings) . filemtime($_themes_manifest);
+                $_themes_cache_id .= $_themes_settings . filemtime($_themes_settings) . $_themes_manifest . filemtime($_themes_manifest);
             }
         }
 

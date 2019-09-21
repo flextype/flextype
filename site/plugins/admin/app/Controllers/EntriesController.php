@@ -28,6 +28,7 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
  * @property Csrf $csrf
  * @property Themes $themes
  * @property Slugify $slugify
+ * @property Forms $forms
  */
 class EntriesController extends Controller
 {
@@ -697,7 +698,7 @@ class EntriesController extends Controller
                         'parts' => $parts,
                         'i' => count($parts),
                         'last' => Arr::last($parts),
-                        'form' => $this->forms->render($fieldsets, $entry, $request, $response),
+                        'form' => $this->forms->render($fieldsets, $entry, $request),
                         'menu_item' => 'entries',
                         'links' => [
                             'entries' => [

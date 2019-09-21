@@ -8,7 +8,7 @@
         <meta name="author" content="">
         <meta name="robots" content="noindex,nofollow">
 
-        {{ emitter.emit('onAdminThemeMeta') }}
+        {% do emitter.emit('onAdminThemeMeta') %}
 
     	<title>FLEXTYPE</title>
 
@@ -58,7 +58,7 @@
             }
         </style>
 
-        {{ emitter.emit('onAdminThemeHeader') }}
+        {% do emitter.emit('onAdminThemeHeader') %}
     {% endblock %}
   </head>
   <body {% if not is_logged %} class="content-full-size" {% endif %}>
@@ -227,7 +227,7 @@
             </div>
         </div>
 
-        {{ emitter.emit('onAdminThemeFooter') }}
+        {% do emitter.emit('onAdminThemeFooter') %}
 
         {% if registry.settings.locale == 'en_US' %}
             {% set locale = 'en' %}
