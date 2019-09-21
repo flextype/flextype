@@ -1,5 +1,5 @@
 <a name="0.9.5"></a>
-# [0.9.5](https://github.com/flextype/flextype/compare/v0.9.4...v0.9.5) (2019-09-xx)
+# [0.9.5](https://github.com/flextype/flextype/compare/v0.9.4...v0.9.5) (2019-09-21)
 ### Bug Fixes
 
 * **core:** issue with cache in the Entries API - fetchAll method #234 2779777
