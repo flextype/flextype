@@ -1,6 +1,6 @@
 ---
 admin: "Admin"
-admin_welcome: "Welcome"
+admin_welcome: "Willkommen"
 admin_create_new_user_welcome: "To finish setup and secure your site, please create the first user by entering the necessary information below."
 admin_cancel: "Cancel"
 admin_create: "Create"
