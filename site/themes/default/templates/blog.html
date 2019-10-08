@@ -38,11 +38,13 @@
                                                         'expr': 'contains',
                                                         'value': tag
                                                     },
-                                                    'and_where': {
-                                                        'key': 'visibility',
-                                                        'expr': 'nin',
-                                                        'value': ['draft', 'hidden']
-                                                    },
+                                                    'and_where': [
+                                                        {
+                                                            'key': 'visibility',
+                                                            'expr': 'nin',
+                                                            'value': ['draft', 'hidden']
+                                                        }
+                                                    ],
                                                     'order_by': {
                                                         'field': 'published_at',
                                                         'direction': 'desc'
