@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Flextype\Component\Filesystem\Filesystem;
+use Flextype\Component\Arr\Arr;
 use function array_replace_recursive;
 use function ltrim;
 use function md5;
@@ -20,6 +21,7 @@ use function rename;
 use function rtrim;
 use function str_replace;
 use function strpos;
+use Cake\Collection\Collection as CakeCollection;
 
 class Entries
 {
@@ -181,7 +183,7 @@ class Entries
         // Set Direction
         $direction = $this->direction;
 
-        // Bind: entry id
+        // Bind: Entry ID
         $bind_id = $id;
 
         // Bind: recursive
@@ -194,42 +196,38 @@ class Entries
         $bind_set_max_result = $args['set_max_result'] ?? false;
 
         // Bind: where
+        $bind_where = [];
         if (isset($args['where']['key']) && isset($args['where']['expr']) && isset($args['where']['value'])) {
-            $bind_where                   = [];
             $bind_where['where']['key']   = $args['where']['key'];
             $bind_where['where']['expr']  = $expression[$args['where']['expr']];
             $bind_where['where']['value'] = $args['where']['value'];
-        } else {
-            $bind_where = false;
         }
 
         // Bind: and where
-        if (isset($args['and_where']['key']) && isset($args['and_where']['expr']) && isset($args['and_where']['value'])) {
-            $bind_and_where                       = [];
-            $bind_and_where['and_where']['key']   = $args['and_where']['key'];
-            $bind_and_where['and_where']['expr']  = $expression[$args['and_where']['expr']];
-            $bind_and_where['and_where']['value'] = $args['and_where']['value'];
-        } else {
-            $bind_and_where = false;
+        $bind_and_where = [];
+        if (isset($args['and_where'])) {
+            foreach ($args['and_where'] as $key => $value) {
+                if (isset($value['key']) && isset($value['expr']) && isset($value['value'])) {
+                    $bind_and_where[$key] = $value;
+                }
+            }
         }
 
         // Bind: or where
-        if (isset($args['or_where']['key']) && isset($args['or_where']['expr']) && isset($args['or_where']['value'])) {
-            $bind_or_where                      = [];
-            $bind_or_where['or_where']['key']   = $args['or_where']['key'];
-            $bind_or_where['or_where']['expr']  = $expression[$args['or_where']['expr']];
-            $bind_or_where['or_where']['value'] = $args['or_where']['value'];
-        } else {
-            $bind_or_where = false;
+        $bind_or_where = [];
+        if (isset($args['or_where'])) {
+            foreach ($args['or_where'] as $key => $value) {
+                if (isset($value['key']) && isset($value['expr']) && isset($value['value'])) {
+                    $bind_or_where[$key] = $value;
+                }
+            }
         }
 
         // Bind: order by
+        $bind_order_by = [];
         if (isset($args['order_by']['field']) && isset($args['order_by']['direction'])) {
-            $bind_order_by                          = [];
             $bind_order_by['order_by']['field']     = $args['order_by']['field'];
             $bind_order_by['order_by']['direction'] = $args['order_by']['direction'];
-        } else {
-            $bind_order_by = false;
         }
 
         // Get entries path
@@ -276,29 +274,34 @@ class Entries
             }
 
             // Create unique entries $cache_id
-            $cache_id =  md5($bind_id .
+            $cache_id =  md5(
+                             $bind_id .
                              $entries_ids .
                              $entries_ids_timestamps .
                              ($bind_recursive ? 'true' : 'false') .
-                             ($bind_set_max_result ? $bind_set_max_result : 'false') .
-                             ($bind_set_first_result ? $bind_set_first_result : 'false') .
-                             ($bind_where['where']['key'] ? $bind_where['where']['key'] : 'false') .
-                             ($bind_where['where']['expr'] ? $bind_where['where']['expr'] : 'false') .
-                             ($bind_where['where']['value'] ? $bind_where['where']['value'] : 'false') .
-                             ($bind_and_where['and_where']['key'] ? $bind_and_where['and_where']['key'] : 'false') .
-                             ($bind_and_where['and_where']['expr'] ? $bind_and_where['and_where']['expr'] : 'false') .
-                             ($bind_and_where['and_where']['value'] ? $bind_and_where['and_where']['value'] : 'false') .
-                             ($bind_or_where['or_where']['key'] ? $bind_or_where['or_where']['key'] : 'false') .
-                             ($bind_or_where['or_where']['expr'] ? $bind_or_where['or_where']['expr'] : 'false') .
-                             ($bind_or_where['or_where']['value'] ? $bind_or_where['or_where']['value'] : 'false') .
-                             ($bind_order_by['order_by']['field'] ? $bind_order_by['order_by']['field'] : 'false') .
-                             ($bind_order_by['order_by']['direction'] ? $bind_order_by['order_by']['direction'] : 'false'));
+                             ($bind_set_max_result ? $bind_set_max_result : '') .
+                             ($bind_set_first_result ? $bind_set_first_result : '') .
+                             json_encode($bind_where) .
+                             json_encode($bind_and_where) .
+                             json_encode($bind_or_where) .
+                             json_encode($bind_order_by)
+                         );
 
             // If requested entries exist with a specific cache_id,
             // then we take them from the cache otherwise we look for them.
             if ($this->flextype['cache']->contains($cache_id)) {
                 $entries = $this->flextype['cache']->fetch($cache_id);
             } else {
+
+                // Save error_reporting state and turn it off
+                // because PHP Doctrine Collections don't works with collections
+                // if there is no requested fields to search:
+                //      vendor/doctrine/collections/lib/Doctrine/Common/Collections/Expr/ClosureExpressionVisitor.php
+                //      line 40: return $object[$field];
+                //
+                // @todo research this issue and find possible better solution to avoid this in the future
+                $oldErrorReporting = error_reporting();
+                error_reporting(0);
 
                 // Create Array Collection from entries array
                 $collection = new ArrayCollection($entries);
@@ -313,15 +316,21 @@ class Entries
                 }
 
                 // Exec: and where
-                if (isset($bind_and_where['and_where']['key']) && isset($bind_and_where['and_where']['expr']) && isset($bind_and_where['and_where']['value'])) {
-                    $expr = new Comparison($bind_and_where['and_where']['key'], $bind_and_where['and_where']['expr'], $bind_and_where['and_where']['value']);
-                    $criteria->andWhere($expr);
+                if (isset($bind_and_where)) {
+                    $_expr = [];
+                    foreach ($bind_and_where as $key => $value) {
+                        $_expr[$key] = new Comparison($value['key'], $expression[$value['expr']], $value['value']);
+                        $criteria->andWhere($_expr[$key]);
+                    }
                 }
 
                 // Exec: or where
-                if (isset($bind_or_where['or_where']['key']) && isset($bind_or_where['or_where']['expr']) && isset($bind_or_where['or_where']['value'])) {
-                    $expr = new Comparison($bind_or_where['or_where']['key'], $bind_or_where['or_where']['expr'], $bind_or_where['or_where']['value']);
-                    $criteria->orWhere($expr);
+                if (isset($bind_or_where)) {
+                    $_expr = [];
+                    foreach ($bind_or_where as $key => $value) {
+                        $_expr[$key] = new Comparison($value['key'], $expression[$value['expr']], $value['value']);
+                        $criteria->orWhere($_expr[$key]);
+                    }
                 }
 
                 // Exec: order by
@@ -344,6 +353,9 @@ class Entries
 
                 // Gets a native PHP array representation of the collection.
                 $entries = $entries->toArray();
+
+                // Restore error_reporting
+                error_reporting($oldErrorReporting);
 
                 // Save entries into the cache
                 $this->flextype['cache']->save($cache_id, $entries);
