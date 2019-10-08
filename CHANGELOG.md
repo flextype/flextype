@@ -1,3 +1,47 @@
+<a name="0.9.6"></a>
+# [0.9.6](https://github.com/flextype/flextype/compare/v0.9.5...v0.9.6) (2019-10-XX)
+
+### Bug Fixes
+
+* **core:** Entries API - fix Collection Undefined Index(s) for fetchAll method #243 e17e437, closes #243
+* **core:** issue with themes thumbnails 40468bb
+
+### Features
+
+* **core:** Entries API - improve and_where & or_where for fetchAll method #242
+
+### BREAKING CHANGES
+
+Changed and_where & or_where execution in the templates
+
+FROM
+
+```
+'and_where': {
+
+}
+
+'or_where': {
+
+}
+```
+
+TO
+
+```
+'and_where': [
+    {
+
+    }
+]
+
+'or_where': [
+    {
+
+    }
+]
+```
+
 <a name="0.9.5"></a>
 # [0.9.5](https://github.com/flextype/flextype/compare/v0.9.4...v0.9.5) (2019-09-21)
 ### Bug Fixes
