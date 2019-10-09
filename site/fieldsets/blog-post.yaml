@@ -1,5 +1,6 @@
-title: Blog Post
+title: 'Blog Post'
 default_field: title
+icon: 'far fa-file-alt'
 sections:
   main:
     title: Main

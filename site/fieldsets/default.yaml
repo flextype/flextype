@@ -1,5 +1,6 @@
 title: Default
 default_field: title
+icon: 'far fa-file-alt'
 sections:
   main:
     title: Main

@@ -7,20 +7,35 @@
 <table class="table no-margin">
     <thead>
         <tr>
-            <th>{{ tr('admin_entry') }}</th>
+            <th colspan="2">{{ tr('admin_entry') }}</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         {% for entry in entries_list %}
            <tr>
-               <td>
+               <td style="width: 50px; text-align:center;">
+                   {% if entry.fieldset %}
+                       {% set fieldset_path = PATH_FIELDSETS ~ '/' ~ entry.fieldset ~ '.yaml' %}
+                       {% if filesystem_has(fieldset_path) %}
+                           {% set fieldset = yaml_decode(filesystem_read(fieldset_path)) %}
+                           {% if fieldset.icon %}
+                               <i class="{{ fieldset.icon }}"></i>
+                           {% else %}
+                               <i class="far fa-file-alt"></i>
+                           {% endif %}
+                       {% else %}
+                           <i class="far fa-file-alt"></i>
+                       {% endif %}
+                   {% else %}
+                       <i class="far fa-file-alt"></i>
+                   {% endif %}
+               </td>
+               <td style="padding-left:0px;">
                    {% set _entries = entries.fetchAll(entry.slug, {'order_by': {field: 'slug', direction: 'asc'}}) %}
                    <a href="{% if _entries|length > 0 %}{{ path_for('admin.entries.index') }}?id={{ entry.slug }}{% else %}{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor{% endif %}">
                        {% if entry.fieldset %}
-                           {% set fieldset_path = PATH_FIELDSETS ~ '/' ~ entry.fieldset ~ '.yaml' %}
                            {% if filesystem_has(fieldset_path) %}
-                               {% set fieldset = yaml_decode(filesystem_read(fieldset_path)) %}
                                {% if fieldset.default_field %}
                                    {% if entry[fieldset.default_field] != '' %}
                                        {{ entry[fieldset.default_field] }}

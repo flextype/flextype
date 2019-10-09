@@ -1,5 +1,6 @@
 title: Gallery
 default_field: title
+icon: 'far fa-images'
 sections:
   main:
     title: Main
@@ -29,11 +30,7 @@ sections:
       menu_item_target:
         title: admin_menu_item_target
         type: select
-        options:
-          _self: _self
-          _blank: _blank
-          _parent: _parent
-          _top: _top
+        options: { _self: _self, _blank: _blank, _parent: _parent, _top: _top }
         size: 4/12
       menu_item_order:
         title: admin_menu_item_order

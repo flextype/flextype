@@ -1,5 +1,6 @@
-title: Gallery Item
+title: 'Gallery Item'
 default_field: title
+icon: 'far fa-image'
 sections:
   main:
     title: Main
