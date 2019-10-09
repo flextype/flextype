@@ -61,6 +61,14 @@ class Entries
         'member_of' => Comparison::MEMBER_OF,
         'start_with' => Comparison::STARTS_WITH,
         'ends_with' => Comparison::ENDS_WITH,
+
+        // alternative comparison syntax
+        'eq' => Comparison::EQ,
+        'neq' => Comparison::NEQ,
+        'lt' => Comparison::LT,
+        'lte' => Comparison::LTE,
+        'gt' => Comparison::GT,
+        'gte' => Comparison::GTE
     ];
 
     /**
