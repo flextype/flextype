@@ -9,6 +9,8 @@
 ### Features
 
 * **core:** Entries API - improve and_where & or_where for fetchAll method #242
+* **core:** add alternative comparison syntax for Entries API 6f18d98
+
 
 ### BREAKING CHANGES
 
