@@ -757,10 +757,12 @@ class EntriesController extends Controller
             // Data from POST
             $data = $request->getParsedBody();
 
-            $data['published_by'] = Session::get('uuid');
+            $entry = Parser::decode($data['data'], 'frontmatter');
+
+            $entry['published_by'] = Session::get('uuid');
 
             // Update entry
-            if ($this->entries->update($id, Parser::decode($data['data'], 'frontmatter'))) {
+            if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.md', Parser::encode($entry, 'frontmatter'))) {
                 $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
