@@ -60,7 +60,6 @@
         "middlewares/trailing-slash": "~1.1.0",
         "middlewares/response-time": "~1.1.0",
         "bnf/slim3-psr15": "~1.1.1",
-        "cakephp/collection": "^3.8"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
