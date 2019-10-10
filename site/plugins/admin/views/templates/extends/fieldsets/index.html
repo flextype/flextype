@@ -12,7 +12,7 @@
     <tbody>
         {% for id, title in fieldsets_list %}
         <tr>
-            <td style="width: 50px; text-align:center;">
+            <td style="width: 50px; padding-right: 10px; text-align:center;">
                 {% set fieldset_path = PATH_FIELDSETS ~ '/' ~ id ~ '.yaml' %}
                 {% if filesystem_has(fieldset_path) %}
                     {% set fieldset = yaml_decode(filesystem_read(fieldset_path)) %}

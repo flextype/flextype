@@ -14,7 +14,7 @@
     <tbody>
         {% for entry in entries_list %}
            <tr>
-               <td style="width: 50px; text-align:center;">
+               <td style="width: 50px; padding-right: 10px; text-align:center;">
                    {% if entry.fieldset %}
                        {% set fieldset_path = PATH_FIELDSETS ~ '/' ~ entry.fieldset ~ '.yaml' %}
                        {% if filesystem_has(fieldset_path) %}
