@@ -52,14 +52,15 @@
         "cocur/slugify": "~3.2.0",
         "thunderer/shortcode": "~0.7.2",
         "ramsey/uuid": "~3.8.0",
-        "symfony/yaml": "~4.3.4",
+        "symfony/yaml": "~4.3.5",
 
         "erusev/parsedown": "~1.7.3",
         "erusev/parsedown-extra": "~0.7.1",
 
         "middlewares/trailing-slash": "~1.1.0",
         "middlewares/response-time": "~1.1.0",
-        "bnf/slim3-psr15": "~1.1.1"
+        "bnf/slim3-psr15": "~1.1.1",
+        "cakephp/collection": "^3.8"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
