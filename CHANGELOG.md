@@ -12,6 +12,7 @@
 * **core:** add alternative comparison syntax for Entries API 6f18d98
 * **feat(admin-plugin):** add ability to set individual icons for entries and entries collections #250
 * **feat(admin-plugin):** add ability to set individual icons for entries fieldsets #250
+* **feat(admin-plugin):** add ability to work with entry custom fieldset #246
 
 ### BREAKING CHANGES
 
