@@ -2,17 +2,17 @@
 
 {% block content %}
 <table class="table no-margin">
-  <thead>
-      <tr>
-          <th>{{ tr('admin_name') }}</th>
-          <th></th>
-          <th width="90" class="text-right">{{ tr('admin_status') }}</th>
-      </tr>
-  </thead>
   <tbody>
       {% for key, plugin in plugins_list %}
       <tr>
-          <td>{{ plugin.name }}</td>
+          <td style="width: 50px; padding-right: 10px; text-align:center;">
+              {% if plugin.icon %}
+                   <i class="{{ plugin.icon }}"></i>
+              {% else %}
+                  <i class="fas fa-plug"></i>
+              {% endif %}
+          </td>
+          <td style="padding-left:0px;">{{ plugin.name }}</td>
           <td class="text-right">
               <a href="javascript:;" class="btn js-plugins-info" data-toggle="modal" data-target="#pluginInfoModal"
                   data-name="{{ plugin.name }}"
@@ -26,7 +26,7 @@
                   data-license="{{ plugin.license }}"
                   >{{ tr('admin_info') }}</a>
           </td>
-          <td class="text-right">
+          <td class="text-right"  style="width: 50px;">
               <div class="form-group no-margin">
                 <span class="switch switch-sm">
                     <input id="switch-sm-{{ key }}"
