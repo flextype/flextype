@@ -5,14 +5,17 @@
 <table class="table no-margin">
     <thead>
         <tr>
-            <th>{{ tr('admin_name') }}</th>
+            <th colspan="2">{{ tr('admin_snippet') }}</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         {% for id in snippets_list %}
         <tr>
-            <td>
+            <td style="width: 50px; padding-right: 10px; text-align:center;">
+                <i class="far fa-file-code"></i>
+            </td>
+            <td style="padding-left:0px;">
                 <a href="{{ path_for('admin.snippets.edit') }}?id={{ id }}">{{ id }}</a>
             </td>
             <td class="text-right">
