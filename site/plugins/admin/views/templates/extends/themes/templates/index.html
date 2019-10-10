@@ -5,7 +5,7 @@
 <table class="table no-margin">
     <thead>
         <tr>
-            <th>{{ tr('admin_name') }}</th>
+            <th colspan="2">{{ tr('admin_name') }}</th>
             <th>{{ tr('admin_type') }}</th>
             <th></th>
         </tr>
@@ -14,7 +14,10 @@
     {% if templates_list|length > 0 %}
         {% for template in templates_list %}
         <tr>
-            <td>
+            <td style="width: 50px; padding-right: 10px; text-align:center;">
+                <i class="far fa-file-code"></i>
+            </td>
+            <td style="padding-left:0px;">
                 <a href="{{ path_for('admin.templates.edit') }}?id={{ template.basename }}&type=template&theme={{ theme }}">{{ template.basename }}</a>
             </td>
             <td>{{ tr('admin_template') }}</td>
@@ -53,7 +56,10 @@
     {% if partials_list|length > 0 %}
         {% for partial in partials_list %}
         <tr>
-            <td>
+            <td style="width: 50px; padding-right: 10px; text-align:center;">
+                <i class="far fa-file-code"></i>
+            </td>
+            <td style="padding-left:0px;">
                 <a href="{{ path_for('admin.templates.edit') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}">{{ partial.basename }}</a>
             </td>
             <td>{{ tr('admin_partial') }}</td>
