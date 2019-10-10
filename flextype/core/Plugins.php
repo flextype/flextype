@@ -95,26 +95,46 @@ class Plugins
                 $plugins         = [];
                 $plugin_settings = [];
                 $plugin_manifest = [];
+                $default_plugin_settings = [];
+                $site_plugin_settings = [];
+                $default_plugin_manifest = [];
+                $site_plugin_manifest = [];
 
                 // Go through...
                 foreach ($plugins_list as $plugin) {
-                    if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml')) {
-                        if (($content = Filesystem::read($_plugin_settings)) === false) {
-                            throw new RuntimeException('Load file: ' . $_plugin_settings . ' - failed!');
-                        }
 
-                        $plugin_settings = Parser::decode($content, 'yaml');
+                    $default_plugin_settings_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml';
+                    $default_plugin_manifest_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml';
+
+                    $site_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                    $site_plugin_manifest_file = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
+
+                    if (Filesystem::has($default_plugin_settings_file)) {
+                        $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
+                        $default_plugin_settings = Parser::decode($default_plugin_settings_file_content, 'yaml');
+
+                        if (Filesystem::has($site_plugin_settings_file)) {
+                            $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
+                            $site_plugin_settings = Parser::decode($site_plugin_settings_file_content, 'yaml');
+                        }
+                    } else {
+                        throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin settings - failed!');
                     }
 
-                    if (Filesystem::has($_plugin_manifest = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml')) {
-                        if (($content = Filesystem::read($_plugin_manifest)) === false) {
-                            throw new RuntimeException('Load file: ' . $_plugin_manifest . ' - failed!');
-                        }
+                    if (Filesystem::has($default_plugin_manifest_file)) {
+                        $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
+                        $default_plugin_manifest = Parser::decode($default_plugin_manifest_file_content, 'yaml');
 
-                        $plugin_manifest = Parser::decode($content, 'yaml');
+                        if (Filesystem::has($site_plugin_manifest_file)) {
+                            $site_plugin_manifest_file_content = Filesystem::read($site_plugin_manifest_file);
+                            $site_plugin_manifest = Parser::decode($site_plugin_manifest_file_content, 'yaml');
+                        }
+                    } else {
+                        throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin manifest - failed!');
                     }
 
-                    $plugins[$plugin['dirname']] = array_merge($plugin_settings, $plugin_manifest);
+                    $plugins[$plugin['dirname']] = array_merge(array_replace_recursive($default_plugin_settings, $site_plugin_settings),
+                                                               array_replace_recursive($default_plugin_manifest, $site_plugin_manifest));
 
                     // Set default plugin priority 0
                     if (isset($plugins[$plugin['dirname']]['priority'])) {
@@ -183,12 +203,18 @@ class Plugins
         // Go through...
         if (is_array($plugins_list) && count($plugins_list) > 0) {
             foreach ($plugins_list as $plugin) {
-                if (! Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml') or
-                    ! Filesystem::has($_plugin_manifest = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml')) {
-                    continue;
-                }
 
-                $_plugins_cache_id .= filemtime($_plugin_settings) . filemtime($_plugin_manifest);
+                $default_plugin_settings_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml';
+                $default_plugin_manifest_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml';
+                $site_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $site_plugin_manifest_file = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
+
+                $f1 = Filesystem::has($default_plugin_settings_file) ? filemtime($default_plugin_settings_file) : '' ;
+                $f2 = Filesystem::has($default_plugin_manifest_file) ? filemtime($default_plugin_manifest_file) : '' ;
+                $f3 = Filesystem::has($site_plugin_settings_file) ? filemtime($site_plugin_settings_file) : '' ;
+                $f4 = Filesystem::has($site_plugin_manifest_file) ? filemtime($site_plugin_manifest_file) : '' ;
+
+                $_plugins_cache_id .= $f1 . $f2 . $f3 . $f4;
             }
         }
 
