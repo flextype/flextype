@@ -3,12 +3,6 @@
 {% block content %}
 {% if fieldsets_list|length > 0 %}
 <table class="table no-margin">
-    <thead>
-        <tr>
-            <th colspan="2">{{ tr('admin_name') }}</th>
-            <th></th>
-        </tr>
-    </thead>
     <tbody>
         {% for id, title in fieldsets_list %}
         <tr>
