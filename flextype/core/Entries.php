@@ -14,6 +14,9 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Arr\Arr;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+use Flextype\Component\Session\Session;
 use function array_replace_recursive;
 use function ltrim;
 use function md5;
@@ -435,8 +438,16 @@ class Entries
         if (! Filesystem::has($entry_dir)) {
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
+
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file = $entry_dir . '/entry.md')) {
+
+                    $data['uuid']         = Uuid::uuid4()->toString();
+                    $data['published_at'] = date($this->flextype->registry->get('settings.date_format'), time());
+                    $data['created_at']   = date($this->flextype->registry->get('settings.date_format'), time());
+                    $data['published_by'] = (Session::exists('uuid') ? Session::get('uuid') : '');
+                    $data['created_by']   = (Session::exists('uuid') ? Session::get('uuid') : '');
+
                     return Filesystem::write($entry_file, Parser::encode($data, 'frontmatter'));
                 }
 

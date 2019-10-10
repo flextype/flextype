@@ -206,11 +206,6 @@ class EntriesController extends Controller
                 $data_from_post['title']        = $data['title'];
                 $data_from_post['template']     = $template;
                 $data_from_post['fieldset']     = $data['fieldset'];
-                $data_from_post['published_at'] = date($this->registry->get('settings.date_format'), time());
-                $data_from_post['created_at']   = date($this->registry->get('settings.date_format'), time());
-                $data_from_post['uuid']         = Uuid::uuid4()->toString();
-                $data_from_post['published_by'] = Session::get('uuid');
-                $data_from_post['created_by']   = Session::get('uuid');
 
                 // Predefine data values based on selected fieldset
                 foreach ($fieldset['sections'] as $key => $section) {
