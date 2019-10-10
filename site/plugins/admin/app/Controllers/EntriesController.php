@@ -241,13 +241,7 @@ class EntriesController extends Controller
                     $data_result = $data_from_post;
                 }
 
-                if (isset($fieldset['parser'])) {
-                    $parser = $fieldset['parser'];
-                } else {
-                    $parser = 'frontmatter';
-                }
-
-                if ($this->entries->create($id, $data_result, $parser)) {
+                if ($this->entries->create($id, $data_result)) {
                     $this->flash->addMessage('success', __('admin_message_entry_created'));
                 } else {
                     $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
@@ -692,7 +686,7 @@ class EntriesController extends Controller
             );
         } else {
 
-            // Merge current entry fieldset with global fildset 
+            // Merge current entry fieldset with global fildset
             if (isset($entry['entry_fieldset'])) {
                 $form = $this->forms->render(array_replace_recursive($fieldsets, $entry['entry_fieldset']), $entry, $request);
             } else {
