@@ -691,6 +691,14 @@ class EntriesController extends Controller
                 ]
             );
         } else {
+
+            // Merge current entry fieldset with global fildset 
+            if (isset($entry['entry_fieldset'])) {
+                $form = $this->forms->render(array_replace_recursive($fieldsets, $entry['entry_fieldset']), $entry, $request);
+            } else {
+                $form = $this->forms->render($fieldsets, $entry, $request);
+            }
+
             return $this->view->render(
                 $response,
                 'plugins/admin/views/templates/content/entries/edit.html',
@@ -698,7 +706,7 @@ class EntriesController extends Controller
                         'parts' => $parts,
                         'i' => count($parts),
                         'last' => Arr::last($parts),
-                        'form' => $this->forms->render($fieldsets, $entry, $request),
+                        'form' => $form,
                         'menu_item' => 'entries',
                         'links' => [
                             'entries' => [
