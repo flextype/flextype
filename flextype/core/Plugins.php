@@ -51,7 +51,7 @@ class Plugins
      *
      * @access public
      */
-    public function getLocales() : array
+    public function getLocales()
     {
         return $this->locales;
     }
@@ -90,8 +90,9 @@ class Plugins
             } else {
                 // Save plugins dictionary
                 $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
-                $this->flextype['cache']->save($locale, $dictionary);
+                $this->flextype['cache']->save($locale, $dictionary[$locale]);
             }
+
 
         } else {
             // If Plugins List isnt empty
@@ -158,7 +159,7 @@ class Plugins
 
                 // Save plugins dictionary
                 $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
-                $this->flextype['cache']->save($locale, $dictionary);
+                $this->flextype['cache']->save($locale, $dictionary[$locale]);
             }
         }
 
