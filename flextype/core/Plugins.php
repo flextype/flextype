@@ -66,28 +66,33 @@ class Plugins
         // Set empty plugins item
         $this->flextype['registry']->set('plugins', []);
 
-        // Get Plugins List
-        $plugins_list = [];
+        // Set locale
+        $locale = $this->flextype['registry']->get('settings.locale');
 
-        foreach (Filesystem::listContents(PATH['plugins']) as $plugin) {
-            if ($plugin['type'] !== 'dir') {
-                continue;
-            }
+        // Get plugins list
+        $plugins_list = $this->getPluginsList();
 
-            $plugins_list[] = $plugin;
-        }
-
-        // Get plugins cache ID
+        // Get plugins Cache ID
         $plugins_cache_id = $this->getPluginsCacheID($plugins_list);
 
-        // If Plugins List isnt empty then create plugin cache ID
+        // If Plugins List isnt empty then continue
         if (! is_array($plugins_list) || count($plugins_list) <= 0) {
             return;
         }
 
-        // Get plugins list from cache or scan plugins folder and create new plugins cache item
+        // Get plugins from cache or scan plugins folder and create new plugins cache item
         if ($this->flextype['cache']->contains($plugins_cache_id)) {
+
             $this->flextype['registry']->set('plugins', $this->flextype['cache']->fetch($plugins_cache_id));
+
+            if ($this->flextype['cache']->contains($locale)) {
+                I18n::add($this->flextype['cache']->fetch($locale), $locale);
+            } else {
+                // Save plugins dictionary
+                $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
+                $this->flextype['cache']->save($locale, $dictionary);
+            }
+
         } else {
             // If Plugins List isnt empty
             if (is_array($plugins_list) && count($plugins_list) > 0) {
@@ -147,12 +152,15 @@ class Plugins
                 // Sort plugins list by priority.
                 $plugins = Arr::sort($plugins, 'priority', 'DESC');
 
+                // Save plugins list
                 $this->flextype['registry']->set('plugins', $plugins);
                 $this->flextype['cache']->save($plugins_cache_id, $plugins);
+
+                // Save plugins dictionary
+                $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
+                $this->flextype['cache']->save($locale, $dictionary);
             }
         }
-
-        $this->createPluginsDictionary($plugins_list);
 
         $this->includeEnabledPlugins($flextype, $app);
 
@@ -166,26 +174,23 @@ class Plugins
      *
      * @access protected
      */
-    private function createPluginsDictionary(array $plugins_list) : void
+    private function getPluginsDictionary(array $plugins_list, string $locale) : array
     {
-        if (! is_array($plugins_list) || count($plugins_list) <= 0) {
-            return;
-        }
+        foreach ($plugins_list as $plugin) {
+            $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
 
-        foreach ($this->locales as $locale => $locale_title) {
-            foreach ($plugins_list as $plugin) {
-                $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
-                if (! Filesystem::has($language_file)) {
-                    continue;
-                }
-
-                if (($content = Filesystem::read($language_file)) === false) {
-                    throw new RuntimeException('Load file: ' . $language_file . ' - failed!');
-                }
-
-                I18n::add(Parser::decode($content, 'yaml'), $locale);
+            if (! Filesystem::has($language_file)) {
+                continue;
             }
+
+            if (($content = Filesystem::read($language_file)) === false) {
+                throw new RuntimeException('Load file: ' . $language_file . ' - failed!');
+            }
+
+            I18n::add(Parser::decode($content, 'yaml'), $locale);
         }
+
+        return I18n::$dictionary;
     }
 
     /**
@@ -223,6 +228,27 @@ class Plugins
 
         // Return plugin cache id
         return $plugins_cache_id;
+    }
+
+    /**
+     * Get plugins list
+     *
+     * @access public
+     */
+    public function getPluginsList() : array
+    {
+        // Get Plugins List
+        $plugins_list = [];
+
+        foreach (Filesystem::listContents(PATH['plugins']) as $plugin) {
+            if ($plugin['type'] !== 'dir') {
+                continue;
+            }
+
+            $plugins_list[] = $plugin;
+        }
+
+        return $plugins_list;
     }
 
     /**
