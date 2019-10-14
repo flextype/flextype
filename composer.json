@@ -29,7 +29,7 @@
         "flextype-components/date" : "1.1.0",
         "flextype-components/debug" : "1.0.0",
         "flextype-components/filesystem" : "2.0.6",
-        "flextype-components/i18n" : "1.2.0",
+        "flextype-components/i18n" : "1.3.0",
         "flextype-components/number" : "1.1.0",
         "flextype-components/registry" : "2.0.0",
         "flextype-components/session" : "1.1.1",
@@ -59,7 +59,7 @@
 
         "middlewares/trailing-slash": "~1.1.0",
         "middlewares/response-time": "~1.1.0",
-        "bnf/slim3-psr15": "~1.1.1",
+        "bnf/slim3-psr15": "~1.1.1"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
@@ -69,6 +69,7 @@
     },
     "config": {
         "apcu-autoloader": true,
+        "optimize-autoloader": true,
         "platform": {
             "php": "7.2.0"
         }
