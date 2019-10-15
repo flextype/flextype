@@ -12,6 +12,7 @@
 # php_value max_execution_time 90
 # php_value max_input_time 120
 # php_value upload_max_filesize 16M
+# php_value realpath_cache_size 16M
 
 <IfModule mod_rewrite.c>
 
