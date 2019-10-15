@@ -11,7 +11,6 @@ namespace Flextype;
 
 use Flextype\Component\Arr\Arr;
 use Flextype\Component\Form\Form;
-use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use function count;
 use function date;
@@ -74,9 +73,9 @@ class Forms
     /**
      * Render form
      *
-     * @param array    $fieldset Fieldset
-     * @param array    $values   Fieldset values
-     * @param Request  $request  PSR7 request
+     * @param array   $fieldset Fieldset
+     * @param array   $values   Fieldset values
+     * @param Request $request  PSR7 request
      *
      * @return string Returns form based on fieldsets
      *
