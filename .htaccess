@@ -54,7 +54,7 @@ RewriteRule .* index.php [L]
 RewriteRule ^(\.git|flextype)/(.*) error [F]
 # Block access to specific file types for these system folders
 RewriteRule ^(flextype|vendor)/(.*)\.(txt|xml|md|html|yaml|yml|php|pl|py|cgi|sh|bat)$ error [F]
-# Block access to specific file types for these user folders
+# Block access to specific file types for these site folders
 RewriteRule ^(site)/(.*)\.(txt|md|yaml|yml|html|php|pl|py|cgi|twig|sh|bat)$ error [F]
 # Block all direct access to .md files:
 RewriteRule \.md$ error [F]
