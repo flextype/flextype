@@ -147,7 +147,7 @@ class Entries
             // Add predefined entry items
             // Entry Date
             $entry_decoded['published_at'] = isset($entry_decoded['published_at']) ? $entry_decoded['published_at'] : Filesystem::getTimestamp($entry_file);
-            $entry_decoded['created_at']   = $entry_decoded['created_at'] ? $entry_decoded['created_at'] : Filesystem::getTimestamp($entry_file);
+            $entry_decoded['created_at']   = isset($entry_decoded['created_at']) ? $entry_decoded['created_at'] : Filesystem::getTimestamp($entry_file);
 
             // Entry Timestamp
             $entry_decoded['modified_at'] = Filesystem::getTimestamp($entry_file);
