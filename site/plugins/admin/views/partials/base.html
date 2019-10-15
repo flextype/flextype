@@ -216,6 +216,13 @@
             </div>
             {% endif %}
 
+            {% if is_current_path('admin.plugins.index') or
+                  is_current_path('admin.plugins.edit') %}
+            <div class="entry-editor-heading">
+                / {{ id }}
+            </div>
+            {% endif %}
+
             <div class="content entry-editor">
                 <div class="container-fluid">
                     <div class="row">

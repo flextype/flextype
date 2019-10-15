@@ -12,7 +12,7 @@
                    {% if entry.fieldset %}
                        {% set fieldset_path = PATH_FIELDSETS ~ '/' ~ entry.fieldset ~ '.yaml' %}
                        {% if filesystem_has(fieldset_path) %}
-                           {% set fieldset = yaml_decode(filesystem_read(fieldset_path)) %}
+                           {% set fieldset = parser_decode(filesystem_read(fieldset_path), 'yaml') %}
                            {% if fieldset.icon %}
                                <i class="{{ fieldset.icon }}"></i>
                            {% else %}

@@ -62,14 +62,53 @@ class PluginsController extends Controller
         $data = $request->getParsedBody();
 
         // Update settings
-        $plugin_settings = Parser::decode(Filesystem::read(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.yaml'), 'yaml');
+        $plugin_settings = $this->parser->decode(Filesystem::read(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.yaml'), 'yaml');
         Arr::set($plugin_settings, 'enabled', ($data['plugin-status'] === 'true'));
-        Filesystem::write(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.yaml', Parser::encode($plugin_settings, 'yaml'));
+        Filesystem::write(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.yaml', $this->parser->encode($plugin_settings, 'yaml'));
 
         // Clear doctrine cache
         $this->cache->clear('doctrine');
 
         // Redirect to plugins index page
         return $response->withRedirect($this->router->pathFor('admin.plugins.index'));
+    }
+
+    /**
+     * Edit plugin
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     */
+    public function edit(Request $request, Response $response) : Response
+    {
+        return $this->view->render(
+            $response,
+            'plugins/admin/views/templates/extends/plugins/edit.html',
+            [
+                'menu_item' => 'plugins',
+                'id' => $request->getQueryParams()['id'],
+                'plugin_manifest' => $this->parser->decode(Filesystem::read(PATH['plugins'] . '/' . $request->getQueryParams()['id'] . '/plugin.yaml'), 'yaml'),
+                'plugin_settings' => Filesystem::read(PATH['plugins'] . '/' . $request->getQueryParams()['id'] . '/settings.yaml'),
+                'links' =>  [
+                    'plugins' => [
+                        'link' => $this->router->pathFor('admin.plugins.index'),
+                        'title' => __('admin_plugins'),
+                        'attributes' => ['class' => 'navbar-item'],
+                    ],
+                    'fieldsets_editor' => [
+                        'link' => $this->router->pathFor('admin.plugins.edit') . '?id=' . $request->getQueryParams()['id'],
+                        'title' => __('admin_plugin'),
+                        'attributes' => ['class' => 'navbar-item active'],
+                    ],
+                ],
+                'buttons' => [
+                    'save_entry' => [
+                        'link' => 'javascript:;',
+                        'title' => __('admin_save'),
+                        'attributes' => ['class' => 'js-save-form-submit float-right btn'],
+                    ],
+                ],
+            ]
+        );
     }
 }

@@ -12,20 +12,7 @@
                   <i class="fas fa-plug"></i>
               {% endif %}
           </td>
-          <td style="padding-left:0px;">{{ plugin.name }}</td>
-          <td class="text-right">
-              <a href="javascript:;" class="btn js-plugins-info" data-toggle="modal" data-target="#pluginInfoModal"
-                  data-name="{{ plugin.name }}"
-                  data-version="{{ plugin.version }}"
-                  data-description="{{ plugin.description }}"
-                  data-author-name="{{ plugin.author.name }}"
-                  data-author-email="{{ plugin.author.email }}"
-                  data-author-url="{{ plugin.author.url }}"
-                  data-homepage="{{ plugin.homepage }}"
-                  data-bugs="{{ plugin.bugs }}"
-                  data-license="{{ plugin.license }}"
-                  >{{ tr('admin_info') }}</a>
-          </td>
+          <td style="padding-left:0px;"><a href="{{ path_for('admin.plugins.edit') }}?id={{ key }}">{{ plugin.name }}</a></td>
           <td class="text-right"  style="width: 50px;">
               <div class="form-group no-margin">
                 <span class="switch switch-sm">

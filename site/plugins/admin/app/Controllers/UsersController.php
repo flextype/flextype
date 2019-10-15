@@ -67,7 +67,7 @@ class UsersController extends Controller
         $data = $request->getParsedBody();
 
         if (Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $data['username'] . '.yaml')) {
-            $user_file = Parser::decode(Filesystem::read($_user_file), 'yaml');
+            $user_file = $this->parser->decode(Filesystem::read($_user_file), 'yaml', false);
             if (password_verify(trim($data['password']), $user_file['hashed_password'])) {
                 Session::set('username', $user_file['username']);
                 Session::set('role', $user_file['role']);
@@ -135,7 +135,7 @@ class UsersController extends Controller
             // Create admin account
             if (Filesystem::write(
                         PATH['site'] . '/accounts/' . $data['username'] . '.yaml',
-                        Parser::encode([
+                        $this->parser->encode([
                             'username' => $this->slugify->slugify($data['username']),
                             'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
                             'email' => $data['email'],

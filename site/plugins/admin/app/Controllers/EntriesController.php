@@ -127,7 +127,7 @@ class EntriesController extends Controller
         if (count($fieldsets_list) > 0) {
             foreach ($fieldsets_list as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = Parser::decode(Filesystem::read($fieldset['path']), 'yaml');
+                    $fieldset_content = $this->parser->decode(Filesystem::read($fieldset['path']), 'yaml');
                     if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
                         $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
                     }
@@ -281,7 +281,7 @@ class EntriesController extends Controller
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = Parser::decode(Filesystem::read($fieldset['path']), 'yaml');
+                    $fieldset_content = $this->parser->decode(Filesystem::read($fieldset['path']), 'yaml');
                     if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
                         $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
                     }
@@ -598,7 +598,7 @@ class EntriesController extends Controller
 
         // Fieldsets for current entry template
         $fieldsets_path = PATH['site'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
-        $fieldsets = Parser::decode(Filesystem::read($fieldsets_path), 'yaml');
+        $fieldsets = $this->parser->decode(Filesystem::read($fieldsets_path), 'yaml');
         is_null($fieldsets) and $fieldsets = [];
 
         if ($type == 'source') {
@@ -610,7 +610,7 @@ class EntriesController extends Controller
                         'i' => count($parts),
                         'last' => Arr::last($parts),
                         'id' => $this->getEntryID($query),
-                        'data' => Parser::encode($entry, 'frontmatter'),
+                        'data' => $this->parser->encode($entry, 'frontmatter'),
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
@@ -752,12 +752,12 @@ class EntriesController extends Controller
             // Data from POST
             $data = $request->getParsedBody();
 
-            $entry = Parser::decode($data['data'], 'frontmatter');
+            $entry = $this->parser->decode($data['data'], 'frontmatter');
 
             $entry['published_by'] = Session::get('uuid');
 
             // Update entry
-            if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.md', Parser::encode($entry, 'frontmatter'))) {
+            if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.md', $this->parser->encode($entry, 'frontmatter'))) {
                 $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));

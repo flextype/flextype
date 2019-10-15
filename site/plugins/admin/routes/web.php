@@ -43,6 +43,7 @@ $app->group('/' . $admin_route, function () use ($app) : void {
 
     // Plugins Controller
     $app->get('/plugins', 'PluginsController:index')->setName('admin.plugins.index');
+    $app->get('/plugins/edit', 'PluginsController:edit')->setName('admin.plugins.edit');
     $app->post('/plugins/update-status', 'PluginsController:pluginStatusProcess')->setName('admin.plugins.update-status');
 
     // FieldsetsController
