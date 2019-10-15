@@ -60,7 +60,7 @@ class ParserTwigExtension extends Twig_Extension
     /**
      * Decode
      */
-    public function decode(string $input, string $parser, bool $cache)
+    public function decode(string $input, string $parser, bool $cache = true)
     {
         return $this->flextype['parser']->decode($input, $parser, $cache);
     }
