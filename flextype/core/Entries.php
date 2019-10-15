@@ -13,18 +13,20 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Flextype\Component\Filesystem\Filesystem;
-use Flextype\Component\Arr\Arr;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Flextype\Component\Session\Session;
+use Ramsey\Uuid\Uuid;
 use function array_replace_recursive;
+use function count;
+use function date;
+use function error_reporting;
+use function json_encode;
 use function ltrim;
 use function md5;
 use function rename;
 use function rtrim;
 use function str_replace;
 use function strpos;
-use Cake\Collection\Collection as CakeCollection;
+use function time;
 
 class Entries
 {
@@ -71,7 +73,7 @@ class Entries
         'lt' => Comparison::LT,
         'lte' => Comparison::LTE,
         'gt' => Comparison::GT,
-        'gte' => Comparison::GTE
+        'gte' => Comparison::GTE,
     ];
 
     /**
@@ -146,8 +148,8 @@ class Entries
 
             // Add predefined entry items
             // Entry Date
-            $entry_decoded['published_at'] = isset($entry_decoded['published_at']) ? $entry_decoded['published_at'] : Filesystem::getTimestamp($entry_file);
-            $entry_decoded['created_at']   = isset($entry_decoded['created_at']) ? $entry_decoded['created_at'] : Filesystem::getTimestamp($entry_file);
+            $entry_decoded['published_at'] = $entry_decoded['published_at'] ?? Filesystem::getTimestamp($entry_file);
+            $entry_decoded['created_at']   = $entry_decoded['created_at'] ?? Filesystem::getTimestamp($entry_file);
 
             // Entry Timestamp
             $entry_decoded['modified_at'] = Filesystem::getTimestamp($entry_file);
@@ -218,9 +220,11 @@ class Entries
         $bind_and_where = [];
         if (isset($args['and_where'])) {
             foreach ($args['and_where'] as $key => $value) {
-                if (isset($value['key']) && isset($value['expr']) && isset($value['value'])) {
-                    $bind_and_where[$key] = $value;
+                if (! isset($value['key']) || ! isset($value['expr']) || ! isset($value['value'])) {
+                    continue;
                 }
+
+                $bind_and_where[$key] = $value;
             }
         }
 
@@ -228,9 +232,11 @@ class Entries
         $bind_or_where = [];
         if (isset($args['or_where'])) {
             foreach ($args['or_where'] as $key => $value) {
-                if (isset($value['key']) && isset($value['expr']) && isset($value['value'])) {
-                    $bind_or_where[$key] = $value;
+                if (! isset($value['key']) || ! isset($value['expr']) || ! isset($value['value'])) {
+                    continue;
                 }
+
+                $bind_or_where[$key] = $value;
             }
         }
 
@@ -249,7 +255,6 @@ class Entries
 
         // If entries founded in entries folder
         if (count($entries_list) > 0) {
-
             // Entries IDs
             $entries_ids = '';
 
@@ -286,7 +291,7 @@ class Entries
 
             // Create unique entries $cache_id
             $cache_id =  md5(
-                             $bind_id .
+                $bind_id .
                              $entries_ids .
                              $entries_ids_timestamps .
                              ($bind_recursive ? 'true' : 'false') .
@@ -296,14 +301,13 @@ class Entries
                              json_encode($bind_and_where) .
                              json_encode($bind_or_where) .
                              json_encode($bind_order_by)
-                         );
+            );
 
             // If requested entries exist with a specific cache_id,
             // then we take them from the cache otherwise we look for them.
             if ($this->flextype['cache']->contains($cache_id)) {
                 $entries = $this->flextype['cache']->fetch($cache_id);
             } else {
-
                 // Save error_reporting state and turn it off
                 // because PHP Doctrine Collections don't works with collections
                 // if there is no requested fields to search:
@@ -387,7 +391,7 @@ class Entries
      * Rename entry
      *
      * @param string $id     Entry ID
-     * @param string $new_id New entry ID
+     * @param string $new_id New Entry ID
      *
      * @return bool True on success, false on failure.
      *
@@ -413,8 +417,9 @@ class Entries
         $entry_file = $this->getFileLocation($id);
 
         if (Filesystem::has($entry_file)) {
-            $body = Filesystem::read($entry_file);
+            $body  = Filesystem::read($entry_file);
             $entry = $this->flextype['parser']->decode($body, 'frontmatter');
+
             return Filesystem::write($entry_file, $this->flextype['parser']->encode(array_replace_recursive($entry, $data), 'frontmatter'));
         }
 
@@ -438,10 +443,8 @@ class Entries
         if (! Filesystem::has($entry_dir)) {
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
-
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file = $entry_dir . '/entry.md')) {
-
                     $data['uuid']         = Uuid::uuid4()->toString();
                     $data['published_at'] = date($this->flextype->registry->get('settings.date_format'), time());
                     $data['created_at']   = date($this->flextype->registry->get('settings.date_format'), time());
