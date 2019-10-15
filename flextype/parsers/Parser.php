@@ -12,23 +12,20 @@ namespace Flextype;
 class Parser
 {
     /**
-     * Default parser
-     *
-     * @var array
+     * Flextype Dependency Container
      */
-    public static $default_parser = 'frontmatter';
+    private $flextype;
 
     /**
      * Parsers
      *
      * @var array
      */
-    public static $parsers = [
+    private $parsers = [
         'frontmatter' => [
             'name' => 'frontmatter',
             'ext' => 'md',
-        ],
-        'json' => [
+        ], 'json' => [
             'name' => 'json',
             'ext' => 'json',
         ], 'yaml' => [
@@ -37,7 +34,38 @@ class Parser
         ],
     ];
 
-    public static function encode($input, string $parser) : string
+    /**
+     * Constructor
+     *
+     * @access public
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
+
+    /**
+     * Get Parser Information
+     *
+     * @param string $input Content to parse
+     * @param string $parser Parser type [frontmatter, json, yaml]
+     *
+     * @return array
+     */
+    public function getParserInfo(string $parser) : array
+    {
+        return $this->parsers[$parser];
+    }
+
+    /**
+     * Dumps a PHP value to a string CONTENT.
+     *
+     * @param string $input Content to parse
+     * @param string $parser Parser type [frontmatter, json, yaml]
+     *
+     * @return mixed PHP value converted to a string CONTENT.
+     */
+    public function encode($input, string $parser) : string
     {
         switch ($parser) {
             case 'frontmatter':
@@ -53,24 +81,72 @@ class Parser
 
                 break;
             default:
-                // code...
+                return FrontmatterParser::encode($input);
+
                 break;
         }
     }
 
-    public static function decode(string $input, string $parser)
+    /**
+     * Parse INPUT content into a PHP value.
+     *
+     * @param string $input  Content to parse
+     * @param string $parser Parser type [frontmatter, json, yaml]
+     * @param bool   $cache  Cache result data or no. Default is true
+     *
+     * @return mixed The Content converted to a PHP value
+     */
+    public function decode(string $input, string $parser, bool $cache = true)
     {
         switch ($parser) {
             case 'frontmatter':
-                return FrontmatterParser::decode($input);
+                if ($cache) {
+                    $key = md5($input);
+
+                    if ($this->flextype['cache']->contains($key)) {
+                        return $this->flextype['cache']->fetch($key);
+                    } else {
+                        $data = FrontmatterParser::decode($input);
+                        $this->flextype['cache']->save($key, $data);
+                        return $data;
+                    }
+                } else {
+                    return FrontmatterParser::decode($input);
+                }
 
                 break;
             case 'json':
-                return JsonParser::decode($input);
+
+                if ($cache) {
+                    $key = md5($input);
+
+                    if ($this->flextype['cache']->contains($key)) {
+                        return $this->flextype['cache']->fetch($key);
+                    } else {
+                        $data = JsonParser::decode($input);
+                        $this->flextype['cache']->save($key, $data);
+                        return $data;
+                    }
+                } else {
+                    return JsonParser::decode($input);
+                }
 
                 break;
             case 'yaml':
-                return YamlParser::decode($input);
+
+                if ($cache) {
+                    $key = md5($input);
+
+                    if ($this->flextype['cache']->contains($key)) {
+                        return $this->flextype['cache']->fetch($key);
+                    } else {
+                        $data = YamlParser::decode($input);
+                        $this->flextype['cache']->save($key, $data);
+                        return $data;
+                    }
+                } else {
+                    return YamlParser::decode($input);
+                }
 
                 break;
             default:

@@ -41,7 +41,7 @@ class Plugins
     public function __construct($flextype, $app)
     {
         $this->flextype = $flextype;
-        $this->locales  = Parser::decode(Filesystem::read(ROOT_DIR . '/flextype/config/locales.yaml'), 'yaml');
+        $this->locales  = $this->flextype['parser']->decode(Filesystem::read(ROOT_DIR . '/flextype/config/locales.yaml'), 'yaml');
     }
 
     /**
@@ -117,11 +117,11 @@ class Plugins
 
                     if (Filesystem::has($default_plugin_settings_file)) {
                         $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
-                        $default_plugin_settings = Parser::decode($default_plugin_settings_file_content, 'yaml');
+                        $default_plugin_settings = $this->flextype['parser']->decode($default_plugin_settings_file_content, 'yaml');
 
                         if (Filesystem::has($site_plugin_settings_file)) {
                             $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
-                            $site_plugin_settings = Parser::decode($site_plugin_settings_file_content, 'yaml');
+                            $site_plugin_settings = $this->flextype['parser']->decode($site_plugin_settings_file_content, 'yaml');
                         }
                     } else {
                         throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin settings - failed!');
@@ -129,11 +129,11 @@ class Plugins
 
                     if (Filesystem::has($default_plugin_manifest_file)) {
                         $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
-                        $default_plugin_manifest = Parser::decode($default_plugin_manifest_file_content, 'yaml');
+                        $default_plugin_manifest = $this->flextype['parser']->decode($default_plugin_manifest_file_content, 'yaml');
 
                         if (Filesystem::has($site_plugin_manifest_file)) {
                             $site_plugin_manifest_file_content = Filesystem::read($site_plugin_manifest_file);
-                            $site_plugin_manifest = Parser::decode($site_plugin_manifest_file_content, 'yaml');
+                            $site_plugin_manifest = $this->flextype['parser']->decode($site_plugin_manifest_file_content, 'yaml');
                         }
                     } else {
                         throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin manifest - failed!');
@@ -188,7 +188,7 @@ class Plugins
                 throw new RuntimeException('Load file: ' . $language_file . ' - failed!');
             }
 
-            I18n::add(Parser::decode($content, 'yaml'), $locale);
+            I18n::add($this->flextype['parser']->decode($content, 'yaml'), $locale);
         }
 
         return I18n::$dictionary;

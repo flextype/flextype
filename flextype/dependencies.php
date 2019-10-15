@@ -113,6 +113,13 @@ $flextype['cache'] = static function ($container) use ($flextype) {
 };
 
 /**
+ * Add cache service to Flextype container
+ */
+$flextype['parser'] = static function ($container) use ($flextype) {
+    return new Parser($flextype);
+};
+
+/**
  * Add images service to Flextype container
  */
 $flextype['images'] = static function ($container) {
@@ -248,7 +255,7 @@ $flextype['view'] = static function ($container) {
     $view->addExtension(new YamlTwigExtension());
 
     // Add Parser Twig Extension
-    $view->addExtension(new ParserTwigExtension());
+    $view->addExtension(new ParserTwigExtension($container));
 
     // Add Markdown Twig Extension
     $view->addExtension(new MarkdownTwigExtension($container));

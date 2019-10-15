@@ -62,7 +62,7 @@ class Themes
                             throw new RuntimeException('Load file: ' . $theme_settings_file . ' - failed!');
                         }
 
-                        $theme_settings = Parser::decode($content, 'yaml');
+                        $theme_settings = $this->flextype['parser']->decode($content, 'yaml');
                     }
 
                     // Get theme manifest
@@ -71,7 +71,7 @@ class Themes
                             throw new RuntimeException('Load file: ' . $theme_manifest_file . ' - failed!');
                         }
 
-                        $theme_manifest = Parser::decode($content, 'yaml');
+                        $theme_manifest = $this->flextype['parser']->decode($content, 'yaml');
                     }
 
                     $themes[$theme['dirname']] = array_merge($theme_settings, $theme_manifest);

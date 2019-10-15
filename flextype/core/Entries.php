@@ -142,7 +142,7 @@ class Entries
             // else Try to get requested entry from the filesystem
             }
 
-            $entry_decoded = Parser::decode(Filesystem::read($entry_file), 'frontmatter');
+            $entry_decoded = $this->flextype['parser']->decode(Filesystem::read($entry_file), 'frontmatter');
 
             // Add predefined entry items
             // Entry Date
@@ -414,8 +414,8 @@ class Entries
 
         if (Filesystem::has($entry_file)) {
             $body = Filesystem::read($entry_file);
-            $entry = Parser::decode($body, 'frontmatter');
-            return Filesystem::write($entry_file, Parser::encode(array_replace_recursive($entry, $data), 'frontmatter'));
+            $entry = $this->flextype['parser']->decode($body, 'frontmatter');
+            return Filesystem::write($entry_file, $this->flextype['parser']->encode(array_replace_recursive($entry, $data), 'frontmatter'));
         }
 
         return false;
@@ -448,7 +448,7 @@ class Entries
                     $data['published_by'] = (Session::exists('uuid') ? Session::get('uuid') : '');
                     $data['created_by']   = (Session::exists('uuid') ? Session::get('uuid') : '');
 
-                    return Filesystem::write($entry_file, Parser::encode($data, 'frontmatter'));
+                    return Filesystem::write($entry_file, $this->flextype['parser']->encode($data, 'frontmatter'));
                 }
 
                 return false;

@@ -60,13 +60,13 @@ if (! Filesystem::has($default_settings_file_path) || ! Filesystem::has($site_se
 if (($content = Filesystem::read($default_settings_file_path)) === false) {
     throw new RuntimeException('Load file: ' . $default_settings_file_path . ' - failed!');
 } else {
-    $default_settings = Parser::decode($content, 'yaml');
+    $default_settings = YamlParser::decode($content);
 }
 
 if (($content = Filesystem::read($site_settings_file_path)) === false) {
     throw new RuntimeException('Load file: ' . $site_settings_file_path . ' - failed!');
 } else {
-    $site_settings = Parser::decode($content, 'yaml');
+    $site_settings = YamlParser::decode($content);
 }
 
 // Merge settings
