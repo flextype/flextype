@@ -83,8 +83,7 @@ class Parser
 
                 break;
             default:
-                return FrontmatterParser::encode($input);
-
+            
                 break;
         }
     }
@@ -105,8 +104,8 @@ class Parser
                 if ($cache) {
                     $key = md5($input);
 
-                    if ($this->flextype['cache']->contains($key)) {
-                        return $this->flextype['cache']->fetch($key);
+                    if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
+                        return $data_from_cache;
                     }
 
                     $data = FrontmatterParser::decode($input);
@@ -122,8 +121,8 @@ class Parser
                 if ($cache) {
                     $key = md5($input);
 
-                    if ($this->flextype['cache']->contains($key)) {
-                        return $this->flextype['cache']->fetch($key);
+                    if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
+                        return $data_from_cache;
                     }
 
                     $data = JsonParser::decode($input);
@@ -139,8 +138,8 @@ class Parser
                 if ($cache) {
                     $key = md5($input);
 
-                    if ($this->flextype['cache']->contains($key)) {
-                        return $this->flextype['cache']->fetch($key);
+                    if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
+                        return $data_from_cache;
                     }
 
                     $data = YamlParser::decode($input);
