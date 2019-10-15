@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use function md5;
+
 class Parser
 {
     /**
@@ -47,7 +49,7 @@ class Parser
     /**
      * Get Parser Information
      *
-     * @param string $input Content to parse
+     * @param string $input  Content to parse
      * @param string $parser Parser type [frontmatter, json, yaml]
      *
      * @return array
@@ -60,12 +62,12 @@ class Parser
     /**
      * Dumps a PHP value to a string CONTENT.
      *
-     * @param string $input Content to parse
+     * @param string $input  Content to parse
      * @param string $parser Parser type [frontmatter, json, yaml]
      *
      * @return mixed PHP value converted to a string CONTENT.
      */
-    public function encode($input, string $parser) : string
+    public function encode(string $input, string $parser) : string
     {
         switch ($parser) {
             case 'frontmatter':
@@ -105,45 +107,46 @@ class Parser
 
                     if ($this->flextype['cache']->contains($key)) {
                         return $this->flextype['cache']->fetch($key);
-                    } else {
-                        $data = FrontmatterParser::decode($input);
-                        $this->flextype['cache']->save($key, $data);
-                        return $data;
                     }
+
+                    $data = FrontmatterParser::decode($input);
+                    $this->flextype['cache']->save($key, $data);
+
+                    return $data;
                 } else {
                     return FrontmatterParser::decode($input);
                 }
 
                 break;
             case 'json':
-
                 if ($cache) {
                     $key = md5($input);
 
                     if ($this->flextype['cache']->contains($key)) {
                         return $this->flextype['cache']->fetch($key);
-                    } else {
-                        $data = JsonParser::decode($input);
-                        $this->flextype['cache']->save($key, $data);
-                        return $data;
                     }
+
+                    $data = JsonParser::decode($input);
+                    $this->flextype['cache']->save($key, $data);
+
+                    return $data;
                 } else {
                     return JsonParser::decode($input);
                 }
 
                 break;
             case 'yaml':
-
                 if ($cache) {
                     $key = md5($input);
 
                     if ($this->flextype['cache']->contains($key)) {
                         return $this->flextype['cache']->fetch($key);
-                    } else {
-                        $data = YamlParser::decode($input);
-                        $this->flextype['cache']->save($key, $data);
-                        return $data;
                     }
+
+                    $data = YamlParser::decode($input);
+                    $this->flextype['cache']->save($key, $data);
+
+                    return $data;
                 } else {
                     return YamlParser::decode($input);
                 }
