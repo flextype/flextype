@@ -15,6 +15,19 @@ use Twig_SimpleFunction;
 class ParserTwigExtension extends Twig_Extension
 {
     /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * Constructor
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
+
+    /**
      * Returns a list of functions to add to the existing list.
      *
      * @return array
@@ -24,22 +37,31 @@ class ParserTwigExtension extends Twig_Extension
         return [
             new Twig_SimpleFunction('parser_decode', [$this, 'decode']),
             new Twig_SimpleFunction('parser_encode', [$this, 'encode']),
+            new Twig_SimpleFunction('parser_get_info', [$this, 'getParserInfo']),
         ];
     }
 
     /**
-     * Encode YAML
+     * Get Parser Info
      */
-    public function encode($input, string $parser)
+    public function getParserInfo(string $parser) : array
     {
-        return Parser::encode($input, $parser);
+        return $this->flextype['parser']->getParserInfo($parser);
     }
 
     /**
-     * Decode YAML
+     * Encode
      */
-    public function decode(string $input, string $parser)
+    public function encode($input, string $parser)
     {
-        return Parser::decode($input, $parser);
+        return $this->flextype['parser']->encode($input, $parser);
+    }
+
+    /**
+     * Decode
+     */
+    public function decode(string $input, string $parser, bool $cache)
+    {
+        return $this->flextype['parser']->decode($input, $parser, $cache);
     }
 }
