@@ -42,11 +42,11 @@ class YamlParser
     /**
      * Native
      *
-     * Use native parser or symfony
+     * Use native or symfony parser
      *
      * @var bool
      */
-    public static $native = false;
+    public static $native = true;
 
     /**
      * Flag
@@ -99,7 +99,7 @@ class YamlParser
     public static function decode(string $input, int $flags = 0)
     {
         // Try native PECL YAML PHP extension first if available.
-        if (self::$native && function_exists('yaml_parse')) {
+        if (\function_exists('yaml_parse') && self::$native) {
             // Safely decode YAML.
             $saved = @ini_get('yaml.decode_php');
             @ini_set('yaml.decode_php', 0);
@@ -112,7 +112,7 @@ class YamlParser
         }
 
         try {
-            return (array) Yaml::parse($input);
+            return (array) Yaml::parse($input, $flags);
         } catch (ParseException $e) {
             throw new RuntimeException('Decoding YAML failed: ' . $e->getMessage(), 0, $e);
         }
