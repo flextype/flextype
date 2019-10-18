@@ -62,12 +62,12 @@ class Parser
     /**
      * Dumps a PHP value to a string CONTENT.
      *
-     * @param string $input  Content to parse
+     * @param mixed $input  Content to parse
      * @param string $parser Parser type [frontmatter, json, yaml]
      *
      * @return mixed PHP value converted to a string CONTENT.
      */
-    public function encode(string $input, string $parser) : string
+    public function encode($input, string $parser) : string
     {
         switch ($parser) {
             case 'frontmatter':
@@ -83,7 +83,7 @@ class Parser
 
                 break;
             default:
-            
+
                 break;
         }
     }
