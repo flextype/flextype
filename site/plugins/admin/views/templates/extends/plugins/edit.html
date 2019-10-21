@@ -1,69 +1,72 @@
 {% extends "plugins/admin/views/partials/base.html" %}
 
 {% block content %}
-<table class="table no-margin">
-    <tbody>
-        <tr>
-            <td style="width: 200px;">{{ tr('admin_name') }}:</td>
-            <td>{{ plugin_manifest.name }}</td>
-        </tr>
-        <tr>
-            <td>{{ tr('admin_version') }}:</td>
-            <td>{{ plugin_manifest.version }}</td>
-        </tr>
-        <tr>
-            <td>{{ tr('admin_description') }}:</td>
-            <td>{{ plugin_manifest.description }}</td>
-        </tr>
-        <tr>
-            <td>{{ tr('admin_icon') }}:</td>
-            <td>{{ plugin_manifest.icon }}</td>
-        </tr>
-        <tr>
-            <td>{{ tr('admin_author_name') }}:</td>
-            <td>{{ plugin_manifest.author.name }}</td>
-        </tr>
-        <tr>
-            <td>{{ tr('admin_author_email') }}:</td>
-            <td>{{ plugin_manifest.author.email }}</td>
-        </tr>
-        <tr>
-            <td>{{ tr('admin_author_url') }}:</td>
-            <td>{{ plugin_manifest.author.url }}</td>
-        </tr>
-        <tr>
-            <td>{{ tr('admin_homepage') }}:</td>
-            <td>{{ plugin_manifest.homepage }}</td>
-        </tr>
-        <tr>
-            <td>{{ tr('admin_bugs') }}:</td>
-            <td>{{ plugin_manifest.bugs }}</td>
-        </tr>
-        <tr>
-            <td>{{ tr('admin_license') }}:</td>
-            <td>{{ plugin_manifest.license }}</td>
-        </tr>
-    </tbody>
-</table>
-
-<br>
-<br>
-
-<h3 class="h3 margin-top-none">{{ tr('admin_settings') }}</h3>
-<hr>
-
-<form method="post" id="form">
-    {{ csrf() }}
-    <input type="hidden" id="action" name="action" value="save-form">
-    <input type="hidden" id="id" name="id" value="{{ id }}">
-    <div class="row">
-        <div class="col-12">
-            <div class="form-group">
-                <textarea style="min-height:500px;" name="data" rows="8" cols="80" class="form-control js-code">{{ plugin_settings }}</textarea>
-            </div>
-        </div>
+<div class="row mt-3">
+    <div class="col-md-6">
+        <h3 class="h3 margin-top-none">{{ tr('admin_information') }}</h3>
+        <hr>
+        <table class="table no-margin">
+            <tbody>
+                <tr>
+                    <td style="width: 200px;">{{ tr('admin_name') }}:</td>
+                    <td>{{ plugin_manifest.name }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_version') }}:</td>
+                    <td>{{ plugin_manifest.version }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_description') }}:</td>
+                    <td>{{ plugin_manifest.description }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_icon') }}:</td>
+                    <td>{{ plugin_manifest.icon }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_author_name') }}:</td>
+                    <td>{{ plugin_manifest.author.name }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_author_email') }}:</td>
+                    <td>{{ plugin_manifest.author.email }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_author_url') }}:</td>
+                    <td>{{ plugin_manifest.author.url }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_homepage') }}:</td>
+                    <td>{{ plugin_manifest.homepage }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_bugs') }}:</td>
+                    <td>{{ plugin_manifest.bugs }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_license') }}:</td>
+                    <td>{{ plugin_manifest.license }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-</form>
+    <div class="col-md-6">
+        <h3 class="h3 margin-top-none">{{ tr('admin_settings') }}</h3>
+        <hr>
+        <form method="post" id="form">
+            {{ csrf() }}
+            <input type="hidden" id="action" name="action" value="save-form">
+            <input type="hidden" id="id" name="id" value="{{ id }}">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <textarea style="min-height:500px;" name="data" rows="8" cols="80" class="form-control js-code">{{ plugin_settings }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 <br>
 <br>
