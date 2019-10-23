@@ -81,14 +81,59 @@ class PluginsController extends Controller
      */
     public function edit(Request $request, Response $response) : Response
     {
+        // Get Plugin ID
+        $id = $request->getQueryParams()['id'];
+
+        // Init plugin configs
+        $plugin                  = [];
+        $plugin_settings         = [];
+        $plugin_manifest         = [];
+        $default_plugin_settings = [];
+        $site_plugin_settings    = [];
+        $default_plugin_manifest = [];
+        $site_plugin_manifest    = [];
+
+        $default_plugin_settings_file = PATH['plugins'] . '/' . $id . '/settings.yaml';
+        $default_plugin_manifest_file = PATH['plugins'] . '/' . $id . '/plugin.yaml';
+        $site_plugin_settings_file    = PATH['config']['site'] . '/plugins/' . $id . '/settings.yaml';
+        $site_plugin_manifest_file    = PATH['config']['site'] . '/plugins/' . $id . '/plugin.yaml';
+
+        if (Filesystem::has($default_plugin_settings_file)) {
+            $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
+            $default_plugin_settings              = $this->parser->decode($default_plugin_settings_file_content, 'yaml');
+        }
+
+        if (Filesystem::has($site_plugin_settings_file)) {
+            $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
+            $site_plugin_settings              = $this->parser->decode($site_plugin_settings_file_content, 'yaml');
+        }
+
+        if (Filesystem::has($default_plugin_manifest_file)) {
+            $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
+            $default_plugin_manifest              = $this->parser->decode($default_plugin_manifest_file_content, 'yaml');
+        }
+
+        if (Filesystem::has($site_plugin_manifest_file)) {
+            $site_plugin_manifest_file_content = Filesystem::read($site_plugin_manifest_file);
+            $site_plugin_manifest              = $this->parser->decode($site_plugin_manifest_file_content, 'yaml');
+        }
+
+        $plugin[$id]['manifest'] = array_merge(
+            array_replace_recursive($default_plugin_manifest, $site_plugin_manifest)
+        );
+
+        $plugin[$id]['settings'] = array_merge(
+            array_replace_recursive($default_plugin_settings, $site_plugin_settings)
+        );
+
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/extends/plugins/edit.html',
             [
                 'menu_item' => 'plugins',
-                'id' => $request->getQueryParams()['id'],
-                'plugin_manifest' => $this->parser->decode(Filesystem::read(PATH['plugins'] . '/' . $request->getQueryParams()['id'] . '/plugin.yaml'), 'yaml'),
-                'plugin_settings' => Filesystem::read(PATH['plugins'] . '/' . $request->getQueryParams()['id'] . '/settings.yaml'),
+                'id' => $id,
+                'plugin_manifest' => $plugin[$id]['manifest'],
+                'plugin_settings' => $this->parser->encode($plugin[$id]['settings'], 'yaml'),
                 'links' =>  [
                     'plugins' => [
                         'link' => $this->router->pathFor('admin.plugins.index'),
