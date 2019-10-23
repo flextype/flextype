@@ -156,4 +156,30 @@ class PluginsController extends Controller
             ]
         );
     }
+
+    /**
+     * Edit plugin process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     */
+    public function editProcess(Request $request, Response $response) : Response
+    {
+        $data = $request->getParsedBody();
+
+        $id   = $data['id'];
+        $data = $data['data'];
+
+        $site_plugin_settings_dir  = PATH['config']['site'] . '/plugins/' . $id;
+        $site_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $id . '/settings.yaml';
+
+        if (Filesystem::has($site_plugin_settings_file)) {
+            Filesystem::write($site_plugin_settings_file, $data);
+        } else {
+            ! Filesystem::has($site_plugin_settings_dir) and Filesystem::createDir($site_plugin_settings_dir);
+            Filesystem::write($site_plugin_settings_file, $data);
+        }
+
+        return $response->withRedirect($this->router->pathFor('admin.plugins.edit') . '?id=' . $id);
+    }
 }
