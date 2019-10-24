@@ -176,9 +176,13 @@ class Forms
                         $form_label = '';
                     }
 
-                    $form .= '<div class="form-group ' . $property['size'] . '">';
-                    $form .= $form_label . $form_element;
-                    $form .= '</div>';
+                    if ($property['type'] == 'hidden') {
+                        $form .= $form_element;
+                    } else {
+                        $form .= '<div class="form-group ' . $property['size'] . '">';
+                        $form .= $form_label . $form_element;
+                        $form .= '</div>';
+                    }
                 }
                 $form .= '</div>';
                 $form .= '</div>';
