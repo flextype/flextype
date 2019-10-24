@@ -35,46 +35,4 @@
     {% endfor %}
   </tbody>
 </table>
-
-<!-- Modal -->
-<div class="modal fade" id="pluginInfoModal" tabindex="-1" role="dialog" aria-labelledby="pluginInfoModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="pluginInfoModalLabel">{{ tr('admin_info') }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <p><b>{{ tr('admin_name') }}: </b><span class="js-plugin-name-placeholder"></span></p>
-          <p><b>{{ tr('admin_version') }}: </b><span class="js-plugin-version-placeholder"></span></p>
-          <p><b>{{ tr('admin_description') }}: </b><span class="js-plugin-description-placeholder"></span></p>
-          <p><b>{{ tr('admin_author_name') }}: </b><span class="js-plugin-author-name-placeholder"></span></p>
-          <p><b>{{ tr('admin_author_email') }}: </b><span class="js-plugin-author-email-placeholder"></span></p>
-          <p><b>{{ tr('admin_author_url') }}: </b><span class="js-plugin-author-url-placeholder"></span></p>
-          <p><b>{{ tr('admin_homepage') }}: </b><span class="js-plugin-homepage-placeholder"></span></p>
-          <p><b>{{ tr('admin_bugs') }}: </b><span class="js-plugin-bugs-placeholder"></span></p>
-          <p><b>{{ tr('admin_license') }}: </b><span class="js-plugin-license-placeholder"></span></p>
-      </div>
-    </div>
-  </div>
-</div>
-{% endblock %}
-
-{% block tail %}
-<script type="text/javascript">
-$('.js-plugins-info').click(function () {
-    $('#pluginInfoModal').modal();
-    $('.js-plugin-name-placeholder').html($(this).attr('data-name'));
-    $('.js-plugin-version-placeholder').html($(this).attr('data-version'));
-    $('.js-plugin-description-placeholder').html($(this).attr('data-description'));
-    $('.js-plugin-author-name-placeholder').html($(this).attr('data-author-name'));
-    $('.js-plugin-author-email-placeholder').html($(this).attr('data-author-email'));
-    $('.js-plugin-author-url-placeholder').html($(this).attr('data-author-url'));
-    $('.js-plugin-homepage-placeholder').html($(this).attr('data-homepage'));
-    $('.js-plugin-bugs-placeholder').html($(this).attr('data-bugs'));
-    $('.js-plugin-license-placeholder').html($(this).attr('data-license'));
-});
-</script>
 {% endblock %}
