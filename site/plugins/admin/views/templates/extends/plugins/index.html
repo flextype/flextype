@@ -15,7 +15,7 @@
           <td style="padding-left:0px;"><a href="{{ path_for('admin.plugins.edit') }}?id={{ key }}">{{ plugin.name }}</a></td>
           <td class="text-right"  style="width: 50px;">
               <div class="form-group no-margin">
-                <span class="switch switch-sm">
+                <span class="switch switch-sm {% if key == 'admin' or key == 'site' or key == '' %}opacity-50{% endif %}">
                     <input id="switch-sm-{{ key }}"
                        onclick="event.preventDefault();
                                 document.getElementById('update-status-{{ key }}').submit();"
