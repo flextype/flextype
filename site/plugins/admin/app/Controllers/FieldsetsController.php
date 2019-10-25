@@ -76,7 +76,21 @@ class FieldsetsController extends Controller
         Arr::delete($data, 'csrf_value');
 
         $id   = $this->slugify->slugify($data['id']);
-        $data = ['title' => $data['title']];
+        $data = ['title' => $data['title'],
+                 'default_field' => 'title',
+                 'icon' => 'far fa-file-alt',
+                 'sections' => [
+                   'main' => [
+                       'title' => 'Main',
+                       'fields' => [
+                           'title' => [
+                               'title' => 'admin_title',
+                               'type' => 'text',
+                               'size' => '12'
+                           ],
+                       ],
+                   ],
+                ]];
 
         if ($this->fieldsets->create($id, $data)) {
             $this->flash->addMessage('success', __('admin_message_fieldset_created'));
