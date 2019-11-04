@@ -117,8 +117,8 @@ class Forms
                     // Create attribute value
                     $property['value'] = Arr::keyExists($property, 'value') ? $property['value'] : '';
 
-                    // Create attribute value
-                    $property['label'] = Arr::keyExists($property, 'label') ? $property['label'] : true;
+                    // Create title label
+                    $property['title'] = Arr::keyExists($property, 'title') ? $property['title'] : false;
 
                     // Set element name
                     $element_name = $this->getElementName($element);
@@ -170,7 +170,7 @@ class Forms
                             break;
                     }
 
-                    if ($property['label'] === true) {
+                    if ($property['title']) {
                         $form_label = Form::label($element, __($property['title']));
                     } else {
                         $form_label = '';
