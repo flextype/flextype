@@ -131,6 +131,9 @@ class Forms
                     // Set element name
                     $element_name = $this->getElementName($element);
 
+                    // Set element id
+                    $element_id = $this->getElementID($element);
+
                     // Set element value
                     $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : $property['value'];
 
@@ -141,40 +144,40 @@ class Forms
                     switch ($property['type']) {
                         // Simple text-input, for multi-line fields.
                         case 'textarea':
-                            $form_element = $this->textareaField($element, $element_name, $form_value, $property);
+                            $form_element = $this->textareaField($element_id, $element_name, $form_value, $property);
                             break;
                         // The hidden field is like the text field, except it's hidden from the content editor.
                         case 'hidden':
-                            $form_element = $this->hiddenField($element_name, $form_value, $property);
+                            $form_element = $this->hiddenField($element_id, $element_name, $form_value, $property);
                             break;
                         // A WYSIWYG HTML field.
                         case 'html':
-                            $form_element = $this->htmlField($element, $element_name, $form_value, $property);
+                            $form_element = $this->htmlField($element_id, $element_name, $form_value, $property);
                             break;
                         // Selectbox field
                         case 'select':
-                            $form_element = $this->selectField($element, $element_name, $property['options'], $form_value, $property);
+                            $form_element = $this->selectField($element_id, $element_name, $property['options'], $form_value, $property);
                             break;
                         // Template select field for selecting entry template
                         case 'template_select':
-                            $form_element = $this->templateSelectField($element, $element_name, $form_value, $property);
+                            $form_element = $this->templateSelectField($element_id, $element_name, $form_value, $property);
                             break;
                         // Visibility select field for selecting entry visibility state
                         case 'visibility_select':
-                            $form_element = $this->visibilitySelectField($element, $element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (! empty($form_value) ? $form_value : 'visible'), $property);
+                            $form_element = $this->visibilitySelectField($element_id, $element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (! empty($form_value) ? $form_value : 'visible'), $property);
                             break;
                         case 'tags':
-                            $form_element = $this->tagsField($element, $element_name, $form_value, $property);
+                            $form_element = $this->tagsField($element_id, $element_name, $form_value, $property);
                             break;
                         case 'datetimepicker':
-                            $form_element = $this->dateField($element, $element_name, $form_value, $property);
+                            $form_element = $this->dateField($element_id, $element_name, $form_value, $property);
                             break;
                         case 'media_select':
-                            $form_element = $this->mediaSelectField($element, $element_name, $this->flextype->EntriesController->getMediaList($request->getQueryParams()['id'], false), $form_value, $property);
+                            $form_element = $this->mediaSelectField($element_id, $element_name, $this->flextype->EntriesController->getMediaList($request->getQueryParams()['id'], false), $form_value, $property);
                             break;
                         // Simple text-input, for single-line fields.
                         default:
-                            $form_element = $this->textField($element, $element_name, $form_value, $property);
+                            $form_element = $this->textField($element_id, $element_name, $form_value, $property);
                             break;
                     }
 
@@ -221,22 +224,47 @@ class Forms
     }
 
     /**
+     * Get element id
+     *
+     * @param string $element Element
+     *
+     * @return string Returns form element id
+     *
+     * @access protected
+     */
+    protected function getElementID(string $element) : string
+    {
+        $pos = strpos($element, '.');
+
+        if ($pos === false) {
+            $element_name = $element;
+        } else {
+            $element_name = str_replace('.', '_', "$element");
+        }
+
+        return $element_name;
+    }
+
+    /**
      * Media select field
      *
-     * @param string $name     Field name
-     * @param array  $options  Field options
-     * @param string $value    Field value
-     * @param array  $property Field property
+     * @param string $element_id   Field ID
+     * @param string $element_name Field name
+     * @param array  $options      Field options
+     * @param string $value        Field value
+     * @param array  $property     Field property
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function mediaSelectField(string $element, string $name, array $options, string $value, array $property) : string
+    protected function mediaSelectField(string $element_id, string $element_name, array $options, string $value, array $property) : string
     {
+        $property['attributes']['id'] = $element_id;
+
         $field = '<div class="form-group ' . $property['size'] . '">';
-        $field .= ($property['title'] ? Form::label($element, __($property['title'])) : '');
-        $field .= Form::select($name, $options, $value, $property['attributes']);
+        $field .= ($property['title'] ? Form::label($element_id, __($property['title'])) : '');
+        $field .= Form::select($element_name, $options, $value, $property['attributes']);
         $field .= '</div>';
 
         return $field;
@@ -245,7 +273,8 @@ class Forms
     /**
      * Template select field
      *
-     * @param string $name     Field name
+     * @param string $element_id   Field ID
+     * @param string $element_name Field name
      * @param string $value    Field value
      * @param array  $property Field property
      *
@@ -253,8 +282,10 @@ class Forms
      *
      * @access protected
      */
-    protected function templateSelectField(string $element, string $name, string $value, array $property) : string
+    protected function templateSelectField(string $element_id, string $element_name, string $value, array $property) : string
     {
+        $property['attributes']['id'] = $element_id;
+
         $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
 
         if (count($_templates_list) > 0) {
@@ -268,8 +299,8 @@ class Forms
         }
 
         $field = '<div class="form-group ' . $property['size'] . '">';
-        $field .= ($property['title'] ? Form::label($element, __($property['title'])) : '');
-        $field .= Form::select($name, $options, $value, $property['attributes']);
+        $field .= ($property['title'] ? Form::label($element_id, __($property['title'])) : '');
+        $field .= Form::select($element_name, $options, $value, $property['attributes']);
         $field .= '</div>';
 
         return $field;
@@ -278,7 +309,8 @@ class Forms
     /**
      * Select field
      *
-     * @param string $name     Field name
+     * @param string $element_id   Field ID
+     * @param string $element_name Field name
      * @param array  $options  Field options
      * @param string $value    Field value
      * @param array  $property Field property
@@ -287,11 +319,13 @@ class Forms
      *
      * @access protected
      */
-    protected function selectField(string $element, string $name, array $options, string $value, array $property) : string
+    protected function selectField(string $element_id, string $element_name, array $options, string $value, array $property) : string
     {
+        $property['attributes']['id'] = $element_id;
+
         $field = '<div class="form-group ' . $property['size'] . '">';
-        $field .= ($property['title'] ? Form::label($element, __($property['title'])) : '');
-        $field .= Form::select($name, $options, $value, $property['attributes']);
+        $field .= ($property['title'] ? Form::label($element_id, __($property['title'])) : '');
+        $field .= Form::select($element_name, $options, $value, $property['attributes']);
         $field .= '</div>';
 
         return $field;
@@ -300,7 +334,8 @@ class Forms
     /**
      * Html field
      *
-     * @param string $name     Field name
+     * @param string $element_id   Field ID
+     * @param string $element_name Field name
      * @param string $value    Field value
      * @param array  $property Field property
      *
@@ -308,13 +343,14 @@ class Forms
      *
      * @access protected
      */
-    protected function htmlField(string $element, string $name, string $value, array $property) : string
+    protected function htmlField(string $element_id, string $element_name, string $value, array $property) : string
     {
+        $property['attributes']['id'] = $element_id;
         $property['attributes']['class'] .= ' js-html-editor';
 
         $field = '<div class="form-group ' . $property['size'] . '">';
-        $field .= ($property['title'] ? Form::label($element, __($property['title'])) : '');
-        $field .= Form::textarea($name, $value, $property['attributes']);
+        $field .= ($property['title'] ? Form::label($element_id, __($property['title'])) : '');
+        $field .= Form::textarea($element_name, $value, $property['attributes']);
         $field .= '</div>';
 
         return $field;
@@ -323,7 +359,8 @@ class Forms
     /**
      * Hidden field
      *
-     * @param string $name     Field name
+     * @param string $element_id   Field ID
+     * @param string $element_name Field name
      * @param string $value    Field value
      * @param array  $property Field property
      *
@@ -331,15 +368,18 @@ class Forms
      *
      * @access protected
      */
-    protected function hiddenField(string $name, string $value, array $property) : string
+    protected function hiddenField(string $element_id, string $element_name, string $value, array $property) : string
     {
-        return Form::hidden($name, $value, $property['attributes']);
+        $property['attributes']['id'] = $element_id;
+
+        return Form::hidden($element_name, $value, $property['attributes']);
     }
 
     /**
      * Textarea field
      *
-     * @param string $name     Field name
+     * @param string $element_id   Field ID
+     * @param string $element_name Field name
      * @param string $value    Field value
      * @param array  $property Field property
      *
@@ -347,11 +387,13 @@ class Forms
      *
      * @access protected
      */
-    protected function textareaField(string $element, string $name, string $value, array $property) : string
+    protected function textareaField(string $element_id, string $element_name, string $value, array $property) : string
     {
+        $property['attributes']['id'] = $element_id;
+
         $field = '<div class="form-group ' . $property['size'] . '">';
-        $field .= ($property['title'] ? Form::label($element, __($property['title'])) : '');
-        $field .= Form::textarea($name, $value, $property['attributes']);
+        $field .= ($property['title'] ? Form::label($element_id, __($property['title'])) : '');
+        $field .= Form::textarea($element_name, $value, $property['attributes']);
         $field .= '</div>';
 
         return $field;
@@ -360,8 +402,8 @@ class Forms
     /**
      * Visibility field
      *
-     * @param string $name     Field name
-     * @param array  $options  Field options
+     * @param string $element_id   Field ID
+     * @param string $element_name Field name
      * @param string $value    Field value
      * @param array  $property Field property
      *
@@ -369,11 +411,13 @@ class Forms
      *
      * @access protected
      */
-    protected function visibilitySelectField(string $element, string $name, array $options, string $value, array $property) : string
+    protected function visibilitySelectField(string $element_id, string $element_name, array $options, string $value, array $property) : string
     {
+        $property['attributes']['id'] = $element_id;
+
         $field = '<div class="form-group ' . $property['size'] . '">';
-        $field .= ($property['title'] ? Form::label($element, __($property['title'])) : '');
-        $field .= Form::select($name, $options, $value, $property['attributes']);
+        $field .= ($property['title'] ? Form::label($element_id, __($property['title'])) : '');
+        $field .= Form::select($element_name, $options, $value, $property['attributes']);
         $field .= '</div>';
 
         return $field;
@@ -382,7 +426,8 @@ class Forms
     /**
      * Text field
      *
-     * @param string $name     Field name
+     * @param string $element_id   Field ID
+     * @param string $element_name Field name
      * @param string $value    Field value
      * @param array  $property Field property
      *
@@ -390,11 +435,13 @@ class Forms
      *
      * @access protected
      */
-    protected function textField(string $element, string $name, string $value, array $property) : string
+    protected function textField(string $element_id, string $element_name, string $value, array $property) : string
     {
+        $property['attributes']['id'] = $element_id;
+
         $field = '<div class="form-group ' . $property['size'] . '">';
-        $field .= ($property['title'] ? Form::label($element, __($property['title'])) : '');
-        $field .= Form::input($name, $value, $property['attributes']);
+        $field .= ($property['title'] ? Form::label($element_id, __($property['title'])) : '');
+        $field .= Form::input($element_name, $value, $property['attributes']);
         $field .= '</div>';
 
         return $field;
@@ -403,18 +450,21 @@ class Forms
     /**
      * Tags field
      *
-     * @param string $name  Field name
+     * @param string $element_id   Field ID
+     * @param string $element_name Field name
      * @param string $value Field value
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function tagsField(string $element, string $name, string $value, array $property) : string
+    protected function tagsField(string $element_id, string $element_name, string $value, array $property) : string
     {
+        $property['attributes']['id'] = $element_id;
+
         $field = '<div class="form-group ' . $property['size'] . '">';
-        $field .= ($property['title'] ? Form::label($element, __($property['title'])) : '');
-        $field .= '<input type="text" value="' . $value . '" name="' . $name . '" class="form-control" data-role="tagsinput" />';
+        $field .= ($property['title'] ? Form::label($element_id, __($property['title'])) : '');
+        $field .= '<input type="text" value="' . $value . '" name="' . $element_name . '" class="form-control" data-role="tagsinput" />';
         $field .= '</div>';
 
         return $field;
@@ -423,7 +473,8 @@ class Forms
     /**
      * Date field
      *
-     * @param string $name     Field name
+     * @param string $element_id   Field ID
+     * @param string $element_name Field name
      * @param string $value    Field value
      * @param array  $property Field property
      *
@@ -431,13 +482,13 @@ class Forms
      *
      * @access protected
      */
-    protected function dateField(string $element, string $name, string $value, array $property) : string
+    protected function dateField(string $element_id, string $element_name, string $value, array $property) : string
     {
         $field = '<div class="form-group ' . $property['size'] . '">';
-        $field .= ($property['title'] ? Form::label($element, __($property['title'])) : '');
+        $field .= ($property['title'] ? Form::label($element_id, __($property['title'])) : '');
         $field .= '
             <div class="input-group date" id="datetimepicker" data-target-input="nearest">
-                <input name="' . $name . '" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" value="' . date($this->flextype->registry->get('settings.date_format'), strtotime($value)) . '" />
+                <input name="' . $element_name . '" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" value="' . date($this->flextype->registry->get('settings.date_format'), strtotime($value)) . '" />
                 <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
                     <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                 </div>
