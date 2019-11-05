@@ -485,3 +485,10 @@ $switch-transition: .2s all !default;
     border-radius: .25rem;
     padding: 3px 8px 3px 3px;
 }
+
+textarea.form-control.code-editor {
+    height: 0;
+    width: 0;
+    border: none;
+    opacity: 0;
+}
