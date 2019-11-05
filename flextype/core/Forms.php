@@ -32,7 +32,7 @@ class Forms
     private $flextype;
 
     /**
-     * Sizes
+     * Form controls sizes
      *
      * @var array
      * @access private
@@ -87,12 +87,19 @@ class Forms
         $form .= $this->_csrfHiddenField();
         $form .= $this->_actionHiddenField();
 
+        // Go through all sections
         if (count($fieldset['sections']) > 0) {
             $form .= '<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">';
 
+            // Go through all sections and create nav items
             foreach ($fieldset['sections'] as $key => $section) {
                 $form .= '<li class="nav-item">
-                            <a class="nav-link ' . ($key === 'main' ? 'active' : '') . '" id="pills-' . $key . '-tab" data-toggle="pill" href="#pills-' . $key . '" role="tab" aria-controls="pills-' . $key . '" aria-selected="true">' . $section['title'] . '</a>
+                            <a class="nav-link ' . ($key === 'main' ? 'active' : '') . '"
+                               id="pills-' . $key . '-tab"
+                               data-toggle="pill" href="#pills-' . $key . '"
+                               role="tab"
+                               aria-controls="pills-' . $key . '"
+                               aria-selected="' . ($key === 'main' ? 'true' : 'false') . '">' . $section['title'] . '</a>
                           </li>';
             }
 
@@ -100,6 +107,7 @@ class Forms
 
             $form .= '<div class="tab-content" id="pills-tabContent">';
 
+            // Go through all sections and create nav tabs
             foreach ($fieldset['sections'] as $key => $section) {
                 $form .= '<div class="tab-pane fade show ' . ($key === 'main' ? 'active' : '') . '" id="pills-' . $key . '" role="tabpanel" aria-labelledby="pills-' . $key . '-tab">';
                 $form .= '<div class="row">';
