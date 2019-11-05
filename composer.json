@@ -52,7 +52,7 @@
         "cocur/slugify": "~3.2.0",
         "thunderer/shortcode": "~0.7.2",
         "ramsey/uuid": "~3.8.0",
-        "symfony/yaml": "~4.3.5",
+        "symfony/yaml": "~4.3.6",
 
         "erusev/parsedown": "~1.7.3",
         "erusev/parsedown-extra": "~0.7.1",
