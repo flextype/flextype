@@ -175,9 +175,11 @@ class PluginsController extends Controller
 
         if (Filesystem::has($site_plugin_settings_file)) {
             Filesystem::write($site_plugin_settings_file, $data);
+            $this->flash->addMessage('success', __('admin_message_plugin_settings_saved'));
         } else {
             ! Filesystem::has($site_plugin_settings_dir) and Filesystem::createDir($site_plugin_settings_dir);
             Filesystem::write($site_plugin_settings_file, $data);
+            $this->flash->addMessage('success', __('admin_message_plugin_settings_saved'));
         }
 
         return $response->withRedirect($this->router->pathFor('admin.plugins.edit') . '?id=' . $id);
