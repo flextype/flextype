@@ -464,7 +464,7 @@ class Forms
 
         $field = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
-        $field .= '<input type="text" value="' . $value . '" name="' . $field_name . '" class="form-control" data-role="tagsinput" />';
+        $field .= '<input type="text" value="' . $value . '" name="' . $field_name . '" class="'. $this->field_class .'" data-role="tagsinput" />';
         $field .= '</div>';
 
         return $field;
