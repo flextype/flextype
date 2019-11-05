@@ -37,12 +37,8 @@ class SettingsController extends Controller
         }
 
         $themes = [];
-        foreach (Filesystem::listContents(PATH['themes']) as $theme) {
-            if ($theme['type'] !== 'dir' || ! Filesystem::has($theme['path'] . '/' . 'theme.yaml')) {
-                continue;
-            }
-
-            $themes[$theme['dirname']] = $theme['dirname'];
+        foreach ($this->registry->get('themes') as $theme) {
+            $themes[] = $theme['name'];
         }
 
         $available_locales = Filesystem::listContents(PATH['plugins'] . '/admin/lang/');
