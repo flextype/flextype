@@ -204,6 +204,7 @@ admin_help_text_for_fieldsets_label: "The fieldsets label shown in the Admin Pan
 admin_help_text_for_fieldsets_name: "The fieldsets unique name in lowercase chars only."
 admin_help_text_for_fieldsets_icon: "The fieldsets valid :link icon class."
 admin_help_text_for_snippets_name: "The snippets unique name in lowercase chars only."
+admin_help_text_for_temlates_name: "The unique name in lowercase chars only."
 admin_entries_visible: "Visible"
 admin_entries_draft: "Draft"
 admin_entries_hidden: "Hidden"
