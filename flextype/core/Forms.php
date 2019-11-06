@@ -265,6 +265,7 @@ class Forms
         $field = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::select($field_name, $options, $value, $property['attributes']);
+        $field .= (isset($property['help']) ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
         $field .= '</div>';
 
         return $field;
@@ -301,6 +302,7 @@ class Forms
         $field = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::select($field_name, $options, $value, $property['attributes']);
+        $field .= (isset($property['help']) ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
         $field .= '</div>';
 
         return $field;
@@ -326,6 +328,7 @@ class Forms
         $field = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::select($field_name, $options, $value, $property['attributes']);
+        $field .= (isset($property['help']) ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
         $field .= '</div>';
 
         return $field;
@@ -351,6 +354,7 @@ class Forms
         $field = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::textarea($field_name, $value, $property['attributes']);
+        $field .= (isset($property['help']) ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
         $field .= '</div>';
 
         return $field;
@@ -394,6 +398,7 @@ class Forms
         $field = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::textarea($field_name, $value, $property['attributes']);
+        $field .= (isset($property['help']) ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
         $field .= '</div>';
 
         return $field;
@@ -418,6 +423,7 @@ class Forms
         $field = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::select($field_name, $options, $value, $property['attributes']);
+        $field .= (isset($property['help']) ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
         $field .= '</div>';
 
         return $field;
@@ -442,6 +448,7 @@ class Forms
         $field = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::input($field_name, $value, $property['attributes']);
+        $field .= (isset($property['help']) ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
         $field .= '</div>';
 
         return $field;
@@ -465,6 +472,7 @@ class Forms
         $field = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= '<input type="text" value="' . $value . '" name="' . $field_name . '" class="'. $this->field_class .'" data-role="tagsinput" />';
+        $field .= (isset($property['help']) ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
         $field .= '</div>';
 
         return $field;
@@ -486,14 +494,13 @@ class Forms
     {
         $field = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
-        $field .= '
-            <div class="input-group date" id="datetimepicker" data-target-input="nearest">
-                <input name="' . $field_name . '" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" value="' . date($this->flextype->registry->get('settings.date_format'), strtotime($value)) . '" />
-                <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
-                </div>
-            </div>
-        ';
+        $field .= '<div class="input-group date" id="datetimepicker" data-target-input="nearest">';
+        $field .= '<input name="' . $field_name . '" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" value="' . date($this->flextype->registry->get('settings.date_format'), strtotime($value)) . '" />
+                   <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                   </div>';
+        $field .= (isset($property['help']) ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
+        $field .= '</div>';
         $field .= '</div>';
 
         return $field;
