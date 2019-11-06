@@ -78,7 +78,7 @@ class FieldsetsController extends Controller
         $id   = $this->slugify->slugify($data['id']);
         $data = ['title' => $data['title'],
                  'default_field' => 'title',
-                 'icon' => 'far fa-file-alt',
+                 'icon' => $data['icon'],
                  'sections' => [
                    'main' => [
                        'title' => 'Main',
