@@ -81,6 +81,7 @@
     },
     "require-dev": {
         "doctrine/coding-standard": "~6.0.0",
-        "victorjonsson/markdowndocs": "dev-master"
+        "victorjonsson/markdowndocs": "dev-master",
+        "phpstan/phpstan": "^0.11.19"
     }
 }
