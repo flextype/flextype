@@ -44,10 +44,6 @@ class MarkdownTwigExtension extends Twig_Extension
      */
     public function markdown($value) : string
     {
-        if ($value !== null) {
-            return $this->flextype->markdown->text($value);
-        }
-
-        return '';
+        return MarkdownParser::parse($value);
     }
 }
