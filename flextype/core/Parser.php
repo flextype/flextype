@@ -162,12 +162,12 @@ class Parser
                         return $data_from_cache;
                     }
 
-                    $data = Markdown::parse($input);
+                    $data = Markdown::decode($input);
                     $this->flextype['cache']->save($key, $data);
 
                     return $data;
                 } else {
-                    return Markdown::parse($input);
+                    return Markdown::decode($input);
                 }
 
                 break;

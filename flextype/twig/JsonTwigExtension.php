@@ -15,6 +15,19 @@ use Twig_SimpleFunction;
 class JsonTwigExtension extends Twig_Extension
 {
     /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * Constructor
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
+
+    /**
      * Returns a list of functions to add to the existing list.
      *
      * @return array
@@ -32,14 +45,14 @@ class JsonTwigExtension extends Twig_Extension
      */
     public function encode($input) : string
     {
-        return Json::encode($input);
+        return $this->flextype['parser']->encode($input, 'json');
     }
 
     /**
      * Decode JSON
      */
-    public function decode(string $input)
+    public function decode(string $input, bool $cache = true)
     {
-        return Json::decode($input);
+        return $this->flextype['parser']->decode($input, 'json', $cache);
     }
 }

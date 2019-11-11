@@ -25,9 +25,13 @@ class Markdown
     private static $markdown = null;
 
     /**
-     * parse
+     * Takes a MARKDOWN encoded string and converts it into a PHP variable.
+     *
+     * @param string $input A string containing MARKDOWN
+     *
+     * @return mixed The MARKDOWN converted to a PHP value
      */
-    public static function parse($input) : string
+    public static function decode($input) : string
     {
         !isset(self::$markdown) and self::$markdown = new ParsedownExtra();
 

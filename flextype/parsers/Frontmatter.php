@@ -21,11 +21,11 @@ use function trim;
 class Frontmatter
 {
     /**
-     * Returns the Frontmatter representation of a value
+     * Returns the FRONTMATTER representation of a value
      *
      * @param mixed $input The PHP value
      *
-     * @return string A Frontmatter string representing the original PHP value
+     * @return string A FRONTMATTER string representing the original PHP value
      */
     public static function encode($input) : string
     {
@@ -47,11 +47,11 @@ class Frontmatter
     }
 
     /**
-     * Takes a Frontmatter encoded string and converts it into a PHP variable.
+     * Takes a FRONTMATTER encoded string and converts it into a PHP variable.
      *
-     * @param string $input A string containing Frontmatter
+     * @param string $input A string containing FRONTMATTER
      *
-     * @return mixed The Frontmatter converted to a PHP value
+     * @return mixed The FRONTMATTER converted to a PHP value
      */
     public static function decode(string $input)
     {

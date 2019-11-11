@@ -14,6 +14,20 @@ use Twig_SimpleFunction;
 
 class YamlTwigExtension extends Twig_Extension
 {
+
+    /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * Constructor
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
+
     /**
      * Returns a list of functions to add to the existing list.
      *
@@ -32,14 +46,14 @@ class YamlTwigExtension extends Twig_Extension
      */
     public function encode($input) : string
     {
-        return Yaml::encode($input);
+        return $this->flextype['parser']->encode($input, 'yaml');
     }
 
     /**
      * Decode YAML
      */
-    public function decode(string $input)
+    public function decode(string $input, bool $cache = true)
     {
-        return Yaml::decode($input);
+        return $this->flextype['parser']->decode($input, 'yaml', $cache);
     }
 }
