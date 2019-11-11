@@ -33,6 +33,9 @@ class Parser
         ], 'yaml' => [
             'name' => 'yaml',
             'ext' => 'yaml',
+        ], 'markdown' => [
+            'name' => 'markdown',
+            'ext' => 'md',
         ],
     ];
 
@@ -75,11 +78,11 @@ class Parser
 
                 break;
             case 'json':
-                return JsonParser::encode($input);
+                return Json::encode($input);
 
                 break;
             case 'yaml':
-                return YamlParser::encode($input);
+                return Yaml::encode($input);
 
                 break;
             default:
@@ -92,7 +95,7 @@ class Parser
      * Parse INPUT content into a PHP value.
      *
      * @param string $input  Content to parse
-     * @param string $parser Parser type [frontmatter, json, yaml]
+     * @param string $parser Parser type [frontmatter, json, yaml, markdown]
      * @param bool   $cache  Cache result data or no. Default is true
      *
      * @return mixed The Content converted to a PHP value
@@ -125,12 +128,12 @@ class Parser
                         return $data_from_cache;
                     }
 
-                    $data = JsonParser::decode($input);
+                    $data = Json::decode($input);
                     $this->flextype['cache']->save($key, $data);
 
                     return $data;
                 } else {
-                    return JsonParser::decode($input);
+                    return Json::decode($input);
                 }
 
                 break;
@@ -142,12 +145,29 @@ class Parser
                         return $data_from_cache;
                     }
 
-                    $data = YamlParser::decode($input);
+                    $data = Yaml::decode($input);
                     $this->flextype['cache']->save($key, $data);
 
                     return $data;
                 } else {
-                    return YamlParser::decode($input);
+                    return Yaml::decode($input);
+                }
+
+                break;
+            case 'markdown':
+                if ($cache) {
+                    $key = md5($input);
+
+                    if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
+                        return $data_from_cache;
+                    }
+
+                    $data = MarkdownParser::parse($input);
+                    $this->flextype['cache']->save($key, $data);
+
+                    return $data;
+                } else {
+                    return MarkdownParser::parse($input);
                 }
 
                 break;

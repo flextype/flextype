@@ -30,16 +30,16 @@ class JsonTwigExtension extends Twig_Extension
     /**
      * Encode JSON
      */
-    public function encode($input, int $encode_options = 0, int $encode_depth = 512) : string
+    public function encode($input) : string
     {
-        return JsonParser::encode($input, $encode_options, $encode_depth);
+        return Json::encode($input);
     }
 
     /**
      * Decode JSON
      */
-    public function decode(string $input, bool $decode_assoc = true, int $decode_depth = 512, int $decode_options = 0)
+    public function decode(string $input)
     {
-        return JsonParser::decode($input, $decode_assoc, $decode_depth, $decode_options);
+        return Json::decode($input);
     }
 }

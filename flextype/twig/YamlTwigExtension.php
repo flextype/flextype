@@ -30,16 +30,16 @@ class YamlTwigExtension extends Twig_Extension
     /**
      * Encode YAML
      */
-    public function encode($input, int $inline = 5, int $indent = 2, int $flags = 16) : string
+    public function encode($input) : string
     {
-        return YamlParser::encode($input, $inline, $indent, $flags);
+        return Yaml::encode($input);
     }
 
     /**
      * Decode YAML
      */
-    public function decode(string $input, int $flags = 0)
+    public function decode(string $input)
     {
-        return YamlParser::decode($input, $flags);
+        return Yaml::decode($input);
     }
 }

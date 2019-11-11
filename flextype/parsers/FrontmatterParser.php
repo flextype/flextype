@@ -36,7 +36,7 @@ class FrontmatterParser
             return ['content' => trim($content)];
         }
 
-        return YamlParser::decode(trim($parts[1])) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
+        return Yaml::decode(trim($parts[1])) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
     }
 
     public static function encode($input) : string
@@ -44,10 +44,10 @@ class FrontmatterParser
         if (isset($input['content'])) {
             $content = $input['content'];
             Arr::delete($input, 'content');
-            $matter = YamlParser::encode($input);
+            $matter = Yaml::encode($input);
         } else {
             $content = '';
-            $matter  = YamlParser::encode($input);
+            $matter  = Yaml::encode($input);
         }
 
         $encoded = '---' . "\n" .
