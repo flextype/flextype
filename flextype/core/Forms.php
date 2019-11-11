@@ -185,7 +185,6 @@ class Forms
                     }
 
                     $form .= $form_field;
-
                 }
                 $form .= '</div>';
                 $form .= '</div>';
@@ -253,9 +252,9 @@ class Forms
      *
      * @param string $field_id   Field ID
      * @param string $field_name Field name
-     * @param array  $options      Field options
-     * @param string $value        Field value
-     * @param array  $property     Field property
+     * @param array  $options    Field options
+     * @param string $value      Field value
+     * @param array  $property   Field property
      *
      * @return string Returns field
      *
@@ -265,7 +264,7 @@ class Forms
     {
         $property['attributes']['id'] = $field_id;
 
-        $field = '<div class="form-group ' . $property['size'] . '">';
+        $field  = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::select($field_name, $options, $value, $property['attributes']);
         $field .= ($property['help'] ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
@@ -279,8 +278,8 @@ class Forms
      *
      * @param string $field_id   Field ID
      * @param string $field_name Field name
-     * @param string $value    Field value
-     * @param array  $property Field property
+     * @param string $value      Field value
+     * @param array  $property   Field property
      *
      * @return string Returns field
      *
@@ -302,7 +301,7 @@ class Forms
             }
         }
 
-        $field = '<div class="form-group ' . $property['size'] . '">';
+        $field  = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::select($field_name, $options, $value, $property['attributes']);
         $field .= ($property['help'] ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
@@ -316,9 +315,9 @@ class Forms
      *
      * @param string $field_id   Field ID
      * @param string $field_name Field name
-     * @param array  $options  Field options
-     * @param string $value    Field value
-     * @param array  $property Field property
+     * @param array  $options    Field options
+     * @param string $value      Field value
+     * @param array  $property   Field property
      *
      * @return string Returns field
      *
@@ -328,7 +327,7 @@ class Forms
     {
         $property['attributes']['id'] = $field_id;
 
-        $field = '<div class="form-group ' . $property['size'] . '">';
+        $field  = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::select($field_name, $options, $value, $property['attributes']);
         $field .= ($property['help'] ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
@@ -342,8 +341,8 @@ class Forms
      *
      * @param string $field_id   Field ID
      * @param string $field_name Field name
-     * @param string $value    Field value
-     * @param array  $property Field property
+     * @param string $value      Field value
+     * @param array  $property   Field property
      *
      * @return string Returns field
      *
@@ -351,10 +350,10 @@ class Forms
      */
     protected function htmlField(string $field_id, string $field_name, string $value, array $property) : string
     {
-        $property['attributes']['id'] = $field_id;
+        $property['attributes']['id']     = $field_id;
         $property['attributes']['class'] .= ' js-html-editor';
 
-        $field = '<div class="form-group ' . $property['size'] . '">';
+        $field  = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::textarea($field_name, $value, $property['attributes']);
         $field .= ($property['help'] ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
@@ -368,8 +367,8 @@ class Forms
      *
      * @param string $field_id   Field ID
      * @param string $field_name Field name
-     * @param string $value    Field value
-     * @param array  $property Field property
+     * @param string $value      Field value
+     * @param array  $property   Field property
      *
      * @return string Returns field
      *
@@ -387,8 +386,8 @@ class Forms
      *
      * @param string $field_id   Field ID
      * @param string $field_name Field name
-     * @param string $value    Field value
-     * @param array  $property Field property
+     * @param string $value      Field value
+     * @param array  $property   Field property
      *
      * @return string Returns field
      *
@@ -398,7 +397,7 @@ class Forms
     {
         $property['attributes']['id'] = $field_id;
 
-        $field = '<div class="form-group ' . $property['size'] . '">';
+        $field  = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::textarea($field_name, $value, $property['attributes']);
         $field .= ($property['help'] ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
@@ -412,8 +411,8 @@ class Forms
      *
      * @param string $field_id   Field ID
      * @param string $field_name Field name
-     * @param string $value    Field value
-     * @param array  $property Field property
+     * @param string $value      Field value
+     * @param array  $property   Field property
      *
      * @return string Returns field
      *
@@ -423,7 +422,7 @@ class Forms
     {
         $property['attributes']['id'] = $field_id;
 
-        $field = '<div class="form-group ' . $property['size'] . '">';
+        $field  = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::select($field_name, $options, $value, $property['attributes']);
         $field .= ($property['help'] ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
@@ -437,8 +436,8 @@ class Forms
      *
      * @param string $field_id   Field ID
      * @param string $field_name Field name
-     * @param string $value    Field value
-     * @param array  $property Field property
+     * @param string $value      Field value
+     * @param array  $property   Field property
      *
      * @return string Returns field
      *
@@ -448,7 +447,7 @@ class Forms
     {
         $property['attributes']['id'] = $field_id;
 
-        $field = '<div class="form-group ' . $property['size'] . '">';
+        $field  = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= Form::input($field_name, $value, $property['attributes']);
         $field .= ($property['help'] ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
@@ -462,7 +461,7 @@ class Forms
      *
      * @param string $field_id   Field ID
      * @param string $field_name Field name
-     * @param string $value Field value
+     * @param string $value      Field value
      *
      * @return string Returns field
      *
@@ -472,9 +471,9 @@ class Forms
     {
         $property['attributes']['id'] = $field_id;
 
-        $field = '<div class="form-group ' . $property['size'] . '">';
+        $field  = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
-        $field .= '<input type="text" value="' . $value . '" name="' . $field_name . '" class="'. $this->field_class .'" data-role="tagsinput" />';
+        $field .= '<input type="text" value="' . $value . '" name="' . $field_name . '" class="' . $this->field_class . '" data-role="tagsinput" />';
         $field .= ($property['help'] ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
         $field .= '</div>';
 
@@ -486,8 +485,8 @@ class Forms
      *
      * @param string $field_id   Field ID
      * @param string $field_name Field name
-     * @param string $value    Field value
-     * @param array  $property Field property
+     * @param string $value      Field value
+     * @param array  $property   Field property
      *
      * @return string Returns field
      *
@@ -495,7 +494,7 @@ class Forms
      */
     protected function dateField(string $field_id, string $field_name, string $value, array $property) : string
     {
-        $field = '<div class="form-group ' . $property['size'] . '">';
+        $field  = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
         $field .= '<div class="input-group date" id="datetimepicker" data-target-input="nearest">';
         $field .= '<input name="' . $field_name . '" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" value="' . date($this->flextype->registry->get('settings.date_format'), strtotime($value)) . '" />
