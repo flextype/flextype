@@ -1,5 +1,5 @@
 # The title of the website
-title: Flextype
+title: Flextype1
 
 # The description of the website
 description: Build fast, flexible, easier to manage websites with Flextype.
@@ -70,7 +70,7 @@ entries:
 #
 # - display: Display errors or not.
 errors:
-  display: false
+  display: true
 
 # Cache
 #

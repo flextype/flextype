@@ -74,7 +74,7 @@ class Parser
     {
         switch ($parser) {
             case 'frontmatter':
-                return FrontmatterParser::encode($input);
+                return Parser::encode($input);
 
                 break;
             case 'json':
@@ -111,12 +111,12 @@ class Parser
                         return $data_from_cache;
                     }
 
-                    $data = FrontmatterParser::decode($input);
+                    $data = Frontmatter::decode($input);
                     $this->flextype['cache']->save($key, $data);
 
                     return $data;
                 } else {
-                    return FrontmatterParser::decode($input);
+                    return Frontmatter::decode($input);
                 }
 
                 break;
@@ -162,12 +162,12 @@ class Parser
                         return $data_from_cache;
                     }
 
-                    $data = MarkdownParser::parse($input);
+                    $data = Markdown::parse($input);
                     $this->flextype['cache']->save($key, $data);
 
                     return $data;
                 } else {
-                    return MarkdownParser::parse($input);
+                    return Markdown::parse($input);
                 }
 
                 break;

@@ -18,7 +18,7 @@ use function ltrim;
 use function preg_split;
 use function trim;
 
-class FrontmatterParser
+class Frontmatter
 {
     /**
      * Front matter parser

@@ -44,6 +44,6 @@ class MarkdownTwigExtension extends Twig_Extension
      */
     public function markdown($value) : string
     {
-        return MarkdownParser::parse($value);
+        return Markdown::parse($value);
     }
 }

@@ -13,7 +13,7 @@ namespace Flextype;
 
 use ParsedownExtra;
 
-class MarkdownParser
+class Markdown
 {
 
     /**
