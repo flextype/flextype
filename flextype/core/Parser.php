@@ -65,7 +65,7 @@ class Parser
     /**
      * Dumps a PHP value to a string CONTENT.
      *
-     * @param mixed $input  Content to parse
+     * @param mixed  $input  Content to parse
      * @param string $parser Parser type [frontmatter, json, yaml]
      *
      * @return mixed PHP value converted to a string CONTENT.
@@ -74,7 +74,7 @@ class Parser
     {
         switch ($parser) {
             case 'frontmatter':
-                return Parser::encode($input);
+                return Frontmatter::encode($input);
 
                 break;
             case 'json':
@@ -86,7 +86,6 @@ class Parser
 
                 break;
             default:
-
                 break;
         }
     }
