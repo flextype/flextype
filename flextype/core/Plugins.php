@@ -93,7 +93,6 @@ class Plugins
                 $this->flextype['cache']->save($locale, $dictionary[$locale]);
             }
         } else {
-
             // Init plugin configs
             $plugins                 = [];
             $plugin_settings         = [];
