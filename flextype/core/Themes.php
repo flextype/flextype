@@ -12,6 +12,7 @@ namespace Flextype;
 use Flextype\Component\Filesystem\Filesystem;
 use RuntimeException;
 use function array_merge;
+use function array_replace_recursive;
 use function count;
 use function filemtime;
 use function is_array;
@@ -57,10 +58,9 @@ class Themes
         if ($this->flextype['cache']->contains($themes_cache_id)) {
             $this->flextype['registry']->set('themes', $this->flextype['cache']->fetch($themes_cache_id));
         } else {
-
-            $themes                  = [];
-            $themes_settings         = [];
-            $themes_manifest         = [];
+            $themes                 = [];
+            $themes_settings        = [];
+            $themes_manifest        = [];
             $default_theme_settings = [];
             $site_theme_settings    = [];
             $default_theme_manifest = [];
@@ -68,7 +68,6 @@ class Themes
 
             // Go through the themes list...
             foreach ($themes_list as $theme) {
-
                 $default_theme_settings_file = PATH['themes'] . '/' . $theme['dirname'] . '/settings.yaml';
                 $default_theme_manifest_file = PATH['themes'] . '/' . $theme['dirname'] . '/theme.yaml';
 
