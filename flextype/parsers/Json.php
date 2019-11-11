@@ -68,9 +68,9 @@ class Json
     /**
      * Returns the JSON representation of a value
      *
-     * @param mixed $input A string containing JSON
+     * @param mixed $input The PHP value
      *
-     * @return mixed The JSON converted to a PHP value
+     * @return mixed A JSON string representing the original PHP value
      */
     public static function encode($input) : string
     {

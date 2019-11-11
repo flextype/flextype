@@ -75,7 +75,7 @@ class Yaml
      * The dump method, when supplied with an array, will do its best
      * to convert the array into friendly YAML.
      *
-     * @param mixed $input  The PHP value
+     * @param mixed $input The PHP value
      *
      * @return string A YAML string representing the original PHP value
      */

@@ -21,24 +21,12 @@ use function trim;
 class Frontmatter
 {
     /**
-     * Front matter parser
+     * Returns the Frontmatter representation of a value
      *
-     * @param  string $content Content to parse
+     * @param mixed $input The PHP value
      *
-     * @return array
-     *
-     * @access public
+     * @return string A Frontmatter string representing the original PHP value
      */
-    public static function parser(string $content) : array
-    {
-        $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . ltrim($content));
-        if (count($parts) < 3) {
-            return ['content' => trim($content)];
-        }
-
-        return Yaml::decode(trim($parts[1])) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
-    }
-
     public static function encode($input) : string
     {
         if (isset($input['content'])) {
@@ -58,8 +46,20 @@ class Frontmatter
         return $encoded;
     }
 
+    /**
+     * Takes a Frontmatter encoded string and converts it into a PHP variable.
+     *
+     * @param string $input A string containing Frontmatter
+     *
+     * @return mixed The Frontmatter converted to a PHP value
+     */
     public static function decode(string $input)
     {
-        return self::parser($input);
+        $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . ltrim($input));
+        if (count($parts) < 3) {
+            return ['content' => trim($input)];
+        }
+
+        return Yaml::decode(trim($parts[1])) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
     }
 }
