@@ -14,7 +14,6 @@ use Twig_SimpleFunction;
 
 class YamlTwigExtension extends Twig_Extension
 {
-
     /**
      * Flextype Dependency Container
      */
