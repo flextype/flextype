@@ -15,7 +15,6 @@ use ParsedownExtra;
 
 class Markdown
 {
-
     /**
      * Markdown Object
      *
@@ -31,9 +30,9 @@ class Markdown
      *
      * @return mixed The MARKDOWN converted to a PHP value
      */
-    public static function decode($input) : string
+    public static function decode(string $input) : string
     {
-        !isset(self::$markdown) and self::$markdown = new ParsedownExtra();
+        ! isset(self::$markdown) and self::$markdown = new ParsedownExtra();
 
         return self::$markdown->text($input);
     }

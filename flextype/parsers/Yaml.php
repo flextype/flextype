@@ -21,17 +21,17 @@ use function ini_set;
 
 class Yaml
 {
-    const DUMP_OBJECT = 1;
-    const PARSE_EXCEPTION_ON_INVALID_TYPE = 2;
-    const PARSE_OBJECT = 4;
-    const PARSE_OBJECT_FOR_MAP = 8;
-    const DUMP_EXCEPTION_ON_INVALID_TYPE = 16;
-    const PARSE_DATETIME = 32;
-    const DUMP_OBJECT_AS_MAP = 64;
-    const DUMP_MULTI_LINE_LITERAL_BLOCK = 128;
-    const PARSE_CONSTANT = 256;
-    const PARSE_CUSTOM_TAGS = 512;
-    const DUMP_EMPTY_ARRAY_AS_SEQUENCE = 1024;
+    public const DUMP_OBJECT                     = 1;
+    public const PARSE_EXCEPTION_ON_INVALID_TYPE = 2;
+    public const PARSE_OBJECT                    = 4;
+    public const PARSE_OBJECT_FOR_MAP            = 8;
+    public const DUMP_EXCEPTION_ON_INVALID_TYPE  = 16;
+    public const PARSE_DATETIME                  = 32;
+    public const DUMP_OBJECT_AS_MAP              = 64;
+    public const DUMP_MULTI_LINE_LITERAL_BLOCK   = 128;
+    public const PARSE_CONSTANT                  = 256;
+    public const PARSE_CUSTOM_TAGS               = 512;
+    public const DUMP_EMPTY_ARRAY_AS_SEQUENCE    = 1024;
 
     /**
      * Inline
@@ -105,7 +105,7 @@ class Yaml
     public static function decode(string $input) : array
     {
         // Try native PECL YAML PHP extension first if available.
-        if (\function_exists('yaml_parse') && self::$native) {
+        if (function_exists('yaml_parse') && self::$native) {
             // Safely decode YAML.
             $saved = @ini_get('yaml.decode_php');
             @ini_set('yaml.decode_php', '0');
