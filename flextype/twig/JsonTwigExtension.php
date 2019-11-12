@@ -11,6 +11,7 @@ namespace Flextype;
 
 use Twig_Extension;
 use Twig_SimpleFunction;
+use Twig_SimpleFilter;
 
 class JsonTwigExtension extends Twig_Extension
 {
@@ -37,6 +38,19 @@ class JsonTwigExtension extends Twig_Extension
         return [
             new Twig_SimpleFunction('json_decode', [$this, 'decode']),
             new Twig_SimpleFunction('json_encode', [$this, 'encode']),
+        ];
+    }
+
+    /**
+     * Returns a list of filters to add to the existing list.
+     *
+     * @return array
+     */
+    public function getFilters() : array
+    {
+        return [
+            new Twig_SimpleFilter('json_decode', [$this, 'decode']),
+            new Twig_SimpleFilter('json_encode', [$this, 'encode']),
         ];
     }
 
