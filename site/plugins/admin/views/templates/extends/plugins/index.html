@@ -1,6 +1,7 @@
 {% extends "plugins/admin/views/partials/base.html" %}
 
 {% block content %}
+{% if (plugins_list|length > 0) %}
 <table class="table no-margin">
   <tbody>
       {% for key, plugin in plugins_list %}
@@ -35,4 +36,10 @@
     {% endfor %}
   </tbody>
 </table>
+{% else %}
+<div class="empty-list-message">
+    <i class="fas fa-list"></i>
+    <h3>{{ tr('admin_you_have_no_plugins') }}</h3>
+</div>
+{% endif %}
 {% endblock %}
