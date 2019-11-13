@@ -37,8 +37,8 @@ class SettingsController extends Controller
         }
 
         $themes = [];
-        foreach ($this->registry->get('themes') as $theme) {
-            $themes[] = $theme['name'];
+        foreach ($this->registry->get('themes') as $key => $theme) {
+            $themes[$key] = $theme['name'];
         }
 
         $available_locales = Filesystem::listContents(PATH['plugins'] . '/admin/lang/');
