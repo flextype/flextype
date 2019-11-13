@@ -99,7 +99,7 @@ class Forms
                                data-toggle="pill" href="#pills-' . $key . '"
                                role="tab"
                                aria-controls="pills-' . $key . '"
-                               aria-selected="' . ($key === 'main' ? 'true' : 'false') . '">' . $section['title'] . '</a>
+                               aria-selected="' . ($key === 'main' ? 'true' : 'false') . '">' . __($section['title']) . '</a>
                           </li>';
             }
 

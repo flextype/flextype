@@ -3,7 +3,7 @@ default_field: title
 icon: 'far fa-file-alt'
 sections:
   main:
-    title: Main
+    title: admin_main
     fields:
       title:
         title: admin_title
@@ -26,14 +26,14 @@ sections:
         type: datetimepicker
         size: 4/12
   seo:
-    title: Seo
+    title: admin_seo
     fields:
       description:
         title: admin_description
         type: textarea
         size: 12
   menu:
-    title: Menu
+    title: admin_menu
     fields:
       menu_item_title:
         title: admin_menu_item_title
