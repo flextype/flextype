@@ -61,6 +61,9 @@ $app->group('/' . $admin_route, function () use ($app) : void {
 
     // ThemesController
     $app->get('/themes', 'ThemesController:index')->setName('admin.themes.index');
+    $app->get('/themes/information', 'ThemesController:information')->setName('admin.themes.information');
+    $app->get('/themes/settings', 'ThemesController:settings')->setName('admin.themes.settings');
+    $app->post('/themes/settings', 'ThemesController:settingsProcess')->setName('admin.themes.settingsProcess');
     $app->post('/themes/activateProcess', 'ThemesController:activateProcess')->setName('admin.themes.activateProcess');
 
     // TemplatesController
