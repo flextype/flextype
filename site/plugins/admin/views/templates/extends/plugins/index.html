@@ -34,31 +34,9 @@
                         onclick="event.preventDefault(); document.getElementById('update-status-{{ key }}').submit();"
                         href="javascript:;">{% if plugin.enabled %}<i class="fas fa-toggle-on"></i> {{ tr('admin_deactivate') }}{% else %}<i class="fas fa-toggle-off"></i> {{ tr('admin_activate') }}{% endif %}</a>
                   {% endif %}
-
-<!--
                 </div>
               </div>
           </td>
-<!--
-          <td class="text-right"  style="width: 50px;">
-              <div class="form-group no-margin">
-                <span class="switch switch-sm {% if key == 'admin' or key == 'site' or key == '' %}opacity-50{% endif %}">
-                    <input id="switch-sm-{{ key }}"
-                       onclick="event.preventDefault();
-                                document.getElementById('update-status-{{ key }}').submit();"
-                    type="checkbox" class="switch js-switch" data-plugin="{{ key }}"
-                    {% if plugin.enabled %}checked{% endif %}
-                    {% if key == 'admin' or key == 'site' or key == '' %}disabled{% endif %}>
-                  <label for="switch-sm-{{ key }}"></label>
-                </span>
-                <form id="update-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
-                    {{ csrf() }}
-                    <input type="hidden" name="plugin-key" value="{{ key }}">
-                    <input type="hidden" name="plugin-status" value="{% if plugin.enabled %}false{% else %}true{% endif %}">
-                </form>
-              </div>
-          </td>
-          -->
       </tr>
     {% endfor %}
   </tbody>
