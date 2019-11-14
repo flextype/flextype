@@ -219,6 +219,6 @@ class PluginsController extends Controller
             $this->flash->addMessage('success', __('admin_message_plugin_settings_saved'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.plugins.edit') . '?id=' . $id);
+        return $response->withRedirect($this->router->pathFor('admin.plugins.settings') . '?id=' . $id);
     }
 }
