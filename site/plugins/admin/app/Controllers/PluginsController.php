@@ -74,39 +74,24 @@ class PluginsController extends Controller
     }
 
     /**
-     * Edit plugin
+     * Plugin information
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function edit(Request $request, Response $response) : Response
+    public function information(Request $request, Response $response) : Response
     {
         // Get Plugin ID
         $id = $request->getQueryParams()['id'];
 
         // Init plugin configs
         $plugin                  = [];
-        $plugin_settings         = [];
         $plugin_manifest         = [];
-        $default_plugin_settings = [];
-        $site_plugin_settings    = [];
         $default_plugin_manifest = [];
         $site_plugin_manifest    = [];
 
-        $default_plugin_settings_file = PATH['plugins'] . '/' . $id . '/settings.yaml';
         $default_plugin_manifest_file = PATH['plugins'] . '/' . $id . '/plugin.yaml';
-        $site_plugin_settings_file    = PATH['config']['site'] . '/plugins/' . $id . '/settings.yaml';
         $site_plugin_manifest_file    = PATH['config']['site'] . '/plugins/' . $id . '/plugin.yaml';
-
-        if (Filesystem::has($default_plugin_settings_file)) {
-            $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
-            $default_plugin_settings              = $this->parser->decode($default_plugin_settings_file_content, 'yaml');
-        }
-
-        if (Filesystem::has($site_plugin_settings_file)) {
-            $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
-            $site_plugin_settings              = $this->parser->decode($site_plugin_settings_file_content, 'yaml');
-        }
 
         if (Filesystem::has($default_plugin_manifest_file)) {
             $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
@@ -122,17 +107,69 @@ class PluginsController extends Controller
             array_replace_recursive($default_plugin_manifest, $site_plugin_manifest)
         );
 
+        return $this->view->render(
+            $response,
+            'plugins/admin/views/templates/extends/plugins/information.html',
+            [
+                'menu_item' => 'plugins',
+                'id' => $id,
+                'plugin_manifest' => $plugin[$id]['manifest'],
+                'links' =>  [
+                    'plugins' => [
+                        'link' => $this->router->pathFor('admin.plugins.index'),
+                        'title' => __('admin_plugins'),
+                        'attributes' => ['class' => 'navbar-item'],
+                    ],
+                    'plugins_information' => [
+                        'link' => $this->router->pathFor('admin.plugins.information') . '?id=' . $request->getQueryParams()['id'],
+                        'title' => __('admin_information'),
+                        'attributes' => ['class' => 'navbar-item active'],
+                    ],
+                ],
+            ]
+        );
+    }
+
+    /**
+     * Plugin settings
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     */
+    public function settings(Request $request, Response $response) : Response
+    {
+        // Get Plugin ID
+        $id = $request->getQueryParams()['id'];
+
+        // Init plugin configs
+        $plugin                  = [];
+        $plugin_settings         = [];
+        $default_plugin_settings = [];
+        $site_plugin_settings    = [];
+
+        $default_plugin_settings_file = PATH['plugins'] . '/' . $id . '/settings.yaml';
+        $site_plugin_settings_file    = PATH['config']['site'] . '/plugins/' . $id . '/settings.yaml';
+
+        if (Filesystem::has($default_plugin_settings_file)) {
+            $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
+            $default_plugin_settings              = $this->parser->decode($default_plugin_settings_file_content, 'yaml');
+        }
+
+        if (Filesystem::has($site_plugin_settings_file)) {
+            $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
+            $site_plugin_settings              = $this->parser->decode($site_plugin_settings_file_content, 'yaml');
+        }
+
         $plugin[$id]['settings'] = array_merge(
             array_replace_recursive($default_plugin_settings, $site_plugin_settings)
         );
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/plugins/edit.html',
+            'plugins/admin/views/templates/extends/plugins/settings.html',
             [
                 'menu_item' => 'plugins',
                 'id' => $id,
-                'plugin_manifest' => $plugin[$id]['manifest'],
                 'plugin_settings' => $this->parser->encode($plugin[$id]['settings'], 'yaml'),
                 'links' =>  [
                     'plugins' => [
@@ -140,14 +177,14 @@ class PluginsController extends Controller
                         'title' => __('admin_plugins'),
                         'attributes' => ['class' => 'navbar-item'],
                     ],
-                    'fieldsets_editor' => [
-                        'link' => $this->router->pathFor('admin.plugins.edit') . '?id=' . $request->getQueryParams()['id'],
-                        'title' => __('admin_plugin'),
+                    'plugins_settings' => [
+                        'link' => $this->router->pathFor('admin.plugins.settings') . '?id=' . $request->getQueryParams()['id'],
+                        'title' => __('admin_settings'),
                         'attributes' => ['class' => 'navbar-item active'],
                     ],
                 ],
                 'buttons' => [
-                    'save_entry' => [
+                    'save_plugin_settings' => [
                         'link' => 'javascript:;',
                         'title' => __('admin_save'),
                         'attributes' => ['class' => 'js-save-form-submit float-right btn'],
@@ -158,12 +195,12 @@ class PluginsController extends Controller
     }
 
     /**
-     * Edit plugin process
+     * Plugin settings process
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function editProcess(Request $request, Response $response) : Response
+    public function settingsProcess(Request $request, Response $response) : Response
     {
         $data = $request->getParsedBody();
 

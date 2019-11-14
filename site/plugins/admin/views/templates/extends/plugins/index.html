@@ -13,7 +13,33 @@
                   <i class="fas fa-plug"></i>
               {% endif %}
           </td>
-          <td style="padding-left:0px;"><a href="{{ path_for('admin.plugins.edit') }}?id={{ key }}">{{ plugin.name }}</a></td>
+          <td style="padding-left:0px;"><a href="{{ path_for('admin.plugins.information') }}?id={{ key }}">{{ plugin.name }}</a></td>
+          <td class="text-right">
+              <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-ellipsis-h"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-lg-right">
+                  <form id="update-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
+                        {{ csrf() }}
+                        <input type="hidden" name="plugin-key" value="{{ key }}">
+                        <input type="hidden" name="plugin-status" value="{% if plugin.enabled %}false{% else %}true{% endif %}">
+                  </form>
+                  <a class="dropdown-item" href="{{ path_for('admin.plugins.information') }}?id={{ key }}"><i class="fas fa-info-circle"></i> {{ tr('admin_information') }}</a>
+                  <a class="dropdown-item" href="{{ path_for('admin.plugins.settings') }}?id={{ key }}"><i class="fas fa-cog"></i> {{ tr('admin_settings') }}</a>
+                  {% if key == 'admin' or key == 'site' or key == '' %}
+                     <a class="dropdown-item opacity-50" href="javascript:;"><i class="fas fa-toggle-on"></i> {{ tr('admin_deactivate') }}</a>
+                  {% else %}
+                     <a class="dropdown-item"
+                        onclick="event.preventDefault(); document.getElementById('update-status-{{ key }}').submit();"
+                        href="javascript:;">{% if plugin.enabled %}<i class="fas fa-toggle-on"></i> {{ tr('admin_deactivate') }}{% else %}<i class="fas fa-toggle-off"></i> {{ tr('admin_activate') }}{% endif %}</a>
+                  {% endif %}
+
+<!--
+                </div>
+              </div>
+          </td>
+<!--
           <td class="text-right"  style="width: 50px;">
               <div class="form-group no-margin">
                 <span class="switch switch-sm {% if key == 'admin' or key == 'site' or key == '' %}opacity-50{% endif %}">
@@ -32,6 +58,7 @@
                 </form>
               </div>
           </td>
+          -->
       </tr>
     {% endfor %}
   </tbody>

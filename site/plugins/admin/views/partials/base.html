@@ -194,7 +194,8 @@
             </div>
             {% endif %}
 
-            {% if is_current_path('admin.templates.index') or
+            {% if is_current_path('admin.themes.index') or
+                  is_current_path('admin.templates.index') or
                   is_current_path('admin.templates.edit') or
                   is_current_path('admin.templates.rename') or
                   is_current_path('admin.templates.add') %}
@@ -217,7 +218,8 @@
             {% endif %}
 
             {% if is_current_path('admin.plugins.index') or
-                  is_current_path('admin.plugins.edit') %}
+                  is_current_path('admin.plugins.information') or
+                  is_current_path('admin.plugins.settings') %}
             <div class="entry-editor-heading">
                 / {{ id }}
             </div>

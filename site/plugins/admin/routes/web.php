@@ -43,8 +43,9 @@ $app->group('/' . $admin_route, function () use ($app) : void {
 
     // Plugins Controller
     $app->get('/plugins', 'PluginsController:index')->setName('admin.plugins.index');
-    $app->get('/plugins/edit', 'PluginsController:edit')->setName('admin.plugins.edit');
-    $app->post('/plugins/edit', 'PluginsController:editProcess')->setName('admin.plugins.editProcess');
+    $app->get('/plugins/information', 'PluginsController:information')->setName('admin.plugins.information');
+    $app->get('/plugins/settings', 'PluginsController:settings')->setName('admin.plugins.settings');
+    $app->post('/plugins/settings', 'PluginsController:settingsProcess')->setName('admin.plugins.settingsProcess');
     $app->post('/plugins/update-status', 'PluginsController:pluginStatusProcess')->setName('admin.plugins.update-status');
 
     // FieldsetsController
