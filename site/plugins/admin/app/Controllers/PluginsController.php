@@ -61,10 +61,14 @@ class PluginsController extends Controller
         // Get data from the request
         $data = $request->getParsedBody();
 
+        $site_plugin_settings_dir     = PATH['config']['site'] . '/plugins/' . $data['plugin-key'];
+        $site_plugin_settings_file    = PATH['config']['site'] . '/plugins/' . $data['plugin-key'] . '/settings.yaml';
+        $default_plugin_settings_file = PATH['plugins'] . '/' . $data['plugin-key'] . '/settings.yaml';
+
         // Update settings
-        $plugin_settings = $this->parser->decode(Filesystem::read(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.yaml'), 'yaml');
+        $plugin_settings = $this->parser->decode(Filesystem::read($site_plugin_settings_file), 'yaml');
         Arr::set($plugin_settings, 'enabled', ($data['plugin-status'] === 'true'));
-        Filesystem::write(PATH['plugins'] . '/' . $data['plugin-key'] . '/' . 'settings.yaml', $this->parser->encode($plugin_settings, 'yaml'));
+        Filesystem::write($site_plugin_settings_file, $this->parser->encode($plugin_settings, 'yaml'));
 
         // Clear doctrine cache
         $this->cache->clear('doctrine');
@@ -93,14 +97,16 @@ class PluginsController extends Controller
         $default_plugin_manifest_file = PATH['plugins'] . '/' . $id . '/plugin.yaml';
         $site_plugin_manifest_file    = PATH['config']['site'] . '/plugins/' . $id . '/plugin.yaml';
 
-        if (Filesystem::has($default_plugin_manifest_file)) {
-            $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
-            $default_plugin_manifest              = $this->parser->decode($default_plugin_manifest_file_content, 'yaml');
-        }
+        // Get default plugin manifest content
+        $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
+        $default_plugin_manifest              = $this->parser->decode($default_plugin_manifest_file_content, 'yaml');
 
-        if (Filesystem::has($site_plugin_manifest_file)) {
-            $site_plugin_manifest_file_content = Filesystem::read($site_plugin_manifest_file);
-            $site_plugin_manifest              = $this->parser->decode($site_plugin_manifest_file_content, 'yaml');
+        // Get site plugin manifest content
+        $site_plugin_manifest_file_content = Filesystem::read($site_plugin_manifest_file);
+        if (trim($site_plugin_manifest_file_content) === '') {
+            $site_plugin_manifest = [];
+        } else {
+            $site_plugin_manifest = $this->parser->decode($site_plugin_manifest_file_content, 'yaml');
         }
 
         $plugin[$id]['manifest'] = array_merge(
@@ -150,16 +156,19 @@ class PluginsController extends Controller
         $default_plugin_settings_file = PATH['plugins'] . '/' . $id . '/settings.yaml';
         $site_plugin_settings_file    = PATH['config']['site'] . '/plugins/' . $id . '/settings.yaml';
 
-        if (Filesystem::has($default_plugin_settings_file)) {
-            $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
-            $default_plugin_settings              = $this->parser->decode($default_plugin_settings_file_content, 'yaml');
+        // Get default plugin settings content
+        $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
+        $default_plugin_settings              = $this->parser->decode($default_plugin_settings_file_content, 'yaml');
+
+        // Get site plugin settings content
+        $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
+        if (trim($site_plugin_settings_file_content) === '') {
+            $site_plugin_settings = [];
+        } else {
+            $site_plugin_settings = $this->parser->decode($site_plugin_settings_file_content, 'yaml');
         }
 
-        if (Filesystem::has($site_plugin_settings_file)) {
-            $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
-            $site_plugin_settings              = $this->parser->decode($site_plugin_settings_file_content, 'yaml');
-        }
-
+        // Merge plugin settings data
         $plugin[$id]['settings'] = array_merge(
             array_replace_recursive($default_plugin_settings, $site_plugin_settings)
         );
@@ -210,13 +219,10 @@ class PluginsController extends Controller
         $site_plugin_settings_dir  = PATH['config']['site'] . '/plugins/' . $id;
         $site_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $id . '/settings.yaml';
 
-        if (Filesystem::has($site_plugin_settings_file)) {
-            Filesystem::write($site_plugin_settings_file, $data);
+        if (Filesystem::write($site_plugin_settings_file, $data)) {
             $this->flash->addMessage('success', __('admin_message_plugin_settings_saved'));
         } else {
-            ! Filesystem::has($site_plugin_settings_dir) and Filesystem::createDir($site_plugin_settings_dir);
-            Filesystem::write($site_plugin_settings_file, $data);
-            $this->flash->addMessage('success', __('admin_message_plugin_settings_saved'));
+            $this->flash->addMessage('error', __('admin_message_plugin_settings_not_saved'));
         }
 
         return $response->withRedirect($this->router->pathFor('admin.plugins.settings') . '?id=' . $id);
