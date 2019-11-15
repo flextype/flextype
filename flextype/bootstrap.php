@@ -54,19 +54,27 @@ $site_settings_file_path    = PATH['config']['site'] . '/settings.yaml';
 
 // Set settings if Flextype settings and Site settings config files exist
 if (! Filesystem::has($default_settings_file_path) || ! Filesystem::has($site_settings_file_path)) {
-    throw new RuntimeException('Flextype settings and Site settings config files does not exist.');
+    throw new RuntimeException('Flextype settings or Site settings config files does not exist.');
 }
 
 if (($content = Filesystem::read($default_settings_file_path)) === false) {
     throw new RuntimeException('Load file: ' . $default_settings_file_path . ' - failed!');
 } else {
-    $default_settings = Yaml::decode($content);
+    if (trim($content) === '') {
+        $default_settings = [];
+    } else {
+        $default_settings = Yaml::decode($content);
+    }
 }
 
 if (($content = Filesystem::read($site_settings_file_path)) === false) {
     throw new RuntimeException('Load file: ' . $site_settings_file_path . ' - failed!');
 } else {
-    $site_settings = Yaml::decode($content);
+    if (trim($content) === '') {
+        $site_settings = [];
+    } else {
+        $site_settings = Yaml::decode($content);
+    }
 }
 
 // Merge settings
