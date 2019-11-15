@@ -145,17 +145,8 @@ class UsersController extends Controller
                         ], 'yaml')
                     )) {
 
-                // Update default entries
+                // Update default flextype entries
                 $this->entries->update('home', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
-                $this->entries->update('blog', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
-                $this->entries->update('blog/allamco-laboris-nisi-ut-aliquip', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
-                $this->entries->update('blog/cillum-dolore-eu-fugiat-nulla-pariatur', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
-                $this->entries->update('blog/excepteur-sint-occaecat-cupidatat-non-proident', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
-                $this->entries->update('blog/lorem-ipsum-dolor-sit-amet-consectetur-adipisicing-elit', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
-                $this->entries->update('blog/ullamco-laboris-nisi-ut-aliquip', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
-                $this->entries->update('gallery', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
-                $this->entries->update('gallery/nature', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
-                $this->entries->update('about', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
 
                 return $response->withRedirect($this->router->pathFor('admin.users.login'));
             }
