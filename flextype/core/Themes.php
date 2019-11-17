@@ -68,36 +68,56 @@ class Themes
 
             // Go through the themes list...
             foreach ($themes_list as $theme) {
+
+                // Set site theme directory
+                $site_theme_settings_dir = PATH['config']['site'] . '/themes/' . $theme['dirname'];
+
+                // Set default theme settings and manifest files
                 $default_theme_settings_file = PATH['themes'] . '/' . $theme['dirname'] . '/settings.yaml';
                 $default_theme_manifest_file = PATH['themes'] . '/' . $theme['dirname'] . '/theme.yaml';
 
+                // Set site theme settings and manifest files
                 $site_theme_settings_file = PATH['config']['site'] . '/themes/' . $theme['dirname'] . '/settings.yaml';
                 $site_theme_manifest_file = PATH['config']['site'] . '/themes/' . $theme['dirname'] . '/theme.yaml';
 
-                if (! Filesystem::has($default_theme_settings_file)) {
-                    throw new RuntimeException('Load ' . $theme['dirname'] . ' theme settings - failed!');
-                }
+                // Create site theme settings directory
+                ! Filesystem::has($site_theme_settings_dir)  and Filesystem::createDir($site_theme_settings_dir);
 
+                // Create site theme settings and manifest files
+                ! Filesystem::has($site_theme_settings_file) and Filesystem::write($site_theme_settings_file, '');
+                ! Filesystem::has($site_theme_manifest_file) and Filesystem::write($site_theme_manifest_file, '');
+
+                // Check if default theme settings file exists
+                if (! Filesystem::has($default_theme_settings_file)) throw new RuntimeException('Load ' . $theme['dirname'] . ' theme settings - failed!');
+
+                // Get default theme manifest content
                 $default_theme_settings_file_content = Filesystem::read($default_theme_settings_file);
                 $default_theme_settings              = $this->flextype['parser']->decode($default_theme_settings_file_content, 'yaml');
 
-                if (Filesystem::has($site_theme_settings_file)) {
-                    $site_theme_settings_file_content = Filesystem::read($site_theme_settings_file);
-                    $site_theme_settings              = $this->flextype['parser']->decode($site_theme_settings_file_content, 'yaml');
+                // Get site theme settings content
+                $site_theme_settings_file_content = Filesystem::read($site_theme_settings_file);
+                if (trim($site_theme_settings_file_content) === '') {
+                    $site_theme_settings = [];
+                } else {
+                    $site_theme_settings = $this->flextype['parser']->decode($site_theme_settings_file_content, 'yaml');
                 }
 
-                if (! Filesystem::has($default_theme_manifest_file)) {
-                    throw new RuntimeException('Load ' . $theme['dirname'] . ' theme manifest - failed!');
-                }
+                // Check if default theme manifest file exists
+                if (! Filesystem::has($default_theme_manifest_file)) RuntimeException('Load ' . $theme['dirname'] . ' theme manifest - failed!');
 
+                // Get default theme manifest content
                 $default_theme_manifest_file_content = Filesystem::read($default_theme_manifest_file);
                 $default_theme_manifest              = $this->flextype['parser']->decode($default_theme_manifest_file_content, 'yaml');
 
-                if (Filesystem::has($site_theme_manifest_file)) {
-                    $site_theme_manifest_file_content = Filesystem::read($site_theme_manifest_file);
-                    $site_theme_manifest              = $this->flextype['parser']->decode($site_theme_manifest_file_content, 'yaml');
+                // Get site theme manifest content
+                $site_theme_manifest_file_content = Filesystem::read($site_theme_manifest_file);
+                if (trim($site_theme_manifest_file_content) === '') {
+                    $site_theme_manifest = [];
+                } else {
+                    $site_theme_manifest = $this->flextype['parser']->decode($site_theme_manifest_file_content, 'yaml');
                 }
 
+                // Merge theme settings and manifest data
                 $themes[$theme['dirname']] = array_merge(
                     array_replace_recursive($default_theme_settings, $site_theme_settings),
                     array_replace_recursive($default_theme_manifest, $site_theme_manifest)
