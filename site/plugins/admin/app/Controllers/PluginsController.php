@@ -66,9 +66,15 @@ class PluginsController extends Controller
         $default_plugin_settings_file = PATH['plugins'] . '/' . $data['plugin-key'] . '/settings.yaml';
 
         // Update settings
-        $plugin_settings = $this->parser->decode(Filesystem::read($site_plugin_settings_file), 'yaml');
-        Arr::set($plugin_settings, 'enabled', ($data['plugin-status'] === 'true'));
-        Filesystem::write($site_plugin_settings_file, $this->parser->encode($plugin_settings, 'yaml'));
+        $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
+        if (trim($site_plugin_settings_file_content) === '') {
+            $site_plugin_settings = [];
+        } else {
+            $site_plugin_settings = $this->parser->decode($site_plugin_settings_file_content, 'yaml');
+        }
+
+        Arr::set($site_plugin_settings, 'enabled', ($data['plugin-status'] === 'true'));
+        Filesystem::write($site_plugin_settings_file, $this->parser->encode($site_plugin_settings, 'yaml'));
 
         // Clear doctrine cache
         $this->cache->clear('doctrine');
