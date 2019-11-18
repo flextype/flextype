@@ -63,10 +63,20 @@ class ThemesController extends Controller
         // Get data from the request
         $data = $request->getParsedBody();
 
+        $site_theme_settings_dir     = PATH['config']['site'] . '/themes/';
+        $site_theme_settings_file    = PATH['config']['site'] . '/themes/' . $data['theme-id'] . '/settings.yaml';
+        $default_theme_settings_file = PATH['themes'] . '/' . $data['theme-id'] . '/settings.yaml';
+
         // Update current theme settings
-        $theme_settings = $this->parser->decode(Filesystem::read(PATH['themes'] . '/' . $data['theme-id'] . '/' . 'settings.yaml'), 'yaml');
-        Arr::set($theme_settings, 'enabled', ($data['theme-status'] === 'true'));
-        Filesystem::write(PATH['themes'] . '/' . $data['theme-id'] . '/' . 'settings.yaml', $this->parser->encode($theme_settings, 'yaml'));
+        $site_theme_settings_file_content = Filesystem::read($site_theme_settings_file);
+        if (trim($site_theme_settings_file_content) === '') {
+            $site_theme_settings = [];
+        } else {
+            $site_theme_settings = $this->parser->decode($site_theme_settings_file_content, 'yaml');
+        }
+
+        Arr::set($site_theme_settings, 'enabled', ($data['theme-status'] === 'true'));
+        Filesystem::write($site_theme_settings_file, $this->parser->encode($site_theme_settings, 'yaml'));
 
         // Get themes list
         $themes_list = $this->themes->getThemes();
@@ -78,20 +88,40 @@ class ThemesController extends Controller
                     continue;
                 }
 
-                if (! Filesystem::has($theme_settings_file = PATH['themes'] . '/' . $theme['dirname'] . '/settings.yaml')) {
+                if (! Filesystem::has($theme_settings_file = $site_theme_settings_dir . $theme['dirname'] . '/settings.yaml')) {
                     continue;
                 }
 
-                $theme_settings = $this->parser->decode(Filesystem::read($theme_settings_file), 'yaml');
+
+                if (($content = Filesystem::read($theme_settings_file)) === false) {
+                    throw new RuntimeException('Load file: ' . $theme_settings_file . ' - failed!');
+                } else {
+                    if (trim($content) === '') {
+                        $theme_settings = [];
+                    } else {
+                        $theme_settings = $this->parser->decode($content, 'yaml');
+                    }
+                }
+
                 Arr::set($theme_settings, 'enabled', false);
                 Filesystem::write($theme_settings_file, $this->parser->encode($theme_settings, 'yaml'));
             }
         }
 
         // Update theme in the site settings
-        $settings = $this->parser->decode(Filesystem::read(PATH['config']['site'] . '/settings.yaml'), 'yaml');
-        Arr::set($settings, 'theme', $data['theme-id']);
-        Filesystem::write(PATH['config']['site'] . '/settings.yaml', $this->parser->encode($settings, 'yaml'));
+        $site_settings_file_path = PATH['config']['site'] . '/settings.yaml';
+        if (($content = Filesystem::read($site_settings_file_path)) === false) {
+            throw new RuntimeException('Load file: ' . $site_settings_file_path . ' - failed!');
+        } else {
+            if (trim($content) === '') {
+                $site_settings = [];
+            } else {
+                $site_settings = $this->parser->decode($content, 'yaml');
+            }
+        }
+
+        Arr::set($site_settings, 'theme', $data['theme-id']);
+        Filesystem::write($site_settings_file_path, $this->parser->encode($site_settings, 'yaml'));
 
         // clear cache
         $this->cache->clear('doctrine');
@@ -120,14 +150,16 @@ class ThemesController extends Controller
         $default_theme_manifest_file = PATH['themes'] . '/' . $id . '/theme.yaml';
         $site_theme_manifest_file    = PATH['config']['site'] . '/themes/' . $id . '/theme.yaml';
 
-        if (Filesystem::has($default_theme_manifest_file)) {
-            $default_theme_manifest_file_content = Filesystem::read($default_theme_manifest_file);
-            $default_theme_manifest              = $this->parser->decode($default_theme_manifest_file_content, 'yaml');
-        }
+        // Get default theme manifest content
+        $default_theme_manifest_file_content = Filesystem::read($default_theme_manifest_file);
+        $default_theme_manifest              = $this->parser->decode($default_theme_manifest_file_content, 'yaml');
 
-        if (Filesystem::has($site_theme_manifest_file)) {
-            $site_theme_manifest_file_content = Filesystem::read($site_theme_manifest_file);
-            $site_theme_manifest              = $this->parser->decode($site_theme_manifest_file_content, 'yaml');
+        // Get site theme manifest content
+        $site_theme_manifest_file_content = Filesystem::read($site_theme_manifest_file);
+        if (trim($site_theme_manifest_file_content) === '') {
+            $site_theme_manifest = [];
+        } else {
+            $site_theme_manifest = $this->parser->decode($site_theme_manifest_file_content, 'yaml');
         }
 
         $theme[$id]['manifest'] = array_merge(
@@ -177,14 +209,16 @@ class ThemesController extends Controller
         $default_theme_settings_file = PATH['themes'] . '/' . $id . '/settings.yaml';
         $site_theme_settings_file    = PATH['config']['site'] . '/themes/' . $id . '/settings.yaml';
 
-        if (Filesystem::has($default_theme_settings_file)) {
-            $default_theme_settings_file_content = Filesystem::read($default_theme_settings_file);
-            $default_theme_settings              = $this->parser->decode($default_theme_settings_file_content, 'yaml');
-        }
+        // Get default theme settings content
+        $default_theme_settings_file_content = Filesystem::read($default_theme_settings_file);
+        $default_theme_settings              = $this->parser->decode($default_theme_settings_file_content, 'yaml');
 
-        if (Filesystem::has($site_theme_settings_file)) {
-            $site_theme_settings_file_content = Filesystem::read($site_theme_settings_file);
-            $site_theme_settings              = $this->parser->decode($site_theme_settings_file_content, 'yaml');
+        // Get site plugin settings content
+        $site_theme_settings_file_content = Filesystem::read($site_theme_settings_file);
+        if (trim($site_theme_settings_file_content) === '') {
+            $site_theme_settings = [];
+        } else {
+            $site_theme_settings = $this->parser->decode($site_theme_settings_file_content, 'yaml');
         }
 
         $theme[$id]['settings'] = array_merge(
@@ -237,13 +271,10 @@ class ThemesController extends Controller
         $site_theme_settings_dir  = PATH['config']['site'] . '/themes/' . $id;
         $site_theme_settings_file = PATH['config']['site'] . '/themes/' . $id . '/settings.yaml';
 
-        if (Filesystem::has($site_theme_settings_file)) {
-            Filesystem::write($site_theme_settings_file, $data);
+        if (Filesystem::write($site_theme_settings_file, $data)) {
             $this->flash->addMessage('success', __('admin_message_theme_settings_saved'));
         } else {
-            ! Filesystem::has($site_theme_settings_dir) and Filesystem::createDir($site_theme_settings_dir);
-            Filesystem::write($site_theme_settings_file, $data);
-            $this->flash->addMessage('success', __('admin_message_theme_settings_saved'));
+            $this->flash->addMessage('error', __('admin_message_theme_settings_not_saved'));
         }
 
         return $response->withRedirect($this->router->pathFor('admin.themes.settings') . '?id=' . $id);
