@@ -19,13 +19,20 @@
                 {% if doctrine_size %}{{ doctrine_size }}{% else %}0 KB{% endif %}
             </td>
             <td class="text-right">
-                <form id="clear-id-doctrine" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
-                    {{ csrf() }}
-                    <input type="hidden" name="cache-id" value="doctrine">
-                </form>
-                <a class="btn btn-default" href="javascript:;"
-                   onclick="event.preventDefault();
-                            document.getElementById('clear-id-doctrine').submit();">{{ tr('admin_clear') }}</a>
+                <div class="btn-group">
+                  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-h"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-lg-right">
+                      <form id="clear-id-doctrine" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                          {{ csrf() }}
+                          <input type="hidden" name="cache-id" value="doctrine">
+                      </form>
+                      <a class="dropdown-item" href="javascript:;"
+                         onclick="event.preventDefault();
+                                  document.getElementById('clear-id-doctrine').submit();"><i class="fas fa-trash-alt"></i> {{ tr('admin_clear') }}</a>
+                  </div>
+                </div>
             </td>
         </tr>
         <tr>
@@ -36,13 +43,20 @@
                 {% if twig_size %}{{ twig_size }}{% else %}0 KB{% endif %}
             </td>
             <td class="text-right">
-                <form id="clear-id-twig" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
-                    {{ csrf() }}
-                    <input type="hidden" name="cache-id" value="twig">
-                </form>
-                <a class="btn btn-default" href="javascript:;"
-                   onclick="event.preventDefault();
-                            document.getElementById('clear-id-twig').submit();">{{ tr('admin_clear') }}</a>
+                <div class="btn-group">
+                  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-h"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-lg-right">
+                      <form id="clear-id-twig" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                          {{ csrf() }}
+                          <input type="hidden" name="cache-id" value="twig">
+                      </form>
+                      <a class="dropdown-item" href="javascript:;"
+                         onclick="event.preventDefault();
+                                  document.getElementById('clear-id-twig').submit();"><i class="fas fa-trash-alt"></i> {{ tr('admin_clear') }}</a>
+                  </div>
+                </div>
             </td>
         </tr>
         <tr>
@@ -53,13 +67,20 @@
                 {% if glide_size %}{{ glide_size }}{% else %}0 KB{% endif %}
             </td>
             <td class="text-right">
-                <form id="clear-id-glide" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
-                    {{ csrf() }}
-                    <input type="hidden" name="cache-id" value="glide">
-                </form>
-                <a class="btn btn-default" href="javascript:;"
-                   onclick="event.preventDefault();
-                            document.getElementById('clear-id-glide').submit();">{{ tr('admin_clear') }}</a>
+                <div class="btn-group">
+                  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-h"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-lg-right">
+                      <form id="clear-id-glide" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                          {{ csrf() }}
+                          <input type="hidden" name="cache-id" value="glide">
+                      </form>
+                      <a class="dropdown-item" href="javascript:;"
+                         onclick="event.preventDefault();
+                                  document.getElementById('clear-id-glide').submit();"><i class="fas fa-trash-alt"></i> {{ tr('admin_clear') }}</a>
+                  </div>
+                </div>
             </td>
         </tr>
     </tbody>
