@@ -131,9 +131,9 @@ class Forms
                     $field_id = $this->getElementID($element);
 
                     // Set element default value
-                    $field_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : (Arr::keyExists($properties, 'value') ? $properties['value'] : '');
+                    $field_value = $this->getElementValue($element, $values, $properties);
 
-                    // Field types
+                    // Seletct field type
                     switch ($properties['type']) {
                         // Simple text-input, for multi-line fields.
                         case 'textarea':
@@ -191,6 +191,31 @@ class Forms
         $form .= Form::close();
 
         return $form;
+    }
+
+    /**
+     * Get element value
+     *
+     * @param string $element    Form Element
+     * @param array  $values     Form Values
+     * @param array  $properties Field properties
+     *
+     * @return mixed Returns form element value
+     *
+     * @access protected
+     */
+    protected function getElementValue(string $element, array $values, array $properties)
+    {
+        if (Arr::keyExists($values, $element)) {
+            $field_value = Arr::get($values, $element);
+        } elseif(Arr::keyExists($properties, 'value')) {
+            $field_value = $properties['value'];
+        } else {
+            $field_value = '';
+        }
+
+
+        return $field_value;
     }
 
     /**
