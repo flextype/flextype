@@ -1,18 +1,54 @@
 <a name="0.9.6"></a>
-# [0.9.6](https://github.com/flextype/flextype/compare/v0.9.5...v0.9.6) (2019-10-XX)
+# [0.9.6](https://github.com/flextype/flextype/compare/v0.9.5...v0.9.6) (2019-12-XX)
 
 ### Bug Fixes
 
-* **core:** Entries API - fix Collection Undefined Index(s) for fetchAll method #243 e17e437, closes #243
-* **core:** issue with themes thumbnails 40468bb
+* **admin-panel:** fix issue with saving entry source #251
+* **core:** Entries API - fix Collection Undefined Index(s) for fetchAll method #243
+* **core:** fix broken logic for form inputs without labels #274
+* **core:** fix default and site settings loading #297
+* **core:** fix id's names for all generated fields #277
+* **core:** fix notice undefined index: created_at in Entries API
+* **core:** fix notice undefined index: published_at in Entries API #265
+* **core:** fix Plugins API - createPluginsDictionary method and increase app perfomance #259
+* **core:** fix state of active tabs for all generated forms #276
+* **core:** fix state of aria-selected for all generated forms #275
 
 ### Features
 
-* **core:** Entries API - improve and_where & or_where for fetchAll method #242
-* **core:** add alternative comparison syntax for Entries API 6f18d98
-* **feat(admin-plugin):** add ability to set individual icons for entries and entries collections #250
-* **feat(admin-plugin):** add ability to set individual icons for entries fieldsets #250
-* **feat(admin-plugin):** add ability to work with entry custom fieldset #246
+* **core:** add ability to hide title for hidden fields #240
+* **core:** add ability to override plugins default manifest and settings #224
+* **core:** add ability to override themes default manifest and settings #256
+* **core:** add ability to set help text for generated form controls #283
+* **core:** add ability to store entry system fields in entries create method #247
+* **core:** add alternative comparison syntax for Entries API
+* **core:** add json_encode and json_decode twig filter #289
+* **core:** add parser twig extension #262
+* **core:** add `yaml_encode` and `yaml_decode` twig filter #290
+* **core:** Markdown parsing should be cached in production #287
+* **core:** YAML parsing will be cached in production #263
+* **admin-plugin:** add help text for common form controls #280
+* **admin-plugin:** add icons for settings tabs sections #293
+* **admin-plugin:** hide textarea control for codemirror editor #279
+* **admin-plugin:** show themes title instead of themes id's on settings page #187
+* **admin-plugin:** add ability to set individual icons #250
+* **admin-plugin:** add ability to set individual icons for plugins #255
+* **admin-plugin:** add ability to work with entry custom fieldset #246
+* **admin-plugin:** add individual icons for snippets #253
+* **admin-plugin:** add individual icons for templates and partials #254
+* **admin-plugin:** add plugins settings page #258
+* **admin-plugin:** add themes settings page #296
+* **admin-plugin:** show message on plugins page if no plugins installed #294
+* **admin-plugin:** use dots icon for actions dropdown #292
+* **admin-plugin:** YAML parsing will be cached in production #263
+* **site-plugin:** add routable option for entries #284
+
+
+### Performance Improvements
+
+* **core:** add realpath_cache_size to .htaccess
+* **core:** improve Plugins API - locales loading and increase app performance #259
+* **core:** improve Cache on production and increase app performance #290 #263
 
 ### BREAKING CHANGES
 
