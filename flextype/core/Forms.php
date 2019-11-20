@@ -143,7 +143,7 @@ class Forms
                             break;
                         // Selectbox field
                         case 'select':
-                            $form_field = $this->selectField($field_id, $field_name, $properties['options'], $field_value, $properties);
+                            $form_field = $this->selectField($field_id, $field_name, $field_value, $properties);
                             break;
                         // Template select field for selecting entry template
                         case 'template_select':
@@ -375,18 +375,19 @@ class Forms
      * @param string $field_id   Field ID
      * @param string $field_name Field name
      * @param array  $options    Field options
-     * @param string $value      Field value
+     * @param mixed  $value      Field value
      * @param array  $properties Field properties
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function selectField(string $field_id, string $field_name, array $options,  $value, array $properties) : string
+    protected function selectField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
+        $options = isset($properties['options'])  ? $properties['options'] : [];
 
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
         $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
