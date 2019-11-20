@@ -118,12 +118,6 @@ class Forms
                     // Set empty form field element
                     $form_field = '';
 
-                    // Create attributes
-                    $properties['attributes'] = Arr::keyExists($properties, 'attributes') ? $properties['attributes'] : [];
-
-                    // Create attribute class
-                    $properties['attributes']['class'] = Arr::keyExists($properties, 'attributes.class') ? $properties['attributes']['class'] : '';
-
                     // Set element name
                     $field_name = $this->getElementName($element);
 
@@ -287,12 +281,13 @@ class Forms
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
 
-        $properties['attributes']['id'] = $field_id;
-        $properties['attributes']['class'] .= ' ' . $this->field_class;
+        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
+        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, $value, $properties['attributes']);
+        $field .= Form::select($field_name, $options, $value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -317,8 +312,9 @@ class Forms
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
 
-        $properties['attributes']['id'] = $field_id;
-        $properties['attributes']['class'] .= ' ' . $this->field_class;
+        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
+        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
 
         $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
 
@@ -334,7 +330,7 @@ class Forms
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, $value, $properties['attributes']);
+        $field .= Form::select($field_name, $options, $value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -360,13 +356,13 @@ class Forms
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
 
-
-        $properties['attributes']['id'] = $field_id;
-        $properties['attributes']['class'] .= ' ' . $this->field_class;
+        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
+        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, $value, $properties['attributes']);
+        $field .= Form::select($field_name, $options, $value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -392,12 +388,13 @@ class Forms
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
 
-        $properties['attributes']['id'] = $field_id;
-        $properties['attributes']['class'] .= ' ' . $this->field_class;
+        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
+        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, $value, $properties['attributes']);
+        $field .= Form::select($field_name, $options, $value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -420,10 +417,12 @@ class Forms
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $h     = isset($properties['h'])     ? $properties['h'] : 3;
 
-        $properties['attributes']['id'] = $field_id;
+        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
+        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : '';
 
         $field   = '<div class="form-group ' . $size . '">';
-        $field  .= Html::heading(__($title), $h, $properties['attributes']);
+        $field  .= Html::heading(__($title), $h, $attributes);
         $field  .= '</div>';
 
         return $field;
@@ -447,13 +446,14 @@ class Forms
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
 
-        $properties['attributes']['id']     = $field_id;
-        $properties['attributes']['class'] .= ' js-html-editor';
-        $properties['attributes']['class'] .= ' ' . $this->field_class;
+        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
+        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
+        $attributes['class'] .= ' js-html-editor';
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::textarea($field_name, $value, $properties['attributes']);
+        $field .= Form::textarea($field_name, $value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -474,9 +474,10 @@ class Forms
      */
     protected function hiddenField(string $field_id, string $field_name, string $value, array $properties) : string
     {
-        $properties['attributes']['id'] = $field_id;
+        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
+        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
 
-        return Form::hidden($field_name, $value, $properties['attributes']);
+        return Form::hidden($field_name, $value, $attributes);
     }
 
     /**
@@ -497,12 +498,13 @@ class Forms
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
 
-        $properties['attributes']['id'] = $field_id;
-        $properties['attributes']['class'] .= ' ' . $this->field_class;
+        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
+        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::textarea($field_name, $value, $properties['attributes']);
+        $field .= Form::textarea($field_name, $value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -527,12 +529,13 @@ class Forms
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
 
-        $properties['attributes']['id'] = $field_id;
-        $properties['attributes']['class'] .= ' ' . $this->field_class;
+        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
+        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, $value, $properties['attributes']);
+        $field .= Form::select($field_name, $options, $value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -557,12 +560,13 @@ class Forms
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
 
-        $properties['attributes']['id'] = $field_id;
-        $properties['attributes']['class'] .= ' ' . $this->field_class;
+        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
+        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::input($field_name, $value, $properties['attributes']);
+        $field .= Form::input($field_name, $value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -586,12 +590,13 @@ class Forms
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
 
-        $properties['attributes']['id'] = $field_id;
-        $properties['attributes']['class'] .= ' ' . $this->field_class;
+        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
+        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= '<input type="text" value="' . $value . '" name="' . $field_name . '" class="' . $properties['attributes']['class'] . '" data-role="tagsinput" />';
+        $field .= '<input type="text" value="' . $value . '" name="' . $field_name . '" class="' . $attributes['class'] . '" data-role="tagsinput" />';
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
