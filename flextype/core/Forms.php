@@ -129,27 +129,21 @@ class Forms
 
                     // Seletct field type
                     switch ($properties['type']) {
-                        // Simple text-input, for multi-line fields.
                         case 'textarea':
                             $form_field = $this->textareaField($field_id, $field_name, $field_value, $properties);
                             break;
-                        // The hidden field is like the text field, except it's hidden from the content editor.
                         case 'hidden':
                             $form_field = $this->hiddenField($field_id, $field_name, $field_value, $properties);
                             break;
-                        // A WYSIWYG HTML field.
                         case 'html':
                             $form_field = $this->htmlField($field_id, $field_name, $field_value, $properties);
                             break;
-                        // Selectbox field
                         case 'select':
                             $form_field = $this->selectField($field_id, $field_name, $field_value, $properties);
                             break;
-                        // Template select field for selecting entry template
                         case 'template_select':
                             $form_field = $this->templateSelectField($field_id, $field_name, $field_value, $properties);
                             break;
-                        // Visibility select field for selecting entry visibility state
                         case 'visibility_select':
                             $form_field = $this->visibilitySelectField($field_id, $field_name, $field_value, $properties);
                             break;
@@ -166,9 +160,8 @@ class Forms
                             $form_field = $this->dateField($field_id, $field_name, $field_value, $properties);
                             break;
                         case 'media_select':
-                            $form_field = $this->mediaSelectField($field_id, $field_name, $field_value, $properties);
+                            $form_field = $this->mediaSelectField($field_id, $field_name, $field_value, $properties, $request);
                             break;
-                        // Simple text-input, for single-line fields.
                         default:
                             $form_field = $this->textField($field_id, $field_name, $field_value, $properties);
                             break;
@@ -265,16 +258,17 @@ class Forms
     /**
      * Media select field
      *
-     * @param string $field_id    Field ID
-     * @param string $field_name  Field name
-     * @param mixed  $field_value Field value
-     * @param array  $properties  Field properties
+     * @param string  $field_id    Field ID
+     * @param string  $field_name  Field name
+     * @param mixed   $field_value Field value
+     * @param array   $properties  Field properties
+     * @param Request $request     PSR7 request
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function mediaSelectField(string $field_id, string $field_name, $field_value, array $properties) : string
+    protected function mediaSelectField(string $field_id, string $field_name, $field_value, array $properties, Request $request) : string
     {
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
