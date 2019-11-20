@@ -174,6 +174,9 @@ class Forms
                         case 'heading':
                             $form_field = $this->headingField($field_id, $property);
                             break;
+                        case 'routable_select':
+                            $form_field = $this->routableSelectField($field_id, $field_name, [true => __('admin_yes'), false => __('admin_no')], (is_string($form_value) ? true : ($form_value ? true : false)), $property);
+                            break;
                         case 'tags':
                             $form_field = $this->tagsField($field_id, $field_name, $form_value, $property);
                             break;
@@ -310,6 +313,36 @@ class Forms
 
         $field  = '<div class="form-group ' . $property['size'] . '">';
         $field .= ($property['title'] ? Form::label($field_id, __($property['title'])) : '');
+        $field .= Form::select($field_name, $options, $value, $property['attributes']);
+        $field .= ($property['help'] ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
+        $field .= '</div>';
+
+        return $field;
+    }
+
+    /**
+     * Routable select field
+     *
+     * @param string $field_id   Field ID
+     * @param string $field_name Field name
+     * @param array  $options    Field options
+     * @param mixed  $value      Field value
+     * @param array  $property   Field property
+     *
+     * @return string Returns field
+     *
+     * @access protected
+     */
+    protected function routableSelectField(string $field_id, string $field_name, array $options, $value, array $property) : string
+    {
+        $title = isset($property['title']) ? $property['title'] : '';
+        $size  = isset($property['size']) ? $property['size'] : '';
+
+        $property['attributes']['id'] = $field_id;
+        $property['attributes']['class'] .= ' ' . $this->field_class;
+
+        $field  = '<div class="form-group ' . $size . '">';
+        $field .= ($property['title'] ? Form::label($field_id, __($title)) : '');
         $field .= Form::select($field_name, $options, $value, $property['attributes']);
         $field .= ($property['help'] ? '<small class="form-text text-muted">' . __($property['help']) . '</small>' : '');
         $field .= '</div>';
