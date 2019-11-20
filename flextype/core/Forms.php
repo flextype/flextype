@@ -151,13 +151,13 @@ class Forms
                             break;
                         // Visibility select field for selecting entry visibility state
                         case 'visibility_select':
-                            $form_field = $this->visibilitySelectField($field_id, $field_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (! empty($field_value) ? $field_value : 'visible'), $properties);
+                            $form_field = $this->visibilitySelectField($field_id, $field_name, $field_value, $properties);
                             break;
                         case 'heading':
                             $form_field = $this->headingField($field_id, $properties);
                             break;
                         case 'routable_select':
-                            $form_field = $this->routableSelectField($field_id, $field_name, [true => __('admin_yes'), false => __('admin_no')], (is_string($field_value) ? true : ($field_value ? true : false)), $properties);
+                            $form_field = $this->routableSelectField($field_id, $field_name, $field_value, $properties);
                             break;
                         case 'tags':
                             $form_field = $this->tagsField($field_id, $field_name, $field_value, $properties);
@@ -166,7 +166,7 @@ class Forms
                             $form_field = $this->dateField($field_id, $field_name, $field_value, $properties);
                             break;
                         case 'media_select':
-                            $form_field = $this->mediaSelectField($field_id, $field_name, $this->flextype->EntriesController->getMediaList($request->getQueryParams()['id'], false), $field_value, $properties);
+                            $form_field = $this->mediaSelectField($field_id, $field_name, $field_value, $properties);
                             break;
                         // Simple text-input, for single-line fields.
                         default:
@@ -265,21 +265,21 @@ class Forms
     /**
      * Media select field
      *
-     * @param string $field_id   Field ID
-     * @param string $field_name Field name
-     * @param array  $options    Field options
-     * @param string $value      Field value
-     * @param array  $properties Field properties
+     * @param string $field_id    Field ID
+     * @param string $field_name  Field name
+     * @param mixed  $field_value Field value
+     * @param array  $properties  Field properties
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function mediaSelectField(string $field_id, string $field_name, array $options, string $value, array $properties) : string
+    protected function mediaSelectField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
+        $options = $this->flextype->EntriesController->getMediaList($request->getQueryParams()['id'], false);
 
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
         $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
@@ -287,7 +287,7 @@ class Forms
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, $value, $attributes);
+        $field .= Form::select($field_name, $options, $field_value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -297,16 +297,16 @@ class Forms
     /**
      * Template select field
      *
-     * @param string $field_id   Field ID
-     * @param string $field_name Field name
-     * @param string $value      Field value
-     * @param array  $properties Field properties
+     * @param string $field_id    Field ID
+     * @param string $field_name  Field name
+     * @param mixed  $field_value Field value
+     * @param array  $properties  Field properties
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function templateSelectField(string $field_id, string $field_name, string $value, array $properties) : string
+    protected function templateSelectField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
@@ -317,6 +317,8 @@ class Forms
         $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
 
         $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
+
+        $options = [];
 
         if (count($_templates_list) > 0) {
             foreach ($_templates_list as $template) {
@@ -330,7 +332,7 @@ class Forms
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, $value, $attributes);
+        $field .= Form::select($field_name, $options, $field_value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -340,21 +342,21 @@ class Forms
     /**
      * Routable select field
      *
-     * @param string $field_id   Field ID
-     * @param string $field_name Field name
-     * @param array  $options    Field options
-     * @param mixed  $value      Field value
-     * @param array  $properties Field properties
+     * @param string $field_id    Field ID
+     * @param string $field_name  Field name
+     * @param mixed  $field_value Field value
+     * @param array  $properties  Field properties
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function routableSelectField(string $field_id, string $field_name, array $options, $value, array $properties) : string
+    protected function routableSelectField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
+        $options = [true => __('admin_yes'), false => __('admin_no')];
 
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
         $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
@@ -362,7 +364,7 @@ class Forms
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, $value, $attributes);
+        $field .= Form::select($field_name, $options, (is_string($field_value) ? true : ($field_value ? true : false)), $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -372,11 +374,10 @@ class Forms
     /**
      * Select field
      *
-     * @param string $field_id   Field ID
-     * @param string $field_name Field name
-     * @param array  $options    Field options
-     * @param mixed  $value      Field value
-     * @param array  $properties Field properties
+     * @param string $field_id    Field ID
+     * @param string $field_name  Field name
+     * @param mixed  $field_value Field value
+     * @param array  $properties  Field properties
      *
      * @return string Returns field
      *
@@ -387,7 +388,7 @@ class Forms
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
-        $options = isset($properties['options'])  ? $properties['options'] : [];
+        $options = isset($properties['options']) ? $properties['options'] : [];
 
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
         $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
@@ -395,7 +396,7 @@ class Forms
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, $value, $attributes);
+        $field .= Form::select($field_name, $options, $field_value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -432,16 +433,16 @@ class Forms
     /**
      * Html field
      *
-     * @param string $field_id   Field ID
-     * @param string $field_name Field name
-     * @param string $value      Field value
-     * @param array  $properties Field properties
+     * @param string $field_id    Field ID
+     * @param string $field_name  Field name
+     * @param mixed  $field_value Field value
+     * @param array  $properties  Field properties
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function htmlField(string $field_id, string $field_name, string $value, array $properties) : string
+    protected function htmlField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
@@ -454,7 +455,7 @@ class Forms
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::textarea($field_name, $value, $attributes);
+        $field .= Form::textarea($field_name, $field_value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -464,36 +465,36 @@ class Forms
     /**
      * Hidden field
      *
-     * @param string $field_id   Field ID
-     * @param string $field_name Field name
-     * @param string $value      Field value
-     * @param array  $properties Field properties
+     * @param string $field_id    Field ID
+     * @param string $field_name  Field name
+     * @param mixed  $field_value Field value
+     * @param array  $properties  Field properties
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function hiddenField(string $field_id, string $field_name, string $value, array $properties) : string
+    protected function hiddenField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
         $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
 
-        return Form::hidden($field_name, $value, $attributes);
+        return Form::hidden($field_name, $field_value, $attributes);
     }
 
     /**
      * Textarea field
      *
-     * @param string $field_id   Field ID
-     * @param string $field_name Field name
-     * @param string $value      Field value
-     * @param array  $properties Field properties
+     * @param string $field_id    Field ID
+     * @param string $field_name  Field name
+     * @param string $field_value Field value
+     * @param array  $properties  Field properties
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function textareaField(string $field_id, string $field_name, string $value, array $properties) : string
+    protected function textareaField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
@@ -505,7 +506,7 @@ class Forms
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::textarea($field_name, $value, $attributes);
+        $field .= Form::textarea($field_name, $field_value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -515,20 +516,21 @@ class Forms
     /**
      * Visibility field
      *
-     * @param string $field_id   Field ID
-     * @param string $field_name Field name
-     * @param string $value      Field value
-     * @param array  $properties Field properties
+     * @param string $field_id    Field ID
+     * @param string $field_name  Field name
+     * @param mixed  $field_value Field value
+     * @param array  $properties  Field properties
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function visibilitySelectField(string $field_id, string $field_name, array $options, string $value, array $properties) : string
+    protected function visibilitySelectField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
+        $options = ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')];
 
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
         $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
@@ -536,7 +538,7 @@ class Forms
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, $value, $attributes);
+        $field .= Form::select($field_name, $options, (! empty($field_value) ? $field_value : 'visible'), $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -546,16 +548,16 @@ class Forms
     /**
      * Text field
      *
-     * @param string $field_id   Field ID
-     * @param string $field_name Field name
-     * @param string $value      Field value
-     * @param array  $properties Field properties
+     * @param string $field_id    Field ID
+     * @param string $field_name  Field name
+     * @param mixed  $field_value Field value
+     * @param array  $properties  Field properties
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function textField(string $field_id, string $field_name, string $value, array $properties) : string
+    protected function textField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
@@ -567,7 +569,7 @@ class Forms
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::input($field_name, $value, $attributes);
+        $field .= Form::input($field_name, $field_value, $attributes);
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -577,15 +579,15 @@ class Forms
     /**
      * Tags field
      *
-     * @param string $field_id   Field ID
-     * @param string $field_name Field name
-     * @param string $value      Field value
+     * @param string $field_id    Field ID
+     * @param string $field_name  Field name
+     * @param mixed  $field_value Field value
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function tagsField(string $field_id, string $field_name, string $value, array $properties) : string
+    protected function tagsField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
@@ -597,7 +599,7 @@ class Forms
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= '<input type="text" value="' . $value . '" name="' . $field_name . '" class="' . $attributes['class'] . '" data-role="tagsinput" />';
+        $field .= '<input type="text" value="' . $field_value . '" name="' . $field_name . '" class="' . $attributes['class'] . '" data-role="tagsinput" />';
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
@@ -607,16 +609,16 @@ class Forms
     /**
      * Date field
      *
-     * @param string $field_id   Field ID
-     * @param string $field_name Field name
-     * @param string $value      Field value
-     * @param array  $properties Field properties
+     * @param string $field_id    Field ID
+     * @param string $field_name  Field name
+     * @param mixed  $field_value Field value
+     * @param array  $properties  Field properties
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function dateField(string $field_id, string $field_name, string $value, array $properties) : string
+    protected function dateField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
@@ -625,7 +627,7 @@ class Forms
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
         $field .= '<div class="input-group date" id="datetimepicker" data-target-input="nearest">';
-        $field .= '<input name="' . $field_name . '" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" value="' . date($this->flextype->registry->get('settings.date_format'), strtotime($value)) . '" />
+        $field .= '<input name="' . $field_name . '" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" value="' . date($this->flextype->registry->get('settings.date_format'), strtotime($field_value)) . '" />
                    <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
                       <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                    </div>';
