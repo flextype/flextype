@@ -27,12 +27,57 @@
     ```
 
 * **core:** add ability to store entry system fields in entries create method #247
-* **core:** add alternative comparison syntax for Entries API
-* **core:** add json_encode and json_decode twig filter #289
+* **core:** add alternative comparison syntax for Entries API  
+
+    Alternative comparison syntax:
+    ```
+    eq - Equals
+    neq - Not equals
+    lt - Lower than
+    lte - Lower than or equal to
+    gt - Greater than
+    gte - Greater than or equal to
+    ```
+
+* **core:** add `json_encode` and `json_decode` twig filter #289  
+
+    usage in templates:
+    ```
+    // Result: {"title": "Hello World!"}
+    {{ {'title': 'Hello World!'}|json_encode }}
+
+    // Result: Hello World!
+    {{ '{"title": "Hello World!"}'|json_decode.title }}
+    ```
+
 * **core:** add parser twig extension #262
-* **core:** add `yaml_encode` and `yaml_decode` twig filter #290
+* **core:** add `yaml_encode` and `yaml_decode` twig filter #290  
+
+    usage in templates:
+    ```
+    // Result: title: 'Hello World!'
+    {{ {'title': 'Hello World!'}|yaml_encode }}
+
+    // Result: Hello World!
+    {{ 'title: Hello World!'|yaml_decode.title }}
+    ```
+
 * **core:** Markdown parsing should be cached in production #287
 * **core:** YAML parsing will be cached in production #263
+* **core:** add ability to extends fieldsets #301  
+
+    usage in fieldsets:
+    ```
+    extends: base
+    ```
+
+    or extends multiple fieldsets
+    ```
+    extends:
+      - base
+      - seo
+    ```
+
 * **core:** add routable option for entries #284  
 
     usage in entry:
