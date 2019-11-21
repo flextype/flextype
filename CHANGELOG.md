@@ -113,37 +113,37 @@
 
 ### BREAKING CHANGES
 
-Changed and_where & or_where execution in the templates
+* **core:** changed and_where & or_where execution in the templates  
 
-FROM
+    FROM
 
-```
-'and_where': {
-
-}
-
-'or_where': {
-
-}
-```
-
-TO
-
-```
-'and_where': [
-    {
+    ```
+    'and_where': {
 
     }
-]
 
-'or_where': [
-    {
+    'or_where': {
 
     }
-]
-```
+    ```
 
-Rename property `value` to `default` for all fieldsets where it is used.
+    TO
+
+    ```
+    'and_where': [
+        {
+
+        }
+    ]
+
+    'or_where': [
+        {
+
+        }
+    ]
+    ```
+
+* **core:** Rename property `value` to `default` for all fieldsets where it is used.
 
 <a name="0.9.5"></a>
 # [0.9.5](https://github.com/flextype/flextype/compare/v0.9.4...v0.9.5) (2019-09-21)
