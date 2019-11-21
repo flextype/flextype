@@ -209,8 +209,8 @@ class Forms
     {
         if (Arr::keyExists($values, $element)) {
             $field_value = Arr::get($values, $element);
-        } elseif(Arr::keyExists($properties, 'value')) {
-            $field_value = $properties['value'];
+        } elseif(Arr::keyExists($properties, 'default')) {
+            $field_value = $properties['default'];
         } else {
             $field_value = '';
         }
