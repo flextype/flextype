@@ -27,7 +27,7 @@
 * **core:** add `yaml_encode` and `yaml_decode` twig filter #290
 * **core:** Markdown parsing should be cached in production #287
 * **core:** YAML parsing will be cached in production #263
-* **core:** add routable option for entries #284
+* **core:** add routable option for entries #284  
 usage:
 ```
 routable: false
