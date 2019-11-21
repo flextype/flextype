@@ -27,6 +27,13 @@
 * **core:** add `yaml_encode` and `yaml_decode` twig filter #290
 * **core:** Markdown parsing should be cached in production #287
 * **core:** YAML parsing will be cached in production #263
+* **core:** add routable option for entries #284
+usage:
+```
+routable: false
+```
+by default `routable` is `true`
+
 * **admin-plugin:** add help text for common form controls #280
 * **admin-plugin:** add icons for settings tabs sections #293
 * **admin-plugin:** hide textarea control for codemirror editor #279
