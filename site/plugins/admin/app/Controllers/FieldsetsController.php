@@ -79,6 +79,7 @@ class FieldsetsController extends Controller
         $data = ['title' => $data['title'],
                  'default_field' => 'title',
                  'icon' => $data['icon'],
+                 'hide' => (bool) $data['hide'],
                  'sections' => [
                    'main' => [
                        'title' => 'Main',
