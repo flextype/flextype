@@ -19,7 +19,13 @@
 * **core:** add ability to hide title for hidden fields #240
 * **core:** add ability to override plugins default manifest and settings #224
 * **core:** add ability to override themes default manifest and settings #256
-* **core:** add ability to set help text for generated form controls #283
+* **core:** add ability to set help text for generated form controls #283  
+
+    usage in fieldsets:
+    ```
+    help: "Help text here"
+    ```
+
 * **core:** add ability to store entry system fields in entries create method #247
 * **core:** add alternative comparison syntax for Entries API
 * **core:** add json_encode and json_decode twig filter #289
@@ -29,7 +35,7 @@
 * **core:** YAML parsing will be cached in production #263
 * **core:** add routable option for entries #284  
 
-    usage:
+    usage in entry:
     ```
     routable: false
     ```
