@@ -89,6 +89,20 @@ class Forms
         $form .= $this->_csrfHiddenField();
         $form .= $this->_actionHiddenField();
 
+        // Extends fieldsets
+        if (isset($fieldset['extends'])) {
+            if (is_array($fieldset['extends'])) {
+                foreach ($fieldset['extends'] as $extends) {
+                    $extends_fieldset_content = Filesystem::read($this->flextype->fieldsets->getFileLocation($extends));
+                    $fieldset = array_replace_recursive($fieldset, $this->flextype->parser->decode($extends_fieldset_content, 'yaml'));
+                }
+            } else {
+                $extends_fieldset_content = Filesystem::read($this->flextype->fieldsets->getFileLocation($fieldset['extends']));
+                $extends_fieldset = $this->flextype->parser->decode($extends_fieldset_content, 'yaml');
+                $fieldset = array_replace_recursive($fieldset, $extends_fieldset);
+            }
+        }
+
         // Go through all sections
         if (count($fieldset['sections']) > 0) {
             $form .= '<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">';
