@@ -7,10 +7,11 @@
     padding-bottom: 30px;
     text-transform: uppercase;
     text-align: center;
-    color: #ccc;
     font-size: 12px;
+    opacity: .7;
 
     > a {
-        color: #ccc;
+        opacity: .7;
+        text-decoration: none;
     }
 }
