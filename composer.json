@@ -21,7 +21,7 @@
         "ext-mbstring": "*",
 
         "doctrine/cache": "~1.9.1",
-        "doctrine/collections": "~1.6.2",
+        "doctrine/collections": "~1.6.4",
 
         "flextype-components/arr" : "1.2.5",
         "flextype-components/assets" : "1.0.3",
