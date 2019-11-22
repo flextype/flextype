@@ -20,7 +20,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
 
-        "doctrine/cache": "~1.8.1",
+        "doctrine/cache": "~1.9.1",
         "doctrine/collections": "~1.6.2",
 
         "flextype-components/arr" : "1.2.5",
