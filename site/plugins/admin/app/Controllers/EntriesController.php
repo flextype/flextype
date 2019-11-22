@@ -286,6 +286,9 @@ class EntriesController extends Controller
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
                     $fieldset_content = $this->parser->decode(Filesystem::read($fieldset['path']), 'yaml');
                     if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
+                        if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
+                            continue;
+                        }
                         $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
                     }
                 }
