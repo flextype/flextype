@@ -71,7 +71,7 @@
                       <a href="{{ path_for('admin.entries.index') }}">
                           FLEXTYPE
                       </a>
-                      <a href="{{ base_url() }}" class="view-site-link" target="_blank">
+                      <a href="{{ base_url() }}" class="view-site-link" target="_blank" data-toggle="tooltip" data-placement="bottom" title="{{ tr('admin_view_site') }}">
                           <i class="fas fa-external-link-alt"></i>
                       </a>
                   </div>
@@ -267,6 +267,7 @@
         {% include "plugins/admin/views/partials/datetimepicker.html" %}
         {% include "plugins/admin/views/partials/tags.html" %}
         {% include "plugins/admin/views/partials/slugify.html" %}
+        {% include "plugins/admin/views/partials/tooltips.html" %}
 
         {% block tail %}{% endblock %}
     </body>
