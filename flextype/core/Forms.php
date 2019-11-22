@@ -94,12 +94,12 @@ class Forms
             if (is_array($fieldset['extends'])) {
                 foreach ($fieldset['extends'] as $extends) {
                     $extends_fieldset_content = Filesystem::read($this->flextype->fieldsets->getFileLocation($extends));
-                    $fieldset = array_replace_recursive($fieldset, $this->flextype->parser->decode($extends_fieldset_content, 'yaml'));
+                    $fieldset = array_replace_recursive($this->flextype->parser->decode($extends_fieldset_content, 'yaml'), $fieldset);
                 }
             } else {
                 $extends_fieldset_content = Filesystem::read($this->flextype->fieldsets->getFileLocation($fieldset['extends']));
                 $extends_fieldset = $this->flextype->parser->decode($extends_fieldset_content, 'yaml');
-                $fieldset = array_replace_recursive($fieldset, $extends_fieldset);
+                $fieldset = array_replace_recursive($extends_fieldset, $fieldset);
             }
         }
 
