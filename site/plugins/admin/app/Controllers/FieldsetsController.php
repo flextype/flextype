@@ -82,7 +82,7 @@ class FieldsetsController extends Controller
                  'hide' => (bool) $data['hide'],
                  'sections' => [
                    'main' => [
-                       'title' => 'Main',
+                       'title' => 'admin_main',
                        'fields' => [
                            'title' => [
                                'title' => 'admin_title',

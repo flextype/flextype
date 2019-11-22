@@ -128,7 +128,10 @@ class EntriesController extends Controller
             foreach ($fieldsets_list as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
                     $fieldset_content = $this->parser->decode(Filesystem::read($fieldset['path']), 'yaml');
-                    if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
+                    if (isset($fieldset_content['sections']) &&
+                        isset($fieldset_content['sections']['main']) &&
+                        isset($fieldset_content['sections']['main']['fields']) &&
+                        isset($fieldset_content['sections']['main']['fields']['title'])) {
                         if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
                             continue;
                         }
@@ -285,7 +288,10 @@ class EntriesController extends Controller
             foreach ($_fieldsets as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
                     $fieldset_content = $this->parser->decode(Filesystem::read($fieldset['path']), 'yaml');
-                    if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
+                    if (isset($fieldset_content['sections']) &&
+                        isset($fieldset_content['sections']['main']) &&
+                        isset($fieldset_content['sections']['main']['fields']) &&
+                        isset($fieldset_content['sections']['main']['fields']['title'])) {
                         if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
                             continue;
                         }
