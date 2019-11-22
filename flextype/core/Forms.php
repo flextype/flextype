@@ -215,7 +215,6 @@ class Forms
             $field_value = '';
         }
 
-
         return $field_value;
     }
 
