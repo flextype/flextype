@@ -24,8 +24,14 @@
                    {% endif %}
                </td>
                <td style="padding-left:0px;">
-                   {% set _entries = entries.fetchAll(entry.slug, {'order_by': {field: 'slug', direction: 'asc'}}) %}
-                   <a href="{% if _entries|length > 0 %}{{ path_for('admin.entries.index') }}?id={{ entry.slug }}{% else %}{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor{% endif %}">
+                   {% if cache.contains(entry.slug ~ '_counter') %}
+                        {% set _entries_length = cache.fetch(entry.slug ~ '_counter') %}
+                   {% else %}
+                       {% set _entries = entries.fetchAll(entry.slug) %}
+                       {% set _entries_length = _entries|length %}
+                       {% do cache.save(entry.slug ~ '_counter', _entries_length) %}
+                   {% endif %}
+                   <a href="{% if _entries_length > 0 %}{{ path_for('admin.entries.index') }}?id={{ entry.slug }}{% else %}{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor{% endif %}">
                        {% if entry.fieldset %}
                            {% if filesystem_has(fieldset_path) %}
                                {% if fieldset.default_field %}
@@ -43,8 +49,8 @@
                        {% else %}
                            {{ entry.slug }}
                        {% endif %}
-                       {% if _entries|length > 0 %}
-                           ({{ _entries|length }})
+                       {% if _entries_length > 0 %}
+                           ({{ _entries_length }})
                        {% endif %}
                    </a>
                </td>

@@ -243,6 +243,7 @@ class EntriesController extends Controller
                 }
 
                 if ($this->entries->create($id, $data_result)) {
+                    $this->clearEntryCounter($parent_entry_id);
                     $this->flash->addMessage('success', __('admin_message_entry_created'));
                 } else {
                     $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
@@ -452,6 +453,7 @@ class EntriesController extends Controller
                 $data['entry_id_path_current'],
                 $data['parent_entry'] . '/' . $this->slugify->slugify($data['entry_id_current'])
             )) {
+                $this->clearEntryCounter($data['parent_entry']);
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
@@ -526,6 +528,7 @@ class EntriesController extends Controller
             $data['entry_path_current'],
             $data['entry_parent'] . '/' . $this->slugify->slugify($data['name'])
         )) {
+            $this->clearEntryCounter($data['entry_path_current']);
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
@@ -551,6 +554,8 @@ class EntriesController extends Controller
 
         if ($this->entries->delete($id)) {
 
+            $this->clearEntryCounter($id_current);
+
             $this->flash->addMessage('success', __('admin_message_entry_deleted'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_was_not_deleted'));
@@ -572,12 +577,15 @@ class EntriesController extends Controller
         $data = $request->getParsedBody();
 
         $id = $data['id'];
+        $parent_id = implode('/', array_slice(explode("/", $id), 0, -1));
 
         $this->entries->copy($id, $id . '-duplicate-' . date("Ymd_His"), true);
 
+        $this->clearEntryCounter($parent_id);
+
         $this->flash->addMessage('success', __('admin_message_entry_duplicated'));
 
-        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $id), 0, -1)));
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $parent_id);
     }
 
     /**
@@ -1038,4 +1046,15 @@ class EntriesController extends Controller
         return $files;
     }
 
+    /**
+     * Clear entry counter
+     *
+     * @param string $id Entry ID
+     */
+    public function clearEntryCounter($id) : void
+    {
+        if ($this->cache->contains($id . '_counter')) {
+            $this->cache->delete($id . '_counter');
+        }
+    }
 }
