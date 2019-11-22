@@ -17,6 +17,14 @@
 ### Features
 
 * **core:** add ability to hide title for hidden fields #240
+* **core:** add new public method delete() for Cache #308
+* **core:** add CacheTwigExtension #309  
+
+    usage in templates:
+    ```
+    {{ cache.CACHE_PUBLIC_METHOD }}
+    ```
+
 * **core:** add ability to override plugins default manifest and settings #224
 * **core:** add ability to override themes default manifest and settings #256
 * **core:** add ability to set help text for generated form controls #283  
