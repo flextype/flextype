@@ -111,6 +111,7 @@
 * **admin-plugin:** use dots icon for actions dropdown #292
 * **admin-plugin:** add auto generated slugs from title field #305
 * **admin-plugin:** add help tooltips #306
+* **admin-plugin:** store Entires/Collections counter in cache #203
 * **admin-plugin:** YAML parsing will be cached in production #263
 * **admin-plugin:** add ability to hide fieldsets from entries type select #304  
 
