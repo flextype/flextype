@@ -1,5 +1,6 @@
 title: Base
 default_field: general_heading
+hide: true
 sections:
   settings:
     title: admin_settings
