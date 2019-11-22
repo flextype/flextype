@@ -229,6 +229,9 @@ $flextype['view'] = static function ($container) {
     // Add Twig Debug Extension
     $view->addExtension(new DebugExtension());
 
+    // Add Cache Twig Extension
+    $view->addExtension(new CacheTwigExtension($container));
+
     // Add Entries Twig Extension
     $view->addExtension(new EntriesTwigExtension($container));
 
