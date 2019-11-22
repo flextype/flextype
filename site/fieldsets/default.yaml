@@ -1,6 +1,7 @@
 title: Default
 default_field: title
 icon: 'far fa-file-alt'
+extends: base
 sections:
   main:
     title: admin_main
@@ -13,42 +14,3 @@ sections:
         title: admin_content
         type: html
         size: 12
-      template:
-        title: admin_template
-        type: template_select
-        size: 4/12
-      visibility:
-        title: admin_visibility
-        type: visibility_select
-        size: 4/12
-      published_at:
-        title: admin_published_at
-        type: datetimepicker
-        size: 4/12
-  seo:
-    title: admin_seo
-    fields:
-      description:
-        title: admin_description
-        type: textarea
-        size: 12
-  menu:
-    title: admin_menu
-    fields:
-      menu_item_title:
-        title: admin_menu_item_title
-        type: text
-        size: 4/12
-      menu_item_url:
-        title: admin_menu_item_url
-        type: text
-        size: 4/12
-      menu_item_target:
-        title: admin_menu_item_target
-        type: select
-        options: { _self: _self, _blank: _blank, _parent: _parent, _top: _top }
-        size: 4/12
-      menu_item_order:
-        title: admin_menu_item_order
-        type: text
-        size: 4/12
