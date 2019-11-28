@@ -204,6 +204,13 @@
             </div>
             {% endif %}
 
+            {% if is_current_path('admin.themes.information') or
+                  is_current_path('admin.themes.settings') %}
+              <div class="entry-editor-heading">
+                  {% if id %} / {{ id }}{% endif %}
+              </div>
+            {% endif %}
+
             {% if is_current_path('admin.fieldsets.index') or
                   is_current_path('admin.fieldsets.edit') or
                   is_current_path('admin.fieldsets.rename') or
