@@ -3,7 +3,8 @@
 
 ### Bug Fixes
 
-* **admin-panel:** fix issue with saving entry source #251
+* **admin-plugin:** fix issue with saving entry source #251
+* **admin-plugin:** fix file browser styles
 * **core:** Entries API - fix Collection Undefined Index(s) for fetchAll method #243
 * **core:** fix broken logic for form inputs without labels #274
 * **core:** fix default and site settings loading #297
@@ -74,20 +75,6 @@
 
 * **core:** Markdown parsing should be cached in production #287
 * **core:** YAML parsing will be cached in production #263
-* **core:** add ability to extends fieldsets #301  
-
-    usage in fieldsets:
-    ```
-    extends: base
-    ```
-
-    or extends multiple fieldsets
-    ```
-    extends:
-      - base
-      - seo
-    ```
-
 * **core:** add routable option for entries #284  
 
     usage in entry:
