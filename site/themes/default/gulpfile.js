@@ -17,16 +17,10 @@ function moveBootstrapCss() {
         .pipe(dest('assets/dist/css/tmp'));
 }
 
-function moveSimpleLightboxCss() {
-    return src('node_modules/simplelightbox/dist/simplelightbox.min.css')
-        .pipe(concat('3.min.css'))
-        .pipe(dest('assets/dist/css/tmp'));
-}
-
 function buldDefaultCss() {
       return src('assets/scss/default.scss')
           .pipe(sass().on('error', sass.logError))
-          .pipe(concat('4.min.css'))
+          .pipe(concat('2.min.css'))
           .pipe(dest('assets/dist/css/tmp'));
 }
 
@@ -76,12 +70,10 @@ function cleanTmpJs() {
 }
 
 exports.default = series(moveBootstrapCss,
-                         moveSimpleLightboxCss,
                          buldDefaultCss,
                          mergeCss,
                          cleanTmpCss,
                          moveJqueryJs,
                          moveBootstrapJs,
-                         moveSimpleLightboxJs,
                          mergeJs,
                          cleanTmpJs);
