@@ -201,7 +201,7 @@ fieldset[disabled] .form-control {
 .custom-file-label,
 .custom-file-label::after {
     font-weight: 400;
-    padding: 8px 16px;
+    padding: 6px 12px;
     border: 1px solid black;
     color: $btn-text-color;
     background-color: $btn-background-color;
@@ -517,9 +517,9 @@ textarea.form-control.code-editor {
 .nav-pills {
     .nav-link {
         > i {
-    width: 24px;
-    font-size: 14px;
-}
+            width: 24px;
+            font-size: 14px;
+        }
 
     }
 }
