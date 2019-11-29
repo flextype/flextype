@@ -32,7 +32,7 @@ class SettingsController extends Controller
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
         $entries = [];
-        foreach ($this->entries->fetchAll('', ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]) as $entry) {
+        foreach ($this->entries->fetch('', ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]) as $entry) {
             $entries[$entry['slug']] = $entry['title'];
         }
 

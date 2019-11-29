@@ -54,18 +54,26 @@ class EntriesTwig
     }
 
     /**
+     * Fetch entry(entries)
+     */
+    public function fetch(string $id, $args = null) : array
+    {
+        return $this->flextype['entries']->fetch($id, $args);
+    }
+
+    /**
      * Fetch single entry
      */
-    public function fetch(string $id)
+    public function fetchSingle(string $id) : array
     {
         return $this->flextype['entries']->fetch($id);
     }
 
     /**
-     * Fetch all entries
+     * Fetch entries collection
      */
-    public function fetchAll(string $id, array $args = []) : array
+    public function fetchCollection(string $id, array $args = []) : array
     {
-        return $this->flextype['entries']->fetchAll($id, $args);
+        return $this->flextype['entries']->fetch($id, $args);
     }
 }

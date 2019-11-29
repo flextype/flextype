@@ -36,7 +36,7 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                {% for item in entries.fetchAll('', {'order_by': {'field': 'menu_item_order', 'direction': 'asc'}}) %}
+                {% for item in entries.fetch('', {'order_by': {'field': 'menu_item_order', 'direction': 'asc'}}) %}
                     {% if item.menu_item_title %}
                         <li class="nav-item">
                             <a class="nav-link {% if item.menu_item_url in entry.slug %}active{% endif %}" href="{{ base_url() }}/{{ item.menu_item_url }}">{{ item.menu_item_title }}</a>

@@ -105,15 +105,35 @@ class Entries
     }
 
     /**
+     * Fetch entry(enries)
+     *
+     * @param string     $id   Entry ID
+     * @param array|null $args Query arguments.
+     *
+     * @return array The entry array data.
+     *
+     * @access public
+     */
+    public function fetch(string $id, $args = null) : array
+    {
+        // If args is array then it is entries collection request
+        if (is_array($args)) {
+            return $this->fetchCollection($id, $args);
+        } else {
+            return $this->fetchSingle($id);
+        }
+    }
+
+    /**
      * Fetch single entry
      *
      * @param string $id Entry ID
      *
-     * @return array|false The entry array data or false on failure.
+     * @return array The entry array data.
      *
      * @access public
      */
-    public function fetch(string $id)
+    public function fetchSingle(string $id) : array
     {
         // Get entry file location
         $entry_file = $this->getFileLocation($id);
@@ -139,7 +159,8 @@ class Entries
                     return $entry;
                 }
 
-                return false;
+                // Return empty array
+                return [];
 
             // else Try to get requested entry from the filesystem
             }
@@ -170,19 +191,21 @@ class Entries
             return $this->entry;
         }
 
-        return false;
+        // Return empty array
+        return [];
     }
 
     /**
      * Fetch entries collection
      *
-     * @param array $args Query arguments
+     * @param string $id Entry ID
+     * @param array $args Query arguments.
      *
-     * @return array The entries array data
+     * @return array The entries array data.
      *
      * @access public
      */
-    public function fetchAll(string $id, array $args = []) : array
+    public function fetchCollection(string $id, array $args = []) : array
     {
         // Init Entries
         $entries = [];

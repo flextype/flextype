@@ -73,7 +73,7 @@ class EntriesController extends Controller
             $response,
             'plugins/admin/views/templates/content/entries/index.html',
             [
-                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]),
+                            'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]),
                             'id_current' => $this->getEntryID($query),
                             'menu_item' => 'entries',
                             'parts' => $parts,
@@ -144,7 +144,7 @@ class EntriesController extends Controller
             $response,
             'plugins/admin/views/templates/content/entries/add.html',
             [
-                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), ['order_by' => ['field' => 'title', 'direction' => 'asc']]),
+                            'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'title', 'direction' => 'asc']]),
                             'menu_item' => 'entries',
                             'fieldsets' => $fieldsets,
                             'current_id' => $this->getEntryID($query),
@@ -399,7 +399,7 @@ class EntriesController extends Controller
 
         // Get entries list
         $entries_list['/'] = '/';
-        foreach ($this->entries->fetchAll('', ['order_by' => ['field' => ['slug']], 'recursive' => true]) as $_entry) {
+        foreach ($this->entries->fetch('', ['order_by' => ['field' => ['slug']], 'recursive' => true]) as $_entry) {
             if ($_entry['slug'] != '') {
                 $entries_list[$_entry['slug']] = $_entry['slug'];
             } else {

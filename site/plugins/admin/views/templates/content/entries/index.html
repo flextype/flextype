@@ -27,7 +27,7 @@
                    {% if cache.contains(entry.slug ~ '_counter') %}
                         {% set _entries_length = cache.fetch(entry.slug ~ '_counter') %}
                    {% else %}
-                       {% set _entries = entries.fetchAll(entry.slug) %}
+                       {% set _entries = entries.fetch(entry.slug, {}) %}
                        {% set _entries_length = _entries|length %}
                        {% do cache.save(entry.slug ~ '_counter', _entries_length) %}
                    {% endif %}
