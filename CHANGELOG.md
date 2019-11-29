@@ -75,6 +75,13 @@
 
 * **core:** Markdown parsing should be cached in production #287
 * **core:** YAML parsing will be cached in production #263
+* **core:** Refactor entries fetch methods naming #315
+
+    we have:
+    `fetch` - for single and collection entries request.
+    `fetchSingle` - for single entry request.
+    `fetchCollection` - for collection entries request.
+
 * **core:** add routable option for entries #284  
 
     usage in entry:
@@ -119,6 +126,7 @@
 
 ### BREAKING CHANGES
 
+* **core:** method fetchAll removed! please use `fetch`, `fetchSingle` or `fetchCollection`
 * **core:** changed and_where & or_where execution in the templates  
 
     FROM
