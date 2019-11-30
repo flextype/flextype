@@ -480,6 +480,18 @@ class Entries
                     $data['published_by'] = (Session::exists('uuid') ? Session::get('uuid') : '');
                     $data['created_by']   = (Session::exists('uuid') ? Session::get('uuid') : '');
 
+                    if (isset($data['routable']) && is_array($data['routable'])) {
+                        $data['routable'] = $data['routable'];
+                    } else {
+                        $data['routable'] = true;
+                    }
+
+                    if (isset($data['visibility']) && in_array($data['visibility'], ['visible', 'draft', 'hidden'])) {
+                        $data['visibility'] = $data['visibility'];
+                    } else {
+                        $data['visibility'] = 'visible';
+                    }
+
                     return Filesystem::write($entry_file, $this->flextype['parser']->encode($data, 'frontmatter'));
                 }
 
