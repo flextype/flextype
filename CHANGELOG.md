@@ -176,6 +176,16 @@
 * **core:** remove $response from Forms render method #234
 * **core:** add property forms to Flextype\EntriesController #234
 
+### Vendor Updates
+* **core:** Update vendor flextype-components/date to 1.0.0
+* **core:** Update vendor symfony/yaml to 4.4.0
+* **core:** Update vendor doctrine/cache to 1.10.0
+* **core:** Update vendor doctrine/collections to 1.6.4
+* **core:** Update vendor monolog/monolog to 3.12.3
+* **core:** Update vendor bootstrap to 4.4.1
+* **admin-plugin:** Update vendor bootstrap to 4.4.1
+* **admin-plugin:** Update vendor trumbowyg to 2.20.0
+
 ### BREAKING CHANGES
 Changed emitter execution in the templates
 
