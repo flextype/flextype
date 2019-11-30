@@ -178,6 +178,12 @@ class Entries
             // Entry Slug
             $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($id, '/'), '/');
 
+            // Entry routable
+            $entry_decoded['routable'] = $entry_decoded['routable'] ?? true;
+
+            // Entry visibility
+            $entry_decoded['visibility'] = $entry_decoded['visibility'] ?? 'visible';
+
             // Save decoded entry content into the cache
             $this->flextype['cache']->save($entry_cache_id, $entry_decoded);
 
