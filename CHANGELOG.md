@@ -13,7 +13,8 @@
 * **core:** fix notice undefined index: published_at in Entries API #265
 * **core:** fix Plugins API - createPluginsDictionary method and increase app perfomance #259
 * **core:** fix state of active tabs for all generated forms #276
-* **core:** fix state of aria-selected for all generated forms #275
+* **core:** fix state of aria-selected for all generated forms #275  
+
 
 ### Features
 
@@ -115,14 +116,26 @@
     ```
     by default `hide` is `false`
 
-* **site-plugin:** add routable option for entries #284
+* **site-plugin:** add routable option for entries #284  
 
 
 ### Performance Improvements
 
 * **core:** add realpath_cache_size to .htaccess
 * **core:** improve Plugins API - locales loading and increase app performance #259
-* **core:** improve Cache on production and increase app performance #290 #263
+* **core:** improve Cache on production and increase app performance #290 #263  
+
+
+### Vendor Updates
+* **core:** Update vendor flextype-components/date to 1.0.0
+* **core:** Update vendor symfony/yaml to 4.4.0
+* **core:** Update vendor doctrine/cache to 1.10.0
+* **core:** Update vendor doctrine/collections to 1.6.4
+* **core:** Update vendor monolog/monolog to 3.12.3
+* **core:** Update vendor bootstrap to 4.4.1
+* **admin-plugin:** Update vendor bootstrap to 4.4.1
+* **admin-plugin:** Update vendor trumbowyg to 2.20.0  
+
 
 ### BREAKING CHANGES
 
@@ -175,16 +188,6 @@
 ### Code Refactoring
 * **core:** remove $response from Forms render method #234
 * **core:** add property forms to Flextype\EntriesController #234
-
-### Vendor Updates
-* **core:** Update vendor flextype-components/date to 1.0.0
-* **core:** Update vendor symfony/yaml to 4.4.0
-* **core:** Update vendor doctrine/cache to 1.10.0
-* **core:** Update vendor doctrine/collections to 1.6.4
-* **core:** Update vendor monolog/monolog to 3.12.3
-* **core:** Update vendor bootstrap to 4.4.1
-* **admin-plugin:** Update vendor bootstrap to 4.4.1
-* **admin-plugin:** Update vendor trumbowyg to 2.20.0
 
 ### BREAKING CHANGES
 Changed emitter execution in the templates
