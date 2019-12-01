@@ -32,17 +32,13 @@ class SettingsController extends Controller
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
         $entries = [];
-        foreach ($this->entries->fetchAll('', ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]) as $entry) {
+        foreach ($this->entries->fetch('', ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]) as $entry) {
             $entries[$entry['slug']] = $entry['title'];
         }
 
         $themes = [];
-        foreach (Filesystem::listContents(PATH['themes']) as $theme) {
-            if ($theme['type'] !== 'dir' || ! Filesystem::has($theme['path'] . '/' . 'theme.yaml')) {
-                continue;
-            }
-
-            $themes[$theme['dirname']] = $theme['dirname'];
+        foreach ($this->registry->get('themes') as $key => $theme) {
+            $themes[$key] = $theme['name'];
         }
 
         $available_locales = Filesystem::listContents(PATH['plugins'] . '/admin/lang/');
@@ -143,7 +139,7 @@ class SettingsController extends Controller
         Arr::set($data, 'entries.media.upload_images_width', (int) $data['entries']['media']['upload_images_width']);
         Arr::set($data, 'entries.media.upload_images_height', (int) $data['entries']['media']['upload_images_height']);
 
-        if (Filesystem::write(PATH['config']['site'] . '/settings.yaml', Parser::encode(array_merge($this->registry->get('settings'), $data), 'yaml'))) {
+        if (Filesystem::write(PATH['config']['site'] . '/settings.yaml', $this->parser->encode(array_merge($this->registry->get('settings'), $data), 'yaml'))) {
             $this->flash->addMessage('success', __('admin_message_settings_saved'));
         } else {
             $this->flash->addMessage('error', __('admin_message_settings_was_not_saved'));

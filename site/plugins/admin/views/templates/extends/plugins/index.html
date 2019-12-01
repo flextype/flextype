@@ -1,93 +1,50 @@
 {% extends "plugins/admin/views/partials/base.html" %}
 
 {% block content %}
+{% if (plugins_list|length > 0) %}
 <table class="table no-margin">
-  <thead>
-      <tr>
-          <th>{{ tr('admin_name') }}</th>
-          <th></th>
-          <th width="90" class="text-right">{{ tr('admin_status') }}</th>
-      </tr>
-  </thead>
   <tbody>
       {% for key, plugin in plugins_list %}
       <tr>
-          <td>{{ plugin.name }}</td>
-          <td class="text-right">
-              <a href="javascript:;" class="btn js-plugins-info" data-toggle="modal" data-target="#pluginInfoModal"
-                  data-name="{{ plugin.name }}"
-                  data-version="{{ plugin.version }}"
-                  data-description="{{ plugin.description }}"
-                  data-author-name="{{ plugin.author.name }}"
-                  data-author-email="{{ plugin.author.email }}"
-                  data-author-url="{{ plugin.author.url }}"
-                  data-homepage="{{ plugin.homepage }}"
-                  data-bugs="{{ plugin.bugs }}"
-                  data-license="{{ plugin.license }}"
-                  >{{ tr('admin_info') }}</a>
+          <td style="width: 50px; padding-right: 10px; text-align:center;">
+              {% if plugin.icon %}
+                   <i class="{{ plugin.icon }} {% if plugin.enabled == false %}opacity-50{% endif %}"></i>
+              {% else %}
+                  <i class="fas fa-plug {% if plugin.enabled == false %}opacity-50{% endif %}"></i>
+              {% endif %}
           </td>
+          <td style="padding-left:0px;"><a href="{{ path_for('admin.plugins.information') }}?id={{ key }}" class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.name }}</a></td>
           <td class="text-right">
-              <div class="form-group no-margin">
-                <span class="switch switch-sm">
-                    <input id="switch-sm-{{ key }}"
-                       onclick="event.preventDefault();
-                                document.getElementById('update-status-{{ key }}').submit();"
-                    type="checkbox" class="switch js-switch" data-plugin="{{ key }}"
-                    {% if plugin.enabled %}checked{% endif %}
-                    {% if key == 'admin' or key == 'site' or key == '' %}disabled{% endif %}>
-                  <label for="switch-sm-{{ key }}"></label>
-                </span>
-                <form id="update-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
-                    {{ csrf() }}
-                    <input type="hidden" name="plugin-key" value="{{ key }}">
-                    <input type="hidden" name="plugin-status" value="{% if plugin.enabled %}false{% else %}true{% endif %}">
-                </form>
+              <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-ellipsis-h"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-lg-right">
+                  <form id="update-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
+                        {{ csrf() }}
+                        <input type="hidden" name="plugin-key" value="{{ key }}">
+                        <input type="hidden" name="plugin-status" value="{% if plugin.enabled %}false{% else %}true{% endif %}">
+                  </form>
+                  <a class="dropdown-item" href="{{ path_for('admin.plugins.information') }}?id={{ key }}"><i class="fas fa-info-circle"></i> {{ tr('admin_information') }}</a>
+                  <a class="dropdown-item" href="{{ path_for('admin.plugins.settings') }}?id={{ key }}"><i class="fas fa-cog"></i> {{ tr('admin_settings') }}</a>
+                  {% if key == 'admin' or key == 'site' or key == '' %}
+                     <a class="dropdown-item opacity-50" href="javascript:;"><i class="fas fa-toggle-on"></i> {{ tr('admin_deactivate') }}</a>
+                  {% else %}
+                     <a class="dropdown-item"
+                        onclick="event.preventDefault(); document.getElementById('update-status-{{ key }}').submit();"
+                        href="javascript:;">{% if plugin.enabled %}<i class="fas fa-toggle-on"></i> {{ tr('admin_deactivate') }}{% else %}<i class="fas fa-toggle-off"></i> {{ tr('admin_activate') }}{% endif %}</a>
+                  {% endif %}
+                </div>
               </div>
           </td>
       </tr>
     {% endfor %}
   </tbody>
 </table>
-
-<!-- Modal -->
-<div class="modal fade" id="pluginInfoModal" tabindex="-1" role="dialog" aria-labelledby="pluginInfoModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="pluginInfoModalLabel">{{ tr('admin_info') }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <p><b>{{ tr('admin_name') }}: </b><span class="js-plugin-name-placeholder"></span></p>
-          <p><b>{{ tr('admin_version') }}: </b><span class="js-plugin-version-placeholder"></span></p>
-          <p><b>{{ tr('admin_description') }}: </b><span class="js-plugin-description-placeholder"></span></p>
-          <p><b>{{ tr('admin_author_name') }}: </b><span class="js-plugin-author-name-placeholder"></span></p>
-          <p><b>{{ tr('admin_author_email') }}: </b><span class="js-plugin-author-email-placeholder"></span></p>
-          <p><b>{{ tr('admin_author_url') }}: </b><span class="js-plugin-author-url-placeholder"></span></p>
-          <p><b>{{ tr('admin_homepage') }}: </b><span class="js-plugin-homepage-placeholder"></span></p>
-          <p><b>{{ tr('admin_bugs') }}: </b><span class="js-plugin-bugs-placeholder"></span></p>
-          <p><b>{{ tr('admin_license') }}: </b><span class="js-plugin-license-placeholder"></span></p>
-      </div>
-    </div>
-  </div>
+{% else %}
+<div class="empty-list-message">
+    <i class="fas fa-list"></i>
+    <h3>{{ tr('admin_you_have_no_plugins') }}</h3>
 </div>
-{% endblock %}
-
-{% block tail %}
-<script type="text/javascript">
-$('.js-plugins-info').click(function () {
-    $('#pluginInfoModal').modal();
-    $('.js-plugin-name-placeholder').html($(this).attr('data-name'));
-    $('.js-plugin-version-placeholder').html($(this).attr('data-version'));
-    $('.js-plugin-description-placeholder').html($(this).attr('data-description'));
-    $('.js-plugin-author-name-placeholder').html($(this).attr('data-author-name'));
-    $('.js-plugin-author-email-placeholder').html($(this).attr('data-author-email'));
-    $('.js-plugin-author-url-placeholder').html($(this).attr('data-author-url'));
-    $('.js-plugin-homepage-placeholder').html($(this).attr('data-homepage'));
-    $('.js-plugin-bugs-placeholder').html($(this).attr('data-bugs'));
-    $('.js-plugin-license-placeholder').html($(this).attr('data-license'));
-});
-</script>
+{% endif %}
 {% endblock %}

@@ -1,8 +1,9 @@
 title: Default
 default_field: title
+icon: 'far fa-file-alt'
 sections:
   main:
-    title: Main
+    title: admin_main
     fields:
       title:
         title: admin_title
@@ -12,6 +13,17 @@ sections:
         title: admin_content
         type: html
         size: 12
+  settings:
+    title: admin_settings
+    fields:
+      general_heading:
+        title: admin_general
+        type: heading
+      description:
+        title: admin_description
+        type: textarea
+        size: 12
+        default: test!
       template:
         title: admin_template
         type: template_select
@@ -24,16 +36,13 @@ sections:
         title: admin_published_at
         type: datetimepicker
         size: 4/12
-  seo:
-    title: Seo
-    fields:
-      description:
-        title: admin_description
-        type: textarea
-        size: 12
-  menu:
-    title: Menu
-    fields:
+      routable:
+        title: admin_routable
+        type: routable_select
+        size: 4/12
+      menu_heading:
+        title: admin_menu
+        type: heading
       menu_item_title:
         title: admin_menu_item_title
         type: text

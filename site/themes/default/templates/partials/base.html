@@ -36,7 +36,7 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                {% for item in entries.fetchAll('', {'order_by': {'field': 'menu_item_order', 'direction': 'asc'}}) %}
+                {% for item in entries.fetch('', {'order_by': {'field': 'menu_item_order', 'direction': 'asc'}}) %}
                     {% if item.menu_item_title %}
                         <li class="nav-item">
                             <a class="nav-link {% if item.menu_item_url in entry.slug %}active{% endif %}" href="{{ base_url() }}/{{ item.menu_item_url }}">{{ item.menu_item_title }}</a>
@@ -63,30 +63,6 @@
                 <script src="{{ assets_by_priorities.asset }}"></script>
             {% endfor %}
         {% endfor %}
-
-        <script src="//cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.7.1/lazyload.min.js"></script>
-        <script src="//unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-        <script src="//unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-        <script type="text/javascript">
-
-        if ($('.gallery-grid a').length) {
-             var lightbox = $('.gallery-grid a').simpleLightbox({'fileExt': false});
-        }
-
-        if ($('.gallery-grid').length) {
-          var $grid = $('.gallery-grid').imagesLoaded()
-            .done( function( instance ) {
-               $('.preloader').hide();
-               $grid.masonry({
-                   visibleStyle: { transform: 'translateY(0)', opacity: 1 },
-                   hiddenStyle: { transform: 'translateY(100px)', opacity: 0 },
-               });
-            })
-            .progress( function( instance, image ) {
-
-            });
-        }
-        </script>
 
         {% do emitter.emit('onThemeTail') %}
     </body>

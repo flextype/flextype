@@ -42,12 +42,8 @@ class MarkdownTwigExtension extends Twig_Extension
     /**
      * Markdown process
      */
-    public function markdown($value) : string
+    public function markdown($input, bool $cache = true) : string
     {
-        if ($value !== null) {
-            return $this->flextype->markdown->text($value);
-        }
-
-        return '';
+        return $this->flextype['parser']->decode($input, 'markdown', $cache);
     }
 }

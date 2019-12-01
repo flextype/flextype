@@ -12,6 +12,7 @@ namespace Flextype;
 use Flextype\Component\Filesystem\Filesystem;
 use RuntimeException;
 use function array_merge;
+use function array_replace_recursive;
 use function count;
 use function filemtime;
 use function is_array;
@@ -45,44 +46,89 @@ class Themes
         // Get themes list
         $themes_list = $this->getThemes();
 
-        // If themes list isnt empty then create themes cache ID and go through the themes list...
-        if (is_array($themes_list) && count($themes_list) > 0) {
-            // Get themes cache ID
-            $themes_cache_id = $this->getThemesCacheID($themes_list);
+        // If Themes List isnt empty then continue
+        if (! is_array($themes_list) || count($themes_list) <= 0) {
+            return;
+        }
 
-            // Get themes list from cache or scan themes folder and create new themes cache item in the registry
-            if ($this->flextype['cache']->contains($themes_cache_id)) {
-                $this->flextype['registry']->set('themes', $this->flextype['cache']->fetch($themes_cache_id));
-            } else {
-                    // Go through the themes list...
-                foreach ($themes_list as $theme) {
-                    // Get theme settings
-                    if (Filesystem::has($theme_settings_file = PATH['themes'] . '/' . $theme['dirname'] . '/settings.yaml')) {
-                        if (($content = Filesystem::read($theme_settings_file)) === false) {
-                            throw new RuntimeException('Load file: ' . $theme_settings_file . ' - failed!');
-                        }
+        // Get themes cache ID
+        $themes_cache_id = $this->getThemesCacheID($themes_list);
 
-                        $theme_settings = Parser::decode($content, 'yaml');
-                    }
+        // Get themes list from cache or scan themes folder and create new themes cache item in the registry
+        if ($this->flextype['cache']->contains($themes_cache_id)) {
+            $this->flextype['registry']->set('themes', $this->flextype['cache']->fetch($themes_cache_id));
+        } else {
+            $themes                 = [];
+            $themes_settings        = [];
+            $themes_manifest        = [];
+            $default_theme_settings = [];
+            $site_theme_settings    = [];
+            $default_theme_manifest = [];
+            $site_theme_manifest    = [];
 
-                    // Get theme manifest
-                    if (Filesystem::has($theme_manifest_file = PATH['themes'] . '/' . $theme['dirname'] . '/theme.yaml')) {
-                        if (($content = Filesystem::read($theme_manifest_file)) === false) {
-                            throw new RuntimeException('Load file: ' . $theme_manifest_file . ' - failed!');
-                        }
+            // Go through the themes list...
+            foreach ($themes_list as $theme) {
 
-                        $theme_manifest = Parser::decode($content, 'yaml');
-                    }
+                // Set site theme directory
+                $site_theme_settings_dir = PATH['config']['site'] . '/themes/' . $theme['dirname'];
 
-                    $themes[$theme['dirname']] = array_merge($theme_settings, $theme_manifest);
+                // Set default theme settings and manifest files
+                $default_theme_settings_file = PATH['themes'] . '/' . $theme['dirname'] . '/settings.yaml';
+                $default_theme_manifest_file = PATH['themes'] . '/' . $theme['dirname'] . '/theme.yaml';
+
+                // Set site theme settings and manifest files
+                $site_theme_settings_file = PATH['config']['site'] . '/themes/' . $theme['dirname'] . '/settings.yaml';
+                $site_theme_manifest_file = PATH['config']['site'] . '/themes/' . $theme['dirname'] . '/theme.yaml';
+
+                // Create site theme settings directory
+                ! Filesystem::has($site_theme_settings_dir)  and Filesystem::createDir($site_theme_settings_dir);
+
+                // Create site theme settings and manifest files
+                ! Filesystem::has($site_theme_settings_file) and Filesystem::write($site_theme_settings_file, '');
+                ! Filesystem::has($site_theme_manifest_file) and Filesystem::write($site_theme_manifest_file, '');
+
+                // Check if default theme settings file exists
+                if (! Filesystem::has($default_theme_settings_file)) throw new RuntimeException('Load ' . $theme['dirname'] . ' theme settings - failed!');
+
+                // Get default theme manifest content
+                $default_theme_settings_file_content = Filesystem::read($default_theme_settings_file);
+                $default_theme_settings              = $this->flextype['parser']->decode($default_theme_settings_file_content, 'yaml');
+
+                // Get site theme settings content
+                $site_theme_settings_file_content = Filesystem::read($site_theme_settings_file);
+                if (trim($site_theme_settings_file_content) === '') {
+                    $site_theme_settings = [];
+                } else {
+                    $site_theme_settings = $this->flextype['parser']->decode($site_theme_settings_file_content, 'yaml');
                 }
 
-                // Save parsed themes list in the registry themes
-                $this->flextype['registry']->set('themes', $themes);
+                // Check if default theme manifest file exists
+                if (! Filesystem::has($default_theme_manifest_file)) RuntimeException('Load ' . $theme['dirname'] . ' theme manifest - failed!');
 
-                // Save parsed themes list in the cache
-                $this->flextype['cache']->save($themes_cache_id, $themes);
+                // Get default theme manifest content
+                $default_theme_manifest_file_content = Filesystem::read($default_theme_manifest_file);
+                $default_theme_manifest              = $this->flextype['parser']->decode($default_theme_manifest_file_content, 'yaml');
+
+                // Get site theme manifest content
+                $site_theme_manifest_file_content = Filesystem::read($site_theme_manifest_file);
+                if (trim($site_theme_manifest_file_content) === '') {
+                    $site_theme_manifest = [];
+                } else {
+                    $site_theme_manifest = $this->flextype['parser']->decode($site_theme_manifest_file_content, 'yaml');
+                }
+
+                // Merge theme settings and manifest data
+                $themes[$theme['dirname']] = array_merge(
+                    array_replace_recursive($default_theme_settings, $site_theme_settings),
+                    array_replace_recursive($default_theme_manifest, $site_theme_manifest)
+                );
             }
+
+            // Save parsed themes list in the registry themes
+            $this->flextype['registry']->set('themes', $themes);
+
+            // Save parsed themes list in the cache
+            $this->flextype['cache']->save($themes_cache_id, $themes);
         }
 
         // Emit onThemesInitialized
@@ -90,7 +136,7 @@ class Themes
     }
 
     /**
-     * Get themes cache ID
+     * Get Themes Cache ID
      *
      * @param  array $themes_list Themes list
      *
@@ -98,23 +144,28 @@ class Themes
      */
     private function getThemesCacheID(array $themes_list) : string
     {
-        // Themes cache id
+        // Themes Cache ID
         $_themes_cache_id = '';
 
-        // Go through themes list...
+        // Go through...
         if (is_array($themes_list) && count($themes_list) > 0) {
             foreach ($themes_list as $theme) {
-                if (! Filesystem::has($_themes_settings = PATH['themes'] . '/' . $theme['dirname'] . '/settings.yaml') or
-                    ! Filesystem::has($_themes_manifest = PATH['themes'] . '/' . $theme['dirname'] . '/theme.yaml')) {
-                    continue;
-                }
+                $default_theme_settings_file = PATH['themes'] . '/' . $theme['dirname'] . '/settings.yaml';
+                $default_theme_manifest_file = PATH['themes'] . '/' . $theme['dirname'] . '/theme.yaml';
+                $site_theme_settings_file    = PATH['config']['site'] . '/themes/' . $theme['dirname'] . '/settings.yaml';
+                $site_theme_manifest_file    = PATH['config']['site'] . '/themes/' . $theme['dirname'] . '/theme.yaml';
 
-                $_themes_cache_id .= $_themes_settings . filemtime($_themes_settings) . $_themes_manifest . filemtime($_themes_manifest);
+                $f1 = Filesystem::has($default_theme_settings_file) ? filemtime($default_theme_settings_file) : '';
+                $f2 = Filesystem::has($default_theme_manifest_file) ? filemtime($default_theme_manifest_file) : '';
+                $f3 = Filesystem::has($site_theme_settings_file) ? filemtime($site_theme_settings_file) : '';
+                $f4 = Filesystem::has($site_theme_manifest_file) ? filemtime($site_theme_manifest_file) : '';
+
+                $_themes_cache_id .= $f1 . $f2 . $f3 . $f4;
             }
         }
 
         // Create Unique Cache ID for Themes
-        $themes_cache_id = md5('themes' . PATH['themes'] . $_themes_cache_id);
+        $themes_cache_id = md5('themes' . PATH['themes'] . '/' . $_themes_cache_id);
 
         // Return themes cache id
         return $themes_cache_id;

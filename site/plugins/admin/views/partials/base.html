@@ -13,7 +13,7 @@
     	<title>FLEXTYPE</title>
 
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/588226d8c5.js" crossorigin="anonymous"></script>
 
         {% set admin_build = base_url() ~ '/site/plugins/admin/assets/dist/css/admin-build.min.css' %}
         {% set admin_elegant = base_url() ~ '/site/plugins/admin/assets/dist/css/elegant.css' %}
@@ -71,7 +71,7 @@
                       <a href="{{ path_for('admin.entries.index') }}">
                           FLEXTYPE
                       </a>
-                      <a href="{{ base_url() }}" class="view-site-link" target="_blank">
+                      <a href="{{ base_url() }}" class="view-site-link" target="_blank" data-toggle="tooltip" data-placement="bottom" title="{{ tr('admin_view_site') }}">
                           <i class="fas fa-external-link-alt"></i>
                       </a>
                   </div>
@@ -167,7 +167,7 @@
                             {% for key, attribute in button.attributes %}
                                 {{ key }} = "{{ attribute }}"
                             {% endfor %}
-                            >{{ button.title }}</a>
+                            >{{ button.title|raw }}</a>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -194,13 +194,21 @@
             </div>
             {% endif %}
 
-            {% if is_current_path('admin.templates.index') or
+            {% if is_current_path('admin.themes.index') or
+                  is_current_path('admin.templates.index') or
                   is_current_path('admin.templates.edit') or
                   is_current_path('admin.templates.rename') or
                   is_current_path('admin.templates.add') %}
             <div class="entry-editor-heading">
-                / {{ theme }} {% if id %} / {{ id }}{% endif %}
+                / <a href="{{ path_for('admin.templates.index') }}?theme={{ theme }}">{{ theme }}</a> {% if id %} / {{ id }}{% endif %}
             </div>
+            {% endif %}
+
+            {% if is_current_path('admin.themes.information') or
+                  is_current_path('admin.themes.settings') %}
+              <div class="entry-editor-heading">
+                  {% if id %} / {{ id }}{% endif %}
+              </div>
             {% endif %}
 
             {% if is_current_path('admin.fieldsets.index') or
@@ -211,6 +219,14 @@
                   is_current_path('admin.snippets.edit') or
                   is_current_path('admin.snippets.rename') or
                   is_current_path('admin.snippets.add') %}
+            <div class="entry-editor-heading">
+                / {{ id }}
+            </div>
+            {% endif %}
+
+            {% if is_current_path('admin.plugins.index') or
+                  is_current_path('admin.plugins.information') or
+                  is_current_path('admin.plugins.settings') %}
             <div class="entry-editor-heading">
                 / {{ id }}
             </div>
@@ -257,6 +273,8 @@
         {% include "plugins/admin/views/partials/forms-save.html" %}
         {% include "plugins/admin/views/partials/datetimepicker.html" %}
         {% include "plugins/admin/views/partials/tags.html" %}
+        {% include "plugins/admin/views/partials/slugify.html" %}
+        {% include "plugins/admin/views/partials/tooltips.html" %}
 
         {% block tail %}{% endblock %}
     </body>

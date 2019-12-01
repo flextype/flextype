@@ -43,7 +43,7 @@ class SiteController extends Controller
         // Is JSON Format
         $is_json = (isset($query['format']) && $query['format'] == 'json') ? true : false;
 
-        // If uri is empty then it is main page else use entry uri
+        // If uri is empty then it is main entry else use entry uri
         if ($uri === '/') {
             $entry_uri = $this->registry->get('settings.entries.main');
         } else {
@@ -58,23 +58,16 @@ class SiteController extends Controller
 
         // If entry body is not false
         if ($entry_body) {
-            // Get 404 page if entry is not published
-            if (isset($entry_body['visibility']) && ($entry_body['visibility'] === 'draft' || $entry_body['visibility'] === 'hidden')) {
-                $entry['title']       = $this->registry->get('settings.entries.error404.title');
-                $entry['description'] = $this->registry->get('settings.entries.error404.description');
-                $entry['content']     = $this->registry->get('settings.entries.error404.content');
-                $entry['template']    = $this->registry->get('settings.entries.error404.template');
-
+            // Get 404 page if entry visibility is draft or hidden and if routable is false
+            if ((isset($entry_body['visibility']) && ($entry_body['visibility'] === 'draft' || $entry_body['visibility'] === 'hidden')) ||
+                (isset($entry_body['routable']) && ($entry_body['routable'] === false))) {
+                $entry = $this->error404();
                 $is_entry_not_found = true;
             } else {
                 $entry = $entry_body;
             }
         } else {
-            $entry['title']       = $this->registry->get('settings.entries.error404.title');
-            $entry['description'] = $this->registry->get('settings.entries.error404.description');
-            $entry['content']     = $this->registry->get('settings.entries.error404.content');
-            $entry['template']    = $this->registry->get('settings.entries.error404.template');
-
+            $entry = $this->error404();
             $is_entry_not_found = true;
         }
 
@@ -102,4 +95,21 @@ class SiteController extends Controller
 
         return $this->view->render($response, $path, ['entry' => $this->entry, 'query' => $query]);
     }
+
+    /**
+     * Error404 page
+     *
+     * @return array The 404 error entry array data.
+     *
+     * @access public
+     */
+     public function error404()
+     {
+         return [
+                  'title'       => $this->registry->get('settings.entries.error404.title'),
+                  'description' => $this->registry->get('settings.entries.error404.description'),
+                  'content'     => $this->registry->get('settings.entries.error404.content'),
+                  'template'    => $this->registry->get('settings.entries.error404.template')
+                ];
+     }
 }

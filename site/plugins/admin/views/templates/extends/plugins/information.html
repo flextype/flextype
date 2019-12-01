@@ -1,0 +1,48 @@
+{% extends "plugins/admin/views/partials/base.html" %}
+
+{% block content %}
+<table class="table no-margin">
+    <tbody>
+        <tr>
+            <td>{{ tr('admin_name') }}:</td>
+            <td>{{ plugin_manifest.name }}</td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_version') }}:</td>
+            <td>{{ plugin_manifest.version }}</td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_description') }}:</td>
+            <td>{{ plugin_manifest.description }}</td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_icon') }}:</td>
+            <td>{{ plugin_manifest.icon }}</td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_author_name') }}:</td>
+            <td>{{ plugin_manifest.author.name }}</td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_author_email') }}:</td>
+            <td>{{ plugin_manifest.author.email }}</td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_author_url') }}:</td>
+            <td>{{ plugin_manifest.author.url }}</td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_homepage') }}:</td>
+            <td>{{ plugin_manifest.homepage }}</td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_bugs') }}:</td>
+            <td>{{ plugin_manifest.bugs }}</td>
+        </tr>
+        <tr>
+            <td>{{ tr('admin_license') }}:</td>
+            <td>{{ plugin_manifest.license }}</td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

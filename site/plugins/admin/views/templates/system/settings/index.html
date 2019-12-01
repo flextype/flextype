@@ -17,28 +17,34 @@
                         <div class="form-group">
                             <label for="title">{{ tr('admin_site_title') }}</label>
                             <input type="text" id="systemSettingsSiteTitle" name="title" value="{{ registry.settings.title }}" class="form-control" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_site_title_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="description">{{ tr('admin_site_description') }}</label>
                             <input type="text" id="systemSettingsSiteDescription" name="description" value="{{ registry.settings.description }}" class="form-control margin-hard-bottom">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_site_description_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="keywords">{{ tr('admin_site_keywords') }}</label>
                             <input type="text" id="systemSettingsSiteKeywords" name="keywords" value="{{ registry.settings.keywords }}" class="form-control" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_site_keywords_label') }}</small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="robots">{{ tr('admin_site_robots') }}</label>
                             <input type="text" id="systemSettingsSiteRobots" name="robots" value="{{ registry.settings.robots }}" class="form-control" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_site_robots_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="author[name]">{{ tr('admin_author_name') }}</label>
                             <input type="text" id="systemSettingsSiteAuthorName" name="author[name]" value="{{ registry.settings.author.name }}" class="form-control" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_site_author_name_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="author[email]">{{ tr('admin_author_email') }}</label>
                             <input type="text" id="systemSettingsSiteAuthorEmail" name="author[email]" value="{{ registry.settings.author.email }}" class="form-control" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_site_author_email_label') }}</small>
                         </div>
                     </div>
                 </div>
@@ -58,6 +64,7 @@
                                     <option value="{{ key }}" {% if key == registry.settings.entries.main %}selected{% endif %}>{{ value }}</option>
                                 {% endfor %}
                             </select>
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_content_main_entry_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="theme">{{ tr('admin_theme') }}</label>
@@ -66,10 +73,12 @@
                                     <option value="{{ key }}" {% if key == registry.settings.theme %}selected{% endif %}>{{ value }}</option>
                                 {% endfor %}
                             </select>
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_content_theme_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="charset">{{ tr('admin_charset') }}</label>
                             <input type="text" id="systemSettingsSystemCharset" name="charset" value="{{ registry.settings.charset }}" class="form-control" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_content_character_label') }}</small>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -80,6 +89,7 @@
                                     <option value="{{ key }}" {% if key == registry.settings.timezone %}selected{% endif %}>{{ value }}</option>
                                 {% endfor %}
                             </select>
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_content_timezone_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="date_format">{{ tr('admin_date_format') }}</label>
@@ -88,6 +98,7 @@
                                     <option value="{{ key }}" {% if key == registry.settings.date_format %}selected{% endif %}>{{ value }}</option>
                                 {% endfor %}
                             </select>
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_content_date_format_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="date_display_format">{{ tr('admin_date_display_format') }}</label>
@@ -96,6 +107,7 @@
                                     <option value="{{ key }}" {% if key == registry.settings.date_display_format %}selected{% endif %}>{{ value }}</option>
                                 {% endfor %}
                             </select>
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_content_display_date_format_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="locale">{{ tr('admin_locale') }}</label>
@@ -104,6 +116,7 @@
                                     <option value="{{ key }}" {% if key == registry.settings.locale %}selected{% endif %}>{{ value }}</option>
                                 {% endfor %}
                             </select>
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_content_locale_label') }}</small>
                         </div>
                     </div>
                 </div>
@@ -119,10 +132,12 @@
                         <div class="form-group">
                             <label for="entries[media][upload_images_quality]">{{ tr('admin_quality') }}</label>
                             <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_quality]" value="{{ registry.settings.entries.media.upload_images_quality }}" class="form-control" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_media_image_quality_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="entries[media][accept_file_types]">{{ tr('admin_accept_file_types') }}</label>
                             <input type="text" id="systemSettingsSystemTheme" name="entries[media][accept_file_types]" value="{{ registry.settings.entries.media.accept_file_types }}" class="form-control" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_media_accept_file_types_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="image[driver]">{{ tr('admin_image_driver') }}</label>
@@ -131,16 +146,19 @@
                                     <option value="{{ key }}" {% if key == registry.settings.image.driver %}selected{% endif %}>{{ value }}</option>
                                 {% endfor %}
                             </select>
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_image_driver_label') }}</small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="entries[media][upload_images_width]">{{ tr('admin_width') }}</label>
                             <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_width]" value="{{ registry.settings.entries.media.upload_images_width }}" class="form-control" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_media_image_width_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="entries[media][upload_images_height]">{{ tr('admin_height') }}</label>
                             <input type="text" id="systemSettingsSystemEntriesMain" name="entries[media][upload_images_height]" value="{{ registry.settings.entries.media.upload_images_height }}" class="form-control" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_media_image_height_label') }}</small>
                         </div>
                     </div>
                 </div>
@@ -190,6 +208,7 @@
                                 <option value="0" {% if registry.settings.twig.debug == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
                                 <option value="1" {% if registry.settings.twig.debug == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
                             </select>
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_twig_templating_debug_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="twig[auto_reload]">{{ tr('admin_twig_auto_reload') }}</label>
@@ -197,6 +216,7 @@
                                 <option value="0" {% if registry.settings.twig.auto_reload == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
                                 <option value="1" {% if registry.settings.twig.auto_reload == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
                             </select>
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_twig_templating_autoreload_label') }}</small>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -206,10 +226,12 @@
                                 <option value="0" {% if registry.settings.twig.cache == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
                                 <option value="1" {% if registry.settings.twig.cache == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
                             </select>
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_twig_templating_cache_label') }}</small>
                         </div>
                         <div class="form-group">
                             <label for="twig[charset]">{{ tr('admin_twig_charset') }}</label>
                             <input type="text" id="systemSettingsTwigCharset" name="twig[charset]" value="{{ registry.settings.twig.charset }}" class="form-control" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_twig_templating_charset_label') }}</small>
                         </div>
                     </div>
                 </div>
@@ -228,6 +250,7 @@
                                 <option value="0" {% if registry.settings.errors.display == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
                                 <option value="1" {% if registry.settings.errors.display == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
                             </select>
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_errors_display_label') }}</small>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -237,6 +260,7 @@
                                 <option value="0" {% if registry.settings.display_error_details == 0 %}selected{% endif %}>{{ tr('admin_disabled') }}</option>
                                 <option value="1" {% if registry.settings.display_error_details == 1 %}selected{% endif %}>{{ tr('admin_enabled') }}</option>
                             </select>
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_errors_display_datails_label') }}</small>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -247,21 +271,23 @@
                                     <option value="{{ key }}" {% if key == registry.settings.whoops.editor %}selected{% endif %}>{{ value }}</option>
                                 {% endfor %}
                             </select>
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_errors_whoops_editor_label') }}</small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="whoops[page_title]">{{ tr('admin_whoops_page_title') }}</label>
                             <input type="text" id="systemSettingsWhoopsPageTitle" name="whoops[page_title]" value="{{ registry.settings.whoops.page_title }}" class="form-control" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_errors_whoops_page_title_label') }}</small>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="tab-pane fade show" id="pills-slim" role="tabpanel" aria-labelledby="pills-slim-tab">
+            <div class="tab-pane fade show" id="pills-system" role="tabpanel" aria-labelledby="pills-system-tab">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="h3 margin-top-none">{{ tr('admin_slim') }}</h3>
+                        <h3 class="h3 margin-top-none">{{ tr('admin_system') }}</h3>
                         <hr>
                     </div>
                     <div class="col-md-6">
@@ -336,7 +362,7 @@
                             <label for="cache[driver]">{{ tr('admin_cache_driver') }}</label>
                             <select id="systemSettingsSystemCacheDriver" name="cache[driver]" class="form-control" required="required">
                                 {% for key, value in cache_driver %}
-                                    <option value="{{ key }}" {% if key == entries.main %}selected{% endif %}>{{ value }}</option>
+                                    <option value="{{ key }}" {% if key == registry.settings.cache.driver %}selected{% endif %}>{{ value }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -477,16 +503,16 @@
         </div>
         <div class="col-md-1"></div>
         <div class="nav flex-column nav-pills col-md-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active" id="pills-main-tab" data-toggle="pill" href="#pills-site" role="tab" aria-controls="pills-site" aria-selected="true">{{ tr('admin_site') }}</a>
-            <a class="nav-link" id="pills-content-tab" data-toggle="pill" href="#pills-content" role="tab" aria-controls="pills-content" aria-selected="true">{{ tr('admin_content') }}</a>
-            <a class="nav-link" id="pills-media-tab" data-toggle="pill" href="#pills-media" role="tab" aria-controls="pills-media" aria-selected="true">{{ tr('admin_media') }}</a>
-            <a class="nav-link" id="pills-error-tab" data-toggle="pill" href="#pills-error" role="tab" aria-controls="pills-error" aria-selected="true">{{ tr('admin_error_404_page') }}</a>
-            <a class="nav-link" id="pills-twig-tab" data-toggle="pill" href="#pills-twig" role="tab" aria-controls="pills-twig" aria-selected="true">{{ tr('admin_twig_templating') }}</a>
-            <a class="nav-link" id="pills-debugging-tab" data-toggle="pill" href="#pills-debugging" role="tab" aria-controls="pills-debugging" aria-selected="true">{{ tr('admin_debugging') }}</a>
-            <a class="nav-link" id="pills-slim-tab" data-toggle="pill" href="#pills-slim" role="tab" aria-controls="pills-slim" aria-selected="true">{{ tr('admin_slim') }}</a>
-            <a class="nav-link" id="pills-cache-tab" data-toggle="pill" href="#pills-cache" role="tab" aria-controls="pills-cache" aria-selected="true">{{ tr('admin_cache') }}</a>
-            <a class="nav-link" id="pills-slug-tab" data-toggle="pill" href="#pills-slug" role="tab" aria-controls="pills-slug" aria-selected="true">{{ tr('admin_slug') }}</a>
-            <a class="nav-link" id="pills-admin-tab" data-toggle="pill" href="#pills-admin" role="tab" aria-controls="pills-admin" aria-selected="true">{{ tr('admin_admin_panel') }}</a>
+            <a class="nav-link active" id="pills-main-tab" data-toggle="pill" href="#pills-site" role="tab" aria-controls="pills-site" aria-selected="true"><i class="fas fa-globe"></i> {{ tr('admin_site') }}</a>
+            <a class="nav-link" id="pills-content-tab" data-toggle="pill" href="#pills-content" role="tab" aria-controls="pills-content" aria-selected="true"><i class="fas fa-file-alt"></i> {{ tr('admin_content') }}</a>
+            <a class="nav-link" id="pills-media-tab" data-toggle="pill" href="#pills-media" role="tab" aria-controls="pills-media" aria-selected="true"><i class="fas fa-photo-video"></i> {{ tr('admin_media') }}</a>
+            <a class="nav-link" id="pills-error-tab" data-toggle="pill" href="#pills-error" role="tab" aria-controls="pills-error" aria-selected="true"><i class="fas fa-exclamation-triangle"></i> {{ tr('admin_error_404_page') }}</a>
+            <a class="nav-link" id="pills-twig-tab" data-toggle="pill" href="#pills-twig" role="tab" aria-controls="pills-twig" aria-selected="true"><i class="fas fa-pencil-ruler"></i> {{ tr('admin_twig_templating') }}</a>
+            <a class="nav-link" id="pills-debugging-tab" data-toggle="pill" href="#pills-debugging" role="tab" aria-controls="pills-debugging" aria-selected="true"><i class="fas fa-tools"></i> {{ tr('admin_debugging') }}</a>
+            <a class="nav-link" id="pills-system-tab" data-toggle="pill" href="#pills-system" role="tab" aria-controls="pills-sytem" aria-selected="true"><i class="fas fa-cogs"></i> {{ tr('admin_system') }}</a>
+            <a class="nav-link" id="pills-cache-tab" data-toggle="pill" href="#pills-cache" role="tab" aria-controls="pills-cache" aria-selected="true"><i class="fas fa-archive"></i> {{ tr('admin_cache') }}</a>
+            <a class="nav-link" id="pills-slug-tab" data-toggle="pill" href="#pills-slug" role="tab" aria-controls="pills-slug" aria-selected="true"><i class="fas fa-link"></i> {{ tr('admin_slug') }}</a>
+            <a class="nav-link" id="pills-admin-tab" data-toggle="pill" href="#pills-admin" role="tab" aria-controls="pills-admin" aria-selected="true"><i class="fab fa-fort-awesome"></i> {{ tr('admin_admin_panel') }}</a>
         </div>
     </div>
 </form>

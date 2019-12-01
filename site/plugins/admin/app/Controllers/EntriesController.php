@@ -73,7 +73,7 @@ class EntriesController extends Controller
             $response,
             'plugins/admin/views/templates/content/entries/index.html',
             [
-                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]),
+                            'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]),
                             'id_current' => $this->getEntryID($query),
                             'menu_item' => 'entries',
                             'parts' => $parts,
@@ -127,8 +127,14 @@ class EntriesController extends Controller
         if (count($fieldsets_list) > 0) {
             foreach ($fieldsets_list as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = Parser::decode(Filesystem::read($fieldset['path']), 'yaml');
-                    if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
+                    $fieldset_content = $this->parser->decode(Filesystem::read($fieldset['path']), 'yaml');
+                    if (isset($fieldset_content['sections']) &&
+                        isset($fieldset_content['sections']['main']) &&
+                        isset($fieldset_content['sections']['main']['fields']) &&
+                        isset($fieldset_content['sections']['main']['fields']['title'])) {
+                        if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
+                            continue;
+                        }
                         $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
                     }
                 }
@@ -138,7 +144,7 @@ class EntriesController extends Controller
             $response,
             'plugins/admin/views/templates/content/entries/add.html',
             [
-                            'entries_list' => $this->entries->fetchAll($this->getEntryID($query), ['order_by' => ['field' => 'title', 'direction' => 'asc']]),
+                            'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'title', 'direction' => 'asc']]),
                             'menu_item' => 'entries',
                             'fieldsets' => $fieldsets,
                             'current_id' => $this->getEntryID($query),
@@ -187,67 +193,63 @@ class EntriesController extends Controller
         // Check if entry exists then try to create
         if (!$this->entries->has($id)) {
 
+            // Check if we have fieldset for this entry
             if ($this->fieldsets->has($data['fieldset'])) {
 
                 // Get fieldset
                 $fieldset = $this->fieldsets->fetch($data['fieldset']);
 
                 // We need to check if template for current fieldset is exists
-                // if template is not exist then default template will be used!
+                // if template is not exist then `default` template will be used!
                 $template_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/templates/' . $data['fieldset'] . '.html';
                 $template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
 
                 // Init entry data
-                $data_from_post = [];
-                $_data_from_post = [];
-                $data_result = [];
+                $data_from_post          = [];
+                $data_from_post_override = [];
+                $data_result             = [];
 
                 // Define data values based on POST data
-                $data_from_post['title']        = $data['title'];
-                $data_from_post['template']     = $template;
-                $data_from_post['fieldset']     = $data['fieldset'];
-                $data_from_post['published_at'] = date($this->registry->get('settings.date_format'), time());
-                $data_from_post['created_at']   = date($this->registry->get('settings.date_format'), time());
-                $data_from_post['uuid']         = Uuid::uuid4()->toString();
-                $data_from_post['published_by'] = Session::get('uuid');
-                $data_from_post['created_by']   = Session::get('uuid');
+                $data_from_post['title']    = $data['title'];
+                $data_from_post['template'] = $template;
+                $data_from_post['fieldset'] = $data['fieldset'];
 
-                // Predefine data values based on selected fieldset
-                foreach ($fieldset['sections'] as $key => $section) {
-                    foreach ($section['fields'] as $element => $property) {
+                // Predefine data values based on fieldset default values
+                foreach ($fieldset['sections'] as $section_name => $section_body) {
+                    foreach ($section_body['fields'] as $field => $properties) {
+
+                        // Ingnore fields where property: heading
+                        if ($properties['type'] == 'heading') {
+                            continue;
+                        }
 
                         // Get values from $data_from_post
-                        if (isset($data_from_post[$element])) {
-                            $value = $data_from_post[$element];
+                        if (isset($data_from_post[$field])) {
+                            $value = $data_from_post[$field];
 
                         // Get values from fieldsets predefined field values
-                        } elseif (isset($property['value'])) {
-                            $value = $property['value'];
+                        } elseif (isset($properties['value'])) {
+                            $value = $properties['value'];
 
                         // or set empty value
                         } else {
                             $value = '';
                         }
 
-                        $_data_from_post[$element] = $value;
+                        $data_from_post_override[$field] = $value;
 
                     }
                 }
 
                 // Merge data
-                if(count($_data_from_post) > 0) {
-                    $data_result = array_replace_recursive($_data_from_post, $data_from_post);
+                if (count($data_from_post_override) > 0) {
+                    $data_result = array_replace_recursive($data_from_post_override, $data_from_post);
                 } else {
                     $data_result = $data_from_post;
                 }
 
-                if (isset($fieldset['parser'])) {
-                    $parser = $fieldset['parser'];
-                } else {
-                    $parser = 'frontmatter';
-                }
-
-                if ($this->entries->create($id, $data_result, $parser)) {
+                if ($this->entries->create($id, $data_result)) {
+                    $this->clearEntryCounter($parent_entry_id);
                     $this->flash->addMessage('success', __('admin_message_entry_created'));
                 } else {
                     $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
@@ -292,8 +294,14 @@ class EntriesController extends Controller
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = Parser::decode(Filesystem::read($fieldset['path']), 'yaml');
-                    if (isset($fieldset_content['sections']) && isset($fieldset_content['sections']['main']) && isset($fieldset_content['sections']['main']['fields'])) {
+                    $fieldset_content = $this->parser->decode(Filesystem::read($fieldset['path']), 'yaml');
+                    if (isset($fieldset_content['sections']) &&
+                        isset($fieldset_content['sections']['main']) &&
+                        isset($fieldset_content['sections']['main']['fields']) &&
+                        isset($fieldset_content['sections']['main']['fields']['title'])) {
+                        if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
+                            continue;
+                        }
                         $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
                     }
                 }
@@ -397,7 +405,7 @@ class EntriesController extends Controller
 
         // Get entries list
         $entries_list['/'] = '/';
-        foreach ($this->entries->fetchAll('', ['order_by' => ['field' => ['slug']], 'recursive' => true]) as $_entry) {
+        foreach ($this->entries->fetch('', ['order_by' => ['field' => ['slug']], 'recursive' => true]) as $_entry) {
             if ($_entry['slug'] != '') {
                 $entries_list[$_entry['slug']] = $_entry['slug'];
             } else {
@@ -451,6 +459,7 @@ class EntriesController extends Controller
                 $data['entry_id_path_current'],
                 $data['parent_entry'] . '/' . $this->slugify->slugify($data['entry_id_current'])
             )) {
+                $this->clearEntryCounter($data['parent_entry']);
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
@@ -525,6 +534,7 @@ class EntriesController extends Controller
             $data['entry_path_current'],
             $data['entry_parent'] . '/' . $this->slugify->slugify($data['name'])
         )) {
+            $this->clearEntryCounter($data['entry_path_current']);
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
@@ -550,6 +560,8 @@ class EntriesController extends Controller
 
         if ($this->entries->delete($id)) {
 
+            $this->clearEntryCounter($id_current);
+
             $this->flash->addMessage('success', __('admin_message_entry_deleted'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_was_not_deleted'));
@@ -571,12 +583,15 @@ class EntriesController extends Controller
         $data = $request->getParsedBody();
 
         $id = $data['id'];
+        $parent_id = implode('/', array_slice(explode("/", $id), 0, -1));
 
         $this->entries->copy($id, $id . '-duplicate-' . date("Ymd_His"), true);
 
+        $this->clearEntryCounter($parent_id);
+
         $this->flash->addMessage('success', __('admin_message_entry_duplicated'));
 
-        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $id), 0, -1)));
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $parent_id);
     }
 
     /**
@@ -609,7 +624,7 @@ class EntriesController extends Controller
 
         // Fieldsets for current entry template
         $fieldsets_path = PATH['site'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
-        $fieldsets = Parser::decode(Filesystem::read($fieldsets_path), 'yaml');
+        $fieldsets = $this->parser->decode(Filesystem::read($fieldsets_path), 'yaml');
         is_null($fieldsets) and $fieldsets = [];
 
         if ($type == 'source') {
@@ -621,7 +636,7 @@ class EntriesController extends Controller
                         'i' => count($parts),
                         'last' => Arr::last($parts),
                         'id' => $this->getEntryID($query),
-                        'data' => Parser::encode($entry, 'frontmatter'),
+                        'data' => $this->parser->encode($entry, 'frontmatter'),
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
@@ -691,6 +706,14 @@ class EntriesController extends Controller
                 ]
             );
         } else {
+
+            // Merge current entry fieldset with global fildset
+            if (isset($entry['entry_fieldset'])) {
+                $form = $this->forms->render(array_replace_recursive($fieldsets, $entry['entry_fieldset']), $entry, $request);
+            } else {
+                $form = $this->forms->render($fieldsets, $entry, $request);
+            }
+
             return $this->view->render(
                 $response,
                 'plugins/admin/views/templates/content/entries/edit.html',
@@ -698,7 +721,7 @@ class EntriesController extends Controller
                         'parts' => $parts,
                         'i' => count($parts),
                         'last' => Arr::last($parts),
-                        'form' => $this->forms->render($fieldsets, $entry, $request),
+                        'form' => $form,
                         'menu_item' => 'entries',
                         'links' => [
                             'entries' => [
@@ -755,10 +778,12 @@ class EntriesController extends Controller
             // Data from POST
             $data = $request->getParsedBody();
 
-            $data['published_by'] = Session::get('uuid');
+            $entry = $this->parser->decode($data['data'], 'frontmatter');
+
+            $entry['published_by'] = Session::get('uuid');
 
             // Update entry
-            if ($this->entries->update($id, Parser::decode($data['data'], 'frontmatter'))) {
+            if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.md', $this->parser->encode($entry, 'frontmatter'))) {
                 $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
@@ -777,6 +802,7 @@ class EntriesController extends Controller
             Arr::delete($data, 'action');
 
             $data['published_by'] = Session::get('uuid');
+            $data['routable'] = isset($data['routable']) ? (bool) $data['routable'] : false;
 
             // Fetch entry
             $entry = $this->entries->fetch($id);
@@ -1026,4 +1052,15 @@ class EntriesController extends Controller
         return $files;
     }
 
+    /**
+     * Clear entry counter
+     *
+     * @param string $id Entry ID
+     */
+    public function clearEntryCounter($id) : void
+    {
+        if ($this->cache->contains($id . '_counter')) {
+            $this->cache->delete($id . '_counter');
+        }
+    }
 }

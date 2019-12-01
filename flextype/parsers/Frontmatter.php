@@ -18,36 +18,24 @@ use function ltrim;
 use function preg_split;
 use function trim;
 
-class FrontmatterParser
+class Frontmatter
 {
     /**
-     * Front matter parser
+     * Returns the FRONTMATTER representation of a value
      *
-     * @param  string $content Content to parse
+     * @param mixed $input The PHP value
      *
-     * @return array
-     *
-     * @access public
+     * @return string A FRONTMATTER string representing the original PHP value
      */
-    public static function parser(string $content) : array
-    {
-        $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . ltrim($content));
-        if (count($parts) < 3) {
-            return ['content' => trim($content)];
-        }
-
-        return YamlParser::decode(trim($parts[1])) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
-    }
-
     public static function encode($input) : string
     {
         if (isset($input['content'])) {
             $content = $input['content'];
             Arr::delete($input, 'content');
-            $matter = YamlParser::encode($input);
+            $matter = Yaml::encode($input);
         } else {
             $content = '';
-            $matter  = YamlParser::encode($input);
+            $matter  = Yaml::encode($input);
         }
 
         $encoded = '---' . "\n" .
@@ -58,8 +46,20 @@ class FrontmatterParser
         return $encoded;
     }
 
+    /**
+     * Takes a FRONTMATTER encoded string and converts it into a PHP variable.
+     *
+     * @param string $input A string containing FRONTMATTER
+     *
+     * @return mixed The FRONTMATTER converted to a PHP value
+     */
     public static function decode(string $input)
     {
-        return self::parser($input);
+        $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . ltrim($input));
+        if (count($parts) < 3) {
+            return ['content' => trim($input)];
+        }
+
+        return Yaml::decode(trim($parts[1])) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
     }
 }

@@ -63,7 +63,7 @@ entries:
   error404:
     title: Error 404
     description: We're sorry but the page you are looking for doesn't appear to exist!
-    content: We're sorry but the page you are looking for doesn't appear to exist!
+    content: "<center>We're sorry but the page you are looking for doesn't appear to exist!</center>"
     template: default
 
 # Display errors
@@ -165,7 +165,7 @@ whoops:
 # - response_chunk_size: Size of each chunk read from the Response body when sending to the browser.
 #
 # - http_version: The protocol version used by the Response object.
-display_error_details: true
+display_error_details: false
 add_content_length_header: true
 router_cache_file: false
 determine_route_before_app_middleware: false

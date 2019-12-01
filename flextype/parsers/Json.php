@@ -16,7 +16,7 @@ use const JSON_UNESCAPED_UNICODE;
 use function json_decode;
 use function json_encode;
 
-class JsonParser
+class Json
 {
     /**
      * Encode options
@@ -31,7 +31,7 @@ class JsonParser
     /**
      * Encode Depth
      *
-     * Set the maximum depth.
+     * Set the maximum depth. Must be greater than zero.
      *
      * @var int
      */
@@ -40,7 +40,7 @@ class JsonParser
     /**
      * Decode assoc
      *
-     * Set the maximum depth.
+     * When TRUE, returned objects will be converted into associative arrays.
      *
      * @var int
      */
@@ -49,7 +49,7 @@ class JsonParser
     /**
      * Decode Depth
      *
-     * Set the maximum depth.
+     * User specified recursion depth.
      *
      * @var int
      */
@@ -68,20 +68,16 @@ class JsonParser
     /**
      * Returns the JSON representation of a value
      *
-     * $result = JsonParser::encode($json_content);
+     * @param mixed $input The PHP value
      *
-     * @param mixed $input          A string containing JSON
-     * @param int   $encode_depth   User specified recursion depth.
-     * @param int   $encode_options Bitmask consisting of encode options.
-     *
-     * @return mixed The JSON converted to a PHP value
+     * @return mixed A JSON string representing the original PHP value
      */
-    public static function encode($input, int $encode_options = 0, int $encode_depth = 512) : string
+    public static function encode($input) : string
     {
         $encoded = @json_encode(
             $input,
-            $encode_options ? $encode_options : self::$encode_options,
-            $encode_depth ? $encode_depth : self::$encode_depth
+            self::$encode_options,
+            self::$encode_depth
         );
 
         if ($encoded === false) {
@@ -94,24 +90,19 @@ class JsonParser
     /**
      * Takes a JSON encoded string and converts it into a PHP variable.
      *
-     * $array = JsonParser::decode($json_file_content);
-     *
-     * @param string $input          A string containing JSON
-     * @param bool   $decode_assoc   When TRUE, returned objects will be converted into associative arrays.
-     * @param int    $decode_depth   User specified recursion depth.
-     * @param int    $decode_options Bitmask consisting of decode options.
+     * @param string $input A string containing JSON
      *
      * @return mixed The JSON converted to a PHP value
      *
      * @throws ParseException If the JSON is not valid
      */
-    public static function decode(string $input, bool $decode_assoc = true, int $decode_depth = 512, int $decode_options = 0)
+    public static function decode(string $input)
     {
         $decoded = @json_decode(
             $input,
-            $decode_assoc ? $decode_assoc : self::$decode_assoc,
-            $decode_depth ? $decode_depth : self::$decode_depth,
-            $decode_options ? $decode_options : self::$decode_options
+            self::$decode_assoc,
+            self::$decode_depth,
+            self::$decode_options
         );
 
         if ($decoded === false) {

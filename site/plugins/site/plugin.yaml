@@ -1,6 +1,7 @@
 name: Site
-version: 0.0.0
+version: 0.9.6
 description: Site plugin for Flextype
+icon: fas fa-globe
 author:
   name: Sergey Romanenko
   email: hello@romanenko.digital

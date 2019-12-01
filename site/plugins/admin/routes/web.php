@@ -43,6 +43,9 @@ $app->group('/' . $admin_route, function () use ($app) : void {
 
     // Plugins Controller
     $app->get('/plugins', 'PluginsController:index')->setName('admin.plugins.index');
+    $app->get('/plugins/information', 'PluginsController:information')->setName('admin.plugins.information');
+    $app->get('/plugins/settings', 'PluginsController:settings')->setName('admin.plugins.settings');
+    $app->post('/plugins/settings', 'PluginsController:settingsProcess')->setName('admin.plugins.settingsProcess');
     $app->post('/plugins/update-status', 'PluginsController:pluginStatusProcess')->setName('admin.plugins.update-status');
 
     // FieldsetsController
@@ -58,6 +61,9 @@ $app->group('/' . $admin_route, function () use ($app) : void {
 
     // ThemesController
     $app->get('/themes', 'ThemesController:index')->setName('admin.themes.index');
+    $app->get('/themes/information', 'ThemesController:information')->setName('admin.themes.information');
+    $app->get('/themes/settings', 'ThemesController:settings')->setName('admin.themes.settings');
+    $app->post('/themes/settings', 'ThemesController:settingsProcess')->setName('admin.themes.settingsProcess');
     $app->post('/themes/activateProcess', 'ThemesController:activateProcess')->setName('admin.themes.activateProcess');
 
     // TemplatesController

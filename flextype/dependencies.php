@@ -34,7 +34,6 @@ use League\Glide\Responses\SlimResponseFactory;
 use League\Glide\ServerFactory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use ParsedownExtra as Markdown;
 use Slim\Csrf\Guard;
 use Slim\Flash\Messages;
 use Slim\Http\Environment;
@@ -110,6 +109,13 @@ $flextype['flash'] = static function ($container) {
  */
 $flextype['cache'] = static function ($container) use ($flextype) {
     return new Cache($flextype);
+};
+
+/**
+ * Add parser service to Flextype container
+ */
+$flextype['parser'] = static function ($container) use ($flextype) {
+    return new Parser($flextype);
 };
 
 /**
@@ -195,12 +201,6 @@ $flextype['shortcodes'] = static function ($container) {
     return new ShortcodeFacade();
 };
 
-/**
- * Add Markdown service to Flextype container
- */
-$flextype['markdown'] = static function ($container) {
-    return new Markdown();
-};
 
 /**
  * Add entries service to Flextype container
@@ -229,6 +229,9 @@ $flextype['view'] = static function ($container) {
     // Add Twig Debug Extension
     $view->addExtension(new DebugExtension());
 
+    // Add Cache Twig Extension
+    $view->addExtension(new CacheTwigExtension($container));
+
     // Add Entries Twig Extension
     $view->addExtension(new EntriesTwigExtension($container));
 
@@ -242,10 +245,13 @@ $flextype['view'] = static function ($container) {
     $view->addExtension(new I18nTwigExtension());
 
     // Add Json Twig Extension
-    $view->addExtension(new JsonTwigExtension());
+    $view->addExtension(new JsonTwigExtension($container));
 
     // Add Yaml Twig Extension
-    $view->addExtension(new YamlTwigExtension());
+    $view->addExtension(new YamlTwigExtension($container));
+
+    // Add Parser Twig Extension
+    $view->addExtension(new ParserTwigExtension($container));
 
     // Add Markdown Twig Extension
     $view->addExtension(new MarkdownTwigExtension($container));

@@ -76,7 +76,22 @@ class FieldsetsController extends Controller
         Arr::delete($data, 'csrf_value');
 
         $id   = $this->slugify->slugify($data['id']);
-        $data = ['title' => $data['title']];
+        $data = ['title' => $data['title'],
+                 'default_field' => 'title',
+                 'icon' => $data['icon'],
+                 'hide' => (bool) $data['hide'],
+                 'sections' => [
+                   'main' => [
+                       'title' => 'admin_main',
+                       'fields' => [
+                           'title' => [
+                               'title' => 'admin_title',
+                               'type' => 'text',
+                               'size' => '12'
+                           ],
+                       ],
+                   ],
+                ]];
 
         if ($this->fieldsets->create($id, $data)) {
             $this->flash->addMessage('success', __('admin_message_fieldset_created'));
@@ -95,7 +110,7 @@ class FieldsetsController extends Controller
             [
                 'menu_item' => 'fieldsets',
                 'id' => $request->getQueryParams()['id'],
-                'data' => Parser::encode($this->fieldsets->fetch($request->getQueryParams()['id']), 'yaml'),
+                'data' => $this->parser->encode($this->fieldsets->fetch($request->getQueryParams()['id']), 'yaml'),
                 'links' =>  [
                     'fieldsets' => [
                         'link' => $this->router->pathFor('admin.fieldsets.index'),
@@ -124,7 +139,7 @@ class FieldsetsController extends Controller
         $id   = $request->getParsedBody()['id'];
         $data = $request->getParsedBody()['data'];
 
-        if ($this->fieldsets->update($request->getParsedBody()['id'], Parser::decode($data, 'yaml'))) {
+        if ($this->fieldsets->update($request->getParsedBody()['id'], $this->parser->decode($data, 'yaml'))) {
             $this->flash->addMessage('success', __('admin_message_fieldset_saved'));
         } else {
             $this->flash->addMessage('error', __('admin_message_fieldset_was_not_saved'));

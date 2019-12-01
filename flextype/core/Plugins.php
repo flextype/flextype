@@ -14,6 +14,7 @@ use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\I18n\I18n;
 use RuntimeException;
 use function array_merge;
+use function array_replace_recursive;
 use function count;
 use function filemtime;
 use function is_array;
@@ -41,7 +42,7 @@ class Plugins
     public function __construct($flextype, $app)
     {
         $this->flextype = $flextype;
-        $this->locales  = Parser::decode(Filesystem::read(ROOT_DIR . '/flextype/config/locales.yaml'), 'yaml');
+        $this->locales  = $this->flextype['parser']->decode(Filesystem::read(ROOT_DIR . '/flextype/config/locales.yaml'), 'yaml');
     }
 
     /**
@@ -66,73 +67,118 @@ class Plugins
         // Set empty plugins item
         $this->flextype['registry']->set('plugins', []);
 
-        // Get Plugins List
-        $plugins_list = [];
+        // Set locale
+        $locale = $this->flextype['registry']->get('settings.locale');
 
-        foreach (Filesystem::listContents(PATH['plugins']) as $plugin) {
-            if ($plugin['type'] !== 'dir') {
-                continue;
-            }
+        // Get plugins list
+        $plugins_list = $this->getPluginsList();
 
-            $plugins_list[] = $plugin;
-        }
-
-        // Get plugins cache ID
+        // Get plugins Cache ID
         $plugins_cache_id = $this->getPluginsCacheID($plugins_list);
 
-        // If Plugins List isnt empty then create plugin cache ID
+        // If Plugins List isnt empty then continue
         if (! is_array($plugins_list) || count($plugins_list) <= 0) {
             return;
         }
 
-        // Get plugins list from cache or scan plugins folder and create new plugins cache item
+        // Get plugins from cache or scan plugins folder and create new plugins cache item
         if ($this->flextype['cache']->contains($plugins_cache_id)) {
             $this->flextype['registry']->set('plugins', $this->flextype['cache']->fetch($plugins_cache_id));
+
+            if ($this->flextype['cache']->contains($locale)) {
+                I18n::add($this->flextype['cache']->fetch($locale), $locale);
+            } else {
+                // Save plugins dictionary
+                $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
+                $this->flextype['cache']->save($locale, $dictionary[$locale]);
+            }
         } else {
-            // If Plugins List isnt empty
-            if (is_array($plugins_list) && count($plugins_list) > 0) {
-                // Init plugin configs
-                $plugins         = [];
-                $plugin_settings = [];
-                $plugin_manifest = [];
+            // Init plugin configs
+            $plugins                 = [];
+            $plugin_settings         = [];
+            $plugin_manifest         = [];
+            $default_plugin_settings = [];
+            $site_plugin_settings    = [];
+            $default_plugin_manifest = [];
+            $site_plugin_manifest    = [];
 
-                // Go through...
-                foreach ($plugins_list as $plugin) {
-                    if (Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml')) {
-                        if (($content = Filesystem::read($_plugin_settings)) === false) {
-                            throw new RuntimeException('Load file: ' . $_plugin_settings . ' - failed!');
-                        }
+            // Go through...
+            foreach ($plugins_list as $plugin) {
 
-                        $plugin_settings = Parser::decode($content, 'yaml');
-                    }
+                // Set plugin settings directory
+                $site_plugin_settings_dir     = PATH['config']['site'] . '/plugins/' . $plugin['dirname'];
 
-                    if (Filesystem::has($_plugin_manifest = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml')) {
-                        if (($content = Filesystem::read($_plugin_manifest)) === false) {
-                            throw new RuntimeException('Load file: ' . $_plugin_manifest . ' - failed!');
-                        }
+                // Set default plugin settings and manifest files
+                $default_plugin_settings_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml';
+                $default_plugin_manifest_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml';
 
-                        $plugin_manifest = Parser::decode($content, 'yaml');
-                    }
+                // Set site plugin settings and manifest files
+                $site_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $site_plugin_manifest_file = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
 
-                    $plugins[$plugin['dirname']] = array_merge($plugin_settings, $plugin_manifest);
+                // Create site plugin settings directory
+                ! Filesystem::has($site_plugin_settings_dir)  and Filesystem::createDir($site_plugin_settings_dir);
 
-                    // Set default plugin priority 0
-                    if (isset($plugins[$plugin['dirname']]['priority'])) {
-                        continue;
-                    }
+                // Create site plugin settings and manifest files
+                ! Filesystem::has($site_plugin_settings_file) and Filesystem::write($site_plugin_settings_file, '');
+                ! Filesystem::has($site_plugin_manifest_file) and Filesystem::write($site_plugin_manifest_file, '');
 
-                    $plugins[$plugin['dirname']]['priority'] = 0;
+                // Check if default plugin settings file exists
+                if (! Filesystem::has($default_plugin_settings_file)) throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin settings - failed!');
+
+                // Get default plugin settings content
+                $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
+                $default_plugin_settings              = $this->flextype['parser']->decode($default_plugin_settings_file_content, 'yaml');
+
+                // Get site plugin settings content
+                $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
+                if (trim($site_plugin_settings_file_content) === '') {
+                    $site_plugin_settings = [];
+                } else {
+                    $site_plugin_settings = $this->flextype['parser']->decode($site_plugin_settings_file_content, 'yaml');
                 }
 
-                // Sort plugins list by priority.
-                $plugins = Arr::sort($plugins, 'priority', 'DESC');
+                // Check if default plugin manifest file exists
+                if (! Filesystem::has($default_plugin_manifest_file)) RuntimeException('Load ' . $plugin['dirname'] . ' plugin manifest - failed!');
 
-                $this->flextype['registry']->set('plugins', $plugins);
-                $this->flextype['cache']->save($plugins_cache_id, $plugins);
+                // Get default plugin manifest content
+                $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
+                $default_plugin_manifest              = $this->flextype['parser']->decode($default_plugin_manifest_file_content, 'yaml');
+
+                // Get site plugin manifest content
+                $site_plugin_manifest_file_content = Filesystem::read($site_plugin_manifest_file);
+                if (trim($site_plugin_manifest_file_content) === '') {
+                    $site_plugin_manifest = [];
+                } else {
+                    $site_plugin_manifest = $this->flextype['parser']->decode($site_plugin_manifest_file_content, 'yaml');
+                }
+
+                // Merge plugin settings and manifest data
+                $plugins[$plugin['dirname']] = array_merge(
+                    array_replace_recursive($default_plugin_settings, $site_plugin_settings),
+                    array_replace_recursive($default_plugin_manifest, $site_plugin_manifest)
+                );
+
+                // Check if isset plugin priority
+                if (isset($plugins[$plugin['dirname']]['priority'])) {
+                    continue;
+                }
+
+                // Set default plugin priority = 0
+                $plugins[$plugin['dirname']]['priority'] = 0;
             }
-        }
 
-        $this->createPluginsDictionary($plugins_list);
+            // Sort plugins list by priority.
+            $plugins = Arr::sort($plugins, 'priority', 'DESC');
+
+            // Save plugins list
+            $this->flextype['registry']->set('plugins', $plugins);
+            $this->flextype['cache']->save($plugins_cache_id, $plugins);
+
+            // Save plugins dictionary
+            $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
+            $this->flextype['cache']->save($locale, $dictionary[$locale]);
+        }
 
         $this->includeEnabledPlugins($flextype, $app);
 
@@ -140,36 +186,33 @@ class Plugins
     }
 
     /**
-     * Create plugins dictionary
+     * Get plugins dictionary
      *
      * @param  array $plugins_list Plugins list
      *
      * @access protected
      */
-    private function createPluginsDictionary(array $plugins_list) : void
+    private function getPluginsDictionary(array $plugins_list, string $locale) : array
     {
-        if (! is_array($plugins_list) || count($plugins_list) <= 0) {
-            return;
-        }
+        foreach ($plugins_list as $plugin) {
+            $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
 
-        foreach ($this->locales as $locale => $locale_title) {
-            foreach ($plugins_list as $plugin) {
-                $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
-                if (! Filesystem::has($language_file)) {
-                    continue;
-                }
-
-                if (($content = Filesystem::read($language_file)) === false) {
-                    throw new RuntimeException('Load file: ' . $language_file . ' - failed!');
-                }
-
-                I18n::add(Parser::decode($content, 'yaml'), $locale);
+            if (! Filesystem::has($language_file)) {
+                continue;
             }
+
+            if (($content = Filesystem::read($language_file)) === false) {
+                throw new RuntimeException('Load file: ' . $language_file . ' - failed!');
+            }
+
+            I18n::add($this->flextype['parser']->decode($content, 'yaml'), $locale);
         }
+
+        return I18n::$dictionary;
     }
 
     /**
-     * Get plugins cache ID
+     * Get plugins Cache ID
      *
      * @param  array $plugins_list Plugins list
      *
@@ -183,12 +226,17 @@ class Plugins
         // Go through...
         if (is_array($plugins_list) && count($plugins_list) > 0) {
             foreach ($plugins_list as $plugin) {
-                if (! Filesystem::has($_plugin_settings = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml') or
-                    ! Filesystem::has($_plugin_manifest = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml')) {
-                    continue;
-                }
+                $default_plugin_settings_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml';
+                $default_plugin_manifest_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml';
+                $site_plugin_settings_file    = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $site_plugin_manifest_file    = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
 
-                $_plugins_cache_id .= filemtime($_plugin_settings) . filemtime($_plugin_manifest);
+                $f1 = Filesystem::has($default_plugin_settings_file) ? filemtime($default_plugin_settings_file) : '';
+                $f2 = Filesystem::has($default_plugin_manifest_file) ? filemtime($default_plugin_manifest_file) : '';
+                $f3 = Filesystem::has($site_plugin_settings_file) ? filemtime($site_plugin_settings_file) : '';
+                $f4 = Filesystem::has($site_plugin_manifest_file) ? filemtime($site_plugin_manifest_file) : '';
+
+                $_plugins_cache_id .= $f1 . $f2 . $f3 . $f4;
             }
         }
 
@@ -197,6 +245,27 @@ class Plugins
 
         // Return plugin cache id
         return $plugins_cache_id;
+    }
+
+    /**
+     * Get plugins list
+     *
+     * @access public
+     */
+    public function getPluginsList() : array
+    {
+        // Get Plugins List
+        $plugins_list = [];
+
+        foreach (Filesystem::listContents(PATH['plugins']) as $plugin) {
+            if ($plugin['type'] !== 'dir') {
+                continue;
+            }
+
+            $plugins_list[] = $plugin;
+        }
+
+        return $plugins_list;
     }
 
     /**

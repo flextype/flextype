@@ -11,9 +11,23 @@ namespace Flextype;
 
 use Twig_Extension;
 use Twig_SimpleFunction;
+use Twig_SimpleFilter;
 
 class JsonTwigExtension extends Twig_Extension
 {
+    /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * Constructor
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
+
     /**
      * Returns a list of functions to add to the existing list.
      *
@@ -28,18 +42,31 @@ class JsonTwigExtension extends Twig_Extension
     }
 
     /**
+     * Returns a list of filters to add to the existing list.
+     *
+     * @return array
+     */
+    public function getFilters() : array
+    {
+        return [
+            new Twig_SimpleFilter('json_decode', [$this, 'decode']),
+            new Twig_SimpleFilter('json_encode', [$this, 'encode']),
+        ];
+    }
+
+    /**
      * Encode JSON
      */
-    public function encode($input, int $encode_options = 0, int $encode_depth = 512) : string
+    public function encode($input) : string
     {
-        return JsonParser::encode($input, $encode_options, $encode_depth);
+        return $this->flextype['parser']->encode($input, 'json');
     }
 
     /**
      * Decode JSON
      */
-    public function decode(string $input, bool $decode_assoc = true, int $decode_depth = 512, int $decode_options = 0)
+    public function decode(string $input, bool $cache = true)
     {
-        return JsonParser::decode($input, $decode_assoc, $decode_depth, $decode_options);
+        return $this->flextype['parser']->decode($input, 'json', $cache);
     }
 }

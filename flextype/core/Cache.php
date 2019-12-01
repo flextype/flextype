@@ -357,6 +357,18 @@ class Cache
     }
 
     /**
+     * Delete item from the chache
+     */
+    public function delete(string $id) : void
+    {
+        if (! $this->flextype['registry']->get('settings.cache.enabled')) {
+            return;
+        }
+
+        $this->driver->delete($id);
+    }
+
+    /**
      * Clear Cache
      */
     public function clear(string $id) : void
