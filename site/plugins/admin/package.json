@@ -1,6 +1,6 @@
 {
     "name": "admin",
-    "version": "0.9.5",
+    "version": "0.9.6",
     "devDependencies": {
         "animate.css": "~3.7.2",
         "bootstrap": "~4.4.1",

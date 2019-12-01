@@ -1,6 +1,6 @@
 {
   "name": "Default",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "devDependencies": {
     "bootstrap": "~4.4.1",
     "del": "^5.0.0",
