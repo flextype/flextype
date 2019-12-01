@@ -1,7 +1,6 @@
 title: Default
 default_field: title
 icon: 'far fa-file-alt'
-extends: base
 sections:
   main:
     title: admin_main
