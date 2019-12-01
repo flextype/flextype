@@ -200,7 +200,7 @@
                   is_current_path('admin.templates.rename') or
                   is_current_path('admin.templates.add') %}
             <div class="entry-editor-heading">
-                / {{ theme }} {% if id %} / {{ id }}{% endif %}
+                / <a href="{{ path_for('admin.templates.index') }}?theme={{ theme }}">{{ theme }}</a> {% if id %} / {{ id }}{% endif %}
             </div>
             {% endif %}
 
