@@ -5,6 +5,7 @@
 
 * **admin-plugin:** fix issue with saving entry source #251
 * **admin-plugin:** fix file browser styles
+* **admin-plugin:** fix breadcrumbs for theme templates
 * **core:** Entries API - fix Collection Undefined Index(s) for fetchAll method #243
 * **core:** fix broken logic for form inputs without labels #274
 * **core:** fix default and site settings loading #297
