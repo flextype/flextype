@@ -193,60 +193,59 @@ class EntriesController extends Controller
         // Check if entry exists then try to create
         if (!$this->entries->has($id)) {
 
+            // Check if we have fieldset for this entry
             if ($this->fieldsets->has($data['fieldset'])) {
 
                 // Get fieldset
                 $fieldset = $this->fieldsets->fetch($data['fieldset']);
 
                 // We need to check if template for current fieldset is exists
-                // if template is not exist then default template will be used!
+                // if template is not exist then `default` template will be used!
                 $template_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/templates/' . $data['fieldset'] . '.html';
                 $template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
 
                 // Init entry data
-                $data_from_post = [];
-                $_data_from_post = [];
-                $data_result = [];
+                $data_from_post          = [];
+                $data_from_post_override = [];
+                $data_result             = [];
 
                 // Define data values based on POST data
-                $data_from_post['title']        = $data['title'];
-                $data_from_post['template']     = $template;
-                $data_from_post['fieldset']     = $data['fieldset'];
+                $data_from_post['title']    = $data['title'];
+                $data_from_post['template'] = $template;
+                $data_from_post['fieldset'] = $data['fieldset'];
 
-                // Predefine data values based on selected fieldset
-                foreach ($fieldset['sections'] as $key => $section) {
-                    foreach ($section['fields'] as $element => $property) {
+                // Predefine data values based on fieldset default values
+                foreach ($fieldset['sections'] as $section_name => $section_body) {
+                    foreach ($section_body['fields'] as $field => $properties) {
+
+                        // Ingnore fields where property: heading
+                        if ($properties['type'] == 'heading') {
+                            continue;
+                        }
 
                         // Get values from $data_from_post
-                        if (isset($data_from_post[$element])) {
-                            $value = $data_from_post[$element];
+                        if (isset($data_from_post[$field])) {
+                            $value = $data_from_post[$field];
 
                         // Get values from fieldsets predefined field values
-                        } elseif (isset($property['value'])) {
-                            $value = $property['value'];
+                        } elseif (isset($properties['value'])) {
+                            $value = $properties['value'];
 
                         // or set empty value
                         } else {
                             $value = '';
                         }
 
-                        $_data_from_post[$element] = $value;
+                        $data_from_post_override[$field] = $value;
 
                     }
                 }
 
                 // Merge data
-                if(count($_data_from_post) > 0) {
-                    $data_result = array_replace_recursive($_data_from_post, $data_from_post);
+                if (count($data_from_post_override) > 0) {
+                    $data_result = array_replace_recursive($data_from_post_override, $data_from_post);
                 } else {
                     $data_result = $data_from_post;
-                }
-
-                if ($this->entries->create($id, $data_result)) {
-                    $this->clearEntryCounter($parent_entry_id);
-                    $this->flash->addMessage('success', __('admin_message_entry_created'));
-                } else {
-                    $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
                 }
 
             } else {
