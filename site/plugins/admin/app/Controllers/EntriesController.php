@@ -248,6 +248,13 @@ class EntriesController extends Controller
                     $data_result = $data_from_post;
                 }
 
+                if ($this->entries->create($id, $data_result)) {
+                    $this->clearEntryCounter($parent_entry_id);
+                    $this->flash->addMessage('success', __('admin_message_entry_created'));
+                } else {
+                    $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
+                }
+
             } else {
                 $this->flash->addMessage('error', __('admin_message_fieldset_not_found'));
             }
