@@ -112,7 +112,7 @@ $flextype['cache'] = static function ($container) use ($flextype) {
 };
 
 /**
- * Add cache service to Flextype container
+ * Add parser service to Flextype container
  */
 $flextype['parser'] = static function ($container) use ($flextype) {
     return new Parser($flextype);
