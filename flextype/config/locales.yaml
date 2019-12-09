@@ -222,6 +222,9 @@ hy_AM:
 id:
   name: Indonesian
   nativeName: Bahasa Indonesia
+id_ID:
+  name: Indonesian
+  nativeName: Bahasa Indonesia
 is:
   name: Icelandic
   nativeName: íslenska
