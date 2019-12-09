@@ -6,7 +6,7 @@
     <tbody>
         {% for entry in entries_list %}
            <tr>
-               <td style="width: 50px; padding-right: 10px; text-align:center;">
+               <td style="width: 50px; padding-right: 10px; text-align:center;" class="{% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
                    {% if entry.fieldset %}
                        {% set fieldset_path = PATH_FIELDSETS ~ '/' ~ entry.fieldset ~ '.yaml' %}
                        {% if filesystem_has(fieldset_path) %}
@@ -23,7 +23,7 @@
                        <i class="far fa-file-alt"></i>
                    {% endif %}
                </td>
-               <td style="padding-left:0px;">
+               <td style="padding-left:0px;" class="{% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
                    {% if cache.contains(entry.slug ~ '_counter') %}
                         {% set _entries_length = cache.fetch(entry.slug ~ '_counter') %}
                    {% else %}
