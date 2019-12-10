@@ -210,9 +210,11 @@ class EntriesController extends Controller
                 $data_result             = [];
 
                 // Define data values based on POST data
-                $data_from_post['title']    = $data['title'];
-                $data_from_post['template'] = $template;
-                $data_from_post['fieldset'] = $data['fieldset'];
+                $data_from_post['title']      = $data['title'];
+                $data_from_post['template']   = $template;
+                $data_from_post['fieldset']   = $data['fieldset'];
+                $data_from_post['visibility'] = $data['visibility'];
+                $data_from_post['routable']   = isset($data['routable']) ? (bool) $data['routable'] : false;
 
                 // Predefine data values based on fieldset default values
                 foreach ($fieldset['sections'] as $section_name => $section_body) {
