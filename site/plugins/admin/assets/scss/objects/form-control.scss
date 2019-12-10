@@ -508,17 +508,19 @@ textarea.form-control.code-editor {
     padding: .25rem 1.1rem;
     font-size: 14px;
 
-    > i {
-        width: 24px;
+    > svg {
         font-size: 14px;
+        margin-right: 8px;
+        width: 24px!important;
     }
 }
 
 .nav-pills {
     .nav-link {
-        > i {
-            width: 24px;
+        > svg {
             font-size: 14px;
+            margin-right: 8px;
+            width: 24px!important;
         }
 
     }

@@ -83,7 +83,8 @@ gulp.task('js', function(){
                    'node_modules/messenger-hubspot/build/js/messenger.min.js',
                    'node_modules/messenger-hubspot/build/js/messenger-theme-flat.js',
                    'node_modules/clipboard/dist/clipboard.min.js',
-                   'node_modules/bs-custom-file-input/dist/bs-custom-file-input.min.js'
+                   'node_modules/bs-custom-file-input/dist/bs-custom-file-input.min.js',
+                   'node_modules/@fortawesome/fontawesome-free/js/all.min.js'
                 ])
     .pipe(sourcemaps.init())
     .pipe(concat('admin-build.min.js'))
