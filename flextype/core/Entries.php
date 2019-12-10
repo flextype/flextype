@@ -480,7 +480,7 @@ class Entries
                     $data['published_by'] = (Session::exists('uuid') ? Session::get('uuid') : '');
                     $data['created_by']   = (Session::exists('uuid') ? Session::get('uuid') : '');
 
-                    if (isset($data['routable']) && is_array($data['routable'])) {
+                    if (isset($data['routable']) && is_bool($data['routable'])) {
                         $data['routable'] = $data['routable'];
                     } else {
                         $data['routable'] = true;
