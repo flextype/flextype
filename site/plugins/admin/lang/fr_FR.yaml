@@ -306,3 +306,4 @@ admin_help_text_for_fieldsets_hide: "Masquer les champs de champs du type d'entr
 admin_help_text_for_entry_label: "Titre de l'entrée."
 admin_help_text_for_entry_name: "Nom unique d'entrée en minuscules uniquement."
 admin_help_text_for_entry_type: "Type d'entrée basé sur Fieldset."
+admin_message_fieldset_not_found: "Fieldset not found"
