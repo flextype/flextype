@@ -306,3 +306,4 @@ admin_help_text_for_fieldsets_hide: "Feldsätze bei der Eintragstyp Auswahl ausb
 admin_help_text_for_entry_label: "Eintragstitel."
 admin_help_text_for_entry_name: "Eindeutiger Namen des Eintrags in Kleinbuchstaben."
 admin_help_text_for_entry_type: "Eintragstyp basierend auf Feldsatz."
+admin_message_fieldset_not_found: "Fieldset not found"
