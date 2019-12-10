@@ -61,7 +61,7 @@
                      </button>
                      <div class="dropdown-menu dropdown-menu-lg-right">
                        <a class="dropdown-item" href="{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor"><i class="fas fa-edit"></i> {{ tr('admin_edit') }}</a>
-                       <a class="dropdown-item" href="{{ path_for('admin.entries.add') }}?id={{ entry.slug }}"><i class="fas fa-plus-circle"></i> {{ tr('admin_add') }}</a>
+                       <a class="dropdown-item" href="javascript:;" onclick="$('.js-add-entry input[name=id]').attr('value', '{{ entry.slug }}');" data-toggle="modal" data-target="#selectEntryTypeModal"><i class="fas fa-plus-circle"></i> {{ tr('admin_add') }}</a>
                        <a class="dropdown-item" href="javascript:;"
                           onclick="event.preventDefault();
                                    document.getElementById('duplicate-id-{{ entry.slug }}').submit();"><i class="fas fa-copy"></i> {{ tr('admin_duplicate') }}</a>
@@ -93,7 +93,7 @@
 <div class="empty-list-message">
     <i class="far fa-newspaper"></i>
     <h3>{{ tr('admin_you_have_not_created_any_entries_yet') }}</h3>
-    <a href="{{ path_for('admin.entries.add') }}?id={{ entry.slug }}" class="btn">{{ tr('admin_create_new_entry') }}</a>
+    <a href="javascript:;" data-toggle="modal" data-target="#selectEntryTypeModal" class="btn">{{ tr('admin_create_new_entry') }}</a>
 </div>
 {% endif %}
 
@@ -110,11 +110,17 @@
           <ul class="fieldset-selector row">
               {% for key, fieldset in fieldsets %}
                   <li class="col-md-4">
-                      <a href="{{ path_for('admin.entries.add') }}?id={{ id_current }}&type={{ key }}" class="fieldset-item">
+                      <a href="javascript:;" onclick="event.preventDefault();
+                                document.getElementById('add-entry-{{ key }}').submit();" class="fieldset-item">
                           <div class="fieldset-thumbnail">{% if fieldset.icon %}<i class="{{ fieldset.icon }}"></i>{% else %}<i class="far fa-file-alt"></i>{% endif %}</div>
                           <div class="fieldset-title">{{ fieldset.title }}</div>
                       </a>
                   </li>
+                  <form id="add-entry-{{ key }}" action="{{ path_for('admin.entries.selectEntryTypeProcess') }}" method="POST" style="display: none;" class='js-add-entry'>
+                      {{ csrf() }}
+                      <input type="hidden" name="type" value="{{ key }}">
+                      <input type="hidden" name="id" value="{{ id_current }}">
+                  </form>
               {% endfor %}
           </ul>
       </div>

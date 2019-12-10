@@ -26,6 +26,7 @@ $app->group('/' . $admin_route, function () use ($app) : void {
     $app->post('/entries/edit', 'EntriesController:editProcess')->setName('admin.entries.editProcess');
     $app->get('/entries/add', 'EntriesController:add')->setName('admin.entries.add');
     $app->post('/entries/add', 'EntriesController:addProcess')->setName('admin.entries.addProcess');
+    $app->post('/entries/select-entry-type', 'EntriesController:selectEntryTypeProcess')->setName('admin.entries.selectEntryTypeProcess');
     $app->get('/entries/move', 'EntriesController:move')->setName('admin.entries.move');
     $app->post('/entries/move', 'EntriesController:moveProcess')->setName('admin.entries.moveProcess');
     $app->get('/entries/rename', 'EntriesController:rename')->setName('admin.entries.rename');
