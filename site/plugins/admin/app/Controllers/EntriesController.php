@@ -260,13 +260,14 @@ class EntriesController extends Controller
                 } else {
                     $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
                 }
-
             } else {
                 $this->flash->addMessage('error', __('admin_message_fieldset_not_found'));
             }
-
-            return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $parent_entry_id);
+        } else {
+            $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
         }
+
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $parent_entry_id);
     }
 
     /**
