@@ -785,3 +785,14 @@ ul.messenger-theme-flat .messenger-message-slot.messenger-first.messenger-last .
 .bootstrap-datetimepicker-widget table th {
     border-color: #ced4da;
 }
+
+.fieldset-selector {
+    > li {
+        > a {
+            &:hover {
+                color: $navbar-item-text-color;
+                background: $navbar-background-color;
+            }
+        }
+    }
+}

@@ -69,6 +69,30 @@ class EntriesController extends Controller
             $parts = [0 => ''];
         }
 
+        // Init Fieldsets
+        $fieldsets = [];
+
+        // Get fieldsets files
+        $fieldsets_list = Filesystem::listContents(PATH['site'] . '/fieldsets/');
+
+        // If there is any fieldset file then go...
+        if (count($fieldsets_list) > 0) {
+            foreach ($fieldsets_list as $fieldset) {
+                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
+                    $fieldset_content = $this->parser->decode(Filesystem::read($fieldset['path']), 'yaml');
+                    if (isset($fieldset_content['sections']) &&
+                        isset($fieldset_content['sections']['main']) &&
+                        isset($fieldset_content['sections']['main']['fields']) &&
+                        isset($fieldset_content['sections']['main']['fields']['title'])) {
+                        if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
+                            continue;
+                        }
+                        $fieldsets[$fieldset['basename']] = $fieldset_content;
+                    }
+                }
+            }
+        }
+
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/content/entries/index.html',
@@ -76,6 +100,7 @@ class EntriesController extends Controller
                             'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]),
                             'id_current' => $this->getEntryID($query),
                             'menu_item' => 'entries',
+                            'fieldsets' => $fieldsets,
                             'parts' => $parts,
                             'i' => count($parts),
                             'last' => Arr::last($parts),
@@ -88,9 +113,9 @@ class EntriesController extends Controller
                                         ],
                             'buttons'  => [
                                         'create' => [
-                                                'link'       => $this->router->pathFor('admin.entries.add') . '?id=' . $this->getEntryID($query),
+                                                'link'       => 'javascript:;',
                                                 'title'      => __('admin_create_new_entry'),
-                                                'attributes' => ['class' => 'float-right btn']
+                                                'attributes' => ['class' => 'float-right btn', 'data-toggle' => 'modal', 'data-target' => '#selectEntryTypeModal']
                                             ]
                                         ]
                             ]
@@ -117,40 +142,19 @@ class EntriesController extends Controller
             $parts = [0 => ''];
         }
 
-        // Init Fieldsets
-        $fieldsets = [];
+        $type = isset($query['type']) ? $query['type']: '';
 
-        // Get fieldsets files
-        $fieldsets_list = Filesystem::listContents(PATH['site'] . '/fieldsets/');
-
-        // If there is any fieldset file then go...
-        if (count($fieldsets_list) > 0) {
-            foreach ($fieldsets_list as $fieldset) {
-                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = $this->parser->decode(Filesystem::read($fieldset['path']), 'yaml');
-                    if (isset($fieldset_content['sections']) &&
-                        isset($fieldset_content['sections']['main']) &&
-                        isset($fieldset_content['sections']['main']['fields']) &&
-                        isset($fieldset_content['sections']['main']['fields']['title'])) {
-                        if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
-                            continue;
-                        }
-                        $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
-                    }
-                }
-            }
-        }
         return $this->view->render(
             $response,
             'plugins/admin/views/templates/content/entries/add.html',
             [
                             'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'title', 'direction' => 'asc']]),
                             'menu_item' => 'entries',
-                            'fieldsets' => $fieldsets,
                             'current_id' => $this->getEntryID($query),
                             'parts' => $parts,
                             'i' => count($parts),
                             'last' => Arr::last($parts),
+                            'type' => $type,
                             'links' => [
                                         'entries' => [
                                             'link' => $this->router->pathFor('admin.entries.index'),

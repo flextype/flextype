@@ -96,4 +96,29 @@
     <a href="{{ path_for('admin.entries.add') }}?id={{ entry.slug }}" class="btn">{{ tr('admin_create_new_entry') }}</a>
 </div>
 {% endif %}
+
+<div class="modal fade" id="selectEntryTypeModal" tabindex="-1" role="dialog" aria-labelledby="selectEntryTypeModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="selectEntryTypeModalLabel">{{ tr('admin_select_entry_type') }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <ul class="fieldset-selector row">
+              {% for key, fieldset in fieldsets %}
+                  <li class="col-md-4">
+                      <a href="{{ path_for('admin.entries.add') }}?id={{ id_current }}&type={{ key }}" class="fieldset-item">
+                          <div class="fieldset-thumbnail">{% if fieldset.icon %}<i class="{{ fieldset.icon }}"></i>{% else %}<i class="far fa-file-alt"></i>{% endif %}</div>
+                          <div class="fieldset-title">{{ fieldset.title }}</div>
+                      </a>
+                  </li>
+              {% endfor %}
+          </ul>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
