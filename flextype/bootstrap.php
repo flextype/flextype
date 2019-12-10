@@ -164,14 +164,14 @@ foreach (Filesystem::listContents(ROOT_DIR . '/flextype/shortcodes') as $shortco
 }
 
 /**
- * Init themes
- */
-$flextype['themes']->init($flextype, $app);
-
-/**
  * Init plugins
  */
 $flextype['plugins']->init($flextype, $app);
+
+/**
+ * Init themes
+ */
+$flextype['themes']->init($flextype, $app);
 
 /**
  * Run application
