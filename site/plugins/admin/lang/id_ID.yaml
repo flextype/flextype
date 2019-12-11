@@ -289,7 +289,7 @@ admin_help_text_for_settings_content_date_format_label: "Date format used by Fle
 admin_help_text_for_settings_content_display_date_format_label: "Display date format used by Flextype."
 admin_help_text_for_settings_content_character_label: "Internal character encoding."
 admin_help_text_for_settings_content_locale_label: "Locale that'll be used by the Flextype."
-admin_help_text_for_settings_media_image_quality_label: "Image quality. Use values between 0 and 100."
+admin_help_text_for_settings_media_image_quality_label: "Kualitas gambar. Isi nilai antara 0 dan 100."
 admin_help_text_for_settings_media_image_width_label: "Image width in pixels."
 admin_help_text_for_settings_media_image_height_label: "Image height in pixels."
 admin_help_text_for_settings_media_accept_file_types_label: "List of accept file types."
