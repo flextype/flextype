@@ -547,7 +547,7 @@ textarea.form-control.code-editor {
 
         > a {
             display: block;
-            padding: 18px;
+            padding: 16px;
 
             &:hover {
                 color: #b7b9bd;
@@ -557,6 +557,10 @@ textarea.form-control.code-editor {
     }
 }
 
+.fieldset-title {
+    font-size: 14px;
+}
+
 .fieldset-thumbnail {
-    font-size: 42px;
+    font-size: 40px;
 }
