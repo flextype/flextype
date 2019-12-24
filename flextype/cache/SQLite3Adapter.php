@@ -14,7 +14,7 @@ class SQLite3Adapter implements CacheAdapterInterface
         $this->flextype = $flextype;
     }
 
-    public function getDriver(): object
+    public function getDriver() : object
     {
         $cache_directory = PATH['cache'] . '/doctrine/';
 

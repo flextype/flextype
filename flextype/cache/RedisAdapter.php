@@ -14,7 +14,7 @@ class RedisAdapter implements CacheAdapterInterface
         $this->flextype = $flextype;
     }
 
-    public function getDriver(): object
+    public function getDriver() : object
     {
         $redis    = new Redis();
         $socket   = $this->flextype['registry']->get('settings.cache.redis.socket', false);

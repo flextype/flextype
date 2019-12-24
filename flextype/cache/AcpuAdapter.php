@@ -12,7 +12,7 @@ class AcpuAdapter implements CacheAdapterInterface
         $this->flextype = $flextype;   
     }
 
-    public function getDriver(): object
+    public function getDriver() : object
     {
         return new AcpuCache();
     }

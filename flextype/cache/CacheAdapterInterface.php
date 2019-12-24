@@ -19,5 +19,5 @@ interface CacheAdapterInterface
      * 
      * @return object
      */
-    public function getDriver(): object;
+    public function getDriver() : object;
 }

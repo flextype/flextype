@@ -12,7 +12,7 @@ class ZendDataCacheAdapter implements CacheAdapterInterface
         $this->flextype = $flextype;
     }
 
-    public function getDriver(): object
+    public function getDriver() : object
     {
         return new ZendDataCache();
     }
