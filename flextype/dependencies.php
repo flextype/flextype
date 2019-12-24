@@ -43,6 +43,8 @@ use Slim\Views\TwigExtension;
 use Thunder\Shortcode\ShortcodeFacade;
 use Twig\Extension\DebugExtension;
 use function date;
+use function ucfirst;
+use function extension_loaded;
 
 /**
  * Supply a custom callable resolver, which resolves PSR-15 middlewares.
@@ -102,6 +104,28 @@ $flextype['slugify'] = static function ($container) {
  */
 $flextype['flash'] = static function ($container) {
     return new Messages();
+};
+
+/**
+ * Adds the cache adapter to the Flextype container
+ */
+$flextype['cache_adapter'] = static function ($container) use ($flextype) {
+    $driver_name = $container['registry']->get('settings.cache.driver');
+
+    if (! $driver_name || $driver_name === 'auto') {
+        if (extension_loaded('apcu')) {
+            $driver_name = 'apcu';
+        } elseif (extension_loaded('wincache')) {
+            $driver_name = 'wincache';
+        } else {
+            $driver_name = 'filesystem';
+        }
+    }
+    
+    $class = ucfirst($driver_name);
+    $adapter = "Flextype\\Cache\\{$class}Adapter";
+
+    return new $adapter($flextype);
 };
 
 /**
