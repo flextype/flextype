@@ -1,6 +1,6 @@
 //
 // Flextype Gulp.js
-// (c) Sergey Romanenko <http://romanenko.digital>
+// (c) Sergey Romanenko <http://digital.flextype.org>
 //
 
 const { series, src, dest } = require('gulp');

@@ -1,6 +1,6 @@
 //
 // Flextype Admin Gulp.js
-// (c) Sergey Romanenko <http://romanenko.digital>
+// (c) Sergey Romanenko <http://digital.flextype.org>
 //
 
 var Promise = require("es6-promise").Promise,
