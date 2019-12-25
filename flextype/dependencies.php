@@ -121,7 +121,7 @@ $flextype['cache_adapter'] = static function ($container) use ($flextype) {
             $driver_name = 'filesystem';
         }
     }
-    
+
     $class = ucfirst($driver_name);
     $adapter = "Flextype\\Cache\\{$class}Adapter";
 

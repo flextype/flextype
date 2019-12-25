@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flextype\Cache;
 
 use Doctrine\Common\Cache\WinCacheCache;

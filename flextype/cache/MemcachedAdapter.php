@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flextype\Cache;
 
 use Doctrine\Common\Cache\MemcachedCache;
@@ -20,7 +22,7 @@ class MemcachedAdapter implements CacheAdapterInterface
             $this->flextype['registry']->get('settings.cache.memcached.server', 'localhost'),
             $this->flextype['registry']->get('settings.cache.memcache.port', 11211)
         );
-        
+
         $driver = new MemcachedCache();
         $driver->setMemcached($memcached);
 
