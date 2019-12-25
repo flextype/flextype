@@ -493,13 +493,13 @@ textarea.form-control.code-editor {
     opacity: 0;
 }
 
-.dropdown-toggle::after {
+.dot.dropdown-toggle::after {
     padding: 0;
     margin: 0;
     border: none;
 }
 
-.dropdown-toggle {
+.dot.dropdown-toggle {
     border: none!important;
     background: transparent!important;
 }
@@ -524,14 +524,6 @@ textarea.form-control.code-editor {
         }
 
     }
-}
-
-.show > .dropdown-toggle {
-    border: none!important;
-    background: transparent!important;
-    color: inherit!important;
-    outline: none!important;
-    box-shadow: none!important;
 }
 
 .fieldset-selector {
