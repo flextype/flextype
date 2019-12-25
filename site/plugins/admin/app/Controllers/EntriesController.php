@@ -283,7 +283,12 @@ class EntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $parent_entry_id);
+        if (isset($data['create-and-edit'])) {
+            return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $data['id'] . '&type=editor');
+        } else {
+            return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $parent_entry_id);
+        }
+
     }
 
     /**
