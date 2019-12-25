@@ -70,7 +70,6 @@ Flextype is open source, community driven project, and maintained by community!
 - [Github](https://github.com/flextype)
 - [Discord](https://flextype.org/en/discord)
 - [Twitter](https://twitter.com/getflextype)
-- [Forum](http://forum.flextype.org)
 - [Vkontakte](https://vk.com/flextype)
 
 ## CONTRIBUTE
