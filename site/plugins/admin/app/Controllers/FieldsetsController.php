@@ -70,16 +70,17 @@ class FieldsetsController extends Controller
 
     public function addProcess($request, $response)
     {
-        $data = $request->getParsedBody();
+        // Get data from POST
+        $post_data = $request->getParsedBody();
 
-        Arr::delete($data, 'csrf_name');
-        Arr::delete($data, 'csrf_value');
+        Arr::delete($post_data, 'csrf_name');
+        Arr::delete($post_data, 'csrf_value');
 
-        $id   = $this->slugify->slugify($data['id']);
-        $data = ['title' => $data['title'],
+        $id   = $this->slugify->slugify($post_data['id']);
+        $data = ['title' => $post_data['title'],
                  'default_field' => 'title',
-                 'icon' => $data['icon'],
-                 'hide' => (bool) $data['hide'],
+                 'icon' => $post_data['icon'],
+                 'hide' => (bool) $post_data['hide'],
                  'sections' => [
                    'main' => [
                        'title' => 'admin_main',
@@ -98,8 +99,11 @@ class FieldsetsController extends Controller
         } else {
             $this->flash->addMessage('error', __('admin_message_fieldset_was_not_created'));
         }
-
-        return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
+        if (isset($post_data['create-and-edit'])) {
+            return $response->withRedirect($this->router->pathFor('admin.fieldsets.edit') . '?id=' . $id);
+        } else {
+            return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
+        }
     }
 
     public function edit($request, $response)

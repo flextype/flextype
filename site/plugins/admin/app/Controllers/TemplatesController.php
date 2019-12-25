@@ -108,12 +108,14 @@ class TemplatesController extends Controller
      */
     public function addProcess(Request $request, Response $response) : Response
     {
-        $type  = $request->getParsedBody()['type'];
-        $theme = $request->getParsedBody()['theme'];
+        // Get data from POST
+        $post_data = $request->getParsedBody();
 
-        $id = $this->slugify->slugify($request->getParsedBody()['id']) . '.html';
+        $id    = $post_data['id'];
+        $type  = $post_data['type'];
+        $theme = $post_data['theme'];
 
-        $file = PATH['themes'] . '/' . $theme . '/' . $this->_type_location($type) . $id;
+        $file = PATH['themes'] . '/' . $theme . '/' . $this->_type_location($type) . $this->slugify->slugify($id) . '.html';
 
         if (! Filesystem::has($file)) {
             if (Filesystem::write(
@@ -128,7 +130,11 @@ class TemplatesController extends Controller
             $this->flash->addMessage('error', __('admin_message_' . $type . '_was_not_created'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.templates.index') . '?theme=' . $theme);
+        if (isset($post_data['create-and-edit'])) {
+            return $response->withRedirect($this->router->pathFor('admin.templates.edit') . '?theme=' . $theme . '&type=' . $type . '&id=' . $id);
+        } else {
+            return $response->withRedirect($this->router->pathFor('admin.templates.index'));
+        }
     }
 
     /**

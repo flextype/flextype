@@ -87,15 +87,22 @@ class SnippetsController extends Controller
      */
     public function addProcess(Request $request, Response $response) : Response
     {
-        $id = $this->slugify->slugify($request->getParsedBody()['id']);
+        // Get data from POST
+        $post_data = $request->getParsedBody();
 
-        if ($this->snippets->create($id, '')) {
+        $id = $post_data['id'];
+
+        if ($this->snippets->create($this->slugify->slugify($request->getParsedBody()['id']), '')) {
             $this->flash->addMessage('success', __('admin_message_snippet_created'));
         } else {
             $this->flash->addMessage('error', __('admin_message_snippet_was_not_created'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
+        if (isset($post_data['create-and-edit'])) {
+            return $response->withRedirect($this->router->pathFor('admin.snippets.edit') . '?id=' . $id);
+        } else {
+            return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
+        }
     }
 
     /**

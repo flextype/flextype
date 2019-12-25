@@ -288,7 +288,6 @@ class EntriesController extends Controller
         } else {
             return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $parent_entry_id);
         }
-
     }
 
     /**
