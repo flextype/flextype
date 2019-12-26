@@ -24,7 +24,15 @@ use function trim;
  */
 class UsersController extends Controller
 {
-    public function profile($request, $response)
+    /**
+     * Profie page
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function profile($request, $response) : Response
     {
         return $this->container->get('view')->render(
             $response,
@@ -37,6 +45,8 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
+     *
+     * @return Response
      */
     public function login(Request $request, Response $response) : Response
     {
@@ -61,6 +71,8 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
+     *
+     * @return Response
      */
     public function loginProcess(Request $request, Response $response) : Response
     {
@@ -91,6 +103,8 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
+     *
+     * @return Response
      */
     public function installation(Request $request, Response $response) : Response
     {
@@ -115,6 +129,8 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
+     *
+     * @return Response
      */
     public function installationProcess(Request $request, Response $response) : Response
     {
@@ -162,6 +178,8 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
+     *
+     * @return Response
      */
     public function logoutProcess(Request $request, Response $response) : Response
     {
@@ -193,5 +211,4 @@ class UsersController extends Controller
 
         return $users;
     }
-
 }
