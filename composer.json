@@ -18,8 +18,9 @@
     "require": {
         "php": ">=7.2.0",
         "ext-json": "*",
-        "ext-mbstring": "*",
         "ext-gd": "*",
+        "ext-mbstring": "*",
+        "ext-fileinfo": "*",
 
         "doctrine/cache": "~1.10.0",
         "doctrine/collections": "~1.6.4",
