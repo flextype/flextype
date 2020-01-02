@@ -126,9 +126,10 @@ include_once 'dependencies.php';
 include_once 'middlewares.php';
 
 /**
- * Include Routes (web)
+ * Include Routes (web, api)
  */
 include_once 'routes/web.php';
+include_once 'routes/api.php';
 
 
 /**
