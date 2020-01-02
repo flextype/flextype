@@ -13,26 +13,38 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * Validate auth token
+ * Validate access token
  */
-function validate_auth_token($request, $flextype) : bool
+function validate_access_token($request, $flextype) : bool
 {
-    return isset($request->getQueryParams()['auth_token']) && $request->getQueryParams()['auth_token'] == $flextype->registry->get('settings.auth_token') ? true : false;
+    return isset($request->getQueryParams()['access_token']) && $request->getQueryParams()['access_token'] == $flextype->registry->get('settings.access_token') ? true : false;
 }
 
-$app->get('/api/entries', function (Request $request, Response $response, array $args) use ($flextype) {
+/**
+ * Fetch entry(entries)
+ *
+ * endpoint: /api/entries
+ */
+$app->get('/api/entries', function (Request $request, Response $response) use ($flextype) {
 
     // Get Query Params
     $query = $request->getQueryParams();
 
-    // Validate auth token
-    if (!validate_auth_token($request, $flextype)) {
-        return $response->withJson(["detail" => "Incorrect authentication credentials."], 404);
+    // Set variables
+    $id   = $query['id'];
+    $args = isset($query['args']) ? $query['args'] : null;
+
+    // Validate access token
+    if (!validate_access_token($request, $flextype)) {
+        return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
     }
 
-    // Response data
-    $data = ['s'];
+    // Fetch entry
+    $data = $flextype['entries']->fetch($id, $args);
+
+    // Set response code
+    $response_code = (count($data) > 0) ? 200 : 404 ;
 
     // Return response
-    return $response->withJson($data);
+    return $response->withJson($data, $response_code);
 });
