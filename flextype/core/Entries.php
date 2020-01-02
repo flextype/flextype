@@ -105,7 +105,7 @@ class Entries
     }
 
     /**
-     * Fetch entry(enries)
+     * Fetch entry(entries)
      *
      * @param string     $id   Entry ID
      * @param array|null $args Query arguments.
