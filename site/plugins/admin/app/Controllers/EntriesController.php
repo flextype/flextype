@@ -4,11 +4,7 @@ namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
-use Flextype\Component\Date\Date;
-use Flextype\Component\Form\Form;
 use Flextype\Component\Arr\Arr;
-use Flextype\Component\Text\Text;
-use Flextype\Component\Registry\Registry;
 use function Flextype\Component\I18n\__;
 use Respect\Validation\Validator as v;
 use Intervention\Image\ImageManagerStatic as Image;
