@@ -19,6 +19,7 @@
         "php": ">=7.2.0",
         "ext-json": "*",
         "ext-mbstring": "*",
+        "ext-gd": "*",
 
         "doctrine/cache": "~1.10.0",
         "doctrine/collections": "~1.6.4",
