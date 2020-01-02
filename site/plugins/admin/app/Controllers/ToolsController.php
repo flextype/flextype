@@ -51,7 +51,7 @@ class ToolsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/system/tools/information.html',
+            'plugins/admin/templates/system/tools/information.html',
             [
                 'menu_item' => 'tools',
                 'php_uname' => php_uname(),
@@ -90,7 +90,7 @@ class ToolsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/system/tools/cache.html',
+            'plugins/admin/templates/system/tools/cache.html',
             [
                 'menu_item' => 'tools',
                 'doctrine_size' => Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/doctrine')),
@@ -138,7 +138,7 @@ class ToolsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/system/tools/registry.html',
+            'plugins/admin/templates/system/tools/registry.html',
             [
                 'menu_item' => 'tools',
                 'registry_dump' => $this->dotArray($this->registry->dump()),

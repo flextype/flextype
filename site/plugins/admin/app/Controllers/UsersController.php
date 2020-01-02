@@ -36,7 +36,7 @@ class UsersController extends Controller
     {
         return $this->container->get('view')->render(
             $response,
-            'plugins/admin/views/templates/users/profile.html'
+            'plugins/admin/templates/users/profile.html'
         );
     }
 
@@ -59,7 +59,7 @@ class UsersController extends Controller
         if (count($users) > 0) {
             return $this->container->get('view')->render(
                 $response,
-                'plugins/admin/views/templates/users/login.html'
+                'plugins/admin/templates/users/login.html'
             );
         }
 
@@ -120,7 +120,7 @@ class UsersController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/users/installation.html'
+            'plugins/admin/templates/users/installation.html'
         );
     }
 

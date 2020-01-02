@@ -84,7 +84,7 @@ class SettingsController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/system/settings/index.html',
+            'plugins/admin/templates/system/settings/index.html',
             [
                 'timezones' => Date::timezones(),
                 'date_formats' => $this->dateFormats(),

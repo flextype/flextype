@@ -95,7 +95,7 @@ class EntriesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/content/entries/index.html',
+            'plugins/admin/templates/content/entries/index.html',
             [
                             'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]),
                             'id_current' => $this->getEntryID($query),
@@ -146,7 +146,7 @@ class EntriesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/content/entries/add.html',
+            'plugins/admin/templates/content/entries/add.html',
             [
                             'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'title', 'direction' => 'asc']]),
                             'menu_item' => 'entries',
@@ -337,7 +337,7 @@ class EntriesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/content/entries/type.html',
+            'plugins/admin/templates/content/entries/type.html',
             [
                             'fieldset' => $entry['fieldset'],
                             'fieldsets' => $fieldsets,
@@ -442,7 +442,7 @@ class EntriesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/content/entries/move.html',
+            'plugins/admin/templates/content/entries/move.html',
             [
                             'menu_item' => 'entries',
                             'entries_list' => $entries_list,
@@ -520,7 +520,7 @@ class EntriesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/content/entries/rename.html',
+            'plugins/admin/templates/content/entries/rename.html',
             [
                             'name_current' => Arr::last(explode("/", $this->getEntryID($query))),
                             'entry_path_current' => $this->getEntryID($query),
@@ -657,7 +657,7 @@ class EntriesController extends Controller
         if ($type == 'source') {
             return $this->view->render(
                 $response,
-                'plugins/admin/views/templates/content/entries/source.html',
+                'plugins/admin/templates/content/entries/source.html',
                 [
                         'parts' => $parts,
                         'i' => count($parts),
@@ -700,7 +700,7 @@ class EntriesController extends Controller
         } elseif ($type == 'media') {
             return $this->view->render(
                 $response,
-                'plugins/admin/views/templates/content/entries/media.html',
+                'plugins/admin/templates/content/entries/media.html',
                 [
                         'parts' => $parts,
                         'i' => count($parts),
@@ -743,7 +743,7 @@ class EntriesController extends Controller
 
             return $this->view->render(
                 $response,
-                'plugins/admin/views/templates/content/entries/edit.html',
+                'plugins/admin/templates/content/entries/edit.html',
                 [
                         'parts' => $parts,
                         'i' => count($parts),

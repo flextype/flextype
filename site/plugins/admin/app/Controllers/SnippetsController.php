@@ -28,7 +28,7 @@ class SnippetsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/snippets/index.html',
+            'plugins/admin/templates/extends/snippets/index.html',
             [
                 'menu_item' => 'snippets',
                 'snippets_list' => $this->snippets->fetchAll(),
@@ -60,7 +60,7 @@ class SnippetsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/snippets/add.html',
+            'plugins/admin/templates/extends/snippets/add.html',
             [
                 'menu_item' => 'snippets',
                 'links' =>  [
@@ -117,7 +117,7 @@ class SnippetsController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/snippets/edit.html',
+            'plugins/admin/templates/extends/snippets/edit.html',
             [
                 'menu_item' => 'snippets',
                 'id' => $id,
@@ -175,7 +175,7 @@ class SnippetsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/snippets/rename.html',
+            'plugins/admin/templates/extends/snippets/rename.html',
             [
                 'menu_item' => 'snippets',
                 'id_current' => $request->getQueryParams()['id'],

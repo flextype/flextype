@@ -28,7 +28,7 @@ class PluginsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/plugins/index.html',
+            'plugins/admin/templates/extends/plugins/index.html',
             [
                 'plugins_list' => $this->registry->get('plugins'),
                 'menu_item' => 'plugins',
@@ -121,7 +121,7 @@ class PluginsController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/plugins/information.html',
+            'plugins/admin/templates/extends/plugins/information.html',
             [
                 'menu_item' => 'plugins',
                 'id' => $id,
@@ -181,7 +181,7 @@ class PluginsController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/plugins/settings.html',
+            'plugins/admin/templates/extends/plugins/settings.html',
             [
                 'menu_item' => 'plugins',
                 'id' => $id,

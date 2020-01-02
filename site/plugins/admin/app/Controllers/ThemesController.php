@@ -30,7 +30,7 @@ class ThemesController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/themes/index.html',
+            'plugins/admin/templates/extends/themes/index.html',
             [
                 'menu_item' => 'themes',
                 'themes_list' => $this->registry->get('themes'),
@@ -168,7 +168,7 @@ class ThemesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/themes/information.html',
+            'plugins/admin/templates/extends/themes/information.html',
             [
                 'menu_item' => 'themes',
                 'id' => $id,
@@ -227,7 +227,7 @@ class ThemesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/themes/settings.html',
+            'plugins/admin/templates/extends/themes/settings.html',
             [
                 'menu_item' => 'themes',
                 'id' => $id,

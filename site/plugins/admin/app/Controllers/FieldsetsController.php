@@ -22,7 +22,7 @@ class FieldsetsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/fieldsets/index.html',
+            'plugins/admin/templates/extends/fieldsets/index.html',
             [
                 'menu_item' => 'fieldsets',
                 'fieldsets_list' => $this->fieldsets->fetchAll(),
@@ -48,7 +48,7 @@ class FieldsetsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/fieldsets/add.html',
+            'plugins/admin/templates/extends/fieldsets/add.html',
             [
                 'menu_item' => 'fieldsets',
                 'fieldsets_list' => $this->fieldsets->fetchAll(),
@@ -110,7 +110,7 @@ class FieldsetsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/fieldsets/edit.html',
+            'plugins/admin/templates/extends/fieldsets/edit.html',
             [
                 'menu_item' => 'fieldsets',
                 'id' => $request->getQueryParams()['id'],
@@ -156,7 +156,7 @@ class FieldsetsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/fieldsets/rename.html',
+            'plugins/admin/templates/extends/fieldsets/rename.html',
             [
                 'menu_item' => 'fieldsets',
                 'id' => $request->getQueryParams()['id'],

@@ -33,7 +33,7 @@ class TemplatesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/themes/templates/index.html',
+            'plugins/admin/templates/extends/themes/templates/index.html',
             [
                 'menu_item' => 'themes',
                 'theme' => $theme,
@@ -75,7 +75,7 @@ class TemplatesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/themes/templates/add.html',
+            'plugins/admin/templates/extends/themes/templates/add.html',
             [
                 'menu_item' => 'themes',
                 'theme' => $theme,
@@ -151,7 +151,7 @@ class TemplatesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/themes/templates/edit.html',
+            'plugins/admin/templates/extends/themes/templates/edit.html',
             [
                 'menu_item' => 'themes',
                 'theme' => $theme,
@@ -221,7 +221,7 @@ class TemplatesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/themes/templates/rename.html',
+            'plugins/admin/templates/extends/themes/templates/rename.html',
             [
                 'menu_item' => 'themes',
                 'theme' => $theme,
