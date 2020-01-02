@@ -20,6 +20,7 @@
         "ext-json": "*",
         "ext-gd": "*",
         "ext-dom": "*",
+        "ext-spl": "*",
         "ext-mbstring": "*",
         "ext-fileinfo": "*",
 
