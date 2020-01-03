@@ -18,14 +18,14 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 function validate_delivery_token($request, $flextype) : bool
 {
     if (isset($request->getQueryParams()['delivery_token'])) {
-        if (in_array($request->getQueryParams()['delivery_token'], $flextype->registry->get('settings.delivery_tokens'))) {
-            return true;
-        } else {
-            return false;
+        if ($flextype->registry->get('settings.delivery_tokens') !== null && is_array($flextype->registry->get('settings.delivery_tokens'))) {
+            if (in_array($request->getQueryParams()['delivery_token'], $flextype->registry->get('settings.delivery_tokens'))) {
+                return true;
+            }
         }
-    } else {
-        return false;
     }
+
+    return false;
 }
 
 /**
