@@ -228,3 +228,6 @@ slugify:
 # - driver: gd or imagick
 image:
   driver: gd
+
+# Delivery token
+delivery_token: 
