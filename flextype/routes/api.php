@@ -13,11 +13,11 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * Validate access token
+ * Validate delivery token
  */
-function validate_access_token($request, $flextype) : bool
+function validate_delivery_token($request, $flextype) : bool
 {
-    return isset($request->getQueryParams()['access_token']) && $request->getQueryParams()['access_token'] == $flextype->registry->get('settings.access_token') ? true : false;
+    return isset($request->getQueryParams()['delivery_token']) && $request->getQueryParams()['delivery_token'] == $flextype->registry->get('settings.delivery_token') ? true : false;
 }
 
 /**
@@ -34,8 +34,8 @@ $app->get('/api/entries', function (Request $request, Response $response) use ($
     $id   = $query['id'];
     $args = isset($query['args']) ? $query['args'] : null;
 
-    // Validate access token
-    if (!validate_access_token($request, $flextype)) {
+    // Validate delivery token
+    if (!validate_delivery_token($request, $flextype)) {
         return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
     }
 
