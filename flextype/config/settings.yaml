@@ -229,5 +229,5 @@ slugify:
 image:
   driver: gd
 
-# Delivery token
-delivery_token: 
+# Delivery tokens
+delivery_tokens:
