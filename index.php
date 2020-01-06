@@ -39,6 +39,7 @@ define('PATH', [
     'snippets'  => ROOT_DIR . '/site/snippets',
     'fieldsets' => ROOT_DIR . '/site/fieldsets',
     'tokens'    => ROOT_DIR . '/site/tokens',
+    'accounts'  => ROOT_DIR . '/site/accounts',
     'config'    => [
         'default' => ROOT_DIR . '/flextype/config',
         'site'    => ROOT_DIR . '/site/config',
