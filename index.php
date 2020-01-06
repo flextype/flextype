@@ -42,7 +42,7 @@ define('PATH', [
         'default' => ROOT_DIR . '/flextype/config',
         'site'    => ROOT_DIR . '/site/config',
     ],
-    'cache'     => ROOT_DIR . '/site/cache',
+    'cache'     => ROOT_DIR . '/var/cache',
 ]);
 
 /**
