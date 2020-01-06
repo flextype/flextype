@@ -99,7 +99,7 @@ $app->group('/' . $admin_route, function () use ($app) : void {
 
     // ApiController
     $app->get('/api', 'ApiController:index')->setName('admin.api.index');
-    $app->get('/api/tokens', 'ApiController:tokens')->setName('admin.api_tokens.index');
+    $app->get('/api/tokens', 'ApiController:tokensIndex')->setName('admin.api_tokens.index');
     $app->get('/api/tokens/add', 'ApiController:add')->setName('admin.api_tokens.add');
     $app->post('/api/tokens/add', 'ApiController:addProcess')->setName('admin.api_tokens.addProcess');
     $app->get('/api/tokens/edit', 'ApiController:edit')->setName('admin.api_tokens.edit');
