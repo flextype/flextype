@@ -129,7 +129,7 @@ include_once 'middlewares.php';
  * Include Routes (web, api)
  */
 include_once 'routes/web.php';
-include_once 'routes/api.php';
+include_once 'routes/api/delivery.php';
 
 
 /**
