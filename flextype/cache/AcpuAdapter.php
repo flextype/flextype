@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Flextype\Cache;
 
-use Psr\Container\ContainerInterface;
 use Doctrine\Cache\Common\AcpuCache;
+use Psr\Container\ContainerInterface;
 
 class AcpuAdapter implements CacheAdapterInterface
 {

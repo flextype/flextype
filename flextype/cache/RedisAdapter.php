@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Flextype\Cache;
 
+use Doctrine\Common\Cache\RedisCache;
 use Psr\Container\ContainerInterface;
 use Redis;
 use RedisException;
-use Doctrine\Common\Cache\RedisCache;
 
 class RedisAdapter implements CacheAdapterInterface
 {

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Flextype\Cache;
 
-use Flextype\Component\Filesystem\Filesystem;
-use SQLite3;
 use Doctrine\Common\Cache\SQLite3Cache;
+use Flextype\Component\Filesystem\Filesystem;
 use Psr\Container\ContainerInterface;
+use SQLite3;
 
 class SQLite3Adapter implements CacheAdapterInterface
 {
