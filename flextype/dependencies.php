@@ -68,13 +68,11 @@ $flextype['csrf'] = static function ($container) {
 };
 
 /**
- * Add logger
+ * Add logger service to Flextype container
  */
 $flextype['logger'] = static function ($container) {
     $logger       = new Logger('flextype');
-    $file_handler = new StreamHandler(PATH['site'] . '/logs/' . date('Y-m-d') . '.log');
-    $logger->pushHandler($file_handler);
-
+    $logger->pushHandler(new StreamHandler(PATH['logs'] . '/' . date('Y-m-d') . '.log'));
     return $logger;
 };
 

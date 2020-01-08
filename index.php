@@ -45,6 +45,7 @@ define('PATH', [
         'site'    => ROOT_DIR . '/site/config',
     ],
     'cache'     => ROOT_DIR . '/var/cache',
+    'logs'      => ROOT_DIR . '/var/logs',
 ]);
 
 /**
