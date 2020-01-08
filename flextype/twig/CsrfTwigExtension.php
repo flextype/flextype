@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Slim\Csrf\Guard;
 use Twig_Extension;
 use Twig_Extension_GlobalsInterface;
 use Twig_SimpleFunction;

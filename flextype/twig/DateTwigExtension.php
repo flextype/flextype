@@ -87,12 +87,14 @@ class DateTwigExtension extends Twig_Extension
                 } else {
                     $js_format .= '\'' . $php_format[$i];
                 }
+
                 $escaping = true;
             } else {
                 if ($escaping) {
                     $js_format .= "'";
                     $escaping   = false;
                 }
+
                 if (isset($symbols_matching[$char])) {
                     $js_format .= $symbols_matching[$char];
                 } else {
