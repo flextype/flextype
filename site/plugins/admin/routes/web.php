@@ -104,8 +104,6 @@ $app->group('/' . $admin_route, function () use ($app) : void {
     $app->post('/api/tokens/add', 'ApiController:addProcess')->setName('admin.api_tokens.addProcess');
     $app->get('/api/tokens/edit', 'ApiController:edit')->setName('admin.api_tokens.edit');
     $app->post('/api/tokens/edit', 'ApiController:editProсess')->setName('admin.api_tokens.addProcess');
-    $app->get('/api/tokens/rename', 'ApiController:rename')->setName('admin.api_tokens.rename');
-    $app->post('/api/tokens/rename', 'ApiController:renameProсess')->setName('admin.api_tokens.renameProcess');
     $app->post('/api/tokens/delete', 'ApiController:deleteProсess')->setName('admin.api_tokens.deleteProcess');
 
 })->add(new AuthMiddleware($flextype));
