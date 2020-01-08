@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use const DIRECTORY_SEPARATOR;
-use const PHP_VERSION;
 use function define;
 use function getcwd;
 use function is_file;
 use function sprintf;
 use function str_replace;
 use function version_compare;
+use const DIRECTORY_SEPARATOR;
+use const PHP_VERSION;
 
 /**
  * Define the application minimum supported PHP version.
