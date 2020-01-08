@@ -25,6 +25,7 @@ $flextype->registry->set('admin_navigation.extends.snippets', ['title' => '<i cl
 $flextype->registry->set('admin_navigation.extends.plugins', ['title' => '<i class="fas fa-plug"></i>' . __('admin_plugins'), 'link' => $flextype->router->pathFor('admin.plugins.index'), 'attributes' => ['class' => 'nav-link']]);
 $flextype->registry->set('admin_navigation.settings.tools', ['title' => '<i class="fas fa-toolbox"></i>' . __('admin_tools'), 'link' => $flextype->router->pathFor('admin.tools.index'), 'attributes' => ['class' => 'nav-link']]);
 $flextype->registry->set('admin_navigation.settings.settings', ['title' => '<i class="fas fa-cog"></i>' . __('admin_settings'), 'link' => $flextype->router->pathFor('admin.settings.index'), 'attributes' => ['class' => 'nav-link']]);
+$flextype->registry->set('admin_navigation.settings.api', ['title' => '<i class="fas fa-network-wired"></i>' . __('admin_api'), 'link' => $flextype->router->pathFor('admin.api.index'), 'attributes' => ['class' => 'nav-link']]);
 
 // Add Global Vars Admin Twig Extension
 $flextype->view->addExtension(new GlobalVarsAdminTwigExtension($flextype));
@@ -71,4 +72,8 @@ $flextype['UsersController'] = static function ($container) {
 
 $flextype['ToolsController'] = static function ($container) {
     return new ToolsController($container);
+};
+
+$flextype['ApiController'] = static function ($container) {
+    return new ApiController($container);
 };
