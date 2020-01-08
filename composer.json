@@ -52,7 +52,7 @@
         "league/glide": "~1.5.0",
 
         "respect/validation": "~1.1.31",
-        "monolog/monolog": "~2.0.1",
+        "monolog/monolog": "~2.0.2",
         "cocur/slugify": "~3.2.0",
         "thunderer/shortcode": "~0.7.2",
         "ramsey/uuid": "~3.8.0",
@@ -86,6 +86,7 @@
     "require-dev": {
         "doctrine/coding-standard": "~6.0.0",
         "victorjonsson/markdowndocs": "dev-master",
-        "phpstan/phpstan": "^0.11.19"
+        "phpstan/phpstan": "^0.11.19",
+        "symfony/var-dumper": "^4.4"
     }
 }
