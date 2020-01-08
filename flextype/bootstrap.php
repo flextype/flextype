@@ -158,10 +158,17 @@ if ($flextype['registry']->get('settings.errors.display')) {
 date_default_timezone_set($flextype['registry']->get('settings.timezone'));
 
 /**
- * Get and Include default shortcodes
+ * Init shortocodes
+ *
+ * Load Flextype Shortcodes extensions from directory /flextype/shortcodes/ based on settings.shortcodes.extensions array
  */
-foreach (Filesystem::listContents(ROOT_DIR . '/flextype/shortcodes') as $shortcode) {
-    include_once $shortcode['path'];
+$shortcodes_extensions = $flextype['registry']->get('settings.shortcodes.extensions');
+
+foreach($shortcodes_extensions as $shortcodes_extension) {
+    $shortcodes_extension_file_path = ROOT_DIR . '/flextype/shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';
+    if (file_exists($shortcodes_extension_file_path)) {
+        include_once $shortcodes_extension_file_path;
+    }
 }
 
 /**

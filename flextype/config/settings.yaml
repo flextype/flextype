@@ -231,3 +231,9 @@ slugify:
 # - driver: gd or imagick
 image:
   driver: gd
+
+# Shortcodes
+#
+# - extensions: Flextype Shortcodes Extension to load.
+shortcodes:
+  extensions: ['BaseUrl', 'Entries', 'Registry', 'Snippets']
