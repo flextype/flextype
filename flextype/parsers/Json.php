@@ -10,11 +10,11 @@ declare(strict_types=1);
 namespace Flextype;
 
 use RuntimeException;
+use function json_decode;
+use function json_encode;
 use const JSON_PRETTY_PRINT;
 use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
-use function json_decode;
-use function json_encode;
 
 class Json
 {
