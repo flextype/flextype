@@ -100,9 +100,9 @@ class SnippetsController extends Controller
 
         if (isset($post_data['create-and-edit'])) {
             return $response->withRedirect($this->router->pathFor('admin.snippets.edit') . '?id=' . $id);
-        } else {
-            return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
         }
+
+        return $response->withRedirect($this->router->pathFor('admin.snippets.index'));
     }
 
     /**
