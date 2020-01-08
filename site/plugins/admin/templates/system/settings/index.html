@@ -80,6 +80,11 @@
                             <input type="text" id="systemSettingsSystemCharset" name="charset" value="{{ registry.settings.charset }}" class="form-control" required="required">
                             <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_content_character_label') }}</small>
                         </div>
+                        <div class="form-group">
+                            <label for="shortcodes[extensions]">{{ tr('admin_shortcodes_extensions') }}</label>
+                            <input id="systemSettingsShortcodesExtensions" name="shortcodes[extensions]" class="form-control" data-role="tagsinput" value="{{ registry.settings.shortcodes.extensions|join(',') }}" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_shortcodes_extensions_label') }}</small>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
