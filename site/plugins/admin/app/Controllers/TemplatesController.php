@@ -132,9 +132,9 @@ class TemplatesController extends Controller
 
         if (isset($post_data['create-and-edit'])) {
             return $response->withRedirect($this->router->pathFor('admin.templates.edit') . '?theme=' . $theme . '&type=' . $type . '&id=' . $id);
-        } else {
-            return $response->withRedirect($this->router->pathFor('admin.templates.index'));
         }
+
+        return $response->withRedirect($this->router->pathFor('admin.templates.index'));
     }
 
     /**
