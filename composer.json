@@ -55,7 +55,7 @@
         "monolog/monolog": "~2.0.2",
         "cocur/slugify": "~4.0.0",
         "thunderer/shortcode": "~0.7.3",
-        "ramsey/uuid": "~3.8.0",
+        "ramsey/uuid": "~3.9.2",
         "symfony/yaml": "~4.4.0",
 
         "erusev/parsedown": "~1.7.3",
