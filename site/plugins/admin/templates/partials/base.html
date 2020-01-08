@@ -206,8 +206,7 @@
             {% if is_current_path('admin.api.index') or
                   is_current_path('admin.api_tokens.index') or
                   is_current_path('admin.api_tokens.add') or
-                  is_current_path('admin.api_tokens.edit') or
-                  is_current_path('admin.api_tokens.rename') %}
+                  is_current_path('admin.api_tokens.edit') %}
             <div class="entry-editor-heading">
                 / <a href="{{ path_for('admin.api_tokens.index') }}?api={{ api }}">{{ api }}</a>
             </div>
