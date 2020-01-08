@@ -31,8 +31,6 @@ class ToolsController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function index(Request $request, Response $response) : Response
     {
@@ -44,8 +42,6 @@ class ToolsController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function information(Request $request, Response $response) : Response
     {
@@ -83,8 +79,6 @@ class ToolsController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function cache(Request $request, Response $response) : Response
     {
@@ -131,8 +125,6 @@ class ToolsController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function registry(Request $request, Response $response) : Response
     {
@@ -168,8 +160,6 @@ class ToolsController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function clearCacheProcess(Request $request, Response $response) : Response
     {
@@ -187,8 +177,6 @@ class ToolsController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function clearCacheAllProcess(Request $request, Response $response) : Response
     {
