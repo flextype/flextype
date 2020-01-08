@@ -135,6 +135,7 @@ class SettingsController extends Controller
         Arr::set($data, 'slugify.trim', ($data['slugify']['trim'] === '1'));
         Arr::set($data, 'slugify.lowercase', ($data['slugify']['lowercase'] === '1'));
         Arr::set($data, 'cache.lifetime', (int) $data['cache']['lifetime']);
+        Arr::set($data, 'twig.extensions', explode(',', $data['twig']['extensions']));
         Arr::set($data, 'entries.media.upload_images_quality', (int) $data['entries']['media']['upload_images_quality']);
         Arr::set($data, 'entries.media.upload_images_width', (int) $data['entries']['media']['upload_images_width']);
         Arr::set($data, 'entries.media.upload_images_height', (int) $data['entries']['media']['upload_images_height']);

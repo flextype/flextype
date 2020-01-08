@@ -234,6 +234,13 @@
                             <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_twig_templating_charset_label') }}</small>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="twig[extensions]">{{ tr('admin_twig_extensions') }}</label>
+                            <input id="systemSettingsTwigExtensions" name="twig[extensions]" class="form-control" data-role="tagsinput" value="{{ registry.settings.twig.extensions|join(',') }}" required="required">
+                            <small class="form-text text-muted">{{ tr('admin_help_text_for_settings_twig_extensions_label') }}</small>
+                        </div>
+                    </div>
                 </div>
             </div>
 
