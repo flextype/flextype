@@ -41,7 +41,7 @@ class SiteController extends Controller
         $uri = $args['uri'];
 
         // Is JSON Format
-        $is_json = (isset($query['format']) && $query['format'] == 'json') ? true : false;
+        $is_json = isset($query['format']) && $query['format'] === 'json';
 
         // If uri is empty then it is main entry else use entry uri
         if ($uri === '/') {
@@ -61,13 +61,13 @@ class SiteController extends Controller
             // Get 404 page if entry visibility is draft or hidden and if routable is false
             if ((isset($entry_body['visibility']) && ($entry_body['visibility'] === 'draft' || $entry_body['visibility'] === 'hidden')) ||
                 (isset($entry_body['routable']) && ($entry_body['routable'] === false))) {
-                $entry = $this->error404();
+                $entry              = $this->error404();
                 $is_entry_not_found = true;
             } else {
                 $entry = $entry_body;
             }
         } else {
-            $entry = $this->error404();
+            $entry              = $this->error404();
             $is_entry_not_found = true;
         }
 
@@ -103,13 +103,13 @@ class SiteController extends Controller
      *
      * @access public
      */
-     public function error404()
-     {
-         return [
-                  'title'       => $this->registry->get('settings.entries.error404.title'),
-                  'description' => $this->registry->get('settings.entries.error404.description'),
-                  'content'     => $this->registry->get('settings.entries.error404.content'),
-                  'template'    => $this->registry->get('settings.entries.error404.template')
-                ];
-     }
+    public function error404() : array
+    {
+        return [
+            'title'       => $this->registry->get('settings.entries.error404.title'),
+            'description' => $this->registry->get('settings.entries.error404.description'),
+            'content'     => $this->registry->get('settings.entries.error404.content'),
+            'template'    => $this->registry->get('settings.entries.error404.template'),
+        ];
+    }
 }
