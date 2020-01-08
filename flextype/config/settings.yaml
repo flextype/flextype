@@ -186,11 +186,14 @@ http_version: '1.1'
 # - charset:     The charset used by the templates.
 #
 # - cache:       Set false to disable caching.
+#
+# - extensions   Flextype Twig Extension to load.
 twig:
   auto_reload: true
   cache: true
   debug: false
   charset: "UTF-8"
+  extensions: ['Cache', 'Entries', 'Emitter', 'Flash', 'I18n', 'Json', 'Yaml', 'Parser', 'Markdown', 'Filesystem', 'Date', 'Assets', 'Csrf', 'Shortcodes', 'Snippets', 'GlobalVars']
 
 # Slugify
 #

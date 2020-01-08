@@ -253,53 +253,18 @@ $flextype['view'] = static function ($container) {
     // Add Twig Debug Extension
     $view->addExtension(new DebugExtension());
 
-    // Add Cache Twig Extension
-    $view->addExtension(new CacheTwigExtension($container));
+    // Load Flextype Twig extensions from directory /flextype/twig/ based on settings.twig.extensions array
+    $twig_extensions = $container['registry']->get('settings.twig.extensions');
 
-    // Add Entries Twig Extension
-    $view->addExtension(new EntriesTwigExtension($container));
+    foreach($twig_extensions as $twig_extension) {
 
-    // Add Emitter Twig Extension
-    $view->addExtension(new EmitterTwigExtension($container));
+        $twig_extension_class_name = $twig_extension . 'TwigExtension';
+        $twig_extension_class_name_with_namespace = 'Flextype\\' . $twig_extension . 'TwigExtension';
 
-    // Add Flash Twig Extension
-    $view->addExtension(new FlashTwigExtension($container));
-
-    // Add I18n Twig Extension
-    $view->addExtension(new I18nTwigExtension());
-
-    // Add Json Twig Extension
-    $view->addExtension(new JsonTwigExtension($container));
-
-    // Add Yaml Twig Extension
-    $view->addExtension(new YamlTwigExtension($container));
-
-    // Add Parser Twig Extension
-    $view->addExtension(new ParserTwigExtension($container));
-
-    // Add Markdown Twig Extension
-    $view->addExtension(new MarkdownTwigExtension($container));
-
-    // Add Filesystem Twig Extension
-    $view->addExtension(new FilesystemTwigExtension());
-
-    // Add Date Twig Extension
-    $view->addExtension(new DateTwigExtension());
-
-    // Add Assets Twig Extension
-    $view->addExtension(new AssetsTwigExtension());
-
-    // Add Csrf Twig Extension
-    $view->addExtension(new CsrfTwigExtension($container->get('csrf')));
-
-    // Add Global Vars Twig Extension
-    $view->addExtension(new GlobalVarsTwigExtension($container));
-
-    // Add Global Shortcodes Twig Extension
-    $view->addExtension(new ShortcodesTwigExtension($container));
-
-    // Add Global Snippets Twig Extension
-    $view->addExtension(new SnippetsTwigExtension($container));
+        if (file_exists(ROOT_DIR . '/flextype/twig/' . $twig_extension_class_name . '.php')) {
+            $view->addExtension(new $twig_extension_class_name_with_namespace($container));
+        }
+    }
 
     // Return view
     return $view;
