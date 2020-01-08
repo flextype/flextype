@@ -9,12 +9,14 @@ use Flextype\Component\Session\Session;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Ramsey\Uuid\Uuid;
-use const PASSWORD_BCRYPT;
 use function count;
+use function date;
 use function Flextype\Component\I18n\__;
 use function password_hash;
 use function password_verify;
+use function time;
 use function trim;
+use const PASSWORD_BCRYPT;
 
 /**
  * @property View $view
@@ -29,10 +31,8 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
-    public function profile($request, $response) : Response
+    public function profile(Request $request, Response $response) : Response
     {
         return $this->container->get('view')->render(
             $response,
@@ -45,8 +45,6 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function login(Request $request, Response $response) : Response
     {
@@ -71,8 +69,6 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function loginProcess(Request $request, Response $response) : Response
     {
@@ -103,8 +99,6 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function installation(Request $request, Response $response) : Response
     {
@@ -129,8 +123,6 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function installationProcess(Request $request, Response $response) : Response
     {
@@ -138,7 +130,6 @@ class UsersController extends Controller
         $data = $request->getParsedBody();
 
         if (! Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $this->slugify->slugify($data['username']) . '.yaml')) {
-
             // Generate UUID
             $uuid = Uuid::uuid4()->toString();
 
@@ -150,17 +141,16 @@ class UsersController extends Controller
 
             // Create admin account
             if (Filesystem::write(
-                        PATH['site'] . '/accounts/' . $data['username'] . '.yaml',
-                        $this->parser->encode([
-                            'username' => $this->slugify->slugify($data['username']),
-                            'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
-                            'email' => $data['email'],
-                            'role'  => 'admin',
-                            'state' => 'enabled',
-                            'uuid' => $uuid,
-                        ], 'yaml')
-                    )) {
-
+                PATH['site'] . '/accounts/' . $data['username'] . '.yaml',
+                $this->parser->encode([
+                    'username' => $this->slugify->slugify($data['username']),
+                    'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
+                    'email' => $data['email'],
+                    'role'  => 'admin',
+                    'state' => 'enabled',
+                    'uuid' => $uuid,
+                ], 'yaml')
+            )) {
                 // Update default flextype entries
                 $this->entries->update('home', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
 
@@ -178,8 +168,6 @@ class UsersController extends Controller
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
-     *
-     * @return Response
      */
     public function logoutProcess(Request $request, Response $response) : Response
     {
