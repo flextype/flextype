@@ -456,7 +456,9 @@ $switch-transition: .2s all !default;
     font-size: .875rem;
 
     padding: 8px 12px;
-    height: 40px;
+    margin-bottom: 6px;
+    height: auto;
+    min-height: 40px;
     box-shadow: none;
 }
 
@@ -483,7 +485,9 @@ $switch-transition: .2s all !default;
     background-color: #3a3f4a;
     border: 1px solid black;
     border-radius: .25rem;
-    padding: 3px 8px 3px 3px;
+    padding: 0 8px 0 7px;
+    margin-bottom: 6px;
+    display: inline-block;
 }
 
 textarea.form-control.code-editor {
