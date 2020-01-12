@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use DateTime;
 use Flextype\Component\Arr\Arr;
 use Flextype\Component\Date\Date;
 use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use function array_merge;
+use function explode;
 use function Flextype\Component\I18n\__;
 
 /**
@@ -155,19 +157,17 @@ class SettingsController extends Controller
      *
      * @return array
      */
-    public function dateFormats()
+    public function dateFormats() : array
     {
-        $now = new \DateTime();
+        $now = new DateTime();
 
-        $date_formats = [
+        return [
             'd-m-Y H:i' => $now->format('d-m-Y H:i'),
             'Y-m-d H:i' => $now->format('Y-m-d H:i'),
             'm/d/Y h:i a' => $now->format('m/d/Y h:i a'),
             'H:i d-m-Y' => $now->format('H:i d-m-Y'),
             'h:i a m/d/Y' => $now->format('h:i a m/d/Y'),
         ];
-
-        return $date_formats;
     }
 
     /**
@@ -177,16 +177,14 @@ class SettingsController extends Controller
      */
     public function displayDateFormats() : array
     {
-        $now = new \DateTime();
+        $now = new DateTime();
 
-        $date_formats = [
+        return [
             'F jS \\a\\t g:ia' => $now->format('F jS \\a\\t g:ia'),
             'l jS \\of F g:i A' => $now->format('l jS \\of F g:i A'),
             'D, d M Y G:i:s' => $now->format('m/d/Y h:i a'),
             'd-m-y G:i' => $now->format('d-m-y G:i'),
             'jS M Y' => $now->format('jS M Y'),
         ];
-
-        return $date_formats;
     }
 }
