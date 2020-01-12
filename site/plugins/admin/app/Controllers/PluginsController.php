@@ -8,7 +8,10 @@ use Flextype\Component\Arr\Arr;
 use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use function array_merge;
+use function array_replace_recursive;
 use function Flextype\Component\I18n\__;
+use function trim;
 
 /**
  * @property View $view
