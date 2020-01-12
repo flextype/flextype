@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Flextype\Component\Arr\Arr;
-use Respect\Validation\Validator as v;
 use function date;
 use function Flextype\Component\I18n\__;
 
@@ -77,33 +76,36 @@ class FieldsetsController extends Controller
         Arr::delete($post_data, 'csrf_value');
 
         $id   = $this->slugify->slugify($post_data['id']);
-        $data = ['title' => $post_data['title'],
-                 'default_field' => 'title',
-                 'icon' => $post_data['icon'],
-                 'hide' => (bool) $post_data['hide'],
-                 'sections' => [
-                   'main' => [
-                       'title' => 'admin_main',
-                       'fields' => [
-                           'title' => [
-                               'title' => 'admin_title',
-                               'type' => 'text',
-                               'size' => '12'
-                           ],
-                       ],
-                   ],
-                ]];
+        $data = [
+            'title' => $post_data['title'],
+            'default_field' => 'title',
+            'icon' => $post_data['icon'],
+            'hide' => (bool) $post_data['hide'],
+            'sections' => [
+                'main' => [
+                    'title' => 'admin_main',
+                    'fields' => [
+                        'title' => [
+                            'title' => 'admin_title',
+                            'type' => 'text',
+                            'size' => '12',
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         if ($this->fieldsets->create($id, $data)) {
             $this->flash->addMessage('success', __('admin_message_fieldset_created'));
         } else {
             $this->flash->addMessage('error', __('admin_message_fieldset_was_not_created'));
         }
+
         if (isset($post_data['create-and-edit'])) {
             return $response->withRedirect($this->router->pathFor('admin.fieldsets.edit') . '?id=' . $id);
-        } else {
-            return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
         }
+
+        return $response->withRedirect($this->router->pathFor('admin.fieldsets.index'));
     }
 
     public function edit($request, $response)
