@@ -251,7 +251,7 @@ class ApiController extends Controller
             $this->flash->addMessage('error', __('admin_message_' . $post_data['api'] . '_api_token_was_not_updated'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_tokens.index') . '?api=' . $data['api']);
+        return $response->withRedirect($this->router->pathFor('admin.api_tokens.index') . '?api=' . $post_data['api']);
     }
 
     /**

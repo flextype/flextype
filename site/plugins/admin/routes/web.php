@@ -103,7 +103,7 @@ $app->group('/' . $admin_route, function () use ($app) : void {
     $app->get('/api/tokens/add', 'ApiController:add')->setName('admin.api_tokens.add');
     $app->post('/api/tokens/add', 'ApiController:addProcess')->setName('admin.api_tokens.addProcess');
     $app->get('/api/tokens/edit', 'ApiController:edit')->setName('admin.api_tokens.edit');
-    $app->post('/api/tokens/edit', 'ApiController:editProсess')->setName('admin.api_tokens.addProcess');
+    $app->post('/api/tokens/edit', 'ApiController:editProcess')->setName('admin.api_tokens.editProcess');
     $app->post('/api/tokens/delete', 'ApiController:deleteProcess')->setName('admin.api_tokens.deleteProcess');
 
 })->add(new AuthMiddleware($flextype));
