@@ -43,7 +43,7 @@ $app->get('/api/entries', function (Request $request, Response $response) use ($
         // Set delivery token file
         if ($delivery_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_token_file_path), 'yaml')) {
             if ($delivery_token_file_data['state'] == 'disabled' ||
-                $delivery_token_file_data['limit_calls'] <= $delivery_token_file_data['calls']) {
+                ($delivery_token_file_data['limit_calls'] != 0 && $delivery_token_file_data['calls'] >= $delivery_token_file_data['limit_calls'])) {
                 return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
             } else {
                 // Fetch entry
