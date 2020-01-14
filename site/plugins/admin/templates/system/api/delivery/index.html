@@ -15,7 +15,7 @@
           </td>
           <td style="padding-left:0px;"><a href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}">{{ token_data.title }}</a></td>
           <td style="padding-left:0px;">{{ delivery_token.dirname }}</td>
-          <td style="padding-left:0px;">0 / {% if(token_data.limit_calls > 0) %}{{ token_data.limit_calls }}{% else %}<span style="font-size: 20px;">&infin;</span>{% endif %}</td>
+          <td style="padding-left:0px;">{{ token_data.calls }} / {% if(token_data.limit_calls > 0) %}{{ token_data.limit_calls }}{% else %}<span style="font-size: 20px;">&infin;</span>{% endif %}</td>
           <td class="text-right">
               <div class="btn-group">
                 <button type="button" class="btn dot dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">

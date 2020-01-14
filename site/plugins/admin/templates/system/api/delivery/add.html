@@ -17,24 +17,6 @@
                 <small class="form-text text-muted">{{ tr('admin_help_text_for_api_calls_limit_label') }}</small>
             </div>
             <div class="form-group">
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline1" value="total" name="limit_rate" class="custom-control-input" checked>
-                    <label class="custom-control-label" for="customRadioInline1">Total</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline2" value="year" name="limit_rate" class="custom-control-input">
-                    <label class="custom-control-label" for="customRadioInline2">Year</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline3" value="month" name="limit_rate" class="custom-control-input">
-                    <label class="custom-control-label" for="customRadioInline3">Month</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline4" value="day" name="limit_rate" class="custom-control-input">
-                    <label class="custom-control-label" for="customRadioInline4">Day</label>
-                </div>
-            </div>
-            <div class="form-group">
                 <label for="icon">{{ tr('admin_icon') }}</label>
                 <input type="text" id="fieldsetIcon" name="icon" value="fas fa-truck" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_icon_empty_input') }}">
                 <small class="form-text text-muted">{{ tr('admin_help_text_for_api_token_icon', {':link': '<a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">fontawesome</a>'})|raw }}</small>
