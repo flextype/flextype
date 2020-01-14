@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -17,15 +18,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  */
 function validate_delivery_token($request, $flextype) : bool
 {
-    if (isset($request->getQueryParams()['delivery_token'])) {
-        if ($flextype->registry->get('settings.delivery_tokens') !== null && is_array($flextype->registry->get('settings.delivery_tokens'))) {
-            if (in_array($request->getQueryParams()['delivery_token'], $flextype->registry->get('settings.delivery_tokens'))) {
-                return true;
-            }
-        }
-    }
-
-    return false;
+    return Filesystem::has(PATH['tokens'] . '/delivery/' . $request->getQueryParams()['delivery_token'] . '/token.yaml');
 }
 
 /**
@@ -43,16 +36,32 @@ $app->get('/api/entries', function (Request $request, Response $response) use ($
     $args = isset($query['args']) ? $query['args'] : null;
 
     // Validate delivery token
-    if (!validate_delivery_token($request, $flextype)) {
+    if (validate_delivery_token($request, $flextype)) {
+
+        $delivery_token_file_path = PATH['tokens'] . '/delivery/' . $request->getQueryParams()['delivery_token'] . '/token.yaml';
+
+        // Set delivery token file
+        if ($delivery_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_token_file_path), 'yaml')) {
+            if ($delivery_token_file_data['state'] == 'disabled' ||
+                $delivery_token_file_data['limit_calls'] <= $delivery_token_file_data['calls']) {
+                return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
+            } else {
+                // Fetch entry
+                $data = $flextype['entries']->fetch($id, $args);
+
+                // Set response code
+                $response_code = (count($data) > 0) ? 200 : 404 ;
+
+                // Update calls counter
+                Filesystem::write($delivery_token_file_path, $flextype['parser']->encode(array_replace_recursive($delivery_token_file_data, ['calls' => $delivery_token_file_data['calls'] + 1]), 'yaml'));
+
+                // Return response
+                return $response->withJson($data, $response_code);
+            }
+        } else {
+            return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
+        }
+    } else {
         return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
     }
-
-    // Fetch entry
-    $data = $flextype['entries']->fetch($id, $args);
-
-    // Set response code
-    $response_code = (count($data) > 0) ? 200 : 404 ;
-
-    // Return response
-    return $response->withJson($data, $response_code);
 });
