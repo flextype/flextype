@@ -1,79 +1,55 @@
-//
-// Flextype Gulp.js
-// (c) Sergey Romanenko <http://digital.flextype.org>
-//
+const gulp = require('gulp');
+const tailwindConfig = "tailwind.config.js";
+const mainCSS = "assets/src/styles.css";
 
-const { series, src, dest } = require('gulp');
-const del = require('del');
-const csso = require('gulp-csso');
-const concat = require('gulp-concat');
-const sourcemaps = require('gulp-sourcemaps');
-const autoprefixer = require('gulp-autoprefixer');
-const sass = require('gulp-sass');
-
-function moveBootstrapCss() {
-    return src('node_modules/bootstrap/dist/css/bootstrap.min.css')
-        .pipe(concat('1.min.css'))
-        .pipe(dest('assets/dist/css/tmp'));
+/**
+ * Custom PurgeCSS Extractor
+ * https://github.com/FullHuman/purgecss
+ */
+class TailwindExtractor {
+  static extract(content) {
+    return content.match(/[\w-/:]+(?<!:)/g) || [];
+  }
 }
 
-function buldDefaultCss() {
-      return src('assets/scss/default.scss')
-          .pipe(sass().on('error', sass.logError))
-          .pipe(concat('2.min.css'))
-          .pipe(dest('assets/dist/css/tmp'));
-}
+/**
+ * Task: gulp css
+ */
+gulp.task("css", function() {
+  const atimport = require("postcss-import");
+  const postcss = require("gulp-postcss");
+  const tailwindcss = require("tailwindcss");
+  const purgecss = require("gulp-purgecss");
+  const concat = require('gulp-concat');
+  const csso = require('gulp-csso');
+  const sourcemaps = require('gulp-sourcemaps');
+  const autoprefixer = require('gulp-autoprefixer');
 
-function moveJqueryJs() {
-    return src('node_modules/jquery/dist/jquery.min.js')
-        .pipe(concat('1.min.js'))
-        .pipe(dest('assets/dist/js/tmp'));
-}
+  return gulp
+    .src(mainCSS)
+    .pipe(postcss([atimport(), tailwindcss(tailwindConfig)]))
+    .pipe(
+      purgecss({
+        content: ["**/*.html", "../../**/*.md"],
+        extractors: [
+          {
+            extractor: TailwindExtractor,
+            extensions: ["html", "md"]
+          }
+        ]
+      })
+    )
+    .pipe(autoprefixer({
+        overrideBrowserslist: [
+            "last 1 version"
+        ],
+        cascade: false
+    }))
+    .pipe(csso())
+    .pipe(concat('build.min.css'))
+    .pipe(gulp.dest("assets/dist/css/"));
+});
 
-function moveBootstrapJs() {
-    return src('node_modules/bootstrap/dist/js/bootstrap.min.js')
-        .pipe(concat('2.min.js'))
-        .pipe(dest('assets/dist/js/tmp'));
-}
-
-function moveSimpleLightboxJs() {
-    return src('node_modules/simplelightbox/dist/simple-lightbox.min.js')
-        .pipe(concat('3.min.js'))
-        .pipe(dest('assets/dist/js/tmp'));
-}
-
-function mergeCss() {
-    return src('assets/dist/css/tmp/**')
-        .pipe(autoprefixer({
-            overrideBrowserslist: [
-                "last 1 version"
-            ],
-            cascade: false
-        }))
-        .pipe(csso())
-        .pipe(concat('build.min.css'))
-        .pipe(dest('assets/dist/css/'));
-}
-
-function mergeJs() {
-    return src('assets/dist/js/tmp/**')
-        .pipe(concat('build.min.js'))
-        .pipe(dest('assets/dist/js/'));
-}
-
-function cleanTmpCss() {
-    return del('assets/dist/css/tmp/');
-}
-
-function cleanTmpJs() {
-    return del('assets/dist/js/tmp/');
-}
-
-exports.default = series(moveBootstrapCss,
-                         buldDefaultCss,
-                         mergeCss,
-                         cleanTmpCss,
-                         moveJqueryJs,
-                         moveBootstrapJs,
-                         mergeJs,
-                         cleanTmpJs);
+gulp.task('watch', function () {
+    gulp.watch(["**/*.html", "../../**/*.md", "assets/src/"], gulp.series('css'));
+});
