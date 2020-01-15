@@ -35,7 +35,7 @@ class ApiController extends Controller
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
             ]
@@ -63,12 +63,12 @@ class ApiController extends Controller
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
-                        'attributes' => ['class' => 'navbar-item'],
+                        'attributes' => ['class' => 'btn'],
                     ],
                     'api_tokens' => [
                         'link' => $this->router->pathFor('admin.api_tokens.index') . '?api=' . $api,
                         'title' => __('admin_' . $api),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
                 'buttons' => [
@@ -102,17 +102,17 @@ class ApiController extends Controller
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
-                        'attributes' => ['class' => 'navbar-item'],
+                        'attributes' => ['class' => 'btn'],
                     ],
                     'api_tokens' => [
                         'link' => $this->router->pathFor('admin.api_tokens.index') . '?api=' . $api,
                         'title' => __('admin_' . $api),
-                        'attributes' => ['class' => 'navbar-item'],
+                        'attributes' => ['class' => 'btn'],
                     ],
                     'api_tokens_add' => [
                         'link' => $this->router->pathFor('admin.api_tokens.add') . '?api=' . $api,
                         'title' => __('admin_create_new_' . $api . '_token'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
             ]
@@ -197,17 +197,17 @@ class ApiController extends Controller
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
-                        'attributes' => ['class' => 'navbar-item'],
+                        'attributes' => ['class' => 'btn'],
                     ],
                     'api_tokens' => [
                         'link' => $this->router->pathFor('admin.api_tokens.index') . '?api=' . $api,
                         'title' => __('admin_' . $api),
-                        'attributes' => ['class' => 'navbar-item'],
+                        'attributes' => ['class' => 'btn'],
                     ],
                     'api_tokens_add' => [
                         'link' => $this->router->pathFor('admin.api_tokens.add') . '?api=' . $api,
                         'title' => __('admin_create_new_' . $api . '_token'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
             ]

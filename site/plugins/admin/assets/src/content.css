@@ -1,0 +1,56 @@
+.content
+{
+    position: relative;
+
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    max-width: calc(100% - 64px);
+    height: 100vh;
+    margin-left: 64px;
+}
+
+.content .bars
+{
+    position: fixed;
+    z-index: 20;
+    top: 0;
+
+    width: calc(100% - 64px);
+}
+
+.content .inner
+{
+    position: relative;
+
+    padding: 20px;
+    padding-top: 120px;
+}
+
+.content .top-bar
+{
+    padding: 20px 0;
+
+    color: rgba(255, 255, 255, .7);
+    background: black;
+}
+
+.content .top-bar .btn
+{
+    padding: 23px;
+}
+
+.content .top-bar .btn.active,
+.content .top-bar .btn:hover
+{
+    opacity: 1;
+    background: rgba(255, 255, 255, .13);
+}
+
+.content .path-bar
+{
+    padding: 20px;
+
+    background: #f7f7f7;
+}

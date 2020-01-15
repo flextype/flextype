@@ -1,0 +1,38 @@
+table tr:first-of-type td
+{
+    border-top: 0;
+}
+
+table > thead > tr > th
+{
+    font-weight: bold;
+
+    text-align: left;
+    text-transform: none;
+
+    color: black;
+    border-bottom-width: 1px;
+}
+
+table tbody tr:hover td,
+table tbody tr:hover th
+{
+    background: rgba(255, 255, 255, .13);
+}
+
+table > tbody > tr > td,
+table > thead > tr > td,
+table > tfoot > tr > td,
+table > tbody > tr > th,
+table > thead > tr > th,
+table > tfoot > tr > th
+{
+    font-size: 14px;
+
+    padding: 12.5px 20px;
+
+    vertical-align: middle;
+
+    color: black;
+    border-color: black;
+}

@@ -29,14 +29,14 @@ class FieldsetsController extends Controller
                     'fieldsets' => [
                         'link' => $this->router->pathFor('admin.fieldsets.index'),
                         'title' => __('admin_fieldsets'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
                 'buttons' => [
                     'fieldsets_add' => [
                         'link' => $this->router->pathFor('admin.fieldsets.add'),
                         'title' => __('admin_create_new_fieldset'),
-                        'attributes' => ['class' => 'float-right btn'],
+                        'attributes' => ['class' => 'btn'],
                     ],
                 ],
             ]
@@ -55,12 +55,12 @@ class FieldsetsController extends Controller
                     'fieldsets' => [
                         'link' => $this->router->pathFor('admin.fieldsets.index'),
                         'title' => __('admin_fieldsets'),
-                        'attributes' => ['class' => 'navbar-item'],
+                        'attributes' => ['class' => 'btn'],
                     ],
                     'fieldsets_add' => [
                         'link' => $this->router->pathFor('admin.fieldsets.add'),
                         'title' => __('admin_create_new_fieldset'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
             ]
@@ -121,19 +121,19 @@ class FieldsetsController extends Controller
                     'fieldsets' => [
                         'link' => $this->router->pathFor('admin.fieldsets.index'),
                         'title' => __('admin_fieldsets'),
-                        'attributes' => ['class' => 'navbar-item'],
+                        'attributes' => ['class' => 'btn'],
                     ],
                     'fieldsets_editor' => [
                         'link' => $this->router->pathFor('admin.fieldsets.edit') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_editor'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
                 'buttons' => [
                     'save_entry' => [
                         'link' => 'javascript:;',
                         'title' => __('admin_save'),
-                        'attributes' => ['class' => 'js-save-form-submit float-right btn'],
+                        'attributes' => ['class' => 'js-save-form-submit btn'],
                     ],
                 ],
             ]
@@ -166,12 +166,12 @@ class FieldsetsController extends Controller
                     'fieldsets' => [
                         'link' => $this->router->pathFor('admin.fieldsets.index'),
                         'title' => __('admin_fieldsets'),
-                        'attributes' => ['class' => 'navbar-item'],
+                        'attributes' => ['class' => 'btn'],
                     ],
                     'fieldsets_rename' => [
                         'link' => $this->router->pathFor('admin.fieldsets.rename') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_rename'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
             ]

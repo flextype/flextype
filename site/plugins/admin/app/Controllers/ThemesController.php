@@ -41,14 +41,14 @@ class ThemesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
                 'buttons' => [
                     'themes_get_more' => [
                         'link' => 'https://github.com/flextype/themes',
                         'title' => __('admin_get_more_themes'),
-                        'attributes' => ['class' => 'float-right btn', 'target' => '_blank'],
+                        'attributes' => ['class' => 'btn', 'target' => '_blank'],
                     ],
                 ],
             ]
@@ -179,12 +179,12 @@ class ThemesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'navbar-item'],
+                        'attributes' => ['class' => 'btn'],
                     ],
                     'themes_information' => [
                         'link' => $this->router->pathFor('admin.themes.information') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_information'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
             ]
@@ -238,19 +238,19 @@ class ThemesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'navbar-item'],
+                        'attributes' => ['class' => 'btn'],
                     ],
                     'themes_settings' => [
                         'link' => $this->router->pathFor('admin.themes.settings') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_settings'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
                 'buttons' => [
                     'save_theme_settings' => [
                         'link' => 'javascript:;',
                         'title' => __('admin_save'),
-                        'attributes' => ['class' => 'js-save-form-submit float-right btn'],
+                        'attributes' => ['class' => 'js-save-form-submit btn'],
                     ],
                 ],
             ]

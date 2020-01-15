@@ -102,14 +102,14 @@ class SettingsController extends Controller
                     'settings' => [
                         'link' => $this->router->pathFor('admin.settings.index'),
                         'title' => __('admin_settings'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
                 'buttons'  => [
                     'save' => [
                         'link'       => 'javascript:;',
                         'title'      => __('admin_save'),
-                        'attributes' => ['class' => 'js-save-form-submit float-right btn'],
+                        'attributes' => ['class' => 'js-save-form-submit btn'],
                     ],
                 ],
             ]

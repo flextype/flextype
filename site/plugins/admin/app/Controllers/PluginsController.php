@@ -39,14 +39,14 @@ class PluginsController extends Controller
                     'plugins' => [
                         'link' => $this->router->pathFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
                 'buttons' =>  [
                     'plugins_get_more' => [
                         'link' => 'https://github.com/flextype/plugins',
                         'title' => __('admin_get_more_plugins'),
-                        'attributes' => ['class' => 'float-right btn', 'target' => '_blank'],
+                        'attributes' => ['class' => 'btn', 'target' => '_blank'],
                     ],
                 ],
             ]
@@ -133,12 +133,12 @@ class PluginsController extends Controller
                     'plugins' => [
                         'link' => $this->router->pathFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
-                        'attributes' => ['class' => 'navbar-item'],
+                        'attributes' => ['class' => 'btn'],
                     ],
                     'plugins_information' => [
                         'link' => $this->router->pathFor('admin.plugins.information') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_information'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
             ]
@@ -193,19 +193,19 @@ class PluginsController extends Controller
                     'plugins' => [
                         'link' => $this->router->pathFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
-                        'attributes' => ['class' => 'navbar-item'],
+                        'attributes' => ['class' => 'btn'],
                     ],
                     'plugins_settings' => [
                         'link' => $this->router->pathFor('admin.plugins.settings') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_settings'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'attributes' => ['class' => 'btn active'],
                     ],
                 ],
                 'buttons' => [
                     'save_plugin_settings' => [
                         'link' => 'javascript:;',
                         'title' => __('admin_save'),
-                        'attributes' => ['class' => 'js-save-form-submit float-right btn'],
+                        'attributes' => ['class' => 'js-save-form-submit btn'],
                     ],
                 ],
             ]

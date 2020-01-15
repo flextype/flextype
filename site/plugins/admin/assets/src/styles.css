@@ -1,0 +1,9 @@
+@import 'tailwindcss/base';
+
+@import 'main';
+@import 'nav';
+@import 'content';
+@import 'table';
+
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
