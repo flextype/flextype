@@ -32,7 +32,7 @@
             <div class="container mx-auto pl-16 pr-16 pt-6 pb-6 clearfix">
               <div class="w-full lg:w-2/12
                           text-center lg:text-left
-                          float-left text-white p-2 uppercase tracking-wide">
+                          float-left text-white py-2 uppercase tracking-wide">
                 <a href="{{ base_url() }}" class="w-full lg:w-2/12 text-center text-base no-underline">{{ registry.settings.title|e('html') }}</a>
               </div>
               <div class="w-full float-right lg:w-9/12 font-noirpro-semibold">
@@ -64,8 +64,8 @@
         </nav>
 
         <main role="main" class="container">
-            <section id="content" class="pl-16 pr-16 pt-6 pb-6">{% block content %}{% endblock %}</section>
-            <footer class="text-center pl-16 pr-16 pt-5 pb-10">
+            <section id="content" class="p-16">{% block content %}{% endblock %}</section>
+            <footer class="text-center pl-16 pr-16 pt-6 pb-16">
                 {% block footer %}
                     {{ tr('site_powered_by_flextype')|raw }}
                 {% endblock %}
