@@ -51,8 +51,8 @@
                                   border-black
                                   border-b-2
                                   hover:border-white
-                                  lg:mr-4
                                   lg:inline-block
+                                  {% if loop.last %}lg:mr-0{% else %}lg:mr-4{% endif %}
                                   {% if item.menu_item_url in entry.slug %}border-white{% endif %}">
                                   {{ item.menu_item_title }}
                                </a>
@@ -63,7 +63,7 @@
           </div>
         </nav>
 
-        <main role="main" class="container">
+        <main class="container">
             <section id="content" class="p-16">{% block content %}{% endblock %}</section>
             <footer class="text-center pl-16 pr-16 pt-6 pb-16">
                 {% block footer %}
