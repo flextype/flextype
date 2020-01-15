@@ -6,9 +6,9 @@
     flex-grow: 1;
     flex-shrink: 1;
 
-    max-width: calc(100% - 64px);
+    max-width: calc(100% - var(--btn-size-medium));
     height: 100vh;
-    margin-left: 64px;
+    margin-left: var(--btn-size-medium);
 }
 
 .content .bars
@@ -17,20 +17,20 @@
     z-index: 20;
     top: 0;
 
-    width: calc(100% - 64px);
+    width: calc(100% - var(--btn-size-medium));
 }
 
 .content .inner
 {
     position: relative;
 
-    padding: 20px;
+    padding: 10px;
     padding-top: 120px;
 }
 
 .content .top-bar
 {
-    padding: 20px 0;
+    padding: 17.5px 0;
 
     color: rgba(255, 255, 255, .7);
     background: black;
@@ -38,7 +38,7 @@
 
 .content .top-bar .btn
 {
-    padding: 23px;
+    padding: 20.5px;
 }
 
 .content .top-bar .btn.active,
@@ -50,7 +50,7 @@
 
 .content .path-bar
 {
-    padding: 20px;
+    padding: 10px;
 
     background: #f7f7f7;
 }

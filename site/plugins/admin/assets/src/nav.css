@@ -7,7 +7,7 @@ nav
     flex-direction: column;
     justify-content: space-between;
 
-    width: 64px;
+    width: var(--btn-size-medium);
     height: 100vh;
 
     color: white;
@@ -44,5 +44,5 @@ nav a.logo
 {
     font-weight: bold;
 
-    height: 64px;
+    height: var(--btn-size-medium);
 }

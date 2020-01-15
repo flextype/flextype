@@ -1,3 +1,8 @@
+table
+{
+    width: 100%;
+}
+
 table tr:first-of-type td
 {
     border-top: 0;
@@ -11,13 +16,14 @@ table > thead > tr > th
     text-transform: none;
 
     color: black;
+    border-color: rgba(224, 224, 224, .1);
     border-bottom-width: 1px;
 }
 
 table tbody tr:hover td,
 table tbody tr:hover th
 {
-    background: rgba(255, 255, 255, .13);
+    background: rgba(224, 224, 224, .13);
 }
 
 table > tbody > tr > td,
@@ -27,12 +33,13 @@ table > tbody > tr > th,
 table > thead > tr > th,
 table > tfoot > tr > th
 {
-    font-size: 14px;
+    font-size: 16px;
 
-    padding: 12.5px 20px;
+    padding: 17.5px 20px;
 
     vertical-align: middle;
 
     color: black;
-    border-color: black;
+    border-color: rgba(224, 224, 224, .13);
+    border-bottom-width: 1px;
 }

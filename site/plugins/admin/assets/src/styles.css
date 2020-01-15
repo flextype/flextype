@@ -1,5 +1,6 @@
 @import 'tailwindcss/base';
 
+@import 'vars';
 @import 'main';
 @import 'nav';
 @import 'content';
