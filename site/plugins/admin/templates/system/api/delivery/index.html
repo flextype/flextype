@@ -2,7 +2,7 @@
 
 {% block content %}
 {% if (delivery_tokens_list|length > 0) %}
-<table class="table no-margin">
+<table>
   <tbody>
       {% for key, delivery_token in delivery_tokens_list %}
       {% set token_file_path = PATH_TOKENS ~ '/' ~ api ~ '/' ~ delivery_token.dirname  ~ '/' ~ 'token.yaml' %}
@@ -10,28 +10,27 @@
           {% set token_data = parser_decode(filesystem_read(token_file_path), 'yaml') %}
       {% endif %}
       <tr>
-          <td style="width: 50px; padding-right: 10px; text-align:center;" class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">
+          <td class="w-1 text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
             <i class="fas fa-truck"></i>
           </td>
-          <td style="padding-left:0px;" class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}"><a href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}">{{ token_data.title }}</a></td>
-          <td style="padding-left:0px;" class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ delivery_token.dirname }}</td>
-          <td style="padding-left:0px;" class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token_data.calls }} / {% if(token_data.limit_calls > 0) %}{{ token_data.limit_calls }}{% else %}<span style="font-size: 20px;">&infin;</span>{% endif %}</td>
+          <td class="pl-0 {% if token_data.state == 'disabled' %}opacity-50{% endif %}"><a href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}">{{ token_data.title }}</a></td>
+          <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ delivery_token.dirname }}</td>
+          <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token_data.calls }} / {% if(token_data.limit_calls > 0) %}{{ token_data.limit_calls }}{% else %}<span style="font-size: 20px;">&infin;</span>{% endif %}</td>
           <td class="text-right">
-              <div class="btn-group">
-                <button type="button" class="btn dot dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
+              <div class="relative">
+                <button type="button" class="btn dot js-dropdown-btn">
                   <i class="fas fa-ellipsis-h"></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-lg-right">
-                  <a class="dropdown-item" href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}"><i class="fas fa-edit"></i> {{ tr('admin_edit') }}</a>
-                  <div class="dropdown-divider"></div>
+                <div class="js-dropdown px-10 py-6 bg-black text-white absolute right-0 top-0 mt-6 w-56 text-left hidden">
+                  <a class="block py-2" href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}"><i class="fas fa-edit mr-2"></i> {{ tr('admin_edit') }}</a>
                   <form id="delete-api-token-id-{{ delivery_token.dirname }}" action="{{ path_for('admin.api_tokens.deleteProcess') }}" method="POST" style="display: none;">
                       {{ csrf() }}
                       <input type="hidden" name="api" value="{{ api }}">
                       <input type="hidden" name="api_token" value="{{ delivery_token.dirname }}">
                   </form>
-                  <a class="dropdown-item" href="javascript:;"
+                  <a class="block py-2" href="javascript:;"
                      onclick="event.preventDefault();
-                              document.getElementById('delete-api-token-id-{{ delivery_token.dirname }}').submit();"><i class="fas fa-trash-alt"></i> {{ tr('admin_delete') }}</a>
+                              document.getElementById('delete-api-token-id-{{ delivery_token.dirname }}').submit();"><i class="fas fa-trash-alt mr-2"></i> {{ tr('admin_delete') }}</a>
                 </div>
               </div>
           </td>
@@ -40,10 +39,12 @@
   </tbody>
 </table>
 {% else %}
-<div class="empty-list-message">
-    <i class="fas fa-truck"></i>
-    <h3>{{ tr('admin_you_have_not_created_any_api_tokens_yet') }}</h3>
-    <a href="{{ path_for('admin.api_tokens.add') }}?api={{ api }}" class="btn">{{ tr('admin_create_new_delivery_token') }}</a>
-</div>
+    {{ include ("plugins/admin/templates/ui/no-elements.html", {icon: 'fas fa-truck',
+                                                                message: 'admin_create_new_delivery_token',
+                                                                button: {
+                                                                    link: path_for('admin.api_tokens.add') ~ '?api=' ~ api,
+                                                                    title: 'admin_create_new_delivery_token'
+                                                                    }
+                                                                })}}
 {% endif %}
 {% endblock %}

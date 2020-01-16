@@ -1,0 +1,5 @@
+<div class="text-center pt-20">
+    <i class="{{ icon }} text-6xl"></i>
+    <h3 class="text-2xl pt-6">{{ tr(message) }}</h3>
+    {% if button %}<a href="{{ tr(button.link) }}" class="mt-6 px-4 py-2 border border-black border-4 text-black inline-block w-auto hover:bg-black hover:text-white">{{ tr(button.title) }}</a>{% endif %}
+</div>
