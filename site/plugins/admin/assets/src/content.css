@@ -24,8 +24,8 @@
 {
     position: relative;
 
-    padding: 10px;
-    padding-top: 120px;
+    padding: 10px 20px;
+    padding-top: 96px;
 }
 
 .content .top-bar
@@ -50,7 +50,7 @@
 
 .content .path-bar
 {
-    padding: 10px;
+    padding: 10px 20px;
 
     background: #f7f7f7;
 }
