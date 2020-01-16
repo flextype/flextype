@@ -5,6 +5,7 @@
 @import 'nav';
 @import 'content';
 @import 'table';
+@import 'form';
 
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';

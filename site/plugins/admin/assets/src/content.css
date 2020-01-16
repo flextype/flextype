@@ -30,6 +30,7 @@
 
 .content .top-bar
 {
+    min-height: 44px;
     padding: 11.5px 0;
 
     color: rgba(255, 255, 255, .7);
@@ -50,6 +51,7 @@
 
 .content .path-bar
 {
+    min-height: 44px;
     padding: 10px 20px;
 
     background: #f7f7f7;
