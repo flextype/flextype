@@ -34,14 +34,11 @@
     background: black;
 }
 
-.content .top-bar .column
-{
-    padding: 11.5px 0;
-}
-
 .content .top-bar .btn
 {
-    padding: 13.5px 20px;
+    display: table-cell;
+
+    padding: 11.5px 20px;
 }
 
 .content .top-bar .btn.active,
