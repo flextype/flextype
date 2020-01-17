@@ -20,12 +20,6 @@ table > thead > tr > th
     border-bottom-width: 1px;
 }
 
-table tbody tr:hover td,
-table tbody tr:hover th
-{
-    background: rgba(224, 224, 224, .13);
-}
-
 table > tbody > tr > td,
 table > thead > tr > td,
 table > tfoot > tr > td,
@@ -37,6 +31,13 @@ table > tfoot > tr > th
 
     color: black;
     border-color: rgba(224, 224, 224, .13);
+    border-top-width: 1px;
     border-bottom-width: 1px;
-    @apply px-3 py-3;
+    @apply px-3 py-2;
+}
+
+table tbody tr:hover td,
+table tbody tr:hover th
+{
+    background: rgba(224, 224, 224, .13);
 }

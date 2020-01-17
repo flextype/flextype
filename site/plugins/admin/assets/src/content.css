@@ -6,9 +6,9 @@
     flex-grow: 1;
     flex-shrink: 1;
 
-    max-width: calc(100% - var(--btn-size-medium));
+    max-width: calc(100% - var(--box-size));
     height: 100vh;
-    margin-left: var(--btn-size-medium);
+    margin-left: var(--box-size);
 }
 
 .content .bars
@@ -17,7 +17,7 @@
     z-index: 20;
     top: 0;
 
-    width: calc(100% - var(--btn-size-medium));
+    width: calc(100% - var(--box-size));
 }
 
 .content .inner
@@ -30,16 +30,18 @@
 
 .content .top-bar
 {
-    min-height: 44px;
-    padding: 11.5px 0;
-
     color: rgba(255, 255, 255, .7);
     background: black;
 }
 
+.content .top-bar .column
+{
+    padding: 11.5px 0;
+}
+
 .content .top-bar .btn
 {
-    padding: 13.5px;
+    padding: 13.5px 20px;
 }
 
 .content .top-bar .btn.active,
@@ -51,8 +53,7 @@
 
 .content .path-bar
 {
-    min-height: 44px;
-    padding: 10px 20px;
+    padding: 11.5px 20px;
 
     background: #f7f7f7;
 }
