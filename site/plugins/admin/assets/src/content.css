@@ -50,7 +50,24 @@
 
 .content .path-bar
 {
+    min-height: var(--box-size);
     padding: 11.5px 20px;
 
     background: #f7f7f7;
+}
+
+.content .path-bar .icon
+{
+    display: inline-block;
+
+    width: 24px;
+
+    text-align: center;
+}
+
+.content .path-bar .icon.active,
+.content .path-bar .icon:hover
+{
+    opacity: 1;
+    background: rgba(0,0,0,.07);
 }
