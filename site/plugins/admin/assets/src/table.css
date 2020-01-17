@@ -33,11 +33,10 @@ table > tbody > tr > th,
 table > thead > tr > th,
 table > tfoot > tr > th
 {
-    padding: 11px 20px;
-
     vertical-align: middle;
 
     color: black;
     border-color: rgba(224, 224, 224, .13);
     border-bottom-width: 1px;
+    @apply px-3 py-3;
 }
