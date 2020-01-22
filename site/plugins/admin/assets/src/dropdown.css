@@ -3,17 +3,17 @@
     @apply px-10 py-6 absolute hidden;
 }
 
-.dropdown-item
+.dropdown-menu__item
 {
-    @apply block py-2 px-4 text-left;
+    @apply block py-2 pl-4 pr-12 text-left;
 }
 
-.dropdown-divider
+.dropdown-menu__divider
 {
-    @apply border-gray-800 border-b border-t-0;
+    @apply bg-gray-800 h-px my-1;
 }
 
-.dropdown-icon
+.dropdown-menu__icon
 {
     @apply mr-2;
 }
