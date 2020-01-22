@@ -1,48 +1,62 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-{% if (plugins_list|length > 0) %}
-<table class="table no-margin">
-  <tbody>
-      {% for key, plugin in plugins_list %}
-      <tr>
-          <td style="width: 50px; padding-right: 10px; text-align:center;">
-              {% if plugin.icon %}
-                   <i class="{{ plugin.icon }} {% if plugin.enabled == false %}opacity-50{% endif %}"></i>
-              {% else %}
-                  <i class="fas fa-plug {% if plugin.enabled == false %}opacity-50{% endif %}"></i>
-              {% endif %}
-          </td>
-          <td style="padding-left:0px;"><a href="{{ path_for('admin.plugins.information') }}?id={{ key }}" class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.name }}</a></td>
-          <td class="text-right">
-              <button type="button" class="js-dropdown-btn">
-                <i class="fas fa-ellipsis-h"></i>
-              </button>
-              <div class="js-dropdown dropdown-menu">
-                  <a class="dropdown-menu__item" href="{{ path_for('admin.plugins.information') }}?id={{ key }}"><i class="fas fa-info-circle dropdown-menu__icon"></i> {{ tr('admin_information') }}</a>
-                  <a class="dropdown-menu__item" href="{{ path_for('admin.plugins.settings') }}?id={{ key }}"><i class="fas fa-cog dropdown-menu__icon"></i> {{ tr('admin_settings') }}</a>
-                  {% if key == 'admin' or key == 'site' or key == '' %}
-                     <a class="dropdown-menu__item opacity-50" href="javascript:;"><i class="fas fa-toggle-on dropdown-menu__icon"></i> {{ tr('admin_deactivate') }}</a>
-                  {% else %}
-                     <a class="dropdown-menu__item"
-                        onclick="event.preventDefault(); document.getElementById('update-status-{{ key }}').submit();"
-                        href="javascript:;">{% if plugin.enabled %}<i class="fas fa-toggle-on dropdown-menu__icon"></i> {{ tr('admin_deactivate') }}{% else %}<i class="fas fa-toggle-off dropdown-menu__icon"></i> {{ tr('admin_activate') }}{% endif %}</a>
-                  {% endif %}
-                  <form id="update-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
-                        {{ csrf() }}
-                        <input type="hidden" name="plugin-key" value="{{ key }}">
-                        <input type="hidden" name="plugin-status" value="{% if plugin.enabled %}false{% else %}true{% endif %}">
-                  </form>
-                </div>
-          </td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% else %}
-<div class="empty-list-message">
-    <i class="fas fa-list"></i>
-    <h3>{{ tr('admin_you_have_no_plugins') }}</h3>
-</div>
-{% endif %}
+    {% if (plugins_list | length > 0) %}
+        <table>
+            <tbody>
+                {% for key, plugin in plugins_list %}
+                    <tr>
+                        <td class="w-1 text-center">
+                            {% if plugin.icon %}
+                                <i class="{{ plugin.icon }} {% if plugin.enabled == false %}opacity-50{% endif %}"></i>
+                            {% else %}
+                                <i class="fas fa-plug {% if plugin.enabled == false %}opacity-50{% endif %}"></i>
+                            {% endif %}
+                        </td>
+                        <td class="pl-0">
+                            <a href="{{ path_for('admin.plugins.information') }}?id={{ key }}" class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.name }}</a>
+                        </td>
+                        <td class="text-right">
+                            <button type="button" class="js-dropdown-btn">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                            <div class="js-dropdown dropdown-menu">
+                                <a class="dropdown-menu__item" href="{{ path_for('admin.plugins.information') }}?id={{ key }}">
+                                    <i class="fas fa-info-circle dropdown-menu__icon"></i>
+                                    {{ tr('admin_information') }}</a>
+                                <a class="dropdown-menu__item" href="{{ path_for('admin.plugins.settings') }}?id={{ key }}">
+                                    <i class="fas fa-cog dropdown-menu__icon"></i>
+                                    {{ tr('admin_settings') }}</a>
+                                {% if key == 'admin' or key == 'site' or key == '' %}
+                                    <a class="dropdown-menu__item opacity-50" href="javascript:;">
+                                        <i class="fas fa-toggle-on dropdown-menu__icon"></i>
+                                        {{ tr('admin_deactivate') }}</a>
+                                {% else %}
+                                    <a class="dropdown-menu__item" onclick="event.preventDefault(); document.getElementById('update-status-{{ key }}').submit();" href="javascript:;">
+                                        {% if plugin.enabled %}
+                                            <i class="fas fa-toggle-on dropdown-menu__icon"></i>
+                                            {{ tr('admin_deactivate') }}
+                                        {% else %}
+                                            <i class="fas fa-toggle-off dropdown-menu__icon"></i>
+                                            {{ tr('admin_activate') }}
+                                        {% endif %}
+                                    </a>
+                                {% endif %}
+                                <form id="update-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="plugin-key" value="{{ key }}">
+                                    <input type="hidden" name="plugin-status" value="{% if plugin.enabled %}false{% else %}true{% endif %}">
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty-list-message">
+            <i class="fas fa-list"></i>
+            <h3>{{ tr('admin_you_have_no_plugins') }}</h3>
+        </div>
+    {% endif %}
 {% endblock %}

@@ -1,45 +1,50 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-{% if (themes_list|length > 0) %}
-<table class="table no-margin">
-  <tbody>
-      {% for key, theme in themes_list %}
-      <tr>
-          <td style="width: 50px; padding-right: 10px; text-align:center;">
-            <i class="fas fa-palette {% if key == registry.settings.theme %}{% else %}opacity-50{% endif %}" aria-hidden="true"></i>
-          </td>
-          <td style="padding-left:0px;"><a href="{{ path_for('admin.templates.index') }}?theme={{ key }}">{{ theme.name }}</a></td>
-          <td class="text-right">
-              <div class="btn-group">
-                <button type="button" class="btn dot dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-ellipsis-h"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-lg-right hidden">
-                  <form id="activate-theme-id-{{ key }}" action="{{ path_for('admin.themes.activateProcess') }}" method="POST" style="display: none;">
-                    {{ csrf() }}
-                    <input type="hidden" name="theme-id" value="{{ key }}">
-                    <input type="hidden" name="theme-status" value="true">
-                  </form>
-                  {% if key == registry.settings.theme %}
-                  {% else %}
-                  <a class="dropdown-item" href="javascript:;"
-                     onclick="event.preventDefault();
-                              document.getElementById('activate-theme-id-{{ key }}').submit();"><i class="far fa-star"></i> {{ tr('admin_activate') }}</a>
-                  {% endif %}
-                  <a class="dropdown-item" href="{{ path_for('admin.themes.information') }}?id={{ key }}"><i class="fas fa-info-circle"></i> {{ tr('admin_information') }}</a>
-                  <a class="dropdown-item" href="{{ path_for('admin.themes.settings') }}?id={{ key }}"><i class="fas fa-cog"></i> {{ tr('admin_settings') }}</a>
-                </div>
-              </div>
-          </td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% else %}
-<div class="empty-list-message">
-    <i class="fas fa-list"></i>
-    <h3>{{ tr('admin_you_have_no_themes') }}</h3>
-</div>
-{% endif %}
+    {% if (themes_list | length > 0) %}
+        <table>
+            <tbody>
+                {% for key, theme in themes_list %}
+                    <tr>
+                        <td class="w-1 text-center">
+                            <i class="fas fa-palette {% if key == registry.settings.theme %}{% else %}opacity-50{% endif %}" aria-hidden="true"></i>
+                        </td>
+                        <td class="pl-0">
+                            <a href="{{ path_for('admin.templates.index') }}?theme={{ key }}">{{ theme.name }}</a>
+                        </td>
+                        <td class="text-right">
+                            <button type="button" class="js-dropdown-btn">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                            <div class="js-dropdown dropdown-menu">
+                                {% if key == registry.settings.theme %}
+                                {% else %}
+                                    <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                              document.getElementById('activate-theme-id-{{ key }}').submit();">
+                                        <i class="far fa-star dropdown-menu__icon"></i>
+                                        {{ tr('admin_activate') }}</a>
+                                {% endif %}
+                                <a class="dropdown-menu__item" href="{{ path_for('admin.themes.information') }}?id={{ key }}">
+                                    <i class="fas fa-info-circle dropdown-menu__icon"></i>
+                                    {{ tr('admin_information') }}</a>
+                                <a class="dropdown-menu__item" href="{{ path_for('admin.themes.settings') }}?id={{ key }}">
+                                    <i class="fas fa-cog dropdown-menu__icon"></i>
+                                    {{ tr('admin_settings') }}</a>
+                                <form id="activate-theme-id-{{ key }}" action="{{ path_for('admin.themes.activateProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="theme-id" value="{{ key }}">
+                                    <input type="hidden" name="theme-status" value="true">
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty-list-message">
+            <i class="fas fa-list"></i>
+            <h3>{{ tr('admin_you_have_no_themes') }}</h3>
+        </div>
+    {% endif %}
 {% endblock %}
