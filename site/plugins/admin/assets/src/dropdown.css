@@ -1,0 +1,19 @@
+.dropdown-menu
+{
+    @apply px-10 py-6 absolute hidden;
+}
+
+.dropdown-item
+{
+    @apply block py-2 px-4 text-left;
+}
+
+.dropdown-divider
+{
+    @apply border-gray-800 border-b border-t-0;
+}
+
+.dropdown-icon
+{
+    @apply mr-2;
+}

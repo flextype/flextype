@@ -6,6 +6,7 @@
 @import 'content';
 @import 'table';
 @import 'form';
+@import 'dropdown';
 
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
