@@ -19,7 +19,7 @@
                   <button type="button" class="btn dot dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-h"></i>
                   </button>
-                  <div class="dropdown-menu dropdown-menu-lg-right">
+                  <div class="dropdown-menu dropdown-menu-lg-right hidden">
                     <a class="dropdown-item" href="{{ path_for('admin.templates.edit') }}?id={{ template.basename }}&type=template&theme={{ theme }}"><i class="fas fa-edit"></i> {{ tr('admin_edit') }}</a>
                     <a class="dropdown-item" href="{{ path_for('admin.templates.rename') }}?id={{ template.basename }}&type=template&theme={{ theme }}"><i class="fas fa-font"></i> {{ tr('admin_rename') }}</a>
                     <a class="dropdown-item" href="javascript:;"
@@ -63,7 +63,7 @@
                   <button type="button" class="btn dot dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-h"></i>
                   </button>
-                  <div class="dropdown-menu dropdown-menu-lg-right">
+                  <div class="dropdown-menu dropdown-menu-lg-right hidden">
                     <a class="dropdown-item" href="{{ path_for('admin.templates.edit') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}"><i class="fas fa-edit"></i> {{ tr('admin_edit') }}</a>
                     <a class="dropdown-item" href="{{ path_for('admin.templates.rename') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}"><i class="fas fa-font"></i> {{ tr('admin_rename') }}</a>
                     <a class="dropdown-item" href="javascript:;"

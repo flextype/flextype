@@ -15,7 +15,7 @@
                 <button type="button" class="btn dot dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-ellipsis-h"></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-lg-right">
+                <div class="dropdown-menu dropdown-menu-lg-right hidden">
                   <form id="activate-theme-id-{{ key }}" action="{{ path_for('admin.themes.activateProcess') }}" method="POST" style="display: none;">
                     {{ csrf() }}
                     <input type="hidden" name="theme-id" value="{{ key }}">
