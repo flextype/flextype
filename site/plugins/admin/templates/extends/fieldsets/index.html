@@ -10,7 +10,7 @@
                         {% set fieldset = parser_decode(filesystem_read(fieldset_path), 'yaml') %}
                     {% endif %}
                     <tr>
-                        <td class="w-1 text-center {% if fieldset.hide %}opacity-50{% endif %}">
+                        <td class="w-1 text-center{% if fieldset.hide %}opacity-50{% endif %}">
                             {% if fieldset.icon %}
                                 <i class="{{ fieldset.icon }}"></i>
                             {% else %}
