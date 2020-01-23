@@ -2,11 +2,12 @@
 
 @import 'vars';
 @import 'main';
-@import 'nav';
 @import 'content';
 @import 'table';
 @import 'form';
-@import 'dropdown';
+@import 'components/navigation';
+@import 'components/button';
+@import 'components/dropdown';
 
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';

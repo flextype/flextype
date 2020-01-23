@@ -34,15 +34,15 @@
     background: black;
 }
 
-.content .top-bar .btn
+.content .top-bar a
 {
     display: table-cell;
 
     padding: 11.5px 20px;
 }
 
-.content .top-bar .btn.active,
-.content .top-bar .btn:hover
+.content .top-bar a.active,
+.content .top-bar a:hover
 {
     opacity: 1;
     background: rgba(255, 255, 255, .13);
@@ -63,11 +63,4 @@
     width: 24px;
 
     text-align: center;
-}
-
-.content .path-bar .icon.active,
-.content .path-bar .icon:hover
-{
-    opacity: 1;
-    background: rgba(0,0,0,.07);
 }

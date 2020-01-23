@@ -12,6 +12,5 @@ main
     height: 100vh;
     min-height: 500px;
 
-    color: black;
-    background-color: white;
+    @apply bg-white text-black;
 }

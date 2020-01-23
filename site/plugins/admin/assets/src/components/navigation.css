@@ -1,0 +1,31 @@
+.navigation
+{
+    width: var(--box-size);
+    height: 100vh;
+
+    @apply flex flex-col fixed bg-black text-white justify-between z-20;
+}
+
+.navigation__item
+{
+    box-sizing: border-box;
+    min-width: 0;
+    height: 100%;
+    padding: 15px;
+
+    @apply w-full h-full relative flex items-center justify-center opacity-75 cursor-pointer ;
+}
+
+.navigation__item--active,
+.navigation__item:hover
+{
+    background: rgba(255, 255, 255, .13);
+    @apply opacity-100;
+}
+
+.navigation__item--logo
+{
+    width: var(--box-size);
+    height: var(--box-size);
+    @apply font-bold;
+}
