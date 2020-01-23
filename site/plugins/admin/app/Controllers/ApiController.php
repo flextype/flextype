@@ -35,7 +35,7 @@ class ApiController extends Controller
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
-                        'attributes' => ['class' => 'btn active'],
+                        'attributes' => ['class' => 'active'],
                     ],
                 ],
             ]
@@ -63,19 +63,19 @@ class ApiController extends Controller
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
-                        'attributes' => ['class' => 'btn'],
+                        'attributes' => ['class' => ''],
                     ],
                     'api_tokens' => [
                         'link' => $this->router->pathFor('admin.api_tokens.index') . '?api=' . $api,
                         'title' => __('admin_' . $api),
-                        'attributes' => ['class' => 'btn active'],
+                        'attributes' => ['class' => 'active'],
                     ],
                 ],
                 'buttons' => [
                     'api_tokens_add' => [
                         'link' => $this->router->pathFor('admin.api_tokens.add') . '?api=' . $api,
                         'title' => __('admin_create_new_' . $api . '_token'),
-                        'attributes' => ['class' => 'btn'],
+                        'attributes' => ['class' => ''],
                     ],
                 ],
             ]
@@ -102,17 +102,17 @@ class ApiController extends Controller
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
-                        'attributes' => ['class' => 'btn'],
+                        'attributes' => ['class' => ''],
                     ],
                     'api_tokens' => [
                         'link' => $this->router->pathFor('admin.api_tokens.index') . '?api=' . $api,
                         'title' => __('admin_' . $api),
-                        'attributes' => ['class' => 'btn'],
+                        'attributes' => ['class' => ''],
                     ],
                     'api_tokens_add' => [
                         'link' => $this->router->pathFor('admin.api_tokens.add') . '?api=' . $api,
                         'title' => __('admin_create_new_' . $api . '_token'),
-                        'attributes' => ['class' => 'btn active'],
+                        'attributes' => ['class' => ' active'],
                     ],
                 ],
             ]
@@ -197,17 +197,17 @@ class ApiController extends Controller
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
-                        'attributes' => ['class' => 'btn'],
+                        'attributes' => ['class' => ''],
                     ],
                     'api_tokens' => [
                         'link' => $this->router->pathFor('admin.api_tokens.index') . '?api=' . $api,
                         'title' => __('admin_' . $api),
-                        'attributes' => ['class' => 'btn'],
+                        'attributes' => ['class' => ''],
                     ],
                     'api_tokens_add' => [
                         'link' => $this->router->pathFor('admin.api_tokens.add') . '?api=' . $api,
                         'title' => __('admin_create_new_' . $api . '_token'),
-                        'attributes' => ['class' => 'btn active'],
+                        'attributes' => ['class' => ' active'],
                     ],
                 ],
             ]

@@ -89,12 +89,22 @@ class EntriesController extends Controller
             }
         }
 
+        $entry_current = $this->entries->fetch($this->getEntryID($query));
+
+        if ($entry_current['items_view'] != '') {
+            $items_view = $entry_current['items_view'];
+        } else {
+            $items_view = $this->registry->get('settings.entries.items_view_default');
+        }
+
         return $this->view->render(
             $response,
             'plugins/admin/templates/content/entries/index.html',
             [
                             'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]),
                             'id_current' => $this->getEntryID($query),
+                            'entry_current' => $entry_current,
+                            'items_view' => $items_view,
                             'menu_item' => 'entries',
                             'fieldsets' => $fieldsets,
                             'parts' => $parts,
@@ -1073,6 +1083,29 @@ class EntriesController extends Controller
             }
         }
         return $files;
+    }
+
+    /**
+     * Display view token - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     */
+    public function displayViewProcess(Request $request, Response $response) : Response
+    {
+        // Get POST data
+        $post_data = $request->getParsedBody();
+
+        if ($post_data['id'] == '') {
+            $data = [];
+            Arr::set($data, 'entries.items_view_default', $post_data['items_view']);
+            //$this->registry->get('settings')
+            Filesystem::write(PATH['config']['site'] . '/settings.yaml', $this->parser->encode(array_replace_recursive($this->registry->get('settings'), $data), 'yaml'));
+        } else {
+            $this->entries->update($post_data['id'], ['items_view' => $post_data['items_view']]);
+        }
+
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $post_data['id']);
     }
 
     /**
