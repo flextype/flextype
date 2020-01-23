@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if (delivery_tokens_list | length > 0) %}
-        <table>
+        <table class="table">
             <tbody>
                 {% for key, delivery_token in delivery_tokens_list %}
                     {% set token_file_path = PATH_TOKENS ~ '/' ~ api ~ '/' ~ delivery_token.dirname ~ '/' ~ 'token.yaml' %}
