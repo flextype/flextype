@@ -13,7 +13,7 @@
                         id="title"
                         name="title"
                         value=""
-                        class="w-full border border-black border-2 outline-none px-1 py-2"
+                        class="w-full border border-gray-600 border-2 outline-none px-2 py-2"
                         required="required"
                         data-validation="length required"
                         data-validation-length="min1"
@@ -27,7 +27,7 @@
                         id="limit"
                         name="limit_calls"
                         value="0"
-                        class="w-full border border-black border-2 outline-none px-1 py-1"
+                        class="w-full border border-gray-600 border-2 outline-none px-2 py-2"
                         required="required"
                         data-validation="length required"
                         data-validation-length="min1"
@@ -41,7 +41,7 @@
                         id="fieldsetIcon"
                         name="icon"
                         value="fas fa-truck"
-                        class="w-full border border-black border-2 outline-none px-1 py-1"
+                        class="w-full border border-gray-600 border-2 outline-none px-2 py-2"
                         required="required"
                         data-validation="length required"
                         data-validation-length="min1"
@@ -50,13 +50,14 @@
                 </div>
                 <div class="mb-2">
                     <label for="type" class="block mb-1">{{ tr('admin_state') }}</label>
-                    <select class="js-example-basic-single w-full border border-black border-2 outline-none px-1 py-1" name="state">
+                    <select class="js-example-basic-single w-full border border-gray-600 border-2 outline-none px-2 py-2" name="state">
                         <option value="enabled" selected="selected">{{ tr('admin_enabled') }}</option>
                         <option value="disabled">{{ tr('admin_disabled') }}</option>
                     </select>
                 </div>
                 <div class="mb-2">
-                    <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="mt-6 px-4 py-2 border border-black border-4 text-black inline-block w-auto bg-white hover:bg-black hover:text-white">
+                    <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="button">
+                    <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="button button--white">
                 </div>
             </div>
         </div>

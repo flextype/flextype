@@ -16,24 +16,24 @@
                             <button type="button" class="js-dropdown-btn">
                                 <i class="fas fa-ellipsis-h"></i>
                             </button>
-                            <div class="js-dropdown dropdown-menu">
-                                <a class="dropdown-menu__item" href="{{ path_for('admin.snippets.edit') }}?id={{ id }}">
-                                    <i class="fas fa-edit dropdown-menu__icon"></i>
+                            <div class="js-dropdown dropdown">
+                                <a class="dropdown__item" href="{{ path_for('admin.snippets.edit') }}?id={{ id }}">
+                                    <i class="fas fa-edit dropdown__icon"></i>
                                     {{ tr('admin_edit') }}</a>
-                                <a class="dropdown-menu__item" href="{{ path_for('admin.snippets.rename') }}?id={{ id }}">
-                                    <i class="fas fa-font dropdown-menu__icon"></i>
+                                <a class="dropdown__item" href="{{ path_for('admin.snippets.rename') }}?id={{ id }}">
+                                    <i class="fas fa-font dropdown__icon"></i>
                                     {{ tr('admin_rename') }}</a>
-                                <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                 document.getElementById('duplicate-snippet-id-{{ id }}').submit();">
-                                    <i class="fas fa-copy dropdown-menu__icon"></i>
+                                    <i class="fas fa-copy dropdown__icon"></i>
                                     {{ tr('admin_duplicate') }}</a>
-                                <a class="dropdown-menu__item js-snippets-info" href="javascript:;" data-toggle="modal" data-target="#snippetsInfoModal" data-name="{{ id }}">
-                                    <i class="fas fa-code dropdown-menu__icon"></i>
+                                <a class="dropdown__item js-snippets-info" href="javascript:;" data-toggle="modal" data-target="#snippetsInfoModal" data-name="{{ id }}">
+                                    <i class="fas fa-code dropdown__icon"></i>
                                     {{ tr('admin_embeded_code') }}</a>
-                                <div class="dropdown-menu__divider"></div>
-                                <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                                <div class="dropdown__divider"></div>
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                 document.getElementById('delete-snippet-id-{{ id }}').submit();">
-                                    <i class="fas fa-trash-alt dropdown-menu__icon"></i>
+                                    <i class="fas fa-trash-alt dropdown__icon"></i>
                                     {{ tr('admin_delete') }}</a>
                                 <form id="delete-snippet-id-{{ id }}" action="{{ path_for('admin.snippets.deleteProcess') }}" method="POST" style="display: none;">
                                     {{ csrf() }}
@@ -71,7 +71,7 @@
                     <label for="shortcode">{{ tr('admin_shortcode') }}</label>
                     <div class="alert alert-dark clipboard" role="alert">
                         <span id="snippet">[snippets_exec id="<span class="js-snippets-snippet-placeholder"></span>"]</span>
-                        <button class="js-clipboard-btn btn" data-clipboard-target="#snippet">
+                        <button class="js-clipboard-buttonbtn" data-clipboard-target="#snippet">
                             {{ tr('admin_copy') }}
                         </button>
                     </div>
@@ -79,7 +79,7 @@
                     <label for="template_code">{{ tr('admin_template_code') }}</label>
                     <div id="template_code" class="alert alert-dark clipboard" role="alert">
                         <span id="html">&lcub;&lcub; snippets.exec('<span class="js-snippets-php-placeholder"></span>') &rcub;&rcub;</span>
-                        <button class="js-clipboard-btn btn" data-clipboard-target="#html">
+                        <button class="js-clipboard-buttonbtn" data-clipboard-target="#html">
                             {{ tr('admin_copy') }}
                         </button>
                     </div>

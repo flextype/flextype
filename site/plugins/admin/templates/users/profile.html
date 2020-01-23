@@ -9,7 +9,7 @@
     <form id="logoutProcess" action="{{ path_for('admin.users.logoutProcess') }}" method="POST" style="display: none;">
         {{ csrf() }}
     </form>
-    <a class="btn btn-default" href="javascript:;"
+    <a class="buttonbtn-default" href="javascript:;"
        onclick="event.preventDefault();
                 document.getElementById('logoutProcess').submit();">{{ tr('admin_logout') }}</a>
 </div>

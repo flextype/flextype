@@ -20,24 +20,24 @@
                             <button type="button" class="js-dropdown-btn">
                                 <i class="fas fa-ellipsis-h"></i>
                             </button>
-                            <div class="js-dropdown dropdown-menu">
-                                <a class="dropdown-menu__item" href="{{ path_for('admin.plugins.information') }}?id={{ key }}">
-                                    <i class="fas fa-info-circle dropdown-menu__icon"></i>
+                            <div class="js-dropdown dropdown">
+                                <a class="dropdown__item" href="{{ path_for('admin.plugins.information') }}?id={{ key }}">
+                                    <i class="fas fa-info-circle dropdown__icon"></i>
                                     {{ tr('admin_information') }}</a>
-                                <a class="dropdown-menu__item" href="{{ path_for('admin.plugins.settings') }}?id={{ key }}">
-                                    <i class="fas fa-cog dropdown-menu__icon"></i>
+                                <a class="dropdown__item" href="{{ path_for('admin.plugins.settings') }}?id={{ key }}">
+                                    <i class="fas fa-cog dropdown__icon"></i>
                                     {{ tr('admin_settings') }}</a>
                                 {% if key == 'admin' or key == 'site' or key == '' %}
-                                    <a class="dropdown-menu__item opacity-50" href="javascript:;">
-                                        <i class="fas fa-toggle-on dropdown-menu__icon"></i>
+                                    <a class="dropdown__item opacity-50" href="javascript:;">
+                                        <i class="fas fa-toggle-on dropdown__icon"></i>
                                         {{ tr('admin_deactivate') }}</a>
                                 {% else %}
-                                    <a class="dropdown-menu__item" onclick="event.preventDefault(); document.getElementById('update-status-{{ key }}').submit();" href="javascript:;">
+                                    <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-status-{{ key }}').submit();" href="javascript:;">
                                         {% if plugin.enabled %}
-                                            <i class="fas fa-toggle-on dropdown-menu__icon"></i>
+                                            <i class="fas fa-toggle-on dropdown__icon"></i>
                                             {{ tr('admin_deactivate') }}
                                         {% else %}
-                                            <i class="fas fa-toggle-off dropdown-menu__icon"></i>
+                                            <i class="fas fa-toggle-off dropdown__icon"></i>
                                             {{ tr('admin_activate') }}
                                         {% endif %}
                                     </a>

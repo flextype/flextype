@@ -17,33 +17,33 @@
                         <button type="button" class="js-dropdown-btn" style="top: 16px; right: 16px; position: absolute; z-index: 10; width: 34px; height: 34px;">
                             <i class="fas fa-ellipsis-h"></i>
                         </button>
-                        <div class="js-dropdown dropdown-menu">
-                            <a class="dropdown-menu__item" href="{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor">
-                                <i class="fas fa-edit dropdown-menu__icon"></i>
+                        <div class="js-dropdown dropdown">
+                            <a class="dropdown__item" href="{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor">
+                                <i class="fas fa-edit dropdown__icon"></i>
                                 {{ tr('admin_edit') }}</a>
-                            <a class="dropdown-menu__item" href="javascript:;" onclick="$('.js-add-entry input[name=id]').attr('value', '{{ entry.slug }}');" data-toggle="modal" data-target="#selectEntryTypeModal">
-                                <i class="fas fa-plus-circle dropdown-menu__icon"></i>
+                            <a class="dropdown__item" href="javascript:;" onclick="$('.js-add-entry input[name=id]').attr('value', '{{ entry.slug }}');" data-toggle="modal" data-target="#selectEntryTypeModal">
+                                <i class="fas fa-plus-circle dropdown__icon"></i>
                                 {{ tr('admin_add') }}</a>
-                            <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                            <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                    document.getElementById('duplicate-id-{{ entry.slug }}').submit();">
-                                <i class="fas fa-copy dropdown-menu__icon"></i>
+                                <i class="fas fa-copy dropdown__icon"></i>
                                 {{ tr('admin_duplicate') }}</a>
-                            <a class="dropdown-menu__item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.slug }}">
-                                <i class="fas fa-font dropdown-menu__icon"></i>
+                            <a class="dropdown__item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.slug }}">
+                                <i class="fas fa-font dropdown__icon"></i>
                                 {{ tr('admin_rename') }}</a>
-                            <a class="dropdown-menu__item" href="{{ path_for('admin.entries.move') }}?id={{ entry.slug }}">
-                                <i class="fas fa-angle-double-right dropdown-menu__icon"></i>
+                            <a class="dropdown__item" href="{{ path_for('admin.entries.move') }}?id={{ entry.slug }}">
+                                <i class="fas fa-angle-double-right dropdown__icon"></i>
                                 {{ tr('admin_move') }}</a>
-                            <a class="dropdown-menu__item" href="{{ base_url() }}/{{ entry.slug }}" target="_blank">
-                                <i class="fas fa-eye dropdown-menu__icon"></i>
+                            <a class="dropdown__item" href="{{ base_url() }}/{{ entry.slug }}" target="_blank">
+                                <i class="fas fa-eye dropdown__icon"></i>
                                 {{ tr('admin_preview') }}</a>
-                            <a class="dropdown-menu__item" href="{{ path_for('admin.entries.type') }}?id={{ entry.slug }}">
-                                <i class="far fa-list-alt dropdown-menu__icon"></i>
+                            <a class="dropdown__item" href="{{ path_for('admin.entries.type') }}?id={{ entry.slug }}">
+                                <i class="far fa-list-alt dropdown__icon"></i>
                                 {{ tr('admin_type') }}</a>
-                            <div class="dropdown-menu__divider"></div>
-                            <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                            <div class="dropdown__divider"></div>
+                            <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                    document.getElementById('delete-id-{{ entry.slug }}').submit();">
-                                <i class="fas fa-trash-alt dropdown-menu__icon"></i>
+                                <i class="fas fa-trash-alt dropdown__icon"></i>
                                 {{ tr('admin_delete') }}</a>
                             <form id="duplicate-id-{{ entry.slug }}" action="{{ path_for('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
                                 {{ csrf() }}
@@ -161,33 +161,33 @@
                                 <button type="button" class="js-dropdown-btn">
                                     <i class="fas fa-ellipsis-h"></i>
                                 </button>
-                                <div class="js-dropdown dropdown-menu">
-                                    <a class="dropdown-menu__item" href="{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor">
-                                        <i class="fas fa-edit dropdown-menu__icon"></i>
+                                <div class="js-dropdown dropdown">
+                                    <a class="dropdown__item" href="{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor">
+                                        <i class="fas fa-edit dropdown__icon"></i>
                                         {{ tr('admin_edit') }}</a>
-                                    <a class="dropdown-menu__item" href="javascript:;" onclick="$('.js-add-entry input[name=id]').attr('value', '{{ entry.slug }}');" data-toggle="modal" data-target="#selectEntryTypeModal">
-                                        <i class="fas fa-plus-circle dropdown-menu__icon"></i>
+                                    <a class="dropdown__item" href="javascript:;" onclick="$('.js-add-entry input[name=id]').attr('value', '{{ entry.slug }}');" data-toggle="modal" data-target="#selectEntryTypeModal">
+                                        <i class="fas fa-plus-circle dropdown__icon"></i>
                                         {{ tr('admin_add') }}</a>
-                                    <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                            document.getElementById('duplicate-id-{{ entry.slug }}').submit();">
-                                        <i class="fas fa-copy dropdown-menu__icon"></i>
+                                        <i class="fas fa-copy dropdown__icon"></i>
                                         {{ tr('admin_duplicate') }}</a>
-                                    <a class="dropdown-menu__item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.slug }}">
-                                        <i class="fas fa-font dropdown-menu__icon"></i>
+                                    <a class="dropdown__item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.slug }}">
+                                        <i class="fas fa-font dropdown__icon"></i>
                                         {{ tr('admin_rename') }}</a>
-                                    <a class="dropdown-menu__item" href="{{ path_for('admin.entries.move') }}?id={{ entry.slug }}">
-                                        <i class="fas fa-angle-double-right dropdown-menu__icon"></i>
+                                    <a class="dropdown__item" href="{{ path_for('admin.entries.move') }}?id={{ entry.slug }}">
+                                        <i class="fas fa-angle-double-right dropdown__icon"></i>
                                         {{ tr('admin_move') }}</a>
-                                    <a class="dropdown-menu__item" href="{{ base_url() }}/{{ entry.slug }}" target="_blank">
-                                        <i class="fas fa-eye dropdown-menu__icon"></i>
+                                    <a class="dropdown__item" href="{{ base_url() }}/{{ entry.slug }}" target="_blank">
+                                        <i class="fas fa-eye dropdown__icon"></i>
                                         {{ tr('admin_preview') }}</a>
-                                    <a class="dropdown-menu__item" href="{{ path_for('admin.entries.type') }}?id={{ entry.slug }}">
-                                        <i class="far fa-list-alt dropdown-menu__icon"></i>
+                                    <a class="dropdown__item" href="{{ path_for('admin.entries.type') }}?id={{ entry.slug }}">
+                                        <i class="far fa-list-alt dropdown__icon"></i>
                                         {{ tr('admin_type') }}</a>
-                                    <div class="dropdown-menu__divider"></div>
-                                    <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                                    <div class="dropdown__divider"></div>
+                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                            document.getElementById('delete-id-{{ entry.slug }}').submit();">
-                                        <i class="fas fa-trash-alt dropdown-menu__icon"></i>
+                                        <i class="fas fa-trash-alt dropdown__icon"></i>
                                         {{ tr('admin_delete') }}</a>
                                     <form id="duplicate-id-{{ entry.slug }}" action="{{ path_for('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
                                         {{ csrf() }}

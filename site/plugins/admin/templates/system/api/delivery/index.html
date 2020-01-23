@@ -26,14 +26,14 @@
                             <button type="button" class="js-dropdown-btn">
                                 <i class="fas fa-ellipsis-h"></i>
                             </button>
-                            <div class="js-dropdown dropdown-menu">
-                                <a class="dropdown-menu__item" href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}">
-                                    <i class="fas fa-edit dropdown-menu__icon"></i>
+                            <div class="js-dropdown dropdown">
+                                <a class="dropdown__item" href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}">
+                                    <i class="fas fa-edit dropdown__icon"></i>
                                     {{ tr('admin_edit') }}</a>
-                                <div class="dropdown-menu__divider"></div>
-                                <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                                <div class="dropdown__divider"></div>
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                           document.getElementById('delete-api-token-id-{{ delivery_token.dirname }}').submit();">
-                                    <i class="fas fa-trash-alt dropdown-menu__icon"></i>
+                                    <i class="fas fa-trash-alt dropdown__icon"></i>
                                     {{ tr('admin_delete') }}</a>
                                 <form id="delete-api-token-id-{{ delivery_token.dirname }}" action="{{ path_for('admin.api_tokens.deleteProcess') }}" method="POST" style="display: none;">
                                     {{ csrf() }}

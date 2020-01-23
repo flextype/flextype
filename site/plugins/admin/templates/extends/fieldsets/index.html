@@ -24,21 +24,21 @@
                             <button type="button" class="js-dropdown-btn">
                                 <i class="fas fa-ellipsis-h"></i>
                             </button>
-                            <div class="js-dropdown dropdown-menu">
-                                <a class="dropdown-menu__item" href="{{ path_for('admin.fieldsets.edit') }}?id={{ id }}">
-                                    <i class="fas fa-edit dropdown-menu__icon"></i>
+                            <div class="js-dropdown dropdown">
+                                <a class="dropdown__item" href="{{ path_for('admin.fieldsets.edit') }}?id={{ id }}">
+                                    <i class="fas fa-edit dropdown__icon"></i>
                                     {{ tr('admin_edit') }}</a>
-                                <a class="dropdown-menu__item" href="{{ path_for('admin.fieldsets.rename') }}?id={{ id }}">
-                                    <i class="fas fa-font dropdown-menu__icon"></i>
+                                <a class="dropdown__item" href="{{ path_for('admin.fieldsets.rename') }}?id={{ id }}">
+                                    <i class="fas fa-font dropdown__icon"></i>
                                     {{ tr('admin_rename') }}</a>
-                                <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                             document.getElementById('duplicate-fieldset-id-{{ id }}').submit();">
-                                    <i class="fas fa-copy dropdown-menu__icon"></i>
+                                    <i class="fas fa-copy dropdown__icon"></i>
                                     {{ tr('admin_duplicate') }}</a>
-                                <div class="dropdown-menu__divider"></div>
-                                <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                                <div class="dropdown__divider"></div>
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                             document.getElementById('delete-fieldset-id-{{ id }}').submit();">
-                                    <i class="fas fa-trash-alt dropdown-menu__icon"></i>
+                                    <i class="fas fa-trash-alt dropdown__icon"></i>
                                     {{ tr('admin_delete') }}</a>
                                 <form id="delete-fieldset-id-{{ id }}" action="{{ path_for('admin.fieldsets.deleteProcess') }}" method="POST" style="display: none;">
                                     {{ csrf() }}

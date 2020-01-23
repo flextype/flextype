@@ -16,19 +16,19 @@
                             <button type="button" class="js-dropdown-btn">
                                 <i class="fas fa-ellipsis-h"></i>
                             </button>
-                            <div class="js-dropdown dropdown-menu">
+                            <div class="js-dropdown dropdown">
                                 {% if key == registry.settings.theme %}
                                 {% else %}
-                                    <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                               document.getElementById('activate-theme-id-{{ key }}').submit();">
-                                        <i class="far fa-star dropdown-menu__icon"></i>
+                                        <i class="far fa-star dropdown__icon"></i>
                                         {{ tr('admin_activate') }}</a>
                                 {% endif %}
-                                <a class="dropdown-menu__item" href="{{ path_for('admin.themes.information') }}?id={{ key }}">
-                                    <i class="fas fa-info-circle dropdown-menu__icon"></i>
+                                <a class="dropdown__item" href="{{ path_for('admin.themes.information') }}?id={{ key }}">
+                                    <i class="fas fa-info-circle dropdown__icon"></i>
                                     {{ tr('admin_information') }}</a>
-                                <a class="dropdown-menu__item" href="{{ path_for('admin.themes.settings') }}?id={{ key }}">
-                                    <i class="fas fa-cog dropdown-menu__icon"></i>
+                                <a class="dropdown__item" href="{{ path_for('admin.themes.settings') }}?id={{ key }}">
+                                    <i class="fas fa-cog dropdown__icon"></i>
                                     {{ tr('admin_settings') }}</a>
                                 <form id="activate-theme-id-{{ key }}" action="{{ path_for('admin.themes.activateProcess') }}" method="POST" style="display: none;">
                                     {{ csrf() }}

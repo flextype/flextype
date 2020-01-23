@@ -22,10 +22,10 @@
                     <button type="button" class="js-dropdown-btn">
                         <i class="fas fa-ellipsis-h"></i>
                     </button>
-                    <div class="js-dropdown dropdown-menu">
-                        <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                    <div class="js-dropdown dropdown">
+                        <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                   document.getElementById('clear-id-doctrine').submit();">
-                            <i class="fas fa-trash-alt dropdown-menu__icon"></i>
+                            <i class="fas fa-trash-alt dropdown__icon"></i>
                             {{ tr('admin_clear') }}</a>
                         <form id="clear-id-doctrine" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
                             {{ csrf() }}
@@ -46,10 +46,10 @@
                     <button type="button" class="js-dropdown-btn">
                         <i class="fas fa-ellipsis-h"></i>
                     </button>
-                    <div class="js-dropdown dropdown-menu">
-                        <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                    <div class="js-dropdown dropdown">
+                        <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                   document.getElementById('clear-id-twig').submit();">
-                            <i class="fas fa-trash-alt dropdown-menu__icon"></i>
+                            <i class="fas fa-trash-alt dropdown__icon"></i>
                             {{ tr('admin_clear') }}</a>
                         <form id="clear-id-twig" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
                             {{ csrf() }}
@@ -70,10 +70,10 @@
                     <button type="button" class="js-dropdown-btn">
                         <i class="fas fa-ellipsis-h"></i>
                     </button>
-                    <div class="js-dropdown dropdown-menu">
-                        <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                    <div class="js-dropdown dropdown">
+                        <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                   document.getElementById('clear-id-glide').submit();">
-                            <i class="fas fa-trash-alt dropdown-menu__icon"></i>
+                            <i class="fas fa-trash-alt dropdown__icon"></i>
                             {{ tr('admin_clear') }}</a>
                         <form id="clear-id-glide" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
                             {{ csrf() }}
