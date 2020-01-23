@@ -1,21 +1,25 @@
 <!doctype html>
 <html lang="{{ registry.settings.locale }}">
-  <head>
-    {% block head %}
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <meta name="robots" content="noindex,nofollow">
+    <head>
+        {% block head %}
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description" content="">
+            <meta name="author" content="">
+            <meta name="robots" content="noindex,nofollow">
 
-        {% do emitter.emit('onAdminThemeMeta') %}
+            {% do 
+                emitter.emit('onAdminThemeMeta') %}
 
-    	<title>FLEXTYPE</title>
+            <title>FLEXTYPE</title>
 
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
+            <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet"/>
+            <script src="https://unpkg.com/popper.js@1"></script>
+            <script src="https://unpkg.com/tippy.js@5"></script>
 
-        {#
+            {#
         {% set admin_build = base_url() ~ '/site/plugins/admin/assets/dist/css/admin-build.min.css' %}
         {% set admin_elegant = base_url() ~ '/site/plugins/admin/assets/dist/css/elegant.css' %}
         {% set admin_light = base_url() ~ '/site/plugins/admin/assets/dist/css/admin-light.min.css' %}
@@ -33,18 +37,19 @@
 
         #}
 
-        <script src="{{ base_url() ~ '/site/plugins/admin/node_modules/@fortawesome/fontawesome-free/js/all.min.js' }}" crossorigin="anonymous"></script>
+            <script src="{{ base_url() ~ '/site/plugins/admin/node_modules/@fortawesome/fontawesome-free/js/all.min.js' }}" crossorigin="anonymous"></script>
 
-        {% set admin_build = base_url() ~ '/site/plugins/admin/assets/dist/css/build.min.css' %}
-        {% do assets.add('css', admin_build, 'admin', 1) %}
+            {% set admin_build = base_url() ~ '/site/plugins/admin/assets/dist/css/build.min.css' %}
+            {% do 
+                assets.add('css', admin_build, 'admin', 1) %}
 
-        {% for assets_admin in assets.get('css', 'admin') %}
-            {% for assets_by_priorities in assets_admin %}
-                <link href="{{ assets_by_priorities.asset }}" rel="stylesheet">
+            {% for assets_admin in assets.get('css', 'admin') %}
+                {% for assets_by_priorities in assets_admin %}
+                    <link href="{{ assets_by_priorities.asset }}" rel="stylesheet">
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
 
-        {#
+            {#
         <style media="screen">
             .editor {
                 background-color: #fff;
@@ -69,144 +74,200 @@
         </style>
         #}
 
-
-        {% do emitter.emit('onAdminThemeHeader') %}
-    {% endblock %}
-  </head>
-  <body>
-      <main>
-          <nav>
-              <ul>
-                  <li>
-                      <a href="{{ path_for('admin.entries.index') }}" class="logo active">F</a>
-                  </li>
-                  {% for key, item in registry.admin_navigation.content %}
-                      <li>
-                          <a href="{{ base_url() }}{{ item.link|raw }}"
-                          class="{% if key == menu_item %}active{% endif %}">{{ item.title|raw }}</a>
-                      </li>
-                  {% endfor %}
-                  {% for key, item in registry.admin_navigation.extends %}
-                      <li>
-                          <a href="{{ base_url() }}{{ item.link|raw }}"
-                          class="{% if key == menu_item %}active{% endif %}">{{ item.title|raw }}</a>
-                      </li>
-                  {% endfor %}
-                  {% for key, item in registry.admin_navigation.settings %}
-                      <li>
-                          <a href="{{ base_url() }}{{ item.link|raw }}"
-                          class="{% if key == menu_item %}active{% endif %}">{{ item.title|raw }}</a>
-                      </li>
-                  {% endfor %}
-                  {% for key, item in registry.admin_navigation.help %}
-                      <li>
-                          <a href="{{ item.link|raw }}"
-                          class="{% if key == menu_item %}active{% endif %}">{{ item.title|raw }}</a>
-                      </li>
-                  {% endfor %}
-              </ul>
-          </nav>
-          <div class="content">
-              <div class="bars clearfix">
-                  <div class="top-bar clearfix">
+            {% do 
+                emitter.emit('onAdminThemeHeader') %}
+        {% endblock %}
+    </head>
+    <body>
+        <main>
+            <nav class="navigation">
+                <ul>
+                    <li>
+                        <a href="{{ path_for('admin.entries.index') }}" class="navigation__item navigation__item--logo navigation__item--active">F</a>
+                    </li>
+                    {% for key, item in registry.admin_navigation.content %}
+                        <li>
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ base_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">{{ item.icon|raw }}</a>
+                        </li>
+                    {% endfor %}
+                    {% for key, item in registry.admin_navigation.extends %}
+                        <li>
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ base_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">{{ item.icon|raw }}</a>
+                        </li>
+                    {% endfor %}
+                    {% for key, item in registry.admin_navigation.settings %}
+                        <li>
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ base_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">{{ item.icon|raw }}</a>
+                        </li>
+                    {% endfor %}
+                    {% for key, item in registry.admin_navigation.help %}
+                        <li>
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">{{ item.icon|raw }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <div class="content">
+                <div class="bars clearfix">
+                    <div class="top-bar clearfix">
                         {% if links or buttons %}
                             {% if links %}
-                            <div class="lg:w-auto block float-left">
-                                {% for link in links %}
-                                    <a href="{{ link.link }}"
-                                    {% for key, attribute in link.attributes %}
-                                        {{ key }} = "{{ attribute }}"
+                                <div class="lg:w-auto block float-left">
+                                    {% for link in links %}
+                                        <a href="{{ link.link }}" {% for key, attribute in link.attributes %} {{ key }}="{{ attribute }}" {% endfor %}>{{ link.title }}</a>
                                     {% endfor %}
-                                    >{{ link.title }}</a>
-                                {% endfor %}
-                            </div>
+                                </div>
                             {% endif %}
                             {% if buttons %}
-                            <div class="lg:w-auto block float-right text-right">
-                                {% for button in buttons %}
-                                    {% if button.type == 'action' %}
-                                    <a href="{{ button.link }}"
-                                       onclick="event.preventDefault();
+                                <div class="lg:w-auto block float-right text-right">
+                                    {% for button in buttons %}
+                                        {% if button.type == 'action' %}
+                                            <a
+                                                href="{{ button.link }}"
+                                                onclick="event.preventDefault();
                                                      document.getElementById('{{ button.id }}').submit();"
-                                                     {% for key, attribute in button.attributes %}
-                                                         {{ key }} = "{{ attribute }}"
-                                                     {% endfor %}>
-                                        {{ button.title }}
-                                    </a>
-                                    <form id="{{ button.id }}" action="{{ button.link }}" method="POST" style="display: none;">
-                                        {{ csrf() }}
-                                    </form>
-                                    {% else %}
-                                    <a href="{{ button.link }}"
-                                    {% for key, attribute in button.attributes %}
-                                        {{ key }} = "{{ attribute }}"
+                                                {% for key, attribute in button.attributes %}
+                                                {{ key }}="{{ attribute }}"
+                                                {% endfor %}>
+                                                {{ button.title }}
+                                            </a>
+                                            <form id="{{ button.id }}" action="{{ button.link }}" method="POST" style="display: none;">
+                                                {{ csrf() }}
+                                            </form>
+                                        {% else %}
+                                            <a href="{{ button.link }}" {% for key, attribute in button.attributes %} {{ key }}="{{ attribute }}" {% endfor %}>{{ button.title|raw }}</a>
+                                        {% endif %}
                                     {% endfor %}
-                                    >{{ button.title|raw }}</a>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
+                                </div>
                             {% endif %}
                         {% endif %}
-                  </div>
-                  <div class="path-bar">
-                      {% if is_current_path('admin.entries.index') or
-                            is_current_path('admin.entries.edit') or
-                            is_current_path('admin.entries.add') or
-                            is_current_path('admin.entries.move') or
-                            is_current_path('admin.entries.rename') or
+                    </div>
+                    <div class="path-bar flex">
+                        <div class="block w-6/12">
+                            {% if is_current_path('admin.entries.index')or
+                            is_current_path('admin.entries.edit')or
+                            is_current_path('admin.entries.add')or
+                            is_current_path('admin.entries.move')or
+                            is_current_path('admin.entries.rename')or
                             is_current_path('admin.entries.type') %}
-                          {% for part in parts %}
-                              {% set i = i - 1 %}
-                              {% if (part != last) %}
-                                  <a href="{{ path_for('admin.entries.index') }}?id={{ (parts|slice(0, -i))|join('/') }}"> / {{ part }}</a>
-                              {% else %}
-                                  / {{ part }}
-                              {% endif %}
-                          {% endfor %}
-                      {% endif %}
+                                {% for part in parts %}
+                                    {% set i = i - 1 %}
+                                    {% if (part != last) %}
+                                        <a href="{{ path_for('admin.entries.index') }}?id={{ (parts|slice(0, -i))|join('/') }}">
+                                            /
+                                            {{ part }}</a>
+                                    {% else %}
+                                        /
+                                        {{ part }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
 
-                      {% if is_current_path('admin.themes.index') or
-                            is_current_path('admin.templates.index') or
-                            is_current_path('admin.templates.edit') or
-                            is_current_path('admin.templates.rename') or
+                            {% if is_current_path('admin.themes.index')or
+                            is_current_path('admin.templates.index')or
+                            is_current_path('admin.templates.edit')or
+                            is_current_path('admin.templates.rename')or
                             is_current_path('admin.templates.add') %}
-                          / <a href="{{ path_for('admin.templates.index') }}?theme={{ theme }}">{{ theme }}</a> {% if id %} / {{ id }}{% endif %}
-                      {% endif %}
+                                /
+                                <a href="{{ path_for('admin.templates.index') }}?theme={{ theme }}">{{ theme }}</a>
+                                {% if id %}
+                                    /
+                                    {{ id }}
+                                {% endif %}
+                            {% endif %}
 
-                      {% if is_current_path('admin.api.index') or
-                            is_current_path('admin.api_tokens.index') or
-                            is_current_path('admin.api_tokens.add') or
+                            {% if is_current_path('admin.api.index')or
+                            is_current_path('admin.api_tokens.index')or
+                            is_current_path('admin.api_tokens.add')or
                             is_current_path('admin.api_tokens.edit') %}
-                          / <a href="{{ path_for('admin.api_tokens.index') }}?api={{ api }}">{{ api }}</a>
-                      {% endif %}
+                                /
+                                <a href="{{ path_for('admin.api_tokens.index') }}?api={{ api }}">{{ api }}</a>
+                            {% endif %}
 
-                      {% if is_current_path('admin.themes.information') or
+                            {% if is_current_path('admin.themes.information')or
                             is_current_path('admin.themes.settings') %}
-                            {% if id %} / {{ id }}{% endif %}
-                      {% endif %}
+                                {% if id %}
+                                    /
+                                    {{ id }}
+                                {% endif %}
+                            {% endif %}
 
-                      {% if is_current_path('admin.fieldsets.index') or
-                            is_current_path('admin.fieldsets.edit') or
-                            is_current_path('admin.fieldsets.rename') or
-                            is_current_path('admin.fieldsets.add') or
-                            is_current_path('admin.snippets.index') or
-                            is_current_path('admin.snippets.edit') or
-                            is_current_path('admin.snippets.rename') or
+                            {% if is_current_path('admin.fieldsets.index')or
+                            is_current_path('admin.fieldsets.edit')or
+                            is_current_path('admin.fieldsets.rename')or
+                            is_current_path('admin.fieldsets.add')or
+                            is_current_path('admin.snippets.index')or
+                            is_current_path('admin.snippets.edit')or
+                            is_current_path('admin.snippets.rename')or
                             is_current_path('admin.snippets.add') %}
-                          / {{ id }}
-                      {% endif %}
+                                /
+                                {{ id }}
+                            {% endif %}
 
-                      {% if is_current_path('admin.plugins.index') or
-                            is_current_path('admin.plugins.information') or
+                            {% if is_current_path('admin.plugins.index')or
+                            is_current_path('admin.plugins.information')or
                             is_current_path('admin.plugins.settings') %}
-                          / {{ id }}
-                      {% endif %}
-                  </div>
-              </div>
-              <div class="inner">
-              {% block content %}{% endblock %}
-              </div>
-          </div>
-      </main>
-  </body>
+                                /
+                                {{ id }}
+                            {% endif %}
+                        </div>
+                        <div class="block w-6/12 text-right">
+                            {% if is_current_path('admin.entries.index') %}
+                                <form id="items-view-list" action="{{ path_for('admin.entries.displayViewProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="id" value="{{ id_current }}">
+                                    <input type="hidden" name="items_view" value="list">
+                                </form>
+                                <form id="items-view-table" action="{{ path_for('admin.entries.displayViewProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="id" value="{{ id_current }}">
+                                    <input type="hidden" name="items_view" value="table">
+                                </form>
+                                <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-list').submit();" class="icon mr-1 {% if items_view == 'list' %}bg-gray-100{% endif %} hover:bg-gray-100">
+                                    <i class="fas fa-bars"></i>
+                                </a>
+                                <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-table').submit();" class="icon {% if items_view == 'table' %}bg-gray-100{% endif %} hover:bg-gray-100">
+                                    <i class="fas fa-th"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="inner">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+
+            <script>
+                $(document).ready(function () {
+                    $('.js-example-basic-single').select2();
+
+                    tippy('.js-nav', {placement: 'right'});
+
+                    tippy('.js-dropdown-btn', {
+                        placement: 'bottom',
+                        allowHTML: true,
+                        interactive: true,
+                        popperOptions: {
+                            positionFixed: true
+                        },
+                        trigger: 'click',
+                        maxWidth: 500,
+                        zIndex: 10,
+                        content: $('.js-dropdown-btn').siblings().html()
+                    });
+
+                    /*
+                $('.js-dropdown-btn').click(function () {
+                    $('.js-dropdown').hide();
+                    $(this).siblings().show();
+                });
+                */
+                });
+            </script>
+        </main>
+    </body>
 </html>
