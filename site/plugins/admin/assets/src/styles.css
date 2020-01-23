@@ -1,9 +1,8 @@
 @import 'tailwindcss/base';
 
 @import 'vars';
-@import 'main';
+@import 'common';
 @import 'content';
-@import 'form';
 @import 'components/tables';
 @import 'components/navigations';
 @import 'components/buttons';

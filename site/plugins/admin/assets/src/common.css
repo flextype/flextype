@@ -1,0 +1,10 @@
+body
+{
+    font-family: Roboto;
+    font-size: var(--font-size);
+}
+
+main
+{
+    @apply flex w-full h-screen min-w-full bg-white text-black;
+}
