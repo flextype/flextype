@@ -1,20 +1,22 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-{% if (api_list|length > 0) %}
-<table>
-  <tbody>
-      {% for key, api in api_list %}
-      <tr>
-          <td class="w-1 text-center">
-            <i class="fas fa-truck"></i>
-          </td>
-          <td class="pl-0"><a href="{{ path_for('admin.api_tokens.index') }}?api={{ key }}">{{ api }}</a></td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% else %}
-    {{ include ("plugins/admin/templates/ui/no-elements.html", {icon: 'fas fa-network-wired', message: 'admin_you_have_not_created_any_api_tokens_yet'}) }}
-{% endif %}
+    {% if (api_list | length > 0) %}
+        <table>
+            <tbody>
+                {% for key, api in api_list %}
+                    <tr>
+                        <td class="w-1 text-center">
+                            <i class="fas fa-truck"></i>
+                        </td>
+                        <td class="pl-0">
+                            <a href="{{ path_for('admin.api_tokens.index') }}?api={{ key }}">{{ api }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        {{ include ("plugins/admin/templates/ui/no-elements.html", {icon: 'fas fa-network-wired', message: 'admin_you_have_not_created_any_api_tokens_yet'}) }}
+    {% endif %}
 {% endblock %}

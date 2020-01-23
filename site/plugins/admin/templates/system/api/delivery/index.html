@@ -1,50 +1,58 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-{% if (delivery_tokens_list|length > 0) %}
-<table>
-  <tbody>
-      {% for key, delivery_token in delivery_tokens_list %}
-      {% set token_file_path = PATH_TOKENS ~ '/' ~ api ~ '/' ~ delivery_token.dirname  ~ '/' ~ 'token.yaml' %}
-      {% if filesystem_has(token_file_path) %}
-          {% set token_data = parser_decode(filesystem_read(token_file_path), 'yaml') %}
-      {% endif %}
-      <tr>
-          <td class="w-1 text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
-            <i class="fas fa-truck"></i>
-          </td>
-          <td class="pl-0 {% if token_data.state == 'disabled' %}opacity-50{% endif %}"><a href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}">{{ token_data.title }}</a></td>
-          <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ delivery_token.dirname }}</td>
-          <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token_data.calls }} / {% if(token_data.limit_calls > 0) %}{{ token_data.limit_calls }}{% else %}<span style="font-size: 20px;">&infin;</span>{% endif %}</td>
-          <td class="text-right">
-              <div class="relative">
-                <button type="button" class="btn dot js-dropdown-btn">
-                  <i class="fas fa-ellipsis-h"></i>
-                </button>
-                <div class="js-dropdown px-10 py-6 bg-black text-white absolute right-0 top-0 mt-6 w-56 text-left hidden">
-                  <a class="block py-2" href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}"><i class="fas fa-edit mr-2"></i> {{ tr('admin_edit') }}</a>
-                  <form id="delete-api-token-id-{{ delivery_token.dirname }}" action="{{ path_for('admin.api_tokens.deleteProcess') }}" method="POST" style="display: none;">
-                      {{ csrf() }}
-                      <input type="hidden" name="api" value="{{ api }}">
-                      <input type="hidden" name="api_token" value="{{ delivery_token.dirname }}">
-                  </form>
-                  <a class="block py-2" href="javascript:;"
-                     onclick="event.preventDefault();
-                              document.getElementById('delete-api-token-id-{{ delivery_token.dirname }}').submit();"><i class="fas fa-trash-alt mr-2"></i> {{ tr('admin_delete') }}</a>
-                </div>
-              </div>
-          </td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% else %}
-    {{ include ("plugins/admin/templates/ui/no-elements.html", {icon: 'fas fa-truck',
+    {% if (delivery_tokens_list | length > 0) %}
+        <table>
+            <tbody>
+                {% for key, delivery_token in delivery_tokens_list %}
+                    {% set token_file_path = PATH_TOKENS ~ '/' ~ api ~ '/' ~ delivery_token.dirname ~ '/' ~ 'token.yaml' %}
+                    {% if filesystem_has(token_file_path) %}
+                        {% set token_data = parser_decode(filesystem_read(token_file_path), 'yaml') %}
+                    {% endif %}
+                    <tr>
+                        <td class="w-1 text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
+                            <i class="fas fa-truck"></i>
+                        </td>
+                        <td class="pl-0 {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
+                            <a href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}">{{ token_data.title }}</a>
+                        </td>
+                        <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ delivery_token.dirname }}</td>
+                        <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token_data.calls }}
+                            /
+                            {% if (token_data.limit_calls > 0) %}{{ token_data.limit_calls }}
+                            {% else %}&infin;{% endif %}
+                        </td>
+                        <td class="text-right">
+                            <button type="button" class="js-dropdown-btn">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                            <div class="js-dropdown dropdown-menu">
+                                <a class="dropdown-menu__item" href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}">
+                                    <i class="fas fa-edit dropdown-menu__icon"></i>
+                                    {{ tr('admin_edit') }}</a>
+                                <div class="dropdown-menu__divider"></div>
+                                <a class="dropdown-menu__item" href="javascript:;" onclick="event.preventDefault();
+                          document.getElementById('delete-api-token-id-{{ delivery_token.dirname }}').submit();">
+                                    <i class="fas fa-trash-alt dropdown-menu__icon"></i>
+                                    {{ tr('admin_delete') }}</a>
+                                <form id="delete-api-token-id-{{ delivery_token.dirname }}" action="{{ path_for('admin.api_tokens.deleteProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="api" value="{{ api }}">
+                                    <input type="hidden" name="api_token" value="{{ delivery_token.dirname }}">
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        {{ include ("plugins/admin/templates/ui/no-elements.html", {icon: 'fas fa-truck',
                                                                 message: 'admin_create_new_delivery_token',
                                                                 button: {
                                                                     link: path_for('admin.api_tokens.add') ~ '?api=' ~ api,
                                                                     title: 'admin_create_new_delivery_token'
                                                                     }
                                                                 })}}
-{% endif %}
+    {% endif %}
 {% endblock %}
