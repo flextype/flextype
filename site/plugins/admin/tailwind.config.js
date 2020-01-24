@@ -2,8 +2,10 @@ module.exports = {
   separator: ':',
   theme: {
       colors: {
-          black: '#000',
-          white: '#fff',
+          black: '#000000',
+          white: '#ffffff',
+          dark: "#16171a",
+          "dark-muted": "#292b30",
           gray: {
               '000': '#f9f9f9',
               '100': '#ededed',
@@ -15,7 +17,6 @@ module.exports = {
               '700': '#898989',
               '800': '#6c6c6c',
               '900': '#3f3f3f',
-              '1000': '#16171a',
           }
       },
       borderColor: theme => ({
