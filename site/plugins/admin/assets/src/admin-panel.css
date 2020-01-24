@@ -1,8 +1,15 @@
+/**
+ * ADMIN PANEL
+ */
+
 @import 'tailwindcss/base';
 
-@import 'vars';
-@import 'common';
-@import 'content';
+/* Base */
+@import 'base/variables';
+@import 'base/common';
+@import 'base/content';
+
+/* Components */
 @import 'components/tables';
 @import 'components/navigations';
 @import 'components/buttons';
