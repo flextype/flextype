@@ -35,9 +35,8 @@ class FieldsetsController extends Controller
                 'buttons' => [
                     'fieldsets_add' => [
                         'link' => $this->router->pathFor('admin.fieldsets.add'),
-                        'title' => __('admin_create_new_fieldset'),
-
-                    ],
+                        'title' => __('admin_create_new_fieldset')
+                    ]
                 ],
             ]
         );
@@ -55,7 +54,6 @@ class FieldsetsController extends Controller
                     'fieldsets' => [
                         'link' => $this->router->pathFor('admin.fieldsets.index'),
                         'title' => __('admin_fieldsets'),
-
                     ],
                     'fieldsets_add' => [
                         'link' => $this->router->pathFor('admin.fieldsets.add'),
@@ -121,7 +119,6 @@ class FieldsetsController extends Controller
                     'fieldsets' => [
                         'link' => $this->router->pathFor('admin.fieldsets.index'),
                         'title' => __('admin_fieldsets'),
-
                     ],
                     'fieldsets_editor' => [
                         'link' => $this->router->pathFor('admin.fieldsets.edit') . '?id=' . $request->getQueryParams()['id'],
@@ -131,9 +128,9 @@ class FieldsetsController extends Controller
                 ],
                 'buttons' => [
                     'save_entry' => [
+                        'type' => 'action',
                         'link' => 'javascript:;',
-                        'title' => __('admin_save'),
-                        'attributes' => ['class' => 'js-save-form-submit btn'],
+                        'title' => __('admin_save')
                     ],
                 ],
             ]
@@ -166,7 +163,6 @@ class FieldsetsController extends Controller
                     'fieldsets' => [
                         'link' => $this->router->pathFor('admin.fieldsets.index'),
                         'title' => __('admin_fieldsets'),
-
                     ],
                     'fieldsets_rename' => [
                         'link' => $this->router->pathFor('admin.fieldsets.rename') . '?id=' . $request->getQueryParams()['id'],
