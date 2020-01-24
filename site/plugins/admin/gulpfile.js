@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const tailwindConfig = "tailwind.config.js";
-const mainCSS = "assets/src/styles.css";
+const adminPanelCSS = "assets/src/admin-panel.css";
 
 /**
  * Custom PurgeCSS Extractor
@@ -26,7 +26,7 @@ gulp.task("css", function() {
   const autoprefixer = require('gulp-autoprefixer');
 
   return gulp
-    .src(mainCSS)
+    .src(adminPanelCSS)
     .pipe(postcss([atimport(), tailwindcss(tailwindConfig)]))
     .pipe(
       purgecss({
