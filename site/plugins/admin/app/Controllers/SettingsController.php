@@ -102,7 +102,7 @@ class SettingsController extends Controller
                     'settings' => [
                         'link' => $this->router->pathFor('admin.settings.index'),
                         'title' => __('admin_settings'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
                 'buttons'  => [

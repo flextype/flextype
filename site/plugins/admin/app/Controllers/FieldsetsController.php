@@ -29,14 +29,14 @@ class FieldsetsController extends Controller
                     'fieldsets' => [
                         'link' => $this->router->pathFor('admin.fieldsets.index'),
                         'title' => __('admin_fieldsets'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [
                     'fieldsets_add' => [
                         'link' => $this->router->pathFor('admin.fieldsets.add'),
                         'title' => __('admin_create_new_fieldset'),
-                        'attributes' => ['class' => 'btn'],
+
                     ],
                 ],
             ]
@@ -55,12 +55,12 @@ class FieldsetsController extends Controller
                     'fieldsets' => [
                         'link' => $this->router->pathFor('admin.fieldsets.index'),
                         'title' => __('admin_fieldsets'),
-                        'attributes' => ['class' => 'btn'],
+
                     ],
                     'fieldsets_add' => [
                         'link' => $this->router->pathFor('admin.fieldsets.add'),
                         'title' => __('admin_create_new_fieldset'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
             ]
@@ -121,12 +121,12 @@ class FieldsetsController extends Controller
                     'fieldsets' => [
                         'link' => $this->router->pathFor('admin.fieldsets.index'),
                         'title' => __('admin_fieldsets'),
-                        'attributes' => ['class' => 'btn'],
+
                     ],
                     'fieldsets_editor' => [
                         'link' => $this->router->pathFor('admin.fieldsets.edit') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_editor'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [
@@ -166,12 +166,12 @@ class FieldsetsController extends Controller
                     'fieldsets' => [
                         'link' => $this->router->pathFor('admin.fieldsets.index'),
                         'title' => __('admin_fieldsets'),
-                        'attributes' => ['class' => 'btn'],
+
                     ],
                     'fieldsets_rename' => [
                         'link' => $this->router->pathFor('admin.fieldsets.rename') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_rename'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
             ]

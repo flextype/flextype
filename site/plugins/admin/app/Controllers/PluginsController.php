@@ -39,7 +39,7 @@ class PluginsController extends Controller
                     'plugins' => [
                         'link' => $this->router->pathFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' =>  [
@@ -133,12 +133,12 @@ class PluginsController extends Controller
                     'plugins' => [
                         'link' => $this->router->pathFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
-                        'attributes' => ['class' => 'btn'],
+
                     ],
                     'plugins_information' => [
                         'link' => $this->router->pathFor('admin.plugins.information') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_information'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
             ]
@@ -193,12 +193,12 @@ class PluginsController extends Controller
                     'plugins' => [
                         'link' => $this->router->pathFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
-                        'attributes' => ['class' => 'btn'],
+
                     ],
                     'plugins_settings' => [
                         'link' => $this->router->pathFor('admin.plugins.settings') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_settings'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [

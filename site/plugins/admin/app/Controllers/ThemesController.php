@@ -41,7 +41,7 @@ class ThemesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [
@@ -179,12 +179,12 @@ class ThemesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'btn'],
+
                     ],
                     'themes_information' => [
                         'link' => $this->router->pathFor('admin.themes.information') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_information'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
             ]
@@ -238,12 +238,12 @@ class ThemesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'btn'],
+
                     ],
                     'themes_settings' => [
                         'link' => $this->router->pathFor('admin.themes.settings') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_settings'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [

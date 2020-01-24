@@ -36,14 +36,14 @@ class SnippetsController extends Controller
                     'snippets' => [
                         'link' => $this->router->pathFor('admin.snippets.index'),
                         'title' => __('admin_snippets'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [
                     'snippets_create' => [
                         'link' => $this->router->pathFor('admin.snippets.add'),
                         'title' => __('admin_create_new_snippet'),
-                        'attributes' => ['class' => 'btn'],
+
                     ],
                 ],
             ]
@@ -67,12 +67,12 @@ class SnippetsController extends Controller
                     'snippets' => [
                         'link' => $this->router->pathFor('admin.snippets.index'),
                         'title' => __('admin_snippets'),
-                        'attributes' => ['class' => 'btn'],
+
                     ],
                     'snippets_rename' => [
                         'link' => $this->router->pathFor('admin.snippets.add'),
                         'title' => __('admin_create_new_snippet'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
             ]
@@ -126,12 +126,12 @@ class SnippetsController extends Controller
                     'snippets' => [
                         'link' => $this->router->pathFor('admin.snippets.index'),
                         'title' => __('admin_snippets'),
-                        'attributes' => ['class' => 'btn'],
+
                     ],
                     'snippets_editor' => [
                         'link' => $this->router->pathFor('admin.snippets.edit') . '?id=' . $id,
                         'title' => __('admin_editor'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [
@@ -183,12 +183,12 @@ class SnippetsController extends Controller
                     'snippets' => [
                         'link' => $this->router->pathFor('admin.snippets.index'),
                         'title' => __('admin_snippets'),
-                        'attributes' => ['class' => 'btn'],
+
                     ],
                     'snippets_rename' => [
                         'link' => $this->router->pathFor('admin.snippets.rename') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_rename'),
-                        'attributes' => ['class' => 'btn active'],
+                        'active' => true
                     ],
                 ],
             ]

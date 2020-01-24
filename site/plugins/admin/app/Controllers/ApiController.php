@@ -35,7 +35,7 @@ class ApiController extends Controller
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
-                        'attributes' => ['class' => 'navigation-top-primary__item navigation-top-primary__item--active'],
+                        'active' => true,
                     ],
                 ],
             ]
@@ -63,12 +63,11 @@ class ApiController extends Controller
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
-                        'attributes' => ['class' => 'navigation-top-primary__item'],
                     ],
                     'api_tokens' => [
                         'link' => $this->router->pathFor('admin.api_tokens.index') . '?api=' . $api,
                         'title' => __('admin_' . $api),
-                        'attributes' => ['class' => 'navigation-top-primary__item navigation-top-primary__item--active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [
@@ -101,18 +100,16 @@ class ApiController extends Controller
                 'links' =>  [
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
-                        'title' => __('admin_api'),
-                        'attributes' => ['class' => 'navigation-top-primary__item'],
+                        'title' => __('admin_api')
                     ],
                     'api_tokens' => [
                         'link' => $this->router->pathFor('admin.api_tokens.index') . '?api=' . $api,
-                        'title' => __('admin_' . $api),
-                        'attributes' => ['class' => 'navigation-top-primary__item'],
+                        'title' => __('admin_' . $api)
                     ],
                     'api_tokens_add' => [
                         'link' => $this->router->pathFor('admin.api_tokens.add') . '?api=' . $api,
                         'title' => __('admin_create_new_' . $api . '_token'),
-                        'attributes' => ['class' => 'navigation-top-primary__item navigation-top-primary__item--active'],
+                        'active' => true
                     ],
                 ],
             ]
@@ -196,18 +193,16 @@ class ApiController extends Controller
                 'links' =>  [
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
-                        'title' => __('admin_api'),
-                        'attributes' => ['class' => 'navigation-top-primary__item'],
+                        'title' => __('admin_api')
                     ],
                     'api_tokens' => [
                         'link' => $this->router->pathFor('admin.api_tokens.index') . '?api=' . $api,
-                        'title' => __('admin_' . $api),
-                        'attributes' => ['class' => 'navigation-top-primary__item'],
+                        'title' => __('admin_' . $api)
                     ],
-                    'api_tokens_add' => [
-                        'link' => $this->router->pathFor('admin.api_tokens.add') . '?api=' . $api,
-                        'title' => __('admin_create_new_' . $api . '_token'),
-                        'attributes' => ['class' => 'navigation-top-primary__item navigation-top-primary__item--active'],
+                    'api_tokens_edit' => [
+                        'link' => $this->router->pathFor('admin.api_tokens.edit') . '?api=' . $api,
+                        'title' => __('admin_edit_' . $api . '_token'),
+                        'active' => true
                     ],
                 ],
             ]
