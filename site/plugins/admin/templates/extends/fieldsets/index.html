@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if fieldsets_list | length > 0 %}
-        <table>
+        <table class="table">
             <tbody>
                 {% for id, title in fieldsets_list %}
                     {% set fieldset_path = PATH_FIELDSETS ~ '/' ~ id ~ '.yaml' %}

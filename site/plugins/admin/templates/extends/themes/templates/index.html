@@ -3,7 +3,7 @@
 {% block content %}
     {% if (templates_list | length > 0) 
         or(partials_list | length > 0) %}
-        <table>
+        <table class="table">
             <tbody>
                 {% if templates_list | length > 0 %}
                     {% for template in templates_list %}
