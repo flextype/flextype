@@ -28,3 +28,47 @@
     height: var(--box-size);
     @apply font-bold;
 }
+
+.navigation-top-primary
+{
+    @apply bg-black text-gray-100;
+}
+
+.navigation-top-primary:after
+{
+    display: table;
+    clear: both;
+
+    content: '';
+}
+
+.navigation-top-primary__item
+{
+    padding: 11.5px 20px;
+    @apply table-cell;
+}
+
+.navigation-top-primary__item--active,
+.navigation-top-primary__item:hover
+{
+    background: rgba(255, 255, 255, .13);
+
+    @apply opacity-100;
+}
+
+.navigation-top-secondary
+{
+    min-height: var(--box-size);
+    padding: 11.5px 20px;
+
+    background: #f7f7f7;
+}
+
+.navigation-top-secondary__icon
+{
+    display: inline-block;
+
+    width: 24px;
+
+    text-align: center;
+}
