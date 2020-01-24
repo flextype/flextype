@@ -1,3 +1,11 @@
+/**
+ * COMPONENTS / DROPDOWN
+ *
+ * INDEX:
+ * - dropdown
+ *
+ */
+
 .dropdown
 {
     @apply px-10 py-6 absolute hidden;
