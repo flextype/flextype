@@ -81,7 +81,7 @@
             <nav class="navigation">
                 <ul>
                     <li>
-                        <a href="{{ path_for('admin.entries.index') }}" class="navigation__item navigation__item--logo navigation__item--active">F</a>
+                        <a href="{{ path_for('admin.entries.index') }}" class="navigation__item navigation__item--logo">F</a>
                     </li>
                     {% for key, item in registry.admin_navigation.content %}
                         <li>
@@ -108,34 +108,12 @@
             <div class="content">
                 <div class="bars clearfix">
                     <div class="navigation-top-primary">
-                        {% if links or buttons %}
-                            {% if links %}
-                                <div class="lg:w-auto block float-left">
-                                    {% for link in links %}
-                                        <a href="{{ link.link }}" class="navigation-top-primary__item {% if link.active %}navigation-top-primary__item--active{% endif %}">{{ link.title }}</a>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                            {% if buttons %}
-                                <div class="lg:w-auto block float-right text-right">
-                                    {% for button in buttons %}
-                                        {% if button.type == 'action' %}
-                                            <a
-                                                href="{{ button.link }}"
-                                                onclick="event.preventDefault();
-                                                     document.getElementById('{{ button.id }}').submit();"
-                                                class="navigation-top-primary__item {% if link.active %}navigation-top-primary__item--active{% endif %}">
-                                                {{ button.title }}
-                                            </a>
-                                            <form id="{{ button.id }}" action="{{ button.link }}" method="POST" style="display: none;">
-                                                {{ csrf() }}
-                                            </form>
-                                        {% else %}
-                                            <a href="{{ button.link }}" class="navigation-top-primary__item {% if link.active %}navigation-top-primary__item--active{% endif %}">{{ button.title|raw }}</a>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
+                        {% if links %}
+                            <div class="lg:w-auto block float-left">
+                                {% for link in links %}
+                                    <a href="{{ link.link }}" class="navigation-top-primary__item {% if link.active %}navigation-top-primary__item--active{% endif %}">{{ link.title }}</a>
+                                {% endfor %}
+                            </div>
                         {% endif %}
                     </div>
                     <div class="navigation-top-secondary">
@@ -151,10 +129,10 @@
                                     {% if (part != last) %}
                                         <a href="{{ path_for('admin.entries.index') }}?id={{ (parts|slice(0, -i))|join('/') }}">
                                             /
-                                            {{ part }}</a>
+                                            <span class="pr-1 pl-1">{{ part }}</span></a>
                                     {% else %}
                                         /
-                                        {{ part }}
+                                        <span class="pr-1 pl-1">{{ part }}</span>
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}
@@ -165,10 +143,11 @@
                             is_current_path('admin.templates.rename')or
                             is_current_path('admin.templates.add') %}
                                 /
-                                <a href="{{ path_for('admin.templates.index') }}?theme={{ theme }}">{{ theme }}</a>
+                                <a href="{{ path_for('admin.templates.index') }}?theme={{ theme }}">
+                                    <span class="pr-1 pl-1">{{ theme }}</span></a>
                                 {% if id %}
                                     /
-                                    {{ id }}
+                                    <span class="pr-1 pl-1">{{ id }}</span>
                                 {% endif %}
                             {% endif %}
 
@@ -177,14 +156,15 @@
                             is_current_path('admin.api_tokens.add')or
                             is_current_path('admin.api_tokens.edit') %}
                                 /
-                                <a href="{{ path_for('admin.api_tokens.index') }}?api={{ api }}">{{ api }}</a>
+                                <a href="{{ path_for('admin.api_tokens.index') }}?api={{ api }}">
+                                    <span class="pr-1 pl-1">{{ api }}</span></a>
                             {% endif %}
 
                             {% if is_current_path('admin.themes.information')or
                             is_current_path('admin.themes.settings') %}
                                 {% if id %}
                                     /
-                                    {{ id }}
+                                    <span class="pr-1 pl-1">{{ id }}</span>
                                 {% endif %}
                             {% endif %}
 
@@ -197,17 +177,35 @@
                             is_current_path('admin.snippets.rename')or
                             is_current_path('admin.snippets.add') %}
                                 /
-                                {{ id }}
+                                <span class="pr-1 pl-1">{{ id }}</span>
                             {% endif %}
 
                             {% if is_current_path('admin.plugins.index')or
                             is_current_path('admin.plugins.information')or
                             is_current_path('admin.plugins.settings') %}
                                 /
-                                {{ id }}
+                                <span class="pr-1 pl-1">{{ id }}</span>
                             {% endif %}
                         </div>
                         <div class="block w-6/12 text-right">
+                            {% if buttons %}
+                                {% for button in buttons %}
+                                    {% if button.type == 'action' %}
+                                        <a
+                                            href="{{ button.link }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('{{ button.id }}').submit();"
+                                            class="navigation-top-primary__item {% if link.active %}navigation-top-primary__item--active{% endif %}">
+                                            {{ button.title }}
+                                        </a>
+                                        <form id="{{ button.id }}" action="{{ button.link }}" method="POST" style="display: none;">
+                                            {{ csrf() }}
+                                        </form>
+                                    {% else %}
+                                        <a href="{{ button.link }}" class=" {% if link.active %}navigation-top-primary__item--active{% endif %}">{{ button.title|raw }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
                             {% if is_current_path('admin.entries.index') %}
                                 <form id="items-view-list" action="{{ path_for('admin.entries.displayViewProcess') }}" method="POST" style="display: none;">
                                     {{ csrf() }}
