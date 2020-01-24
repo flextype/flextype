@@ -51,7 +51,7 @@
 .navigation-top-primary__item--active,
 .navigation-top-primary__item:hover
 {
-    @apply opacity-100 bg-gray-1000;
+    @apply opacity-100 bg-gray-900;
 }
 
 .navigation-top-secondary
