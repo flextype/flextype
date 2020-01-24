@@ -23,13 +23,13 @@
     height: 100%;
     padding: 15px;
 
-    @apply w-full h-full relative flex items-center justify-center cursor-pointer;
+    @apply w-full h-full relative flex items-center justify-center cursor-pointer opacity-75;
 }
 
 .navigation__item--active,
 .navigation__item:hover
 {
-    @apply bg-dark-muted;
+    @apply bg-dark-muted opacity-100;
 }
 
 .navigation__item--logo
@@ -55,13 +55,13 @@
 .navigation-top-primary__item
 {
     padding: 11.5px 20px;
-    @apply table-cell;
+    @apply table-cell opacity-75;
 }
 
 .navigation-top-primary__item--active,
 .navigation-top-primary__item:hover
 {
-    @apply bg-dark-muted;
+    @apply bg-dark-muted opacity-100;
 }
 
 .navigation-top-secondary
@@ -70,6 +70,17 @@
     padding: 11.5px 20px;
 
     @apply flex bg-dark-muted text-white;
+}
+
+.navigation-top-secondary__item
+{
+    @apply ml-2 opacity-75;
+}
+
+.navigation-top-secondary__item--active,
+.navigation-top-secondary__item:hover
+{
+    @apply opacity-100;
 }
 
 .navigation-top-secondary__icon
