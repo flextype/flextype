@@ -19,11 +19,3 @@
 
     width: calc(100% - var(--box-size));
 }
-
-.content .inner
-{
-    position: relative;
-
-    padding: 10px 20px;
-    padding-top: 96px;
-}
