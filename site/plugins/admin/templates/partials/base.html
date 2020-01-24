@@ -109,12 +109,12 @@
             </nav>
             <div class="content">
                 <div class="bars clearfix">
-                    <div class="top-bar clearfix">
+                    <div class="navigation-top-primary">
                         {% if links or buttons %}
                             {% if links %}
                                 <div class="lg:w-auto block float-left">
                                     {% for link in links %}
-                                        <a href="{{ link.link }}" {% for key, attribute in link.attributes %} {{ key }}="{{ attribute }}" {% endfor %}>{{ link.title }}</a>
+                                        <a href="{{ link.link }}" class="navigation-top-primary__item {% if link.active %}navigation-top-primary__item--active{% endif %}">{{ link.title }}</a>
                                     {% endfor %}
                                 </div>
                             {% endif %}
@@ -126,23 +126,21 @@
                                                 href="{{ button.link }}"
                                                 onclick="event.preventDefault();
                                                      document.getElementById('{{ button.id }}').submit();"
-                                                {% for key, attribute in button.attributes %}
-                                                {{ key }}="{{ attribute }}"
-                                                {% endfor %}>
+                                                class="navigation-top-primary__item {% if link.active %}navigation-top-primary__item--active{% endif %}">
                                                 {{ button.title }}
                                             </a>
                                             <form id="{{ button.id }}" action="{{ button.link }}" method="POST" style="display: none;">
                                                 {{ csrf() }}
                                             </form>
                                         {% else %}
-                                            <a href="{{ button.link }}" {% for key, attribute in button.attributes %} {{ key }}="{{ attribute }}" {% endfor %}>{{ button.title|raw }}</a>
+                                            <a href="{{ button.link }}" class="navigation-top-primary__item {% if link.active %}navigation-top-primary__item--active{% endif %}">{{ button.title|raw }}</a>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         {% endif %}
                     </div>
-                    <div class="path-bar flex">
+                    <div class="navigation-top-secondary">
                         <div class="block w-6/12">
                             {% if is_current_path('admin.entries.index')or
                             is_current_path('admin.entries.edit')or
@@ -223,51 +221,51 @@
                                     <input type="hidden" name="id" value="{{ id_current }}">
                                     <input type="hidden" name="items_view" value="table">
                                 </form>
-                                <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-list').submit();" class="icon mr-1 {% if items_view == 'list' %}bg-gray-100{% endif %} hover:bg-gray-100">
+                                <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-list').submit();" class="navigation-top-secondary__icon mr-1 {% if items_view == 'list' %}bg-gray-100{% endif %} hover:bg-gray-100">
                                     <i class="fas fa-bars"></i>
                                 </a>
-                                <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-table').submit();" class="icon {% if items_view == 'table' %}bg-gray-100{% endif %} hover:bg-gray-100">
+                                <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-table').submit();" class="navigation-top-secondary__icon {% if items_view == 'table' %}bg-gray-100{% endif %} hover:bg-gray-100">
                                     <i class="fas fa-th"></i>
                                 </a>
                             {% endif %}
                         </div>
                     </div>
                 </div>
-                <div class="inner">
+                <div class="relative" style="padding: 10px 20px; padding-top: 96px;">
                     {% block content %}{% endblock %}
                 </div>
             </div>
-
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
-
-            <script>
-                $(document).ready(function () {
-                    $('.js-example-basic-single').select2();
-
-                    tippy('.js-nav', {placement: 'right'});
-
-                    tippy('.js-dropdown-btn', {
-                        placement: 'bottom',
-                        allowHTML: true,
-                        interactive: true,
-                        popperOptions: {
-                            positionFixed: true
-                        },
-                        trigger: 'click',
-                        maxWidth: 500,
-                        zIndex: 10,
-                        content: $('.js-dropdown-btn').siblings().html()
-                    });
-
-                    /*
-                $('.js-dropdown-btn').click(function () {
-                    $('.js-dropdown').hide();
-                    $(this).siblings().show();
-                });
-                */
-                });
-            </script>
         </main>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('.js-example-basic-single').select2();
+
+                tippy('.js-nav', {placement: 'right'});
+
+                tippy('.js-dropdown-btn', {
+                    placement: 'bottom',
+                    allowHTML: true,
+                    interactive: true,
+                    popperOptions: {
+                        positionFixed: true
+                    },
+                    trigger: 'click',
+                    maxWidth: 500,
+                    zIndex: 10,
+                    content: $('.js-dropdown-btn').siblings().html()
+                });
+
+                /*
+            $('.js-dropdown-btn').click(function () {
+                $('.js-dropdown').hide();
+                $(this).siblings().show();
+            });
+            */
+            });
+        </script>
     </body>
 </html>
