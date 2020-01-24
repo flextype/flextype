@@ -6,10 +6,9 @@
  *
  */
 
-
 .button
 {
-    @apply mt-6 px-4 py-2 border border-black text-white inline-block w-auto bg-black;
+    @apply px-4 py-2 border border-black text-white inline-block w-auto bg-black;
 }
 
 .button--white
@@ -21,4 +20,14 @@
 .button--white:hover
 {
     @apply border-gray-900 bg-gray-900 text-white;
+}
+
+.button-group
+{
+    @apply mb-3;
+}
+
+.button-group .button
+{
+    @apply mr-2;
 }
