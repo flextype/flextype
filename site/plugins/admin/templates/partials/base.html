@@ -37,11 +37,9 @@
 
         #}
 
-            <script src="{{ base_url() ~ '/site/plugins/admin/node_modules/@fortawesome/fontawesome-free/js/all.min.js' }}" crossorigin="anonymous"></script>
-
-            {% set admin_build = base_url() ~ '/site/plugins/admin/assets/dist/css/build.min.css' %}
+            {% set admin_build_css = base_url() ~ '/site/plugins/admin/assets/dist/css/build.min.css' %}
             {% do 
-                assets.add('css', admin_build, 'admin', 1) %}
+                assets.add('css', admin_build_css, 'admin', 1) %}
 
             {% for assets_admin in assets.get('css', 'admin') %}
                 {% for assets_by_priorities in assets_admin %}
@@ -237,35 +235,16 @@
             </div>
         </main>
 
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+        {% set admin_build_js = base_url() ~ '/site/plugins/admin/assets/dist/js/build.min.js' %}
+        {% do 
+            assets.add('js', admin_build_js, 'admin', 1) %}
+        {% for assets_admin in assets.get('js', 'admin') %}
+            {% for assets_by_priorities in assets_admin %}
+                <script type="text/javascript" src="{{ assets_by_priorities.asset }}"></script>
+            {% endfor %}
+        {% endfor %}
 
-        <script>
-            $(document).ready(function () {
-                $('.js-example-basic-single').select2();
-
-                tippy('.js-nav', {placement: 'right'});
-
-                tippy('.js-dropdown-btn', {
-                    placement: 'bottom',
-                    allowHTML: true,
-                    interactive: true,
-                    popperOptions: {
-                        positionFixed: true
-                    },
-                    trigger: 'click',
-                    maxWidth: 500,
-                    zIndex: 10,
-                    content: $('.js-dropdown-btn').siblings().html()
-                });
-
-                /*
-            $('.js-dropdown-btn').click(function () {
-                $('.js-dropdown').hide();
-                $(this).siblings().show();
-            });
-            */
-            });
-        </script>
+        {% include "plugins/admin/templates/partials/vendor/codemirror.html" %}
+        {% include "plugins/admin/templates/partials/vendor/tippy.html" %}
     </body>
 </html>
