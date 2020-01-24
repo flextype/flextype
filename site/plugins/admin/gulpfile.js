@@ -30,11 +30,11 @@ gulp.task("css", function() {
     .pipe(postcss([atimport(), tailwindcss(tailwindConfig)]))
     .pipe(
       purgecss({
-        content: ["**/*.html", "../../**/*.md"],
+        content: ["**/*.php", "**/*.html", "../../**/*.md"],
         extractors: [
           {
             extractor: TailwindExtractor,
-            extensions: ["html", "md"]
+            extensions: ["html", "md", 'php']
           }
         ]
       })
@@ -51,5 +51,5 @@ gulp.task("css", function() {
 });
 
 gulp.task('watch', function () {
-    gulp.watch(["**/*.html", "../../**/*.md", "assets/src/"], gulp.series('css'));
+    gulp.watch(["**/*.php", "**/*.html", "../../**/*.md", "assets/src/"], gulp.series('css'));
 });
