@@ -1,6 +1,5 @@
 const gulp = require('gulp');
 const tailwindConfig = "tailwind.config.js";
-const adminPanelCSS = "assets/src/admin-panel.css";
 
 /**
  * Custom PurgeCSS Extractor
@@ -26,7 +25,15 @@ gulp.task("css", function() {
   const autoprefixer = require('gulp-autoprefixer');
 
   return gulp
-    .src(adminPanelCSS)
+    .src([
+           // Admin Panel CSS
+          'assets/src/admin-panel.css',
+
+          // Select2
+         'node_modules/select2/dist/css/select2.min.css',
+
+          // CodeMirror
+         'node_modules/codemirror/lib/codemirror.css'])
     .pipe(postcss([atimport(), tailwindcss(tailwindConfig)]))
     .pipe(
       purgecss({
@@ -50,6 +57,38 @@ gulp.task("css", function() {
     .pipe(gulp.dest("assets/dist/css/"));
 });
 
+/**
+ * Task: gulp js
+ */
+ gulp.task('js', function(){
+   const sourcemaps = require('gulp-sourcemaps');
+   const concat = require('gulp-concat');
+
+   return gulp.src([ // jQuery
+                    'node_modules/jquery/dist/jquery.min.js',
+
+                    // Select2
+                    'node_modules/select2/dist/js/select2.min.js',
+
+                     // FontAwesome
+                     'node_modules/@fortawesome/fontawesome-free/js/all.min.js',
+
+                    // CodeMirror
+                    'node_modules/codemirror/lib/codemirror.js',
+                    'node_modules/codemirror/mode/htmlmixed/htmlmixed.js',
+                    'node_modules/codemirror/mode/xml/xml.js',
+                    'node_modules/codemirror/mode/javascript/javascript.js',
+                    'node_modules/codemirror/mode/php/php.js',
+                    'node_modules/codemirror/mode/clike/clike.js',
+                    'node_modules/codemirror/mode/yaml/yaml.js'
+                 ])
+     .pipe(sourcemaps.init())
+     .pipe(concat('build.min.js'))
+     .pipe(sourcemaps.write())
+     .pipe(gulp.dest('assets/dist/js/'));
+ });
+
+
 gulp.task('watch', function () {
-    gulp.watch(["**/*.php", "**/*.html", "../../**/*.md", "assets/src/"], gulp.series('css'));
+    gulp.watch(["**/*.php", "**/*.html", "../../**/*.md", "assets/src/"], gulp.series('css', 'js'));
 });
