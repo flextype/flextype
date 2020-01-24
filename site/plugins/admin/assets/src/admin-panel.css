@@ -6,14 +6,20 @@
 
 /* Base */
 @import 'base/variables';
+@import 'base/fonts';
 @import 'base/common';
 @import 'base/content';
+
+/* Vendor */
+@import 'vendor/codemirror';
 
 /* Components */
 @import 'components/tables';
 @import 'components/navigations';
 @import 'components/buttons';
 @import 'components/dropdowns';
+@import 'components/forms';
+
 
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';

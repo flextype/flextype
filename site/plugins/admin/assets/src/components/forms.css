@@ -1,0 +1,14 @@
+.form-control-title
+{
+    @apply font-bold;
+}
+
+.form-control
+{
+    @apply w-full border border-gray-600 outline-none px-2 py-2;
+}
+
+.form-group
+{
+    @apply mb-3;
+}
