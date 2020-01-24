@@ -8,3 +8,8 @@ main
 {
     @apply flex w-full h-screen min-w-full bg-white text-black;
 }
+
+small
+{
+    @apply opacity-75 text-xs;
+}
