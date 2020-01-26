@@ -11,22 +11,22 @@
         <input type="hidden" name="calls" value="{{ api_token_data.calls }}">
         <div class="flex">
             <div class="w-full lg:w-3/12">
-                <div class="mb-2">
-                    <label for="title" class="block mb-1 font-bold">{{ tr('admin_title') }}</label>
+                <div class="form-group">
+                    <label for="title" class="form-control-title">{{ tr('admin_title') }}</label>
                     <input
                         type="text"
                         id="title"
                         name="title"
                         value="{{ api_token_data.title }}"
-                        class="w-full border border-black border-2 outline-none px-2 py-2"
+                        class="form-control"
                         required="required"
                         data-validation="length required"
                         data-validation-length="min1"
                         data-validation-error-msg="{{ tr('admin_error_title_empty_input') }}">
                     <small class="opacity-50 block mt-1">{{ tr('admin_help_text_for_tokens_label') }}</small>
                 </div>
-                <div class="mb-2">
-                    <label for="title" class="block mb-1 font-bold">{{ tr('admin_api_calls_limit') }}</label>
+                <div class="form-group">
+                    <label for="title" class="form-control-title">{{ tr('admin_api_calls_limit') }}</label>
                     <input
                         type="text"
                         id="limit"
@@ -39,8 +39,8 @@
                         data-validation-error-msg="{{ tr('admin_error_api_calls_empty_input') }}">
                     <small class="opacity-50 block mt-1">{{ tr('admin_help_text_for_api_calls_limit_label') }}</small>
                 </div>
-                <div class="mb-2">
-                    <label for="icon" class="block mb-1 font-bold">{{ tr('admin_icon') }}</label>
+                <div class="form-group">
+                    <label for="icon" class="form-control-title">{{ tr('admin_icon') }}</label>
                     <input
                         type="text"
                         id="fieldsetIcon"
@@ -53,15 +53,15 @@
                         data-validation-error-msg="{{ tr('admin_error_icon_empty_input') }}">
                     <small class="opacity-50 block mt-1">{{ tr('admin_help_text_for_api_token_icon', {':link': '<a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">fontawesome</a>'})|raw }}</small>
                 </div>
-                <div class="mb-2">
-                    <label for="type" class="block mb-1 font-bold">{{ tr('admin_state') }}</label>
-                    <select class="w-full border border-black border-2 outline-none px-1 py-2" name="state">
+                <div class="form-group">
+                    <label for="type" class="form-control-title">{{ tr('admin_state') }}</label>
+                    <select class="form-control" name="state">
                         <option value="enabled" {% if api_token_data.state == 'enabled' %} selected="selected" {% endif %}>{{ tr('admin_enabled') }}</option>
                         <option value="disabled" {% if api_token_data.state == 'disabled' %} selected="selected" {% endif %} ">{{ tr('admin_disabled') }}</option>
                     </select>
                 </div>
-                <div class="mb-2">
-                    <input type="submit" id="save" name="save" value="{{ tr('admin_save') }}" class="mt-6 px-4 py-2 border border-black border-4 text-black inline-block w-auto bg-white hover:bg-black hover:text-white">
+                <div class="button-group">
+                    <input type="submit" id="save" name="save" value="{{ tr('admin_save') }}" class="button">
                 </div>
             </div>
         </div>

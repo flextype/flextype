@@ -6,56 +6,29 @@
         <input type="hidden" name="api" value="{{ api }}">
         <div class="flex">
             <div class="w-full lg:w-3/12">
-                <div class="mb-2">
-                    <label for="title" class="block mb-1">{{ tr('admin_title') }}</label>
-                    <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        value=""
-                        class="w-full border border-gray-600 border-2 outline-none px-2 py-2"
-                        required="required"
-                        data-validation="length required"
-                        data-validation-length="min1"
-                        data-validation-error-msg="{{ tr('admin_error_title_empty_input') }}">
+                <div class="form-group">
+                    <label for="title" class="form-control-title">{{ tr('admin_title') }}</label>
+                    <input type="text" id="title" name="title" value="" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_title_empty_input') }}">
                     <small class="opacity-50 block mt-1">{{ tr('admin_help_text_for_tokens_label') }}</small>
                 </div>
-                <div class="mb-2">
-                    <label for="title" class="block mb-1">{{ tr('admin_api_calls_limit') }}</label>
-                    <input
-                        type="text"
-                        id="limit"
-                        name="limit_calls"
-                        value="0"
-                        class="w-full border border-gray-600 border-2 outline-none px-2 py-2"
-                        required="required"
-                        data-validation="length required"
-                        data-validation-length="min1"
-                        data-validation-error-msg="{{ tr('admin_error_api_calls_empty_input') }}">
+                <div class="form-group">
+                    <label for="title" class="form-control-title">{{ tr('admin_api_calls_limit') }}</label>
+                    <input type="text" id="limit" name="limit_calls" value="0" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_api_calls_empty_input') }}">
                     <small class="opacity-50 block mt-1">{{ tr('admin_help_text_for_api_calls_limit_label') }}</small>
                 </div>
-                <div class="mb-2">
-                    <label for="icon" class="block mb-1">{{ tr('admin_icon') }}</label>
-                    <input
-                        type="text"
-                        id="fieldsetIcon"
-                        name="icon"
-                        value="fas fa-truck"
-                        class="w-full border border-gray-600 border-2 outline-none px-2 py-2"
-                        required="required"
-                        data-validation="length required"
-                        data-validation-length="min1"
-                        data-validation-error-msg="{{ tr('admin_error_icon_empty_input') }}">
+                <div class="form-group">
+                    <label for="icon" class="form-control-title">{{ tr('admin_icon') }}</label>
+                    <input type="text" id="fieldsetIcon" name="icon" value="fas fa-truck" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_icon_empty_input') }}">
                     <small class="opacity-50 block mt-1">{{ tr('admin_help_text_for_api_token_icon', {':link': '<a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">fontawesome</a>'})|raw }}</small>
                 </div>
-                <div class="mb-2">
-                    <label for="type" class="block mb-1">{{ tr('admin_state') }}</label>
-                    <select class="js-example-basic-single w-full border border-gray-600 border-2 outline-none px-2 py-2" name="state">
+                <div class="form-group">
+                    <label for="type" class="form-control-title">{{ tr('admin_state') }}</label>
+                    <select class="js-example-basic-single form-control" name="state">
                         <option value="enabled" selected="selected">{{ tr('admin_enabled') }}</option>
                         <option value="disabled">{{ tr('admin_disabled') }}</option>
                     </select>
                 </div>
-                <div class="mb-2">
+                <div class="button-group">
                     <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="button mr-3">
                 </div>
             </div>
