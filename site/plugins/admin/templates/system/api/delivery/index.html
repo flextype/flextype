@@ -3,6 +3,20 @@
 {% block content %}
     {% if (delivery_tokens_list | length > 0) %}
         <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Delivery Token
+                    </th>
+                    <th>
+                        Calls
+                    </th>
+                </tr>
+            </thead>
             <tbody>
                 {% for key, delivery_token in delivery_tokens_list %}
                     {% set token_file_path = PATH_TOKENS ~ '/' ~ api ~ '/' ~ delivery_token.dirname ~ '/' ~ 'token.yaml' %}
@@ -13,7 +27,7 @@
                         <td class="w-1 text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
                             <i class="fas fa-truck"></i>
                         </td>
-                        <td class="pl-0 {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
+                        <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">
                             <a href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}">{{ token_data.title }}</a>
                         </td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ delivery_token.dirname }}</td>
