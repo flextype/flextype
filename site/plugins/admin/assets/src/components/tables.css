@@ -32,6 +32,16 @@
     @apply align-middle text-black border-gray-000 border-t border-b px-3 py-2;
 }
 
+.table > tbody > tr > td:nth-child(2),
+.table > thead > tr > td:nth-child(2),
+.table > tfoot > tr > td:nth-child(2),
+.table > tbody > tr > th:nth-child(2),
+.table > thead > tr > th:nth-child(2),
+.table > tfoot > tr > th:nth-child(2)
+{
+    @apply pl-0;
+}
+
 .table tbody tr:hover td,
 .table tbody tr:hover th
 {
