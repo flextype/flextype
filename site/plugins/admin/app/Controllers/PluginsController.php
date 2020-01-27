@@ -62,21 +62,25 @@ class PluginsController extends Controller
     public function pluginStatusProcess(Request $request, Response $response) : Response
     {
         // Get data from the request
-        $data = $request->getParsedBody();
+        $post_data = $request->getParsedBody();
 
-        $site_plugin_settings_dir     = PATH['config']['site'] . '/plugins/' . $data['plugin-key'];
-        $site_plugin_settings_file    = PATH['config']['site'] . '/plugins/' . $data['plugin-key'] . '/settings.yaml';
-        $default_plugin_settings_file = PATH['plugins'] . '/' . $data['plugin-key'] . '/settings.yaml';
+        $site_plugin_settings_dir     = PATH['config']['site'] . '/plugins/' . $post_data['plugin-key'];
+        $site_plugin_settings_file    = PATH['config']['site'] . '/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
+        $default_plugin_settings_file = PATH['plugins'] . '/' . $post_data['plugin-key'] . '/settings.yaml';
 
         // Update settings
         $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
+
         if (trim($site_plugin_settings_file_content) === '') {
             $site_plugin_settings = [];
         } else {
             $site_plugin_settings = $this->parser->decode($site_plugin_settings_file_content, 'yaml');
         }
 
-        Arr::set($site_plugin_settings, 'enabled', ($data['plugin-status'] === 'true'));
+        $status = ($post_data['plugin-set-status'] == 'true') ? true : false;
+
+        Arr::set($site_plugin_settings, 'enabled', $status);
+
         Filesystem::write($site_plugin_settings_file, $this->parser->encode($site_plugin_settings, 'yaml'));
 
         // Clear doctrine cache
