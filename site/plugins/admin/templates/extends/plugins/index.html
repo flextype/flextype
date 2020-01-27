@@ -3,19 +3,36 @@
 {% block content %}
     {% if (plugins_list | length > 0) %}
         <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        {{ tr('admin_plugin') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_description') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_version') }}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
             <tbody>
                 {% for key, plugin in plugins_list %}
                     <tr>
-                        <td class="w-1 text-center">
+                        <td class="w-1 text-center {% if plugin.enabled == false %}opacity-50{% endif %}">
                             {% if plugin.icon %}
-                                <i class="{{ plugin.icon }} {% if plugin.enabled == false %}opacity-50{% endif %}"></i>
+                                <i class="{{ plugin.icon }}"></i>
                             {% else %}
-                                <i class="fas fa-plug {% if plugin.enabled == false %}opacity-50{% endif %}"></i>
+                                <i class="fas fa-plug"></i>
                             {% endif %}
                         </td>
-                        <td class="pl-0">
-                            <a href="{{ path_for('admin.plugins.information') }}?id={{ key }}" class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.name }}</a>
+                        <td class="pl-0 {% if plugin.enabled == false %}opacity-50{% endif %}">
+                            <a href="{{ path_for('admin.plugins.information') }}?id={{ key }}">{{ plugin.name }}</a>
                         </td>
+                        <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.description }}</td>
+                        <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.version }}</td>
                         <td class="text-right">
                             <button type="button" class="js-dropdown-btn">
                                 <i class="fas fa-ellipsis-h"></i>
@@ -32,7 +49,7 @@
                                         <i class="fas fa-toggle-on dropdown__icon"></i>
                                         {{ tr('admin_deactivate') }}</a>
                                 {% else %}
-                                    <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-status-{{ key }}').submit();" href="javascript:;">
+                                    <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
                                         {% if plugin.enabled %}
                                             <i class="fas fa-toggle-on dropdown__icon"></i>
                                             {{ tr('admin_deactivate') }}
@@ -42,10 +59,11 @@
                                         {% endif %}
                                     </a>
                                 {% endif %}
-                                <form id="update-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
+                                <form id="update-plugin-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
                                     {{ csrf() }}
                                     <input type="hidden" name="plugin-key" value="{{ key }}">
-                                    <input type="hidden" name="plugin-status" value="{% if plugin.enabled %}false{% else %}true{% endif %}">
+                                    <input type="hidden" name="plugin-status" value="{% if plugin.enabled %}true{% else %}false{% endif %}">
+                                    <input type="hidden" name="plugin-set-status" value="{% if plugin.enabled %}false{% else %}true{% endif %}">
                                 </form>
                             </div>
                         </td>
