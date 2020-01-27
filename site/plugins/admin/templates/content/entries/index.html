@@ -105,6 +105,24 @@
             </div>
         {% else %}
             <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            {{ tr('admin_title') }}
+                        </th>
+                        <th>
+                            {{ tr('admin_slug') }}
+                        </th>
+                        <th>
+                            {{ tr('admin_created_at') }}
+                        </th>
+                        <th>
+                            {{ tr('admin_updated_at') }}
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
                 <tbody>
                     {% for entry in entries_list %}
                         <tr>
@@ -157,8 +175,18 @@
                                     {% endif %}
                                 </a>
                             </td>
+                            <td class="truncate">
+                                /
+                                {{ entry.slug }}
+                            </td>
+                            <td>
+                                {{ entry.created_at }}
+                            </td>
+                            <td>
+                                {{ entry.published_at }}
+                            </td>
                             <td class="text-right">
-                                <button type="button" class="js-dropdown-btn">
+                                <button type="button" class="js-dropdown-btn relative">
                                     <i class="fas fa-ellipsis-h"></i>
                                 </button>
                                 <div class="js-dropdown dropdown">
