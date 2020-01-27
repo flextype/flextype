@@ -19,23 +19,9 @@
             <script src="https://unpkg.com/popper.js@1"></script>
             <script src="https://unpkg.com/tippy.js@5"></script>
 
-            {#
-        {% set admin_build = base_url() ~ '/site/plugins/admin/assets/dist/css/admin-build.min.css' %}
-        {% set admin_elegant = base_url() ~ '/site/plugins/admin/assets/dist/css/elegant.css' %}
-        {% set admin_light = base_url() ~ '/site/plugins/admin/assets/dist/css/admin-light.min.css' %}
-        {% set admin_monokai = base_url() ~ '/site/plugins/admin/assets/dist/css/monokai.css' %}
-
-
-        {% do assets.add('css', admin_build, 'admin', 1) %}
-
-        {% if registry.settings.admin_panel.theme == 'light' %}
-            {% do assets.add('css', admin_elegant, 'admin', 2) %}
-            {% do assets.add('css', admin_light, 'admin', 3) %}
-        {% else %}
-            {% do assets.add('css', admin_monokai, 'admin', 4) %}
-        {% endif %}
-
-        #}
+            {% set admin_monokai = base_url() ~ '/site/plugins/admin/assets/dist/css/monokai.css' %}
+            {% do 
+                assets.add('css', admin_monokai, 'admin', 4) %}
 
             {% set admin_build_css = base_url() ~ '/site/plugins/admin/assets/dist/css/build.min.css' %}
             {% do 
@@ -47,36 +33,12 @@
                 {% endfor %}
             {% endfor %}
 
-            {#
-        <style media="screen">
-            .editor {
-                background-color: #fff;
-                border: 1px solid #dbdbdc;
-            }
-
-            .content-full-size .main-panel .navbar-fixed+.content {
-                padding-top: 61px;
-            }
-
-            .content-full-size .main-panel .content {
-                padding: 0;
-            }
-
-            .content-full-size .container-fluid {
-                padding: 0;
-            }
-
-            .main-panel.width-full {
-                width: 100%;
-            }
-        </style>
-        #}
-
             {% do 
                 emitter.emit('onAdminThemeHeader') %}
         {% endblock %}
     </head>
     <body>
+
         <main>
             <nav class="navigation">
                 <ul>
@@ -195,14 +157,17 @@
                                             href="{{ button.link }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('{{ button.id }}').submit();"
-                                            class="navigation-top-primary__item {% if link.active %}navigation-top-primary__item--active{% endif %}">
+                                            class="js-save-form-submit navigation-top-secondary__item {% if link.active %}navigation-top-secondary__item--active{% endif %}">
+                                            <i class="{{ button.icon }} mr-1 text-xs"></i>
                                             {{ button.title }}
                                         </a>
                                         <form id="{{ button.id }}" action="{{ button.link }}" method="POST" style="display: none;">
                                             {{ csrf() }}
                                         </form>
                                     {% else %}
-                                        <a href="{{ button.link }}" class=" {% if link.active %}navigation-top-primary__item--active{% endif %}">{{ button.title|raw }}</a>
+                                        <a href="{{ button.link }}" class="navigation-top-secondary__item {% if link.active %}navigation-top-secondary__item--active{% endif %}">
+                                            <i class="{{ button.icon }} mr-1"></i>
+                                            {{ button.title|raw }}</a>
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}
@@ -244,5 +209,6 @@
 
         {% include "plugins/admin/templates/partials/vendor/codemirror.html" %}
         {% include "plugins/admin/templates/partials/vendor/tippy.html" %}
+
     </body>
 </html>
