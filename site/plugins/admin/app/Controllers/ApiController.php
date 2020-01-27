@@ -204,7 +204,7 @@ class ApiController extends Controller
                         'title' => __('admin_edit_' . $api . '_token'),
                         'active' => true
                     ],
-                ],
+                ]
             ]
         );
     }
