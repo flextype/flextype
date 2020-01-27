@@ -79,7 +79,7 @@
                         {% endif %}
                     </div>
                     <div class="navigation-top-secondary">
-                        <div class="block w-6/12">
+                        <div class="block w-6/12 {% if is_current_path('admin.entries.index') %}w-4/12{% endif %}">
                             {% if is_current_path('admin.entries.index')or
                             is_current_path('admin.entries.edit')or
                             is_current_path('admin.entries.add')or
@@ -149,7 +149,29 @@
                                 <span class="pr-1 pl-1">{{ id }}</span>
                             {% endif %}
                         </div>
-                        <div class="block w-6/12 text-right">
+
+                        {% if is_current_path('admin.entries.index') %}
+                            <div class="block w-4/12 text-center">
+                                <form id="items-view-list" action="{{ path_for('admin.entries.displayViewProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="id" value="{{ id_current }}">
+                                    <input type="hidden" name="items_view" value="list">
+                                </form>
+                                <form id="items-view-table" action="{{ path_for('admin.entries.displayViewProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="id" value="{{ id_current }}">
+                                    <input type="hidden" name="items_view" value="table">
+                                </form>
+                                <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-list').submit();" class="navigation-top-secondary__icon mr-1 {% if items_view == 'list' %}bg-gray-900{% endif %} hover:bg-gray-900">
+                                    <i class="fas fa-bars"></i>
+                                </a>
+                                <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-table').submit();" class="navigation-top-secondary__icon {% if items_view == 'table' %}bg-gray-900{% endif %} hover:bg-gray-900">
+                                    <i class="fas fa-th"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+
+                        <div class="block w-6/12 {% if is_current_path('admin.entries.index') %}w-4/12{% endif %} text-right">
                             {% if buttons %}
                                 {% for button in buttons %}
                                     {% if button.type == 'action' %}
@@ -170,24 +192,6 @@
                                             {{ button.title|raw }}</a>
                                     {% endif %}
                                 {% endfor %}
-                            {% endif %}
-                            {% if is_current_path('admin.entries.index') %}
-                                <form id="items-view-list" action="{{ path_for('admin.entries.displayViewProcess') }}" method="POST" style="display: none;">
-                                    {{ csrf() }}
-                                    <input type="hidden" name="id" value="{{ id_current }}">
-                                    <input type="hidden" name="items_view" value="list">
-                                </form>
-                                <form id="items-view-table" action="{{ path_for('admin.entries.displayViewProcess') }}" method="POST" style="display: none;">
-                                    {{ csrf() }}
-                                    <input type="hidden" name="id" value="{{ id_current }}">
-                                    <input type="hidden" name="items_view" value="table">
-                                </form>
-                                <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-list').submit();" class="navigation-top-secondary__icon mr-1 {% if items_view == 'list' %}bg-gray-100{% endif %} hover:bg-gray-100">
-                                    <i class="fas fa-bars"></i>
-                                </a>
-                                <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-table').submit();" class="navigation-top-secondary__icon {% if items_view == 'table' %}bg-gray-100{% endif %} hover:bg-gray-100">
-                                    <i class="fas fa-th"></i>
-                                </a>
                             {% endif %}
                         </div>
                     </div>
