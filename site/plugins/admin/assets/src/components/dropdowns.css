@@ -13,7 +13,7 @@
 
 .dropdown__item
 {
-    @apply block py-2 pl-4 pr-12 text-left flex opacity-90;
+    @apply flex py-2 pl-4 pr-12 text-left opacity-90;
 }
 
 .dropdown__item:hover
@@ -28,16 +28,16 @@
 
 .dropdown__icon
 {
-    @apply mr-3 flex items-center;
+    @apply flex mr-3 items-center;
 }
 
 .dropdown__icon > svg
 {
-    font-size: 14px;
-    line-height: 14px;
+    font-size: var(--font-size);
+    line-height: var(--font-size);
 
-    width: 14px;
-    height: 14px;
+    width: var(--font-size);
+    height: var(--font-size);
 
     fill: white;
 
