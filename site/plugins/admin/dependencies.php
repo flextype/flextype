@@ -30,6 +30,10 @@ $flextype->registry->set('admin_navigation.settings.api', ['title' => __('admin_
 // Add Global Vars Admin Twig Extension
 $flextype->view->addExtension(new GlobalVarsAdminTwigExtension($flextype));
 
+// Add Icon Admin Twig Extension
+$flextype->view->addExtension(new IconAdminTwigExtension($flextype));
+
+
 $flextype['DashboardController'] = static function ($container) {
     return new DashboardController($container);
 };
