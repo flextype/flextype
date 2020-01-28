@@ -21,7 +21,7 @@
     box-sizing: border-box;
     min-width: 0;
     height: 100%;
-    padding: 15px;
+    padding: 11px;
 
     @apply w-full h-full relative flex items-center justify-center cursor-pointer opacity-90;
 }
