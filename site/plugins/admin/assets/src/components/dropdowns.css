@@ -25,21 +25,3 @@
 {
     @apply bg-gray-900 h-px my-1;
 }
-
-.dropdown__icon
-{
-    @apply flex mr-3 items-center;
-}
-
-.dropdown__icon > svg
-{
-    font-size: var(--font-size);
-    line-height: var(--font-size);
-
-    width: var(--font-size);
-    height: var(--font-size);
-
-    fill: white;
-
-    @apply inline-block;
-}

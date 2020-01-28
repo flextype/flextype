@@ -1,0 +1,17 @@
+.icon > svg
+{
+    font-size: inherit;
+
+    display: inline-block;
+    overflow: hidden;
+
+    width: .85rem;
+    height: .85rem;
+
+    vertical-align: -.05rem;
+}
+
+.icon--white > svg
+{
+    fill: white;
+}

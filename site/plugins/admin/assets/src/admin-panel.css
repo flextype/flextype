@@ -8,6 +8,7 @@
 @import 'base/variables';
 @import 'base/common';
 @import 'base/content';
+@import 'base/icons';
 
 /* Vendor */
 @import 'vendor/codemirror';
