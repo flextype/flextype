@@ -1,7 +1,7 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-    {% if (delivery_tokens_list | length > 0) %}
+    {% if (tokens | length > 0) %}
         <table class="table">
             <thead>
                 <tr>
@@ -18,8 +18,8 @@
                 </tr>
             </thead>
             <tbody>
-                {% for key, delivery_token in delivery_tokens_list %}
-                    {% set token_file_path = PATH_TOKENS ~ '/' ~ api ~ '/' ~ delivery_token.dirname ~ '/' ~ 'token.yaml' %}
+                {% for key, token in tokens %}
+                    {% set token_file_path = PATH_TOKENS ~ '/' ~ api ~ '/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
                     {% if filesystem_has(token_file_path) %}
                         {% set token_data = parser_decode(filesystem_read(token_file_path), 'yaml') %}
                     {% endif %}
@@ -28,9 +28,9 @@
                             <i class="fas fa-truck"></i>
                         </td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">
-                            <a href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}">{{ token_data.title }}</a>
+                            <a href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ token.dirname }}">{{ token_data.title }}</a>
                         </td>
-                        <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ delivery_token.dirname }}</td>
+                        <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token.dirname }}</td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token_data.calls }}
                             /
                             {% if (token_data.limit_calls > 0) %}{{ token_data.limit_calls }}
@@ -41,18 +41,18 @@
                                 <i class="fas fa-ellipsis-h"></i>
                             </button>
                             <div class="js-dropdown dropdown">
-                                <a class="dropdown__item" href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ delivery_token.dirname }}">
+                                <a class="dropdown__item" href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ token.dirname }}">
                                     <i class="fas fa-edit dropdown__icon"></i>
                                     {{ tr('admin_edit') }}</a>
                                 <div class="dropdown__divider"></div>
                                 <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                          document.getElementById('delete-api-token-id-{{ delivery_token.dirname }}').submit();">
+                          document.getElementById('delete-api-token-id-{{ token.dirname }}').submit();">
                                     <i class="fas fa-trash-alt dropdown__icon"></i>
                                     {{ tr('admin_delete') }}</a>
-                                <form id="delete-api-token-id-{{ delivery_token.dirname }}" action="{{ path_for('admin.api_tokens.deleteProcess') }}" method="POST" style="display: none;">
+                                <form id="delete-api-token-id-{{ token.dirname }}" action="{{ path_for('admin.api_tokens.deleteProcess') }}" method="POST" style="display: none;">
                                     {{ csrf() }}
                                     <input type="hidden" name="api" value="{{ api }}">
-                                    <input type="hidden" name="api_token" value="{{ delivery_token.dirname }}">
+                                    <input type="hidden" name="api_token" value="{{ token.dirname }}">
                                 </form>
                             </div>
                         </td>

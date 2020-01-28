@@ -52,13 +52,24 @@ class ApiController extends Controller
     {
         $api = $request->getQueryParams()['api'];
 
+        $tokens = [];
+        $tokens_list = Filesystem::listContents(PATH['tokens'] . '/' . $api);
+
+        if (count($tokens_list) > 0) {
+            foreach ($tokens_list as $token) {
+                if ($token['type'] == 'dir' && Filesystem::has(PATH['tokens'] . '/' . $api . '/' . $token['dirname'] . '/token.yaml')) {
+                    $tokens[] = $token;
+                }
+            }
+        }
+
         return $this->view->render(
             $response,
             'plugins/admin/templates/system/api/delivery/index.html',
             [
                 'menu_item' => 'api',
                 'api' => $api,
-                'delivery_tokens_list' => Filesystem::listContents(PATH['tokens'] . '/delivery'),
+                'tokens' => $tokens,
                 'links' =>  [
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
