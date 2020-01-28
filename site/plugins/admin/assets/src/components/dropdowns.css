@@ -13,15 +13,33 @@
 
 .dropdown__item
 {
-    @apply block py-2 pl-4 pr-12 text-left;
+    @apply block py-2 pl-4 pr-12 text-left flex opacity-90;
+}
+
+.dropdown__item:hover
+{
+    @apply opacity-100;
 }
 
 .dropdown__divider
 {
-    @apply bg-gray-800 h-px my-1;
+    @apply bg-gray-900 h-px my-1;
 }
 
 .dropdown__icon
 {
-    @apply mr-2;
+    @apply mr-3 flex items-center;
+}
+
+.dropdown__icon > svg
+{
+    font-size: 14px;
+    line-height: 14px;
+
+    display: inline-block;
+
+    width: 14px;
+    height: 14px;
+
+    fill: white;
 }

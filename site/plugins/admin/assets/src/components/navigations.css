@@ -23,7 +23,7 @@
     height: 100%;
     padding: 15px;
 
-    @apply w-full h-full relative flex items-center justify-center cursor-pointer opacity-75;
+    @apply w-full h-full relative flex items-center justify-center cursor-pointer opacity-90;
 }
 
 .navigation__item--active,
@@ -55,7 +55,7 @@
 .navigation-top-primary__item
 {
     padding: 11.5px 20px;
-    @apply table-cell opacity-75;
+    @apply table-cell opacity-90;
 }
 
 .navigation-top-primary__item--active,
@@ -74,7 +74,7 @@
 
 .navigation-top-secondary__item
 {
-    @apply ml-2 opacity-75;
+    @apply ml-2 opacity-90;
 }
 
 .navigation-top-secondary__item--active,
