@@ -63,12 +63,12 @@
             </tbody>
         </table>
     {% else %}
-        {{ include ("plugins/admin/templates/ui/no-elements.html", {icon: 'fas fa-truck',
-                                                                message: 'admin_create_new_delivery_token',
-                                                                button: {
-                                                                    link: path_for('admin.api_tokens.add') ~ '?api=' ~ api,
-                                                                    title: 'admin_create_new_delivery_token'
-                                                                    }
-                                                                })}}
+        <div class="text-center flex justify-center items-center pt-20">
+            <div>
+                <div class="inline-block text-center w-24 h-24">{{ icon('fas fa-truck') }}</div>
+                <h3 class="text-2xl pt-3 pb-8">{{ tr('admin_you_have_not_created_any_delvery_api_tokens_yet') }}</h3>
+                <a href="{{ path_for('admin.api_tokens.add') }}?api={{api}}" class="button">{{ tr('admin_create_new_delivery_token') }}</a>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}
