@@ -1,3 +1,13 @@
+/**
+ * COMPONENTS / FORMS
+ *
+ * INDEX:
+ * - form-control-title
+ * - form-control
+ * - form-group
+ *
+ */
+
 .form-control-title
 {
     @apply font-bold;

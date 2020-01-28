@@ -36,10 +36,10 @@
     font-size: 14px;
     line-height: 14px;
 
-    display: inline-block;
-
     width: 14px;
     height: 14px;
 
     fill: white;
+
+    @apply inline-block;
 }
