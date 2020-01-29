@@ -15,35 +15,35 @@
                     {% endif %}
                     <div class="w-full md:w-3/12 lg:w-2/12 text-center p-4 relative">
                         <button type="button" class="js-dropdown-btn" style="top: 16px; right: 16px; position: absolute; z-index: 10; width: 34px; height: 34px;">
-                            <i class="fas fa-ellipsis-h"></i>
+                            <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                         </button>
                         <div class="js-dropdown dropdown">
                             <a class="dropdown__item" href="{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor">
-                                <i class="fas fa-edit dropdown__icon"></i>
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
                                 {{ tr('admin_edit') }}</a>
                             <a class="dropdown__item" href="javascript:;" onclick="$('.js-add-entry input[name=id]').attr('value', '{{ entry.slug }}');" data-toggle="modal" data-target="#selectEntryTypeModal">
-                                <i class="fas fa-plus-circle dropdown__icon"></i>
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-plus-circle') }}</i>
                                 {{ tr('admin_add') }}</a>
                             <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                    document.getElementById('duplicate-id-{{ entry.slug }}').submit();">
-                                <i class="fas fa-copy dropdown__icon"></i>
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
                                 {{ tr('admin_duplicate') }}</a>
                             <a class="dropdown__item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.slug }}">
-                                <i class="fas fa-font dropdown__icon"></i>
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
                                 {{ tr('admin_rename') }}</a>
                             <a class="dropdown__item" href="{{ path_for('admin.entries.move') }}?id={{ entry.slug }}">
-                                <i class="fas fa-angle-double-right dropdown__icon"></i>
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-angle-double-right') }}</i>
                                 {{ tr('admin_move') }}</a>
                             <a class="dropdown__item" href="{{ base_url() }}/{{ entry.slug }}" target="_blank">
-                                <i class="fas fa-eye dropdown__icon"></i>
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-eye') }}</i>
                                 {{ tr('admin_preview') }}</a>
                             <a class="dropdown__item" href="{{ path_for('admin.entries.type') }}?id={{ entry.slug }}">
-                                <i class="far fa-list-alt dropdown__icon"></i>
+                                <i class="icon icon--white mr-3">{{ icon('far fa-list-alt') }}</i>
                                 {{ tr('admin_type') }}</a>
                             <div class="dropdown__divider"></div>
                             <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                    document.getElementById('delete-id-{{ entry.slug }}').submit();">
-                                <i class="fas fa-trash-alt dropdown__icon"></i>
+                                <i class="icon">{{ icon('fas fa-trash-alt') }}</i>
                                 {{ tr('admin_delete') }}</a>
                             <form id="duplicate-id-{{ entry.slug }}" action="{{ path_for('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
                                 {{ csrf() }}
@@ -132,15 +132,15 @@
                                     {% if filesystem_has(fieldset_path) %}
                                         {% set fieldset = parser_decode(filesystem_read(fieldset_path), 'yaml') %}
                                         {% if fieldset.icon %}
-                                            <i class="{{ fieldset.icon }}"></i>
+                                            <i class="icon">{{ icon(fieldset.icon) }}</i>
                                         {% else %}
-                                            <i class="far fa-file-alt"></i>
+                                            <i class="icon">{{ icon(fieldset.icon) }}</i>
                                         {% endif %}
                                     {% else %}
-                                        <i class="far fa-file-alt"></i>
+                                        <i class="icon">{{ icon(fieldset.icon) }}</i>
                                     {% endif %}
                                 {% else %}
-                                    <i class="far fa-file-alt"></i>
+                                    <i class="icon">{{ icon(fieldset.icon) }}</i>
                                 {% endif %}
                             </td>
                             <td class="pl-0 {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
@@ -187,35 +187,35 @@
                             </td>
                             <td class="text-right">
                                 <button type="button" class="js-dropdown-btn relative">
-                                    <i class="fas fa-ellipsis-h"></i>
+                                    <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                                 </button>
                                 <div class="js-dropdown dropdown">
                                     <a class="dropdown__item" href="{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor">
-                                        <i class="fas fa-edit dropdown__icon"></i>
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
                                         {{ tr('admin_edit') }}</a>
                                     <a class="dropdown__item" href="javascript:;" onclick="$('.js-add-entry input[name=id]').attr('value', '{{ entry.slug }}');" data-toggle="modal" data-target="#selectEntryTypeModal">
-                                        <i class="fas fa-plus-circle dropdown__icon"></i>
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-plus-circle') }}</i>
                                         {{ tr('admin_add') }}</a>
                                     <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                            document.getElementById('duplicate-id-{{ entry.slug }}').submit();">
-                                        <i class="fas fa-copy dropdown__icon"></i>
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
                                         {{ tr('admin_duplicate') }}</a>
                                     <a class="dropdown__item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.slug }}">
-                                        <i class="fas fa-font dropdown__icon"></i>
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
                                         {{ tr('admin_rename') }}</a>
                                     <a class="dropdown__item" href="{{ path_for('admin.entries.move') }}?id={{ entry.slug }}">
-                                        <i class="fas fa-angle-double-right dropdown__icon"></i>
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-angle-double-right') }}</i>
                                         {{ tr('admin_move') }}</a>
                                     <a class="dropdown__item" href="{{ base_url() }}/{{ entry.slug }}" target="_blank">
-                                        <i class="fas fa-eye dropdown__icon"></i>
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-eye') }}</i>
                                         {{ tr('admin_preview') }}</a>
                                     <a class="dropdown__item" href="{{ path_for('admin.entries.type') }}?id={{ entry.slug }}">
-                                        <i class="far fa-list-alt dropdown__icon"></i>
+                                        <i class="icon icon--white mr-3">{{ icon('far fa-list-alt') }}</i>
                                         {{ tr('admin_type') }}</a>
                                     <div class="dropdown__divider"></div>
                                     <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                            document.getElementById('delete-id-{{ entry.slug }}').submit();">
-                                        <i class="fas fa-trash-alt dropdown__icon"></i>
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
                                         {{ tr('admin_delete') }}</a>
                                     <form id="duplicate-id-{{ entry.slug }}" action="{{ path_for('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
                                         {{ csrf() }}

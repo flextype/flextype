@@ -15,7 +15,7 @@
                 {% for key, api in api_list %}
                     <tr>
                         <td class="w-1 text-center">
-                            <i class="fas fa-truck"></i>
+                            <i class="icon">{{ icon('fas fa-truck') }}</i>
                         </td>
                         <td>
                             <a href="{{ path_for('admin.api_tokens.index') }}?api={{ key }}">{{ api }}</a>

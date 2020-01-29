@@ -25,7 +25,7 @@
                     {% endif %}
                     <tr>
                         <td class="w-1 text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
-                            <i class="fas fa-truck"></i>
+                            <i class="icon">{{ icon(token_data.icon) }}</i>
                         </td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">
                             <a href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ token.dirname }}">{{ token_data.title }}</a>
@@ -42,13 +42,13 @@
                             </button>
                             <div class="js-dropdown dropdown">
                                 <a class="dropdown__item" href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ token.dirname }}">
-                                    <i class="dropdown__icon">{{ icon('fas fa-edit') }}</i>
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
                                     {{ tr('admin_edit') }}
                                 </a>
                                 <div class="dropdown__divider"></div>
                                 <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                           document.getElementById('delete-api-token-id-{{ token.dirname }}').submit();">
-                                    <i class="dropdown__icon">{{ icon('fas fa-trash-alt') }}</i>
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
                                     {{ tr('admin_delete') }}
                                 </a>
                                 <form id="delete-api-token-id-{{ token.dirname }}" action="{{ path_for('admin.api_tokens.deleteProcess') }}" method="POST" style="display: none;">
