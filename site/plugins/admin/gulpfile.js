@@ -73,6 +73,9 @@ gulp.task("css", function() {
                     // ParsleyJS Form Validatator
                     'node_modules/parsleyjs/dist/parsley.min.js',
 
+                    // SpeakingURL
+                    'node_modules/speakingurl/speakingurl.min.js',
+
                     // CodeMirror
                     'node_modules/codemirror/lib/codemirror.js',
                     'node_modules/codemirror/mode/htmlmixed/htmlmixed.js',
