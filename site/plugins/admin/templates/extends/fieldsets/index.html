@@ -12,9 +12,9 @@
                     <tr>
                         <td class="w-1 text-center{% if fieldset.hide %}opacity-50{% endif %}">
                             {% if fieldset.icon %}
-                                <i class="{{ fieldset.icon }}"></i>
+                                <i class="icon">{{ icon(fieldset.icon) }}</i>
                             {% else %}
-                                <i class="far fa-file-alt"></i>
+                                <i class="icon">{{ icon('far fa-file-alt') }}</i>
                             {% endif %}
                         </td>
                         <td class="pl-0 {% if fieldset.hide %}opacity-50{% endif %}">
@@ -22,23 +22,23 @@
                         </td>
                         <td class="text-right">
                             <button type="button" class="js-dropdown-btn">
-                                <i class="fas fa-ellipsis-h"></i>
+                                <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                             </button>
                             <div class="js-dropdown dropdown">
                                 <a class="dropdown__item" href="{{ path_for('admin.fieldsets.edit') }}?id={{ id }}">
-                                    <i class="fas fa-edit dropdown__icon"></i>
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
                                     {{ tr('admin_edit') }}</a>
                                 <a class="dropdown__item" href="{{ path_for('admin.fieldsets.rename') }}?id={{ id }}">
-                                    <i class="fas fa-font dropdown__icon"></i>
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
                                     {{ tr('admin_rename') }}</a>
                                 <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                             document.getElementById('duplicate-fieldset-id-{{ id }}').submit();">
-                                    <i class="fas fa-copy dropdown__icon"></i>
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
                                     {{ tr('admin_duplicate') }}</a>
                                 <div class="dropdown__divider"></div>
                                 <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                             document.getElementById('delete-fieldset-id-{{ id }}').submit();">
-                                    <i class="fas fa-trash-alt dropdown__icon"></i>
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
                                     {{ tr('admin_delete') }}</a>
                                 <form id="delete-fieldset-id-{{ id }}" action="{{ path_for('admin.fieldsets.deleteProcess') }}" method="POST" style="display: none;">
                                     {{ csrf() }}
