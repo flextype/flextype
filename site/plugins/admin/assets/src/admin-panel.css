@@ -10,8 +10,10 @@
 @import 'base/content';
 @import 'base/icons';
 
-/* Vendor */
-@import 'vendor/codemirror';
+/* Vendor modules */
+@import 'modules/codemirror';
+@import 'modules/presley';
+
 
 /* Components */
 @import 'components/tables';
