@@ -219,8 +219,9 @@
             {% endfor %}
         {% endfor %}
 
-        {% include "plugins/admin/templates/partials/vendor/codemirror.html" %}
-        {% include "plugins/admin/templates/partials/vendor/tippy.html" %}
-
+        {% include "plugins/admin/templates/partials/modules/codemirror.html" %}
+        {% include "plugins/admin/templates/partials/modules/tippy.html" %}
+        {% include "plugins/admin/templates/partials/modules/forms-save.html" %}
+        {% include "plugins/admin/templates/partials/modules/slugify.html" %}
     </body>
 </html>
