@@ -70,8 +70,8 @@ gulp.task("css", function() {
                     // Select2
                     'node_modules/select2/dist/js/select2.min.js',
 
-                     // FontAwesome
-                     'node_modules/@fortawesome/fontawesome-free/js/all.min.js',
+                    // ParsleyJS Form Validatator
+                    'node_modules/parsleyjs/dist/parsley.min.js',
 
                     // CodeMirror
                     'node_modules/codemirror/lib/codemirror.js',
