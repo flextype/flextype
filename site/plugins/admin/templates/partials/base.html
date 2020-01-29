@@ -47,22 +47,30 @@
                     </li>
                     {% for key, item in registry.admin_navigation.content %}
                         <li>
-                            <a data-tippy-content="{{ item.title|raw }}" href="{{ base_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">{{ item.icon|raw }}</a>
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ base_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                                <i class="icon icon--white">{{ icon(item.icon) }}</i>
+                            </a>
                         </li>
                     {% endfor %}
                     {% for key, item in registry.admin_navigation.extends %}
                         <li>
-                            <a data-tippy-content="{{ item.title|raw }}" href="{{ base_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">{{ item.icon|raw }}</a>
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ base_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                                <i class="icon icon--white">{{ icon(item.icon) }}</i>
+                            </a>
                         </li>
                     {% endfor %}
                     {% for key, item in registry.admin_navigation.settings %}
                         <li>
-                            <a data-tippy-content="{{ item.title|raw }}" href="{{ base_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">{{ item.icon|raw }}</a>
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ base_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                                <i class="icon icon--white">{{ icon(item.icon) }}</i>
+                            </a>
                         </li>
                     {% endfor %}
                     {% for key, item in registry.admin_navigation.help %}
                         <li>
-                            <a data-tippy-content="{{ item.title|raw }}" href="{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">{{ item.icon|raw }}</a>
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                                <i class="icon icon--white">{{ icon(item.icon) }}</i>
+                            </a>
                         </li>
                     {% endfor %}
                 </ul>
