@@ -1,0 +1,7 @@
+<script src="//cdn.jsdelivr.net/npm/speakingurl@14.0.1/speakingurl.min.js"></script>
+<script>
+    $("#title").on("keyup change", function () {
+        var slug = getSlug($("#title").val());
+        $("#id").val(slug);
+    });
+</script>

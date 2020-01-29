@@ -1,0 +1,17 @@
+<script>
+    tippy('.js-nav', {placement: 'right'});
+    tippy('.js-dropdown-btn', {
+        placement: 'bottom',
+        allowHTML: true,
+        flipOnUpdate: true,
+        inlinePositioning: true,
+        interactive: true,
+        popperOptions: {
+            positionFixed: true
+        },
+        trigger: 'click',
+        maxWidth: 500,
+        zIndex: 10,
+        content: $('.js-dropdown-btn').siblings().html()
+    });
+</script>
