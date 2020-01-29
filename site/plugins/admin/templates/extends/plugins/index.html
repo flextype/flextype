@@ -23,9 +23,9 @@
                     <tr>
                         <td class="w-1 text-center {% if plugin.enabled == false %}opacity-50{% endif %}">
                             {% if plugin.icon %}
-                                <i class="{{ plugin.icon }}"></i>
+                                <i class="icon">{{ icon(plugin.icon) }}</i>
                             {% else %}
-                                <i class="fas fa-plug"></i>
+                                <i class="icon">{{ icon('fas fa-plug') }}</i>
                             {% endif %}
                         </td>
                         <td class="pl-0 {% if plugin.enabled == false %}opacity-50{% endif %}">
@@ -35,26 +35,26 @@
                         <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.version }}</td>
                         <td class="text-right">
                             <button type="button" class="js-dropdown-btn">
-                                <i class="fas fa-ellipsis-h"></i>
+                                <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                             </button>
                             <div class="js-dropdown dropdown">
                                 <a class="dropdown__item" href="{{ path_for('admin.plugins.information') }}?id={{ key }}">
-                                    <i class="fas fa-info-circle dropdown__icon"></i>
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-info-circle') }}</i>
                                     {{ tr('admin_information') }}</a>
                                 <a class="dropdown__item" href="{{ path_for('admin.plugins.settings') }}?id={{ key }}">
-                                    <i class="fas fa-cog dropdown__icon"></i>
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-cog') }}</i>
                                     {{ tr('admin_settings') }}</a>
                                 {% if key == 'admin' or key == 'site' or key == '' %}
                                     <a class="dropdown__item opacity-50" href="javascript:;">
-                                        <i class="fas fa-toggle-on dropdown__icon"></i>
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
                                         {{ tr('admin_deactivate') }}</a>
                                 {% else %}
                                     <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
                                         {% if plugin.enabled %}
-                                            <i class="fas fa-toggle-on dropdown__icon"></i>
+                                            <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
                                             {{ tr('admin_deactivate') }}
                                         {% else %}
-                                            <i class="fas fa-toggle-off dropdown__icon"></i>
+                                            <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-off') }}</i>
                                             {{ tr('admin_activate') }}
                                         {% endif %}
                                     </a>

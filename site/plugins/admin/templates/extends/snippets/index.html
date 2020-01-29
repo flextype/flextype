@@ -7,33 +7,33 @@
                 {% for id in snippets_list %}
                     <tr>
                         <td class="w-1 text-center">
-                            <i class="far fa-file-code"></i>
+                            <i class="icon">{{ icon('far fa-file-code') }}</i>
                         </td>
                         <td class="pl-0">
                             <a href="{{ path_for('admin.snippets.edit') }}?id={{ id }}">{{ id }}</a>
                         </td>
                         <td class="text-right">
                             <button type="button" class="js-dropdown-btn">
-                                <i class="fas fa-ellipsis-h"></i>
+                                <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                             </button>
                             <div class="js-dropdown dropdown">
                                 <a class="dropdown__item" href="{{ path_for('admin.snippets.edit') }}?id={{ id }}">
-                                    <i class="fas fa-edit dropdown__icon"></i>
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
                                     {{ tr('admin_edit') }}</a>
                                 <a class="dropdown__item" href="{{ path_for('admin.snippets.rename') }}?id={{ id }}">
-                                    <i class="fas fa-font dropdown__icon"></i>
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
                                     {{ tr('admin_rename') }}</a>
                                 <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                 document.getElementById('duplicate-snippet-id-{{ id }}').submit();">
-                                    <i class="fas fa-copy dropdown__icon"></i>
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
                                     {{ tr('admin_duplicate') }}</a>
                                 <a class="dropdown__item js-snippets-info" href="javascript:;" data-toggle="modal" data-target="#snippetsInfoModal" data-name="{{ id }}">
-                                    <i class="fas fa-code dropdown__icon"></i>
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-code') }}</i>
                                     {{ tr('admin_embeded_code') }}</a>
                                 <div class="dropdown__divider"></div>
                                 <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                 document.getElementById('delete-snippet-id-{{ id }}').submit();">
-                                    <i class="fas fa-trash-alt dropdown__icon"></i>
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
                                     {{ tr('admin_delete') }}</a>
                                 <form id="delete-snippet-id-{{ id }}" action="{{ path_for('admin.snippets.deleteProcess') }}" method="POST" style="display: none;">
                                     {{ csrf() }}

@@ -21,7 +21,7 @@
                                 {% else %}
                                     <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                               document.getElementById('activate-theme-id-{{ key }}').submit();">
-                                        <i class="icon">{{ icon('far fa-star') }}</i>
+                                        <i class="icon icon--white mr-3">{{ icon('far fa-star') }}</i>
                                         {{ tr('admin_activate') }}</a>
                                 {% endif %}
                                 <a class="dropdown__item" href="{{ path_for('admin.themes.information') }}?id={{ key }}">
