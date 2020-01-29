@@ -38,7 +38,7 @@
                         </td>
                         <td class="text-right">
                             <button type="button" class="js-dropdown-btn">
-                                <i class="fas fa-ellipsis-h"></i>
+                                <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                             </button>
                             <div class="js-dropdown dropdown">
                                 <a class="dropdown__item" href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ token.dirname }}">
