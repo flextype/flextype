@@ -1,24 +1,34 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-    <form method="post" id="form">
+    <form method="post" id="form" data-parsley-validate="data-parsley-validate">
         {{ csrf() }}
         <input type="hidden" name="api" value="{{ api }}">
         <div class="flex">
             <div class="w-full lg:w-3/12">
                 <div class="form-group">
                     <label for="title" class="form-control-title">{{ tr('admin_title') }}</label>
-                    <input type="text" id="title" name="title" value="" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_title_empty_input') }}">
+                    <input type="text" id="title" name="title" value="" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_title_empty_input') }}" data-parsley-required="true">
                     <small>{{ tr('admin_help_text_for_tokens_label') }}</small>
                 </div>
                 <div class="form-group">
                     <label for="title" class="form-control-title">{{ tr('admin_api_calls_limit') }}</label>
-                    <input type="text" id="limit" name="limit_calls" value="0" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_api_calls_empty_input') }}">
+                    <input
+                        type="text"
+                        id="limit"
+                        name="limit_calls"
+                        value="0"
+                        class="form-control"
+                        required="required"
+                        data-parsley-required="true"
+                        data-parsley-minlength="1"
+                        data-parsley-type="integer"
+                        data-parsley-error-message="{{ tr('admin_error_api_calls_empty_input') }}">
                     <small>{{ tr('admin_help_text_for_api_calls_limit_label') }}</small>
                 </div>
                 <div class="form-group">
                     <label for="icon" class="form-control-title">{{ tr('admin_icon') }}</label>
-                    <input type="text" id="fieldsetIcon" name="icon" value="fas fa-truck" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_icon_empty_input') }}">
+                    <input type="text" id="fieldsetIcon" name="icon" value="fas fa-truck" class="form-control" required="required" data-parsley-required="true" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_icon_empty_input') }}">
                     <small>{{ tr('admin_help_text_for_api_token_icon', {':link': '<a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">fontawesome</a>'})|raw }}</small>
                 </div>
                 <div class="form-group">
