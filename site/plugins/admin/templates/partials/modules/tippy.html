@@ -12,6 +12,8 @@
         trigger: 'click',
         maxWidth: 500,
         zIndex: 10,
-        content: $('.js-dropdown-btn').siblings().html()
+        content(reference) {
+            return document.getElementById(reference.getAttribute('data-dropdown')).innerHTML;
+        }
     });
 </script>
