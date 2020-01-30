@@ -34,10 +34,10 @@
                         <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.description }}</td>
                         <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.version }}</td>
                         <td class="text-right">
-                            <button type="button" class="js-dropdown-btn">
+                            <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ key }}">
                                 <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                             </button>
-                            <div class="js-dropdown dropdown">
+                            <div id="dropdown-{{ key }}" class="dropdown">
                                 <a class="dropdown__item" href="{{ path_for('admin.plugins.information') }}?id={{ key }}">
                                     <i class="icon icon--white mr-3">{{ icon('fas fa-info-circle') }}</i>
                                     {{ tr('admin_information') }}</a>

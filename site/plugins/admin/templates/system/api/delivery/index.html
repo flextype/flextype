@@ -37,10 +37,10 @@
                             {% else %}&infin;{% endif %}
                         </td>
                         <td class="text-right">
-                            <button type="button" class="js-dropdown-btn">
+                            <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ api }}-{{ token.dirname }}">
                                 <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                             </button>
-                            <div class="js-dropdown dropdown">
+                            <div id="dropdown-{{ api }}-{{ token.dirname }}" class="dropdown">
                                 <a class="dropdown__item" href="{{ path_for('admin.api_tokens.edit') }}?api={{ api }}&api_token={{ token.dirname }}">
                                     <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
                                     {{ tr('admin_edit') }}

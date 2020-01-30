@@ -13,10 +13,10 @@
                             <a href="{{ path_for('admin.templates.index') }}?theme={{ key }}">{{ theme.name }}</a>
                         </td>
                         <td class="text-right">
-                            <button type="button" class="js-dropdown-btn">
+                            <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ key }}">
                                 <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                             </button>
-                            <div class="js-dropdown dropdown">
+                            <div id="dropdown-{{ key }}" class="dropdown">
                                 {% if key == registry.settings.theme %}
                                 {% else %}
                                     <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();

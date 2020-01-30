@@ -16,10 +16,10 @@
                             </td>
                             <td>{{ tr('admin_template') }}</td>
                             <td class="text-right">
-                                <button type="button" class="js-dropdown-btn">
+                                <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ template.basename }}-{{ theme }}">
                                     <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                                 </button>
-                                <div class="js-dropdown dropdown">
+                                <div id="dropdown-{{ template.basename }}-{{ theme }}" class="dropdown">
                                     <a class="dropdown__item" href="{{ path_for('admin.templates.edit') }}?id={{ template.basename }}&type=template&theme={{ theme }}">
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
                                         {{ tr('admin_edit') }}</a>
@@ -56,17 +56,17 @@
                     {% for partial in partials_list %}
                         <tr>
                             <td class="w-1 text-center">
-                                <i class="far fa-file-code"></i>
+                                <i class="icon">{{ icon('far fa-file-code') }}</i>
                             </td>
                             <td class="pl-0">
                                 <a href="{{ path_for('admin.templates.edit') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}">{{ partial.basename }}</a>
                             </td>
                             <td>{{ tr('admin_partial') }}</td>
                             <td class="text-right">
-                                <button type="button" class="js-dropdown-btn">
+                                <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ template.basename }}-{{ theme }}">
                                     <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                                 </button>
-                                <div class="js-dropdown dropdown">
+                                <div id="dropdown-{{ template.basename }}-{{ theme }}" class="dropdown">
                                     <a class="dropdown__item" href="{{ path_for('admin.templates.edit') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}">
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
                                         {{ tr('admin_edit') }}</a>
