@@ -15,10 +15,6 @@
 
             <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-            <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet"/>
-            <script src="https://unpkg.com/popper.js@1"></script>
-            <script src="https://unpkg.com/tippy.js@5"></script>
-
             {% set admin_monokai = base_url() ~ '/site/plugins/admin/assets/dist/css/monokai.css' %}
             {% do 
                 assets.add('css', admin_monokai, 'admin', 4) %}
