@@ -1,0 +1,9 @@
+.tab--active
+{
+    display: block!important;
+}
+
+.tab-link--active
+{
+    @apply bg-dark-muted opacity-100;
+}
