@@ -63,6 +63,7 @@ gulp.task("css", function() {
  gulp.task('js', function(){
    const sourcemaps = require('gulp-sourcemaps');
    const concat = require('gulp-concat');
+   const minify = require('gulp-minify');
 
    return gulp.src([ // jQuery
                     'node_modules/jquery/dist/jquery.min.js',
@@ -76,6 +77,12 @@ gulp.task("css", function() {
                     // SpeakingURL
                     'node_modules/speakingurl/speakingurl.min.js',
 
+                    // Popper
+                    'node_modules/tippy.js/node_modules/popper.js/dist/umd/popper.min.js',
+
+                    // Tippy
+                    'node_modules/tippy.js/dist/tippy-bundle.iife.min.js',
+
                     // CodeMirror
                     'node_modules/codemirror/lib/codemirror.js',
                     'node_modules/codemirror/mode/htmlmixed/htmlmixed.js',
@@ -85,6 +92,7 @@ gulp.task("css", function() {
                     'node_modules/codemirror/mode/clike/clike.js',
                     'node_modules/codemirror/mode/yaml/yaml.js'
                  ])
+     //.pipe(minify())
      .pipe(sourcemaps.init())
      .pipe(concat('build.min.js'))
      .pipe(sourcemaps.write())
