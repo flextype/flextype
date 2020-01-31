@@ -11,7 +11,6 @@ class TailwindExtractor {
   }
 }
 
-
 /**
  * Task: gulp css-vendor
  */
@@ -92,7 +91,6 @@ gulp.task("css", function() {
  gulp.task('js', function(){
    const sourcemaps = require('gulp-sourcemaps');
    const concat = require('gulp-concat');
-   const minify = require('gulp-minify');
 
    return gulp.src([ // jQuery
                     'node_modules/jquery/dist/jquery.min.js',
@@ -121,14 +119,15 @@ gulp.task("css", function() {
                     'node_modules/codemirror/mode/clike/clike.js',
                     'node_modules/codemirror/mode/yaml/yaml.js'
                  ])
-     //.pipe(minify())
      .pipe(sourcemaps.init())
      .pipe(concat('admin-panel-build.min.js'))
      .pipe(sourcemaps.write())
      .pipe(gulp.dest('assets/dist/js/'));
  });
 
-
+/**
+ * Task: gulp watch
+ */
 gulp.task('watch', function () {
     gulp.watch(["**/*.html", "assets/src/"], gulp.series('css-vendor', 'css', 'js'));
 });
