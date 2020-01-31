@@ -11,6 +11,35 @@ class TailwindExtractor {
   }
 }
 
+
+/**
+ * Task: gulp css-vendor
+ */
+ gulp.task("css-vendor", function() {
+   const concat = require('gulp-concat');
+   const csso = require('gulp-csso');
+   const autoprefixer = require('gulp-autoprefixer');
+
+   return gulp
+     .src([
+           // Select2
+          'node_modules/select2/dist/css/select2.min.css',
+
+           // CodeMirror
+          'node_modules/codemirror/lib/codemirror.css',
+          'node_modules/codemirror/theme/elegant.css'])
+     .pipe(autoprefixer({
+         overrideBrowserslist: [
+             "last 1 version"
+         ],
+         cascade: false
+     }))
+     .pipe(csso())
+     .pipe(concat('vendor-build.min.css'))
+     .pipe(gulp.dest("assets/dist/css/"));
+ });
+
+
 /**
  * Task: gulp css
  */
@@ -53,7 +82,7 @@ gulp.task("css", function() {
         cascade: false
     }))
     .pipe(csso())
-    .pipe(concat('build.min.css'))
+    .pipe(concat('admin-panel-build.min.css'))
     .pipe(gulp.dest("assets/dist/css/"));
 });
 
@@ -94,12 +123,12 @@ gulp.task("css", function() {
                  ])
      //.pipe(minify())
      .pipe(sourcemaps.init())
-     .pipe(concat('build.min.js'))
+     .pipe(concat('admin-panel-build.min.js'))
      .pipe(sourcemaps.write())
      .pipe(gulp.dest('assets/dist/js/'));
  });
 
 
 gulp.task('watch', function () {
-    gulp.watch(["**/*.html", "assets/src/"], gulp.series('css', 'js'));
+    gulp.watch(["**/*.html", "assets/src/"], gulp.series('css-vendor', 'css', 'js'));
 });
