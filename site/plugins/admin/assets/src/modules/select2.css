@@ -1,0 +1,11 @@
+/* purgecss start ignore */
+.select2-container
+{
+    display: block;
+}
+.select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--single
+{
+    /*@apply w-full border rounded-none border-gray-600 outline-none px-2 py-2;*/
+}
+/* purgecss end ignore */
