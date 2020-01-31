@@ -19,11 +19,7 @@
                 mode: "application/x-httpd-php",
             {% endif %}
             indentWithTabs: false,
-            {% if registry.settings.admin_panel.theme == 'light' %}
-                theme: "elegant",
-            {% elseif registry.settings.admin_panel.theme == 'dark' %}
-                theme: "monokai",
-            {% endif %}
+            theme: "elegant",
             styleActiveLine: true
         });
 
