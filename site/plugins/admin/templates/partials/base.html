@@ -15,13 +15,12 @@
 
             <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-            {% set admin_monokai = base_url() ~ '/site/plugins/admin/assets/dist/css/monokai.css' %}
+            {% set vendor_build_css = base_url() ~ '/site/plugins/admin/assets/dist/css/vendor-build.min.css' %}
+            {% set admin_panel_build_css = base_url() ~ '/site/plugins/admin/assets/dist/css/admin-panel-build.min.css' %}
             {% do 
-                assets.add('css', admin_monokai, 'admin', 4) %}
-
-            {% set admin_build_css = base_url() ~ '/site/plugins/admin/assets/dist/css/build.min.css' %}
+                assets.add('css', vendor_build_css, 'admin', 1) %}
             {% do 
-                assets.add('css', admin_build_css, 'admin', 1) %}
+                assets.add('css', admin_panel_build_css, 'admin', 2) %}
 
             {% for assets_admin in assets.get('css', 'admin') %}
                 {% for assets_by_priorities in assets_admin %}
@@ -34,7 +33,6 @@
         {% endblock %}
     </head>
     <body>
-
         <main>
             <nav class="navigation">
                 <ul>
@@ -167,10 +165,10 @@
                                     <input type="hidden" name="items_view" value="table">
                                 </form>
                                 <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-list').submit();" class="navigation-top-secondary__icon mr-1 {% if items_view == 'list' %}bg-gray-900{% endif %} hover:bg-gray-900">
-                                    <i class="fas fa-bars"></i>
+                                    <i class="icon icon--white">{{ icon('fas fa-bars') }}</i>
                                 </a>
                                 <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-table').submit();" class="navigation-top-secondary__icon {% if items_view == 'table' %}bg-gray-900{% endif %} hover:bg-gray-900">
-                                    <i class="fas fa-th"></i>
+                                    <i class="icon icon--white">{{ icon('fas fa-th') }}</i>
                                 </a>
                             </div>
                         {% endif %}
@@ -191,7 +189,7 @@
                                             {{ csrf() }}
                                         </form>
                                     {% else %}
-                                        <a href="{{ button.link }}" class="navigation-top-secondary__item {% if link.active %}navigation-top-secondary__item--active{% endif %}">
+                                        <a href="{{ button.link }}" {% if button.target %} target="{{ button.target }}" {% endif %} class="navigation-top-secondary__item {% if link.active %}navigation-top-secondary__item--active{% endif %}">
                                             <i class="{{ button.icon }} mr-1"></i>
                                             {{ button.title|raw }}</a>
                                     {% endif %}
@@ -200,15 +198,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="relative" style="padding-bottom: 10px; padding-left: 20px; padding-right: 20px; padding-top: 112px;">
+                <div class="relative" style="padding-bottom: 10px; padding-left: 20px; padding-right: 20px; padding-top: 112px; height: 100%;">
                     {% block content %}{% endblock %}
                 </div>
             </div>
         </main>
 
-        {% set admin_build_js = base_url() ~ '/site/plugins/admin/assets/dist/js/build.min.js' %}
+        {% set admin_panel_build_js = base_url() ~ '/site/plugins/admin/assets/dist/js/admin-panel-build.min.js' %}
         {% do 
-            assets.add('js', admin_build_js, 'admin', 1) %}
+            assets.add('js', admin_panel_build_js, 'admin', 1) %}
         {% for assets_admin in assets.get('js', 'admin') %}
             {% for assets_by_priorities in assets_admin %}
                 <script type="text/javascript" src="{{ assets_by_priorities.asset }}"></script>
@@ -219,5 +217,7 @@
         {% include "plugins/admin/templates/partials/modules/tippy.html" %}
         {% include "plugins/admin/templates/partials/modules/forms-save.html" %}
         {% include "plugins/admin/templates/partials/modules/slugify.html" %}
+        {% include "plugins/admin/templates/partials/modules/tabs.html" %}
+        {% include "plugins/admin/templates/partials/modules/select2.html" %}
     </body>
 </html>
