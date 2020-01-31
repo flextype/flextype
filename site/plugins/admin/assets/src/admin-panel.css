@@ -13,7 +13,8 @@
 /* Vendor modules */
 @import 'modules/codemirror';
 @import 'modules/presley';
-
+@import 'modules/tabs';
+@import 'modules/select2';
 
 /* Components */
 @import 'components/tables';
