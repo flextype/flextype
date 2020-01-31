@@ -25,6 +25,11 @@
             </tbody>
         </table>
     {% else %}
-        {{ include ("plugins/admin/templates/ui/no-elements.html", {icon: 'fas fa-network-wired', message: 'admin_you_have_not_created_any_api_tokens_yet'}) }}
+        <div class="text-center flex justify-center items-center h-full">
+            <div>
+                <i class="icon icon--4xl">{{ icon('fas fa-network-wired') }}</i>
+                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_api_tokens_yet') }}</h3>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-    {% if fieldsets_list | length > 0 %}
+    {% if fieldsets_list | length < 0 %}
         <table class="table">
             <tbody>
                 {% for id, title in fieldsets_list %}
@@ -55,10 +55,12 @@
             </tbody>
         </table>
     {% else %}
-        <div class="empty-list-message">
-            <i class="fas fa-list"></i>
-            <h3>{{ tr('admin_you_have_not_created_any_fieldsets_yet') }}</h3>
-            <a href="{{ path_for('admin.fieldsets.add') }}" class="btn">{{ tr('admin_create_new_fieldset') }}</a>
+        <div class="text-center flex justify-center items-center h-full">
+            <div>
+                <i class="icon icon--4xl">{{ icon('far fa-list-alt') }}</i>
+                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_fieldsets_yet') }}</h3>
+                <a href="{{ path_for('admin.fieldsets.add') }}" class="button">{{ tr('admin_create_new_fieldset') }}</a>
+            </div>
         </div>
     {% endif %}
 {% endblock %}
