@@ -1,0 +1,34 @@
+/* purgecss start ignore */
+.swal-overlay
+{
+    background-color: rgba(0, 0, 0, .75);
+}
+
+.swal-modal
+{
+    @apply border-none rounded-none;
+}
+
+.swal-button
+{
+    @apply px-4 py-2 border border-black text-white inline-block w-auto bg-black rounded-none;
+}
+
+.swal-button:focus
+{
+    @apply shadow-none;
+}
+
+.swal-button--cancel
+{
+    @apply bg-white text-black;
+}
+
+
+.swal-button:not([disabled]):hover,
+.swal-button--cancel:not([disabled]):hover
+{
+    @apply border-gray-900 bg-gray-900 text-white;
+}
+
+/* purgecss end ignore */

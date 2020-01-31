@@ -15,6 +15,7 @@
 @import 'modules/presley';
 @import 'modules/tabs';
 @import 'modules/select2';
+@import 'modules/swal';
 
 /* Components */
 @import 'components/tables';
