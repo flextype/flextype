@@ -1,7 +1,7 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-    {% if entries_list | length < 0 %}
+    {% if entries_list | length > 0 %}
         {% if items_view == 'table' %}
             <div class="flex flex-wrap">
                 {% for entry in entries_list %}
