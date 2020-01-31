@@ -43,7 +43,7 @@
                             <div class="dropdown__divider"></div>
                             <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                    document.getElementById('delete-id-{{ entry.slug }}').submit();">
-                                <i class="icon">{{ icon('fas fa-trash-alt') }}</i>
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
                                 {{ tr('admin_delete') }}</a>
                             <form id="duplicate-id-{{ entry.slug }}" action="{{ path_for('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
                                 {{ csrf() }}
@@ -66,15 +66,15 @@
                                     {% if filesystem_has(fieldset_path) %}
                                         {% set fieldset = parser_decode(filesystem_read(fieldset_path), 'yaml') %}
                                         {% if fieldset.icon %}
-                                            <i class="{{ fieldset.icon }}"></i>
+                                            <i class="icon icon--large">{{ icon(fieldset.icon) }}</i>
                                         {% else %}
-                                            <i class="far fa-file-alt"></i>
+                                            <i class="icon icon--large">{{ icon('far fa-file-alt') }}</i>
                                         {% endif %}
                                     {% else %}
-                                        <i class="far fa-file-alt"></i>
+                                        <i class="icon icon--large">{{ icon('far fa-file-alt') }}</i>
                                     {% endif %}
                                 {% else %}
-                                    <i class="far fa-file-alt"></i>
+                                    <i class="icon icon--large">{{ icon('far fa-file-alt') }}</i>
                                 {% endif %}
                             </div>
                             <div>
