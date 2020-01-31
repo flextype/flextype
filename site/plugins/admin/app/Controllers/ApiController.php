@@ -84,8 +84,7 @@ class ApiController extends Controller
                 'buttons' => [
                     'api_tokens_add' => [
                         'link' => $this->router->pathFor('admin.api_tokens.add') . '?api=' . $api,
-                        'title' => __('admin_create_new_' . $api . '_token'),
-                        'attributes' => ['class' => 'navigation-top-primary__item'],
+                        'title' => __('admin_create_new_' . $api . '_token')
                     ],
                 ],
             ]

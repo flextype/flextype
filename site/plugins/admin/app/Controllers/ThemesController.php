@@ -48,7 +48,7 @@ class ThemesController extends Controller
                     'themes_get_more' => [
                         'link' => 'https://github.com/flextype/themes',
                         'title' => __('admin_get_more_themes'),
-                        'attributes' => ['class' => 'btn', 'target' => '_blank'],
+                        'target' => '_blank',
                     ],
                 ],
             ]
@@ -250,7 +250,7 @@ class ThemesController extends Controller
                     'save_theme_settings' => [
                         'link' => 'javascript:;',
                         'title' => __('admin_save'),
-                        'attributes' => ['class' => 'js-save-form-submit btn'],
+                        'type' => 'action',
                     ],
                 ],
             ]

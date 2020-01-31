@@ -113,7 +113,6 @@ class ToolsController extends Controller
                         'id' => 'clear-cache-all',
                         'link' => $this->router->pathFor('admin.tools.clearCacheAllProcess'),
                         'title' => __('admin_clear_cache_all'),
-
                     ],
                 ],
             ]

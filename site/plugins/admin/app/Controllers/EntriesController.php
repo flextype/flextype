@@ -361,7 +361,7 @@ class EntriesController extends Controller
                                 'entries_type' => [
                                     'link' => $this->router->pathFor('admin.entries.type') . '?id=' . $this->getEntryID($query),
                                     'title' => __('admin_type'),
-                                    'attributes' => ['class' => 'btn active']
+                                    'active' => true
                                     ]
                                 ]
                         ]
@@ -467,7 +467,7 @@ class EntriesController extends Controller
                                 'entries_move' => [
                                     'link' => $this->router->pathFor('admin.entries.move'),
                                     'title' => __('admin_move'),
-                                    'attributes' => ['class' => 'btn active']
+                                    'active' => true
                                     ]
                                 ]
                         ]
@@ -544,7 +544,7 @@ class EntriesController extends Controller
                                 'entries_type' => [
                                     'link' => $this->router->pathFor('admin.entries.rename') . '?id=' . $this->getEntryID($query),
                                     'title' => __('admin_rename'),
-                                    'attributes' => ['class' => 'btn active']
+                                    'active' => true
                                     ]
                                 ]
                         ]
@@ -691,14 +691,14 @@ class EntriesController extends Controller
                             'edit_entry_source' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
                                 'title' => __('admin_source'),
-                                'attributes' => ['class' => 'btn active']
+                                'active' => true
                             ],
                         ],
                         'buttons' => [
                             'save_entry' => [
                                             'link'       => 'javascript:;',
                                             'title'      => __('admin_save'),
-                                            'attributes' => ['class' => 'js-save-form-submit btn']
+                                            'type' => 'action'
                                         ],
                         ]
                 ]
@@ -733,7 +733,6 @@ class EntriesController extends Controller
                             'edit_entry_source' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
                                 'title' => __('admin_source'),
-
                             ],
                         ]
                 ]
@@ -759,30 +758,27 @@ class EntriesController extends Controller
                         'links' => [
                             'entries' => [
                                 'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
-                                'title' => __('admin_entries'),
-
+                                'title' => __('admin_entries')
                             ],
                             'edit_entry' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
                                 'title' => __('admin_editor'),
-                                'attributes' => ['class' => 'btn active']
+                                'active' => true
                             ],
                             'edit_entry_media' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
-                                'title' => __('admin_media'),
-
+                                'title' => __('admin_media')
                             ],
                             'edit_entry_source' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
-                                'title' => __('admin_source'),
-
+                                'title' => __('admin_source')
                             ],
                         ],
                         'buttons' => [
                             'save_entry' => [
                                             'link'       => 'javascript:;',
                                             'title'      => __('admin_save'),
-                                            'attributes' => ['class' => 'js-save-form-submit btn']
+                                            'type' => 'action'
                                         ],
                         ]
                 ]

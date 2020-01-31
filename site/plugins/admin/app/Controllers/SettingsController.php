@@ -109,7 +109,7 @@ class SettingsController extends Controller
                     'save' => [
                         'link'       => 'javascript:;',
                         'title'      => __('admin_save'),
-                        'attributes' => ['class' => 'js-save-form-submit btn'],
+                        'type' => 'action'
                     ],
                 ],
             ]

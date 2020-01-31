@@ -138,7 +138,7 @@ class SnippetsController extends Controller
                     'save_snippet' => [
                         'link'       => 'javascript:;',
                         'title'      => __('admin_save'),
-                        'attributes' => ['class' => 'js-save-form-submit btn'],
+                        'type' => 'action',
                     ],
                 ],
             ]
