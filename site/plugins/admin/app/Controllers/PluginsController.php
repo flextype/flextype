@@ -46,7 +46,7 @@ class PluginsController extends Controller
                     'plugins_get_more' => [
                         'link' => 'https://github.com/flextype/plugins',
                         'title' => __('admin_get_more_plugins'),
-                        'attributes' => ['class' => 'btn', 'target' => '_blank'],
+                        'target' => '_blank'
                     ],
                 ],
             ]
@@ -209,7 +209,7 @@ class PluginsController extends Controller
                     'save_plugin_settings' => [
                         'link' => 'javascript:;',
                         'title' => __('admin_save'),
-                        'attributes' => ['class' => 'js-save-form-submit btn'],
+                        'type' => 'action'
                     ],
                 ],
             ]
