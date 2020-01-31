@@ -3,6 +3,21 @@
 {% block content %}
     {% if (themes_list | length > 0) %}
         <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        {{ tr('admin_theme') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_description') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_version') }}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
             <tbody>
                 {% for key, theme in themes_list %}
                     <tr>
@@ -12,6 +27,8 @@
                         <td class="pl-0">
                             <a href="{{ path_for('admin.templates.index') }}?theme={{ key }}">{{ theme.name }}</a>
                         </td>
+                        <td class="{% if theme.enabled == false %}opacity-50{% endif %}">{{ theme.description }}</td>
+                        <td class="{% if theme.enabled == false %}opacity-50{% endif %}">{{ theme.version }}</td>
                         <td class="text-right">
                             <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ key }}">
                                 <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>

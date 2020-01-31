@@ -3,6 +3,15 @@
 {% block content %}
     {% if snippets_list | length > 0 %}
         <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        {{ tr('admin_snippet') }}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
             <tbody>
                 {% for id in snippets_list %}
                     <tr>

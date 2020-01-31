@@ -1,9 +1,21 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-    {% if (templates_list | length > 0)
+    {% if (templates_list | length > 0) 
         or(partials_list | length > 0) %}
         <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        {{ tr('admin_template') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_type') }}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
             <tbody>
                 {% if templates_list | length > 0 %}
                     {% for template in templates_list %}
@@ -102,12 +114,12 @@
             </tbody>
         </table>
     {% else %}
-<div class="text-center flex justify-center items-center h-full">
-    <div>
-        <i class="icon icon--4xl">{{ icon('fas fa-layer-group') }}</i>
-        <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_templates_yet') }}</h3>
-        <a href="{{ path_for('admin.templates.add') }}" class="button">{{ tr('admin_create_new_template') }}</a>
-    </div>
-</div>
+        <div class="text-center flex justify-center items-center h-full">
+            <div>
+                <i class="icon icon--4xl">{{ icon('fas fa-layer-group') }}</i>
+                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_templates_yet') }}</h3>
+                <a href="{{ path_for('admin.templates.add') }}" class="button">{{ tr('admin_create_new_template') }}</a>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}
