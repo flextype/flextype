@@ -22,3 +22,27 @@
     width: 2rem;
     height: 2rem;
 }
+
+.icon--xl > svg
+{
+    width: 3rem;
+    height: 3rem;
+}
+
+.icon--2xl > svg
+{
+    width: 4rem;
+    height: 4rem;
+}
+
+.icon--3xl > svg
+{
+    width: 4rem;
+    height: 4rem;
+}
+
+.icon--4xl > svg
+{
+    width: 5rem;
+    height: 5rem;
+}
