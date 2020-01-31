@@ -13,6 +13,9 @@
                         {{ tr('admin_description') }}
                     </th>
                     <th>
+                        {{ tr('admin_author') }}
+                    </th>
+                    <th>
                         {{ tr('admin_version') }}
                     </th>
                     <th></th>
@@ -32,6 +35,9 @@
                             <a href="{{ path_for('admin.plugins.information') }}?id={{ key }}">{{ plugin.name }}</a>
                         </td>
                         <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.description }}</td>
+                        <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">
+                            <a href="{{ plugin.author.url }}" target="_blank">{{ plugin.author.name }}</a>
+                        </td>
                         <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.version }}</td>
                         <td class="text-right">
                             <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ key }}">
