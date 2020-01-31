@@ -1,7 +1,7 @@
 /* purgecss start ignore */
 .select2-container
 {
-    display: block;
+    @apply outline-none block;
 }
 .select2-dropdown
 {
@@ -11,10 +11,7 @@
 .select2-container--default .select2-selection--multiple,
 .select2-container--default .select2-selection--single
 {
-    height: auto;
-
-    border-radius: 0;
-    @apply px-2 py-2;
+    @apply px-2 py-2 outline-none rounded-none h-auto;
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected]
@@ -31,8 +28,7 @@
 {
     line-height: 21px!important;
 
-    height: auto;
-    @apply p-0;
+    @apply p-0 h-auto;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow
