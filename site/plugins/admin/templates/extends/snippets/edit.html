@@ -5,10 +5,6 @@
         {{ csrf() }}
         <input type="hidden" name="action" value="save-form">
         <input type="hidden" name="id" value="{{ id }}">
-        <div class="flex">
-            <div class="w-full">
-                <textarea name="data" rows="0" cols="0" class="form-control code-editor js-code">{{ data }}</textarea>
-            </div>
-        </div>
+        <textarea name="data" rows="0" cols="0" class="js-code">{{ data }}</textarea>
     </form>
 {% endblock %}
