@@ -1,6 +1,7 @@
 <script>
-    tippy('.js-nav', {placement: 'right'});
-    tippy('.js-dropdown-btn', {
+    const nav_tooltip = tippy('.js-nav', {placement: 'right'});
+
+    const dropdown = tippy('.js-dropdown-btn', {
         placement: 'bottom',
         allowHTML: true,
         flipOnUpdate: true,
@@ -16,4 +17,6 @@
             return document.getElementById(reference.getAttribute('data-dropdown')).innerHTML;
         }
     });
+
+    console.log(dropdown);
 </script>
