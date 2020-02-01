@@ -7,10 +7,6 @@
         <input type="hidden" name="type" value="{{ type }}">
         <input type="hidden" name="id" value="{{ id }}">
         <input type="hidden" name="theme" value="{{ theme }}">
-        <div class="flex">
-            <div class="w-full">
-                <textarea name="data" rows="0" cols="0" class="form-control code-editor js-code">{{ data }}</textarea>
-            </div>
-        </div>
+        <textarea name="data" rows="0" cols="0" class="js-code">{{ data }}</textarea>
     </form>
 {% endblock %}
