@@ -72,19 +72,19 @@
     {% endif %}
 {% endblock %}
 
-{% block tail_js %}
+{% block tail %}
     <script>
         function deleteDeliveryToken(id, row_num) {
             dropdown[row_num].hide();
-            swal({
+            Swal.fire({
                 title: "{{ tr('admin_cofirmation_required') }}",
                 text: "{{ tr('admin_cofirmation_required_for_delivery_token') }}",
-                buttons: [
-                    "{{ tr('admin_cancel') }}", "{{ tr('admin_yes_iam_sure')|raw }}"
-                ],
-                closeModal: true
-            }).then((willDelete) => {
-                if (willDelete) {
+                showCancelButton: true,
+                confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
+                cancelButtonText: "{{ tr('admin_cancel') }}",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
                     document.getElementById('delete-api-token-id-' + id).submit();
                 }
             });
