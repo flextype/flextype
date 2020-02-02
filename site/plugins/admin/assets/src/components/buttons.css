@@ -10,18 +10,18 @@
 
 .button
 {
-    @apply px-4 py-2 border border-black text-white inline-block w-auto bg-black;
+    @apply px-4 py-2 border-1 border-solid border-dark text-white inline-block w-auto bg-dark;
 }
 
 .button--white
 {
-    @apply bg-white text-black;
+    @apply bg-white text-dark;
 }
 
 .button:hover,
 .button--white:hover
 {
-    @apply border-gray-900 bg-gray-900 text-white;
+    @apply border-black bg-black text-white;
 }
 
 .button-group
