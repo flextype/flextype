@@ -32,6 +32,7 @@
     "postcss-import": "^12.0.1",
     "select2": "^4.0.12",
     "speakingurl": "^14.0.1",
+    "sweetalert2": "^9.7.1",
     "tailwindcss": "^1.1.4",
     "tippy.js": "^5.1.4"
   }

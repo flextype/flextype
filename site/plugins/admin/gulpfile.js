@@ -24,6 +24,9 @@ class TailwindExtractor {
            // Select2
           'node_modules/select2/dist/css/select2.min.css',
 
+          // Swal2
+          'node_modules/sweetalert2/dist/sweetalert2.min.css',
+
            // CodeMirror
           'node_modules/codemirror/lib/codemirror.css',
           'node_modules/codemirror/theme/elegant.css'])
@@ -97,6 +100,9 @@ gulp.task("css", function() {
 
                     // Select2
                     'node_modules/select2/dist/js/select2.min.js',
+
+                    // Swal2
+                    'node_modules/sweetalert2/dist/sweetalert2.min.js',
 
                     // ParsleyJS Form Validatator
                     'node_modules/parsleyjs/dist/parsley.min.js',
