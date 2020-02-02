@@ -220,6 +220,9 @@
         {% include "plugins/admin/templates/partials/modules/tabs.html" %}
         {% include "plugins/admin/templates/partials/modules/select2.html" %}
 
+        {% do 
+            emitter.emit('onAdminThemeTail') %}
+
         {% block tail %}{% endblock %}
     </body>
 </html>
