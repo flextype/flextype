@@ -46,8 +46,7 @@
                                     {{ tr('admin_edit') }}
                                 </a>
                                 <div class="dropdown__divider"></div>
-                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                          document.getElementById('delete-api-token-id-{{ token.dirname }}').submit();">
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault(); deleteDeliveryToken('{{ token.dirname }}', {{ loop.index0 }});">
                                     <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
                                     {{ tr('admin_delete') }}
                                 </a>
@@ -71,4 +70,24 @@
             </div>
         </div>
     {% endif %}
+{% endblock %}
+
+{% block tail_js %}
+    <script>
+        function deleteDeliveryToken(id, row_num) {
+            dropdown[row_num].hide();
+            swal({
+                title: "{{ tr('admin_cofirmation_required') }}",
+                text: "{{ tr('admin_cofirmation_required_for_delivery_token') }}",
+                buttons: [
+                    "{{ tr('admin_cancel') }}", "{{ tr('admin_yes_iam_sure')|raw }}"
+                ],
+                closeModal: true
+            }).then((willDelete) => {
+                if (willDelete) {
+                    document.getElementById('delete-api-token-id-' + id).submit();
+                }
+            });
+        }
+    </script>
 {% endblock %}
