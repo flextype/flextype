@@ -11,12 +11,13 @@
 
 .swal2-title
 {
-    @apply text-3xl;
+    @apply text-3xl font-normal text-black;
 }
 
 .swal2-content
 {
     font-size: var(--font-size);
+    @apply text-black;
 }
 
 .swal2-styled.swal2-confirm
