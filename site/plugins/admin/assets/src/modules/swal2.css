@@ -29,6 +29,11 @@
     @apply border-black bg-black text-white;
 }
 
+.swal2-close:focus
+{
+    @apply outline-none;
+}
+
 .swal2-popup.swal2-toast .swal2-title
 {
     font-size: var(--font-size);
