@@ -41,8 +41,7 @@
                                 <i class="icon icon--white mr-3">{{ icon('far fa-list-alt') }}</i>
                                 {{ tr('admin_type') }}</a>
                             <div class="dropdown__divider"></div>
-                            <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                                   document.getElementById('delete-id-{{ entry.slug }}').submit();">
+                            <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault(); deleteEntry('{{ entry.slug }}', {{ loop.index0 }});">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
                                 {{ tr('admin_delete') }}</a>
                             <form id="duplicate-id-{{ entry.slug }}" action="{{ path_for('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
@@ -284,13 +283,13 @@
     <script>
         function deleteEntry(id, row_num) {
             dropdown[row_num].hide();
-            Swal.fire(
-                {title: "{{ tr('admin_cofirmation_required') }}", text: "{{ tr('admin_cofirmation_required_for_delivery_token') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
-            ).then((result) => {
-                if (result.value) {
-                    document.getElementById('delete-id-' + id).submit();
+            Swal.fire({title: "{{ tr('admin_cofirmation_required') }}", text: "{{ tr('admin_cofirmation_required_for_entry') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}).then(
+                (result) => {
+                    if (result.value) {
+                        document.getElementById('delete-id-' + id).submit();
+                    }
                 }
-            });
+            );
         }
     </script>
 {% endblock %}
