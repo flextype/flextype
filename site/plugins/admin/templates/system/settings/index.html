@@ -133,7 +133,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="image[driver]" class="form-control-title">{{ tr('admin_image_driver') }}</label>
-                                <select id="systemSettingsImageDriver" name="image[driver]" class="form-control js-select" required="required">
+                                <select id="systemSettingsImageDriver" name="image[driver]" class="form-control js-select">
                                     {% for key, value in image_driver %}
                                         <option value="{{ key }}" {% if key == registry.settings.image.driver %} selected="selected" {% endif %}>{{ value }}</option>
                                     {% endfor %}
@@ -247,7 +247,7 @@
                         <div class="w-full lg:w-6/12">
                             <div class="form-group">
                                 <label for="whoops[editor]" class="form-control-title">{{ tr('admin_whoops_editor') }}</label>
-                                <select id="systemSettingsImageDriver" name="whoops[editor]" class="form-control js-select" required="required">
+                                <select id="systemSettingsWhoopsPageEditor" name="whoops[editor]" class="form-control js-select" required="required">
                                     {% for key, value in whoops_editor %}
                                         <option value="{{ key }}" {% if key == registry.settings.whoops.editor %} selected="selected" {% endif %}>{{ value }}</option>
                                     {% endfor %}
