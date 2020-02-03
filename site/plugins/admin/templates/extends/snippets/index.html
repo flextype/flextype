@@ -94,7 +94,7 @@
         function deleteSnippet(id, row_num) {
             dropdown[row_num].hide();
             Swal.fire(
-                {title: "{{ tr('admin_cofirmation_required') }}", text: "{{ tr('admin_cofirmation_required_for_delivery_token') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
+                {title: "{{ tr('admin_cofirmation_required') }}", text: "{{ tr('admin_cofirmation_required_for_snippet_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
             ).then((result) => {
                 if (result.value) {
                     document.getElementById('delete-snippet-id-' + id).submit();
@@ -106,9 +106,9 @@
             dropdown[row_num].hide();
             Swal.fire({
                 title: "{{ tr('admin_embeded_code') }}",
-                html: '<div><label>{{ tr("admin_shortcode") }}</label><div class="form-control"><span id="snippet">[snippets_exec id="' + id + '"]</span><button class="js-clipboard-buttonbtn" data-clipboard-target="#snippet">{{ tr("admin_copy") }}</button></div><br><label for="template_code"' +
-                        '>{{ tr("admin_template_code") }}</label><div id="template_code" class="alert alert-dark clipboard" role="alert"><span id="html">&lcub;&lcub; snippets.exec("' + id + '") &rcub;&rcub;</span><button class="js-clipboard-buttonbtn" data-clipboard-target' +
-                        '="#html">{{ tr("admin_copy") }}</button></div></div>'
+                html: '<div><label>{{ tr("admin_shortcode") }}</label><div class="form-control"><span id="snippet">[snippets_exec id="' + id + '"]</span><button class="js-clipboard-buttonbtn" data-clipboard-target="#snippet">{{ tr("admin_copy") }}</button></div><br><labe' +
+                        'l for="template_code">{{ tr("admin_template_code") }}</label><div id="template_code" class="alert alert-dark clipboard" role="alert"><span id="html">&lcub;&lcub; snippets.exec("' + id + '") &rcub;&rcub;</span><button class="js-clipboard-buttonbtn" ' +
+                        'data-clipboard-target="#html">{{ tr("admin_copy") }}</button></div></div>'
             });
         }
     </script>

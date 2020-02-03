@@ -45,8 +45,7 @@
                                     <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
                                     {{ tr('admin_duplicate') }}</a>
                                 <div class="dropdown__divider"></div>
-                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                            document.getElementById('delete-fieldset-id-{{ id }}').submit();">
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault(); deleteFieldset('{{ id }}', {{ loop.index0 }});">
                                     <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
                                     {{ tr('admin_delete') }}</a>
                                 <form id="delete-fieldset-id-{{ id }}" action="{{ path_for('admin.fieldsets.deleteProcess') }}" method="POST" style="display: none;">
@@ -72,4 +71,19 @@
             </div>
         </div>
     {% endif %}
+{% endblock %}
+
+{% block tail %}
+    <script>
+        function deleteFieldset(id, row_num) {
+            dropdown[row_num].hide();
+            Swal.fire(
+                {title: "{{ tr('admin_cofirmation_required') }}", text: "{{ tr('admin_cofirmation_required_for_fieldset_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
+            ).then((result) => {
+                if (result.value) {
+                    document.getElementById('delete-fieldset-id-' + id).submit();
+                }
+            });
+        }
+    </script>
 {% endblock %}
