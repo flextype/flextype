@@ -9,8 +9,19 @@
     @apply border-none rounded-none;
 }
 
+.swal2-title
+{
+    @apply text-3xl;
+}
+
+.swal2-content
+{
+    font-size: var(--font-size);
+}
+
 .swal2-styled.swal2-confirm
 {
+    font-size: var(--font-size);
     @apply px-4 py-2 border border-solid border-dark text-white inline-block w-auto bg-dark rounded-none;
 }
 
@@ -21,6 +32,7 @@
 
 .swal2-styled.swal2-cancel
 {
+    font-size: var(--font-size);
     @apply px-4 py-2 border border-solid inline-block w-auto bg-white text-black border-dark rounded-none;
 }
 
