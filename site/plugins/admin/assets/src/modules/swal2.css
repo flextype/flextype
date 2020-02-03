@@ -1,7 +1,7 @@
 /* purgecss start ignore */
 .swal2-container
 {
-    background-color: rgba(0, 0, 0, .75);
+    @apply bg-transparent;
 }
 
 .swal2-popup
@@ -23,7 +23,6 @@
 {
     @apply px-4 py-2 border border-solid inline-block w-auto bg-white text-black border-dark rounded-none;
 }
-
 
 .swal2-actions:not(.swal2-loading) .swal2-styled:hover
 {
