@@ -10,7 +10,7 @@
 
 .button
 {
-    @apply px-4 py-2 border border-solid border-dark text-white inline-block w-auto bg-dark;
+    @apply px-4 py-2 border border-solid border-dark text-white inline-block w-auto bg-dark cursor-pointer;
 }
 
 .button--white
