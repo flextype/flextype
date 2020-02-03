@@ -29,4 +29,14 @@
     @apply border-black bg-black text-white;
 }
 
+.swal2-popup.swal2-toast .swal2-title
+{
+    font-size: var(--font-size);
+    @apply font-normal text-white;
+}
+
+.swal2-popup.swal2-toast
+{
+    @apply bg-dark shadow-none;
+}
 /* purgecss end ignore */
