@@ -4,7 +4,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>{{ tr('admin_cache') }}</th>
+                <th class="w-3/12">{{ tr('admin_cache') }}</th>
                 <th>{{ tr('admin_size') }}</th>
                 <th></th>
             </tr>
@@ -19,10 +19,10 @@
                     {% else %}0 KB{% endif %}
                 </td>
                 <td class="text-right">
-                    <button type="button" class="js-dropdown-btn">
+                    <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-data">
                         <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                     </button>
-                    <div class="js-dropdown dropdown">
+                    <div id="dropdown-data" class="dropdown">
                         <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                   document.getElementById('clear-id-doctrine').submit();">
                             <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
@@ -43,10 +43,10 @@
                     {% else %}0 KB{% endif %}
                 </td>
                 <td class="text-right">
-                    <button type="button" class="js-dropdown-btn">
+                    <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-template">
                         <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                     </button>
-                    <div class="js-dropdown dropdown">
+                    <div id="dropdown-template" class="dropdown">
                         <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                   document.getElementById('clear-id-twig').submit();">
                             <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
@@ -67,10 +67,10 @@
                     {% else %}0 KB{% endif %}
                 </td>
                 <td class="text-right">
-                    <button type="button" class="js-dropdown-btn">
+                    <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-image">
                         <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                     </button>
-                    <div class="js-dropdown dropdown">
+                    <div id="dropdown-image" class="dropdown">
                         <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                   document.getElementById('clear-id-glide').submit();">
                             <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
