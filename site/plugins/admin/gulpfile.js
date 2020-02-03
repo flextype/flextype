@@ -27,6 +27,9 @@ class TailwindExtractor {
           // Swal2
           'node_modules/sweetalert2/dist/sweetalert2.min.css',
 
+          // AnimateCSS
+          'node_modules/animate.css/animate.min.css',
+
            // CodeMirror
           'node_modules/codemirror/lib/codemirror.css',
           'node_modules/codemirror/theme/elegant.css'])
@@ -58,13 +61,7 @@ gulp.task("css", function() {
   return gulp
     .src([
            // Admin Panel CSS
-          'assets/src/admin-panel.css',
-
-          // Select2
-         'node_modules/select2/dist/css/select2.min.css',
-
-          // CodeMirror
-         'node_modules/codemirror/lib/codemirror.css'])
+          'assets/src/admin-panel.css'])
     .pipe(postcss([atimport(), tailwindcss(tailwindConfig)]))
     .pipe(
       purgecss({
