@@ -5,10 +5,10 @@
     display: inline-block;
     overflow: hidden;
 
-    width: .85rem;
-    height: .85rem;
+    width: 1rem;
+    height: 1rem;
 
-    vertical-align: -.07rem;
+    vertical-align: -.17rem;
 }
 
 .icon--white > svg
