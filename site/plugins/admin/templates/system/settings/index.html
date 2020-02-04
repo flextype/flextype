@@ -5,9 +5,9 @@
         {{ csrf() }}
         <input type="hidden" id="action" name="action" value="save-form">
 
-        <div class="flex">
+        <div class="tabs flex">
             <div class="w-9/12">
-                <div id="tab-site" class="hidden tab--active">
+                <div class="tabs__content tabs__content--active">
                     <h3 class="text-3xl">{{ tr('admin_site') }}</h3>
                     <hr>
                     <div class="flex mt-6">
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="tab-content" class="hidden">
+                <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_content') }}</h3>
                     <hr>
                     <div class="flex mt-6">
@@ -116,7 +116,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="tab-media" class="hidden">
+                <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_media') }}</h3>
                     <hr>
                     <div class="flex mt-6">
@@ -155,7 +155,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="tab-error" class="hidden">
+                <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_error_404_page') }}</h3>
                     <hr>
                     <div class="flex mt-6">
@@ -183,7 +183,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="tab-twig" class="hidden">
+                <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_twig_templating') }}</h3>
                     <hr>
                     <div class="flex mt-6">
@@ -222,7 +222,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="tab-debugging" class="hidden">
+                <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_debugging') }}</h3>
                     <hr>
                     <div class="flex mt-6">
@@ -262,7 +262,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="tab-system" class="hidden">
+                <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_system') }}</h3>
                     <hr>
                     <div class="flex mt-6">
@@ -305,7 +305,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="tab-cache" class="hidden">
+                <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_cache') }}</h3>
                     <hr>
                     <div class="flex mt-6">
@@ -379,7 +379,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="tab-slug" class="hidden">
+                <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_slug') }}</h3>
                     <hr>
                     <div class="flex mt-6">
@@ -425,54 +425,36 @@
                         </div>
                     </div>
                 </div>
-                <div id="tab-admin" class="hidden">
-                    <h3 class="text-3xl">{{ tr('admin_admin_panel') }}</h3>
-                    <hr>
-                    <div class="flex mt-6">
-                        <div class="w-full lg:w-4/12">
-                            <div class="form-group">
-                                <label for="admin_panel[theme]">{{ tr('admin_theme') }}</label>
-                                <select id="systemSettingsSystemAdminPanelTheme" name="admin_panel[theme]" class="form-control js-select" required="required">
-                                    <option value="light" {% if registry.settings.admin_panel.theme == 'light' %} selected="selected" {% endif %}>{{ tr('admin_light') }}</option>
-                                    <option value="dark" {% if registry.settings.admin_panel.theme == 'dark' %} selected="selected" {% endif %}>{{ tr('admin_dark') }}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <nav class="w-3/12 pl-10">
+            <nav class="tabs__nav w-3/12 pl-10">
                 <div class="bg-dark text-white">
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tab-link--active" href="#tab-site" data-tab="tab-site">
+                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link tabs__nav__link--active" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-globe') }}</i>
                         {{ tr('admin_site') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100" href="#tab-content" data-tab="tab-content">
+                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-file-alt') }}</i>
                         {{ tr('admin_content') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100" href="#tab-media" data-tab="tab-media">
+                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-photo-video') }}</i>
                         {{ tr('admin_media') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100" href="#tab-error" data-tab="tab-error">
+                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-exclamation-triangle') }}</i>
                         {{ tr('admin_error_404_page') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100" href="#tab-twig" data-tab="tab-twig">
+                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-pencil-ruler') }}</i>
                         {{ tr('admin_twig_templating') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100" href="#tab-debugging" data-tab="tab-debugging">
+                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-tools') }}</i>
                         {{ tr('admin_debugging') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100" href="#tab-system" data-tab="tab-system">
+                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-cogs') }}</i>
                         {{ tr('admin_system') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100" href="#tab-cache" data-tab="tab-cache">
+                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-archive') }}</i>
                         {{ tr('admin_cache') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100" href="#tab-slug" data-tab="tab-slug">
+                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-link') }}</i>
                         {{ tr('admin_slug') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100" href="#tab-admin" data-tab="tab-admin">
-                        <i class="icon icon--white mr-3">{{ icon('fab fa-fort-awesome') }}</i>
-                        {{ tr('admin_admin_panel') }}</a>
                 </div>
             </nav>
         </div>
