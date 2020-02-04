@@ -40,18 +40,18 @@ class Forms
      * @access private
      */
     private $sizes = [
-        '1/12' => 'w-1/12',
-        '2/12' => 'w-2/12',
-        '3/12' => 'w-3/12',
-        '4/12' => 'w-4/12',
-        '5/12' => 'w-5/12',
-        '6/12' => 'w-6/12',
-        '7/12' => 'w-7/12',
-        '8/12' => 'w-8/12',
-        '9/12' => 'w-9/12',
-        '10/12' => 'w-10/12',
-        '12/12' => 'w-full',
-        '12' => 'w-full',
+        '1/12' => 'col w-1/12',
+        '2/12' => 'col w-2/12',
+        '3/12' => 'col w-3/12',
+        '4/12' => 'col w-4/12',
+        '5/12' => 'col w-5/12',
+        '6/12' => 'col w-6/12',
+        '7/12' => 'col w-7/12',
+        '8/12' => 'col w-8/12',
+        '9/12' => 'col w-9/12',
+        '10/12' => 'col w-10/12',
+        '12/12' => 'col w-full',
+        '12' => 'col w-full',
     ];
 
     /**
@@ -97,7 +97,7 @@ class Forms
             // Go through all sections and create nav tabs
             foreach ($fieldset['sections'] as $key => $section) {
                 $form .= '<div class="tabs__content w-9/12 ' . ($key === 'main' ? 'tabs__content--active' : '') . '">';
-                $form .= '<div>';
+                $form .= '<div class="row">';
 
                 foreach ($section['fields'] as $element => $properties) {
                     // Set empty form field element
