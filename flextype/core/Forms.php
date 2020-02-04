@@ -40,18 +40,18 @@ class Forms
      * @access private
      */
     private $sizes = [
-        '1/12' => 'col-1',
-        '2/12' => 'col-2',
-        '3/12' => 'col-3',
-        '4/12' => 'col-4',
-        '5/12' => 'col-5',
-        '6/12' => 'col-6',
-        '7/12' => 'col-7',
-        '8/12' => 'col-8',
-        '9/12' => 'col-9',
-        '10/12' => 'col-19',
-        '12/12' => 'col-11',
-        '12' => 'col-12',
+        '1/12' => 'w-1/12',
+        '2/12' => 'w-2/12',
+        '3/12' => 'w-3/12',
+        '4/12' => 'w-4/12',
+        '5/12' => 'w-5/12',
+        '6/12' => 'w-6/12',
+        '7/12' => 'w-7/12',
+        '8/12' => 'w-8/12',
+        '9/12' => 'w-9/12',
+        '10/12' => 'w-10/12',
+        '12/12' => 'w-full',
+        '12' => 'w-full',
     ];
 
     /**
@@ -91,28 +91,13 @@ class Forms
 
         // Go through all sections
         if (count($fieldset['sections']) > 0) {
-            $form .= '<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">';
 
-            // Go through all sections and create nav items
-            foreach ($fieldset['sections'] as $key => $section) {
-                $form .= '<li class="nav-item">
-                            <a class="nav-link ' . ($key === 'main' ? 'active' : '') . '"
-                               id="pills-' . $key . '-tab"
-                               data-toggle="pill" href="#pills-' . $key . '"
-                               role="tab"
-                               aria-controls="pills-' . $key . '"
-                               aria-selected="' . ($key === 'main' ? 'true' : 'false') . '">' . __($section['title']) . '</a>
-                          </li>';
-            }
-
-            $form .= '</ul>';
-
-            $form .= '<div class="tab-content" id="pills-tabContent">';
+            $form .= '<div class="tabs flex">';
 
             // Go through all sections and create nav tabs
             foreach ($fieldset['sections'] as $key => $section) {
-                $form .= '<div class="tab-pane fade  ' . ($key === 'main' ? 'show active' : '') . '" id="pills-' . $key . '" role="tabpanel" aria-labelledby="pills-' . $key . '-tab">';
-                $form .= '<div class="row">';
+                $form .= '<div class="tabs__content w-9/12 ' . ($key === 'main' ? 'tabs__content--active' : '') . '">';
+                $form .= '<div>';
 
                 foreach ($section['fields'] as $element => $properties) {
                     // Set empty form field element
@@ -172,6 +157,17 @@ class Forms
                 $form .= '</div>';
                 $form .= '</div>';
             }
+
+
+            $form .= '<nav class="tabs__nav w-3/12 pl-10"><div class="bg-dark text-white">';
+
+            // Go through all sections and create nav items
+            foreach ($fieldset['sections'] as $key => $section) {
+                $form .= '<a href="javascript:;" class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link ' . ($key === 'main' ? 'tabs__nav__link--active' : '') . '">' . __($section['title']) . '</a>';
+            }
+
+            $form .= '</div></nav>';
+
             $form .= '</div>';
         }
 
@@ -276,7 +272,7 @@ class Forms
 
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
         $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class . ' js-select';
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
@@ -307,7 +303,7 @@ class Forms
 
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
         $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class . ' js-select';
 
         $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
 
@@ -353,7 +349,7 @@ class Forms
 
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
         $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class . ' js-select';
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
@@ -385,12 +381,12 @@ class Forms
 
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
         $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class . ' js-select';
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
         $field .= Form::select($field_name, $options, $field_value, $attributes);
-        $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
+        $field .= ($help ? '<small>' . __($help) . '</small>' : '');
         $field .= '</div>';
 
         return $field;
@@ -527,7 +523,7 @@ class Forms
 
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
         $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class . ' js-select';
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
