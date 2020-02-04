@@ -8,10 +8,9 @@
         <div class="tabs flex">
             <div class="w-9/12">
                 <div class="tabs__content tabs__content--active">
-                    <h3 class="text-3xl">{{ tr('admin_site') }}</h3>
-                    <hr>
-                    <div class="flex mt-6">
-                        <div class="w-full lg:w-6/12 pr-6">
+                    <h3 class="text-3xl border-b border-black">{{ tr('admin_site') }}</h3>
+                    <div class="flex mt-6 row">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="title" class="form-control-title">{{ tr('admin_site_title') }}</label>
                                 <input type="text" id="systemSettingsSiteTitle" name="title" value="{{ registry.settings.title }}" class="form-control" required="required">
@@ -28,7 +27,7 @@
                                 <small>{{ tr('admin_help_text_for_settings_site_keywords_label') }}</small>
                             </div>
                         </div>
-                        <div class="w-full lg:w-6/12">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="robots" class="form-control-title">{{ tr('admin_site_robots') }}</label>
                                 <input type="text" id="systemSettingsSiteRobots" name="robots" value="{{ registry.settings.robots }}" class="form-control" required="required">
@@ -50,8 +49,8 @@
                 <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_content') }}</h3>
                     <hr>
-                    <div class="flex mt-6">
-                        <div class="w-full lg:w-6/12 pr-6">
+                    <div class="flex mt-6 row">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="entries[main]" class="form-control-title">{{ tr('admin_entry_main') }}</label>
                                 <select id="systemSettingsSystemEntriesMain" name="entries[main]" class="form-control js-select" required="required">
@@ -76,7 +75,7 @@
                                 <small>{{ tr('admin_help_text_for_settings_content_character_label') }}</small>
                             </div>
                         </div>
-                        <div class="w-full lg:w-6/12">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="timezone" class="form-control-title">{{ tr('admin_timezone') }}</label>
                                 <select id="systemSettingsSystemTimezone" name="timezone" class="form-control js-select" required="required">
@@ -119,8 +118,8 @@
                 <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_media') }}</h3>
                     <hr>
-                    <div class="flex mt-6">
-                        <div class="w-full lg:w-6/12 pr-6">
+                    <div class="flex row mt-6">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="entries[media][upload_images_quality]" class="form-control-title">{{ tr('admin_quality') }}</label>
                                 <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_quality]" value="{{ registry.settings.entries.media.upload_images_quality }}" class="form-control" required="required">
@@ -141,7 +140,7 @@
                                 <small>{{ tr('admin_help_text_for_settings_image_driver_label') }}</small>
                             </div>
                         </div>
-                        <div class="w-full lg:w-6/12">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="entries[media][upload_images_width]" class="form-control-title">{{ tr('admin_width') }}</label>
                                 <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_width]" value="{{ registry.settings.entries.media.upload_images_width }}" class="form-control" required="required">
@@ -158,8 +157,8 @@
                 <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_error_404_page') }}</h3>
                     <hr>
-                    <div class="flex mt-6">
-                        <div class="w-full">
+                    <div class="flex row mt-6">
+                        <div class="w-full col">
                             <div class="form-group">
                                 <label for="entries[error404][title]" class="form-control-title">{{ tr('admin_error404_title') }}</label>
                                 <input type="text" id="systemSettingsSystemEntriesError404Title" name="entries[error404][title]" value="{{ registry.settings.entries.error404.title }}" class="form-control" required="required">
@@ -174,8 +173,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex">
-                        <div class="w-full lg:w-4/12">
+                    <div class="flex row ">
+                        <div class="w-full lg:w-4/12 col">
                             <div class="form-group">
                                 <label for="entries[error404][template]" class="form-control-title">{{ tr('admin_error404_template') }}</label>
                                 <input type="text" id="systemSettingsSystemEntriesError404Template" name="entries[error404][template]" value="{{ registry.settings.entries.error404.template }}" class="form-control" required="required">
@@ -186,8 +185,8 @@
                 <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_twig_templating') }}</h3>
                     <hr>
-                    <div class="flex mt-6">
-                        <div class="w-full lg:w-6/12 pr-6">
+                    <div class="flex row mt-6">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="twig[auto_reload]" class="form-control-title">{{ tr('admin_twig_debug') }}</label>
                                 <select id="systemSettingsTwigDebug" name="twig[debug]" class="form-control js-select" required="required">
@@ -205,7 +204,7 @@
                                 <small>{{ tr('admin_help_text_for_settings_twig_templating_autoreload_label') }}</small>
                             </div>
                         </div>
-                        <div class="w-full lg:w-6/12">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="twig[cache]" class="form-control-title">{{ tr('admin_twig_cache') }}</label>
                                 <select id="systemSettingsTwigCache" name="twig[cache]" class="form-control js-select" required="required">
@@ -225,8 +224,8 @@
                 <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_debugging') }}</h3>
                     <hr>
-                    <div class="flex mt-6">
-                        <div class="w-full lg:w-6/12 pr-6">
+                    <div class="flex row mt-6">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="errors[display]" class="form-control-title">{{ tr('admin_errors_display') }}</label>
                                 <select id="systemSettingsSystemErrorsDisplay" name="errors[display]" class="form-control js-select" required="required">
@@ -244,7 +243,7 @@
                                 <small>{{ tr('admin_help_text_for_settings_errors_display_datails_label') }}</small>
                             </div>
                         </div>
-                        <div class="w-full lg:w-6/12">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="whoops[editor]" class="form-control-title">{{ tr('admin_whoops_editor') }}</label>
                                 <select id="systemSettingsWhoopsPageEditor" name="whoops[editor]" class="form-control js-select" required="required">
@@ -265,8 +264,8 @@
                 <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_system') }}</h3>
                     <hr>
-                    <div class="flex mt-6">
-                        <div class="w-full lg:w-6/12 pr-6">
+                    <div class="flex row mt-6">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="add_content_length_header">{{ tr('admin_add_content_length_header') }}</label>
                                 <select id="systemSettingsAddContentLengthHeader" name="add_content_length_header" class="form-control js-select" required="required">
@@ -308,8 +307,8 @@
                 <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_cache') }}</h3>
                     <hr>
-                    <div class="flex mt-6">
-                        <div class="w-full lg:w-6/12 pr-6">
+                    <div class="flex row mt-6">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="cache[enabled]">{{ tr('admin_cache_enabled') }}</label>
                                 <select id="systemSettingsSystemCacheEnabled" name="cache[enabled]" class="form-control js-select" required="required">
@@ -351,7 +350,7 @@
                                 <input type="text" id="systemSettingsSystemCacheMemcachedPort" name="cache[memcached][port]" value="{{ registry.settings.cache.memcache.port }}" class="form-control" required="required">
                             </div>
                         </div>
-                        <div class="w-full lg:w-6/12">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="cache[redis][socket]">{{ tr('admin_redis_socket') }}</label>
                                 <input type="text" id="systemSettingsSystemCacheRedisSocket" name="cache[redis][socket]" value="{{ registry.settings.cache.redis.socket }}" class="form-control" required="required">
@@ -382,8 +381,8 @@
                 <div class="tabs__content">
                     <h3 class="text-3xl">{{ tr('admin_slug') }}</h3>
                     <hr>
-                    <div class="flex mt-6">
-                        <div class="w-full lg:w-6/12 pr-6">
+                    <div class="flex row mt-6">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="slugify[separator]">{{ tr('admin_slugify_separator') }}</label>
                                 <input type="text" id="systemSettingsSlugifySeparator" name="slugify[separator]" value="{{ registry.settings.slugify.separator }}" class="form-control" required="required">
@@ -403,7 +402,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="w-full lg:w-6/12">
+                        <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="slugify[strip_tags]">{{ tr('admin_slugify_strip_tags') }}</label>
                                 <select id="systemSettingsSlugifyStripTags" name="slugify[strip_tags]" class="form-control js-select" required="required">
