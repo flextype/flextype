@@ -119,9 +119,9 @@ class EntriesController extends Controller
                                         ],
                             'buttons'  => [
                                         'create' => [
-                                                'link'       => 'javascript:;',
-                                                'title'      => __('admin_create_new_entry'),
-                                                'attributes' => ['class' => 'btn', 'data-toggle' => 'modal', 'data-target' => '#selectEntryTypeModal']
+                                                'link'    => 'javascript:;',
+                                                'title'   => __('admin_create_new_entry'),
+                                                'onclick' => 'event.preventDefault(); selectEntryType("", 0);'
                                             ]
                                         ]
                             ]
