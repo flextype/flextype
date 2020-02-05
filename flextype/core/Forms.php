@@ -410,7 +410,7 @@ class Forms
 
         $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
         $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : '';
+        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] . 'text-3xl border-b border-black' : 'text-3xl border-b border-black';
 
         $field   = '<div class="form-group ' . $size . '">';
         $field  .= Html::heading(__($title), $h, $attributes);
