@@ -52,6 +52,7 @@ date_display_format: 'd-m-y G:i'
 # - media.upload_images_quality: Image quality
 # - media.accept_file_types: Define the file types (extensions to be exact) that are acceptable for upload.
 entries:
+  items_view_default: list
   main: home
   media:
     upload_images_quality: 70
