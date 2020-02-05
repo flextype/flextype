@@ -12,5 +12,5 @@ main
 
 small
 {
-    @apply block mt-1 opacity-75 text-xs;
+    @apply block mt-1 opacity-75 text-sm;
 }
