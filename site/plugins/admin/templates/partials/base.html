@@ -182,15 +182,13 @@
                                             onclick="event.preventDefault();
                                                      document.getElementById('{{ button.id }}').submit();"
                                             class="js-save-form-submit navigation-top-secondary__item {% if link.active %}navigation-top-secondary__item--active{% endif %}">
-                                            <i class="{{ button.icon }} mr-1 text-xs"></i>
                                             {{ button.title }}
                                         </a>
                                         <form id="{{ button.id }}" action="{{ button.link }}" method="POST" style="display: none;">
                                             {{ csrf() }}
                                         </form>
                                     {% else %}
-                                        <a href="{{ button.link }}" {% if button.target %} target="{{ button.target }}" {% endif %} class="navigation-top-secondary__item {% if link.active %}navigation-top-secondary__item--active{% endif %}">
-                                            <i class="{{ button.icon }} mr-1"></i>
+                                        <a href="{{ button.link }}" {% if button.onclick %} onclick="{{ button.onclick }}" {% endif %} class="navigation-top-secondary__item {% if link.active %}navigation-top-secondary__item--active{% endif %}">
                                             {{ button.title|raw }}</a>
                                     {% endif %}
                                 {% endfor %}
