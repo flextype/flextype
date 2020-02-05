@@ -67,6 +67,11 @@
                             </a>
                         </li>
                     {% endfor %}
+                    <li class="absolute bottom-0">
+                        <a href="{{ path_for('admin.users.profile') }}" class="navigation__item navigation__item--logo {% if item.item == menu_item %}navigation__item--active{% endif %}">
+                            <i class="icon icon--white">{{ icon('fas fa-user-circle') }}</i>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <div class="content">
