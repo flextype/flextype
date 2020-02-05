@@ -3,8 +3,8 @@
 {% block content %}
     <form method="post" id="form">
         {{ csrf() }}
-        <div class="flex">
-            <div class="w-full lg:w-3/12">
+        <div class="flex row">
+            <div class="col w-full lg:w-4/12">
                 <div class="form-group">
                     <label for="title" class="form-control-title">{{ tr('admin_title') }}</label>
                     <input type="text" id="title" name="title" value="" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_title_empty_input') }}">
@@ -15,18 +15,24 @@
                     <input type="text" id="id" name="id" value="" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_name_empty_input') }}">
                     <small>{{ tr('admin_help_text_for_fieldsets_name') }}</small>
                 </div>
-                <div class="form-group">
-                    <label for="icon" class="form-control-title">{{ tr('admin_icon') }}</label>
-                    <input type="text" id="fieldsetIcon" name="icon" value="far fa-file-alt" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_icon_empty_input') }}">
-                    <small>{{ tr('admin_help_text_for_fieldsets_icon', {':link': '<a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">fontawesome</a>'})|raw }}</small>
-                </div>
-                <div class="form-group">
-                    <label for="icon" class="form-control-title">{{ tr('admin_hide') }}</label>
-                    <select class="js-example-basic-single form-control" id="fieldsetHide" name="hide">
-                        <option value="1">{{ tr('admin_yes') }}</option>
-                        <option value="0" selected="selected">{{ tr('admin_no') }}</option>
-                    </select>
-                    <small>{{ tr('admin_help_text_for_fieldsets_hide') }}</small>
+                <div class="flex row">
+                    <div class="col w-full lg:w-6/12">
+                        <div class="form-group">
+                            <label for="icon" class="form-control-title">{{ tr('admin_icon') }}</label>
+                            <input type="text" id="fieldsetIcon" name="icon" value="far fa-file-alt" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_icon_empty_input') }}">
+                            <small>{{ tr('admin_help_text_for_fieldsets_icon', {':link': '<a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">fontawesome</a>'})|raw }}</small>
+                        </div>
+                    </div>
+                    <div class="col w-full lg:w-6/12">
+                        <div class="form-group">
+                            <label for="icon" class="form-control-title">{{ tr('admin_hide') }}</label>
+                            <select class="js-select form-control" id="fieldsetHide" name="hide">
+                                <option value="1">{{ tr('admin_yes') }}</option>
+                                <option value="0" selected="selected">{{ tr('admin_no') }}</option>
+                            </select>
+                            <small>{{ tr('admin_help_text_for_fieldsets_hide') }}</small>
+                        </div>
+                    </div>
                 </div>
                 <div class="button-group">
                     <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="button">

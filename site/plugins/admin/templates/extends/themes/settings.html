@@ -5,12 +5,6 @@
         {{ csrf() }}
         <input type="hidden" id="action" name="action" value="save-form">
         <input type="hidden" id="id" name="id" value="{{ id }}">
-        <div class="row">
-            <div class="col-12">
-                <div class="form-group">
-                    <textarea name="data" rows="0" cols="0" class="form-control code-editor js-code">{{ theme_settings }}</textarea>
-                </div>
-            </div>
-        </div>
+        <textarea name="data" rows="0" cols="0" class="form-control code-editor js-code">{{ theme_settings }}</textarea>
     </form>
 {% endblock %}

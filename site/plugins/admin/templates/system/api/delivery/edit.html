@@ -9,8 +9,8 @@
         <input type="hidden" name="created_at" value="{{ api_token_data.created_at }}">
         <input type="hidden" name="uuid" value="{{ api_token_data.uuid }}">
         <input type="hidden" name="calls" value="{{ api_token_data.calls }}">
-        <div class="flex">
-            <div class="w-full lg:w-3/12">
+        <div class="flex row">
+            <div class="col w-full lg:w-4/12">
                 <div class="form-group">
                     <label for="title" class="form-control-title">{{ tr('admin_title') }}</label>
                     <input type="text" id="title" name="title" value="{{ api_token_data.title }}" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_title_empty_input') }}" data-parsley-required="true">
