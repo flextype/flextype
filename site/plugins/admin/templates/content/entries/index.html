@@ -25,7 +25,7 @@
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-plus-circle') }}</i>
                                 {{ tr('admin_add') }}</a>
                             <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                                   document.getElementById('duplicate-id-{{ entry.slug }}').submit();">
+                            selectEntryType('{{ entry.slug }}', {{ loop.index0 }});">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
                                 {{ tr('admin_duplicate') }}</a>
                             <a class="dropdown__item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.slug }}">
@@ -192,7 +192,8 @@
                                     <a class="dropdown__item" href="{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor">
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
                                         {{ tr('admin_edit') }}</a>
-                                    <a class="dropdown__item" href="javascript:;" onclick="$('.js-add-entry input[name=id]').attr('value', '{{ entry.slug }}');" data-toggle="modal" data-target="#selectEntryTypeModal">
+                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                    selectEntryType('{{ entry.slug }}', {{ loop.index0 }});">
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-plus-circle') }}</i>
                                         {{ tr('admin_add') }}</a>
                                     <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
@@ -236,45 +237,34 @@
             <div>
                 <i class="icon icon--4xl">{{ icon('fas fa-database') }}</i>
                 <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_entries_yet') }}</h3>
-                <a href="javascript:;" data-toggle="modal" data-target="#selectEntryTypeModal" class="button">{{ tr('admin_create_new_entry') }}</a>
+                <a href="javascript:;" class="button" onclick="event.preventDefault();
+                selectEntryType('{{ id_current }}', {{ loop.index0 }});">{{ tr('admin_create_new_entry') }}</a>
             </div>
         </div>
     {% endif %}
 
-    <div class="modal fade hidden" id="selectEntryTypeModal" tabindex="-1" role="dialog" aria-labelledby="selectEntryTypeModal" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="selectEntryTypeModalLabel">{{ tr('admin_select_entry_type') }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    <div class="_select-entry-type-template hidden">
+        <div class="flex row">
+            {% for key, fieldset in fieldsets %}
+                <div class="block col w-4/12 px-3 py-3 mb-2">
+                    <a href="javascript:;" onclick="event.preventDefault();
+                document.getElementById('add-entry-{{ key }}').submit();" class="block bg-gray-000 border-gray-100 border px-4 py-8 relative">
+                        <div>
+                            {% if fieldset.icon %}
+                                <i class="icon icon--large">{{ icon(fieldset.icon) }}</i>
+                            {% else %}
+                                <i class="icon icon--large">{{ icon('far fa-file-alt') }}</i>
+                            {% endif %}
+                        </div>
+                        <div class="pt-3">{{ fieldset.title }}</div>
+                    </a>
+                    <form id="add-entry-{{ key }}" action="{{ path_for('admin.entries.selectEntryTypeProcess') }}" method="POST" style="display: none;" class="js-add-entry">
+                        {{ csrf() }}
+                        <input type="hidden" name="type" value="{{ key }}">
+                        <input type="hidden" name="id" value="{{ id_current }}">
+                    </form>
                 </div>
-                <div class="modal-body">
-                    <ul class="fieldset-selector row">
-                        {% for key, fieldset in fieldsets %}
-                            <li class="col-md-4">
-                                <a href="javascript:;" onclick="event.preventDefault();
-                                document.getElementById('add-entry-{{ key }}').submit();" class="fieldset-item">
-                                    <div class="fieldset-thumbnail">
-                                        {% if fieldset.icon %}
-                                            <i class="{{ fieldset.icon }}"></i>
-                                        {% else %}
-                                            <i class="far fa-file-alt"></i>
-                                        {% endif %}
-                                    </div>
-                                    <div class="fieldset-title">{{ fieldset.title }}</div>
-                                </a>
-                            </li>
-                            <form id="add-entry-{{ key }}" action="{{ path_for('admin.entries.selectEntryTypeProcess') }}" method="POST" style="display: none;" class='js-add-entry'>
-                                {{ csrf() }}
-                                <input type="hidden" name="type" value="{{ key }}">
-                                <input type="hidden" name="id" value="{{ id_current }}">
-                            </form>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
@@ -288,6 +278,20 @@
             ).then((result) => {
                 if (result.value) {
                     document.getElementById('delete-id-' + id).submit();
+                }
+            });
+        }
+
+        function selectEntryType(id, row_num) {
+            dropdown[row_num].hide();
+            Swal.fire({
+                title: "{{ tr('admin_select_entry_type') }}",
+                showCloseButton: true,
+                focusCloseButton: false,
+                showConfirmButton: false,
+                html: $('._select-entry-type-template').html(),
+                onBeforeOpen: () => {
+                    $('.js-add-entry input[name=id]').val(id);
                 }
             });
         }
