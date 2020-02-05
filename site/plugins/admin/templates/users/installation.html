@@ -1,44 +1,36 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-
-<div class="row">
-    <div class="col-4 float-center">
-        <h3 class="h3 auth-header text-center">{{ tr('admin_welcome') }}!</h3>
-        <p class="text-center">{{ tr('admin_create_new_user_welcome') }}</p>
-    </div>
-</div>
-
-<form action="" method="post">
-    {{ csrf() }}
-    <div class="row">
-        <div class="col-4 float-center">
-            <div class="form-group">
-                <label>{{ tr('admin_username') }}</label>
-                <input type="text" name="username" value="" class="form-control" placeholder="" pattern="^[a-z0-9_-]{3,16}$" required="required">
-                <small>
-                    Lowercase chars only, e.g. admin
-                </small>
-            </div>
-            <div class="form-group">
-                <label for="email">{{ tr('admin_email') }}</label>
-                <input type="text" name="email" value="" class="form-control" placeholder="" required="required">
-                <small>
-                    Valid email address
-                </small>
-            </div>
-            <div class="form-group">
-                <label for="password">{{ tr('admin_password') }}</label>
-                <input type="password" name="password" value="" class="form-control" placeholder="" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required="required">
-                <small>
-                    The password must have at least 8 characters, contain uppercase letters, lowercase letters, special characters and numbers.
-                </small>
-            </div>
-            <div class="form-group">
-                <input type="submit" name="registration" value="{{ tr('admin_create_user') }}" class="buttonbtn-black btn-block">
+    <form action="" method="post">
+        {{ csrf() }}
+        <div class="text-left flex justify-center items-center h-full">
+            <div class="w-3/12">
+                <h3 class="text-3xl pt-4 pb-8 text-center">{{ tr('admin_welcome') }}</h3>
+                <p class="text-center">{{ tr('admin_create_new_user_welcome') }}</p>
+                <div class="form-group">
+                    <label class="form-control-title">{{ tr('admin_username') }}</label>
+                    <input type="text" name="username" value="" class="form-control" placeholder="" pattern="^[a-z0-9_-]{3,16}$" required="required">
+                    <small>
+                        Lowercase chars only, e.g. admin
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-control-title">{{ tr('admin_email') }}</label>
+                    <input type="text" name="email" value="" class="form-control" placeholder="" required="required">
+                    <small>
+                        Valid email address
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-control-title">{{ tr('admin_password') }}</label>
+                    <input type="password" name="password" value="" class="form-control" placeholder="" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required="required">
+                    <small>
+                        The password must have at least 8 characters, contain uppercase letters, lowercase letters, special characters and numbers.
+                    </small>
+                </div>
+                <div class="button-group">
+                    <input type="submit" name="registration" value="{{ tr('admin_create_user') }}" class="button w-full">
+                </div>
             </div>
         </div>
-    </div>
-</form>
-
-{% endblock %}
+    {% endblock %}

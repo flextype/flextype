@@ -34,7 +34,7 @@
     </head>
     <body>
         <main>
-            <nav class="navigation">
+            <nav class="navigation {% if not is_logged %}hidden{% endif %}">
                 <ul>
                     <li>
                         <a href="{{ path_for('admin.entries.index') }}" class="navigation__item navigation__item--logo">F</a>
@@ -74,8 +74,8 @@
                     </li>
                 </ul>
             </nav>
-            <div class="content">
-                <div class="bars clearfix">
+            <div class="content {% if not is_logged %}w-full max-w-full m-0{% endif %}">
+                <div class="bars clearfix {% if not is_logged %}hidden{% endif %}">
                     <div class="navigation-top-primary">
                         {% if links %}
                             <div class="lg:w-auto block float-left">
