@@ -57,17 +57,17 @@ class ToolsController extends Controller
                     'information' => [
                         'link' => $this->router->pathFor('admin.tools.index'),
                         'title' => __('admin_information'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                     'cache' => [
                         'link' => $this->router->pathFor('admin.tools.cache'),
                         'title' => __('admin_cache'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'registry' => [
                         'link' => $this->router->pathFor('admin.tools.registry'),
                         'title' => __('admin_registry'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                 ],
             ]
@@ -94,17 +94,17 @@ class ToolsController extends Controller
                     'information' => [
                         'link' => $this->router->pathFor('admin.tools.index'),
                         'title' => __('admin_information'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'cache' => [
                         'link' => $this->router->pathFor('admin.tools.cache'),
                         'title' => __('admin_cache'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                     'registry' => [
                         'link' => $this->router->pathFor('admin.tools.registry'),
                         'title' => __('admin_registry'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                 ],
                 'buttons' => [
@@ -113,7 +113,6 @@ class ToolsController extends Controller
                         'id' => 'clear-cache-all',
                         'link' => $this->router->pathFor('admin.tools.clearCacheAllProcess'),
                         'title' => __('admin_clear_cache_all'),
-                        'attributes' => ['class' => 'float-right btn'],
                     ],
                 ],
             ]
@@ -138,17 +137,17 @@ class ToolsController extends Controller
                     'information' => [
                         'link' => $this->router->pathFor('admin.tools.index'),
                         'title' => __('admin_information'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'cache' => [
                         'link' => $this->router->pathFor('admin.tools.cache'),
                         'title' => __('admin_cache'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'registry' => [
                         'link' => $this->router->pathFor('admin.tools.registry'),
                         'title' => __('admin_registry'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                 ],
             ]

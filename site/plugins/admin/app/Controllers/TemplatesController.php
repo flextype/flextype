@@ -43,19 +43,19 @@ class TemplatesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'templates' => [
                         'link' => $this->router->pathFor('admin.templates.index') . '?theme=' . $theme,
                         'title' => __('admin_templates'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [
                     'templates_create' => [
                         'link' => $this->router->pathFor('admin.templates.add') . '?theme=' . $theme,
                         'title' => __('admin_create_new_template'),
-                        'attributes' => ['class' => 'float-right btn'],
+
                     ],
                 ],
             ]
@@ -83,17 +83,17 @@ class TemplatesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'templates' => [
                         'link' => $this->router->pathFor('admin.templates.index') . '?theme=' . $theme,
                         'title' => __('admin_templates'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'templates_add' => [
                         'link' => $this->router->pathFor('admin.templates.add') . '?theme=' . $theme,
                         'title' => __('admin_create_new_template'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                 ],
             ]
@@ -162,24 +162,24 @@ class TemplatesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'templates' => [
                         'link' => $this->router->pathFor('admin.templates.index') . '?theme=' . $theme,
                         'title' => __('admin_templates'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'templates_editor' => [
                         'link' => $this->router->pathFor('admin.templates.edit') . '?id=' . $request->getQueryParams()['id'] . '&type=' . ($request->getQueryParams()['type'] && $request->getQueryParams()['type'] === 'partial' ? 'partial' : 'template') . '&theme=' . $theme,
                         'title' => __('admin_editor'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [
                     'save_template' => [
                         'link'       => 'javascript:;',
                         'title'      => __('admin_save'),
-                        'attributes' => ['class' => 'js-save-form-submit float-right btn'],
+                        'type' => 'action',
                     ],
                 ],
             ]
@@ -232,17 +232,17 @@ class TemplatesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'templates' => [
                         'link' => $this->router->pathFor('admin.templates.index') . '?theme=' . $theme,
                         'title' => __('admin_templates'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'templates_rename' => [
                         'link' => $this->router->pathFor('admin.templates.rename') . '?id=' . $request->getQueryParams()['id'] . '&type=' . ($request->getQueryParams()['type'] && $request->getQueryParams()['type'] === 'partial' ? 'partial' : 'template') . '&theme=' . $theme,
                         'title' => __('admin_rename'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                 ],
             ]

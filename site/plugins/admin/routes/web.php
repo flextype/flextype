@@ -37,6 +37,8 @@ $app->group('/' . $admin_route, function () use ($app) : void {
     $app->post('/entries/delete', 'EntriesController:deleteProcess')->setName('admin.entries.deleteProcess');
     $app->post('/entries/delete-media-file', 'EntriesController:deleteMediaFileProcess')->setName('admin.entries.deleteMediaFileProcess');
     $app->post('/entries/upload-media-file', 'EntriesController:uploadMediaFileProcess')->setName('admin.entries.uploadMediaFileProcess');
+    $app->post('/entries/display-view-process', 'EntriesController:displayViewProcess')->setName('admin.entries.displayViewProcess');
+
 
     // Settings Controller
     $app->get('/settings', 'SettingsController:index')->setName('admin.settings.index');

@@ -1,104 +1,125 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-{% if (templates_list|length > 0) or (partials_list|length > 0) %}
-<table class="table no-margin">
-    <tbody>
-    {% if templates_list|length > 0 %}
-        {% for template in templates_list %}
-        <tr>
-            <td style="width: 50px; padding-right: 10px; text-align:center;">
-                <i class="far fa-file-code"></i>
-            </td>
-            <td style="padding-left:0px;">
-                <a href="{{ path_for('admin.templates.edit') }}?id={{ template.basename }}&type=template&theme={{ theme }}">{{ template.basename }}</a>
-            </td>
-            <td>{{ tr('admin_template') }}</td>
-            <td class="text-right">
-                <div class="btn-group">
-                  <button type="button" class="btn dot dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-h"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-lg-right">
-                    <a class="dropdown-item" href="{{ path_for('admin.templates.edit') }}?id={{ template.basename }}&type=template&theme={{ theme }}"><i class="fas fa-edit"></i> {{ tr('admin_edit') }}</a>
-                    <a class="dropdown-item" href="{{ path_for('admin.templates.rename') }}?id={{ template.basename }}&type=template&theme={{ theme }}"><i class="fas fa-font"></i> {{ tr('admin_rename') }}</a>
-                    <a class="dropdown-item" href="javascript:;"
-                       onclick="event.preventDefault();
-                                document.getElementById('duplicate-template-id-{{ template.basename }}').submit();"><i class="fas fa-copy"></i> {{ tr('admin_duplicate') }}</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="javascript:;"
-                       onclick="event.preventDefault();
-                                document.getElementById('delete-template-id-{{ template.basename }}').submit();"><i class="fas fa-trash-alt"></i>  {{ tr('admin_delete') }}</a>
-
-                    <form id="duplicate-template-id-{{ template.basename }}" action="{{ path_for('admin.templates.duplicateProcess') }}" method="POST" style="display: none;">
-                        {{ csrf() }}
-                        <input type="hidden" name="template-id" value="{{ template.basename }}">
-                        <input type="hidden" name="type" value="template">
-                        <input type="hidden" name="theme" value="{{ theme }}">
-                    </form>
-                    <form id="delete-template-id-{{ template.basename }}" action="{{ path_for('admin.templates.deleteProcess') }}" method="POST" style="display: none;">
-                        {{ csrf() }}
-                        <input type="hidden" name="template-id" value="{{ template.basename }}">
-                        <input type="hidden" name="type" value="template">
-                        <input type="hidden" name="theme" value="{{ theme }}">
-                    </form>
-                  </div>
-                </div>
-            </td>
-        </tr>
-        {% endfor %}
+    {% if (templates_list | length > 0) 
+        or(partials_list | length > 0) %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        {{ tr('admin_template') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_type') }}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if templates_list | length > 0 %}
+                    {% for template in templates_list %}
+                        <tr>
+                            <td class="w-1 text-center">
+                                <i class="icon">{{ icon('far fa-file-code') }}</i>
+                            </td>
+                            <td class="pl-0">
+                                <a href="{{ path_for('admin.templates.edit') }}?id={{ template.basename }}&type=template&theme={{ theme }}">{{ template.basename }}</a>
+                            </td>
+                            <td>{{ tr('admin_template') }}</td>
+                            <td class="text-right">
+                                <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ template.basename }}-{{ theme }}">
+                                    <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                                </button>
+                                <div id="dropdown-{{ template.basename }}-{{ theme }}" class="dropdown">
+                                    <a class="dropdown__item" href="{{ path_for('admin.templates.edit') }}?id={{ template.basename }}&type=template&theme={{ theme }}">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
+                                        {{ tr('admin_edit') }}</a>
+                                    <a class="dropdown__item" href="{{ path_for('admin.templates.rename') }}?id={{ template.basename }}&type=template&theme={{ theme }}">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
+                                        {{ tr('admin_rename') }}</a>
+                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                document.getElementById('duplicate-template-id-{{ template.basename }}').submit();">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
+                                        {{ tr('admin_duplicate') }}</a>
+                                    <div class="dropdown__divider"></div>
+                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                document.getElementById('delete-template-id-{{ template.basename }}').submit();">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                                        {{ tr('admin_delete') }}</a>
+                                    <form id="duplicate-template-id-{{ template.basename }}" action="{{ path_for('admin.templates.duplicateProcess') }}" method="POST" style="display: none;">
+                                        {{ csrf() }}
+                                        <input type="hidden" name="template-id" value="{{ template.basename }}">
+                                        <input type="hidden" name="type" value="template">
+                                        <input type="hidden" name="theme" value="{{ theme }}">
+                                    </form>
+                                    <form id="delete-template-id-{{ template.basename }}" action="{{ path_for('admin.templates.deleteProcess') }}" method="POST" style="display: none;">
+                                        {{ csrf() }}
+                                        <input type="hidden" name="template-id" value="{{ template.basename }}">
+                                        <input type="hidden" name="type" value="template">
+                                        <input type="hidden" name="theme" value="{{ theme }}">
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                {% if partials_list | length > 0 %}
+                    {% for partial in partials_list %}
+                        <tr>
+                            <td class="w-1 text-center">
+                                <i class="icon">{{ icon('far fa-file-code') }}</i>
+                            </td>
+                            <td class="pl-0">
+                                <a href="{{ path_for('admin.templates.edit') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}">{{ partial.basename }}</a>
+                            </td>
+                            <td>{{ tr('admin_partial') }}</td>
+                            <td class="text-right">
+                                <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ template.basename }}-{{ theme }}">
+                                    <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                                </button>
+                                <div id="dropdown-{{ template.basename }}-{{ theme }}" class="dropdown">
+                                    <a class="dropdown__item" href="{{ path_for('admin.templates.edit') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
+                                        {{ tr('admin_edit') }}</a>
+                                    <a class="dropdown__item" href="{{ path_for('admin.templates.rename') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
+                                        {{ tr('admin_rename') }}</a>
+                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                document.getElementById('duplicate-partial-id-{{ partial.basename }}').submit();">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
+                                        {{ tr('admin_duplicate') }}</a>
+                                    <div class="dropdown__divider"></div>
+                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                document.getElementById('delete-partial-id-{{ partial.basename }}').submit();">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                                        {{ tr('admin_delete') }}</a>
+                                    <form id="duplicate-partial-id-{{ partial.basename }}" action="{{ path_for('admin.templates.duplicateProcess') }}" method="POST" style="display: none;">
+                                        {{ csrf() }}
+                                        <input type="hidden" name="partial-id" value="{{ partial.basename }}">
+                                        <input type="hidden" name="type" value="partial">
+                                        <input type="hidden" name="theme" value="{{ theme }}">
+                                    </form>
+                                    <form id="delete-partial-id-{{ partial.basename }}" action="{{ path_for('admin.templates.deleteProcess') }}" method="POST" style="display: none;">
+                                        {{ csrf() }}
+                                        <input type="hidden" name="partial-id" value="{{ partial.basename }}">
+                                        <input type="hidden" name="type" value="partial">
+                                        <input type="hidden" name="theme" value="{{ theme }}">
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="flex justify-center items-center text-center h-full">
+            <div>
+                <i class="icon icon--4xl">{{ icon('fas fa-layer-group') }}</i>
+                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_templates_yet') }}</h3>
+                <a href="{{ path_for('admin.templates.add') }}" class="button">{{ tr('admin_create_new_template') }}</a>
+            </div>
+        </div>
     {% endif %}
-    {% if partials_list|length > 0 %}
-        {% for partial in partials_list %}
-        <tr>
-            <td style="width: 50px; padding-right: 10px; text-align:center;">
-                <i class="far fa-file-code"></i>
-            </td>
-            <td style="padding-left:0px;">
-                <a href="{{ path_for('admin.templates.edit') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}">{{ partial.basename }}</a>
-            </td>
-            <td>{{ tr('admin_partial') }}</td>
-            <td class="text-right">
-                <div class="btn-group">
-                  <button type="button" class="btn dot dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-h"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-lg-right">
-                    <a class="dropdown-item" href="{{ path_for('admin.templates.edit') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}"><i class="fas fa-edit"></i> {{ tr('admin_edit') }}</a>
-                    <a class="dropdown-item" href="{{ path_for('admin.templates.rename') }}?id={{ partial.basename }}&type=partial&theme={{ theme }}"><i class="fas fa-font"></i> {{ tr('admin_rename') }}</a>
-                    <a class="dropdown-item" href="javascript:;"
-                       onclick="event.preventDefault();
-                                document.getElementById('duplicate-partial-id-{{ partial.basename }}').submit();"><i class="fas fa-copy"></i> {{ tr('admin_duplicate') }}</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="javascript:;"
-                       onclick="event.preventDefault();
-                                document.getElementById('delete-partial-id-{{ partial.basename }}').submit();"><i class="fas fa-trash-alt"></i>  {{ tr('admin_delete') }}</a>
-
-                    <form id="duplicate-partial-id-{{ partial.basename }}" action="{{ path_for('admin.templates.duplicateProcess') }}" method="POST" style="display: none;">
-                        {{ csrf() }}
-                        <input type="hidden" name="partial-id" value="{{ partial.basename }}">
-                        <input type="hidden" name="type" value="partial">
-                        <input type="hidden" name="theme" value="{{ theme }}">
-                    </form>
-                    <form id="delete-partial-id-{{ partial.basename }}" action="{{ path_for('admin.templates.deleteProcess') }}" method="POST" style="display: none;">
-                        {{ csrf() }}
-                        <input type="hidden" name="partial-id" value="{{ partial.basename }}">
-                        <input type="hidden" name="type" value="partial">
-                        <input type="hidden" name="theme" value="{{ theme }}">
-                    </form>
-                  </div>
-                </div>
-            </td>
-        </tr>
-        {% endfor %}
-    {% endif %}
-    </tbody>
-</table>
-{% else %}
-<div class="empty-list-message">
-    <i class="fas fa-layer-group"></i>
-    <h3>{{ tr('admin_you_have_not_created_any_templates_yet') }}</h3>
-    <a href="{{ path_for('admin.templates.add') }}" class="btn">{{ tr('admin_create_new_template') }}</a>
-</div>
-{% endif %}
 {% endblock %}

@@ -1,131 +1,136 @@
-//
-// Flextype Admin Gulp.js
-// (c) Sergey Romanenko <http://digital.flextype.org>
-//
+const gulp = require('gulp');
+const tailwindConfig = "tailwind.config.js";
 
-var Promise = require("es6-promise").Promise,
-    gulp = require('gulp'),
-    csso = require('gulp-csso'),
-    concat = require('gulp-concat'),
-    del = require('del'),
-    runSequence = require('run-sequence'),
-    sourcemaps = require('gulp-sourcemaps'),
-    autoprefixer = require('gulp-autoprefixer'),
-    sass = require('gulp-sass');
+/**
+ * Custom PurgeCSS Extractor
+ * https://github.com/FullHuman/purgecss
+ */
+class TailwindExtractor {
+  static extract(content) {
+    return content.match(/[\w-/:]+(?<!:)/g) || [];
+  }
+}
 
-gulp.task('admin-css', function() {
-    return gulp.src('assets/scss/admin.scss')
-        .pipe(sass().on('error', sass.logError))
-        .pipe(autoprefixer({
-            overrideBrowserslist: [
-                "last 1 version"
-            ],
-            cascade: false
-        }))
-        .pipe(csso())
-        .pipe(concat('admin.min.css'))
-        .pipe(gulp.dest('assets/dist/css/'));
+/**
+ * Task: gulp css-vendor
+ */
+ gulp.task("css-vendor", function() {
+   const concat = require('gulp-concat');
+   const csso = require('gulp-csso');
+   const autoprefixer = require('gulp-autoprefixer');
+
+   return gulp
+     .src([
+           // Select2
+          'node_modules/select2/dist/css/select2.min.css',
+
+          // Swal2
+          'node_modules/sweetalert2/dist/sweetalert2.min.css',
+
+          // AnimateCSS
+          'node_modules/animate.css/animate.min.css',
+
+           // CodeMirror
+          'node_modules/codemirror/lib/codemirror.css',
+          'node_modules/codemirror/theme/elegant.css'])
+     .pipe(autoprefixer({
+         overrideBrowserslist: [
+             "last 1 version"
+         ],
+         cascade: false
+     }))
+     .pipe(csso())
+     .pipe(concat('vendor-build.min.css'))
+     .pipe(gulp.dest("assets/dist/css/"));
+ });
+
+
+/**
+ * Task: gulp css
+ */
+gulp.task("css", function() {
+  const atimport = require("postcss-import");
+  const postcss = require("gulp-postcss");
+  const tailwindcss = require("tailwindcss");
+  const purgecss = require("gulp-purgecss");
+  const concat = require('gulp-concat');
+  const csso = require('gulp-csso');
+  const sourcemaps = require('gulp-sourcemaps');
+  const autoprefixer = require('gulp-autoprefixer');
+
+  return gulp
+    .src([
+           // Admin Panel CSS
+          'assets/src/admin-panel.css'])
+    .pipe(postcss([atimport(), tailwindcss(tailwindConfig)]))
+    .pipe(
+      purgecss({
+        content: ["**/*.html"],
+        extractors: [
+          {
+            extractor: TailwindExtractor,
+            extensions: ["html"]
+          }
+        ]
+      })
+    )
+    .pipe(autoprefixer({
+        overrideBrowserslist: [
+            "last 1 version"
+        ],
+        cascade: false
+    }))
+    .pipe(csso())
+    .pipe(concat('admin-panel-build.min.css'))
+    .pipe(gulp.dest("assets/dist/css/"));
 });
 
-gulp.task('admin-light-css', function() {
-    return gulp.src('assets/scss/admin-light.scss')
-        .pipe(sass().on('error', sass.logError))
-        .pipe(autoprefixer({
-            overrideBrowserslist: [
-                "last 1 version"
-            ],
-            cascade: false
-        }))
-        .pipe(csso())
-        .pipe(concat('admin-light.min.css'))
-        .pipe(gulp.dest('assets/dist/css/'));
-});
+/**
+ * Task: gulp js
+ */
+ gulp.task('js', function(){
+   const sourcemaps = require('gulp-sourcemaps');
+   const concat = require('gulp-concat');
 
-gulp.task('admin-css-clean', function() {
-    return del('assets/dist/css/admin.min.css');
-});
+   return gulp.src([ // jQuery
+                    'node_modules/jquery/dist/jquery.min.js',
 
-gulp.task('build-css', function(){
-  return gulp.src(['node_modules/bootstrap/dist/css/bootstrap.min.css',
-                   'node_modules/animate.css/animate.min.css',
-                   'node_modules/trumbowyg/dist/ui/trumbowyg.min.css',
-                   'node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css',
-                   'node_modules/codemirror/lib/codemirror.css',
-                   'node_modules/messenger-hubspot/build/css/messenger.css',
-                   'node_modules/messenger-hubspot/build/css/messenger-theme-flat.css',
-                   'assets/dist/css/admin.min.css'])
-                   .pipe(autoprefixer({
-                       overrideBrowserslist: [
-                           "last 1 version"
-                       ],
-                       cascade: false
-                   }))
-    .pipe(sourcemaps.init())
-    .pipe(concat('admin-build.min.css'))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('assets/dist/css/'));
-});
+                    // Select2
+                    'node_modules/select2/dist/js/select2.min.js',
 
-gulp.task('js', function(){
-  return gulp.src(['node_modules/jquery/dist/jquery.min.js',
-                   'node_modules/popper.js/dist/umd/popper.min.js',
-                   'node_modules/bootstrap/dist/js/bootstrap.min.js',
-                   'node_modules/trumbowyg/dist/trumbowyg.min.js',
-                   'node_modules/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.js',
-                   'node_modules/trumbowyg/dist/plugins/table/trumbowyg.table.js',
-                   'node_modules/codemirror/lib/codemirror.js',
-                   'node_modules/codemirror/mode/htmlmixed/htmlmixed.js',
-                   'node_modules/codemirror/mode/xml/xml.js',
-                   'node_modules/codemirror/mode/javascript/javascript.js',
-                   'node_modules/codemirror/mode/php/php.js',
-                   'node_modules/codemirror/mode/clike/clike.js',
-                   'node_modules/codemirror/mode/yaml/yaml.js',
-                   'node_modules/messenger-hubspot/build/js/messenger.min.js',
-                   'node_modules/messenger-hubspot/build/js/messenger-theme-flat.js',
-                   'node_modules/clipboard/dist/clipboard.min.js',
-                   'node_modules/bs-custom-file-input/dist/bs-custom-file-input.min.js',
-                   'node_modules/@fortawesome/fontawesome-free/js/all.min.js'
-                ])
-    .pipe(sourcemaps.init())
-    .pipe(concat('admin-build.min.js'))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('assets/dist/js/'));
-});
+                    // Swal2
+                    'node_modules/sweetalert2/dist/sweetalert2.min.js',
 
-gulp.task('trumbowyg-fonts', function(){
-  return gulp.src(['node_modules/trumbowyg/dist/ui/icons.svg'])
-    .pipe(gulp.dest('assets/dist/fonts/trumbowyg'));
-});
+                    // ParsleyJS Form Validatator
+                    'node_modules/parsleyjs/dist/parsley.min.js',
 
-gulp.task('trumbowyg-fonts', function(){
-  return gulp.src(['node_modules/trumbowyg/dist/ui/icons.svg'])
-    .pipe(gulp.dest('assets/dist/fonts/trumbowyg'));
-});
+                    // SpeakingURL
+                    'node_modules/speakingurl/speakingurl.min.js',
 
-gulp.task('trumbowyg-langs', function(){
-  return gulp.src(['node_modules/trumbowyg/dist/*langs/**/*'])
-    .pipe(gulp.dest('assets/dist/langs/trumbowyg'));
-});
+                    // Popper
+                    'node_modules/tippy.js/node_modules/popper.js/dist/umd/popper.min.js',
 
-gulp.task('codemirror-theme-monokai', function(){
-  return gulp.src(['node_modules/codemirror/theme/monokai.css'])
-    .pipe(gulp.dest('assets/dist/css/'));
-});
+                    // Tippy
+                    'node_modules/tippy.js/dist/tippy-bundle.iife.min.js',
 
-gulp.task('codemirror-theme-elegant', function(){
-  return gulp.src(['node_modules/codemirror/theme/elegant.css'])
-    .pipe(gulp.dest('assets/dist/css/'));
-});
+                    // CodeMirror
+                    'node_modules/codemirror/lib/codemirror.js',
+                    'node_modules/codemirror/mode/htmlmixed/htmlmixed.js',
+                    'node_modules/codemirror/mode/xml/xml.js',
+                    'node_modules/codemirror/mode/javascript/javascript.js',
+                    'node_modules/codemirror/mode/php/php.js',
+                    'node_modules/codemirror/mode/clike/clike.js',
+                    'node_modules/codemirror/mode/yaml/yaml.js'
+                 ])
+     .pipe(sourcemaps.init())
+     .pipe(concat('admin-panel-build.min.js'))
+     .pipe(sourcemaps.write())
+     .pipe(gulp.dest('assets/dist/js/'));
+ });
 
-gulp.task('default', function(callback) {
-  runSequence('admin-css',
-                        ['build-css',
-                        'trumbowyg-fonts',
-                        'trumbowyg-langs',
-                        'js'],
-              'admin-css-clean',
-              'admin-light-css',
-              'codemirror-theme-monokai',
-              'codemirror-theme-elegant',
-              callback);
+/**
+ * Task: gulp watch
+ */
+gulp.task('watch', function () {
+    gulp.watch(["**/*.html", "assets/src/"], gulp.series('css-vendor', 'css', 'js'));
 });

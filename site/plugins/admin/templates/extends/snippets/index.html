@@ -1,97 +1,119 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-{% if snippets_list|length > 0 %}
-<table class="table no-margin">
-    <tbody>
-        {% for id in snippets_list %}
-        <tr>
-            <td style="width: 50px; padding-right: 10px; text-align:center;">
-                <i class="far fa-file-code"></i>
-            </td>
-            <td style="padding-left:0px;">
-                <a href="{{ path_for('admin.snippets.edit') }}?id={{ id }}">{{ id }}</a>
-            </td>
-            <td class="text-right">
-                <div class="btn-group">
-                  <button type="button" class="btn dot dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-h"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-lg-right">
-                    <a class="dropdown-item" href="{{ path_for('admin.snippets.edit') }}?id={{ id }}"><i class="fas fa-edit"></i> {{ tr('admin_edit') }}</a>
-                    <a class="dropdown-item" href="{{ path_for('admin.snippets.rename') }}?id={{ id }}"><i class="fas fa-font"></i> {{ tr('admin_rename') }}</a>
-                    <form id="duplicate-snippet-id-{{ id }}" action="{{ path_for('admin.snippets.duplicateProcess') }}" method="POST" style="display: none;">
-                        {{ csrf() }}
-                        <input type="hidden" name="snippet-id" value="{{ id }}">
-                    </form>
-                    <a class="dropdown-item" href="javascript:;"
-                       onclick="event.preventDefault();
-                                document.getElementById('duplicate-snippet-id-{{ id }}').submit();"><i class="fas fa-copy"></i> {{ tr('admin_duplicate') }}</a>
-                    <a class="dropdown-item js-snippets-info" href="javascript:;"  data-toggle="modal" data-target="#snippetsInfoModal" data-name="{{ id }}"><i class="fas fa-code"></i> {{ tr('admin_embeded_code') }}</a>
-                    <div class="dropdown-divider"></div>
-                    <form id="delete-snippet-id-{{ id }}" action="{{ path_for('admin.snippets.deleteProcess') }}" method="POST" style="display: none;">
-                        {{ csrf() }}
-                        <input type="hidden" name="snippet-id" value="{{ id }}">
-                    </form>
-                    <a class="dropdown-item" href="javascript:;"
-                       onclick="event.preventDefault();
-                                document.getElementById('delete-snippet-id-{{ id }}').submit();"><i class="fas fa-trash-alt"></i> {{ tr('admin_delete') }}</a>
+    {% if snippets_list | length > 0 %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        {{ tr('admin_snippet') }}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for id in snippets_list %}
+                    <tr>
+                        <td class="w-1 text-center">
+                            <i class="icon">{{ icon('far fa-file-code') }}</i>
+                        </td>
+                        <td class="pl-0">
+                            <a href="{{ path_for('admin.snippets.edit') }}?id={{ id }}">{{ id }}</a>
+                        </td>
+                        <td class="text-right">
+                            <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ id }}">
+                                <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                            </button>
+                            <div id="dropdown-{{ id }}" class="dropdown">
+                                <a class="dropdown__item" href="{{ path_for('admin.snippets.edit') }}?id={{ id }}">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
+                                    {{ tr('admin_edit') }}</a>
+                                <a class="dropdown__item" href="{{ path_for('admin.snippets.rename') }}?id={{ id }}">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
+                                    {{ tr('admin_rename') }}</a>
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                document.getElementById('duplicate-snippet-id-{{ id }}').submit();">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
+                                    {{ tr('admin_duplicate') }}</a>
+                                <a class="dropdown__item js-snippets-info" href="javascript:;" onclick="event.preventDefault();
+                                embededCode('{{ id }}', {{ loop.index0 }});">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-code') }}</i>
+                                    {{ tr('admin_embeded_code') }}</a>
+                                <div class="dropdown__divider"></div>
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                deleteSnippet('{{ id }}', {{ loop.index0 }});">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                                    {{ tr('admin_delete') }}</a>
+                                <form id="delete-snippet-id-{{ id }}" action="{{ path_for('admin.snippets.deleteProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="snippet-id" value="{{ id }}">
+                                </form>
+                                <form id="duplicate-snippet-id-{{ id }}" action="{{ path_for('admin.snippets.duplicateProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="snippet-id" value="{{ id }}">
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="text-center flex justify-center items-center h-full">
+            <div>
+                <i class="icon icon--4xl">{{ icon('far fa-file-code') }}</i>
+                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_snippets_yet') }}</h3>
+                <a href="{{ path_for('admin.snippets.add') }}" class="button">{{ tr('admin_create_new_snippet') }}</a>
+            </div>
+        </div>
+    {% endif %}
 
-                  </div>
-                </div>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% else %}
-<div class="empty-list-message">
-    <i class="far fa-file-code"></i>
-    <h3>{{ tr('admin_you_have_not_created_any_snippets_yet') }}</h3>
-    <a href="{{ path_for('admin.snippets.add') }}" class="btn">{{ tr('admin_create_new_snippet') }}</a>
-</div>
-{% endif %}
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="snippetsInfoModal" tabindex="-1" role="dialog" aria-labelledby="snippetsInfoModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="snippetsInfoModalLabel">{{ tr('admin_embeded_code') }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <label for="shortcode">{{ tr('admin_shortcode') }}</label>
-          <div class="alert alert-dark clipboard" role="alert">
-              <span id="snippet">[snippets_exec id="<span class="js-snippets-snippet-placeholder"></span>"]</span>
-              <button class="js-clipboard-btn btn" data-clipboard-target="#snippet">
-                  {{ tr('admin_copy') }}
-              </button>
-          </div>
-          <br>
-          <label for="template_code">{{ tr('admin_template_code') }}</label>
-           <div id="template_code" class="alert alert-dark clipboard" role="alert">
-               <span id="html">&lcub;&lcub; snippets.exec('<span class="js-snippets-php-placeholder"></span>') &rcub;&rcub;</span>
-               <button class="js-clipboard-btn btn" data-clipboard-target="#html">
-                    {{ tr('admin_copy') }}
-               </button>
-          </div>
-      </div>
+    <div class="_embeded-code-template hidden">
+        <label for="shortcode">{{ tr('admin_shortcode') }}</label>
+        <div id="shortcode" class="form-control text-left">
+            <span id="snippet">[snippets_exec id="<span class="js-snippets-snippet-placeholder"></span>"]</span>
+            <button class="js-clipboard-btn button" data-clipboard-target="#snippet">
+                {{ tr('admin_copy') }}
+            </button>
+        </div>
+        <br>
+        <label for="template_code">{{ tr('admin_template_code') }}</label>
+        <div id="template_code" class="form-control text-left">
+            <span id="html">&lcub;&lcub; snippets.exec('<span class="js-snippets-snippet-placeholder"></span>') &rcub;&rcub;</span>
+            <button class="js-clipboard-btn button" data-clipboard-target="#html">
+                {{ tr('admin_copy') }}
+            </button>
+        </div>
     </div>
-  </div>
-</div>
+
 {% endblock %}
 
 {% block tail %}
-<script type="text/javascript">
-    $('.js-snippets-info').click(function () {
-        $('#snippetsInfoModal').modal();
-        $('.js-snippets-snippet-placeholder').html($(this).attr('data-name'));
-        $('.js-snippets-php-placeholder').html($(this).attr('data-name'));
-    });
-</script>
+    <script>
+        function deleteSnippet(id, row_num) {
+            dropdown[row_num].hide();
+            Swal.fire(
+                {title: "{{ tr('admin_cofirmation_required') }}", text: "{{ tr('admin_cofirmation_required_for_snippet_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
+            ).then((result) => {
+                if (result.value) {
+                    document.getElementById('delete-snippet-id-' + id).submit();
+                }
+            });
+        }
+
+        function embededCode(id, row_num) {
+            dropdown[row_num].hide();
+            Swal.fire({
+                title: "{{ tr('admin_embeded_code') }}",
+                showCloseButton: true,
+                focusCloseButton: false,
+                showConfirmButton: false,
+                html: $('._embeded-code-template').html(),
+                onBeforeOpen: () => {
+                    $('.js-snippets-snippet-placeholder').html(id);
+                }
+            });
+        }
+    </script>
 {% endblock %}

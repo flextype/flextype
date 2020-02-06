@@ -41,14 +41,14 @@ class ThemesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [
                     'themes_get_more' => [
                         'link' => 'https://github.com/flextype/themes',
                         'title' => __('admin_get_more_themes'),
-                        'attributes' => ['class' => 'float-right btn', 'target' => '_blank'],
+                        'target' => '_blank',
                     ],
                 ],
             ]
@@ -179,12 +179,12 @@ class ThemesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'themes_information' => [
                         'link' => $this->router->pathFor('admin.themes.information') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_information'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                 ],
             ]
@@ -238,19 +238,19 @@ class ThemesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'themes_settings' => [
                         'link' => $this->router->pathFor('admin.themes.settings') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_settings'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [
                     'save_theme_settings' => [
                         'link' => 'javascript:;',
                         'title' => __('admin_save'),
-                        'attributes' => ['class' => 'js-save-form-submit float-right btn'],
+                        'type' => 'action',
                     ],
                 ],
             ]

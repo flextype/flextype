@@ -1,0 +1,35 @@
+/**
+ * COMPONENTS / BUTTONS
+ *
+ * INDEX:
+ * - button
+ * - button--white
+ * - button-group
+ *
+ */
+
+.button
+{
+    @apply px-4 py-2 border border-solid border-dark text-white inline-block w-auto bg-dark cursor-pointer;
+}
+
+.button--white
+{
+    @apply bg-white text-dark;
+}
+
+.button:hover,
+.button--white:hover
+{
+    @apply border-black bg-black text-white;
+}
+
+.button-group
+{
+    @apply mb-3;
+}
+
+.button-group .button
+{
+    @apply mr-2;
+}

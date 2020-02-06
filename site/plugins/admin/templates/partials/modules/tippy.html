@@ -1,0 +1,20 @@
+<script>
+    const nav_tooltip = tippy('.js-nav', {placement: 'right'});
+
+    const dropdown = tippy('.js-dropdown-btn', {
+        placement: 'bottom',
+        allowHTML: true,
+        flipOnUpdate: true,
+        inlinePositioning: true,
+        interactive: true,
+        popperOptions: {
+            positionFixed: true
+        },
+        trigger: 'click',
+        maxWidth: 500,
+        zIndex: 10,
+        content(reference) {
+            return document.getElementById(reference.getAttribute('data-dropdown')).innerHTML;
+        }
+    });
+</script>

@@ -89,12 +89,22 @@ class EntriesController extends Controller
             }
         }
 
+        $entry_current = $this->entries->fetch($this->getEntryID($query));
+
+        if ($entry_current['items_view'] != '') {
+            $items_view = $entry_current['items_view'];
+        } else {
+            $items_view = $this->registry->get('settings.entries.items_view_default');
+        }
+
         return $this->view->render(
             $response,
             'plugins/admin/templates/content/entries/index.html',
             [
                             'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]),
                             'id_current' => $this->getEntryID($query),
+                            'entry_current' => $entry_current,
+                            'items_view' => $items_view,
                             'menu_item' => 'entries',
                             'fieldsets' => $fieldsets,
                             'parts' => $parts,
@@ -104,14 +114,14 @@ class EntriesController extends Controller
                                         'entries' => [
                                                 'link' => $this->router->pathFor('admin.entries.index'),
                                                 'title' => __('admin_entries'),
-                                                'attributes' => ['class' => 'navbar-item active']
+                                                active => true
                                             ]
                                         ],
                             'buttons'  => [
                                         'create' => [
-                                                'link'       => 'javascript:;',
-                                                'title'      => __('admin_create_new_entry'),
-                                                'attributes' => ['class' => 'float-right btn', 'data-toggle' => 'modal', 'data-target' => '#selectEntryTypeModal']
+                                                'link'    => 'javascript:;',
+                                                'title'   => __('admin_create_new_entry'),
+                                                'onclick' => 'event.preventDefault(); selectEntryType("", 0);'
                                             ]
                                         ]
                             ]
@@ -155,12 +165,12 @@ class EntriesController extends Controller
                                         'entries' => [
                                             'link' => $this->router->pathFor('admin.entries.index'),
                                             'title' => __('admin_entries'),
-                                            'attributes' => ['class' => 'navbar-item']
+
                                         ],
                                         'entries_add' => [
                                             'link' => $this->router->pathFor('admin.entries.add') . '?id=' . $this->getEntryID($query),
                                             'title' => __('admin_create_new_entry'),
-                                            'attributes' => ['class' => 'navbar-item active']
+                                            'active' => true
                                             ]
                                         ]
                         ]
@@ -346,12 +356,12 @@ class EntriesController extends Controller
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
                                     'title' => __('admin_entries'),
-                                    'attributes' => ['class' => 'navbar-item']
+
                                 ],
                                 'entries_type' => [
                                     'link' => $this->router->pathFor('admin.entries.type') . '?id=' . $this->getEntryID($query),
                                     'title' => __('admin_type'),
-                                    'attributes' => ['class' => 'navbar-item active']
+                                    'active' => true
                                     ]
                                 ]
                         ]
@@ -452,12 +462,12 @@ class EntriesController extends Controller
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
                                     'title' => __('admin_entries'),
-                                    'attributes' => ['class' => 'navbar-item']
+
                                 ],
                                 'entries_move' => [
                                     'link' => $this->router->pathFor('admin.entries.move'),
                                     'title' => __('admin_move'),
-                                    'attributes' => ['class' => 'navbar-item active']
+                                    'active' => true
                                     ]
                                 ]
                         ]
@@ -529,12 +539,12 @@ class EntriesController extends Controller
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
                                     'title' => __('admin_entries'),
-                                    'attributes' => ['class' => 'navbar-item']
+
                                 ],
                                 'entries_type' => [
                                     'link' => $this->router->pathFor('admin.entries.rename') . '?id=' . $this->getEntryID($query),
                                     'title' => __('admin_rename'),
-                                    'attributes' => ['class' => 'navbar-item active']
+                                    'active' => true
                                     ]
                                 ]
                         ]
@@ -666,29 +676,29 @@ class EntriesController extends Controller
                             'entries' => [
                                 'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                                 'title' => __('admin_entries'),
-                                'attributes' => ['class' => 'navbar-item']
+
                             ],
                             'edit_entry' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query). '&type=editor',
                                 'title' => __('admin_editor'),
-                                'attributes' => ['class' => 'navbar-item']
+
                             ],
                             'edit_entry_media' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
                                 'title' => __('admin_media'),
-                                'attributes' => ['class' => 'navbar-item']
+
                             ],
                             'edit_entry_source' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
                                 'title' => __('admin_source'),
-                                'attributes' => ['class' => 'navbar-item active']
+                                'active' => true
                             ],
                         ],
                         'buttons' => [
                             'save_entry' => [
                                             'link'       => 'javascript:;',
                                             'title'      => __('admin_save'),
-                                            'attributes' => ['class' => 'js-save-form-submit float-right btn']
+                                            'type' => 'action'
                                         ],
                         ]
                 ]
@@ -708,22 +718,21 @@ class EntriesController extends Controller
                             'entries' => [
                                 'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                                 'title' => __('admin_entries'),
-                                'attributes' => ['class' => 'navbar-item']
+
                             ],
                             'edit_entry' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
                                 'title' => __('admin_editor'),
-                                'attributes' => ['class' => 'navbar-item']
+
                             ],
                             'edit_entry_media' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
                                 'title' => __('admin_media'),
-                                'attributes' => ['class' => 'navbar-item active']
+                                'attributes' => ['class' => 'btn active']
                             ],
                             'edit_entry_source' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
                                 'title' => __('admin_source'),
-                                'attributes' => ['class' => 'navbar-item']
                             ],
                         ]
                 ]
@@ -749,30 +758,27 @@ class EntriesController extends Controller
                         'links' => [
                             'entries' => [
                                 'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
-                                'title' => __('admin_entries'),
-                                'attributes' => ['class' => 'navbar-item']
+                                'title' => __('admin_entries')
                             ],
                             'edit_entry' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
                                 'title' => __('admin_editor'),
-                                'attributes' => ['class' => 'navbar-item active']
+                                'active' => true
                             ],
                             'edit_entry_media' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
-                                'title' => __('admin_media'),
-                                'attributes' => ['class' => 'navbar-item']
+                                'title' => __('admin_media')
                             ],
                             'edit_entry_source' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
-                                'title' => __('admin_source'),
-                                'attributes' => ['class' => 'navbar-item']
+                                'title' => __('admin_source')
                             ],
                         ],
                         'buttons' => [
                             'save_entry' => [
                                             'link'       => 'javascript:;',
                                             'title'      => __('admin_save'),
-                                            'attributes' => ['class' => 'js-save-form-submit float-right btn']
+                                            'type' => 'action'
                                         ],
                         ]
                 ]
@@ -1073,6 +1079,29 @@ class EntriesController extends Controller
             }
         }
         return $files;
+    }
+
+    /**
+     * Display view token - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     */
+    public function displayViewProcess(Request $request, Response $response) : Response
+    {
+        // Get POST data
+        $post_data = $request->getParsedBody();
+
+        if ($post_data['id'] == '') {
+            $data = [];
+            Arr::set($data, 'entries.items_view_default', $post_data['items_view']);
+            //$this->registry->get('settings')
+            Filesystem::write(PATH['config']['site'] . '/settings.yaml', $this->parser->encode(array_replace_recursive($this->registry->get('settings'), $data), 'yaml'));
+        } else {
+            $this->entries->update($post_data['id'], ['items_view' => $post_data['items_view']]);
+        }
+
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $post_data['id']);
     }
 
     /**

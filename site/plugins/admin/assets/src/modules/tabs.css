@@ -1,0 +1,14 @@
+.tabs__content
+{
+    display: none;
+}
+
+.tabs__content--active
+{
+    display: block;
+}
+
+.tabs__nav__link--active
+{
+    @apply bg-dark-muted opacity-100;
+}

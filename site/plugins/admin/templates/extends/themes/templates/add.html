@@ -1,35 +1,33 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-<form method="post" id="form">
-    {{ csrf() }}
-    <input type="hidden" name="theme" value="{{ theme }}">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="id">{{ tr('admin_name') }}</label>
-                <input type="text" id="id" name="id" value="" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_name_empty_input') }}">
-                <small class="form-text text-muted">{{ tr('admin_help_text_for_temlates_name') }}</small>
-            </div>
-            <div class="form-group">
-                <label for="type">{{ tr('admin_type') }}</label>
-                <select class="form-control" name="type">
-                    <option value="partial">{{ tr('admin_partial') }}</option>
-                    <option value="template">{{ tr('admin_template') }}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <div class="btn-group custom-btn-group">
-                  <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="btn btn-black">
-                  <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <div class="dropdown-menu">
-                    <input type="submit" id="create-and-edit" name="create-and-edit" value="{{ tr('admin_create_and_edit') }}" class="dropdown-item">
-                  </div>
+    <form method="post" id="form">
+        {{ csrf() }}
+        <input type="hidden" name="theme" value="{{ theme }}">
+        <div class="flex row">
+            <div class="w-full lg:w-4/12">
+                <div class="form-group">
+                    <label for="id" class="form-control-title">{{ tr('admin_name') }}</label>
+                    <input type="text" id="id" name="id" value="" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_name_empty_input') }}" data-parsley-required="true">
+                    <small>{{ tr('admin_help_text_for_temlates_name') }}</small>
+                </div>
+                <div class="form-group">
+                    <label for="type" class="form-control-title">{{ tr('admin_type') }}</label>
+                    <select class="form-control js-select" name="type">
+                        <option value="partial">{{ tr('admin_partial') }}</option>
+                        <option value="template">{{ tr('admin_template') }}</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="button">
+                    <button type="button" class="buttondropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown">
+                        <input type="submit" id="create-and-edit" name="create-and-edit" value="{{ tr('admin_create_and_edit') }}" class="dropdown-item">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
 {% endblock %}

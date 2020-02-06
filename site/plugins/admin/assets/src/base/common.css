@@ -1,0 +1,16 @@
+html,
+body
+{
+    font-family: Roboto;
+    font-size: var(--font-size);
+}
+
+main
+{
+    @apply flex w-full h-screen min-w-full bg-white text-black;
+}
+
+small
+{
+    @apply block mt-1 opacity-75 text-sm;
+}

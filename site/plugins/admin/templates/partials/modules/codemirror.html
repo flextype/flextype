@@ -7,24 +7,20 @@
         var editor = CodeMirror.fromTextArea(editorEl, {
             lineNumbers: true,
             {% if is_current_path('admin.fieldsets.edit') %}
-            indentUnit: 4,
-            tabSize: 4,
+                indentUnit: 4,
+                tabSize: 4,
             {% else %}
-            tabSize: 4,
-            indentUnit: 4,
+                tabSize: 4,
+                indentUnit: 4,
             {% endif %}
             {% if is_current_path('admin.fieldsets.edit') %}
-            mode: "text/javascript",
+                mode: "text/javascript",
             {% else %}
-            mode: "application/x-httpd-php",
+                mode: "application/x-httpd-php",
             {% endif %}
             indentWithTabs: false,
-            {% if registry.settings.admin_panel.theme == 'light' %}
             theme: "elegant",
-            {% elseif registry.settings.admin_panel.theme == 'dark' %}
-            theme: "monokai",
-            {% endif %}
-            styleActiveLine: true,
+            styleActiveLine: true
         });
 
         editor.addKeyMap({
@@ -38,11 +34,12 @@
                     }
                 }
 
-                if (cm.options.indentWithTabs)
+                if (cm.options.indentWithTabs) 
                     cm.execCommand("insertTab");
-                else
+                else 
                     cm.execCommand("insertSoftTab");
-            },
+                }
+            ,
             "Shift-Tab": function (cm) {
                 cm.indentSelection("subtract");
             }

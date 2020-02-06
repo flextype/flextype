@@ -1,0 +1,24 @@
+/**
+ * COMPONENTS / FORMS
+ *
+ * INDEX:
+ * - form-control-title
+ * - form-control
+ * - form-group
+ *
+ */
+
+.form-control-title
+{
+    @apply font-bold block mb-1;
+}
+
+.form-control
+{
+    @apply w-full block border border-gray-600 outline-none px-2 py-2;
+}
+
+.form-group
+{
+    @apply mb-3;
+}
