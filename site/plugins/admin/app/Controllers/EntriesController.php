@@ -91,7 +91,7 @@ class EntriesController extends Controller
 
         $entry_current = $this->entries->fetch($this->getEntryID($query));
 
-        if ($entry_current['items_view'] != '') {
+        if (isset($entry_current['items_view'])) {
             $items_view = $entry_current['items_view'];
         } else {
             $items_view = $this->registry->get('settings.entries.items_view_default');
@@ -114,7 +114,7 @@ class EntriesController extends Controller
                                         'entries' => [
                                                 'link' => $this->router->pathFor('admin.entries.index'),
                                                 'title' => __('admin_entries'),
-                                                active => true
+                                                'active' => true
                                             ]
                                         ],
                             'buttons'  => [
