@@ -50,21 +50,16 @@
                                 <a class="dropdown__item" href="{{ path_for('admin.plugins.settings') }}?id={{ key }}">
                                     <i class="icon icon--white mr-3">{{ icon('fas fa-cog') }}</i>
                                     {{ tr('admin_settings') }}</a>
-                                {% if key == 'admin' or key == 'site' or key == '' %}
-                                    <a class="dropdown__item opacity-50" href="javascript:;">
+
+                                <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
+                                    {% if plugin.enabled %}
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
-                                        {{ tr('admin_deactivate') }}</a>
-                                {% else %}
-                                    <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
-                                        {% if plugin.enabled %}
-                                            <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
-                                            {{ tr('admin_deactivate') }}
-                                        {% else %}
-                                            <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-off') }}</i>
-                                            {{ tr('admin_activate') }}
-                                        {% endif %}
-                                    </a>
-                                {% endif %}
+                                        {{ tr('admin_deactivate') }}
+                                    {% else %}
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-off') }}</i>
+                                        {{ tr('admin_activate') }}
+                                    {% endif %}
+                                </a>
                                 <form id="update-plugin-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
                                     {{ csrf() }}
                                     <input type="hidden" name="plugin-key" value="{{ key }}">
