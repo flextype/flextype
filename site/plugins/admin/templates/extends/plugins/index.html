@@ -51,15 +51,24 @@
                                     <i class="icon icon--white mr-3">{{ icon('fas fa-cog') }}</i>
                                     {{ tr('admin_settings') }}</a>
 
-                                <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
-                                    {% if plugin.enabled %}
-                                        <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
-                                        {{ tr('admin_deactivate') }}
+                                {% if plugin.enabled %}
+                                    {% if key == 'admin' or key == 'site' %}
+                                        <a class="dropdown__item" onclick="event.preventDefault(); deactivatePlugin('{{ key }}', {{ loop.index0 }});" href="javascript:;">
+                                            <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
+                                            {{ tr('admin_deactivate') }}
+                                        </a>
                                     {% else %}
+                                        <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
+                                            <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
+                                            {{ tr('admin_deactivate') }}
+                                        </a>
+                                    {% endif %}
+                                {% else %}
+                                    <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-off') }}</i>
                                         {{ tr('admin_activate') }}
-                                    {% endif %}
-                                </a>
+                                    </a>
+                                {% endif %}
                                 <form id="update-plugin-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
                                     {{ csrf() }}
                                     <input type="hidden" name="plugin-key" value="{{ key }}">
@@ -80,4 +89,19 @@
             </div>
         </div>
     {% endif %}
+{% endblock %}
+
+{% block tail %}
+    <script>
+        function deactivatePlugin(id, row_num) {
+            dropdown[row_num].hide();
+            Swal.fire(
+                {title: "{{ tr('admin_cofirmation_required') }}", text: "{{ tr('admin_cofirmation_required_for_deactivate_system_plugin') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
+            ).then((result) => {
+                if (result.value) {
+                    document.getElementById('update-plugin-status-' + id).submit();
+                }
+            });
+        }
+    </script>
 {% endblock %}
