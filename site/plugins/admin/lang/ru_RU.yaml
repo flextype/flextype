@@ -340,6 +340,7 @@ admin_cofirmation_required_for_fieldset_delete: "Are you sure you want to delete
 admin_cofirmation_required_for_snippet_delete: "Are you sure you want to delete this snippet?"
 admin_cofirmation_required_for_template_delete: "Are you sure you want to delete this template?"
 admin_author: "Author"
+admin_cofirmation_required_for_deactivate_system_plugin: "Are you sure you want to deactivate system plugin?"
 admin_message_delivery_api_token_updated: "Delivery token updated."
 admin_message_delivery_api_token_was_not_updated: "Delivery token was not updated."
 admin_message_delivery_api_token_created: "Delivery token created."
