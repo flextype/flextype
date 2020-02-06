@@ -741,9 +741,9 @@ class EntriesController extends Controller
 
             // Merge current entry fieldset with global fildset
             if (isset($entry['entry_fieldset'])) {
-                $form = $this->forms->render(array_replace_recursive($fieldsets, $entry['entry_fieldset']), $entry, $request);
+                $form = $this->FormController->render(array_replace_recursive($fieldsets, $entry['entry_fieldset']), $entry, $request);
             } else {
-                $form = $this->forms->render($fieldsets, $entry, $request);
+                $form = $this->FormController->render($fieldsets, $entry, $request);
             }
 
             return $this->view->render(
