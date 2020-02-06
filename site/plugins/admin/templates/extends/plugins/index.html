@@ -96,7 +96,7 @@
         function deactivatePlugin(id, row_num) {
             dropdown[row_num].hide();
             Swal.fire(
-                {title: "{{ tr('admin_cofirmation_required') }}", text: "{{ tr('admin_cofirmation_required_for_deactivate_system_plugin') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
+                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_deactivate_system_plugin') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
             ).then((result) => {
                 if (result.value) {
                     document.getElementById('update-plugin-status-' + id).submit();
