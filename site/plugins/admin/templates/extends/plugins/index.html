@@ -52,7 +52,7 @@
                                     {{ tr('admin_settings') }}</a>
 
                                 {% if plugin.enabled %}
-                                    {% if key == 'admin' or key == 'site' %}
+                                    {% if key == 'admin' or key == 'site' or key == 'form' %}
                                         <a class="dropdown__item" onclick="event.preventDefault(); deactivatePlugin('{{ key }}', {{ loop.index0 }});" href="javascript:;">
                                             <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
                                             {{ tr('admin_deactivate') }}
