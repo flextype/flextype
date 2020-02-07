@@ -12,9 +12,9 @@ class TailwindExtractor {
 }
 
 /**
- * Task: gulp css-vendor
+ * Task: gulp vendor-css
  */
- gulp.task("css-vendor", function() {
+ gulp.task("vendor-css", function() {
    const concat = require('gulp-concat');
    const csso = require('gulp-csso');
    const autoprefixer = require('gulp-autoprefixer');
@@ -29,6 +29,10 @@ class TailwindExtractor {
 
           // AnimateCSS
           'node_modules/animate.css/animate.min.css',
+
+          // Trumbowyg
+          'node_modules/trumbowyg/dist/ui/trumbowyg.min.css',
+          'node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css',
 
            // CodeMirror
           'node_modules/codemirror/lib/codemirror.css',
@@ -46,9 +50,9 @@ class TailwindExtractor {
 
 
 /**
- * Task: gulp css
+ * Task: gulp admin-panel-css
  */
-gulp.task("css", function() {
+gulp.task("admin-panel-css", function() {
   const atimport = require("postcss-import");
   const postcss = require("gulp-postcss");
   const tailwindcss = require("tailwindcss");
@@ -86,9 +90,9 @@ gulp.task("css", function() {
 });
 
 /**
- * Task: gulp js
+ * Task: gulp vendor-js
  */
- gulp.task('js', function(){
+ gulp.task('vendor-js', function(){
    const sourcemaps = require('gulp-sourcemaps');
    const concat = require('gulp-concat');
 
@@ -108,10 +112,15 @@ gulp.task("css", function() {
                     'node_modules/speakingurl/speakingurl.min.js',
 
                     // Popper
-                    'node_modules/tippy.js/node_modules/popper.js/dist/umd/popper.min.js',
+                    'node_modules/popper.js/dist/umd/popper.min.js',
 
                     // Tippy
                     'node_modules/tippy.js/dist/tippy-bundle.iife.min.js',
+
+                    // Trumbowyg
+                    'node_modules/trumbowyg/dist/trumbowyg.min.js',
+                    'node_modules/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.js',
+                    'node_modules/trumbowyg/dist/plugins/table/trumbowyg.table.js',
 
                     // CodeMirror
                     'node_modules/codemirror/lib/codemirror.js',
@@ -128,9 +137,31 @@ gulp.task("css", function() {
      .pipe(gulp.dest('assets/dist/js/'));
  });
 
+gulp.task('trumbowyg-fonts', function(){
+    return gulp.src(['node_modules/trumbowyg/dist/ui/icons.svg'])
+        .pipe(gulp.dest('assets/dist/fonts/trumbowyg'));
+});
+
+gulp.task('trumbowyg-langs', function(){
+    return gulp.src(['node_modules/trumbowyg/dist/*langs/**/*'])
+        .pipe(gulp.dest('assets/dist/langs/trumbowyg'));
+});
+
+gulp.task('fontawesome-icons', function(){
+    return gulp.src(['node_modules/@fortawesome/fontawesome-free/svgs/**/*'])
+        .pipe(gulp.dest('assets/dist/fontawesome/svgs'));
+});
+
+/**
+ * Task: gulp default
+ */
+gulp.task('default', gulp.series(
+    'fontawesome-icons', 'trumbowyg-fonts', 'trumbowyg-langs', 'vendor-css', 'admin-panel-css', 'vendor-js'
+));
+
 /**
  * Task: gulp watch
  */
 gulp.task('watch', function () {
-    gulp.watch(["**/*.html", "assets/src/"], gulp.series('css-vendor', 'css', 'js'));
+    gulp.watch(["**/*.html", "assets/src/"], gulp.series('trumbowyg-fonts', 'trumbowyg-langs', 'vendor-css', 'admin-panel-css', 'vendor-js'));
 });
