@@ -18,6 +18,8 @@
 .trumbowyg-button-pane .trumbowyg-open-dropdown::after,
 .trumbowyg-button-pane button > svg
 {
+    color: #6c6c6c;
+
     fill: #6c6c6c;
 }
 
@@ -25,6 +27,15 @@
 .trumbowyg-viewHTML-button.trumbowyg-not-disable:hover svg,
 .trumbowyg-button-pane button:hover > svg
 {
+    color: black;
+
+    fill: black;
+}
+
+.trumbowyg-button-pane button.trumbowyg-active > svg
+{
+    color: black;
+
     fill: black;
 }
 
