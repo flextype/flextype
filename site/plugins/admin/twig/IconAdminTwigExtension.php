@@ -41,7 +41,7 @@ class IconAdminTwigExtension extends Twig_Extension
 
         $icon_name = str_replace("fa-", "", $icon_parts[1]);
 
-        $icon = Filesystem::read(PATH['plugins'] . '/admin/assets/icons/' . $icon_category . '/' . $icon_name . '.svg');
+        $icon = Filesystem::read(PATH['plugins'] . '/admin/assets/dist/fontawesome/svgs/' . $icon_category . '/' . $icon_name . '.svg');
 
         return $icon;
     }
