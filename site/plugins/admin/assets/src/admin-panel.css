@@ -16,6 +16,7 @@
 @import 'modules/tabs';
 @import 'modules/select2';
 @import 'modules/swal2';
+@import 'modules/trumbowyg';
 
 /* Components */
 @import 'components/tables';
