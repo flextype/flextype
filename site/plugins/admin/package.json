@@ -1,6 +1,6 @@
 {
   "name": "Admin",
-  "version": "0.9.7-DEV",
+  "version": "0.9.7",
   "description": "Admin theme for Flextype",
   "homepage": "http://flextype.org",
   "author": "Sergey Romanenko",
@@ -35,6 +35,7 @@
     "speakingurl": "^14.0.1",
     "sweetalert2": "^9.7.1",
     "tailwindcss": "^1.1.4",
-    "tippy.js": "^5.1.4"
+    "tippy.js": "^5.1.4",
+    "trumbowyg": "~2.21.0"
   }
 }
