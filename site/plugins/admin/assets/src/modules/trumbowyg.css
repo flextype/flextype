@@ -16,7 +16,6 @@
 }
 
 .trumbowyg-button-pane .trumbowyg-open-dropdown::after,
-svg#trumbowyg-view-html,
 .trumbowyg-button-pane button > svg
 {
     fill: #6c6c6c;
