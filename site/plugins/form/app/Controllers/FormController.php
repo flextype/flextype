@@ -303,9 +303,10 @@ class FormController extends Controller
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
 
-        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
-        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class . ' js-select';
+        $id      = isset($properties['id'])    ? $properties['id'] : $field_id;
+        $class   = isset($properties['class']) ? $properties['class'] . $this->field_class : $this->field_class;
+        $name    = isset($properties['name'])  ? $properties['name'] : $field_name;
+        $current_value   = isset($properties['value']) ? $properties['value'] : $field_value;
 
         $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
 
@@ -321,13 +322,7 @@ class FormController extends Controller
             }
         }
 
-        $field  = '<div class="form-group ' . $size . '">';
-        $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, $field_value, $attributes);
-        $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
-        $field .= '</div>';
-
-        return $field;
+        return $this->flextype['view']->fetch('plugins/form/templates/fields/select-template/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help , 'options' => $options, 'current_value' => $current_value]);
     }
 
     /**
@@ -442,10 +437,11 @@ class FormController extends Controller
      */
     protected function hiddenField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
-        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
-        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
+        $id    = isset($properties['field_name'])  ? $properties['field_name'] : $field_id;
+        $name  = isset($properties['field_name'])  ? $properties['field_name'] : $field_name;
+        $value = isset($properties['field_value']) ? $properties['field_value'] : $field_value;
 
-        return Form::hidden($field_name, $field_value, $attributes);
+        return $this->flextype['view']->fetch('plugins/form/templates/fields/hidden/field.html', ['id' => $id, 'name' => $name, 'value' => $value]);
     }
 
     /**
@@ -491,18 +487,12 @@ class FormController extends Controller
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
         $options = ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')];
+        $id      = isset($properties['id'])    ? $properties['id'] : $field_id;
+        $class   = isset($properties['class']) ? $properties['class'] . $this->field_class : $this->field_class;
+        $name    = isset($properties['name'])  ? $properties['name'] : $field_name;
+        $current_value   = isset($properties['value']) ? $properties['value'] : $field_value;
 
-        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
-        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class . ' js-select';
-
-        $field  = '<div class="form-group ' . $size . '">';
-        $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, (! empty($field_value) ? $field_value : 'visible'), $attributes);
-        $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
-        $field .= '</div>';
-
-        return $field;
+        return $this->flextype['view']->fetch('plugins/form/templates/fields/select-visibility/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help , 'options' => $options, 'current_value' => $current_value]);
     }
 
     /**
