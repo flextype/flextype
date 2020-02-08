@@ -409,16 +409,10 @@ class FormController extends Controller
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $h     = isset($properties['h'])     ? $properties['h'] : 3;
+        $id    = isset($properties['id'])    ? $properties['id'] : $field_id;
+        $class = isset($properties['class']) ? $properties['class'] . 'text-3xl border-b border-black' : 'text-3xl border-b border-black';
 
-        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
-        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] . 'text-3xl border-b border-black' : 'text-3xl border-b border-black';
-
-        $field   = '<div class="form-group ' . $size . '">';
-        $field  .= Html::heading(__($title), $h, $attributes);
-        $field  .= '</div>';
-
-        return $field;
+        return $this->flextype['view']->fetch('plugins/form/templates/fields/heading/field.html', ['title' => $title, 'size' => $size, 'h' => $h, 'id' => $id, 'class' => $class]);
     }
 
     /**
@@ -553,10 +547,8 @@ class FormController extends Controller
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
-
-        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
-        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
+        $id    = isset($properties['id'])    ? $properties['id'] : $field_id;
+        $class = isset($properties['class']) ? $properties['class'] : $this->field_class;
 
         $field  = '<div class="form-group ' . $size . '">';
         $field .= ($title ? Form::label($field_id, __($title)) : '');
@@ -564,7 +556,7 @@ class FormController extends Controller
         $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
         $field .= '</div>';
 
-        return $field;
+        
     }
 
     /**
