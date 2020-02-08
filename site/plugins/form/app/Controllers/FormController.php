@@ -548,15 +548,10 @@ class FormController extends Controller
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
         $id    = isset($properties['id'])    ? $properties['id'] : $field_id;
+        $name  = isset($properties['name'])  ? $properties['name'] : $field_name;
         $class = isset($properties['class']) ? $properties['class'] : $this->field_class;
 
-        $field  = '<div class="form-group ' . $size . '">';
-        $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::input($field_name, $field_value, $attributes);
-        $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
-        $field .= '</div>';
-
-        
+        return $this->flextype['view']->fetch('plugins/form/templates/fields/text/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help]);
     }
 
     /**
