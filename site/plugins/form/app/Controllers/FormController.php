@@ -606,6 +606,6 @@ class FormController extends Controller
      */
     protected function _actionHiddenField() : string
     {
-        return Form::hidden('action', 'save-form');
+        return '<input type="hidden" id="action" name="action" value="save-form">';
     }
 }
