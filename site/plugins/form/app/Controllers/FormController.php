@@ -591,10 +591,11 @@ class FormController extends Controller
      */
     protected function _csrfHiddenField() : string
     {
-        $field  = '<input type="hidden" name="' . $this->flextype['csrf']->getTokenNameKey() . '" value="' . $this->flextype['csrf']->getTokenName() . '">';
-        $field .= '<input type="hidden" name="' . $this->flextype['csrf']->getTokenValueKey() . '" value="' . $this->flextype['csrf']->getTokenValue() . '">';
-
-        return $field;
+        return $this->flextype['view']->fetch('plugins/form/templates/fields/hidden-csrf/field.html',
+                           ['getTokenNameKey' => $this->flextype['csrf']->getTokenNameKey(),
+                            'getTokenName' => $this->flextype['csrf']->getTokenName(),
+                            'getTokenValueKey' => $this->flextype['csrf']->getTokenValueKey(),
+                            'getTokenValue' => $this->flextype['csrf']->getTokenValue()]);
     }
 
     /**
