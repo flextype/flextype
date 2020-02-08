@@ -430,21 +430,13 @@ class FormController extends Controller
     protected function htmlField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
         $title = isset($properties['title']) ? $properties['title'] : '';
-        $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
+        $class = isset($properties['class']) ? $properties['class'] : $this->field_class;
+        $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
+        $id    = isset($properties['id'])    ? $properties['id'] : $field_id;
+        $name  = isset($properties['name'])  ? $properties['name'] : $field_name;
 
-        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
-        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
-        $attributes['class'] .= ' js-html-editor';
-
-        $field  = '<div class="form-group ' . $size . '">';
-        $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::textarea($field_name, $field_value, $attributes);
-        $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
-        $field .= '</div>';
-
-        return $field;
+        return $this->flextype['view']->fetch('plugins/form/templates/fields/html/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help , 'value' => $field_value]);
     }
 
     /**
