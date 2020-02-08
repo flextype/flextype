@@ -606,6 +606,6 @@ class FormController extends Controller
      */
     protected function _actionHiddenField() : string
     {
-        return '<input type="hidden" id="action" name="action" value="save-form">';
+        return $this->flextype['view']->fetch('plugins/form/templates/fields/hidden-action/field.html');
     }
 }
