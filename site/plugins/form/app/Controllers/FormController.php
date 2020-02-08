@@ -410,7 +410,7 @@ class FormController extends Controller
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $h     = isset($properties['h'])     ? $properties['h'] : 3;
         $id    = isset($properties['id'])    ? $properties['id'] : $field_id;
-        $class = isset($properties['class']) ? $properties['class'] . 'text-3xl border-b border-black' : 'text-3xl border-b border-black';
+        $class = isset($properties['class']) ? $properties['class'] : '';
 
         return $this->flextype['view']->fetch('plugins/form/templates/fields/heading/field.html', ['title' => $title, 'size' => $size, 'h' => $h, 'id' => $id, 'class' => $class]);
     }
