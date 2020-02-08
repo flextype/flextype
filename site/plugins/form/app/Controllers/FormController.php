@@ -543,8 +543,9 @@ class FormController extends Controller
         $id    = isset($properties['id'])    ? $properties['id'] : $field_id;
         $name  = isset($properties['name'])  ? $properties['name'] : $field_name;
         $class = isset($properties['class']) ? $properties['class'] : $this->field_class;
+        $value  = isset($properties['value'])  ? $properties['value'] : $field_value;
 
-        return $this->flextype['view']->fetch('plugins/form/templates/fields/text/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help]);
+        return $this->flextype['view']->fetch('plugins/form/templates/fields/text/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help, 'value' => $value]);
     }
 
     /**
