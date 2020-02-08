@@ -348,18 +348,12 @@ class FormController extends Controller
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
         $options = [true => __('admin_yes'), false => __('admin_no')];
+        $id      = isset($properties['id'])    ? $properties['id'] : $field_id;
+        $class   = isset($properties['class']) ? $properties['class'] . $this->field_class : $this->field_class;
+        $name    = isset($properties['name'])  ? $properties['name'] : $field_name;
+        $current_value   = isset($properties['value']) ? $properties['value'] : $field_value;
 
-        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
-        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class . ' js-select';
-
-        $field  = '<div class="form-group ' . $size . '">';
-        $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, (is_string($field_value) ? true : ($field_value ? true : false)), $attributes);
-        $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
-        $field .= '</div>';
-
-        return $field;
+        return $this->flextype['view']->fetch('plugins/form/templates/fields/select-routable/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help , 'options' => $options, 'current_value' => $current_value]);
     }
 
     /**
