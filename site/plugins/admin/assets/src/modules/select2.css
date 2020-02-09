@@ -35,4 +35,9 @@
 {
     height: 37px;
 }
+
+.select2-selection.select2-selection--multiple
+{
+    @apply p-0 pt-px;
+}
 /* purgecss end ignore */
