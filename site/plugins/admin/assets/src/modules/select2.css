@@ -40,4 +40,24 @@
 {
     @apply p-0 pt-px;
 }
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice
+{
+    @apply border-dark bg-dark text-white opacity-90 rounded-none;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice:hover
+{
+    @apply border-black bg-black text-white opacity-100;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove
+{
+    @apply opacity-90 text-white;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover
+{
+    @apply opacity-100 text-white;
+}
 /* purgecss end ignore */
