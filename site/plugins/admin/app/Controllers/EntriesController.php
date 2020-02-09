@@ -838,7 +838,7 @@ class EntriesController extends Controller
             Arr::delete($entry, 'slug');
             Arr::delete($entry, 'modified_at');
 
-            // Merge entry data with $to_save_data
+            // Merge entry data with $data
             $result_data = array_merge($entry, $data);
 
             // Update entry
