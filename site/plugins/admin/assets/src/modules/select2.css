@@ -46,6 +46,13 @@
     @apply border-dark bg-dark text-white opacity-90 rounded-none;
 }
 
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove
+{
+    margin-right: 5px;
+    padding-right: 5px;
+    @apply border-gray-900 border-r border-solid;
+}
+
 .select2-container--default .select2-selection--multiple .select2-selection__choice:hover
 {
     @apply border-black bg-black text-white opacity-100;
