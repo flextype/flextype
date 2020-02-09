@@ -449,9 +449,8 @@ class Entries
             $body  = Filesystem::read($entry_file);
             $entry = $this->flextype['parser']->decode($body, 'frontmatter');
 
-            return Filesystem::write($entry_file, $this->flextype['parser']->encode(array_replace_recursive($entry, $data), 'frontmatter'));
+            return Filesystem::write($entry_file, $this->flextype['parser']->encode(array_merge($entry, $data), 'frontmatter'));
         }
-
         return false;
     }
 
