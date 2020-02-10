@@ -31,7 +31,6 @@
         "flextype-components/assets" : "1.0.3",
         "flextype-components/cookie" : "1.2.0",
         "flextype-components/date" : "1.1.0",
-        "flextype-components/debug" : "1.0.0",
         "flextype-components/filesystem" : "2.0.6",
         "flextype-components/i18n" : "1.3.0",
         "flextype-components/number" : "1.1.0",
