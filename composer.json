@@ -38,7 +38,6 @@
         "flextype-components/registry" : "2.0.0",
         "flextype-components/session" : "1.1.1",
         "flextype-components/text" : "1.1.2",
-        "flextype-components/form" : "1.0.2",
 
         "slim/slim": "~3.12.3",
         "slim/twig-view": "~2.5.0",
