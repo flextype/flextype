@@ -16,7 +16,7 @@ use function is_file;
 /**
  * Ensure vendor libraries exist
  */
-! is_file($site_autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i>');
+! is_file($form_autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i>');
 
 /**
  * Register The Auto Loader
@@ -27,12 +27,7 @@ use function is_file;
  * loading any of our classes later on. It feels nice to relax.
  * Register The Auto Loader
  */
-$site_loader = require_once $site_autoload;
-
-/**
- * Include web routes
- */
-include_once 'routes/web.php';
+$form_loader = require_once $form_autoload;
 
 /**
  * Include dependencies
