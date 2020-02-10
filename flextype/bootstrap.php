@@ -126,11 +126,10 @@ include_once 'dependencies.php';
 include_once 'middlewares.php';
 
 /**
- * Include Routes (web, api)
+ * Include Routes for API
  */
-include_once 'routes/web.php';
-include_once 'routes/api/delivery.php';
-
+include_once 'routes/api/delivery/images.php';
+include_once 'routes/api/delivery/entries.php';
 
 /**
  * Set internal encoding
