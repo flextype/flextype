@@ -69,7 +69,7 @@ gulp.task("admin-panel-css", function() {
     .pipe(postcss([atimport(), tailwindcss(tailwindConfig)]))
     .pipe(
       purgecss({
-        content: ["**/*.html"],
+        content: ["../form/templates/**/*.html", "templates/**/*.html"],
         extractors: [
           {
             extractor: TailwindExtractor,
@@ -137,16 +137,25 @@ gulp.task("admin-panel-css", function() {
      .pipe(gulp.dest('assets/dist/js/'));
  });
 
+/**
+ * Task: gulp trumbowyg-fonts
+ */
 gulp.task('trumbowyg-fonts', function(){
     return gulp.src(['node_modules/trumbowyg/dist/ui/icons.svg'])
         .pipe(gulp.dest('assets/dist/fonts/trumbowyg'));
 });
 
+/**
+ * Task: gulp trumbowyg-langs
+ */
 gulp.task('trumbowyg-langs', function(){
     return gulp.src(['node_modules/trumbowyg/dist/*langs/**/*'])
         .pipe(gulp.dest('assets/dist/langs/trumbowyg'));
 });
 
+/**
+ * Task: gulp fontawesome-icons
+ */
 gulp.task('fontawesome-icons', function(){
     return gulp.src(['node_modules/@fortawesome/fontawesome-free/svgs/**/*'])
         .pipe(gulp.dest('assets/dist/fontawesome/svgs'));
@@ -163,5 +172,5 @@ gulp.task('default', gulp.series(
  * Task: gulp watch
  */
 gulp.task('watch', function () {
-    gulp.watch(["**/*.html", "assets/src/"], gulp.series('trumbowyg-fonts', 'trumbowyg-langs', 'vendor-css', 'admin-panel-css', 'vendor-js'));
+    gulp.watch(["../form/templates/**/*.html", "templates/**/*.html", "assets/src/"], gulp.series('vendor-css', 'admin-panel-css'));
 });
