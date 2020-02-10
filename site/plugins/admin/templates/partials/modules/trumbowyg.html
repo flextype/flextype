@@ -1,21 +1,31 @@
-<script type="text/javascript">
-    $.trumbowyg.svgPath =  '{{base_url()}}/site/plugins/admin/assets/dist/fonts/trumbowyg/icons.svg';
+<script>
+    $.trumbowyg.svgPath = '{{base_url()}}/site/plugins/admin/assets/dist/fonts/trumbowyg/icons.svg';
     $('.js-html-editor').trumbowyg({
         btnsDef: {
             // Customizables dropdowns
             image: {
-                dropdown: ['insertImage', 'noembed'],
+                dropdown: [
+                    'insertImage', 'noembed'
+                ],
                 ico: 'insertImage'
             }
         },
         btns: [
-            ['undo', 'redo'], // Only supported in Blink browsers
+            [
+                'undo', 'redo'
+            ], // Only supported in Blink browsers
             ['formatting'],
-            ['strong', 'em', 'del'],
+            [
+                'strong', 'em', 'del'
+            ],
             ['link'],
             ['image'],
-            ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
-            ['unorderedList', 'orderedList'],
+            [
+                'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'
+            ],
+            [
+                'unorderedList', 'orderedList'
+            ],
             ['table'],
             ['removeformat'],
             ['fullscreen'],
