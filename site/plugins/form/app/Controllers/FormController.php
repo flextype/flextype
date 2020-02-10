@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Flextype\Component\Arr\Arr;
-use Flextype\Component\Form\Form;
 use Flextype\Component\Html\Html;
 use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -87,7 +86,7 @@ class FormController extends Controller
      */
     public function render(array $fieldset, array $values = [], Request $request) : string
     {
-        $form  = Form::open(null, ['id' => 'form']);
+        $form  = '<form method="post" id="form">';
         $form .= $this->_csrfHiddenField();
         $form .= $this->_actionHiddenField();
 
@@ -173,7 +172,7 @@ class FormController extends Controller
             $form .= '</div>';
         }
 
-        $form .= Form::close();
+        $form .= '</form>';
 
         return $form;
     }
@@ -267,6 +266,7 @@ class FormController extends Controller
      */
     protected function mediaSelectField(string $field_id, string $field_name, $field_value, array $properties, Request $request) : string
     {
+        /*
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
@@ -283,6 +283,9 @@ class FormController extends Controller
         $field .= '</div>';
 
         return $field;
+        */
+
+        return '';
     }
 
     /**
@@ -560,6 +563,7 @@ class FormController extends Controller
      */
     protected function dateField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
+        /*
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
@@ -576,6 +580,9 @@ class FormController extends Controller
         $field .= '</div>';
 
         return $field;
+        */
+
+        return '';
     }
 
     /**
