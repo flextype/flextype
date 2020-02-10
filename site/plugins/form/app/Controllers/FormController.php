@@ -533,21 +533,17 @@ class FormController extends Controller
      */
     protected function tagsField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
-        $title = isset($properties['title']) ? $properties['title'] : '';
-        $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
-        $help  = isset($properties['help'])  ? $properties['help'] : '';
+        $title   = isset($properties['title']) ? $properties['title'] : '';
+        $size    = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
+        $help    = isset($properties['help'])  ? $properties['help'] : '';
+        $options = isset($properties['options']) ? $properties['options'] : [];
+        $id      = isset($properties['id'])    ? $properties['id'] : $field_id;
+        $class   = isset($properties['class']) ? $properties['class'] . $this->field_class : $this->field_class;
+        $name    = isset($properties['name'])  ? $properties['name'] : $field_name;
+        $current_value   = isset($properties['value']) ? $properties['value'] : $field_value;
 
-        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
-        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class;
+        return $this->flextype['view']->fetch('plugins/form/templates/fields/tags/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help , 'options' => $options, 'current_value' => $current_value]);
 
-        $field  = '<div class="form-group ' . $size . '">';
-        $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= '<input type="text" value="' . $field_value . '" name="' . $field_name . '" class="' . $attributes['class'] . '" data-role="tagsinput" />';
-        $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
-        $field .= '</div>';
-
-        return $field;
     }
 
     /**
