@@ -23,6 +23,12 @@
     @apply block;
 }
 
+.tabs__nav__link
+{
+    @apply block text-white opacity-80 p-2 pl-4;
+}
+
+.tabs__nav__link:hover,
 .tabs__nav__link--active
 {
     @apply bg-dark-muted opacity-100;
