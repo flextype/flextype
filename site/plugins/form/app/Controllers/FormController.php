@@ -164,7 +164,7 @@ class FormController extends Controller
 
             // Go through all sections and create nav items
             foreach ($fieldset['sections'] as $key => $section) {
-                $form .= '<a href="javascript:;" class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link ' . ($key === 'main' ? 'tabs__nav__link--active' : '') . '">' . __($section['title']) . '</a>';
+                $form .= '<a href="javascript:;" class="tabs__nav__link ' . ($key === 'main' ? 'tabs__nav__link--active' : '') . '">' . __($section['title']) . '</a>';
             }
 
             $form .= '</div></nav>';
