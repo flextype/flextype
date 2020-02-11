@@ -18,6 +18,12 @@
     @apply w-full block border rounded border-gray-600 outline-none px-2 py-2;
 }
 
+.form-control:active,
+.form-control:focus
+{
+    @apply border-black;
+}
+
 .form-group
 {
     @apply mb-3;
