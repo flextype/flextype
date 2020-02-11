@@ -23,13 +23,13 @@
     height: 100%;
     padding: 11px;
 
-    @apply w-full h-full relative flex items-center justify-center cursor-pointer opacity-90;
+    @apply w-full h-full text-white relative flex items-center justify-center cursor-pointer opacity-70;
 }
 
 .navigation__item--active,
 .navigation__item:hover
 {
-    @apply bg-dark-muted opacity-100;
+    @apply bg-transparent opacity-100;
 }
 
 .navigation__item--logo
