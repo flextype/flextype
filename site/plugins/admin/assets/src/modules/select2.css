@@ -3,15 +3,16 @@
 {
     @apply outline-none block;
 }
+
 .select2-dropdown
 {
-    @apply w-full rounded-none outline-none;
+    @apply w-full rounded outline-none;
 }
 
 .select2-container--default .select2-selection--multiple,
 .select2-container--default .select2-selection--single
 {
-    @apply px-2 py-2 outline-none rounded-none h-auto;
+    @apply px-2 py-2 outline-none rounded h-auto;
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected]
@@ -43,7 +44,7 @@
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice
 {
-    @apply border-dark bg-dark text-white opacity-90 rounded-none;
+    @apply border-dark bg-dark text-white opacity-90 rounded;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove

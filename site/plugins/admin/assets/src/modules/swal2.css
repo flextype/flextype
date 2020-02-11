@@ -6,7 +6,7 @@
 
 .swal2-popup
 {
-    @apply border-none rounded-none;
+    @apply border-none rounded;
 }
 
 .swal2-title
@@ -23,7 +23,7 @@
 .swal2-styled.swal2-confirm
 {
     font-size: var(--font-size);
-    @apply px-4 py-2 border border-solid border-dark text-white inline-block w-auto bg-dark rounded-none;
+    @apply px-4 py-2 border border-solid border-dark text-white inline-block w-auto bg-dark rounded;
 }
 
 .swal2-styled.swal2-confirm:focus
@@ -34,7 +34,7 @@
 .swal2-styled.swal2-cancel
 {
     font-size: var(--font-size);
-    @apply px-4 py-2 border border-solid inline-block w-auto bg-white text-black border-dark rounded-none;
+    @apply px-4 py-2 border border-solid inline-block w-auto bg-white text-black border-dark rounded;
 }
 
 .swal2-actions:not(.swal2-loading) .swal2-styled:hover

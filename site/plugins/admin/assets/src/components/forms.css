@@ -15,7 +15,7 @@
 
 .form-control
 {
-    @apply w-full block border border-gray-600 outline-none px-2 py-2;
+    @apply w-full block border rounded border-gray-600 outline-none px-2 py-2;
 }
 
 .form-group

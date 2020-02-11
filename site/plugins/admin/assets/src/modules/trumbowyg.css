@@ -1,7 +1,7 @@
 /* purgecss start ignore */
 .trumbowyg-button-pane
 {
-    @apply bg-white border-b-0;
+    @apply bg-white border-b-0 rounded;
 }
 
 .trumbowyg-button-pane::after
@@ -12,7 +12,7 @@
 .trumbowyg-box,
 .trumbowyg-editor
 {
-    @apply border-gray-600 m-0;
+    @apply border-gray-600 m-0 rounded;
 }
 
 .trumbowyg-button-pane .trumbowyg-open-dropdown::after,

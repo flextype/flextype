@@ -1,11 +1,26 @@
+.tabs__nav > div
+{
+    @apply rounded;
+}
+
+.tabs__nav > div a:first-of-type
+{
+    @apply rounded-t;
+}
+
+.tabs__nav > div a:last-of-type
+{
+    @apply rounded-b;
+}
+
 .tabs__content
 {
-    display: none;
+    @apply hidden rounded;
 }
 
 .tabs__content--active
 {
-    display: block;
+    @apply block;
 }
 
 .tabs__nav__link--active

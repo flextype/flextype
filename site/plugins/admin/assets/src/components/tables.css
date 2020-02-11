@@ -8,7 +8,7 @@
 
 .table
 {
-    @apply w-full;
+    @apply w-full rounded;
 }
 
 .table tr:first-of-type th,
