@@ -59,8 +59,6 @@
         "erusev/parsedown": "~1.7.3",
         "erusev/parsedown-extra": "~0.7.1",
 
-        "middlewares/trailing-slash": "~1.1.0",
-        "middlewares/response-time": "~1.1.0",
         "bnf/slim3-psr15": "~1.1.1"
     },
     "suggest": {
