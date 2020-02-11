@@ -55,7 +55,7 @@
 .navigation-top-primary__item
 {
     padding: 11.5px 20px;
-    @apply table-cell opacity-90;
+    @apply table-cell text-white opacity-80;
 }
 
 .navigation-top-primary__item--active,
