@@ -18,6 +18,6 @@
 .flatpickr-day.startRange:focus,
 .flatpickr-day.startRange:hover
 {
-    @apply @bg-black;
+    @apply bg-black border-black;
 }
 /* purgecss end ignore */
