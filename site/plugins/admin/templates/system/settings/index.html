@@ -75,7 +75,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="shortcodes[extensions]" class="form-control-title">{{ tr('admin_shortcodes_extensions') }}</label>
-                                <input type="text" id="systemSettingsShortcodesExtensions" name="shortcodes[extensions]" value="{{ registry.settings.shortcodes.extensions|join(',') }}" class="form-control" required="required">
+                                <select class="form-control js-tags" id="systemSettingsShortcodesExtensions" name="shortcodes[extensions][]" multiple="multiple">
+                                    {% for key, value in registry.settings.shortcodes.extensions %}
+                                        <option value="{{ value }}" selected="selected">{{ value }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                         <div class="w-full lg:w-6/12 col">
@@ -207,6 +211,7 @@
                         </div>
                         <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
+
                                 <label for="twig[cache]" class="form-control-title">{{ tr('admin_twig_cache') }}</label>
                                 <select id="systemSettingsTwigCache" name="twig[cache]" class="form-control js-select" required="required">
                                     <option value="0" {% if registry.settings.twig.cache == 0 %} selected="selected" {% endif %}>{{ tr('admin_disabled') }}</option>
@@ -223,7 +228,11 @@
                         <div class="w-full col">
                             <div class="form-group">
                                 <label for="twig[extensions]" class="form-control-title">{{ tr('admin_twig_extensions') }}</label>
-                                <input type="text" id="systemSettingsTwigExtensions" name="twig[extensions]" value="{{ registry.settings.twig.extensions|join(',') }}" class="form-control" required="required">
+                                <select class="form-control js-tags" id="systemSettingsTwigExtensions" name="twig[extensions][]" multiple="multiple">
+                                    {% for key, value in registry.settings.twig.extensions %}
+                                        <option value="{{ value }}" selected="selected">{{ value }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -430,31 +439,31 @@
             </div>
             <nav class="tabs__nav w-3/12 pl-10">
                 <div class="bg-dark text-white">
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link tabs__nav__link--active" href="javascript:;">
+                    <a class="tabs__nav__link tabs__nav__link--active" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-globe') }}</i>
                         {{ tr('admin_site') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
+                    <a class="tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-file-alt') }}</i>
                         {{ tr('admin_content') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
+                    <a class="tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-photo-video') }}</i>
                         {{ tr('admin_media') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
+                    <a class="tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-exclamation-triangle') }}</i>
                         {{ tr('admin_error_404_page') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
+                    <a class="tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-pencil-ruler') }}</i>
                         {{ tr('admin_twig_templating') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
+                    <a class="tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-tools') }}</i>
                         {{ tr('admin_debugging') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
+                    <a class="tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-cogs') }}</i>
                         {{ tr('admin_system') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
+                    <a class="tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-archive') }}</i>
                         {{ tr('admin_cache') }}</a>
-                    <a class="block opacity-90 p-2 pl-4 hover:bg-dark-muted hover:opacity-100 tabs__nav__link" href="javascript:;">
+                    <a class="tabs__nav__link" href="javascript:;">
                         <i class="icon icon--white mr-3">{{ icon('fas fa-link') }}</i>
                         {{ tr('admin_slug') }}</a>
                 </div>
