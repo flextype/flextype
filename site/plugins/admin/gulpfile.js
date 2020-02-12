@@ -30,6 +30,9 @@ class TailwindExtractor {
           // AnimateCSS
           'node_modules/animate.css/animate.min.css',
 
+          // Flatpickr
+          'node_modules/flatpickr/dist/flatpickr.min.css',
+
           // Trumbowyg
           'node_modules/trumbowyg/dist/ui/trumbowyg.min.css',
           'node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css',
@@ -117,6 +120,9 @@ gulp.task("admin-panel-css", function() {
                     // Tippy
                     'node_modules/tippy.js/dist/tippy-bundle.iife.min.js',
 
+                    // Flatpickr
+                    'node_modules/flatpickr/dist/flatpickr.min.js',
+
                     // Trumbowyg
                     'node_modules/trumbowyg/dist/trumbowyg.min.js',
                     'node_modules/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.js',
@@ -150,7 +156,15 @@ gulp.task('trumbowyg-fonts', function(){
  */
 gulp.task('trumbowyg-langs', function(){
     return gulp.src(['node_modules/trumbowyg/dist/*langs/**/*'])
-        .pipe(gulp.dest('assets/dist/langs/trumbowyg'));
+        .pipe(gulp.dest('assets/dist/lang/trumbowyg'));
+});
+
+/**
+ * Task: gulp flatpickr-langs
+ */
+gulp.task('flatpickr-langs', function(){
+    return gulp.src(['node_modules/flatpickr/dist/*l10n/**/*'])
+        .pipe(gulp.dest('assets/dist/lang/flatpickr'));
 });
 
 /**
@@ -165,7 +179,7 @@ gulp.task('fontawesome-icons', function(){
  * Task: gulp default
  */
 gulp.task('default', gulp.series(
-    'fontawesome-icons', 'trumbowyg-fonts', 'trumbowyg-langs', 'vendor-css', 'admin-panel-css', 'vendor-js'
+    'fontawesome-icons', 'trumbowyg-fonts', 'trumbowyg-langs', 'flatpickr-langs', 'vendor-css', 'admin-panel-css', 'vendor-js'
 ));
 
 /**
