@@ -546,7 +546,6 @@ class FormController extends Controller
         $current_value   = isset($properties['value']) ? $properties['value'] : $field_value;
 
         return $this->flextype['view']->fetch('plugins/form/templates/fields/tags/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help , 'options' => $options, 'current_value' => $current_value]);
-
     }
 
     /**
@@ -563,26 +562,16 @@ class FormController extends Controller
      */
     protected function dateField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
-        /*
-        $title = isset($properties['title']) ? $properties['title'] : '';
-        $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
-        $help  = isset($properties['help'])  ? $properties['help'] : '';
 
-        $field  = '<div class="form-group ' . $size . '">';
-        $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= '<div class="input-group date" id="datetimepicker" data-target-input="nearest">';
-        $field .= '<input name="' . $field_name . '" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" value="' . date($this->flextype->registry->get('settings.date_format'), strtotime($field_value)) . '" />
-                   <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
-                      <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
-                   </div>';
-        $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
-        $field .= '</div>';
-        $field .= '</div>';
+        $title  = isset($properties['title']) ? $properties['title'] : '';
+        $size   = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
+        $help   = isset($properties['help'])  ? $properties['help'] : '';
+        $id     = isset($properties['id'])    ? $properties['id'] : $field_id;
+        $name   = isset($properties['name'])  ? $properties['name'] : $field_name;
+        $class  = isset($properties['class']) ? $properties['class'] : $this->field_class;
+        $value  = isset($properties['value'])  ? $properties['value'] : $field_value;
 
-        return $field;
-        */
-
-        return '';
+        return $this->flextype['view']->fetch('plugins/form/templates/fields/datetimepicker/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help, 'value' => $value]);
     }
 
     /**
