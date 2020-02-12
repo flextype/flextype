@@ -17,6 +17,7 @@
 @import 'modules/select2';
 @import 'modules/swal2';
 @import 'modules/trumbowyg';
+@import 'modules/flatpickr';
 
 /* Components */
 @import 'components/tables';
