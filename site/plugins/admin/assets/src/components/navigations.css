@@ -13,7 +13,7 @@
     width: var(--box-size);
     height: 100vh;
 
-    @apply flex flex-col fixed bg-dark text-white justify-between z-20;
+    @apply flex flex-col fixed bg-dark border-black border-r border-solid text-white justify-between z-20;
 }
 
 .navigation__item
@@ -69,7 +69,7 @@
     min-height: var(--box-size);
     padding: 11.5px 20px;
 
-    @apply flex bg-dark-muted text-white;
+    @apply flex bg-dark-muted text-white  border-black border-b border-solid;
 }
 
 .navigation-top-secondary__item
