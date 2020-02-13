@@ -120,6 +120,7 @@
                                 {% endif %}
                             {% endif %}
 
+                            {#
                             {% if is_current_path('admin.api.index')or
                             is_current_path('admin.api_tokens.index')or
                             is_current_path('admin.api_tokens.add')or
@@ -128,7 +129,7 @@
                                 <a href="{{ path_for('admin.api_tokens.index') }}?api={{ api }}">
                                     <span class="pr-1 pl-1">{{ api }}</span></a>
                             {% endif %}
-
+#}
                             {% if is_current_path('admin.themes.information')or
                             is_current_path('admin.themes.settings') %}
                                 {% if id %}
