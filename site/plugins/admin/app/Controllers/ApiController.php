@@ -43,21 +43,48 @@ class ApiController extends Controller
     }
 
     /**
-     * Index page for tokens
+     * Delivery Index page
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function tokensIndex(Request $request, Response $response) : Response
+    public function deliveryIndex(Request $request, Response $response) : Response
     {
-        $api = $request->getQueryParams()['api'];
+        return $this->view->render(
+            $response,
+            'plugins/admin/templates/system/api/delivery/index.html',
+            [
+                'menu_item' => 'api',
+                'api_list' => ['entries' => 'Entries', 'images' => 'Images'],
+                'links' =>  [
+                    'api' => [
+                        'link' => $this->router->pathFor('admin.api.index'),
+                        'title' => __('admin_api')
+                    ],
+                    'api_delivery' => [
+                        'link' => $this->router->pathFor('admin.api_delivery.index'),
+                        'title' => __('admin_delivery'),
+                        'active' => true,
+                    ],
+                ],
+            ]
+        );
+    }
 
+    /**
+     * Delivery Entries Index page
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     */
+    public function deliveryEntriesIndex(Request $request, Response $response) : Response
+    {
         $tokens = [];
-        $tokens_list = Filesystem::listContents(PATH['tokens'] . '/' . $api);
+        $tokens_list = Filesystem::listContents(PATH['tokens'] . '/delivery/entries/');
 
         if (count($tokens_list) > 0) {
             foreach ($tokens_list as $token) {
-                if ($token['type'] == 'dir' && Filesystem::has(PATH['tokens'] . '/' . $api . '/' . $token['dirname'] . '/token.yaml')) {
+                if ($token['type'] == 'dir' && Filesystem::has(PATH['tokens'] . '/delivery/entries/' . $token['dirname'] . '/token.yaml')) {
                     $tokens[] = $token;
                 }
             }
@@ -65,26 +92,29 @@ class ApiController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/index.html',
+            'plugins/admin/templates/system/api/delivery/entries/index.html',
             [
                 'menu_item' => 'api',
-                'api' => $api,
                 'tokens' => $tokens,
                 'links' =>  [
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
-                    'api_tokens' => [
-                        'link' => $this->router->pathFor('admin.api_tokens.index') . '?api=' . $api,
-                        'title' => __('admin_' . $api),
+                    'api_delivery' => [
+                        'link' => $this->router->pathFor('admin.api_delivery.index'),
+                        'title' => __('admin_delivery')
+                    ],
+                    'api_delivery_entries' => [
+                        'link' => $this->router->pathFor('admin.api_delivery_entries.index'),
+                        'title' => __('admin_entries'),
                         'active' => true
                     ],
                 ],
                 'buttons' => [
-                    'api_tokens_add' => [
-                        'link' => $this->router->pathFor('admin.api_tokens.add') . '?api=' . $api,
-                        'title' => __('admin_create_new_' . $api . '_token')
+                    'api_delivery_entries_add' => [
+                        'link' => $this->router->pathFor('admin.api_delivery_entries.add'),
+                        'title' => __('admin_create_new_delivery_entries_token')
                     ],
                 ],
             ]
@@ -97,28 +127,29 @@ class ApiController extends Controller
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function add(Request $request, Response $response) : Response
+    public function deliveryEntriesAdd(Request $request, Response $response) : Response
     {
-        $api = $request->getQueryParams()['api'];
-
         return $this->view->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/add.html',
+            'plugins/admin/templates/system/api/delivery/entries/add.html',
             [
                 'menu_item' => 'api',
-                'api' => $api,
                 'links' =>  [
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
-                        'title' => __('admin_api')
+                        'title' => __('admin_api'),
                     ],
-                    'api_tokens' => [
-                        'link' => $this->router->pathFor('admin.api_tokens.index') . '?api=' . $api,
-                        'title' => __('admin_' . $api)
+                    'api_delivery' => [
+                        'link' => $this->router->pathFor('admin.api_delivery.index'),
+                        'title' => __('admin_delivery')
                     ],
-                    'api_tokens_add' => [
-                        'link' => $this->router->pathFor('admin.api_tokens.add') . '?api=' . $api,
-                        'title' => __('admin_create_new_' . $api . '_token'),
+                    'api_delivery_entries' => [
+                        'link' => $this->router->pathFor('admin.api_delivery_entries.index'),
+                        'title' => __('admin_entries')
+                    ],
+                    'api_delivery_entries_add' => [
+                        'link' => $this->router->pathFor('admin.api_delivery_entries.add'),
+                        'title' => __('admin_create_new_delivery_entries_token'),
                         'active' => true
                     ],
                 ],
@@ -132,7 +163,7 @@ class ApiController extends Controller
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function addProcess(Request $request, Response $response) : Response
+    public function deliveryEntriesAddProcess(Request $request, Response $response) : Response
     {
         // Get POST data
         $post_data = $request->getParsedBody();
@@ -140,18 +171,18 @@ class ApiController extends Controller
         // Generate API token
         $api_token = bin2hex(random_bytes(16));
 
-        $api_token_dir_path  = PATH['tokens'] . '/' . $post_data['api'] . '/' . $api_token;
-        $api_token_file_path = $api_token_dir_path . '/' . 'token.yaml';
+        $api_token_dir_path  = PATH['tokens'] . '/delivery/entries/' . $api_token;
+        $api_token_file_path = $api_token_dir_path . '/token.yaml';
 
-        if (! Filesystem::has($api_token_dir_path)) {
+        if (! Filesystem::has($api_token_file_path)) {
+
+            Filesystem::createDir($api_token_dir_path);
+
             // Generate UUID
             $uuid = Uuid::uuid4()->toString();
 
             // Get time
             $time = date($this->registry->get('settings.date_format'), time());
-
-            // Create API Token directory
-            Filesystem::createDir($api_token_dir_path);
 
             // Create API Token account
             if (Filesystem::write(
@@ -169,15 +200,15 @@ class ApiController extends Controller
                     'updated_at' => $time,
                 ], 'yaml')
             )) {
-                $this->flash->addMessage('success', __('admin_message_' . $post_data['api'] . '_api_token_created'));
+                $this->flash->addMessage('success', __('admin_message_delvery_entries_api_token_created'));
             } else {
-                $this->flash->addMessage('error', __('admin_message_' . $post_data['api'] . '_api_token_was_not_created'));
+                $this->flash->addMessage('error', __('admin_message_delvery_entries_api_token_was_not_created1'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_' . $post_data['api'] . '_api_token_was_not_created'));
+            $this->flash->addMessage('error', __('admin_message_delvery_entries_api_token_was_not_created2'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_tokens.index') . '?api=' . $post_data['api']);
+        return $response->withRedirect($this->router->pathFor('admin.api_delivery_entries.index'));
     }
 
     /**
@@ -186,32 +217,30 @@ class ApiController extends Controller
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function edit(Request $request, Response $response) : Response
+    public function deliveryEntriesEdit(Request $request, Response $response) : Response
     {
-        $api            = $request->getQueryParams()['api'];
-        $api_token      = $request->getQueryParams()['api_token'];
-        $api_token_data = $this->parser->decode(Filesystem::read(PATH['tokens'] . '/' . $api . '/' . $api_token . '/token.yaml'), 'yaml');
+        $token      = $request->getQueryParams()['token'];
+        $token_data = $this->parser->decode(Filesystem::read(PATH['tokens'] . '/delivery/entries/' . $token . '/token.yaml'), 'yaml');
 
         return $this->view->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/edit.html',
+            'plugins/admin/templates/system/api/delivery/entries/edit.html',
             [
                 'menu_item' => 'api',
-                'api' => $api,
-                'api_token' => $api_token,
-                'api_token_data' => $api_token_data,
+                'token' => $token,
+                'token_data' => $token_data,
                 'links' =>  [
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api')
                     ],
                     'api_tokens' => [
-                        'link' => $this->router->pathFor('admin.api_tokens.index') . '?api=' . $api,
-                        'title' => __('admin_' . $api)
+                        'link' => $this->router->pathFor('admin.api_delivery_entries.index'),
+                        'title' => __('admin_delivery')
                     ],
                     'api_tokens_edit' => [
-                        'link' => $this->router->pathFor('admin.api_tokens.edit') . '?api=' . $api,
-                        'title' => __('admin_edit_' . $api . '_token'),
+                        'link' => $this->router->pathFor('admin.api_delivery_entries.edit'),
+                        'title' => __('admin_edit_delivery_token'),
                         'active' => true
                     ],
                 ]
@@ -225,7 +254,7 @@ class ApiController extends Controller
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function editProcess(Request $request, Response $response) : Response
+    public function deliveryEntriesEditProcess(Request $request, Response $response) : Response
     {
         // Get POST data
         $post_data = $request->getParsedBody();
@@ -265,19 +294,19 @@ class ApiController extends Controller
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function deleteProcess(Request $request, Response $response) : Response
+    public function deliveryEntriesDeleteProcess(Request $request, Response $response) : Response
     {
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path = PATH['tokens'] . '/' . $post_data['api'] . '/' . $post_data['api_token'];
+        $api_token_dir_path = PATH['tokens'] . '/delivery/entries/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
-            $this->flash->addMessage('success', __('admin_message_' . $post_data['api'] . '_api_token_deleted'));
+            $this->flash->addMessage('success', __('admin_message_delivery_entries_api_token_deleted'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_' . $post_data['api'] . '_api_token_was_not_deleted'));
+            $this->flash->addMessage('error', __('admin_message_delivery_entries_api_token_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_tokens.index') . '?api=' . $post_data['api']);
+        return $response->withRedirect($this->router->pathFor('admin.api_delivery_entries.index'));
     }
 }
