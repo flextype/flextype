@@ -18,7 +18,7 @@
                             <i class="icon">{{ icon('fas fa-truck') }}</i>
                         </td>
                         <td>
-                            <a href="{{ path_for('admin.api_tokens.index') }}?api={{ key }}">{{ api }}</a>
+                            <a href="{{ path_for('admin.api.index') }}/{{ key }}">{{ api }}</a>
                         </td>
                     </tr>
                 {% endfor %}
