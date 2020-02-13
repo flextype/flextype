@@ -54,7 +54,7 @@
         "cocur/slugify": "~4.0.0",
         "thunderer/shortcode": "~0.7.3",
         "ramsey/uuid": "~3.9.2",
-        "symfony/yaml": "~4.4.0",
+        "symfony/yaml": "~4.4.4",
 
         "erusev/parsedown": "~1.7.3",
         "erusev/parsedown-extra": "~0.7.1",
