@@ -1,20 +1,3 @@
-# The title of the website
-title: Flextype
-
-# The description of the website
-description: Build fast, flexible, easier to manage websites with Flextype.
-
-# The keywords of the website
-keywords: flextype, php, cms, flat-file cms, flat cms, flatfile cms, html
-
-# The robots of the website
-robots: index, follow
-
-# The name and email address of the website author
-author:
-  email: ''
-  name: ''
-
 # Set the timezone to be used on the website.
 # For a list of valid timezone settings, see:
 # http://php.net/manual/en/timezones.php
@@ -52,15 +35,7 @@ date_display_format: 'd-m-y G:i'
 # - media.upload_images_quality: Image quality
 # - media.accept_file_types: Define the file types (extensions to be exact) that are acceptable for upload.
 entries:
-  items_view_default: list
   main: home
-  media:
-    upload_images_quality: 70
-    upload_images_width: 1600
-    upload_images_height: 0
-    accept_file_types: gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf,
-      epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm,
-      svg
   error404:
     title: Error 404
     description: We're sorry but the page you are looking for doesn't appear to exist!

@@ -4,43 +4,55 @@
         {% block head %}
             <meta charset="{{ registry.settings.charset|lower }}">
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <meta name="description" content="{% if entry.description %}{{ entry.description }}{% else %}{{ registry.settings.description }}{% endif %}">
-            <meta name="keywords" content="{% if entry.keywords %}{{ entry.keywords }}{% else %}{{ registry.settings.keywords }}{% endif %}">
-            <meta name="robots" content="{% if entry.robots %}{{ entry.robots }}{% else %}{{ registry.settings.robots }}{% endif %}">
-            <meta name="generator" content="Powered by Flextype {{ FLEXTYPE_VERSION }}" />
+            <meta name="description" content="{% if entry.description %}{{ entry.description }}{% else %}{{ registry.plugins.site.description }}{% endif %}">
+            <meta name="keywords" content="{% if entry.keywords %}{{ entry.keywords }}{% else %}{{ registry.plugins.site.keywords }}{% endif %}">
+            <meta name="robots" content="{% if entry.robots %}{{ entry.robots }}{% else %}{{ registry.plugins.site.robots }}{% endif %}">
+            <meta name="generator" content="Powered by Flextype {{ FLEXTYPE_VERSION }}"/>
 
-            {% do emitter.emit('onThemeMeta') %}
+            {% do 
+                emitter.emit('onThemeMeta') %}
 
-            <title>{% if entry.title %}{{ entry.title|e('html') }} | {% endif %}{{ registry.settings.title|e('html') }}</title>
+            <title>
+                {% if entry.title %}{{ entry.title|e('html') }}
+                    |
+                {% endif %}{{ registry.settings.title|e('html') }}</title>
 
             <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext" rel="stylesheet">
 
             {% set build_css = base_url() ~ '/site/themes/' ~ registry.settings.theme ~ '/assets/dist/css/build.min.css' %}
-            {% do assets.add('css', build_css, 'site', 1) %}
+            {% do 
+                assets.add('css', build_css, 'site', 1) %}
             {% for assets_site in assets.get('css', 'site') %}
                 {% for assets_by_priorities in assets_site %}
                     <link href="{{ assets_by_priorities.asset }}" rel="stylesheet">
                 {% endfor %}
             {% endfor %}
 
-            {% do emitter.emit('onThemeHeader') %}
+            {% do 
+                emitter.emit('onThemeHeader') %}
             {{ snippets.exec('google-analytics')|raw }}
         {% endblock %}
     </head>
     <body>
         <nav class="bg-black text-white">
             <div class="container mx-auto pl-16 pr-16 pt-6 pb-6 clearfix">
-              <div class="w-full lg:w-2/12
+                <div class="w-full lg:w-2/12
                           text-center lg:text-left
                           float-left text-white py-2 uppercase tracking-wide">
-                <a href="{{ base_url() }}" class="w-full lg:w-2/12 text-center text-base no-underline">{{ registry.settings.title|e('html') }}</a>
-              </div>
-              <div class="w-full float-right lg:w-9/12 font-noirpro-semibold">
-                <div class="text-right p-2">
-                    {% for item in entries.fetch('', {'order_by': {'field': 'menu_item_order', 'direction': 'asc'}}) %}
-                        {% if item.menu_item_title %}
-                        <a href="{{ base_url() }}/{{ item.menu_item_url }}"
-                           class="uppercase
+                    <a href="{{ base_url() }}" class="w-full lg:w-2/12 text-center text-base no-underline">{{ registry.plugins.site.title|e('html') }}</a>
+                </div>
+                <div class="w-full float-right lg:w-9/12 font-noirpro-semibold">
+                    <div class="text-right p-2">
+                        {% for item in entries.fetch('', {
+                            'order_by': {
+                                'field': 'menu_item_order',
+                                'direction': 'asc'
+                            }
+                        }) %}
+                            {% if item.menu_item_title %}
+                                <a
+                                    href="{{ base_url() }}/{{ item.menu_item_url }}"
+                                    class="uppercase
                                   relative
                                   block
                                   text-white
@@ -53,13 +65,13 @@
                                   lg:inline-block
                                   {% if loop.last %}lg:mr-0{% else %}lg:mr-4{% endif %}
                                   {% if item.menu_item_url in entry.slug %}border-white{% endif %}">
-                                  {{ item.menu_item_title }}
-                               </a>
-                        {% endif %}
-                    {% endfor %}
+                                    {{ item.menu_item_title }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
-              </div>
-          </div>
+            </div>
         </nav>
 
         <main class="container">
@@ -75,6 +87,7 @@
             </footer>
         </main>
 
-        {% do emitter.emit('onThemeTail') %}
+        {% do 
+            emitter.emit('onThemeTail') %}
     </body>
 </html>

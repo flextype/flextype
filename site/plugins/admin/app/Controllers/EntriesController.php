@@ -94,7 +94,7 @@ class EntriesController extends Controller
         if (isset($entry_current['items_view'])) {
             $items_view = $entry_current['items_view'];
         } else {
-            $items_view = $this->registry->get('settings.entries.items_view_default');
+            $items_view = $this->registry->get('plugins.admin.entries.items_view_default');
         }
 
         return $this->view->render(
@@ -892,31 +892,31 @@ class EntriesController extends Controller
 
         $files_directory = PATH['entries'] . '/' . $id . '/';
 
-        $file = $this->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('settings.entries.media.accept_file_types'), 27000000);
+        $file = $this->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('plugins.admin.entries.media.accept_file_types'), 27000000);
 
         if ($file !== false) {
             if (in_array(pathinfo($file)['extension'], ['jpg', 'jpeg', 'png', 'gif'])) {
                 // open an image file
                 $img = Image::make($file);
                 // now you are able to resize the instance
-                if ($this->registry->get('settings.entries.media.upload_images_width') > 0 && $this->registry->get('settings.entries.media.upload_images_height') > 0) {
-                    $img->resize($this->registry->get('settings.entries.media.upload_images_width'), $this->registry->get('settings.entries.media.upload_images_height'), function($constraint) {
+                if ($this->registry->get('plugins.admin.entries.media.upload_images_width') > 0 && $this->registry->get('plugins.admin.entries.media.upload_images_height') > 0) {
+                    $img->resize($this->registry->get('plugins.admin.entries.media.upload_images_width'), $this->registry->get('plugins.admin.entries.media.upload_images_height'), function($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     });
-                } elseif ($this->registry->get('settings.entries.media.upload_images_width') > 0) {
-                    $img->resize($this->registry->get('settings.entries.media.upload_images_width'), null, function($constraint) {
+                } elseif ($this->registry->get('plugins.admin.entries.media.upload_images_width') > 0) {
+                    $img->resize($this->registry->get('plugins.admin.entries.media.upload_images_width'), null, function($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     });
-                } elseif ($this->registry->get('settings.entries.media.upload_images_height') > 0) {
-                    $img->resize(null, $this->registry->get('settings.entries.media.upload_images_height'), function($constraint) {
+                } elseif ($this->registry->get('plugins.admin.entries.media.upload_images_height') > 0) {
+                    $img->resize(null, $this->registry->get('plugins.admin.entries.media.upload_images_height'), function($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     });
                 }
                 // finally we save the image as a new file
-                $img->save($file, $this->registry->get('settings.entries.media.upload_images_quality'));
+                $img->save($file, $this->registry->get('plugins.admin.entries.media.upload_images_quality'));
 
                 // destroy
                 $img->destroy();
@@ -1066,7 +1066,7 @@ class EntriesController extends Controller
         $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
         $files = [];
         foreach (array_diff(scandir(PATH['entries'] . '/' . $id), ['..', '.']) as $file) {
-            if (strpos($this->registry->get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
+            if (strpos($this->registry->get('plugins.admin.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($file !== 'entry.md') {
                         if ($path) {
