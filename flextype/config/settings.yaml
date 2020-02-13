@@ -124,12 +124,6 @@ cache:
     database: flextype
     table: flextype
 
-# Admin Panel
-#
-# - themes:  Theme (dark, light)
-admin_panel:
-  theme: light
-
 # Whoops
 #
 # - editor: emacs, idea, macvim, phpstorm, sublime, textmate, xdebug, vscode, atom, espresso
