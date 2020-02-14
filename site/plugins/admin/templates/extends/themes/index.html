@@ -24,17 +24,17 @@
             <tbody>
                 {% for key, theme in themes_list %}
                     <tr>
-                        <td class="w-1 text-center {% if key == registry.settings.theme %}{% else %}opacity-50{% endif %}">
+                        <td class="w-1 text-center {% if key == registry.settings.theme and theme.enabled == true %}{% else %}opacity-50{% endif %}">
                             <i class="icon">{{ icon('fas fa-palette') }}</i>
                         </td>
                         <td class="pl-0">
                             <a href="{{ path_for('admin.templates.index') }}?theme={{ key }}">{{ theme.name }}</a>
                         </td>
-                        <td class="{% if theme.enabled == false %}opacity-50{% endif %}">{{ theme.description }}</td>
-                        <td class="{% if theme.enabled == false %}opacity-50{% endif %}">
+                        <td class="{% if key == registry.settings.theme and theme.enabled == true %}{% else %}opacity-50{% endif %}">{{ theme.description }}</td>
+                        <td class="{% if key == registry.settings.theme and theme.enabled == true %}{% else %}opacity-50{% endif %}">
                             <a href="{{ theme.author.url }}" target="_blank">{{ theme.author.name }}</a>
                         </td>
-                        <td class="{% if theme.enabled == false %}opacity-50{% endif %}">{{ theme.version }}</td>
+                        <td class="{% if key == registry.settings.theme and theme.enabled == true %}{% else %}opacity-50{% endif %}">{{ theme.version }}</td>
                         <td class="text-right">
                             <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ key }}">
                                 <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
