@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Flextype\Component\Arr\Arr;
-use Flextype\Component\Html\Html;
 use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use function count;
