@@ -1,16 +1,16 @@
 .tabs__nav > div
 {
-    @apply rounded;
+    @apply rounded border border-solid border-black text-white bg-dark cursor-pointer mb-6;
 }
 
 .tabs__nav > div a:first-of-type
 {
-    @apply rounded-t;
+    @apply rounded-l;
 }
 
 .tabs__nav > div a:last-of-type
 {
-    @apply rounded-b;
+    @apply rounded-r;
 }
 
 .tabs__content
@@ -25,7 +25,10 @@
 
 .tabs__nav__link
 {
-    @apply block text-white opacity-80 p-2 pl-4;
+    flex-basis: 0;
+    flex-grow: 1;
+
+    @apply block text-white text-center opacity-80 py-2;
 }
 
 .tabs__nav__link:hover,
