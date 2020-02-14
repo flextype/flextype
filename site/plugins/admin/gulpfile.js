@@ -120,6 +120,9 @@ gulp.task("admin-panel-css", function() {
                     // Tippy
                     'node_modules/tippy.js/dist/tippy-bundle.iife.min.js',
 
+                    // Clipboard
+                    'node_modules/clipboard/dist/clipboard.min.js',
+
                     // Flatpickr
                     'node_modules/flatpickr/dist/flatpickr.min.js',
 

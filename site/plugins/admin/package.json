@@ -37,6 +37,7 @@
     "sweetalert2": "^9.7.1",
     "tailwindcss": "^1.1.4",
     "tippy.js": "^5.1.4",
+    "clipboard": "~2.0.4",
     "trumbowyg": "~2.21.0"
   }
 }
