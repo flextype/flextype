@@ -41,29 +41,29 @@
                             </div>
                             <div class="form-group">
                                 <label for="description" class="form-control-title">{{ tr('admin_site_description') }}</label>
-                                <input type="text" id="systemSettingsSiteDescription" name="description" value="{{ registry.flextype.description }}" class="form-control margin-hard-bottom">
+                                <input type="text" id="systemSettingsSiteDescription" name="description" value="{{ registry.plugins.site.description }}" class="form-control margin-hard-bottom">
                                 <small>{{ tr('admin_help_text_for_settings_site_description_label') }}</small>
                             </div>
                             <div class="form-group">
                                 <label for="keywords" class="form-control-title">{{ tr('admin_site_keywords') }}</label>
-                                <input type="text" id="systemSettingsSiteKeywords" name="keywords" value="{{ registry.flextype.keywords }}" class="form-control" required="required">
+                                <input type="text" id="systemSettingsSiteKeywords" name="keywords" value="{{ registry.plugins.site.keywords }}" class="form-control" required="required">
                                 <small>{{ tr('admin_help_text_for_settings_site_keywords_label') }}</small>
                             </div>
                         </div>
                         <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="robots" class="form-control-title">{{ tr('admin_site_robots') }}</label>
-                                <input type="text" id="systemSettingsSiteRobots" name="robots" value="{{ registry.flextype.robots }}" class="form-control" required="required">
+                                <input type="text" id="systemSettingsSiteRobots" name="robots" value="{{ registry.plugins.site.robots }}" class="form-control" required="required">
                                 <small>{{ tr('admin_help_text_for_settings_site_robots_label') }}</small>
                             </div>
                             <div class="form-group">
                                 <label for="author[name]" class="form-control-title">{{ tr('admin_author_name') }}</label>
-                                <input type="text" id="systemSettingsSiteAuthorName" name="author[name]" value="{{ registry.flextype.author.name }}" class="form-control" required="required">
+                                <input type="text" id="systemSettingsSiteAuthorName" name="author[name]" value="{{ registry.plugins.site.author.name }}" class="form-control" required="required">
                                 <small>{{ tr('admin_help_text_for_settings_site_author_name_label') }}</small>
                             </div>
                             <div class="form-group">
                                 <label for="author[email]" class="form-control-title">{{ tr('admin_author_email') }}</label>
-                                <input type="text" id="systemSettingsSiteAuthorEmail" name="author[email]" value="{{ registry.flextype.author.email }}" class="form-control" required="required">
+                                <input type="text" id="systemSettingsSiteAuthorEmail" name="author[email]" value="{{ registry.plugins.site.author.email }}" class="form-control" required="required">
                                 <small>{{ tr('admin_help_text_for_settings_site_author_email_label') }}</small>
                             </div>
                         </div>
@@ -151,12 +151,12 @@
                         <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="entries[media][upload_images_quality]" class="form-control-title">{{ tr('admin_quality') }}</label>
-                                <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_quality]" value="{{ registry.flextype.entries.media.upload_images_quality }}" class="form-control" required="required">
+                                <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_quality]" value="{{ registry.plugins.admin.entries.media.upload_images_quality }}" class="form-control" required="required">
                                 <small>{{ tr('admin_help_text_for_settings_media_image_quality_label') }}</small>
                             </div>
                             <div class="form-group">
                                 <label for="entries[media][accept_file_types]" class="form-control-title">{{ tr('admin_accept_file_types') }}</label>
-                                <input type="text" id="systemSettingsSystemTheme" name="entries[media][accept_file_types]" value="{{ registry.flextype.entries.media.accept_file_types }}" class="form-control" required="required">
+                                <input type="text" id="systemSettingsSystemTheme" name="entries[media][accept_file_types]" value="{{ registry.plugins.admin.entries.media.accept_file_types }}" class="form-control" required="required">
                                 <small>{{ tr('admin_help_text_for_settings_media_accept_file_types_label') }}</small>
                             </div>
                             <div class="form-group">
@@ -172,12 +172,12 @@
                         <div class="w-full lg:w-6/12 col">
                             <div class="form-group">
                                 <label for="entries[media][upload_images_width]" class="form-control-title">{{ tr('admin_width') }}</label>
-                                <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_width]" value="{{ registry.flextype.entries.media.upload_images_width }}" class="form-control" required="required">
+                                <input type="text" id="systemSettingsSystemTheme" name="entries[media][upload_images_width]" value="{{ registry.plugins.admin.entries.media.upload_images_width }}" class="form-control" required="required">
                                 <small>{{ tr('admin_help_text_for_settings_media_image_width_label') }}</small>
                             </div>
                             <div class="form-group">
                                 <label for="entries[media][upload_images_height]" class="form-control-title">{{ tr('admin_height') }}</label>
-                                <input type="text" id="systemSettingsSystemEntriesMain" name="entries[media][upload_images_height]" value="{{ registry.flextype.entries.media.upload_images_height }}" class="form-control" required="required">
+                                <input type="text" id="systemSettingsSystemEntriesMain" name="entries[media][upload_images_height]" value="{{ registry.plugins.admin.entries.media.upload_images_height }}" class="form-control" required="required">
                                 <small>{{ tr('admin_help_text_for_settings_media_image_height_label') }}</small>
                             </div>
                         </div>
