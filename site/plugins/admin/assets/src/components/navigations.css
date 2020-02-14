@@ -29,7 +29,7 @@
 .navigation__item--active,
 .navigation__item:hover
 {
-    @apply bg-transparent opacity-100;
+    @apply bg-dark-muted opacity-100;
 }
 
 .navigation__item--logo
