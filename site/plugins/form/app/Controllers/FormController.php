@@ -93,11 +93,20 @@ class FormController extends Controller
         // Go through all sections
         if (count($fieldset['sections']) > 0) {
 
+            $form .= '<nav class="tabs__nav w-full"><div class="flex bg-dark text-white">';
+
+            // Go through all sections and create nav items
+            foreach ($fieldset['sections'] as $key => $section) {
+                $form .= '<a href="javascript:;" class="tabs__nav__link ' . ($key === 'main' ? 'tabs__nav__link--active' : '') . '">' . __($section['title']) . '</a>';
+            }
+
+            $form .= '</div></nav>';
+
             $form .= '<div class="tabs flex">';
 
             // Go through all sections and create nav tabs
             foreach ($fieldset['sections'] as $key => $section) {
-                $form .= '<div class="tabs__content w-9/12 ' . ($key === 'main' ? 'tabs__content--active' : '') . '">';
+                $form .= '<div class="tabs__content w-full ' . ($key === 'main' ? 'tabs__content--active' : '') . '">';
                 $form .= '<div class="row">';
 
                 foreach ($section['fields'] as $element => $properties) {
@@ -158,16 +167,6 @@ class FormController extends Controller
                 $form .= '</div>';
                 $form .= '</div>';
             }
-
-
-            $form .= '<nav class="tabs__nav w-3/12 pl-10"><div class="bg-dark text-white">';
-
-            // Go through all sections and create nav items
-            foreach ($fieldset['sections'] as $key => $section) {
-                $form .= '<a href="javascript:;" class="tabs__nav__link ' . ($key === 'main' ? 'tabs__nav__link--active' : '') . '">' . __($section['title']) . '</a>';
-            }
-
-            $form .= '</div></nav>';
 
             $form .= '</div>';
         }
