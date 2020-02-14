@@ -42,70 +42,70 @@ Session::start();
 $registry = new Registry();
 
 /**
- * Load core settings
+ * Load flextype settings
  *
  * 1. Set settings files paths.
- * 2. Load system default and site settings files.
+ * 2. Load flextype default and flextype custom settings files.
  * 3. Merge settings.
  * 4. Add settings into the registry.
  */
-$default_settings_file_path = PATH['config']['default'] . '/settings.yaml';
-$site_settings_file_path    = PATH['config']['site'] . '/settings.yaml';
+$default_flextype_settings_file_path = PATH['config']['default'] . '/settings.yaml';
+$custom_flextype_settings_file_path  = PATH['config']['site'] . '/settings.yaml';
 
-// Set settings if Flextype settings and Site settings config files exist
-if (! Filesystem::has($default_settings_file_path) || ! Filesystem::has($site_settings_file_path)) {
-    throw new RuntimeException('Flextype settings or Site settings config files does not exist.');
+// Set settings if Flextype Default settings and Flextype Custom settings config files exist
+if (! Filesystem::has($default_flextype_settings_file_path) || ! Filesystem::has($custom_flextype_settings_file_path)) {
+    throw new RuntimeException('Flextype Default settings or Flextype Custom settings config files does not exist.');
 }
 
-if (($content = Filesystem::read($default_settings_file_path)) === false) {
-    throw new RuntimeException('Load file: ' . $default_settings_file_path . ' - failed!');
+if (($content = Filesystem::read($default_flextype_settings_file_path)) === false) {
+    throw new RuntimeException('Load file: ' . $default_flextype_settings_file_path . ' - failed!');
 } else {
     if (trim($content) === '') {
-        $default_settings = [];
+        $default_flextype_settings = [];
     } else {
-        $default_settings = Yaml::decode($content);
+        $default_flextype_settings = Yaml::decode($content);
     }
 }
 
-if (($content = Filesystem::read($site_settings_file_path)) === false) {
-    throw new RuntimeException('Load file: ' . $site_settings_file_path . ' - failed!');
+if (($content = Filesystem::read($custom_flextype_settings_file_path)) === false) {
+    throw new RuntimeException('Load file: ' . $custom_flextype_settings_file_path . ' - failed!');
 } else {
     if (trim($content) === '') {
-        $site_settings = [];
+        $custom_flextype_settings = [];
     } else {
-        $site_settings = Yaml::decode($content);
+        $custom_flextype_settings = Yaml::decode($content);
     }
 }
 
-// Merge settings
-$settings = array_replace_recursive($default_settings, $site_settings);
+// Merge flextype settings
+$flextype_settings = array_replace_recursive($default_flextype_settings, $custom_flextype_settings);
 
-// Set settings
-$registry->set('settings', $settings);
+// Set flextype settings
+$registry->set('flextype', $flextype_settings);
 
 /**
  * Create new application
  */
 $app = new App([
     'settings' => [
-        'debug' => $registry->get('settings.errors.display'),
-        'whoops.editor' => $registry->get('settings.whoops.editor'),
-        'whoops.page_title' => $registry->get('settings.whoops.page_title'),
-        'displayErrorDetails' => $registry->get('settings.display_error_details'),
-        'addContentLengthHeader' => $registry->get('settings.add_content_length_header'),
-        'routerCacheFile' => $registry->get('settings.router_cache_file'),
-        'determineRouteBeforeAppMiddleware' => $registry->get('settings.determine_route_before_app_middleware'),
-        'outputBuffering' => $registry->get('settings.output_buffering'),
-        'responseChunkSize' => $registry->get('settings.response_chunk_size'),
-        'httpVersion' => $registry->get('settings.http_version'),
+        'debug' => $registry->get('flextype.errors.display'),
+        'whoops.editor' => $registry->get('flextype.whoops.editor'),
+        'whoops.page_title' => $registry->get('flextype.whoops.page_title'),
+        'displayErrorDetails' => $registry->get('flextype.display_error_details'),
+        'addContentLengthHeader' => $registry->get('flextype.add_content_length_header'),
+        'routerCacheFile' => $registry->get('flextype.router_cache_file'),
+        'determineRouteBeforeAppMiddleware' => $registry->get('flextype.determine_route_before_app_middleware'),
+        'outputBuffering' => $registry->get('flextype.output_buffering'),
+        'responseChunkSize' => $registry->get('flextype.response_chunk_size'),
+        'httpVersion' => $registry->get('flextype.http_version'),
         'twig' => [
-            'charset' => $registry->get('settings.twig.charset'),
-            'debug' => $registry->get('settings.twig.debug'),
-            'cache' => $registry->get('settings.twig.cache') ? PATH['cache'] . '/twig' : false,
-            'auto_reload' => $registry->get('settings.twig.auto_reload'),
+            'charset' => $registry->get('flextype.twig.charset'),
+            'debug' => $registry->get('flextype.twig.debug'),
+            'cache' => $registry->get('flextype.twig.cache') ? PATH['cache'] . '/twig' : false,
+            'auto_reload' => $registry->get('flextype.twig.auto_reload'),
         ],
         'images' => [
-            'driver' => $registry->get('settings.image.driver'),
+            'driver' => $registry->get('flextype.image.driver'),
         ],
     ],
 ]);
@@ -135,13 +135,13 @@ include_once 'api/delivery/entries.php';
  * Set internal encoding
  */
 function_exists('mb_language') and mb_language('uni');
-function_exists('mb_regex_encoding') and mb_regex_encoding($flextype['registry']->get('settings.charset'));
-function_exists('mb_internal_encoding') and mb_internal_encoding($flextype['registry']->get('settings.charset'));
+function_exists('mb_regex_encoding') and mb_regex_encoding($flextype['registry']->get('flextype.charset'));
+function_exists('mb_internal_encoding') and mb_internal_encoding($flextype['registry']->get('flextype.charset'));
 
 /**
  * Display Errors
  */
-if ($flextype['registry']->get('settings.errors.display')) {
+if ($flextype['registry']->get('flextype.errors.display')) {
 
     /**
      * Add WhoopsMiddleware
@@ -154,14 +154,14 @@ if ($flextype['registry']->get('settings.errors.display')) {
 /**
  * Set default timezone
  */
-date_default_timezone_set($flextype['registry']->get('settings.timezone'));
+date_default_timezone_set($flextype['registry']->get('flextype.timezone'));
 
 /**
  * Init shortocodes
  *
  * Load Flextype Shortcodes extensions from directory /flextype/shortcodes/ based on settings.shortcodes.extensions array
  */
-$shortcodes_extensions = $flextype['registry']->get('settings.shortcodes.extensions');
+$shortcodes_extensions = $flextype['registry']->get('flextype.shortcodes.extensions');
 
 foreach($shortcodes_extensions as $shortcodes_extension) {
     $shortcodes_extension_file_path = ROOT_DIR . '/flextype/shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';

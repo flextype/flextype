@@ -103,7 +103,7 @@ class Parser
     {
         switch ($parser) {
             case 'frontmatter':
-                if ($cache === true && $this->flextype['registry']->get('settings.cache.enabled') === true) {
+                if ($cache === true && $this->flextype['registry']->get('flextype.cache.enabled') === true) {
                     $key = md5($input);
 
                     if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
@@ -120,7 +120,7 @@ class Parser
 
                 break;
             case 'json':
-                if ($cache === true && $this->flextype['registry']->get('settings.cache.enabled') === true) {
+                if ($cache === true && $this->flextype['registry']->get('flextype.cache.enabled') === true) {
                     $key = md5($input);
 
                     if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
@@ -137,7 +137,7 @@ class Parser
 
                 break;
             case 'yaml':
-                if ($cache === true && $this->flextype['registry']->get('settings.cache.enabled') === true) {
+                if ($cache === true && $this->flextype['registry']->get('flextype.cache.enabled') === true) {
                     $key = md5($input);
 
                     if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
@@ -154,7 +154,7 @@ class Parser
 
                 break;
             case 'markdown':
-                if ($cache === true && $this->flextype['registry']->get('settings.cache.enabled') === true) {
+                if ($cache === true && $this->flextype['registry']->get('flextype.cache.enabled') === true) {
                     $key = md5($input);
 
                     if ($data_from_cache = $this->flextype['cache']->fetch($key)) {

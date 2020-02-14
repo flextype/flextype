@@ -311,7 +311,7 @@ class FormController extends Controller
         $name    = isset($properties['name'])  ? $properties['name'] : $field_name;
         $current_value   = isset($properties['value']) ? $properties['value'] : $field_value;
 
-        $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('settings.theme'));
+        $_templates_list = $this->flextype['themes']->getTemplates($this->flextype['registry']->get('flextype.theme'));
 
         $options = [];
 

@@ -45,7 +45,7 @@ class SiteController extends Controller
 
         // If uri is empty then it is main entry else use entry uri
         if ($uri === '/') {
-            $entry_uri = $this->registry->get('settings.entries.main');
+            $entry_uri = $this->registry->get('flextype.entries.main');
         } else {
             $entry_uri = ltrim($uri, '/');
         }
@@ -87,7 +87,7 @@ class SiteController extends Controller
         }
 
         // Set template path for current entry
-        $path = 'themes/' . $this->registry->get('settings.theme') . '/' . (empty($this->entry['template']) ? 'templates/default' : 'templates/' . $this->entry['template']) . '.html';
+        $path = 'themes/' . $this->registry->get('flextype.theme') . '/' . (empty($this->entry['template']) ? 'templates/default' : 'templates/' . $this->entry['template']) . '.html';
 
         if ($is_entry_not_found) {
             return $this->view->render($response->withStatus(404), $path, ['entry' => $this->entry, 'query' => $query, 'uri' => $uri]);
@@ -106,10 +106,10 @@ class SiteController extends Controller
     public function error404() : array
     {
         return [
-            'title'       => $this->registry->get('settings.entries.error404.title'),
-            'description' => $this->registry->get('settings.entries.error404.description'),
-            'content'     => $this->registry->get('settings.entries.error404.content'),
-            'template'    => $this->registry->get('settings.entries.error404.template'),
+            'title'       => $this->registry->get('flextype.entries.error404.title'),
+            'description' => $this->registry->get('flextype.entries.error404.description'),
+            'content'     => $this->registry->get('flextype.entries.error404.content'),
+            'template'    => $this->registry->get('flextype.entries.error404.template'),
         ];
     }
 }

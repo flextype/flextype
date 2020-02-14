@@ -15,7 +15,7 @@ use Flextype\Component\I18n\I18n;
 use function Flextype\Component\I18n\__;
 
 // Set Default Admin locale
-I18n::$locale = $flextype->registry->get('settings.locale');
+I18n::$locale = $flextype->registry->get('flextype.locale');
 
 // Add Admin Navigation
 $flextype->registry->set('admin_navigation.content.entries', ['title' => __('admin_entries'), 'icon' => 'fas fa-database', 'link' => $flextype->router->pathFor('admin.entries.index')]);

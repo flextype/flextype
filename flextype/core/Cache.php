@@ -67,7 +67,7 @@ class Cache
         $this->now = time();
 
         // Create cache key to allow invalidate all cache on configuration changes.
-        $this->key = ($this->flextype['registry']->get('settings.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . 'Flextype::VERSION');
+        $this->key = ($this->flextype['registry']->get('flextype.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . 'Flextype::VERSION');
 
         // Get Cache Driver
         $this->driver = $this->getCacheDriver();
@@ -117,7 +117,7 @@ class Cache
      */
     public function fetch(string $id)
     {
-        if ($this->flextype['registry']->get('settings.cache.enabled')) {
+        if ($this->flextype['registry']->get('flextype.cache.enabled')) {
             return $this->driver->fetch($id);
         }
 
@@ -133,7 +133,7 @@ class Cache
      */
     public function contains(string $id) : bool
     {
-        if ($this->flextype['registry']->get('settings.cache.enabled')) {
+        if ($this->flextype['registry']->get('flextype.cache.enabled')) {
             return $this->driver->contains($id);
         }
 
@@ -153,7 +153,7 @@ class Cache
      */
     public function save(string $id, $data, ?int $lifetime = null) : void
     {
-        if (! $this->flextype['registry']->get('settings.cache.enabled')) {
+        if (! $this->flextype['registry']->get('flextype.cache.enabled')) {
             return;
         }
 
@@ -168,7 +168,7 @@ class Cache
      */
     public function delete(string $id) : void
     {
-        if (! $this->flextype['registry']->get('settings.cache.enabled')) {
+        if (! $this->flextype['registry']->get('flextype.cache.enabled')) {
             return;
         }
 
@@ -237,7 +237,7 @@ class Cache
     public function getLifetime()
     {
         if ($this->lifetime === null) {
-            $this->lifetime = $this->flextype['registry']->get('settings.cache.lifetime') ?: 604800;
+            $this->lifetime = $this->flextype['registry']->get('flextype.cache.lifetime') ?: 604800;
         }
 
         return $this->lifetime;

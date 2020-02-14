@@ -474,8 +474,8 @@ class Entries
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file = $entry_dir . '/entry.md')) {
                     $data['uuid']         = Uuid::uuid4()->toString();
-                    $data['published_at'] = date($this->flextype->registry->get('settings.date_format'), time());
-                    $data['created_at']   = date($this->flextype->registry->get('settings.date_format'), time());
+                    $data['published_at'] = date($this->flextype->registry->get('flextype.date_format'), time());
+                    $data['created_at']   = date($this->flextype->registry->get('flextype.date_format'), time());
                     $data['published_by'] = (Session::exists('uuid') ? Session::get('uuid') : '');
                     $data['created_by']   = (Session::exists('uuid') ? Session::get('uuid') : '');
 

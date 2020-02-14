@@ -19,8 +19,8 @@ class MemcachedAdapter implements CacheAdapterInterface
     {
         $memcached = new Memecached();
         $memcached->addServer(
-            $this->flextype['registry']->get('settings.cache.memcached.server', 'localhost'),
-            $this->flextype['registry']->get('settings.cache.memcache.port', 11211)
+            $this->flextype['registry']->get('flextype.cache.memcached.server', 'localhost'),
+            $this->flextype['registry']->get('flextype.cache.memcache.port', 11211)
         );
 
         $driver = new MemcachedCache();

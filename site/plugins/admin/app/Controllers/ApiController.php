@@ -182,7 +182,7 @@ class ApiController extends Controller
             $uuid = Uuid::uuid4()->toString();
 
             // Get time
-            $time = date($this->registry->get('settings.date_format'), time());
+            $time = date($this->registry->get('flextype.date_format'), time());
 
             // Create API Token account
             if (Filesystem::write(
@@ -276,7 +276,7 @@ class ApiController extends Controller
                     'created_by' => $post_data['created_by'],
                     'created_at' => $post_data['created_at'],
                     'updated_by' => Session::get('uuid'),
-                    'updated_at' => date($this->registry->get('settings.date_format'), time()),
+                    'updated_at' => date($this->registry->get('flextype.date_format'), time()),
                 ], 'yaml')
             )) {
                 $this->flash->addMessage('success', __('admin_message_' . $post_data['api'] . '_api_token_updated'));

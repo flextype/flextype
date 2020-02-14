@@ -261,7 +261,7 @@ class TemplatesController extends Controller
         $theme = $request->getParsedBody()['theme'];
         $type  = $request->getParsedBody()['type_current'];
 
-        if (! Filesystem::has(PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()['id'] . '.html')) {
+        if (! Filesystem::has(PATH['themes'] . '/' . $this->registry->get('flextype.theme') . '/' . $this->_type_location($type) . $request->getParsedBody()['id'] . '.html')) {
             if (Filesystem::rename(
                 PATH['themes'] . '/' . $theme . '/' . $this->_type_location($type) . $request->getParsedBody()['id_current'] . '.html',
                 PATH['themes'] . '/' . $theme . '/' . $this->_type_location($type) . $request->getParsedBody()['id'] . '.html'

@@ -88,12 +88,12 @@ $flextype['emitter'] = static function ($container) {
  */
 $flextype['slugify'] = static function ($container) {
     return new Slugify([
-        'separator' => $container['registry']->get('settings.slugify.separator'),
-        'lowercase' => $container['registry']->get('settings.slugify.lowercase'),
-        'trim' => $container['registry']->get('settings.slugify.trim'),
-        'regexp' => $container['registry']->get('settings.slugify.regexp'),
-        'lowercase_after_regexp' => $container['registry']->get('settings.slugify.lowercase_after_regexp'),
-        'strip_tags' => $container['registry']->get('settings.slugify.strip_tags'),
+        'separator' => $container['registry']->get('flextype.slugify.separator'),
+        'lowercase' => $container['registry']->get('flextype.slugify.lowercase'),
+        'trim' => $container['registry']->get('flextype.slugify.trim'),
+        'regexp' => $container['registry']->get('flextype.slugify.regexp'),
+        'lowercase_after_regexp' => $container['registry']->get('flextype.slugify.lowercase_after_regexp'),
+        'strip_tags' => $container['registry']->get('flextype.slugify.strip_tags'),
     ]);
 };
 
@@ -108,7 +108,7 @@ $flextype['flash'] = static function ($container) {
  * Adds the cache adapter to the Flextype container
  */
 $flextype['cache_adapter'] = static function ($container) use ($flextype) {
-    $driver_name = $container['registry']->get('settings.cache.driver');
+    $driver_name = $container['registry']->get('flextype.cache.driver');
 
     if (! $driver_name || $driver_name === 'auto') {
         if (extension_loaded('apcu')) {
@@ -245,7 +245,7 @@ $flextype['view'] = static function ($container) {
     $view->addExtension(new DebugExtension());
 
     // Load Flextype Twig extensions from directory /flextype/twig/ based on settings.twig.extensions array
-    $twig_extensions = $container['registry']->get('settings.twig.extensions');
+    $twig_extensions = $container['registry']->get('flextype.twig.extensions');
 
     foreach($twig_extensions as $twig_extension) {
 

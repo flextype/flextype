@@ -227,7 +227,7 @@ class EntriesController extends Controller
 
                 // We need to check if template for current fieldset is exists
                 // if template is not exist then `default` template will be used!
-                $template_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/templates/' . $data['fieldset'] . '.html';
+                $template_path = PATH['themes'] . '/' . $this->registry->get('flextype.theme') . '/templates/' . $data['fieldset'] . '.html';
                 $template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
 
                 // Init entry data
@@ -442,7 +442,7 @@ class EntriesController extends Controller
             if ($_entry['slug'] != '') {
                 $entries_list[$_entry['slug']] = $_entry['slug'];
             } else {
-                $entries_list[$this->registry->get('settings.entries.main')] = $this->registry->get('settings.entries.main');
+                $entries_list[$this->registry->get('flextype.entries.main')] = $this->registry->get('flextype.entries.main');
             }
         }
 
@@ -1094,9 +1094,8 @@ class EntriesController extends Controller
 
         if ($post_data['id'] == '') {
             $data = [];
-            Arr::set($data, 'entries.items_view_default', $post_data['items_view']);
-            //$this->registry->get('settings')
-            Filesystem::write(PATH['config']['site'] . '/settings.yaml', $this->parser->encode(array_replace_recursive($this->registry->get('settings'), $data), 'yaml'));
+            Arr::set($data, 'plugins.admin.entries.items_view_default', $post_data['items_view']);
+            //Filesystem::write(PATH['config']['site'] . '/settings.yaml', $this->parser->encode(array_replace_recursive($this->registry->get('settings'), $data), 'yaml'));
         } else {
             $this->entries->update($post_data['id'], ['items_view' => $post_data['items_view']]);
         }

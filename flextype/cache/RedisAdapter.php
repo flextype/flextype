@@ -19,15 +19,15 @@ class RedisAdapter implements CacheAdapterInterface
     public function getDriver() : object
     {
         $redis    = new Redis();
-        $socket   = $this->flextype['registry']->get('settings.cache.redis.socket', false);
-        $password = $this->flextype['registry']->get('settings.cache.redis.password', false);
+        $socket   = $this->flextype['registry']->get('flextype.cache.redis.socket', false);
+        $password = $this->flextype['registry']->get('flextype.cache.redis.password', false);
 
         if ($socket) {
             $redis->connect($socket);
         } else {
             $redis->connect(
-                $this->flextype['registry']->get('settings.cache.redis.server', 'localhost'),
-                $this->flextype['registry']->get('settings.cache.redis.port', 6379)
+                $this->flextype['registry']->get('flextype.cache.redis.server', 'localhost'),
+                $this->flextype['registry']->get('flextype.cache.redis.port', 6379)
             );
         }
 

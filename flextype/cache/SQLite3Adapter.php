@@ -24,8 +24,8 @@ class SQLite3Adapter implements CacheAdapterInterface
             Filesystem::createDir($cache_directory);
         }
 
-        $db = new SQLite3($cache_directory . $this->flextype['registry']->get('settings.cache.sqlite3.database', 'flextype') . '.db');
+        $db = new SQLite3($cache_directory . $this->flextype['registry']->get('flextype.cache.sqlite3.database', 'flextype') . '.db');
 
-        return new SQLite3Cache($db, $this->flextype['registry']->get('settings.cache.sqlite3.table', 'flextype'));
+        return new SQLite3Cache($db, $this->flextype['registry']->get('flextype.cache.sqlite3.table', 'flextype'));
     }
 }
