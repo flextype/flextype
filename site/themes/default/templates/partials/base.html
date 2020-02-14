@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="{{ registry.settings.locale }}">
+<html lang="{{ registry.flextype.locale }}">
     <head>
         {% block head %}
-            <meta charset="{{ registry.settings.charset|lower }}">
+            <meta charset="{{ registry.flextype.charset|lower }}">
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
             <meta name="description" content="{% if entry.description %}{{ entry.description }}{% else %}{{ registry.plugins.site.description }}{% endif %}">
             <meta name="keywords" content="{% if entry.keywords %}{{ entry.keywords }}{% else %}{{ registry.plugins.site.keywords }}{% endif %}">
@@ -15,7 +15,7 @@
             <title>
                 {% if entry.title %}{{ entry.title|e('html') }}
                     |
-                {% endif %}{{ registry.settings.title|e('html') }}</title>
+                {% endif %}{{ registry.flextype.title|e('html') }}</title>
 
             <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext" rel="stylesheet">
 
