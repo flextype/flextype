@@ -13,7 +13,7 @@
 
 .dropdown__item
 {
-    @apply flex py-2 pl-4 pr-12 text-left opacity-90;
+    @apply flex py-2 pl-4 pr-12 text-left opacity-90 bg-transparent;
 }
 
 .dropdown__item:hover
