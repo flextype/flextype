@@ -1,6 +1,11 @@
 <a name="0.9.7"></a>
 # [0.9.7](https://github.com/flextype/flextype/compare/v0.9.6...v0.9.7) (2020-01-XX)
 
+### Bug Fixes
+
+* **core:** fix discord link #325
+* **admin-plugin:** fix issue for creating entry process with same ids #333
+
 ### Features
 * **core:** add Indonesian locale support #327
 * **core:** set `routable` true on entries creation #320
@@ -18,11 +23,6 @@
     ```
     <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
     ```
-
-### Bug Fixes
-
-* **core:** fix discord link #325
-* **admin-plugin:** fix issue for creating entry process with same ids #333
 
 <a name="0.9.6"></a>
 # [0.9.6](https://github.com/flextype/flextype/compare/v0.9.5...v0.9.6) (2019-12-01)
