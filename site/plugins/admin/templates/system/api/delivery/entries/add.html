@@ -39,7 +39,15 @@
                     </select>
                 </div>
                 <div class="button-group">
-                    <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="button mr-3">
+                    <div class="button-dropdown">
+                        <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="button">
+                        <a href="javascript:;" class="button js-dropdown-btn" data-dropdown="dropdown-list-create-new-token">
+                            <i class="icon icon--white">{{ icon('fas fa-sort-down') }}</i>
+                        </a>
+                        <div id="dropdown-list-create-new-token" class="dropdown">
+                            <input type="submit" id="create-and-edit" name="create-and-edit" value="{{ tr('admin_create_and_edit') }}" class="dropdown__item">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

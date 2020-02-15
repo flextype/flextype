@@ -11,12 +11,14 @@
                     <small>{{ tr('admin_help_text_for_snippets_name') }}</small>
                 </div>
                 <div class="button-group">
-                    <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="button">
-                    <button type="button" class="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown">
-                        <input type="submit" id="create-and-edit" name="create-and-edit" value="{{ tr('admin_create_and_edit') }}" class="dropdown-item">
+                    <div class="button-dropdown">
+                        <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="button">
+                        <a href="javascript:;" class="button js-dropdown-btn" data-dropdown="dropdown-list-create-new-snippet">
+                            <i class="icon icon--white">{{ icon('fas fa-sort-down') }}</i>
+                        </a>
+                        <div id="dropdown-list-create-new-snippet" class="dropdown">
+                            <input type="submit" id="create-and-edit" name="create-and-edit" value="{{ tr('admin_create_and_edit') }}" class="dropdown__item">
+                        </div>
                     </div>
                 </div>
             </div>

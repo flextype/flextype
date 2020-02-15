@@ -208,7 +208,11 @@ class ApiController extends Controller
             $this->flash->addMessage('error', __('admin_message_delvery_entries_api_token_was_not_created2'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_delivery_entries.index'));
+        if (isset($post_data['create-and-edit'])) {
+            return $response->withRedirect($this->router->pathFor('admin.api_delivery_entries.edit') . '?token=' . $api_token);
+        } else {
+            return $response->withRedirect($this->router->pathFor('admin.api_delivery_entries.index'));
+        }
     }
 
     /**
