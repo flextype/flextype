@@ -1,11 +1,6 @@
 <a name="0.9.7"></a>
 # [0.9.7](https://github.com/flextype/flextype/compare/v0.9.6...v0.9.7) (2020-01-XX)
 
-### Bug Fixes
-
-* **core:** fix discord link #325
-* **admin-plugin:** fix issue for creating entry process with same IDs #333
-
 ### Features
 * **core:** add Indonesian locale support #327
 * **core:** set `routable` true on entries creation #320
@@ -24,24 +19,14 @@
     <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
     ```
 
-<a name="0.9.6"></a>
-# [0.9.6](https://github.com/flextype/flextype/compare/v0.9.5...v0.9.6) (2019-12-01)
-
 ### Bug Fixes
 
-* **admin-plugin:** fix issue with saving entry source #251
-* **admin-plugin:** fix file browser styles
-* **admin-plugin:** fix breadcrumbs for theme templates
-* **core:** Entries API - fix Collection Undefined Index(s) for fetchAll method #243
-* **core:** fix broken logic for form inputs without labels #274
-* **core:** fix default and site settings loading #297
-* **core:** fix id's names for all generated fields #277
-* **core:** fix notice undefined index: created_at in Entries API
-* **core:** fix notice undefined index: published_at in Entries API #265
-* **core:** fix Plugins API - createPluginsDictionary method and increase app perfomance #259
-* **core:** fix state of active tabs for all generated forms #276
-* **core:** fix state of aria-selected for all generated forms #275  
+* **core:** fix discord link #325
+* **admin-plugin:** fix issue for creating entry process with same IDs #333
 
+
+<a name="0.9.6"></a>
+# [0.9.6](https://github.com/flextype/flextype/compare/v0.9.5...v0.9.6) (2019-12-01)
 
 ### Features
 
@@ -151,6 +136,22 @@
 * **core:** add realpath_cache_size to .htaccess
 * **core:** improve Plugins API - locales loading and increase app performance #259
 * **core:** improve Cache on production and increase app performance #290 #263  
+
+
+### Bug Fixes
+
+* **admin-plugin:** fix issue with saving entry source #251
+* **admin-plugin:** fix file browser styles
+* **admin-plugin:** fix breadcrumbs for theme templates
+* **core:** Entries API - fix Collection Undefined Index(s) for fetchAll method #243
+* **core:** fix broken logic for form inputs without labels #274
+* **core:** fix default and site settings loading #297
+* **core:** fix id's names for all generated fields #277
+* **core:** fix notice undefined index: created_at in Entries API
+* **core:** fix notice undefined index: published_at in Entries API #265
+* **core:** fix Plugins API - createPluginsDictionary method and increase app perfomance #259
+* **core:** fix state of active tabs for all generated forms #276
+* **core:** fix state of aria-selected for all generated forms #275  
 
 
 ### Vendor Updates
