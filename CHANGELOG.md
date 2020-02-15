@@ -4,7 +4,7 @@
 ### Bug Fixes
 
 * **core:** fix discord link #325
-* **admin-plugin:** fix issue for creating entry process with same ids #333
+* **admin-plugin:** fix issue for creating entry process with same IDs #333
 
 ### Features
 * **core:** add Indonesian locale support #327
