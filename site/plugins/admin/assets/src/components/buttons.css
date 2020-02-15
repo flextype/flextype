@@ -36,12 +36,22 @@
 
 .button-dropdown
 {
-    @apply rounded border border-solid border-black text-white inline-block w-auto bg-dark cursor-pointer;
+    @apply rounded border border-solid border-black text-white inline-flex w-auto bg-dark cursor-pointer;
 }
 
 .button-dropdown .button
 {
     @apply border-none m-0;
+}
+
+.button-dropdown .button
+{
+    @apply border-r-0;
+}
+
+.button-dropdown .button:last-of-type
+{
+    @apply border-l-0 border-r;
 }
 
 .button-dropdown .button:last-of-type .icon > svg
