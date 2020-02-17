@@ -136,6 +136,10 @@ fa:
   name: Persian
   nativeName: فارسی
   orientation: rtl
+fa_IR:
+  name: Persian
+  nativeName: فارسی
+  orientation: rtl
 fi:
   name: Finnish
   nativeName: Suomi
