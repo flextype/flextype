@@ -23,7 +23,7 @@ $admin_route = $flextype->registry->get('plugins.admin.route');
 /**
  * Ensure vendor libraries exist
  */
-! is_file($admin_autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i>');
+! is_file($admin_autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i> admin plugin');
 
 /**
  * Register The Auto Loader

@@ -16,7 +16,7 @@ use function is_file;
 /**
  * Ensure vendor libraries exist
  */
-! is_file($form_autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i>');
+! is_file($form_autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i> form plugin');
 
 /**
  * Register The Auto Loader
