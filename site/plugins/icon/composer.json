@@ -1,0 +1,34 @@
+{
+    "name": "flextype-plugins/icon",
+    "type": "project",
+    "description": "Icon plugin for Flextype",
+    "keywords": ["icon", "plugin", "flextype", "php", "html"],
+    "homepage": "https://github.com/flextype",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sergey Romanenko",
+            "email": "hello@romanenko.digital",
+            "homepage": "http://digital.flextype.org"
+        }
+    ],
+    "support": {
+      "issues": "https://github.com/flextype/issues"
+    },
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "config": {
+        "apcu-autoloader": true,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.2.0"
+        }
+    },
+    "autoload": {
+        "classmap": [
+            "app",
+            "twig"
+        ]
+    }
+}
