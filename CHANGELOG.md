@@ -3,6 +3,7 @@
 
 ### Features
 * **core:** add Indonesian locale support #327
+* **core:** add Persian locale support #327
 * **core:** set `routable` true on entries creation #320
 * **core:** initialize plugins before themes initialised #323
 * **core:** update Cache to use adapter to retrieve driver object #341
