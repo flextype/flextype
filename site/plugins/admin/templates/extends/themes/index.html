@@ -40,7 +40,7 @@
                                 <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                             </button>
                             <div id="dropdown-{{ key }}" class="dropdown">
-                                {% if key == registry.settings.theme %}
+                                {% if key == registry.flextype.theme and theme.enabled == true %}
                                 {% else %}
                                     <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                               document.getElementById('activate-theme-id-{{ key }}').submit();">
