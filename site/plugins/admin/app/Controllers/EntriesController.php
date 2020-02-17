@@ -214,7 +214,11 @@ class EntriesController extends Controller
         }
 
         // Set new Entry ID
-        $id = $parent_entry_id . '/' . $this->slugify->slugify($data['id']);
+        if ($this->registry->get('plugins.admin.entries.slugify') == true) {
+            $id = $parent_entry_id . '/' . $this->slugify->slugify($data['id']);
+        } else {
+            $id = $parent_entry_id . '/' . $data['id'];
+        }
 
         // Check if entry exists then try to create
         if (!$this->entries->has($id)) {

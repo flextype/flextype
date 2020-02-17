@@ -7,6 +7,7 @@ route: admin
 # entries settings
 entries:
   items_view_default: list
+  slugify: true 
   media:
     upload_images_quality: 70
     upload_images_width: 1600
