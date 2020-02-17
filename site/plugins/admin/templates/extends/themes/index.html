@@ -36,7 +36,7 @@
                         </td>
                         <td class="{% if key == registry.flextype.theme and theme.enabled == true %}{% else %}opacity-50{% endif %}">{{ theme.version }}</td>
                         <td class="text-right">
-                            <button type="button" class="<js-d></js-d>ropdown-btn" data-dropdown="dropdown-{{ key }}">
+                            <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ key }}">
                                 <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                             </button>
                             <div id="dropdown-{{ key }}" class="dropdown">
