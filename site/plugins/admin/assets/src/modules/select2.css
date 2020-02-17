@@ -37,6 +37,12 @@
     height: 37px;
 }
 
+.select2-container--default.select2-container--open.select2-container--above .select2-selection--multiple,
+.select2-container--default.select2-container--open.select2-container--above .select2-selection--single
+{
+    @apply border-black;
+}
+
 .select2-selection.select2-selection--multiple
 {
     @apply p-0 pt-px;
