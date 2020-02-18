@@ -13,7 +13,7 @@
     width: var(--box-size);
     height: 100vh;
 
-    @apply flex flex-col fixed bg-dark border-black border-r border-solid text-white justify-between z-20;
+    @apply flex flex-col fixed bg-dark border-black border-r border-solid text-white justify-between z-50;
 }
 
 .navigation__item
@@ -34,9 +34,19 @@
 
 .navigation__item--logo
 {
-    width: var(--box-size);
+    width: calc(var(--box-size) -1);
     height: var(--box-size);
-    @apply font-bold;
+    @apply font-bold text-center;
+}
+
+.navigation__item--logo-wrapper:hover > .navigation__item--logo:first-of-type
+{
+    @apply hidden;
+}
+
+.navigation__item--logo-wrapper:hover > .navigation__item--logo:last-of-type
+{
+    @apply block;
 }
 
 .navigation-top-primary

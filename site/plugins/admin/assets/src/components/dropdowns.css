@@ -25,3 +25,8 @@
 {
     @apply bg-gray-900 h-px my-1;
 }
+
+.tippy-tooltip
+{
+    z-index: 100;
+}
