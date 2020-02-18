@@ -17,7 +17,6 @@ $app->group('/' . $admin_route, function () use ($app) : void {
     $app->get('', 'DashboardController:index')->setName('admin.dashboard.index');
 
     // UsersController
-    $app->get('/profile', 'UsersController:profile')->setName('admin.users.profile');
     $app->post('/logout', 'UsersController:logoutProcess')->setName('admin.users.logoutProcess');
 
     // EntriesController
