@@ -1098,10 +1098,11 @@ class EntriesController extends Controller
 
         if ($post_data['id'] == '') {
             $data = [];
-            Arr::set($data, 'plugins.admin.entries.items_view_default', $post_data['items_view']);
-            //Filesystem::write(PATH['config']['site'] . '/settings.yaml', $this->parser->encode(array_replace_recursive($this->registry->get('settings'), $data), 'yaml'));
+            $admin_plugin_settings = $this->parser->decode(Filesystem::read(PATH['config']['site'] . '/plugins/admin/settings.yaml'), 'yaml');
+            $admin_plugin_settings['entries']['items_view_default'] = $post_data['items_view'];
+            Filesystem::write(PATH['config']['site'] . '/plugins/admin/settings.yaml', $this->parser->encode($admin_plugin_settings, 'yaml'));
         } else {
-            $this->entries->update($post_data['id'], ['items_view' => $post_data['items_view']]);
+            $this->entries->update($post_data['id'], ['items_view_default' => $post_data['items_view']]);
         }
 
         return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $post_data['id']);
