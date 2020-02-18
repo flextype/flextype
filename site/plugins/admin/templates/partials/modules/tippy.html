@@ -12,7 +12,32 @@
         },
         trigger: 'click',
         maxWidth: 500,
-        zIndex: 10,
+        zIndex: 100,
+        content(reference) {
+            return document.getElementById(reference.getAttribute('data-dropdown')).innerHTML;
+        }
+    });
+
+    const left_nav_dropdown = tippy('.js-left-nav-dropdown-btn', {
+        placement: 'right',
+        allowHTML: true,
+        flipOnUpdate: true,
+        inlinePositioning: true,
+        interactive: true,
+        popperOptions: {
+            positionFixed: true
+        },
+        trigger: 'click',
+        maxWidth: 500,
+        zIndex: 100,
+        onMount(instance) {
+            $('.navigation__item--flextype-logo').addClass('hidden');
+            $('.navigation__item--bars-logo').removeClass('hidden').addClass('block');
+        },
+        onHidden(instance) {
+            $('.navigation__item--flextype-logo').removeClass('hidden').addClass('block');
+            $('.navigation__item--bars-logo').addClass('hidden');
+        },
         content(reference) {
             return document.getElementById(reference.getAttribute('data-dropdown')).innerHTML;
         }
