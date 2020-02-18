@@ -185,7 +185,7 @@ class ApiDeliveryImagesController extends Controller
                         'title' => __('admin_api')
                     ],
                     'api_tokens' => [
-                        'link' => $this->router->pathFor('admin.api_delivery_images.index'),
+                        'link' => $this->router->pathFor('admin.api_delivery.index'),
                         'title' => __('admin_delivery')
                     ],
                     'api_delivery_images' => [
