@@ -3,7 +3,6 @@
 {% block content %}
     <form method="post" id="form">
         {{ csrf() }}
-        <input type="hidden" name="api" value="{{ api }}">
         <input type="hidden" name="token" value="{{ token }}">
         <input type="hidden" name="created_by" value="{{ token_data.created_by }}">
         <input type="hidden" name="created_at" value="{{ token_data.created_at }}">

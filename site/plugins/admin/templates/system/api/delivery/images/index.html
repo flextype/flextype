@@ -63,11 +63,11 @@
     {% else %}
         <div class="text-center flex justify-center items-center h-full">
             <div>
-                <i class="icon icon--4xl">{{ icon('fas fa-database') }}</i>
+                <i class="icon icon--4xl">{{ icon('far fa-images') }}</i>
                 <i class="icon icon--4xl mr-3 ml-3">{{ icon('fas angle-right') }}</i>
                 <i class="icon icon--4xl">{{ icon('fas fa-truck') }}</i>
-                <h3 class="text-2xl pt-5 pb-8">{{ tr('admin_you_have_not_created_any_delvery_images_api_tokens_yet') }}</h3>
-                <a href="{{ path_for('admin.api_delivery_images.add') }}" class="button">{{ tr('admin_create_new_delivery_images_token') }}</a>
+                <h3 class="text-2xl pt-5 pb-8">{{ tr('admin_you_have_not_created_any_delivery_images_api_tokens_yet') }}</h3>
+                <a href="{{ path_for('admin.api_delivery_images.add') }}" class="button">{{ tr('admin_create_new_token') }}</a>
             </div>
         </div>
     {% endif %}
