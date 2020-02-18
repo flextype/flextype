@@ -27,20 +27,6 @@ use const PASSWORD_BCRYPT;
 class UsersController extends Controller
 {
     /**
-     * Profie page
-     *
-     * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
-     */
-    public function profile(Request $request, Response $response) : Response
-    {
-        return $this->container->get('view')->render(
-            $response,
-            'plugins/admin/templates/users/profile.html'
-        );
-    }
-
-    /**
      * Login page
      *
      * @param Request  $request  PSR7 request
