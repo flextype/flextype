@@ -31,34 +31,40 @@ $app->get('/api/delivery/images/{path:.+}', function (Request $request, Response
     // Get Query Params
     $query = $request->getQueryParams();
 
-    // Validate delivery image token
-    if (validate_delivery_images_token($request, $flextype)) {
+    if ($flextype['registry']->get('flextype.api.images.enabled')) {
 
-        $delivery_images_token_file_path = PATH['tokens'] . '/delivery/images/' . $request->getQueryParams()['token'] . '/token.yaml';
+        // Validate delivery image token
+        if (validate_delivery_images_token($request, $flextype)) {
 
-        // Set delivery token file
-        if ($delivery_images_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_images_token_file_path), 'yaml')) {
-            if ($delivery_images_token_file_data['state'] == 'disabled' ||
-                ($delivery_images_token_file_data['limit_calls'] != 0 && $delivery_images_token_file_data['calls'] >= $delivery_images_token_file_data['limit_calls'])) {
-                return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
-            } else {
+            $delivery_images_token_file_path = PATH['tokens'] . '/delivery/images/' . $request->getQueryParams()['token'] . '/token.yaml';
 
-                // Update calls counter
-                Filesystem::write($delivery_images_token_file_path, $flextype['parser']->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1]), 'yaml'));
-
-                if (Filesystem::has(PATH['entries'] . '/' . $args['path'])) {
-                    return $flextype['images']->getImageResponse($args['path'], $_GET);
+            // Set delivery token file
+            if ($delivery_images_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_images_token_file_path), 'yaml')) {
+                if ($delivery_images_token_file_data['state'] == 'disabled' ||
+                    ($delivery_images_token_file_data['limit_calls'] != 0 && $delivery_images_token_file_data['calls'] >= $delivery_images_token_file_data['limit_calls'])) {
+                    return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
                 } else {
-                    return $response->withJson([], 404);
-                }
 
+                    // Update calls counter
+                    Filesystem::write($delivery_images_token_file_path, $flextype['parser']->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1]), 'yaml'));
+
+                    if (Filesystem::has(PATH['entries'] . '/' . $args['path'])) {
+                        return $flextype['images']->getImageResponse($args['path'], $_GET);
+                    } else {
+                        return $response->withJson([], 404);
+                    }
+
+                }
+            } else {
+                return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
             }
         } else {
             return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
         }
+
+        return $response->withStatus(404);
+
     } else {
         return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
     }
-
-    return $response->withStatus(404);
 });
