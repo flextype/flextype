@@ -207,3 +207,12 @@ image:
 # - extensions: Flextype Shortcodes Extension to load.
 shortcodes:
   extensions: ['BaseUrl', 'Entries', 'Registry', 'Snippets']
+
+# API's
+api:
+  image:
+    enabled: true
+    default_token:
+  entries:
+    enabled: true
+    default_token:
