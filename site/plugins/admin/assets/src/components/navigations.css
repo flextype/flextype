@@ -23,7 +23,7 @@
     height: 100%;
     padding: 11px;
 
-    @apply w-full h-full text-white relative flex items-center justify-center cursor-pointer opacity-80;
+    @apply w-full h-full text-white relative flex text-center items-center justify-center cursor-pointer opacity-80;
 }
 
 .navigation__item--active,
