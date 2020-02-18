@@ -3,16 +3,31 @@ body
 {
     font-family: Roboto;
     font-size: var(--font-size);
+
+    @apply text-dark;
+}
+
+a
+{
+    @apply text-dark;
 }
 
 main
 {
-    @apply flex w-full h-screen min-w-full bg-white text-black;
+    @apply flex w-full h-screen min-w-full bg-white text-dark;
 }
 
 small
 {
     @apply block mt-1 opacity-75 text-sm;
+}
+
+h1,
+h2,
+h3,
+h4
+{
+    @apply text-dark;
 }
 
 h1

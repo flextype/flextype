@@ -9,6 +9,8 @@
     height: 1rem;
 
     vertical-align: -.17rem;
+
+    @apply text-dark fill-current;
 }
 
 .icon--white > svg

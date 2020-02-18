@@ -23,13 +23,14 @@
 {
     padding-right: 10px;
 
-    color: black;
     border-right: none;
+
+    @apply text-dark;
 }
 
 .CodeMirror-linenumber
 {
-    color: black;
+    @apply text-dark;
 }
 
 .CodeMirror pre

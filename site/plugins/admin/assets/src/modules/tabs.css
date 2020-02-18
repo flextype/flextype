@@ -1,6 +1,6 @@
 .tabs__nav > div
 {
-    @apply rounded border border-solid border-black text-white bg-dark cursor-pointer mb-6;
+    @apply rounded border border-solid border-dark text-white bg-dark cursor-pointer mb-6;
 }
 
 .tabs__nav > div a:first-of-type

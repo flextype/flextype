@@ -17,7 +17,7 @@
 
 .select2-container--default .select2-results__option--highlighted[aria-selected]
 {
-    @apply bg-gray-100 text-black;
+    @apply bg-gray-100 text-dark;
 }
 
 .select2-container--default .select2-search--dropdown .select2-search__field
@@ -41,7 +41,7 @@
 .select2-container--default.select2-container--open.select2-container--above .select2-selection--multiple,
 .select2-container--default.select2-container--open.select2-container--above .select2-selection--single
 {
-    @apply border-black;
+    @apply border-dark;
 }
 
 .select2-selection.select2-selection--multiple
@@ -63,7 +63,7 @@
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice:hover
 {
-    @apply border-black bg-black text-white opacity-100;
+    @apply border-dark bg-dark text-white opacity-100;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove

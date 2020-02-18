@@ -10,7 +10,7 @@
 
 .form-control-title
 {
-    @apply font-bold block mb-1;
+    @apply font-bold block mb-1 text-dark;
 }
 
 .form-control
@@ -21,7 +21,7 @@
 .form-control:active,
 .form-control:focus
 {
-    @apply border-black;
+    @apply border-dark;
 }
 
 .form-group

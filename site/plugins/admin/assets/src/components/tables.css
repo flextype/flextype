@@ -19,7 +19,7 @@
 
 .table > thead > tr > th
 {
-    @apply font-bold text-left text-black border-gray-000 border-b;
+    @apply font-bold text-left text-dark border-gray-000 border-b;
 }
 
 .table > tbody > tr > td,
@@ -29,7 +29,7 @@
 .table > thead > tr > th,
 .table > tfoot > tr > th
 {
-    @apply align-middle text-black border-gray-000 border-t border-b px-3 py-2;
+    @apply align-middle text-dark border-gray-000 border-t border-b px-3 py-2;
 }
 
 .table > tbody > tr > td:nth-child(2),

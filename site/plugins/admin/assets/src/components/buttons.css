@@ -10,7 +10,7 @@
 
 .button
 {
-    @apply rounded px-4 py-2 border border-solid border-black text-white inline-block w-auto bg-dark cursor-pointer;
+    @apply rounded px-4 py-2 border border-solid border-dark text-white inline-block w-auto bg-dark cursor-pointer;
 }
 
 .button--white
@@ -21,7 +21,7 @@
 .button:hover,
 .button--white:hover
 {
-    @apply border-black bg-black text-white;
+    @apply border-black bg-dark text-white;
 }
 
 .button-group
@@ -36,7 +36,7 @@
 
 .button-dropdown
 {
-    @apply rounded border border-solid border-black text-white inline-flex w-auto bg-dark cursor-pointer;
+    @apply rounded border border-solid border-dark text-white inline-flex w-auto bg-dark cursor-pointer;
 }
 
 .button-dropdown .button
