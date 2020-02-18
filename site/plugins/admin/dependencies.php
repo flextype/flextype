@@ -24,7 +24,6 @@ $flextype->registry->set('admin_navigation.extends.themes', ['title' => __('admi
 $flextype->registry->set('admin_navigation.extends.snippets', ['title' => __('admin_snippets'),'icon' => 'far fa-file-code', 'link' => $flextype->router->pathFor('admin.snippets.index')]);
 $flextype->registry->set('admin_navigation.extends.plugins', ['title' => __('admin_plugins'),'icon' => 'fas fa-plug', 'link' => $flextype->router->pathFor('admin.plugins.index')]);
 $flextype->registry->set('admin_navigation.settings.tools', ['title' => __('admin_tools'),'icon' => 'fas fa-toolbox', 'link' => $flextype->router->pathFor('admin.tools.index')]);
-$flextype->registry->set('admin_navigation.settings.settings', ['title' => __('admin_settings'),'icon' => 'fas fa-cog', 'link' => $flextype->router->pathFor('admin.settings.index')]);
 $flextype->registry->set('admin_navigation.settings.api', ['title' => __('admin_api'),'icon' => 'fas fa-network-wired', 'link' => $flextype->router->pathFor('admin.api.index')]);
 
 // Add Global Vars Admin Twig Extension
@@ -76,4 +75,16 @@ $flextype['ToolsController'] = static function ($container) {
 
 $flextype['ApiController'] = static function ($container) {
     return new ApiController($container);
+};
+
+$flextype['ApiDeliveryController'] = static function ($container) {
+    return new ApiDeliveryController($container);
+};
+
+$flextype['ApiDeliveryEntriesController'] = static function ($container) {
+    return new ApiDeliveryEntriesController($container);
+};
+
+$flextype['ApiDeliveryImagesController'] = static function ($container) {
+    return new ApiDeliveryImagesController($container);
 };
