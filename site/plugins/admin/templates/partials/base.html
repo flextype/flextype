@@ -51,9 +51,13 @@
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-cog') }}</i>
                                 {{ tr('admin_system_settings') }}</a>
                             <div class="dropdown__divider"></div>
-                            <a class="dropdown__item" href="{{ path_for('admin.users.logoutProcess') }}">
+                            <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                    document.getElementById('logoutProcess').submit();">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-sign-out-alt') }}</i>
                                 {{ tr('admin_logout') }}</a>
+                            <form id="logoutProcess" action="{{ path_for('admin.users.logoutProcess') }}" method="POST" style="display: none;">
+                                {{ csrf() }}
+                            </form>
                         </div>
                     </li>
                     {% for key, item in registry.plugins.admin.navigation.content %}
