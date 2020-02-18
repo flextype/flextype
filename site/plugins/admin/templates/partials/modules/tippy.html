@@ -32,10 +32,10 @@
         zIndex: 100,
         onMount(instance) {
             $('.navigation__item--flextype-logo').addClass('hidden');
-            $('.navigation__item--bars-logo').removeClass('hidden').addClass('block');
+            $('.navigation__item--bars-logo').removeClass('hidden').addClass('block navigation__item--active');
         },
         onHidden(instance) {
-            $('.navigation__item--flextype-logo').removeClass('hidden').addClass('block');
+            $('.navigation__item--flextype-logo').removeClass('hidden navigation__item--active').addClass('block');
             $('.navigation__item--bars-logo').addClass('hidden');
         },
         content(reference) {

@@ -37,7 +37,9 @@
             <nav class="navigation {% if not is_logged %}hidden{% endif %}">
                 <ul>
                     <li class="navigation__item--logo-wrapper">
-                        <a href="javascript:;" class="navigation__item navigation__item--logo navigation__item--flextype-logo relative">F</a>
+                        <a href="javascript:;" class="navigation__item navigation__item--logo navigation__item--flextype-logo relative">
+                            <i class="icon icon--white">{{ icon('fas fa-user-circle') }}</i>
+                        </a>
                         <a href="javascript:;" class="navigation__item navigation__item--logo navigation__item--bars-logo hidden relative js-left-nav-dropdown-btn" data-dropdown="dropdown-flextype-menu">
                             <i class="icon icon--white">{{ icon('fas fa-bars') }}</i>
                         </a>
@@ -47,7 +49,7 @@
                                 {{ tr('admin_view_site') }}</a>
                             <a class="dropdown__item" href="{{ path_for('admin.settings.index') }}">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-cog') }}</i>
-                                {{ tr('admin_flextype_settings') }}</a>
+                                {{ tr('admin_system_settings') }}</a>
                             <div class="dropdown__divider"></div>
                             <a class="dropdown__item" href="{{ path_for('admin.users.logoutProcess') }}">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-sign-out-alt') }}</i>
