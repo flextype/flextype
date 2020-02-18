@@ -1102,7 +1102,7 @@ class EntriesController extends Controller
             $admin_plugin_settings['entries']['items_view_default'] = $post_data['items_view'];
             Filesystem::write(PATH['config']['site'] . '/plugins/admin/settings.yaml', $this->parser->encode($admin_plugin_settings, 'yaml'));
         } else {
-            $this->entries->update($post_data['id'], ['items_view_default' => $post_data['items_view']]);
+            $this->entries->update($post_data['id'], ['items_view' => $post_data['items_view']]);
         }
 
         return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $post_data['id']);
