@@ -15,10 +15,10 @@ use function Flextype\Component\I18n\__;
 use function random_bytes;
 use function time;
 
-class ApiController extends Controller
+class ApiDeliveryController extends Controller
 {
     /**
-     * Index page for API's
+     * Delivery Index page
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -27,14 +27,18 @@ class ApiController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/templates/system/api/index.html',
+            'plugins/admin/templates/system/api/delivery/index.html',
             [
                 'menu_item' => 'api',
-                'api_list' => ['delivery' => 'Delivery'],
+                'api_list' => ['entries' => 'Entries', 'images' => 'Images'],
                 'links' =>  [
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
-                        'title' => __('admin_api'),
+                        'title' => __('admin_api')
+                    ],
+                    'api_delivery' => [
+                        'link' => $this->router->pathFor('admin.api_delivery.index'),
+                        'title' => __('admin_delivery'),
                         'active' => true,
                     ],
                 ],
