@@ -60,7 +60,7 @@ class ApiDeliveryEntriesController extends Controller
                 'buttons' => [
                     'api_delivery_entries_add' => [
                         'link' => $this->router->pathFor('admin.api_delivery_entries.add'),
-                        'title' => __('admin_create_new_delivery_entries_token')
+                        'title' => __('admin_create_new_token')
                     ],
                 ],
             ]
@@ -95,7 +95,7 @@ class ApiDeliveryEntriesController extends Controller
                     ],
                     'api_delivery_entries_add' => [
                         'link' => $this->router->pathFor('admin.api_delivery_entries.add'),
-                        'title' => __('admin_create_new_delivery_entries_token'),
+                        'title' => __('admin_create_new_token'),
                         'active' => true
                     ],
                 ],
@@ -146,12 +146,12 @@ class ApiDeliveryEntriesController extends Controller
                     'updated_at' => $time,
                 ], 'yaml')
             )) {
-                $this->flash->addMessage('success', __('admin_message_delvery_entries_api_token_created'));
+                $this->flash->addMessage('success', __('admin_message_delivery_entries_api_token_created'));
             } else {
-                $this->flash->addMessage('error', __('admin_message_delvery_entries_api_token_was_not_created1'));
+                $this->flash->addMessage('error', __('admin_message_delivery_entries_api_token_was_not_created1'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_delvery_entries_api_token_was_not_created2'));
+            $this->flash->addMessage('error', __('admin_message_delivery_entries_api_token_was_not_created2'));
         }
 
         if (isset($post_data['create-and-edit'])) {
@@ -209,7 +209,7 @@ class ApiDeliveryEntriesController extends Controller
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path  = PATH['tokens'] . '/' . $post_data['api'] . '/' . $post_data['api_token'];
+        $api_token_dir_path  = PATH['tokens'] . '/delivery/entries/' . $post_data['token'];
         $api_token_file_path = $api_token_dir_path . '/' . 'token.yaml';
 
         // Update API Token File
@@ -229,10 +229,10 @@ class ApiDeliveryEntriesController extends Controller
                     'updated_at' => date($this->registry->get('flextype.date_format'), time()),
                 ], 'yaml')
             )) {
-                $this->flash->addMessage('success', __('admin_message_' . $post_data['api'] . '_api_token_updated'));
+                $this->flash->addMessage('success', __('admin_message_delivery_entries_api_token_updated'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_' . $post_data['api'] . '_api_token_was_not_updated'));
+            $this->flash->addMessage('error', __('admin_message_delivery_entries_api_token_was_not_updated'));
         }
 
         return $response->withRedirect($this->router->pathFor('admin.api_tokens.index') . '?api=' . $post_data['api']);
