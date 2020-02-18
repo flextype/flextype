@@ -188,6 +188,10 @@ class ApiDeliveryEntriesController extends Controller
                         'link' => $this->router->pathFor('admin.api_delivery_entries.index'),
                         'title' => __('admin_delivery')
                     ],
+                    'api_delivery_entries' => [
+                        'link' => $this->router->pathFor('admin.api_delivery_entries.index'),
+                        'title' => __('admin_entries')
+                    ],
                     'api_tokens_edit' => [
                         'link' => $this->router->pathFor('admin.api_delivery_entries.edit'),
                         'title' => __('admin_edit_delivery_token'),
