@@ -239,7 +239,7 @@ class ApiDeliveryEntriesController extends Controller
             $this->flash->addMessage('error', __('admin_message_delivery_entries_api_token_was_not_updated'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_tokens.index') . '?api=' . $post_data['api']);
+        return $response->withRedirect($this->router->pathFor('admin.api_delivery_images.index'));
     }
 
     /**

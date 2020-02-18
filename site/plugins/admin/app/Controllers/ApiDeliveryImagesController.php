@@ -188,6 +188,10 @@ class ApiDeliveryImagesController extends Controller
                         'link' => $this->router->pathFor('admin.api_delivery_images.index'),
                         'title' => __('admin_delivery')
                     ],
+                    'api_delivery_images' => [
+                        'link' => $this->router->pathFor('admin.api_delivery_images.index'),
+                        'title' => __('admin_images')
+                    ],
                     'api_tokens_edit' => [
                         'link' => $this->router->pathFor('admin.api_delivery_images.edit'),
                         'title' => __('admin_edit_delivery_token'),
@@ -235,7 +239,7 @@ class ApiDeliveryImagesController extends Controller
             $this->flash->addMessage('error', __('admin_message_delivery_images_api_token_was_not_updated'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_tokens.index') . '?api=' . $post_data['api']);
+        return $response->withRedirect($this->router->pathFor('admin.api_delivery_images.index'));
     }
 
     /**
