@@ -210,7 +210,7 @@ shortcodes:
 
 # API's
 api:
-  image:
+  images:
     enabled: true
     default_token:
   entries:
