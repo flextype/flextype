@@ -36,8 +36,23 @@
         <main>
             <nav class="navigation {% if not is_logged %}hidden{% endif %}">
                 <ul>
-                    <li>
-                        <a href="{{ path_for('admin.entries.index') }}" class="navigation__item navigation__item--logo">F</a>
+                    <li class="navigation__item--logo-wrapper">
+                        <a href="javascript:;" class="navigation__item navigation__item--logo navigation__item--flextype-logo relative">F</a>
+                        <a href="javascript:;" class="navigation__item navigation__item--logo navigation__item--bars-logo hidden relative js-left-nav-dropdown-btn" data-dropdown="dropdown-flextype-menu">
+                            <i class="icon icon--white">{{ icon('fas fa-bars') }}</i>
+                        </a>
+                        <div id="dropdown-flextype-menu" class="dropdown">
+                            <a class="dropdown__item" href="">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-globe') }}</i>
+                                {{ tr('admin_view_site') }}</a>
+                            <a class="dropdown__item" href="">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-cog') }}</i>
+                                {{ tr('admin_flextype_settings') }}</a>
+                            <div class="dropdown__divider"></div>
+                            <a class="dropdown__item" href="">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-sign-out-alt') }}</i>
+                                {{ tr('admin_logout') }}</a>
+                        </div>
                     </li>
                     {% for key, item in registry.admin_navigation.content %}
                         <li>
@@ -67,11 +82,6 @@
                             </a>
                         </li>
                     {% endfor %}
-                    <li class="absolute bottom-0">
-                        <a href="{{ path_for('admin.users.profile') }}" class="navigation__item navigation__item--logo {% if item.item == menu_item %}navigation__item--active{% endif %}">
-                            <i class="icon icon--white">{{ icon('fas fa-user-circle') }}</i>
-                        </a>
-                    </li>
                 </ul>
             </nav>
             <div class="content {% if not is_logged %}w-full max-w-full m-0{% endif %}">
