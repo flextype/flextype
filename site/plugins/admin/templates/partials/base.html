@@ -42,14 +42,14 @@
                             <i class="icon icon--white">{{ icon('fas fa-bars') }}</i>
                         </a>
                         <div id="dropdown-flextype-menu" class="dropdown">
-                            <a class="dropdown__item" href="">
+                            <a class="dropdown__item" target="_blank" href="{{ base_url() }}">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-globe') }}</i>
                                 {{ tr('admin_view_site') }}</a>
-                            <a class="dropdown__item" href="">
+                            <a class="dropdown__item" href="{{ path_for('admin.settings.index') }}">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-cog') }}</i>
                                 {{ tr('admin_flextype_settings') }}</a>
                             <div class="dropdown__divider"></div>
-                            <a class="dropdown__item" href="">
+                            <a class="dropdown__item" href="{{ path_for('admin.users.logoutProcess') }}">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-sign-out-alt') }}</i>
                                 {{ tr('admin_logout') }}</a>
                         </div>
