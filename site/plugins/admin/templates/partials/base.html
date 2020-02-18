@@ -132,6 +132,10 @@
                                 {% endif %}
                             {% endif %}
 
+                            {% if is_current_path('admin.tools.information')or is_current_path('admin.tools.cache')or is_current_path('admin.tools.registry') %}
+                                /
+                            {% endif %}
+
                             {% if is_current_path('admin.api.index') %}
                                 /
                             {% endif %}
