@@ -129,6 +129,7 @@
                                 <a href="{{ path_for('admin.api_delivery.index') }}">
                                     <span class="pr-1 pl-1">delivery</span></a>
                             {% endif %}
+
                             {% if is_current_path('admin.api_delivery_entries.index') %}
                                 /
                                 <a href="{{ path_for('admin.api_delivery.index') }}">
@@ -157,6 +158,36 @@
                                 /
                                 <a href="{{ path_for('admin.api_delivery_entries.index') }}">
                                     <span class="pr-1 pl-1">entries</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_delivery_images.index') %}
+                                /
+                                <a href="{{ path_for('admin.api_delivery.index') }}">
+                                    <span class="pr-1 pl-1">delivery</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_delivery_images.index') }}">
+                                    <span class="pr-1 pl-1">images</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_delivery_images.edit') %}
+                                /
+                                <a href="{{ path_for('admin.api_delivery.index') }}">
+                                    <span class="pr-1 pl-1">delivery</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_delivery_images.index') }}">
+                                    <span class="pr-1 pl-1">images</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_delivery_images.edit') }}?token={{ token }}">
+                                    <span class="pr-1 pl-1">{{ token }}</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_delivery_images.add') %}
+                                /
+                                <a href="{{ path_for('admin.api_delivery.index') }}">
+                                    <span class="pr-1 pl-1">delivery</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_delivery_images.index') }}">
+                                    <span class="pr-1 pl-1">images</span></a>
                             {% endif %}
 
                             {% if is_current_path('admin.themes.information')or
