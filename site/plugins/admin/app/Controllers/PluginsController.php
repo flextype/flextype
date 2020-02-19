@@ -189,10 +189,10 @@ class PluginsController extends Controller
         $id   = $post_data['id'];
         $data = $post_data['data'];
 
-        $site_plugin_settings_dir  = PATH['config']['site'] . '/plugins/' . $id;
-        $site_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $id . '/settings.yaml';
+        $custom_plugin_settings_dir  = PATH['config']['site'] . '/plugins/' . $id;
+        $custom_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $id . '/settings.yaml';
 
-        if (Filesystem::write($site_plugin_settings_file, $data)) {
+        if (Filesystem::write($custom_plugin_settings_file, $data)) {
             $this->flash->addMessage('success', __('admin_message_plugin_settings_saved'));
         } else {
             $this->flash->addMessage('error', __('admin_message_plugin_settings_not_saved'));
