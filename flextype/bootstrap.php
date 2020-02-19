@@ -47,7 +47,7 @@ $registry = new Registry();
  * 1. Set settings files paths.
  * 2. Load flextype default and flextype custom settings files.
  * 3. Merge settings.
- * 4. Add settings into the registry.
+ * 4. Store settings in the flextype registry.
  */
 $default_flextype_settings_file_path = PATH['config']['default'] . '/settings.yaml';
 $custom_flextype_settings_file_path  = PATH['config']['site'] . '/settings.yaml';
@@ -86,7 +86,7 @@ if (($custom_flextype_settings_content = Filesystem::read($custom_flextype_setti
 // Merge flextype settings
 $flextype_settings = array_replace_recursive($default_flextype_settings, $custom_flextype_settings);
 
-// Set flextype settings
+// Store flextype merged settings in the flextype registry.
 $registry->set('flextype', $flextype_settings);
 
 /**
