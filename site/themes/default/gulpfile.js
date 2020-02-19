@@ -50,6 +50,16 @@ gulp.task("css", function() {
     .pipe(gulp.dest("assets/dist/css/"));
 });
 
+/**
+ * Task: gulp default
+ */
+gulp.task('default', gulp.series(
+    'css'
+));
+
+/**
+ * Task: gulp watch
+ */
 gulp.task('watch', function () {
     gulp.watch(["**/*.html", "../../**/*.md", "assets/src/"], gulp.series('css'));
 });
