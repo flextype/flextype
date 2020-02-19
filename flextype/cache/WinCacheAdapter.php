@@ -9,7 +9,7 @@ use Psr\Container\ContainerInterface;
 
 class WinCacheAdapter implements CacheAdapterInterface
 {
-    function __construct(ContainerInterface $flextype)
+    public function __construct(ContainerInterface $flextype)
     {
         $this->flextype = $flextype;
     }

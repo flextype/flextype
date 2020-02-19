@@ -13,7 +13,7 @@ interface CacheAdapterInterface
      *
      * @return void
      */
-    function __construct(ContainerInterface $container);
+    public function __construct(ContainerInterface $container);
 
     /**
      * Returns the cache driver object
