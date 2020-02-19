@@ -60,6 +60,8 @@ class Plugins
     /**
      * Init Plugins
      *
+     * @return void
+     *
      * @access private
      */
     public function init($flextype, $app) : void
@@ -250,6 +252,8 @@ class Plugins
     /**
      * Get plugins list
      *
+     * @return array
+     *
      * @access public
      */
     public function getPluginsList() : array
@@ -270,6 +274,8 @@ class Plugins
 
     /**
      * Include enabled plugins
+     *
+     * @return void
      *
      * @access protected
      */
