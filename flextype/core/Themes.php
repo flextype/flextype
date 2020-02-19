@@ -83,16 +83,15 @@ class Themes
                 // Create site theme settings directory
                 ! Filesystem::has($site_theme_settings_dir)  and Filesystem::createDir($site_theme_settings_dir);
 
-                // Create site theme settings and manifest files
-                ! Filesystem::has($site_theme_settings_file) and Filesystem::write($site_theme_settings_file, '');
-                ! Filesystem::has($site_theme_manifest_file) and Filesystem::write($site_theme_manifest_file, '');
-
                 // Check if default theme settings file exists
                 if (! Filesystem::has($default_theme_settings_file)) throw new RuntimeException('Load ' . $theme['dirname'] . ' theme settings - failed!');
 
                 // Get default theme manifest content
                 $default_theme_settings_file_content = Filesystem::read($default_theme_settings_file);
                 $default_theme_settings              = $this->flextype['parser']->decode($default_theme_settings_file_content, 'yaml');
+
+                // Create site theme settings file
+                ! Filesystem::has($site_theme_settings_file) and Filesystem::write($site_theme_settings_file, $default_theme_settings_file_content);
 
                 // Get site theme settings content
                 $site_theme_settings_file_content = Filesystem::read($site_theme_settings_file);
@@ -108,6 +107,9 @@ class Themes
                 // Get default theme manifest content
                 $default_theme_manifest_file_content = Filesystem::read($default_theme_manifest_file);
                 $default_theme_manifest              = $this->flextype['parser']->decode($default_theme_manifest_file_content, 'yaml');
+
+                // Create site theme file
+                ! Filesystem::has($site_theme_manifest_file) and Filesystem::write($site_theme_manifest_file, $default_theme_manifest_file_content);
 
                 // Get site theme manifest content
                 $site_theme_manifest_file_content = Filesystem::read($site_theme_manifest_file);
