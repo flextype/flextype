@@ -84,7 +84,9 @@ class Themes
                 ! Filesystem::has($site_theme_settings_dir)  and Filesystem::createDir($site_theme_settings_dir);
 
                 // Check if default theme settings file exists
-                if (! Filesystem::has($default_theme_settings_file)) throw new RuntimeException('Load ' . $theme['dirname'] . ' theme settings - failed!');
+                if (! Filesystem::has($default_theme_settings_file)) {
+                    throw new RuntimeException('Load ' . $theme['dirname'] . ' theme settings - failed!');
+                }
 
                 // Get default theme manifest content
                 $default_theme_settings_file_content = Filesystem::read($default_theme_settings_file);
@@ -102,7 +104,9 @@ class Themes
                 }
 
                 // Check if default theme manifest file exists
-                if (! Filesystem::has($default_theme_manifest_file)) RuntimeException('Load ' . $theme['dirname'] . ' theme manifest - failed!');
+                if (! Filesystem::has($default_theme_manifest_file)) {
+                    RuntimeException('Load ' . $theme['dirname'] . ' theme manifest - failed!');
+                }
 
                 // Get default theme manifest content
                 $default_theme_manifest_file_content = Filesystem::read($default_theme_manifest_file);
