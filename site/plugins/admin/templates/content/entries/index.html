@@ -232,7 +232,7 @@
                 <i class="icon icon--4xl">{{ icon('fas fa-database') }}</i>
                 <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_entries_yet') }}</h3>
                 <a href="javascript:;" class="button" onclick="event.preventDefault();
-                selectEntryType('{{ id_current }}', {{ loop.index0 }});">{{ tr('admin_create_new_entry') }}</a>
+                selectEntryType('{{ id_current }}', 0);">{{ tr('admin_create_new_entry') }}</a>
             </div>
         </div>
     {% endif %}
@@ -266,7 +266,9 @@
 {% block tail %}
     <script>
         function deleteEntry(id, row_num) {
-            dropdown[row_num].hide();
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
             Swal.fire(
                 {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_entry_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
             ).then((result) => {
@@ -277,7 +279,9 @@
         }
 
         function selectEntryType(id, row_num) {
-            dropdown[row_num].hide();
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
             Swal.fire({
                 title: "{{ tr('admin_select_entry_type') }}",
                 showCloseButton: true,
