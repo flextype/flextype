@@ -357,3 +357,6 @@ admin_message_delivery_images_api_token_was_not_created: "Delivery token for ima
 admin_message_delivery_images_api_token_deleted: "Delivery token for images deleted."
 admin_message_delivery_images_api_token_was_not_deleted: "Delivery token for images was not deleted."
 admin_confirmation_required_for_delivery_images_token_delete: "Are you sure you want to delete this delivery token for images?"
+admin_installation_username_tip: "Lowercase chars only, e.g. admin"
+admin_installation_email_tip: "Valid email address"
+admin_installation_password_tip: "The password must have at least 8 characters, contain uppercase letters, lowercase letters, special characters and numbers."
