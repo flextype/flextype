@@ -27,7 +27,7 @@
     "gulp-concat": "^2.6.1",
     "gulp-csso": "^4.0.1",
     "gulp-postcss": "^8.0.0",
-    "gulp-purgecss": "^1.2.0",
+    "gulp-purgecss": "^2.0.6",
     "gulp-sourcemaps": "^2.6.5",
     "jquery": "^3.4.1",
     "parsleyjs": "^2.9.2",
