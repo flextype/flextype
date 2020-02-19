@@ -162,7 +162,7 @@ class Entries
                 // Return empty array
                 return [];
 
-            // else Try to get requested entry from the filesystem
+                // else Try to get requested entry from the filesystem
             }
 
             $entry_decoded = $this->flextype['parser']->decode(Filesystem::read($entry_file), 'frontmatter');
