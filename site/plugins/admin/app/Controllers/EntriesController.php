@@ -281,6 +281,11 @@ class EntriesController extends Controller
                 }
 
                 if ($this->entries->create($id, $data_result)) {
+
+                    if (! Filesystem::has(PATH['uploads'] . '/entries/' . $id)) {
+                        Filesystem::createDir(PATH['uploads'] . '/entries/' . $id);
+                    }
+
                     $this->clearEntryCounter($parent_entry_id);
                     $this->flash->addMessage('success', __('admin_message_entry_created'));
                 } else {
@@ -496,6 +501,9 @@ class EntriesController extends Controller
                 $data['entry_id_path_current'],
                 $data['parent_entry'] . '/' . $this->slugify->slugify($data['entry_id_current'])
             )) {
+
+                rename(PATH['uploads'] . '/entries/' . $data['entry_id_path_current'], PATH['uploads'] . '/entries/' . $data['parent_entry'] . '/' . $this->slugify->slugify($data['entry_id_current']));
+
                 $this->clearEntryCounter($data['parent_entry']);
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
             } else {
@@ -571,6 +579,7 @@ class EntriesController extends Controller
             $data['entry_path_current'],
             $data['entry_parent'] . '/' . $this->slugify->slugify($data['name'])
         )) {
+            rename(PATH['uploads'] . '/entries/' . $data['entry_path_current'], PATH['uploads'] . '/entries/' . $data['entry_parent'] . '/' . $this->slugify->slugify($data['name']));
             $this->clearEntryCounter($data['entry_path_current']);
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
@@ -597,6 +606,8 @@ class EntriesController extends Controller
 
         if ($this->entries->delete($id)) {
 
+            Filesystem::deleteDir(PATH['uploads'] . '/entries/' . $id);
+
             $this->clearEntryCounter($id_current);
 
             $this->flash->addMessage('success', __('admin_message_entry_deleted'));
@@ -622,7 +633,11 @@ class EntriesController extends Controller
         $id = $data['id'];
         $parent_id = implode('/', array_slice(explode("/", $id), 0, -1));
 
-        $this->entries->copy($id, $id . '-duplicate-' . date("Ymd_His"), true);
+        $random_date = date("Ymd_His");
+
+        $this->entries->copy($id, $id . '-duplicate-' . $random_date, true);
+
+        Filesystem::copy(PATH['uploads'] . '/entries/' . $id, PATH['uploads'] . '/entries/' . $id . '-duplicate-' . $random_date, true);
 
         $this->clearEntryCounter($parent_id);
 
@@ -871,7 +886,7 @@ class EntriesController extends Controller
         $entry_id = $data['entry-id'];
         $media_id = $data['media-id'];
 
-        $files_directory = PATH['entries'] . '/' . $entry_id . '/' . $media_id;
+        $files_directory = PATH['uploads'] . '/entries/' . $entry_id . '/' . $media_id;
 
         Filesystem::delete($files_directory);
 
@@ -894,7 +909,7 @@ class EntriesController extends Controller
 
         $id = $data['entry-id'];
 
-        $files_directory = PATH['entries'] . '/' . $id . '/';
+        $files_directory = PATH['uploads'] . '/entries/' . $id . '/';
 
         $file = $this->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('plugins.admin.entries.media.accept_file_types'), 27000000);
 
@@ -1069,7 +1084,7 @@ class EntriesController extends Controller
     {
         $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
         $files = [];
-        foreach (array_diff(scandir(PATH['entries'] . '/' . $id), ['..', '.']) as $file) {
+        foreach (array_diff(scandir(PATH['uploads'] . '/entries/' . $id), ['..', '.']) as $file) {
             if (strpos($this->registry->get('plugins.admin.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($file !== 'entry.md') {
@@ -1086,7 +1101,7 @@ class EntriesController extends Controller
     }
 
     /**
-     * Display view token - process
+     * Display view - process
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
