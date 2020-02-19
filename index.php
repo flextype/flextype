@@ -40,6 +40,7 @@ define('PATH', [
     'fieldsets' => ROOT_DIR . '/site/fieldsets',
     'tokens'    => ROOT_DIR . '/site/tokens',
     'accounts'  => ROOT_DIR . '/site/accounts',
+    'uploads'  => ROOT_DIR  . '/site/uploads',
     'config'    => [
         'default' => ROOT_DIR . '/flextype/config',
         'site'    => ROOT_DIR . '/site/config',
