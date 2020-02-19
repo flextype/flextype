@@ -92,7 +92,9 @@
 {% block tail %}
     <script>
         function deleteSnippet(id, row_num) {
-            dropdown[row_num].hide();
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
             Swal.fire(
                 {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_snippet_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
             ).then((result) => {
@@ -103,7 +105,9 @@
         }
 
         function embededCode(id, row_num) {
-            dropdown[row_num].hide();
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
             Swal.fire({
                 title: "{{ tr('admin_embeded_code') }}",
                 showCloseButton: true,
