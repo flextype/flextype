@@ -121,16 +121,15 @@ class Plugins
                 // Create site plugin settings directory
                 ! Filesystem::has($site_plugin_settings_dir)  and Filesystem::createDir($site_plugin_settings_dir);
 
-                // Create site plugin settings and manifest files
-                ! Filesystem::has($site_plugin_settings_file) and Filesystem::write($site_plugin_settings_file, '');
-                ! Filesystem::has($site_plugin_manifest_file) and Filesystem::write($site_plugin_manifest_file, '');
-
                 // Check if default plugin settings file exists
                 if (! Filesystem::has($default_plugin_settings_file)) throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin settings - failed!');
 
                 // Get default plugin settings content
                 $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
                 $default_plugin_settings              = $this->flextype['parser']->decode($default_plugin_settings_file_content, 'yaml');
+
+                // Create site plugin settings file
+                ! Filesystem::has($site_plugin_settings_file) and Filesystem::write($site_plugin_settings_file, $default_plugin_settings_file_content);
 
                 // Get site plugin settings content
                 $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
@@ -146,6 +145,9 @@ class Plugins
                 // Get default plugin manifest content
                 $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
                 $default_plugin_manifest              = $this->flextype['parser']->decode($default_plugin_manifest_file_content, 'yaml');
+
+                // Create site plugin manifest file
+                ! Filesystem::has($site_plugin_manifest_file) and Filesystem::write($site_plugin_manifest_file, $default_plugin_manifest_file_content);
 
                 // Get site plugin manifest content
                 $site_plugin_manifest_file_content = Filesystem::read($site_plugin_manifest_file);
