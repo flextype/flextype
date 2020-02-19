@@ -247,8 +247,7 @@ $flextype['view'] = static function ($container) {
     // Load Flextype Twig extensions from directory /flextype/twig/ based on settings.twig.extensions array
     $twig_extensions = $container['registry']->get('flextype.twig.extensions');
 
-    foreach($twig_extensions as $twig_extension) {
-
+    foreach ($twig_extensions as $twig_extension) {
         $twig_extension_class_name = $twig_extension . 'TwigExtension';
         $twig_extension_class_name_with_namespace = 'Flextype\\' . $twig_extension . 'TwigExtension';
 
@@ -265,12 +264,12 @@ $flextype['view'] = static function ($container) {
  * Add themes service to Flextype container
  */
 $flextype['themes'] = static function ($container) use ($flextype, $app) {
-     return new Themes($flextype, $app);
+    return new Themes($flextype, $app);
 };
 
 /**
  * Add plugins service to Flextype container
  */
 $flextype['plugins'] = static function ($container) use ($flextype, $app) {
-     return new Plugins($flextype, $app);
+    return new Plugins($flextype, $app);
 };
