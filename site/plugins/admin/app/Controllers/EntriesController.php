@@ -496,13 +496,20 @@ class EntriesController extends Controller
         // Get data from POST
         $data = $request->getParsedBody();
 
-        if (!$this->entries->has($data['parent_entry'] . '/' . $data['entry_id_current'])) {
+        // Set entry id current
+        if ($this->registry->get('plugins.admin.entries.slugify') == true) {
+            $entry_id_current = $this->slugify->slugify($data['entry_id_current']);
+        } else {
+            $entry_id_current = $data['entry_id_current'];
+        }
+
+        if (!$this->entries->has($data['parent_entry'] . '/' . $entry_id_current)) {
             if ($this->entries->rename(
-                $data['entry_id_path_current'],
-                $data['parent_entry'] . '/' . $this->slugify->slugify($data['entry_id_current'])
+                $entry_id_current,
+                $data['parent_entry'] . '/' . $entry_id_current
             )) {
 
-                rename(PATH['uploads'] . '/entries/' . $data['entry_id_path_current'], PATH['uploads'] . '/entries/' . $data['parent_entry'] . '/' . $this->slugify->slugify($data['entry_id_current']));
+                rename(PATH['uploads'] . '/entries/' . $data['entry_id_path_current'], PATH['uploads'] . '/entries/' . $data['parent_entry'] . '/' . $entry_id_current);
 
                 $this->clearEntryCounter($data['parent_entry']);
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
@@ -575,10 +582,17 @@ class EntriesController extends Controller
     {
         $data = $request->getParsedBody();
 
+        // Set name
+        if ($this->registry->get('plugins.admin.entries.slugify') == true) {
+            $name = $this->slugify->slugify($data['name']);
+        } else {
+            $name = $data['name'];
+        }
+
         if ($this->entries->rename(
             $data['entry_path_current'],
-            $data['entry_parent'] . '/' . $this->slugify->slugify($data['name'])
-        )) {
+            $data['entry_parent'] . '/' . $name)
+        ) {
             rename(PATH['uploads'] . '/entries/' . $data['entry_path_current'], PATH['uploads'] . '/entries/' . $data['entry_parent'] . '/' . $this->slugify->slugify($data['name']));
             $this->clearEntryCounter($data['entry_path_current']);
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
