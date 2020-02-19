@@ -39,7 +39,6 @@ $app->get('/api/delivery/entries', function (Request $request, Response $respons
 
         // Validate delivery token
         if (validate_delivery_entries_token($request, $flextype)) {
-
             $delivery_entries_token_file_path = PATH['tokens'] . '/delivery/entries/' . $request->getQueryParams()['token'] . '/token.yaml';
 
             // Set delivery token file
@@ -66,7 +65,6 @@ $app->get('/api/delivery/entries', function (Request $request, Response $respons
         } else {
             return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
         }
-
     } else {
         return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
     }

@@ -35,7 +35,6 @@ $app->get('/api/delivery/images/{path:.+}', function (Request $request, Response
 
         // Validate delivery image token
         if (validate_delivery_images_token($request, $flextype)) {
-
             $delivery_images_token_file_path = PATH['tokens'] . '/delivery/images/' . $request->getQueryParams()['token'] . '/token.yaml';
 
             // Set delivery token file
@@ -53,7 +52,6 @@ $app->get('/api/delivery/images/{path:.+}', function (Request $request, Response
                     } else {
                         return $response->withJson([], 404);
                     }
-
                 }
             } else {
                 return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
@@ -63,7 +61,6 @@ $app->get('/api/delivery/images/{path:.+}', function (Request $request, Response
         }
 
         return $response->withStatus(404);
-
     } else {
         return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
     }
