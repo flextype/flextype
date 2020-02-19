@@ -2,16 +2,6 @@ const gulp = require('gulp');
 const tailwindConfig = "tailwind.config.js";
 
 /**
- * Custom PurgeCSS Extractor
- * https://github.com/FullHuman/purgecss
- */
-class TailwindExtractor {
-  static extract(content) {
-    return content.match(/[\w-/:]+(?<!:)/g) || [];
-  }
-}
-
-/**
  * Task: gulp vendor-css
  */
  gulp.task("vendor-css", function() {
@@ -75,7 +65,9 @@ gulp.task("admin-panel-css", function() {
         content: ["../form/templates/**/*.html", "templates/**/*.html"],
         extractors: [
           {
-            extractor: TailwindExtractor,
+            extractor: TailwindExtractor = (content) => {
+                return content.match(/[\w-/:]+(?<!:)/g) || [];
+            },
             extensions: ["html"]
           }
         ]
