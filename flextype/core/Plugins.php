@@ -122,7 +122,9 @@ class Plugins
                 ! Filesystem::has($site_plugin_settings_dir) and Filesystem::createDir($site_plugin_settings_dir);
 
                 // Check if default plugin settings file exists
-                if (! Filesystem::has($default_plugin_settings_file)) throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin settings - failed!');
+                if (! Filesystem::has($default_plugin_settings_file)) {
+                    throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin settings - failed!');
+                }
 
                 // Get default plugin settings content
                 $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
@@ -140,7 +142,9 @@ class Plugins
                 }
 
                 // Check if default plugin manifest file exists
-                if (! Filesystem::has($default_plugin_manifest_file)) RuntimeException('Load ' . $plugin['dirname'] . ' plugin manifest - failed!');
+                if (! Filesystem::has($default_plugin_manifest_file)) {
+                    RuntimeException('Load ' . $plugin['dirname'] . ' plugin manifest - failed!');
+                }
 
                 // Get default plugin manifest content
                 $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
