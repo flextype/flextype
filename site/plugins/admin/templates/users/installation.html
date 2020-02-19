@@ -11,21 +11,21 @@
                     <label class="form-control-title">{{ tr('admin_username') }}</label>
                     <input type="text" name="username" value="" class="form-control" placeholder="" pattern="^[a-z0-9_-]{3,16}$" required="required">
                     <small>
-                        Lowercase chars only, e.g. admin
+                        {{ tr('admin_installation_username_tip') }}
                     </small>
                 </div>
                 <div class="form-group">
                     <label for="email" class="form-control-title">{{ tr('admin_email') }}</label>
                     <input type="text" name="email" value="" class="form-control" placeholder="" required="required">
                     <small>
-                        Valid email address
+                        {{ tr('admin_installation_email_tip') }}
                     </small>
                 </div>
                 <div class="form-group">
                     <label for="password" class="form-control-title">{{ tr('admin_password') }}</label>
                     <input type="password" name="password" value="" class="form-control" placeholder="" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required="required">
                     <small>
-                        The password must have at least 8 characters, contain uppercase letters, lowercase letters, special characters and numbers.
+                        {{ tr('admin_installation_password_tip') }}
                     </small>
                 </div>
                 <div class="button-group">
