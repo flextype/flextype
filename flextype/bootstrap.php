@@ -169,7 +169,7 @@ date_default_timezone_set($flextype['registry']->get('flextype.timezone'));
  */
 $shortcodes_extensions = $flextype['registry']->get('flextype.shortcodes.extensions');
 
-foreach($shortcodes_extensions as $shortcodes_extension) {
+foreach ($shortcodes_extensions as $shortcodes_extension) {
     $shortcodes_extension_file_path = ROOT_DIR . '/flextype/shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';
     if (file_exists($shortcodes_extension_file_path)) {
         include_once $shortcodes_extension_file_path;
