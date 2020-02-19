@@ -137,8 +137,55 @@ class UsersController extends Controller
                     'uuid' => $uuid,
                 ], 'yaml')
             )) {
-                // Update default flextype entries
+
+                // Update default entry
                 $this->entries->update('home', ['created_by' => $uuid, 'published_by' => $uuid, 'published_at' => $time, 'created_at' => $time]);
+
+                // Create default entries delivery token
+                $api_delivery_entries_token = bin2hex(random_bytes(16));
+                $api_delivery_entries_token_dir_path  = PATH['tokens'] . '/delivery/entries/' . $api_delivery_entries_token;
+                $api_delivery_entries_token_file_path = $api_delivery_entries_token_dir_path . '/token.yaml';
+
+                if (! Filesystem::has($api_delivery_entries_token_dir_path)) Filesystem::createDir($api_delivery_entries_token_dir_path);
+
+                Filesystem::write(
+                    $api_delivery_entries_token_file_path,
+                    $this->parser->encode([
+                        'title' => 'Default',
+                        'icon' => 'fas fa-database',
+                        'limit_calls' => (int) 0,
+                        'calls' => (int) 0,
+                        'state' => 'enabled',
+                        'uuid' => $uuid,
+                        'created_by' => $uuid,
+                        'created_at' => $time,
+                        'updated_by' => $uuid,
+                        'updated_at' => $time,
+                    ], 'yaml')
+                );
+
+                // Create default images delivery token
+                $api_delivery_images_token = bin2hex(random_bytes(16));
+                $api_delivery_images_token_dir_path  = PATH['tokens'] . '/delivery/images/' . $api_delivery_images_token;
+                $api_delivery_images_token_file_path = $api_delivery_images_token_dir_path . '/token.yaml';
+
+                if (! Filesystem::has($api_delivery_images_token_dir_path)) Filesystem::createDir($api_delivery_images_token_dir_path);
+
+                Filesystem::write(
+                    $api_delivery_images_token_file_path,
+                    $this->parser->encode([
+                        'title' => 'Default',
+                        'icon' => 'far fa-images',
+                        'limit_calls' => (int) 0,
+                        'calls' => (int) 0,
+                        'state' => 'enabled',
+                        'uuid' => $uuid,
+                        'created_by' => $uuid,
+                        'created_at' => $time,
+                        'updated_by' => $uuid,
+                        'updated_at' => $time,
+                    ], 'yaml')
+                );
 
                 return $response->withRedirect($this->router->pathFor('admin.users.login'));
             }
