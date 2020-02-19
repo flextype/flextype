@@ -101,30 +101,11 @@ class PluginsController extends Controller
         // Get Plugin ID
         $id = $request->getQueryParams()['id'];
 
-        // Init plugin configs
-        $plugin                  = [];
-        $plugin_manifest         = [];
-        $default_plugin_manifest = [];
-        $site_plugin_manifest    = [];
+        // Set plugin custom manifest content
+        $custom_plugin_manifest_file = PATH['config']['site'] . '/plugins/' . $id . '/plugin.yaml';
 
-        $default_plugin_manifest_file = PATH['plugins'] . '/' . $id . '/plugin.yaml';
-        $site_plugin_manifest_file    = PATH['config']['site'] . '/plugins/' . $id . '/plugin.yaml';
-
-        // Get default plugin manifest content
-        $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
-        $default_plugin_manifest              = $this->parser->decode($default_plugin_manifest_file_content, 'yaml');
-
-        // Get site plugin manifest content
-        $site_plugin_manifest_file_content = Filesystem::read($site_plugin_manifest_file);
-        if (trim($site_plugin_manifest_file_content) === '') {
-            $site_plugin_manifest = [];
-        } else {
-            $site_plugin_manifest = $this->parser->decode($site_plugin_manifest_file_content, 'yaml');
-        }
-
-        $plugin[$id]['manifest'] = array_merge(
-            array_replace_recursive($default_plugin_manifest, $site_plugin_manifest)
-        );
+        // Get plugin custom manifest content
+        $custom_plugin_manifest_file_content = Filesystem::read($custom_plugin_manifest_file);
 
         return $this->view->render(
             $response,
@@ -132,7 +113,7 @@ class PluginsController extends Controller
             [
                 'menu_item' => 'plugins',
                 'id' => $id,
-                'plugin_manifest' => $plugin[$id]['manifest'],
+                'plugin_manifest' => $this->parser->decode($custom_plugin_manifest_file_content, 'yaml'),
                 'links' =>  [
                     'plugins' => [
                         'link' => $this->router->pathFor('admin.plugins.index'),
@@ -160,31 +141,11 @@ class PluginsController extends Controller
         // Get Plugin ID
         $id = $request->getQueryParams()['id'];
 
-        // Init plugin configs
-        $plugin                  = [];
-        $plugin_settings         = [];
-        $default_plugin_settings = [];
-        $site_plugin_settings    = [];
+        // Set plugin custom setting file
+        $custom_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $id . '/settings.yaml';
 
-        $default_plugin_settings_file = PATH['plugins'] . '/' . $id . '/settings.yaml';
-        $site_plugin_settings_file    = PATH['config']['site'] . '/plugins/' . $id . '/settings.yaml';
-
-        // Get default plugin settings content
-        $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
-        $default_plugin_settings              = $this->parser->decode($default_plugin_settings_file_content, 'yaml');
-
-        // Get site plugin settings content
-        $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
-        if (trim($site_plugin_settings_file_content) === '') {
-            $site_plugin_settings = [];
-        } else {
-            $site_plugin_settings = $this->parser->decode($site_plugin_settings_file_content, 'yaml');
-        }
-
-        // Merge plugin settings data
-        $plugin[$id]['settings'] = array_merge(
-            array_replace_recursive($default_plugin_settings, $site_plugin_settings)
-        );
+        // Get plugin custom setting file content
+        $custom_plugin_settings_file_content = Filesystem::read($custom_plugin_settings_file);
 
         return $this->view->render(
             $response,
@@ -192,12 +153,11 @@ class PluginsController extends Controller
             [
                 'menu_item' => 'plugins',
                 'id' => $id,
-                'plugin_settings' => $this->parser->encode($plugin[$id]['settings'], 'yaml'),
+                'plugin_settings' => $custom_plugin_settings_file_content,
                 'links' =>  [
                     'plugins' => [
                         'link' => $this->router->pathFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
-
                     ],
                     'plugins_settings' => [
                         'link' => $this->router->pathFor('admin.plugins.settings') . '?id=' . $request->getQueryParams()['id'],
@@ -224,10 +184,10 @@ class PluginsController extends Controller
      */
     public function settingsProcess(Request $request, Response $response) : Response
     {
-        $data = $request->getParsedBody();
+        $post_data = $request->getParsedBody();
 
-        $id   = $data['id'];
-        $data = $data['data'];
+        $id   = $post_data['id'];
+        $data = $post_data['data'];
 
         $site_plugin_settings_dir  = PATH['config']['site'] . '/plugins/' . $id;
         $site_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $id . '/settings.yaml';
