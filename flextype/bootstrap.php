@@ -52,28 +52,34 @@ $registry = new Registry();
 $default_flextype_settings_file_path = PATH['config']['default'] . '/settings.yaml';
 $custom_flextype_settings_file_path  = PATH['config']['site'] . '/settings.yaml';
 
-// Set settings if Flextype Default settings and Flextype Custom settings config files exist
-if (! Filesystem::has($default_flextype_settings_file_path) || ! Filesystem::has($custom_flextype_settings_file_path)) {
-    throw new RuntimeException('Flextype Default settings or Flextype Custom settings config files does not exist.');
+// Create config dir
+! Filesystem::has(PATH['site'] . '/config/') and Filesystem::createDir(PATH['site'] . '/config/');
+
+// Set settings if Flextype Default settings config files exist
+if (! Filesystem::has($default_flextype_settings_file_path)) {
+    throw new RuntimeException('Flextype Default settings config file does not exist.');
 }
 
-if (($content = Filesystem::read($default_flextype_settings_file_path)) === false) {
+if (($default_flextype_settings_content = Filesystem::read($default_flextype_settings_file_path)) === false) {
     throw new RuntimeException('Load file: ' . $default_flextype_settings_file_path . ' - failed!');
 } else {
-    if (trim($content) === '') {
+    if (trim($default_flextype_settings_content) === '') {
         $default_flextype_settings = [];
     } else {
-        $default_flextype_settings = Yaml::decode($content);
+        $default_flextype_settings = Yaml::decode($default_flextype_settings_content);
     }
 }
 
-if (($content = Filesystem::read($custom_flextype_settings_file_path)) === false) {
+// Create flextype custom settings file
+! Filesystem::has($custom_flextype_settings_file_path) and Filesystem::write($custom_flextype_settings_file_path, $default_flextype_settings_content);
+
+if (($custom_flextype_settings_content = Filesystem::read($custom_flextype_settings_file_path)) === false) {
     throw new RuntimeException('Load file: ' . $custom_flextype_settings_file_path . ' - failed!');
 } else {
-    if (trim($content) === '') {
+    if (trim($custom_flextype_settings_content) === '') {
         $custom_flextype_settings = [];
     } else {
-        $custom_flextype_settings = Yaml::decode($content);
+        $custom_flextype_settings = Yaml::decode($custom_flextype_settings_content);
     }
 }
 
