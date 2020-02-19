@@ -47,7 +47,7 @@ $app->get('/api/delivery/images/{path:.+}', function (Request $request, Response
                     // Update calls counter
                     Filesystem::write($delivery_images_token_file_path, $flextype['parser']->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1]), 'yaml'));
 
-                    if (Filesystem::has(PATH['entries'] . '/' . $args['path'])) {
+                    if (Filesystem::has(PATH['uploads'] . '/entries/' . $args['path'])) {
                         return $flextype['images']->getImageResponse($args['path'], $_GET);
                     } else {
                         return $response->withJson([], 404);
