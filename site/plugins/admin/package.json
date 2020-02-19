@@ -17,7 +17,6 @@
     "url": "https://github.com/flextype/flextype/issues"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "5.12.1",
     "@fullhuman/postcss-purgecss": "^2.0.6",
     "animate.css": "^3.7.2",
     "codemirror": "~5.51.0",
