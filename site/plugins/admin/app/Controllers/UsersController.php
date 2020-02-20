@@ -196,6 +196,11 @@ class UsersController extends Controller
 
                 Filesystem::write($custom_flextype_settings_file_path, $this->parser->encode($custom_flextype_settings_file_data, 'yaml'));
 
+                // Create uploads dir for default entries
+                if (! Filesystem::has(PATH['uploads'] . '/entries/home/')) {
+                    Filesystem::createDir(PATH['uploads'] . '/entries/home/');
+                }
+
                 return $response->withRedirect($this->router->pathFor('admin.users.login'));
             }
 
