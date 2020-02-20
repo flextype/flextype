@@ -202,30 +202,11 @@ class ThemesController extends Controller
         // Get Theme ID
         $id = $request->getQueryParams()['id'];
 
-        // Init theme configs
-        $theme                  = [];
-        $theme_settings         = [];
-        $default_theme_settings = [];
-        $site_theme_settings    = [];
+        // Set theme config
+        $custom_theme_settings_file = PATH['config']['site'] . '/themes/' . $id . '/settings.yaml';
 
-        $default_theme_settings_file = PATH['themes'] . '/' . $id . '/settings.yaml';
-        $site_theme_settings_file    = PATH['config']['site'] . '/themes/' . $id . '/settings.yaml';
-
-        // Get default theme settings content
-        $default_theme_settings_file_content = Filesystem::read($default_theme_settings_file);
-        $default_theme_settings              = $this->parser->decode($default_theme_settings_file_content, 'yaml');
-
-        // Get site plugin settings content
-        $site_theme_settings_file_content = Filesystem::read($site_theme_settings_file);
-        if (trim($site_theme_settings_file_content) === '') {
-            $site_theme_settings = [];
-        } else {
-            $site_theme_settings = $this->parser->decode($site_theme_settings_file_content, 'yaml');
-        }
-
-        $theme[$id]['settings'] = array_merge(
-            array_replace_recursive($default_theme_settings, $site_theme_settings)
-        );
+        // Get theme settings content
+        $custom_theme_settings_file_content = Filesystem::read($custom_theme_settings_file);
 
         return $this->view->render(
             $response,
@@ -233,12 +214,11 @@ class ThemesController extends Controller
             [
                 'menu_item' => 'themes',
                 'id' => $id,
-                'theme_settings' => $this->parser->encode($theme[$id]['settings'], 'yaml'),
+                'theme_settings' => $custom_theme_settings_file_content,
                 'links' =>  [
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-
                     ],
                     'themes_settings' => [
                         'link' => $this->router->pathFor('admin.themes.settings') . '?id=' . $request->getQueryParams()['id'],
