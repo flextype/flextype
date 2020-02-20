@@ -19,7 +19,7 @@
   "dependencies": {
     "gulp": "^4.0.2",
     "gulp-postcss": "^8.0.0",
-    "gulp-purgecss": "^1.2.0",
+    "gulp-purgecss": "^2.0.6",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-concat": "^2.6.1",
     "gulp-csso": "^4.0.1",
