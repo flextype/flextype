@@ -64,24 +64,14 @@ class PluginsController extends Controller
         // Get data from the request
         $post_data = $request->getParsedBody();
 
-        $site_plugin_settings_dir     = PATH['config']['site'] . '/plugins/' . $post_data['plugin-key'];
-        $site_plugin_settings_file    = PATH['config']['site'] . '/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
-        $default_plugin_settings_file = PATH['plugins'] . '/' . $post_data['plugin-key'] . '/settings.yaml';
-
-        // Update settings
-        $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
-
-        if (trim($site_plugin_settings_file_content) === '') {
-            $site_plugin_settings = [];
-        } else {
-            $site_plugin_settings = $this->parser->decode($site_plugin_settings_file_content, 'yaml');
-        }
+        $custom_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
+        $custom_plugin_settings_file_data = $this->parser->decode(Filesystem::read($custom_plugin_settings_file), 'yaml');
 
         $status = ($post_data['plugin-set-status'] == 'true') ? true : false;
 
-        Arr::set($site_plugin_settings, 'enabled', $status);
+        Arr::set($custom_plugin_settings_file_data, 'enabled', $status);
 
-        Filesystem::write($site_plugin_settings_file, $this->parser->encode($site_plugin_settings, 'yaml'));
+        Filesystem::write($custom_plugin_settings_file, $this->parser->encode($custom_plugin_settings_file_data, 'yaml'));
 
         // Clear doctrine cache
         $this->cache->clear('doctrine');
