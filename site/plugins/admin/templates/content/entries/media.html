@@ -7,7 +7,7 @@
             <form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data" action="{{ path_for('admin.entries.uploadMediaFileProcess') }}">
                 {{ csrf() }}
                 <input type="hidden" name="entry-id" value="{{ id }}">
-                <div class="form-group bg-gray-100 p-4">
+                <div class="form-group bg-gray-000 p-4">
                     <input type="submit" id="upload_file" name="upload_file" value="{{ tr('admin_upload') }}" class="button">
                     <input name="file" type="file" class="w-100">
                 </div>
@@ -21,7 +21,7 @@
         {% for file in files %}
             <div class="col w-3/12 flex row justify-center items-center relative p-10 mb-2">
                 {% if (filesystem_ext(file) in allowed_image_files) %}
-                    <img src="{{ base_url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?w=240&q=70&dpr=2&token={{ registry.flextype.api.images.default_token }}" alt="" class="bg-gray-200 p-10">
+                    <img src="{{ base_url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?w=240&q=70&dpr=2&token={{ registry.flextype.api.images.default_token }}" alt="" class="bg-gray-000 p-10">
                 {% endif %}
             </div>
         {% endfor %}
