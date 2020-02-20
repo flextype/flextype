@@ -761,7 +761,7 @@ class EntriesController extends Controller
                             'edit_entry_media' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
                                 'title' => __('admin_media'),
-                                'attributes' => ['class' => 'btn active']
+                                'active' => true
                             ],
                             'edit_entry_source' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',

@@ -23,7 +23,6 @@
             {% for file in files %}
                 <div class="col-sm-2">
                     <div class="item">
-
                         <a
                             href="javascript:;"
                             {% if (filesystem_ext(file) in allowed_files) %}
@@ -47,6 +46,7 @@
         </div>
     </div>
 
+    {#
     <div class="modal animated fadeIn faster image-preview-modal" id="entriesImagePreview" tabindex="-1" role="dialog" aria-labelledby="entriesImagePreviewLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -71,16 +71,5 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block tail %}
-    <script type="text/javascript">
-        $('.js-entries-image-preview').click(function () {
-            $('#entriesImagePreview').modal();
-            $('.js-entry-image-preview-placeholder').css('background-image', 'url(' + $(this).attr('data-image-url') + ')');
-            $('.js-entry-image-url-placeholder').val($(this).attr('data-image-url'));
-            $('.js-media-id').attr('value', $(this).attr('data-media-id'));
-            $('.js-entry-id').attr('value', $(this).attr('data-entry-id'));
-        });
-    </script>
+#}
 {% endblock %}
