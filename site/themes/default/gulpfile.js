@@ -1,16 +1,5 @@
 const gulp = require('gulp');
 const tailwindConfig = "tailwind.config.js";
-const mainCSS = "assets/src/styles.css";
-
-/**
- * Custom PurgeCSS Extractor
- * https://github.com/FullHuman/purgecss
- */
-class TailwindExtractor {
-  static extract(content) {
-    return content.match(/[\w-/:]+(?<!:)/g) || [];
-  }
-}
 
 /**
  * Task: gulp css
@@ -26,14 +15,16 @@ gulp.task("css", function() {
   const autoprefixer = require('gulp-autoprefixer');
 
   return gulp
-    .src(mainCSS)
+    .src(["assets/src/styles.css"])
     .pipe(postcss([atimport(), tailwindcss(tailwindConfig)]))
     .pipe(
       purgecss({
         content: ["**/*.html", "../../**/*.md"],
         extractors: [
           {
-            extractor: TailwindExtractor,
+            extractor: TailwindExtractor = (content) => {
+                return content.match(/[\w-/:]+(?<!:)/g) || [];
+            },
             extensions: ["html", "md"]
           }
         ]
