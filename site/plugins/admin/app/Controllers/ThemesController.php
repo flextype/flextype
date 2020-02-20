@@ -265,15 +265,14 @@ class ThemesController extends Controller
      */
     public function settingsProcess(Request $request, Response $response) : Response
     {
-        $data = $request->getParsedBody();
+        $post_data = $request->getParsedBody();
 
-        $id   = $data['id'];
-        $data = $data['data'];
+        $id   = $post_data['id'];
+        $data = $post_data['data'];
 
-        $site_theme_settings_dir  = PATH['config']['site'] . '/themes/' . $id;
-        $site_theme_settings_file = PATH['config']['site'] . '/themes/' . $id . '/settings.yaml';
+        $custom_theme_settings_file = PATH['config']['site'] . '/themes/' . $id . '/settings.yaml';
 
-        if (Filesystem::write($site_theme_settings_file, $data)) {
+        if (Filesystem::write($custom_theme_settings_file, $data)) {
             $this->flash->addMessage('success', __('admin_message_theme_settings_saved'));
         } else {
             $this->flash->addMessage('error', __('admin_message_theme_settings_not_saved'));
