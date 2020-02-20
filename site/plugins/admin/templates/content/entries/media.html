@@ -2,48 +2,29 @@
 
 {% block content %}
 
-    <form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data" action="{{ path_for('admin.entries.uploadMediaFileProcess') }}">
-        {{ csrf() }}
-        <input type="hidden" name="entry-id" value="{{ id }}">
-        <div class="input-group">
-            <div class="custom-file">
-                <input id="inputGroupFile" name="file" type="file" class="custom-file-input" aria-describedby="inputGroupFileAddon">
-                <label class="custom-file-label" data-browse="{{ tr('admin_browse_files') }}" for="inputGroupFileAddon"></label>
-            </div>
-            <div class="input-group-append">
-                <input type="submit" id="upload_file" name="upload_file" value="{{ tr('admin_upload') }}" class="buttonbtn-outline-secondary">
-            </div>
+    <div class="flex row">
+        <div class="col w-full">
+            <form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data" action="{{ path_for('admin.entries.uploadMediaFileProcess') }}">
+                {{ csrf() }}
+                <input type="hidden" name="entry-id" value="{{ id }}">
+                <div class="form-group bg-gray-100 p-4">
+                    <input type="submit" id="upload_file" name="upload_file" value="{{ tr('admin_upload') }}" class="button">
+                    <input name="file" type="file" class="w-100">
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 
     <br>
-    {% set allowed_files = ['jpeg', 'png', 'gif', 'jpg'] %}
-    <div class="media-manager">
-        <div class="row">
-            {% for file in files %}
-                <div class="col-sm-2">
-                    <div class="item">
-                        <a
-                            href="javascript:;"
-                            {% if (filesystem_ext(file) in allowed_files) %}
-                            style="background: #000;"
-                            {% else %}
-                            {% endif %}
-                            class="img-item js-entries-image-preview"
-                            data-media-id="{{ filesystem_basename(file) }}"
-                            data-entry-id="{{ id }}"
-                            data-image-url="{{ base_url() }}/images{{ id }}/{{ filesystem_basename(file) }}">
-                            <i class="fas fa-eye"></i>
-                            {% if (filesystem_ext(file) in allowed_files) %}
-                            {% else %}
-                                <span class="file-ext">{{ filesystem_ext(file) }}</span>
-                            {% endif %}
-                        </a>
-
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+    {% set allowed_image_files = ['jpeg', 'png', 'gif', 'jpg'] %}
+    <div class="flex row">
+        {% for file in files %}
+            <div class="col w-3/12 flex row justify-center items-center relative p-10 mb-2">
+                {% if (filesystem_ext(file) in allowed_image_files) %}
+                    <img src="{{ base_url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?w=240&q=70&dpr=2&token={{ registry.flextype.api.images.default_token }}" alt="" class="bg-gray-200 p-10">
+                {% endif %}
+            </div>
+        {% endfor %}
     </div>
 
     {#
