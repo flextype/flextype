@@ -143,30 +143,11 @@ class ThemesController extends Controller
         // Get Theme ID
         $id = $request->getQueryParams()['id'];
 
-        // Init theme configs
-        $theme                  = [];
-        $theme_manifest         = [];
-        $default_theme_manifest = [];
-        $site_theme_manifest    = [];
+        // Set theme custom manifest content
+        $custom_theme_manifest_file = PATH['config']['site'] . '/themes/' . $id . '/theme.yaml';
 
-        $default_theme_manifest_file = PATH['themes'] . '/' . $id . '/theme.yaml';
-        $site_theme_manifest_file    = PATH['config']['site'] . '/themes/' . $id . '/theme.yaml';
-
-        // Get default theme manifest content
-        $default_theme_manifest_file_content = Filesystem::read($default_theme_manifest_file);
-        $default_theme_manifest              = $this->parser->decode($default_theme_manifest_file_content, 'yaml');
-
-        // Get site theme manifest content
-        $site_theme_manifest_file_content = Filesystem::read($site_theme_manifest_file);
-        if (trim($site_theme_manifest_file_content) === '') {
-            $site_theme_manifest = [];
-        } else {
-            $site_theme_manifest = $this->parser->decode($site_theme_manifest_file_content, 'yaml');
-        }
-
-        $theme[$id]['manifest'] = array_merge(
-            array_replace_recursive($default_theme_manifest, $site_theme_manifest)
-        );
+        // Get theme custom manifest content
+        $custom_theme_manifest_file_content = Filesystem::read($custom_theme_manifest_file);
 
         return $this->view->render(
             $response,
@@ -174,12 +155,11 @@ class ThemesController extends Controller
             [
                 'menu_item' => 'themes',
                 'id' => $id,
-                'theme_manifest' => $theme[$id]['manifest'],
+                'theme_manifest' => $this->parser->decode($custom_theme_manifest_file_content, 'yaml'),
                 'links' =>  [
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-
                     ],
                     'themes_information' => [
                         'link' => $this->router->pathFor('admin.themes.information') . '?id=' . $request->getQueryParams()['id'],
