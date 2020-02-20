@@ -187,6 +187,15 @@ class UsersController extends Controller
                     ], 'yaml')
                 );
 
+                // Set Default API's tokens
+                $custom_flextype_settings_file_path = PATH['config']['site'] . '/settings.yaml';
+                $custom_flextype_settings_file_data = $this->parser->decode(Filesystem::read($custom_flextype_settings_file_path), 'yaml');
+
+                $custom_flextype_settings_file_data['api']['images']['default_token']  = $api_delivery_images_token;
+                $custom_flextype_settings_file_data['api']['entries']['default_token'] = $api_delivery_entries_token;
+
+                Filesystem::write($custom_flextype_settings_file_path, $this->parser->encode($custom_flextype_settings_file_data, 'yaml'));
+
                 return $response->withRedirect($this->router->pathFor('admin.users.login'));
             }
 
