@@ -149,7 +149,7 @@ $flextype['images'] = static function ($container) {
 
     // Set source filesystem
     $source = new Filesystem(
-        new Local(PATH['entries'])
+        new Local(PATH['uploads'] . '/entries/')
     );
 
     // Set cache filesystem
