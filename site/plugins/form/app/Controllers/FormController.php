@@ -264,26 +264,18 @@ class FormController extends Controller
      */
     protected function mediaSelectField(string $field_id, string $field_name, $field_value, array $properties, Request $request) : string
     {
-        /*
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
         $help  = isset($properties['help'])  ? $properties['help'] : '';
+
+        $id      = isset($properties['id'])    ? $properties['id'] : $field_id;
+        $class   = isset($properties['class']) ? $properties['class'] . $this->field_class : $this->field_class;
+        $name    = isset($properties['name'])  ? $properties['name'] : $field_name;
+        $current_value   = isset($properties['value']) ? $properties['value'] : $field_value;
+
         $options = $this->flextype->EntriesController->getMediaList($request->getQueryParams()['id'], false);
 
-        $attributes = isset($properties['attributes']) ? $properties['attributes'] : [];
-        $attributes['id'] = isset($attributes['id']) ? $attributes['id'] : $field_id;
-        $attributes['class'] = isset($attributes['class']) ? $attributes['class'] : $this->field_class . ' js-select';
-
-        $field  = '<div class="form-group ' . $size . '">';
-        $field .= ($title ? Form::label($field_id, __($title)) : '');
-        $field .= Form::select($field_name, $options, $field_value, $attributes);
-        $field .= ($help ? '<small class="form-text text-muted">' . __($help) . '</small>' : '');
-        $field .= '</div>';
-
-        return $field;
-        */
-
-        return '';
+        return $this->flextype['view']->fetch('plugins/form/templates/fields/select-template/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help , 'options' => $options, 'current_value' => $current_value]);
     }
 
     /**
