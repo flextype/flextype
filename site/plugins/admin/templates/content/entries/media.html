@@ -56,12 +56,13 @@
                                 {{ tr('admin_embeded_code') }}</a>
                             <div class="dropdown__divider"></div>
                             <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                            deleteSnippet('{{ id }}', {{ loop.index0 }});">
+                            deleteMedia('{{ index }}', {{ loop.index0 }});">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
                                 {{ tr('admin_delete') }}</a>
-                            <form id="delete-snippet-id-{{ id }}" action="{{ path_for('admin.snippets.deleteProcess') }}" method="POST" style="display: none;">
+                            <form id="delete-media-file-{{ index }}" action="{{ path_for('admin.entries.deleteMediaFileProcess') }}" method="POST" style="display: none;">
                                 {{ csrf() }}
-                                <input type="hidden" name="snippet-id" value="{{ id }}">
+                                <input type="hidden" name="entry-id" value="{{ id }}">
+                                <input type="hidden" name="media-id" value="{{ filesystem_basename(file) }}">
                             </form>
                         </div>
                     </td>
@@ -80,50 +81,23 @@
             <textarea class="js-delivery-images-api-link form-control" style="height: 82px;"></textarea>
         </div>
     </div>
-
-    <br>
-
-    {#
-    <div class="flex row">
-        {% for file in files %}
-            <div class="col w-3/12 flex row justify-center items-center relative p-10 mb-2">
-                {% if (filesystem_ext(file) in allowed_image_files) %}
-                    <img src="{{ base_url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?w=240&q=70&dpr=2&token={{ registry.flextype.api.images.default_token }}" alt="" class="bg-gray-000 p-10">
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
-
-
-    <div class="modal animated fadeIn faster image-preview-modal" id="entriesImagePreview" tabindex="-1" role="dialog" aria-labelledby="entriesImagePreviewLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="entriesImagePreviewLabel">{{ tr('admin_preview') }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body js-entry-image-preview-placeholder image-preview"></div>
-                <div class="modal-footer">
-                    <input type="text" name="" class="form-control js-entry-image-url-placeholder" value="">
-                    <form id="delete-media-file" action="{{ path_for('admin.entries.deleteMediaFileProcess') }}" method="POST" style="display: none;">
-                        {{ csrf() }}
-                        <input type="hidden" name="media-id" class="js-media-id" value="">
-                        <input type="hidden" name="entry-id" class="js-entry-id" value="">
-                    </form>
-                    <a class="buttonbtn-primary" href="javascript:;" onclick="event.preventDefault();
-                      document.getElementById('delete-media-file').submit();">{{ tr('admin_delete') }}</a>
-
-                </div>
-            </div>
-        </div>
-    </div>
-#}
 {% endblock %}
 
 {% block tail %}
     <script>
+        function deleteMedia(id, row_num) {
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
+            Swal.fire(
+                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_media_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
+            ).then((result) => {
+                if (result.value) {
+                    document.getElementById('delete-media-file-' + id).submit();
+                }
+            });
+        }
+
         function embededCode(id, row_num) {
             if (dropdown[row_num]) {
                 dropdown[row_num].hide();
