@@ -29,10 +29,14 @@
         </thead>
         <tbody>
             {% for file in files %}
+                {% set index = loop.index0 %}
                 <tr
-                    id="file_{{ loop.index0 }}"
+                    id="file_{{ index }}"
                     data-direct-link="{{ site_url() }}/site/uploads/entries/{{ id }}/{{ filesystem_basename(file) }}"
-                    data-delivery-images-api-link="{{ site_url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?token={{ registry.flextype.api.images.default_token }}">
+                    {% if (filesystem_ext(file) in allowed_image_files) %}
+                    data-delivery-images-api-link-state="true"
+                    data-delivery-images-api-link="{{ site_url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?token={{ registry.flextype.api.images.default_token }}"
+                    {% endif %}>
                     <td style="height: 64px;">
                         {{ filesystem_basename(file) }}
                     </td>
@@ -42,12 +46,12 @@
                         {% endif %}
                     </td>
                     <td class="text-right" style="height: 64px;">
-                        <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ id }}">
+                        <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ index }}">
                             <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                         </button>
-                        <div id="dropdown-{{ id }}" class="dropdown">
+                        <div id="dropdown-{{ index }}" class="dropdown">
                             <a class="dropdown__item js-snippets-info" href="javascript:;" onclick="event.preventDefault();
-                            embededCode('{{ filesystem_basename(file) }}', {{ loop.index0 }});">
+                            embededCode('{{ filesystem_basename(file) }}', {{ index }});">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-code') }}</i>
                                 {{ tr('admin_embeded_code') }}</a>
                             <div class="dropdown__divider"></div>
@@ -71,7 +75,7 @@
             <label for="shortcode" class="form-control-title text-left">{{ tr('admin_direct_link') }}</label>
             <textarea class="js-direct-link form-control" style="height: 82px;"></textarea>
         </div>
-        <div class="form-group">
+        <div class="form-group js-delivery-images-api-link-wrapper hidden">
             <label for="shortcode" class="form-control-title text-left">{{ tr('admin_delivery_images_api_link') }}</label>
             <textarea class="js-delivery-images-api-link form-control" style="height: 82px;"></textarea>
         </div>
@@ -131,8 +135,13 @@
                 showConfirmButton: false,
                 html: $('._embeded-code-template').html(),
                 onBeforeOpen: () => {
+                    $('.js-delivery-images-api-link-wrapper').addClass('hidden');
+                    const data = $('#file_' + row_num).attr('data-delivery-images-api-link-state');
+                    if (data === 'true') {
+                        $('.js-delivery-images-api-link-wrapper').removeClass('hidden');
+                        $('.js-delivery-images-api-link').val($('#file_' + row_num).attr('data-delivery-images-api-link'));
+                    }
                     $('.js-direct-link').val($('#file_' + row_num).attr('data-direct-link'));
-                    $('.js-delivery-images-api-link').val($('#file_' + row_num).attr('data-delivery-images-api-link'));
                 }
             });
         }
