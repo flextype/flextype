@@ -30,7 +30,7 @@ class ApiDeliveryController extends Controller
             'plugins/admin/templates/system/api/delivery/index.html',
             [
                 'menu_item' => 'api',
-                'api_list' => ['entries' => 'Entries', 'images' => 'Images'],
+                'api_list' => ['entries' => 'Entries', 'images' => 'Images', 'registry' => 'Registry'],
                 'links' =>  [
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),

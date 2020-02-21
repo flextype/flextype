@@ -88,3 +88,7 @@ $flextype['ApiDeliveryEntriesController'] = static function ($container) {
 $flextype['ApiDeliveryImagesController'] = static function ($container) {
     return new ApiDeliveryImagesController($container);
 };
+
+$flextype['ApiDeliveryRegistryController'] = static function ($container) {
+    return new ApiDeliveryRegistryController($container);
+};

@@ -116,5 +116,11 @@ $app->group('/' . $admin_route, function () use ($app) : void {
     $app->post('/api/delivery/images/edit', 'ApiDeliveryImagesController:editProcess')->setName('admin.api_delivery_images.editProcess');
     $app->post('/api/delivery/images/delete', 'ApiDeliveryImagesController:deleteProcess')->setName('admin.api_delivery_images.deleteProcess');
 
+    $app->get('/api/delivery/registry', 'ApiDeliveryRegistryController:index')->setName('admin.api_delivery_registry.index');
+    $app->get('/api/delivery/registry/add', 'ApiDeliveryRegistryController:add')->setName('admin.api_delivery_registry.add');
+    $app->post('/api/delivery/registry/add', 'ApiDeliveryRegistryController:addProcess')->setName('admin.api_delivery_registry.addProcess');
+    $app->get('/api/delivery/registry/edit', 'ApiDeliveryRegistryController:edit')->setName('admin.api_delivery_registry.edit');
+    $app->post('/api/delivery/registry/edit', 'ApiDeliveryRegistryController:editProcess')->setName('admin.api_delivery_registry.editProcess');
+    $app->post('/api/delivery/registry/delete', 'ApiDeliveryRegistryController:deleteProcess')->setName('admin.api_delivery_registry.deleteProcess');
 
 })->add(new AuthMiddleware($flextype));
