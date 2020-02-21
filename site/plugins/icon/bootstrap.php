@@ -30,7 +30,7 @@ use function is_file;
 $form_loader = require_once $form_autoload;
 
 /**
- * Include dependencies
+ * Include shortcodes
  */
 include_once 'shortcodes/IconShortcodeExtension.php';
 
