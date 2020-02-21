@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use Slim\Http\Environment;
+use Slim\Http\Uri;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use function ltrim;
@@ -94,6 +96,22 @@ class SiteController extends Controller
         }
 
         return $this->view->render($response, $path, ['entry' => $this->entry, 'query' => $query, 'uri' => $uri]);
+    }
+
+    /**
+     * Get Site URL
+     *
+     * @return string
+     *
+     * @access public
+     */
+    public function getSiteUrl()
+    {
+        if ($this->registry->has('plugins.site.site_url') && $this->registry->get('plugins.site.site_url') != '') {
+            return $this->registry->get('plugins.site.site_url');
+        } else {
+            return Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
+        }
     }
 
     /**

@@ -35,6 +35,11 @@ $site_loader = require_once $site_autoload;
 include_once 'routes/web.php';
 
 /**
+ * Include shortcodes
+ */
+include_once 'shortcodes/SiteUrlShortcodeExtension.php';
+
+/**
  * Include dependencies
  */
 include_once 'dependencies.php';

@@ -17,3 +17,6 @@ namespace Flextype;
 $flextype['SiteController'] = static function ($container) {
     return new SiteController($container);
 };
+
+// Add Site Url Twig Extension
+$flextype->view->addExtension(new SiteUrlTwigExtension($flextype));

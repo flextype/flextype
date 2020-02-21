@@ -20,3 +20,6 @@ robots: index, follow
 author:
   email: ''
   name: ''
+
+# Custom site site url
+site_url: ''
