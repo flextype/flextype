@@ -362,3 +362,5 @@ admin_confirmation_required_for_delivery_images_token_delete: "Вы уверен
 admin_installation_username_tip: "Строчные символы только, например, администратор"
 admin_installation_email_tip: "Допустимый email адрес"
 admin_installation_password_tip: "Пароль должен содержать как минимум 8 символов, содержать заглавные буквы, строчные буквы, специальные символы и цифры."
+admin_direct_link: "Direct Link"
+admin_delivery_images_api_link: "Delivery Images Api Link"
