@@ -136,6 +136,7 @@ include_once 'middlewares.php';
  */
 include_once 'api/delivery/images.php';
 include_once 'api/delivery/entries.php';
+include_once 'api/delivery/registry.php';
 
 /**
  * Set internal encoding

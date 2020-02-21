@@ -216,3 +216,6 @@ api:
   entries:
     enabled: true
     default_token:
+  registry:
+    enabled: true
+    default_token:
