@@ -187,12 +187,36 @@ class UsersController extends Controller
                     ], 'yaml')
                 );
 
+                // Create default registry delivery token
+                $api_delivery_registry_token = bin2hex(random_bytes(16));
+                $api_delivery_registry_token_dir_path  = PATH['tokens'] . '/delivery/registry/' . $api_delivery_registry_token;
+                $api_delivery_registry_token_file_path = $api_delivery_registry_token_dir_path . '/token.yaml';
+
+                if (! Filesystem::has($api_delivery_registry_token_dir_path)) Filesystem::createDir($api_delivery_registry_token_dir_path);
+
+                Filesystem::write(
+                    $api_delivery_registry_token_file_path,
+                    $this->parser->encode([
+                        'title' => 'Default',
+                        'icon' => 'fas fa-archive',
+                        'limit_calls' => (int) 0,
+                        'calls' => (int) 0,
+                        'state' => 'enabled',
+                        'uuid' => $uuid,
+                        'created_by' => $uuid,
+                        'created_at' => $time,
+                        'updated_by' => $uuid,
+                        'updated_at' => $time,
+                    ], 'yaml')
+                );
+
                 // Set Default API's tokens
                 $custom_flextype_settings_file_path = PATH['config']['site'] . '/settings.yaml';
                 $custom_flextype_settings_file_data = $this->parser->decode(Filesystem::read($custom_flextype_settings_file_path), 'yaml');
 
                 $custom_flextype_settings_file_data['api']['images']['default_token']  = $api_delivery_images_token;
                 $custom_flextype_settings_file_data['api']['entries']['default_token'] = $api_delivery_entries_token;
+                $custom_flextype_settings_file_data['api']['registry']['default_token'] = $api_delivery_registry_token;
 
                 Filesystem::write($custom_flextype_settings_file_path, $this->parser->encode($custom_flextype_settings_file_data, 'yaml'));
 
