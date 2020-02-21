@@ -29,7 +29,10 @@
         </thead>
         <tbody>
             {% for file in files %}
-                <tr>
+                <tr
+                    id="file_{{ loop.index0 }}"
+                    data-direct-link="{{ site_url() }}/site/uploads/entries/{{ id }}/{{ filesystem_basename(file) }}"
+                    data-delivery-images-api-link="{{ site_url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?token={{ registry.flextype.api.images.default_token }}">
                     <td style="height: 64px;">
                         {{ filesystem_basename(file) }}
                     </td>
@@ -43,18 +46,8 @@
                             <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                         </button>
                         <div id="dropdown-{{ id }}" class="dropdown">
-                            <a class="dropdown__item" href="{{ path_for('admin.snippets.edit') }}?id={{ id }}">
-                                <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
-                                {{ tr('admin_edit') }}</a>
-                            <a class="dropdown__item" href="{{ path_for('admin.snippets.rename') }}?id={{ id }}">
-                                <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
-                                {{ tr('admin_rename') }}</a>
-                            <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                            document.getElementById('duplicate-snippet-id-{{ id }}').submit();">
-                                <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
-                                {{ tr('admin_duplicate') }}</a>
                             <a class="dropdown__item js-snippets-info" href="javascript:;" onclick="event.preventDefault();
-                            embededCode('{{ id }}', {{ loop.index0 }});">
+                            embededCode('{{ filesystem_basename(file) }}', {{ loop.index0 }});">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-code') }}</i>
                                 {{ tr('admin_embeded_code') }}</a>
                             <div class="dropdown__divider"></div>
@@ -66,16 +59,23 @@
                                 {{ csrf() }}
                                 <input type="hidden" name="snippet-id" value="{{ id }}">
                             </form>
-                            <form id="duplicate-snippet-id-{{ id }}" action="{{ path_for('admin.snippets.duplicateProcess') }}" method="POST" style="display: none;">
-                                {{ csrf() }}
-                                <input type="hidden" name="snippet-id" value="{{ id }}">
-                            </form>
                         </div>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    <div class="_embeded-code-template hidden">
+        <div class="form-group">
+            <label for="shortcode" class="form-control-title text-left">{{ tr('admin_direct_link') }}</label>
+            <textarea class="js-direct-link form-control" style="height: 82px;"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="shortcode" class="form-control-title text-left">{{ tr('admin_delivery_images_api_link') }}</label>
+            <textarea class="js-delivery-images-api-link form-control" style="height: 82px;"></textarea>
+        </div>
+    </div>
 
     <br>
 
@@ -116,4 +116,25 @@
         </div>
     </div>
 #}
+{% endblock %}
+
+{% block tail %}
+    <script>
+        function embededCode(id, row_num) {
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
+            Swal.fire({
+                title: "{{ tr('admin_embeded_code') }}",
+                showCloseButton: true,
+                focusCloseButton: false,
+                showConfirmButton: false,
+                html: $('._embeded-code-template').html(),
+                onBeforeOpen: () => {
+                    $('.js-direct-link').val($('#file_' + row_num).attr('data-direct-link'));
+                    $('.js-delivery-images-api-link').val($('#file_' + row_num).attr('data-delivery-images-api-link'));
+                }
+            });
+        }
+    </script>
 {% endblock %}
