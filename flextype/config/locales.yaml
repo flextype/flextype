@@ -182,6 +182,9 @@ gd:
 gl:
   name: Galician
   nativeName: Galego
+gl_ES:
+  name: Galician
+  nativeName: Galego
 gu:
   name: Gujarati
   nativeName: ગુજરાતી
