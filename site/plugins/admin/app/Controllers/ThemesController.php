@@ -64,66 +64,14 @@ class ThemesController extends Controller
     public function activateProcess(Request $request, Response $response) : Response
     {
         // Get data from the request
-        $data = $request->getParsedBody();
+        $post_data = $request->getParsedBody();
 
-        $site_theme_settings_dir     = PATH['config']['site'] . '/themes/';
-        $site_theme_settings_file    = PATH['config']['site'] . '/themes/' . $data['theme-id'] . '/settings.yaml';
-        $default_theme_settings_file = PATH['themes'] . '/' . $data['theme-id'] . '/settings.yaml';
+        $custom_settings_file = PATH['config']['site'] . '/settings.yaml';
+        $custom_settings_file_data = $this->parser->decode(Filesystem::read($custom_settings_file), 'yaml');
 
-        // Update current theme settings
-        $site_theme_settings_file_content = Filesystem::read($site_theme_settings_file);
-        if (trim($site_theme_settings_file_content) === '') {
-            $site_theme_settings = [];
-        } else {
-            $site_theme_settings = $this->parser->decode($site_theme_settings_file_content, 'yaml');
-        }
+        Arr::set($custom_settings_file_data, 'theme', $post_data['theme-id']);
 
-        Arr::set($site_theme_settings, 'enabled', ($data['theme-status'] === 'true'));
-        Filesystem::write($site_theme_settings_file, $this->parser->encode($site_theme_settings, 'yaml'));
-
-        // Get themes list
-        $themes_list = $this->themes->getThemes();
-
-        // Deactivate all others themes
-        if (is_array($themes_list) && count($themes_list) > 0) {
-            foreach ($themes_list as $theme) {
-                if ($theme['dirname'] === $data['theme-id']) {
-                    continue;
-                }
-
-                if (! Filesystem::has($theme_settings_file = $site_theme_settings_dir . $theme['dirname'] . '/settings.yaml')) {
-                    continue;
-                }
-
-                if (($content = Filesystem::read($theme_settings_file)) === false) {
-                    throw new RuntimeException('Load file: ' . $theme_settings_file . ' - failed!');
-                } else {
-                    if (trim($content) === '') {
-                        $theme_settings = [];
-                    } else {
-                        $theme_settings = $this->parser->decode($content, 'yaml');
-                    }
-                }
-
-                Arr::set($theme_settings, 'enabled', false);
-                Filesystem::write($theme_settings_file, $this->parser->encode($theme_settings, 'yaml'));
-            }
-        }
-
-        // Update theme in the site settings
-        $site_settings_file_path = PATH['config']['site'] . '/settings.yaml';
-        if (($content = Filesystem::read($site_settings_file_path)) === false) {
-            throw new RuntimeException('Load file: ' . $site_settings_file_path . ' - failed!');
-        } else {
-            if (trim($content) === '') {
-                $site_settings = [];
-            } else {
-                $site_settings = $this->parser->decode($content, 'yaml');
-            }
-        }
-
-        Arr::set($site_settings, 'theme', $data['theme-id']);
-        Filesystem::write($site_settings_file_path, $this->parser->encode($site_settings, 'yaml'));
+        Filesystem::write($custom_settings_file, $this->parser->encode($custom_settings_file_data, 'yaml'));
 
         // clear cache
         $this->cache->clear('doctrine');
