@@ -24,8 +24,8 @@
 * **core:** add new Global Vars `PATH_ACCOUNTS`, `PATH_UPLOADS`, `PATH_TOKENS` for Twig Templates.
 * **default-theme:** Moving to Tailwind CSS from Twitter Bootstrap #356
 * **site-plugin:** add ability to set custom site url, new shortcode `[site_url]` and twig var `{{ site_url }}`
-* **form-plugin:** add new form plugin instead of core Forms API.
-* **icon-plugin:** add new icon plugin for fontawesome icons implementation.
+* **form-plugin:** add new Form plugin instead of core Forms API.
+* **icon-plugin:** add new Icon plugin for fontawesome icons.
 
     usage in templates:
     ```
@@ -38,6 +38,12 @@
     ```
 
 * **(site-plugin):** add ability to access `uri` variable in the theme templates.
+
+    usage in templates:
+    ```
+    {{ uri }}
+    ```
+
 * **admin-plugin:** add RTL support for URLs #62
 * **admin-plugin:** add ability to deactivate/activate all kind of plugins. #211
 * **admin-plugin:** add Confirmation Required modal for system plugins deactivation.
@@ -56,7 +62,7 @@
 * **admin-plugin:** add new setting `entries.items_view_default` with default value `list`.
 * **admin-plugin:** add ability for redirect to the editor after creating #343
 * **admin-plugin:** add ability to create default API tokens on installation process.
-* **admin-plugin:** add ability to use local SVG version of fontawesome icons #322
+* **admin-plugin:** add ability to use local SVG version of Font Awesome Icons #322
 
     usage in templates:
     ```
@@ -92,7 +98,7 @@
 
 ### BREAKING CHANGES
 
-* **admin-plugin:** remove Twitter Bootstrap
+* **admin-plugin:** remove Twitter Bootstrap.
 * **admin-plugin:** remove user profile page `/admin/profile`
 
 <a name="0.9.6"></a>
