@@ -13,7 +13,7 @@
     /api/delivery/registry
     ```
 
-* **core:** add new constants `PATH['tokens']`, `PATH['accounts']`, `PATH['logs']`, `PATH['uploads']`
+* **core:** add new core constants `PATH['tokens']`, `PATH['accounts']`, `PATH['logs']`, `PATH['uploads']`
 * **core:** add new locales support Persian, Indonesian, Galician #327
 * **core:** set entries field `routable`=`true` on new entry creation #320
 * **core:** use `array_merge()` instead of `array_replace_recursive()` for entries update method.
@@ -23,8 +23,9 @@
 * **core:** load Twig extensions based on flextype.twig.extensions array #351
 * **core:** add new Global Vars `PATH_ACCOUNTS`, `PATH_UPLOADS`, `PATH_TOKENS` for Twig Templates.
 * **default-theme:** Moving to Tailwind CSS from Twitter Bootstrap #356
-* **form-plugin:** new form plugin instead of core Forms API.
-* **icon-plugin:** new icon plugin for fontawesome icons implementation.
+* **site-plugin:** add ability to set custom site url, new shortcode `[site_url]` and twig var `{{ site_url }}`
+* **form-plugin:** add new form plugin instead of core Forms API.
+* **icon-plugin:** add new icon plugin for fontawesome icons implementation.
 
     usage in templates:
     ```
@@ -40,7 +41,7 @@
 * **admin-plugin:** add RTL support for URLs #62
 * **admin-plugin:** add ability to deactivate/activate all kind of plugins. #211
 * **admin-plugin:** add Confirmation Required modal for system plugins deactivation.
-* **admin-plugin:** new admin panel UI powered by Tailwind CSS.
+* **admin-plugin:** new Admin Panel UI with better UX and powered by Tailwind CSS.
 * **admin-plugin:** add ability to continue editing after saving in the editor.
 * **admin-plugin:** add action `onAdminThemeTail` for admin panel `base` layout.
 * **admin-plugin:** add ability to change entries view from `list view` to `table view`.
@@ -51,10 +52,10 @@
 * **admin-plugin:** add tippy.js for all tooltips and dropdown menus.
 * **admin-plugin:** add confirmation modals powered by swal for all critical actions.
 * **admin-plugin:** add dim color for entries with `draft`, `hidden` and `routable`=`false` status #324
-* **admin-plugin:** add entry select type modal on entry creation #331
+* **admin-plugin:** add ability to select entry type in the nice modal on entry creation. #331
 * **admin-plugin:** add new setting `entries.items_view_default` with default value `list`.
 * **admin-plugin:** add ability for redirect to the editor after creating #343
-* **admin-plugin:** create default API tokens on installation process.
+* **admin-plugin:** add ability to create default API tokens on installation process.
 * **admin-plugin:** add ability to use local SVG version of fontawesome icons #322
 
     usage in templates:
@@ -71,14 +72,17 @@
 ### Refactoring
 
 * **core:** move `/site/cache directory` to the `/var/cache` #347
+* **core:** remove Forms API from Flextype core #360
+* **core:** improve Gulp configuration for assets building.
+* **core:** simplify logic for themes initialization process, remove extra checks for theme setting is `enabled` or not.
 * **admin-plugin:** move templates from `views` folder into the `templates` folder #347
 * **admin-plugin:** remove unused namespaces in EntriesContoller #347
 * **admin-plugin:** remove complex logic for themes activation process.
-* **core:** remove Forms API from Flextype core #360
 * **admin-plugin:** add `ext-gd` to the require section of composer.json #347
 * **admin-plugin:** add `ext-fileinfo` to the require section of composer.json #347
 * **admin-plugin:** add `ext-dom` to the require section of composer.json #347
 * **admin-plugin:** add `ext-spl` to the require section of composer.json #347
+* **default-theme:** remove `enabled` option from theme settings.
 
 ### Vendor Updates
 * **core:** Update vendor monolog/monolog to 2.0.2
