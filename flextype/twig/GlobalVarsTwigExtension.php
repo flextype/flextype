@@ -37,6 +37,7 @@ class GlobalVarsTwigExtension extends Twig_Extension implements Twig_Extension_G
             'PATH_SITE' => PATH['site'],
             'PATH_PLUGINS' => PATH['plugins'],
             'PATH_ACCOUNTS' => PATH['accounts'],
+            'PATH_UPLOADS' => PATH['uploads'],
             'PATH_TOKENS' => PATH['tokens'],
             'PATH_THEMES' => PATH['themes'],
             'PATH_ENTRIES' => PATH['entries'],
