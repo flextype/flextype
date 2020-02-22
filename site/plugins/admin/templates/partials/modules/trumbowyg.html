@@ -1,5 +1,13 @@
+{% if registry.flextype.locale == 'en_US' %}
+    {% set trumbowyg_locale = 'en' %}
+{% else %}
+    {% set trumbowyg_locale = registry.flextype.locale|lower|slice(0, 2) %}
+{% endif %}
+{% if trumbowyg_locale != 'en' %}
+    <script type="text/javascript" src="{{ site_url() }}/site/plugins/admin/assets/dist/lang/trumbowyg/langs/{{ trumbowyg_locale }}.min.js "></script>
+{% endif %}
 <script>
-    $.trumbowyg.svgPath = '{{base_url()}}/site/plugins/admin/assets/dist/fonts/trumbowyg/icons.svg';
+    $.trumbowyg.svgPath = '{{ site_url() }}/site/plugins/admin/assets/dist/fonts/trumbowyg/icons.svg';
     $('.js-html-editor').trumbowyg({
         btnsDef: {
             // Customizables dropdowns
@@ -31,7 +39,7 @@
             ['fullscreen'],
             ['viewHTML']
         ],
-        lang: '{{ locale }}',
+        lang: '{{ trumbowyg_locale }}',
         autogrow: false,
         removeformatPasted: true
     });
