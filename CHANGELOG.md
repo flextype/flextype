@@ -39,6 +39,7 @@
 * **(site-plugin):** add ability to access `uri` variable in the theme templates.
 * **admin-plugin:** add RTL support for URLs #62
 * **admin-plugin:** add ability to deactivate/activate all kind of plugins. #211
+* **admin-plugin:** add Confirmation Required modal for system plugins deactivation.
 * **admin-plugin:** new admin panel UI powered by Tailwind CSS.
 * **admin-plugin:** add ability to continue editing after saving in the editor.
 * **admin-plugin:** add action `onAdminThemeTail` for admin panel `base` layout.
@@ -72,6 +73,8 @@
 * **core:** move `/site/cache directory` to the `/var/cache` #347
 * **admin-plugin:** move templates from `views` folder into the `templates` folder #347
 * **admin-plugin:** remove unused namespaces in EntriesContoller #347
+* **admin-plugin:** remove complex logic for themes activation process.
+* **core:** remove Forms API from Flextype core #360
 * **admin-plugin:** add `ext-gd` to the require section of composer.json #347
 * **admin-plugin:** add `ext-fileinfo` to the require section of composer.json #347
 * **admin-plugin:** add `ext-dom` to the require section of composer.json #347
