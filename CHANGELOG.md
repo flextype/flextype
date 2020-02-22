@@ -8,24 +8,44 @@
 * **core:** add Persian locale support
 * **core:** add Galician locale support
 * **core:** set field `routable` true on entries creation #320
+* **core:** use `array_merge()` instead of `array_replace_recursive()` for entries update method.
 * **core:** initialize plugins before themes initialised #323
 * **core:** update Cache to use adapter to retrieve driver object #341
 * **core:** Load Shortcodes extensions based on flextype.shortcodes.extensions array #352
 * **core:** Load Twig extensions based on flextype.twig.extensions array #351
 * **core:** add new Global Vars `PATH_ACCOUNTS`, `PATH_UPLOADS`, `PATH_TOKENS` for Twig Templates.
 * **default-theme:** Moving to Tailwind CSS from Twitter Bootstrap #356
+* **form-plugin:** new form plugin instead of core Forms API.
+* **icon-plugin:** new icon plugin for fontawesome icons implementation.
+
+    usage in templates:
+    ```
+    <i class="icon">{{ icon('fab fa-apple') }}</i>
+    ```
+
+    usage in entries content:
+    ```
+    [icon value="fab fa-apple"]
+    ```
+
 * **(site-plugin):** add ability to access `uri` variable in the theme templates.
+* **admin-plugin:** add RTL support for URLs #62
+* **admin-plugin:** add ability to deactivate/activate all kind of plugins. #211
 * **admin-plugin:** new admin panel UI powered by Tailwind CSS.
+* **admin-plugin:** add ability to continue editing after saving in the editor.
+* **admin-plugin:** add action `onAdminThemeTail` for admin panel `base` layout.
 * **admin-plugin:** add ability to change entries view from `list view` to `table view`.
 * **admin-plugin:** add parsleys for frontend form validation.
 * **admin-plugin:** add select2 for all select form controls.
 * **admin-plugin:** add swal for all modals.
+* **admin-plugin:** add flatpickr for date and time.
 * **admin-plugin:** add tippy.js for all tooltips and dropdown menus.
 * **admin-plugin:** add confirmation modals powered by swal for all critical actions.
 * **admin-plugin:** add dim color for entries with `draft`, `hidden` and `routable`=`false` status #324
 * **admin-plugin:** add entry select type modal on entry creation #331
 * **admin-plugin:** add new setting `entries.items_view_default` with default value `list`.
 * **admin-plugin:** add ability for redirect to the editor after creating #343
+* **admin-plugin:** create default API tokens on installation process.
 * **admin-plugin:** add ability to use local SVG version of fontawesome icons #322
 
     usage in templates:
@@ -37,6 +57,7 @@
 
 * **core:** fix discord link #325
 * **admin-plugin:** fix issue for creating entry process with same IDs #333
+* **admin-plugin:** fix redirect for entries after edit process.
 
 ### BREAKING CHANGES
 
