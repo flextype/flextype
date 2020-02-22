@@ -12,9 +12,19 @@
 * **core:** update Cache to use adapter to retrieve driver object #341
 * **core:** Load Shortcodes extensions based on flextype.shortcodes.extensions array #352
 * **core:** Load Twig extensions based on flextype.twig.extensions array #351
+* **core:** add new Global Vars `PATH_ACCOUNTS`, `PATH_UPLOADS`, `PATH_TOKENS` for Twig Templates.
 * **default-theme:** Moving to Tailwind CSS from Twitter Bootstrap #356
+* **(site-plugin):** add ability to access `uri` variable in the theme templates.
+* **admin-plugin:** new admin panel UI powered by Tailwind CSS.
+* **admin-plugin:** add ability to change entries view from `list view` to `table view`.
+* **admin-plugin:** add parsleys for frontend form validation.
+* **admin-plugin:** add select2 for all select form controls.
+* **admin-plugin:** add swal for all modals.
+* **admin-plugin:** add tippy.js for all tooltips and dropdown menus.
+* **admin-plugin:** add confirmation modals powered by swal for all critical actions.
 * **admin-plugin:** add dim color for entries with `draft`, `hidden` and `routable`=`false` status #324
 * **admin-plugin:** add entry select type modal on entry creation #331
+* **admin-plugin:** add new setting `entries.items_view_default` with default value `list`.
 * **admin-plugin:** add ability for redirect to the editor after creating #343
 * **admin-plugin:** add ability to use local SVG version of fontawesome icons #322
 
@@ -28,6 +38,11 @@
 * **core:** fix discord link #325
 * **admin-plugin:** fix issue for creating entry process with same IDs #333
 
+### BREAKING CHANGES
+
+* **admin-plugin:** remove Twitter Bootstrap
+* **admin-plugin:** remove user profile page `/admin/profile`
+
 ### Refactoring
 
 * **core:** move `/site/cache directory` to the `/var/cache` #347
@@ -37,6 +52,12 @@
 * **admin-plugin:** add `ext-fileinfo` to the require section of composer.json #347
 * **admin-plugin:** add `ext-dom` to the require section of composer.json #347
 * **admin-plugin:** add `ext-spl` to the require section of composer.json #347
+
+### Vendor Updates
+* **core:** Update vendor monolog/monolog to 2.0.2
+* **core:** Update vendor cocur/slugify to 4.0.0
+* **core:** Update vendor thunderer/shortcode to 0.7.3
+* **core:** Update vendor ramsey/uuid to 3.9.2
 
 <a name="0.9.6"></a>
 # [0.9.6](https://github.com/flextype/flextype/compare/v0.9.5...v0.9.6) (2019-12-01)
