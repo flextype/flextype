@@ -2,15 +2,18 @@
 # [0.9.7](https://github.com/flextype/flextype/compare/v0.9.6...v0.9.7) (2020-01-XX)
 
 ### Features
+* **core:** add Delivery API's for Entries, Images, Registry. #159
+* **core:** add new constants `PATH['tokens']`, `PATH['accounts']`, `PATH['logs']`, `PATH['uploads']`
 * **core:** add Indonesian locale support #327
-* **core:** add Persian locale support #327
-* **core:** set `routable` true on entries creation #320
+* **core:** add Persian locale support
+* **core:** add Galician locale support
+* **core:** set field `routable` true on entries creation #320
 * **core:** initialize plugins before themes initialised #323
 * **core:** update Cache to use adapter to retrieve driver object #341
 * **core:** Load Shortcodes extensions based on flextype.shortcodes.extensions array #352
 * **core:** Load Twig extensions based on flextype.twig.extensions array #351
-* **default-theme:** Moving to Tailwind CSS #356
-* **admin-plugin:** add dim color for entries with `draft`, `hidden` and `routable` `false` status #324
+* **default-theme:** Moving to Tailwind CSS from Twitter Bootstrap #356
+* **admin-plugin:** add dim color for entries with `draft`, `hidden` and `routable`=`false` status #324
 * **admin-plugin:** add entry select type modal on entry creation #331
 * **admin-plugin:** add ability for redirect to the editor after creating #343
 * **admin-plugin:** add ability to use local SVG version of fontawesome icons #322
@@ -25,6 +28,15 @@
 * **core:** fix discord link #325
 * **admin-plugin:** fix issue for creating entry process with same IDs #333
 
+### Refactoring
+
+* **core:** move `/site/cache directory` to the `/var/cache` #347
+* **admin-plugin:** move templates from `views` folder into the `templates` folder #347
+* **admin-plugin:** remove unused namespaces in EntriesContoller #347
+* **admin-plugin:** add `ext-gd` to the require section of composer.json #347
+* **admin-plugin:** add `ext-fileinfo` to the require section of composer.json #347
+* **admin-plugin:** add `ext-dom` to the require section of composer.json #347
+* **admin-plugin:** add `ext-spl` to the require section of composer.json #347
 
 <a name="0.9.6"></a>
 # [0.9.6](https://github.com/flextype/flextype/compare/v0.9.5...v0.9.6) (2019-12-01)
