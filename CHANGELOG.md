@@ -2,17 +2,25 @@
 # [0.9.7](https://github.com/flextype/flextype/compare/v0.9.6...v0.9.7) (2020-01-XX)
 
 ### Features
-* **core:** add Delivery API's for Entries, Images, Registry. #159
+* **core:** add Delivery API's for Entries, Images and Registry. #159
+
+    Flextype 0.9.7 may be used as Headless CMS on demand!
+
+    Endpoints for Delivery API's:
+    ```
+    /api/delivery/entries
+    /api/delivery/images
+    /api/delivery/registry
+    ```
+
 * **core:** add new constants `PATH['tokens']`, `PATH['accounts']`, `PATH['logs']`, `PATH['uploads']`
-* **core:** add Indonesian locale support #327
-* **core:** add Persian locale support
-* **core:** add Galician locale support
-* **core:** set field `routable` true on entries creation #320
+* **core:** add new locales support Persian, Indonesian, Galician #327
+* **core:** set entries field `routable`=`true` on new entry creation #320
 * **core:** use `array_merge()` instead of `array_replace_recursive()` for entries update method.
-* **core:** initialize plugins before themes initialised #323
+* **core:** initialize plugins before themes #323
 * **core:** update Cache to use adapter to retrieve driver object #341
-* **core:** Load Shortcodes extensions based on flextype.shortcodes.extensions array #352
-* **core:** Load Twig extensions based on flextype.twig.extensions array #351
+* **core:** load Shortcodes extensions based on flextype.shortcodes.extensions array #352
+* **core:** load Twig extensions based on flextype.twig.extensions array #351
 * **core:** add new Global Vars `PATH_ACCOUNTS`, `PATH_UPLOADS`, `PATH_TOKENS` for Twig Templates.
 * **default-theme:** Moving to Tailwind CSS from Twitter Bootstrap #356
 * **form-plugin:** new form plugin instead of core Forms API.
@@ -59,11 +67,6 @@
 * **admin-plugin:** fix issue for creating entry process with same IDs #333
 * **admin-plugin:** fix redirect for entries after edit process.
 
-### BREAKING CHANGES
-
-* **admin-plugin:** remove Twitter Bootstrap
-* **admin-plugin:** remove user profile page `/admin/profile`
-
 ### Refactoring
 
 * **core:** move `/site/cache directory` to the `/var/cache` #347
@@ -79,6 +82,11 @@
 * **core:** Update vendor cocur/slugify to 4.0.0
 * **core:** Update vendor thunderer/shortcode to 0.7.3
 * **core:** Update vendor ramsey/uuid to 3.9.2
+
+### BREAKING CHANGES
+
+* **admin-plugin:** remove Twitter Bootstrap
+* **admin-plugin:** remove user profile page `/admin/profile`
 
 <a name="0.9.6"></a>
 # [0.9.6](https://github.com/flextype/flextype/compare/v0.9.5...v0.9.6) (2019-12-01)
