@@ -73,7 +73,7 @@
 
 * **core:** move `/site/cache directory` to the `/var/cache` #347
 * **core:** remove Forms API from Flextype core #360
-* **core:** improve Gulp configuration for assets building.
+* **core:** improve Gulp configuration for better assets building.
 * **core:** simplify logic for themes initialization process, remove extra checks for theme setting is `enabled` or not.
 * **admin-plugin:** move templates from `views` folder into the `templates` folder #347
 * **admin-plugin:** remove unused namespaces in EntriesContoller #347
