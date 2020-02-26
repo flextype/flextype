@@ -48,20 +48,31 @@ $app->get('/api/delivery/images/{path:.+}', function (Request $request, Response
                     Filesystem::write($delivery_images_token_file_path, $flextype['parser']->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1]), 'yaml'));
 
                     if (Filesystem::has(PATH['uploads'] . '/entries/' . $args['path'])) {
+                        header('Access-Control-Allow-Origin: *');
                         return $flextype['images']->getImageResponse($args['path'], $_GET);
                     } else {
-                        return $response->withJson([], 404);
+                        return $response
+                            ->withJson([], 404)
+                            ->withHeader('Access-Control-Allow-Origin', '*');
                     }
                 }
             } else {
-                return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
+                return $response
+                       ->withJson(["detail" => "Incorrect authentication credentials."], 401)
+                       ->withHeader('Access-Control-Allow-Origin', '*');
             }
         } else {
-            return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
+            return $response
+                   ->withJson(["detail" => "Incorrect authentication credentials."], 401)
+                   ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
-        return $response->withStatus(404);
+        return $response
+               ->withStatus(404)
+               ->withHeader('Access-Control-Allow-Origin', '*');
     } else {
-        return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
+        return $response
+               ->withJson(["detail" => "Incorrect authentication credentials."], 401)
+               ->withHeader('Access-Control-Allow-Origin', '*');
     }
 });

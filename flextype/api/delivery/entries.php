@@ -57,15 +57,23 @@ $app->get('/api/delivery/entries', function (Request $request, Response $respons
                     Filesystem::write($delivery_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($delivery_entries_token_file_data, ['calls' => $delivery_entries_token_file_data['calls'] + 1]), 'yaml'));
 
                     // Return response
-                    return $response->withJson($data, $response_code);
+                    return $response
+                           ->withJson($data, $response_code)
+                           ->withHeader('Access-Control-Allow-Origin', '*');
                 }
             } else {
-                return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
+                return $response
+                       ->withJson(["detail" => "Incorrect authentication credentials."], 401)
+                       ->withHeader('Access-Control-Allow-Origin', '*');
             }
         } else {
-            return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
+            return $response
+                   ->withJson(["detail" => "Incorrect authentication credentials."], 401)
+                   ->withHeader('Access-Control-Allow-Origin', '*');
         }
     } else {
-        return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
+        return $response
+               ->withJson(["detail" => "Incorrect authentication credentials."], 401)
+               ->withHeader('Access-Control-Allow-Origin', '*');
     }
 });
