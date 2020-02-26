@@ -88,6 +88,18 @@ class Entries
     ];
 
     /**
+     * Set Visibility
+     *
+     * @var array
+     * @access public
+     */
+    public $visibility = [
+        'draft' => 'draft',
+        'hidden' => 'hidden',
+        'visible' => 'visible'
+    ];
+
+    /**
      * Flextype Dependency Container
      *
      * @access private
@@ -167,22 +179,31 @@ class Entries
 
             $entry_decoded = $this->flextype['parser']->decode(Filesystem::read($entry_file), 'frontmatter');
 
+            //
             // Add predefined entry items
-            // Entry Date
-            $entry_decoded['published_at'] = $entry_decoded['published_at'] ?? Filesystem::getTimestamp($entry_file);
-            $entry_decoded['created_at']   = $entry_decoded['created_at'] ?? Filesystem::getTimestamp($entry_file);
+            //
 
-            // Entry Timestamp
-            $entry_decoded['modified_at'] = Filesystem::getTimestamp($entry_file);
+            // Entry Published At
+            $entry_decoded['published_at'] = (int) strtottime($entry_decoded['published_at']) ?? Filesystem::getTimestamp($entry_file);
+
+            // Entry Created At
+            $entry_decoded['created_at'] = (int) strtottime($entry_decoded['created_at']) ?? Filesystem::getTimestamp($entry_file);
+
+            // Entry Modified
+            $entry_decoded['modified_at'] = (int) Filesystem::getTimestamp($entry_file);
 
             // Entry Slug
-            $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($id, '/'), '/');
+            $entry_decoded['slug'] = (string) $entry_decoded['slug'] ?? ltrim(rtrim($id, '/'), '/');
 
-            // Entry routable
-            $entry_decoded['routable'] = $entry_decoded['routable'] ?? true;
+            // Entry Routable
+            $entry_decoded['routable'] = (bool) $entry_decoded['routable'] ?? true;
 
-            // Entry visibility
-            $entry_decoded['visibility'] = $entry_decoded['visibility'] ?? 'visible';
+            // Entry Visibility
+            if (isset($entry_decoded['visibility']) && in_array($this->visibility[$entry_decoded['visibility']])) {
+                $entry_decoded['visibility'] = (string) $entry_decoded['visibility'];
+            } else {
+                $entry_decoded['visibility'] = (string) $this->visibility['visible'];
+            }
 
             // Save decoded entry content into the cache
             $this->flextype['cache']->save($entry_cache_id, $entry_decoded);
@@ -448,6 +469,7 @@ class Entries
         if (Filesystem::has($entry_file)) {
             $body  = Filesystem::read($entry_file);
             $entry = $this->flextype['parser']->decode($body, 'frontmatter');
+
 
             return Filesystem::write($entry_file, $this->flextype['parser']->encode(array_merge($entry, $data), 'frontmatter'));
         }
