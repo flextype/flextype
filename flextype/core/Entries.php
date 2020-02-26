@@ -184,23 +184,23 @@ class Entries
             //
 
             // Entry Published At
-            $entry_decoded['published_at'] = (int) strtottime($entry_decoded['published_at']) ?? Filesystem::getTimestamp($entry_file);
+            $entry_decoded['published_at'] = isset($entry_decoded['published_at']) ? (int) strtotime($entry_decoded['published_at']) : (int) Filesystem::getTimestamp($entry_file);
 
             // Entry Created At
-            $entry_decoded['created_at'] = (int) strtottime($entry_decoded['created_at']) ?? Filesystem::getTimestamp($entry_file);
+            $entry_decoded['created_at'] = isset($entry_decoded['created_at']) ? (int) strtotime($entry_decoded['created_at']) : (int) Filesystem::getTimestamp($entry_file);
 
             // Entry Modified
             $entry_decoded['modified_at'] = (int) Filesystem::getTimestamp($entry_file);
 
             // Entry Slug
-            $entry_decoded['slug'] = (string) $entry_decoded['slug'] ?? ltrim(rtrim($id, '/'), '/');
+            $entry_decoded['slug'] = isset($entry_decoded['slug']) ? (string) $entry_decoded['slug'] : (string) ltrim(rtrim($id, '/'), '/');
 
             // Entry Routable
-            $entry_decoded['routable'] = (bool) $entry_decoded['routable'] ?? true;
+            $entry_decoded['routable'] = isset($entry_decoded['routable']) ? (bool) $entry_decoded['routable'] : true;
 
             // Entry Visibility
-            if (isset($entry_decoded['visibility']) && in_array($this->visibility[$entry_decoded['visibility']])) {
-                $entry_decoded['visibility'] = (string) $entry_decoded['visibility'];
+            if (isset($entry_decoded['visibility']) && in_array($entry_decoded['visibility'], $this->visibility)) {
+                $entry_decoded['visibility'] = (string) $this->visibility[$entry_decoded['visibility']];
             } else {
                 $entry_decoded['visibility'] = (string) $this->visibility['visible'];
             }
