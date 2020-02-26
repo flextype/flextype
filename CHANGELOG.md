@@ -19,13 +19,13 @@
 * **core:** use `array_merge()` instead of `array_replace_recursive()` for entries update method.
 * **core:** initialize plugins before themes #323
 * **core:** update Cache to use adapter to retrieve driver object #341
-* **core:** load Shortcodes extensions based on flextype.shortcodes.extensions array #352
+* **core:** load Shortcodes extensions based on `flextype.shortcodes.extensions` array #352
 * **core:** load Twig extensions based on flextype.twig.extensions array #351
-* **core:** add new Global Vars `PATH_ACCOUNTS`, `PATH_UPLOADS`, `PATH_TOKENS` for Twig Templates.
+* **core:** add new Global Vars `PATH_ACCOUNTS`, `PATH_UPLOADS`, `PATH_TOKENS`, `PATH_LOGS` for Twig.
 * **default-theme:** Moving to Tailwind CSS from Twitter Bootstrap #356
 * **site-plugin:** add ability to set custom site url, new shortcode `[site_url]` and twig var `{{ site_url }}`
 * **form-plugin:** add new Form plugin instead of core Forms API.
-* **icon-plugin:** add new Icon plugin for fontawesome icons.
+* **icon-plugin:** add new Icon plugin for Font Awesome icons.
 
     usage in templates:
     ```
@@ -45,12 +45,28 @@
     ```
 
 * **admin-plugin:** add RTL support for URLs #62
+
+    /site/config/plugins/admin/settings.yaml
+    ```
+    ...
+    entries:
+      slugify: true # set `false` to disable slugify for entries
+    ```
+
 * **admin-plugin:** add ability to deactivate/activate all kind of plugins. #211
 * **admin-plugin:** add Confirmation Required modal for system plugins deactivation.
 * **admin-plugin:** new Admin Panel UI with better UX and powered by Tailwind CSS.
 * **admin-plugin:** add ability to continue editing after saving in the editor.
 * **admin-plugin:** add action `onAdminThemeTail` for admin panel `base` layout.
 * **admin-plugin:** add ability to change entries view from `list view` to `table view`.
+
+    /site/config/plugins/admin/settings.yaml
+    ```
+    ...
+    entries:
+      items_view_default: list # set `table` for table entries view
+    ```
+
 * **admin-plugin:** add parsleys for frontend form validation.
 * **admin-plugin:** add select2 for all select form controls.
 * **admin-plugin:** add swal for all modals.
@@ -71,9 +87,12 @@
 
 ### Bug Fixes
 
-* **core:** fix discord link #325
+* **core:** fix discord server link #325
+* **core:** fix issue with system fields data types in the Entries API #383
 * **admin-plugin:** fix issue for creating entry process with same IDs #333
 * **admin-plugin:** fix redirect for entries after edit process.
+* **admin-plugin:** fix issues with routable field on entry edit process.
+
 
 ### Refactoring
 
