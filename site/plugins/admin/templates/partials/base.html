@@ -8,7 +8,7 @@
             <meta name="author" content="">
             <meta name="robots" content="noindex,nofollow">
 
-            {% do 
+            {% do
                 emitter.emit('onAdminThemeMeta') %}
 
             <title>FLEXTYPE</title>
@@ -17,9 +17,9 @@
 
             {% set vendor_build_css = site_url() ~ '/site/plugins/admin/assets/dist/css/vendor-build.min.css' %}
             {% set admin_panel_build_css = site_url() ~ '/site/plugins/admin/assets/dist/css/admin-panel-build.min.css' %}
-            {% do 
+            {% do
                 assets.add('css', vendor_build_css, 'admin', 1) %}
-            {% do 
+            {% do
                 assets.add('css', admin_panel_build_css, 'admin', 2) %}
 
             {% for assets_admin in assets.get('css', 'admin') %}
@@ -28,7 +28,7 @@
                 {% endfor %}
             {% endfor %}
 
-            {% do 
+            {% do
                 emitter.emit('onAdminThemeHeader') %}
         {% endblock %}
     </head>
@@ -74,14 +74,14 @@
                             </a>
                         </li>
                     {% endfor %}
-                    {% for key, item in registry.plugins.admin.navigation.settings %}
+                    {% for key, item in registry.plugins.admin.navigation.system %}
                         <li>
                             <a data-tippy-content="{{ item.title|raw }}" href="{{ site_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
                                 <i class="icon icon--white">{{ icon(item.icon) }}</i>
                             </a>
                         </li>
                     {% endfor %}
-                    {% for key, item in registry.plugins.admin.navigation.help %}
+                    {% for key, item in registry.plugins.admin.navigation.information %}
                         <li>
                             <a data-tippy-content="{{ item.title|raw }}" href="{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
                                 <i class="icon icon--white">{{ icon(item.icon) }}</i>
@@ -289,7 +289,7 @@
         </main>
 
         {% set admin_panel_build_js = site_url() ~ '/site/plugins/admin/assets/dist/js/admin-panel-build.min.js' %}
-        {% do 
+        {% do
             assets.add('js', admin_panel_build_js, 'admin', 1) %}
         {% for assets_admin in assets.get('js', 'admin') %}
             {% for assets_by_priorities in assets_admin %}
@@ -308,7 +308,7 @@
         {% include "plugins/admin/templates/partials/modules/datetimepicker.html" %}
         {% include "plugins/admin/templates/partials/modules/clipboard.html" %}
 
-        {% do 
+        {% do
             emitter.emit('onAdminThemeTail') %}
 
         {% block tail %}{% endblock %}
