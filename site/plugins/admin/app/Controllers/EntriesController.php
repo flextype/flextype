@@ -121,7 +121,7 @@ class EntriesController extends Controller
                                         'create' => [
                                                 'link'    => 'javascript:;',
                                                 'title'   => __('admin_create_new_entry'),
-                                                'onclick' => 'event.preventDefault(); selectEntryType("", 0);'
+                                                'onclick' => 'event.preventDefault(); selectEntryType("'.$this->getEntryID($query).'", 0);'
                                             ]
                                         ]
                             ]
