@@ -864,7 +864,6 @@ class EntriesController extends Controller
             Arr::delete($data, 'action');
 
             $data['published_by'] = Session::get('uuid');
-            $data['routable'] = isset($data['routable']) ? (bool) $data['routable'] : false;
 
             // Fetch entry
             $entry = $this->entries->fetch($id);
