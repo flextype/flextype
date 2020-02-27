@@ -34,7 +34,7 @@ class UsersController extends Controller
      */
     public function login(Request $request, Response $response) : Response
     {
-        $users = $this->getUsers();
+        $users = $this->getUsersList();
 
         if ((Session::exists('role') && Session::get('role') === 'admin')) {
             return $response->withRedirect($this->router->pathFor('admin.entries.index'));
@@ -60,7 +60,7 @@ class UsersController extends Controller
     {
         $data = $request->getParsedBody();
 
-        if (Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $data['username'] . '.yaml')) {
+        if (Filesystem::has($_user_file = PATH['accounts'] . '/' . $data['username'] . '/profile.yaml')) {
             $user_file = $this->parser->decode(Filesystem::read($_user_file), 'yaml', false);
             if (password_verify(trim($data['password']), $user_file['hashed_password'])) {
                 Session::set('username', $user_file['username']);
@@ -88,7 +88,7 @@ class UsersController extends Controller
      */
     public function installation(Request $request, Response $response) : Response
     {
-        $users = $this->getUsers();
+        $users = $this->getUsersList();
 
         if (count($users) > 0) {
             return $response->withRedirect($this->router->pathFor('admin.users.login'));
@@ -115,7 +115,7 @@ class UsersController extends Controller
         // Get POST data
         $data = $request->getParsedBody();
 
-        if (! Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $this->slugify->slugify($data['username']) . '.yaml')) {
+        if (! Filesystem::has($_user_file = PATH['accounts'] . '/' . $this->slugify->slugify($data['username']) . '/profile.yaml')) {
             // Generate UUID
             $uuid = Uuid::uuid4()->toString();
 
@@ -123,11 +123,11 @@ class UsersController extends Controller
             $time = date($this->registry->get('flextype.date_format'), time());
 
             // Create accounts directory and account
-            Filesystem::createDir(PATH['site'] . '/accounts/');
+            Filesystem::createDir(PATH['accounts'] . '/' . $this->slugify->slugify($data['username']));
 
             // Create admin account
             if (Filesystem::write(
-                PATH['site'] . '/accounts/' . $data['username'] . '.yaml',
+                PATH['accounts'] . '/' . $this->slugify->slugify($data['username']) . '/profile.yaml',
                 $this->parser->encode([
                     'username' => $this->slugify->slugify($data['username']),
                     'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
@@ -252,20 +252,18 @@ class UsersController extends Controller
      *
      * @return array
      */
-    public function getUsers() : array
+    public function getUsersList() : array
     {
         // Get Users Profiles
-        $users_list = Filesystem::listContents(PATH['site'] . '/accounts/');
+        $users_list = Filesystem::listContents(PATH['accounts']);
 
         // Users
         $users = [];
 
         foreach ($users_list as $user) {
-            if ($user['type'] !== 'file' || $user['extension'] !== 'yaml') {
-                continue;
+            if ($user['type'] === 'dir' && Filesystem::has($user['path'] . '/profile.yaml')) {
+                $users[$user['dirname']] = $user;
             }
-
-            $users[$user['basename']] = $user;
         }
 
         return $users;
