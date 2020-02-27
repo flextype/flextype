@@ -27,6 +27,7 @@ use function rtrim;
 use function str_replace;
 use function strpos;
 use function time;
+use function strtotime;
 
 class Entries
 {
