@@ -132,7 +132,7 @@ include_once 'dependencies.php';
 include_once 'middlewares.php';
 
 /**
- * Include API's
+ * Include API ENDPOINTS
  */
 include_once 'api/delivery/images.php';
 include_once 'api/delivery/entries.php';
