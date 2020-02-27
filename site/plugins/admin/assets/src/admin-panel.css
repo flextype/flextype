@@ -18,6 +18,7 @@
 @import 'modules/swal2';
 @import 'modules/trumbowyg';
 @import 'modules/flatpickr';
+@import 'modules/filepicker';
 
 /* Components */
 @import 'components/tables';

@@ -1,0 +1,34 @@
+/* purgecss start ignore */
+.input-file-trigger {
+    display: block;
+    font-size: 1em;
+    cursor: pointer;
+    outline: none;
+}
+
+.input-file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    padding: 0;
+    cursor: pointer;
+    height: 37px;
+}
+
+.file-return {
+    margin: 0;
+}
+
+.file-return {
+    font-style: normal;
+    font-weight: normal;
+    font-size: .9em;
+}
+
+.file-return:not(:empty):before {
+    font-style: normal;
+    font-weight: normal;
+}
+/* purgecss end ignore */

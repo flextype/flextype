@@ -13,8 +13,14 @@
                 {{ csrf() }}
                 <input type="hidden" name="entry-id" value="{{ id }}">
                 <div class="form-group bg-gray-000 p-4">
-                    <input type="submit" id="upload_file" name="upload_file" value="{{ tr('admin_upload') }}" class="button">
-                    <input name="file" type="file" class="w-100">
+                    <div class="button-group mb-0 flex items-center justify-left">
+                        <input type="submit" id="upload_file" name="upload_file" value="{{ tr('admin_upload') }}" class="button">
+                        <div class="relative">
+                            <input class="js-input-file input-file" id="file" name="file" type="file">
+                            <label tabindex="0" for="file" class="js-input-file-trigger input-file-trigger button button--white">{{ tr('admin_select_file') }}</label>
+                        </div>
+                        <div class="js-file-return file-return text-center"></div>
+                    </div>
                 </div>
             </form>
         </div>
@@ -81,10 +87,14 @@
             <form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data" action="{{ path_for('admin.entries.uploadMediaFileProcess') }}">
                 {{ csrf() }}
                 <input type="hidden" name="entry-id" value="{{ id }}">
-                <div class="form-group bg-gray-000 p-4">
+                <div class="button-group flex items-center justify-center">
                     <input type="submit" id="upload_file" name="upload_file" value="{{ tr('admin_upload') }}" class="button">
-                    <input name="file" type="file" class="w-100">
+                    <div class="relative">
+                        <input class="js-input-file input-file" id="file" name="file" type="file">
+                        <label tabindex="0" for="file" class="js-input-file-trigger input-file-trigger button button--white">{{ tr('admin_select_file') }}</label>
+                    </div>
                 </div>
+                <div class="js-file-return file-return text-center mt-4"></div>
             </form>
         </div>
     </div>
