@@ -871,6 +871,14 @@ class EntriesController extends Controller
             Arr::delete($entry, 'modified_at');
             Arr::delete($entry, 'created_at');
 
+            if (isset($data['routable'])) {
+                $data['routable'] = (bool) $data['routable'];
+            } elseif(isset($entry['routable'])) {
+                $data['routable'] = (bool) $entry['routable'];
+            } else {
+                $data['routable'] = true;
+            }
+
             // Merge entry data with $data
             $result_data = array_merge($entry, $data);
 
