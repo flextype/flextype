@@ -176,7 +176,7 @@
                                 <a target="_blank" href="{{ base_url() }}/{{ entry.slug }}">/{{ entry.slug }}</a>
                             </td>
                             <td class="{% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                                {{ entry.published_at }}
+                                {{ entry.published_at|date(registry.flextype.date_display_format) }}
                             </td>
                             <td class="text-right">
                                 <button type="button" class="js-dropdown-btn relative" data-dropdown="dropdown-{{ entry.slug }}">
