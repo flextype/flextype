@@ -869,6 +869,7 @@ class EntriesController extends Controller
             $entry = $this->entries->fetch($id);
             Arr::delete($entry, 'slug');
             Arr::delete($entry, 'modified_at');
+            Arr::delete($entry, 'created_at');
 
             // Merge entry data with $data
             $result_data = array_merge($entry, $data);
