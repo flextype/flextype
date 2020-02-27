@@ -472,6 +472,7 @@ class Entries
             $entry = $this->flextype['parser']->decode($body, 'frontmatter');
             return Filesystem::write($entry_file, $this->flextype['parser']->encode(array_merge($entry, $data), 'frontmatter'));
         }
+        
         return false;
     }
 
