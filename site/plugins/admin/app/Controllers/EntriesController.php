@@ -387,22 +387,25 @@ class EntriesController extends Controller
      */
     public function typeProcess(Request $request, Response $response) : Response
     {
-        $_data = $request->getParsedBody();
+        $post_data = $request->getParsedBody();
 
-        $id = $_data['id'];
+        $id = $post_data['id'];
 
         $entry = $this->entries->fetch($id);
 
         Arr::delete($entry, 'slug');
         Arr::delete($entry, 'modified_at');
-        Arr::delete($_data, 'csrf_name');
-        Arr::delete($_data, 'csrf_value');
-        Arr::delete($_data, 'save_entry');
-        Arr::delete($_data, 'id');
+        Arr::delete($entry, 'created_at');
+        Arr::delete($entry, 'published_at');
 
-        $_data['published_by'] = Session::get('uuid');
+        Arr::delete($post_data, 'csrf_name');
+        Arr::delete($post_data, 'csrf_value');
+        Arr::delete($post_data, 'save_entry');
+        Arr::delete($post_data, 'id');
 
-        $data = array_merge($entry, $_data);
+        $post_data['published_by'] = Session::get('uuid');
+
+        $data = array_merge($entry, $post_data);
 
         if ($this->entries->update(
             $id,
@@ -694,6 +697,9 @@ class EntriesController extends Controller
         is_null($fieldsets) and $fieldsets = [];
 
         if ($type == 'source') {
+            $entry['published_at'] = date($this->registry->get('flextype.date_format'), $entry['published_at']);
+            $entry['created_at'] = date($this->registry->get('flextype.date_format'), $entry['created_at']);
+
             return $this->view->render(
                 $response,
                 'plugins/admin/templates/content/entries/source.html',
@@ -843,6 +849,10 @@ class EntriesController extends Controller
             $entry = $this->parser->decode($data['data'], 'frontmatter');
 
             $entry['published_by'] = Session::get('uuid');
+
+            Arr::delete($entry, 'slug');
+            Arr::delete($entry, 'modified_at');
+            Arr::delete($entry, 'created_at');
 
             // Update entry
             if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.md', $this->parser->encode($entry, 'frontmatter'))) {
