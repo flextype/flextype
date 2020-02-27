@@ -2,6 +2,11 @@
 
 {% block content %}
 
+
+    {% set allowed_image_files = ['jpeg', 'png', 'gif', 'jpg'] %}
+
+    {% if files | length > 0 %}
+
     <div class="flex row">
         <div class="col w-full">
             <form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data" action="{{ path_for('admin.entries.uploadMediaFileProcess') }}">
@@ -14,8 +19,6 @@
             </form>
         </div>
     </div>
-
-    {% set allowed_image_files = ['jpeg', 'png', 'gif', 'jpg'] %}
 
     <table class="table">
         <thead>
@@ -70,6 +73,22 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <div class="text-center flex justify-center items-center h-full">
+        <div>
+            <i class="icon icon--4xl">{{ icon('fas fa-photo-video') }}</i>
+            <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_upload_any_files_yet') }}</h3>
+            <form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data" action="{{ path_for('admin.entries.uploadMediaFileProcess') }}">
+                {{ csrf() }}
+                <input type="hidden" name="entry-id" value="{{ id }}">
+                <div class="form-group bg-gray-000 p-4">
+                    <input type="submit" id="upload_file" name="upload_file" value="{{ tr('admin_upload') }}" class="button">
+                    <input name="file" type="file" class="w-100">
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
 
     <div class="_embeded-code-template hidden">
         <div class="form-group">
@@ -90,7 +109,7 @@
                 dropdown[row_num].hide();
             }
             Swal.fire(
-                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_media_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
+                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_file_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
             ).then((result) => {
                 if (result.value) {
                     document.getElementById('delete-media-file-' + id).submit();
