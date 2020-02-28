@@ -24,8 +24,8 @@
 * **core:** add new Global Vars `PATH_ACCOUNTS`, `PATH_UPLOADS`, `PATH_TOKENS`, `PATH_LOGS` for Twig.
 * **default-theme:** Moving to Tailwind CSS from Twitter Bootstrap #356
 * **site-plugin:** add ability to set custom site url, new shortcode `[site_url]` and twig var `{{ site_url }}`
-* **form-plugin:** add new Form plugin instead of core Forms API.
-* **icon-plugin:** add new Icon plugin for Font Awesome icons.
+* **form-plugin:** add new Form plugin for forms handling instead of core Forms API.
+* **icon-plugin:** add new Icon plugin for Font Awesome icons set.
 
     usage in templates:
     ```
@@ -53,10 +53,10 @@
       slugify: true # set `false` to disable slugify for entries
     ```
 
-* **admin-plugin:** add ability to deactivate/activate all kind of plugins. #211
+* **admin-plugin:** add ability to deactivate/activate all type of plugins. #211
 * **admin-plugin:** add Confirmation Required modal for system plugins deactivation.
 * **admin-plugin:** new Admin Panel UI with better UX and powered by Tailwind CSS.
-* **admin-plugin:** new improved entries media page.
+* **admin-plugin:** new improved entries media manager page.
 * **admin-plugin:** add ability to continue editing after saving in the editor.
 * **admin-plugin:** add action `onAdminThemeTail` for admin panel `base` layout.
 * **admin-plugin:** add ability to change entries view from `list view` to `table view`.
@@ -120,6 +120,7 @@
 
 * **admin-plugin:** remove Twitter Bootstrap.
 * **admin-plugin:** remove user profile page `/admin/profile`
+* **admin-plugin:** method getUsers() renamed to getUsersList() in UsersController.
 
 <a name="0.9.6"></a>
 # [0.9.6](https://github.com/flextype/flextype/compare/v0.9.5...v0.9.6) (2019-12-01)
