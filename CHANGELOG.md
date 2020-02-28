@@ -120,7 +120,7 @@
 
 * **admin-plugin:** remove Twitter Bootstrap.
 * **admin-plugin:** remove user profile page `/admin/profile`
-* **admin-plugin:** method getUsers() renamed to getUsersList() in UsersController.
+* **admin-plugin:** method `getUsers()` renamed to `getUsersList()` in UsersController.
 
 <a name="0.9.6"></a>
 # [0.9.6](https://github.com/flextype/flextype/compare/v0.9.5...v0.9.6) (2019-12-01)
