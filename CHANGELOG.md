@@ -56,6 +56,7 @@
 * **admin-plugin:** add ability to deactivate/activate all kind of plugins. #211
 * **admin-plugin:** add Confirmation Required modal for system plugins deactivation.
 * **admin-plugin:** new Admin Panel UI with better UX and powered by Tailwind CSS.
+* **admin-plugin:** new improved entries media page.
 * **admin-plugin:** add ability to continue editing after saving in the editor.
 * **admin-plugin:** add action `onAdminThemeTail` for admin panel `base` layout.
 * **admin-plugin:** add ability to change entries view from `list view` to `table view`.
@@ -92,7 +93,6 @@
 * **admin-plugin:** fix issue for creating entry process with same IDs #333
 * **admin-plugin:** fix redirect for entries after edit process.
 * **admin-plugin:** fix issues with routable field on entry edit process.
-
 
 ### Refactoring
 
