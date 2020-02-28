@@ -54,27 +54,33 @@ class Entries
      * @access public
      */
     public $expression = [
+        'eq' => Comparison::EQ,
         '=' => Comparison::EQ,
+
         '<>' => Comparison::NEQ,
+        '!=' => Comparison::NEQ,
+        'neq' => Comparison::NEQ,
+
         '<' => Comparison::LT,
+        'lt' => Comparison::LT,
+
         '<=' => Comparison::LTE,
+        'lte' => Comparison::LTE,
+
         '>' => Comparison::GT,
+        'gt' => Comparison::GT,
+
         '>=' => Comparison::GTE,
+        'gte' => Comparison::GTE,
+
         'is' => Comparison::IS,
         'in' => Comparison::IN,
         'nin' => Comparison::NIN,
         'contains' => Comparison::CONTAINS,
+        'like' => Comparison::CONTAINS,
         'member_of' => Comparison::MEMBER_OF,
         'start_with' => Comparison::STARTS_WITH,
-        'ends_with' => Comparison::ENDS_WITH,
-
-        // alternative comparison syntax
-        'eq' => Comparison::EQ,
-        'neq' => Comparison::NEQ,
-        'lt' => Comparison::LT,
-        'lte' => Comparison::LTE,
-        'gt' => Comparison::GT,
-        'gte' => Comparison::GTE,
+        'ends_with' => Comparison::ENDS_WITH
     ];
 
     /**
@@ -472,7 +478,7 @@ class Entries
             $entry = $this->flextype['parser']->decode($body, 'frontmatter');
             return Filesystem::write($entry_file, $this->flextype['parser']->encode(array_merge($entry, $data), 'frontmatter'));
         }
-        
+
         return false;
     }
 
