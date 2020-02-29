@@ -508,7 +508,7 @@ class EntriesController extends Controller
                 $data['parent_entry'] . '/' . $entry_id_current
             )) {
 
-                rename(PATH['uploads'] . '/entries/' . $data['entry_id_path_current'], PATH['uploads'] . '/entries/' . $data['parent_entry'] . '/' . $entry_id_current);
+                rename(PATH['uploads'] . '/entries/' . $entry_id_current, PATH['uploads'] . '/entries/' . $data['parent_entry'] . '/' . $entry_id_current);
 
                 $this->clearEntryCounter($data['parent_entry']);
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
