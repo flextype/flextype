@@ -500,11 +500,7 @@ class EntriesController extends Controller
         $data = $request->getParsedBody();
 
         // Set entry id current
-        if ($this->registry->get('plugins.admin.entries.slugify') == true) {
-            $entry_id_current = $this->slugify->slugify($data['entry_id_current']);
-        } else {
-            $entry_id_current = $data['entry_id_current'];
-        }
+        $entry_id_current = $data['entry_id_current'];
 
         if (!$this->entries->has($data['parent_entry'] . '/' . $entry_id_current)) {
             if ($this->entries->rename(
