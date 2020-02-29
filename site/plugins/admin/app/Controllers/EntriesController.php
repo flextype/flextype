@@ -1120,6 +1120,11 @@ class EntriesController extends Controller
     {
         $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
         $files = [];
+
+        if (!Filesystem::has(PATH['uploads'] . '/entries/' . $id)) {
+            Filesystem::createDir(PATH['uploads'] . '/entries/' . $id);
+        }
+
         foreach (array_diff(scandir(PATH['uploads'] . '/entries/' . $id), ['..', '.']) as $file) {
             if (strpos($this->registry->get('plugins.admin.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
