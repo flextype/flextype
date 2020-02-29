@@ -880,7 +880,7 @@ class EntriesController extends Controller
             Arr::delete($entry, 'modified_at');
 
             if (isset($data['created_at'])) {
-                $data['created_at'] = date($this->registry->get('flextype.date_format'), $data['created_at']);
+                $data['created_at'] = date($this->registry->get('flextype.date_format'), strtotime($data['created_at']));
             } else {
                 $data['created_at'] = date($this->registry->get('flextype.date_format'), $entry['created_at']);
             }
@@ -888,7 +888,7 @@ class EntriesController extends Controller
             if (isset($data['published_at'])) {
                 $data['published_at'] = (string) date($this->registry->get('flextype.date_format'), strtotime($data['published_at']));
             } else {
-                $data['published_at'] = (string) date($this->registry->get('flextype.date_format'), strtotime($entry['published_at']));
+                $data['published_at'] = (string) date($this->registry->get('flextype.date_format'), $entry['published_at']);
             }
 
             if (isset($data['routable'])) {
