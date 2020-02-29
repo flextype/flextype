@@ -535,6 +535,8 @@ class FormController extends Controller
         $name    = isset($properties['name'])  ? $properties['name'] : $field_name;
         $current_value   = isset($properties['value']) ? $properties['value'] : $field_value;
 
+        $current_value = array_map('trim', explode(',', $current_value));
+
         return $this->flextype['view']->fetch('plugins/form/templates/fields/tags/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help , 'options' => $options, 'current_value' => $current_value]);
     }
 
