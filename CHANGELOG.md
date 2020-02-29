@@ -15,6 +15,14 @@
 
 * **core:** add new core constants `PATH['tokens']`, `PATH['accounts']`, `PATH['logs']`, `PATH['uploads']`
 * **core:** add new locales support Persian, Indonesian, Galician #327
+* **core:** add alternative comparison syntax for Entries API  
+
+    Alternative comparison syntax:
+    ```
+    != - Not equals to
+    like - Contains the substring
+    ```
+
 * **core:** set entries field `routable`=`true` on new entry creation #320
 * **core:** use `array_merge()` instead of `array_replace_recursive()` for entries update method.
 * **core:** initialize plugins before themes #323
@@ -118,6 +126,7 @@
 
 ### BREAKING CHANGES
 
+* **core:** remove Debug, Html and Form Flextype Components.
 * **admin-plugin:** remove Twitter Bootstrap.
 * **admin-plugin:** remove user profile page `/admin/profile`
 * **admin-plugin:** method `getUsers()` renamed to `getUsersList()` in UsersController.
