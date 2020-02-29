@@ -856,7 +856,6 @@ class EntriesController extends Controller
 
             Arr::delete($entry, 'slug');
             Arr::delete($entry, 'modified_at');
-            Arr::delete($entry, 'created_at');
 
             // Update entry
             if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.md', $this->parser->encode($entry, 'frontmatter'))) {
@@ -883,7 +882,8 @@ class EntriesController extends Controller
             $entry = $this->entries->fetch($id);
             Arr::delete($entry, 'slug');
             Arr::delete($entry, 'modified_at');
-            Arr::delete($entry, 'created_at');
+
+            $entry['created_at'] = date($this->registry->get('flextype.date_format'), $entry['created_at']);
 
             if (isset($data['routable'])) {
                 $data['routable'] = (bool) $data['routable'];
