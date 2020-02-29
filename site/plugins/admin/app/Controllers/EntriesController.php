@@ -654,7 +654,11 @@ class EntriesController extends Controller
 
         $this->entries->copy($id, $id . '-duplicate-' . $random_date, true);
 
-        Filesystem::copy(PATH['uploads'] . '/entries/' . $id, PATH['uploads'] . '/entries/' . $id . '-duplicate-' . $random_date, true);
+        if (Filesystem::has(PATH['uploads'] . '/entries/' . $id)) {
+            Filesystem::copy(PATH['uploads'] . '/entries/' . $id, PATH['uploads'] . '/entries/' . $id . '-duplicate-' . $random_date, true);
+        } else {
+            Filesystem::createDir(PATH['uploads'] . '/entries/' . $id . '-duplicate-' . $random_date);
+        }
 
         $this->clearEntryCounter($parent_id);
 
