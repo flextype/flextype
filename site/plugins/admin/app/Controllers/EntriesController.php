@@ -1013,7 +1013,7 @@ class EntriesController extends Controller
         array $file,
         string $upload_directory,
         string $allowed = 'jpeg, png, gif, jpg',
-        int $max_size = 3000000,
+        int $max_size = 5000000,
         string $filename = null,
         bool $remove_spaces = true,
         int $max_width = null,
