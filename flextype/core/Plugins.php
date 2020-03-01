@@ -102,7 +102,6 @@ class Plugins
             $default_plugin_settings = [];
             $site_plugin_settings    = [];
             $default_plugin_manifest = [];
-            $site_plugin_manifest    = [];
 
             // Go through...
             foreach ($plugins_list as $plugin) {
@@ -114,9 +113,8 @@ class Plugins
                 $default_plugin_settings_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml';
                 $default_plugin_manifest_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml';
 
-                // Set site plugin settings and manifest files
+                // Set site plugin settings file
                 $site_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
-                $site_plugin_manifest_file = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
 
                 // Create site plugin settings directory
                 ! Filesystem::has($site_plugin_settings_dir) and Filesystem::createDir($site_plugin_settings_dir);
@@ -150,21 +148,10 @@ class Plugins
                 $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
                 $default_plugin_manifest              = $this->flextype['parser']->decode($default_plugin_manifest_file_content, 'yaml');
 
-                // Create site plugin manifest file
-                ! Filesystem::has($site_plugin_manifest_file) and Filesystem::write($site_plugin_manifest_file, $default_plugin_manifest_file_content);
-
-                // Get site plugin manifest content
-                $site_plugin_manifest_file_content = Filesystem::read($site_plugin_manifest_file);
-                if (trim($site_plugin_manifest_file_content) === '') {
-                    $site_plugin_manifest = [];
-                } else {
-                    $site_plugin_manifest = $this->flextype['parser']->decode($site_plugin_manifest_file_content, 'yaml');
-                }
-
                 // Merge plugin settings and manifest data
                 $plugins[$plugin['dirname']] = array_merge(
                     array_replace_recursive($default_plugin_settings, $site_plugin_settings),
-                    array_replace_recursive($default_plugin_manifest, $site_plugin_manifest)
+                    $default_plugin_manifest
                 );
 
                 // Check if isset plugin priority
@@ -237,14 +224,12 @@ class Plugins
                 $default_plugin_settings_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml';
                 $default_plugin_manifest_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml';
                 $site_plugin_settings_file    = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
-                $site_plugin_manifest_file    = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
 
                 $f1 = Filesystem::has($default_plugin_settings_file) ? filemtime($default_plugin_settings_file) : '';
                 $f2 = Filesystem::has($default_plugin_manifest_file) ? filemtime($default_plugin_manifest_file) : '';
                 $f3 = Filesystem::has($site_plugin_settings_file) ? filemtime($site_plugin_settings_file) : '';
-                $f4 = Filesystem::has($site_plugin_manifest_file) ? filemtime($site_plugin_manifest_file) : '';
 
-                $_plugins_cache_id .= $f1 . $f2 . $f3 . $f4;
+                $_plugins_cache_id .= $f1 . $f2 . $f3;
             }
         }
 

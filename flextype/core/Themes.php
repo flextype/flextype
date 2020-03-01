@@ -64,7 +64,6 @@ class Themes
             $default_theme_settings = [];
             $site_theme_settings    = [];
             $default_theme_manifest = [];
-            $site_theme_manifest    = [];
 
             // Go through the themes list...
             foreach ($themes_list as $theme) {
@@ -78,7 +77,6 @@ class Themes
 
                 // Set custom theme settings and manifest files
                 $custom_theme_settings_file = PATH['config']['site'] . '/themes/' . $theme['dirname'] . '/settings.yaml';
-                $custom_theme_manifest_file = PATH['config']['site'] . '/themes/' . $theme['dirname'] . '/theme.yaml';
 
                 // Create custom theme settings directory
                 ! Filesystem::has($custom_theme_settings_dir)  and Filesystem::createDir($custom_theme_settings_dir);
@@ -116,21 +114,10 @@ class Themes
                 $default_theme_manifest_file_content = Filesystem::read($default_theme_manifest_file);
                 $default_theme_manifest              = $this->flextype['parser']->decode($default_theme_manifest_file_content, 'yaml');
 
-                // Create custom theme file
-                ! Filesystem::has($custom_theme_manifest_file) and Filesystem::write($custom_theme_manifest_file, $default_theme_manifest_file_content);
-
-                // Get custom theme manifest content
-                $custom_theme_manifest_file_content = Filesystem::read($custom_theme_manifest_file);
-                if (trim($custom_theme_manifest_file_content) === '') {
-                    $custom_theme_manifest = [];
-                } else {
-                   $custom_theme_manifest = $this->flextype['parser']->decode($custom_theme_manifest_file_content, 'yaml');
-                }
-
                 // Merge theme settings and manifest data
                 $themes[$theme['dirname']] = array_merge(
                     array_replace_recursive($default_theme_settings, $custom_theme_settings),
-                    array_replace_recursive($default_theme_manifest, $custom_theme_manifest)
+                    $default_theme_manifest
                 );
             }
 
@@ -163,14 +150,12 @@ class Themes
                 $default_theme_settings_file = PATH['themes'] . '/' . $theme['dirname'] . '/settings.yaml';
                 $default_theme_manifest_file = PATH['themes'] . '/' . $theme['dirname'] . '/theme.yaml';
                 $site_theme_settings_file    = PATH['config']['site'] . '/themes/' . $theme['dirname'] . '/settings.yaml';
-                $site_theme_manifest_file    = PATH['config']['site'] . '/themes/' . $theme['dirname'] . '/theme.yaml';
 
                 $f1 = Filesystem::has($default_theme_settings_file) ? filemtime($default_theme_settings_file) : '';
                 $f2 = Filesystem::has($default_theme_manifest_file) ? filemtime($default_theme_manifest_file) : '';
                 $f3 = Filesystem::has($site_theme_settings_file) ? filemtime($site_theme_settings_file) : '';
-                $f4 = Filesystem::has($site_theme_manifest_file) ? filemtime($site_theme_manifest_file) : '';
 
-                $_themes_cache_id .= $f1 . $f2 . $f3 . $f4;
+                $_themes_cache_id .= $f1 . $f2 . $f3;
             }
         }
 
