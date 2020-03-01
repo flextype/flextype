@@ -126,6 +126,13 @@
 
 ### BREAKING CHANGES
 
+* **core:** accounts moved to their specific folders.
+
+    for e.g.
+    ```
+    /accounts/admin.yaml => /accounts/admin/profile.yaml
+    ```
+
 * **core:** remove Debug, Html and Form Flextype Components.
 * **admin-plugin:** remove Twitter Bootstrap.
 * **admin-plugin:** remove user profile page `/admin/profile`
