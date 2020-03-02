@@ -136,12 +136,16 @@
     ```
 
 * **core:** remove Debug, Html and Form Flextype Components.
-* **core:** core/plugin settings keys renamed
+* **core:** all images links should be updated
     ```
-    All core settings:
+    http://docs.flextype.org/en/content/media
+    ```
+* **core:** core and plugin settings keys renamed
+    ```
+    For all core settings:
     settings.* => flextype.*
 
-    Also:
+    For all site settings:
     settings.title => plugins.site.title
     settings.description => plugins.site.description
     settings.keywords => plugins.site.keywords
@@ -150,7 +154,7 @@
     settings.author.name => plugins.site.author.name
     ```
 
-* **admin-plugin:** remove Twitter Bootstrap.
+* **admin-plugin:** remove Twitter Bootstrap from Admin Panel and Default Theme.
 * **admin-plugin:** remove user profile page `/admin/profile`
 * **admin-plugin:** method `getUsers()` renamed to `getUsersList()` in UsersController.
 
