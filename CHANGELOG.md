@@ -76,6 +76,8 @@
       items_view_default: list # set `table` for table entries view
     ```
 
+* **admin-plugin:** increase upload limit for `_uploadFile` from 3mb to 5mb
+* **admin-plugin:** do not rewrite plugins and themes manifest with custom manifests.
 * **admin-plugin:** add parsleys for frontend form validation.
 * **admin-plugin:** add select2 for all select form controls.
 * **admin-plugin:** add swal for all modals.
