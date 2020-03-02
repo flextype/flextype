@@ -136,6 +136,20 @@
     ```
 
 * **core:** remove Debug, Html and Form Flextype Components.
+* **core:** core/plugin settings keys renamed
+    ```
+    All core settings:
+    settings.* => flextype.*
+
+    Also:
+    settings.title => plugins.site.title
+    settings.description => plugins.site.description
+    settings.keywords => plugins.site.keywords
+    settings.robots => plugins.site.robots
+    settings.author.email => plugins.site.author.email
+    settings.author.name => plugins.site.author.name
+    ```
+
 * **admin-plugin:** remove Twitter Bootstrap.
 * **admin-plugin:** remove user profile page `/admin/profile`
 * **admin-plugin:** method `getUsers()` renamed to `getUsersList()` in UsersController.
