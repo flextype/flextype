@@ -4,7 +4,8 @@
 ### Features
 * **core:** add Delivery API's for Entries, Images and Registry. #159
 
-    Flextype 0.9.7 may be used as Headless CMS on demand!
+    Use Flextype as a Headless CMS with the full power of the Admin Panel.
+    Build a Websites and Apps with a technology you are familiar with.
 
     Endpoints for Delivery API's:
     ```
