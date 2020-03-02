@@ -19,6 +19,8 @@ charset: UTF-8
 theme: default
 
 # The locale that'll be used by the Flextype.
+#
+# Available locales to use: flextype/config/locales.yaml
 locale: en_US
 
 # Valid date format
@@ -26,14 +28,24 @@ locale: en_US
 # - date_format: Valid date format
 #
 # - date_display_format: Valid date format to display
-date_format: 'd-m-Y H:i'
-date_display_format: 'd-m-y G:i'
-
-# The entries settings§
 #
-# - main:        Main entry
-# - media.upload_images_quality: Image quality
-# - media.accept_file_types: Define the file types (extensions to be exact) that are acceptable for upload.
+# Date format variants:
+#
+# d-m-Y H:i" - 02-02-2020 09:41
+# Y-m-d H:i" - 2020-02-02 09:41
+# m/d/Y h:i a - 02/02/2020 09:41 pm
+# H:i d-m-Y - 09:41 02-02-2020
+# h:i a m/d/Y - 09:41 pm 02/02/2020
+date_format: 'd-m-Y H:i'
+date_display_format: 'd-m-Y H:i'
+
+# The entries settings
+#
+# - main:                 Main entry
+# - error404.title:       Title to display on Error404 page
+# - error404.description: Description to display on Error404 page
+# - error404.content:     Content to display on Error404 page
+# - error404.template:    Template to use on Error404 page
 entries:
   main: home
   error404:
@@ -43,6 +55,16 @@ entries:
     template: default
 
 # Display errors
+#
+# Please make sure to set false for error `display` in production!
+#
+# Displaying PHP errors on a public server can be a serious security risk:
+#
+# - Error messages are displayed with detailed information about the code structure (e.g. file path, class, method)
+# - With Whoops enabled, there will be even more detailed information about the code structure
+# - Detailed error messages for login failures could leak information to attackers
+#
+# In a production environment, always log errors to your PHP error logs.
 #
 # - display: Display errors or not.
 errors:
@@ -100,6 +122,8 @@ cache:
     table: flextype
 
 # Whoops
+#
+# Error handler framework for PHP.
 #
 # - editor: emacs, idea, macvim, phpstorm, sublime, textmate, xdebug, vscode, atom, espresso
 #
