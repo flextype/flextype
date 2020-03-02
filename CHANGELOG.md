@@ -1,5 +1,5 @@
 <a name="0.9.7"></a>
-# [0.9.7](https://github.com/flextype/flextype/compare/v0.9.6...v0.9.7) (2020-01-XX)
+# [0.9.7](https://github.com/flextype/flextype/compare/v0.9.6...v0.9.7) (2020-03-03)
 
 ### Features
 * **core:** add Delivery API's for Entries, Images and Registry. #159
