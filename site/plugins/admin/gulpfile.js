@@ -120,8 +120,8 @@ gulp.task("admin-panel-css", function() {
 
                     // Trumbowyg
                     'node_modules/trumbowyg/dist/trumbowyg.min.js',
-                    'node_modules/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.js',
-                    'node_modules/trumbowyg/dist/plugins/table/trumbowyg.table.js',
+                    'node_modules/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.min.js',
+                    'node_modules/trumbowyg/dist/plugins/table/trumbowyg.table.min.js',
 
                     // CodeMirror
                     'node_modules/codemirror/lib/codemirror.js',
