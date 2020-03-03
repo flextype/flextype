@@ -162,7 +162,7 @@ if ($flextype['registry']->get('flextype.errors.display')) {
  * Set default timezone
  */
 date_default_timezone_set($flextype['registry']->get('flextype.timezone'));
-
+ 
 /**
  * Init shortocodes
  *
