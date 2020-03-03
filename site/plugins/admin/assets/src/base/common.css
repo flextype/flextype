@@ -49,3 +49,9 @@ h4
 {
     @apply text-2xl;
 }
+
+input:focus,
+button:focus,
+button:active {
+    outline: none;
+}
