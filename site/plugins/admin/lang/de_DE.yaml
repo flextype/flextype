@@ -1,7 +1,7 @@
 ---
 admin: "Administrator"
 admin_welcome: "Willkommen"
-admin_create_new_user_welcome: "Um die Installation abzuschließen und die Ihre abzusichern, erstellen nachfolgend bitte Ihren ersten Benutzer."
+admin_create_new_user_welcome: "Um die Installation abzuschließen und deine Seite abzusichern, erstelle nachfolgend bitte einen ersten Benutzer."
 admin_cancel: "Abbrechen"
 admin_create: "Erstellen"
 admin_debugging: "Fehlerbehebung"
