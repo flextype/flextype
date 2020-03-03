@@ -92,7 +92,7 @@ class PluginsController extends Controller
         $id = $request->getQueryParams()['id'];
 
         // Set plugin custom manifest content
-        $custom_plugin_manifest_file = PATH['config']['site'] . '/plugins/' . $id . '/plugin.yaml';
+        $custom_plugin_manifest_file = PATH['plugins'] . '/' . $id . '/plugin.yaml';
 
         // Get plugin custom manifest content
         $custom_plugin_manifest_file_content = Filesystem::read($custom_plugin_manifest_file);

@@ -92,7 +92,7 @@ class ThemesController extends Controller
         $id = $request->getQueryParams()['id'];
 
         // Set theme custom manifest content
-        $custom_theme_manifest_file = PATH['config']['site'] . '/themes/' . $id . '/theme.yaml';
+        $custom_theme_manifest_file = PATH['themes'] . '/' . $id . '/theme.yaml';
 
         // Get theme custom manifest content
         $custom_theme_manifest_file_content = Filesystem::read($custom_theme_manifest_file);
