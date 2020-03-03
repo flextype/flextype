@@ -58,7 +58,7 @@
 
                         <a
                             href="{% if _entries_length > 0 %}{{ path_for('admin.entries.index') }}?id={{ entry.slug }}{% else %}{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor{% endif %}"
-                            class="block bg-gray-000 border-gray-100 border px-4 py-8 relative rounded">
+                            class="block bg-gray-000 border-gray-100 border px-4 py-8 relative rounded {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
 
                             <div class="text-4xl">
                                 {% if entry.fieldset %}
