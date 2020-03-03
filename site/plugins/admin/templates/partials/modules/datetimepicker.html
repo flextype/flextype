@@ -1,0 +1,15 @@
+{% if registry.flextype.locale == 'en_US' %}
+    {% set flatpickr_locale = 'en' %}
+{% else %}
+    {% set flatpickr_locale = registry.flextype.locale|lower|slice(0, 2) %}
+{% endif %}
+{% if flatpickr_locale != 'en' %}
+    <script type="text/javascript" src="{{ site_url() }}/site/plugins/admin/assets/dist/lang/flatpickr/l10n/{{ flatpickr_locale }}.js "></script>
+{% endif %}
+<script>
+    flatpickr(".js-datetimepicker", {
+        enableTime: true,
+        dateFormat: "{{ registry.flextype.date_format }}",
+        locale: "{{ flatpickr_locale }}"
+    });
+</script>

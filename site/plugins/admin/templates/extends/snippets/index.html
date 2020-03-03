@@ -1,0 +1,117 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    {% if snippets_list | length > 0 %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        {{ tr('admin_snippet') }}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for id in snippets_list %}
+                    <tr>
+                        <td class="w-1 text-center">
+                            <i class="icon">{{ icon('far fa-file-code') }}</i>
+                        </td>
+                        <td class="pl-0">
+                            <a href="{{ path_for('admin.snippets.edit') }}?id={{ id }}">{{ id }}</a>
+                        </td>
+                        <td class="text-right">
+                            <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ id }}">
+                                <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                            </button>
+                            <div id="dropdown-{{ id }}" class="dropdown">
+                                <a class="dropdown__item" href="{{ path_for('admin.snippets.edit') }}?id={{ id }}">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
+                                    {{ tr('admin_edit') }}</a>
+                                <a class="dropdown__item" href="{{ path_for('admin.snippets.rename') }}?id={{ id }}">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
+                                    {{ tr('admin_rename') }}</a>
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                document.getElementById('duplicate-snippet-id-{{ id }}').submit();">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
+                                    {{ tr('admin_duplicate') }}</a>
+                                <a class="dropdown__item js-snippets-info" href="javascript:;" onclick="event.preventDefault();
+                                embededCode('{{ id }}', {{ loop.index0 }});">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-code') }}</i>
+                                    {{ tr('admin_embeded_code') }}</a>
+                                <div class="dropdown__divider"></div>
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                deleteSnippet('{{ id }}', {{ loop.index0 }});">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                                    {{ tr('admin_delete') }}</a>
+                                <form id="delete-snippet-id-{{ id }}" action="{{ path_for('admin.snippets.deleteProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="snippet-id" value="{{ id }}">
+                                </form>
+                                <form id="duplicate-snippet-id-{{ id }}" action="{{ path_for('admin.snippets.duplicateProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="snippet-id" value="{{ id }}">
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="text-center flex justify-center items-center h-full">
+            <div>
+                <i class="icon icon--4xl">{{ icon('far fa-file-code') }}</i>
+                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_snippets_yet') }}</h3>
+                <a href="{{ path_for('admin.snippets.add') }}" class="button">{{ tr('admin_create_new_snippet') }}</a>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="_embeded-code-template hidden">
+        <div class="form-group">
+            <label for="shortcode" class="form-control-title text-left">{{ tr('admin_shortcode') }}</label>
+            <input id="shortcode" name="shortcode" type="text" class="form-control js-snippets-shortcode" value="">
+        </div>
+        <div class="form-group">
+            <label for="template_code" class="form-control-title text-left">{{ tr('admin_template_code') }}</label>
+            <input id="template_code" name="template_code" type="text" class="form-control js-snippets-template-code" value="">
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block tail %}
+    <script>
+        function deleteSnippet(id, row_num) {
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
+            Swal.fire(
+                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_snippet_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}", reverseButtons: true}
+            ).then((result) => {
+                if (result.value) {
+                    document.getElementById('delete-snippet-id-' + id).submit();
+                }
+            });
+        }
+
+        function embededCode(id, row_num) {
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
+            Swal.fire({
+                title: "{{ tr('admin_embeded_code') }}",
+                showCloseButton: true,
+                focusCloseButton: false,
+                showConfirmButton: false,
+                html: $('._embeded-code-template').html(),
+                onBeforeOpen: () => {
+                    $('.js-snippets-shortcode').val('[snippets_exec id="' + id + '"]');
+                    $('.js-snippets-template-code').val('\u007B\u007B snippets.exec("' + id + '") \u007D\u007D');
+                }
+            });
+        }
+    </script>
+{% endblock %}

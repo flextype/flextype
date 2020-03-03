@@ -9,14 +9,16 @@
         {
             "name": "Sergey Romanenko",
             "email": "hello@romanenko.digital",
-            "homepage": "http://romanenko.digital"
+            "homepage": "http://digital.flextype.org"
         }
     ],
     "support": {
       "issues": "https://github.com/flextype/issues"
     },
     "require": {
-        "php": ">=7.2.0"
+        "php": ">=7.2.0",
+        "ext-json": "*",
+        "middlewares/trailing-slash": "~1.1.0"
     },
     "config": {
         "apcu-autoloader": true,
@@ -27,7 +29,8 @@
     },
     "autoload": {
         "classmap": [
-            "app"
+            "app",
+            "twig"
         ]
     }
 }

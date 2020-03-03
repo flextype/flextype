@@ -1,0 +1,22 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    <form method="post" id="form">
+        {{ csrf() }}
+        <input type="hidden" name="id_current" value="{{ id_current }}">
+        <input type="hidden" name="type_current" value="{{ type_current }}">
+        <input type="hidden" name="theme" value="{{ theme }}">
+        <div class="flex row">
+            <div class="col w-full lg:w-4/12">
+                <div class="form-group">
+                    <label for="id" class="form-control-title">{{ tr('admin_name') }}</label>
+                    <input type="text" id="id" name="id" value="{{ id_current }}" class="form-control" required="required" data-validation="length required" data-validation-length="min1" data-validation-error-msg="{{ tr('admin_error_name_empty_input') }}">
+                    <small>{{ tr('admin_help_text_for_temlates_name') }}</small>
+                </div>
+                <div class="button-group">
+                    <input type="submit" id="renameTemplate" name="rename_template" value="{{ tr('admin_save') }}" class="button">
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

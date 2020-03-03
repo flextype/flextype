@@ -1,20 +1,3 @@
-# The title of the website
-title: Flextype
-
-# The description of the website
-description: Build fast, flexible, easier to manage websites with Flextype.
-
-# The keywords of the website
-keywords: flextype, php, cms, flat-file cms, flat cms, flatfile cms, html
-
-# The robots of the website
-robots: index, follow
-
-# The name and email address of the website author
-author:
-  email: ''
-  name: ''
-
 # Set the timezone to be used on the website.
 # For a list of valid timezone settings, see:
 # http://php.net/manual/en/timezones.php
@@ -36,6 +19,8 @@ charset: UTF-8
 theme: default
 
 # The locale that'll be used by the Flextype.
+#
+# Available locales to use: flextype/config/locales.yaml
 locale: en_US
 
 # Valid date format
@@ -43,23 +28,26 @@ locale: en_US
 # - date_format: Valid date format
 #
 # - date_display_format: Valid date format to display
-date_format: 'd-m-Y H:i'
-date_display_format: 'd-m-y G:i'
-
-# The entries settings§
 #
-# - main:        Main entry
-# - media.upload_images_quality: Image quality
-# - media.accept_file_types: Define the file types (extensions to be exact) that are acceptable for upload.
+# Date format variants:
+#
+# d-m-Y H:i" - 02-02-2020 09:41
+# Y-m-d H:i" - 2020-02-02 09:41
+# m/d/Y h:i a - 02/02/2020 09:41 pm
+# H:i d-m-Y - 09:41 02-02-2020
+# h:i a m/d/Y - 09:41 pm 02/02/2020
+date_format: 'd-m-Y H:i'
+date_display_format: 'd-m-Y H:i'
+
+# The entries settings
+#
+# - main:                 Main entry
+# - error404.title:       Title to display on Error404 page
+# - error404.description: Description to display on Error404 page
+# - error404.content:     Content to display on Error404 page
+# - error404.template:    Template to use on Error404 page
 entries:
   main: home
-  media:
-    upload_images_quality: 70
-    upload_images_width: 1600
-    upload_images_height: 0
-    accept_file_types: gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf,
-      epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm,
-      svg
   error404:
     title: Error 404
     description: We're sorry but the page you are looking for doesn't appear to exist!
@@ -67,6 +55,16 @@ entries:
     template: default
 
 # Display errors
+#
+# Please make sure to set false for error `display` in production!
+#
+# Displaying PHP errors on a public server can be a serious security risk:
+#
+# - Error messages are displayed with detailed information about the code structure (e.g. file path, class, method)
+# - With Whoops enabled, there will be even more detailed information about the code structure
+# - Detailed error messages for login failures could leak information to attackers
+#
+# In a production environment, always log errors to your PHP error logs.
 #
 # - display: Display errors or not.
 errors:
@@ -123,13 +121,9 @@ cache:
     database: flextype
     table: flextype
 
-# Admin Panel
-#
-# - themes:  Theme (dark, light)
-admin_panel:
-  theme: light
-
 # Whoops
+#
+# Error handler framework for PHP.
 #
 # - editor: emacs, idea, macvim, phpstorm, sublime, textmate, xdebug, vscode, atom, espresso
 #
@@ -186,11 +180,14 @@ http_version: '1.1'
 # - charset:     The charset used by the templates.
 #
 # - cache:       Set false to disable caching.
+#
+# - extensions   Flextype Twig Extension to load.
 twig:
   auto_reload: true
   cache: true
   debug: false
   charset: "UTF-8"
+  extensions: ['Cache', 'Entries', 'Emitter', 'Flash', 'I18n', 'Json', 'Yaml', 'Parser', 'Markdown', 'Filesystem', 'Date', 'Assets', 'Csrf', 'Shortcodes', 'Snippets', 'GlobalVars']
 
 # Slugify
 #
@@ -228,3 +225,21 @@ slugify:
 # - driver: gd or imagick
 image:
   driver: gd
+
+# Shortcodes
+#
+# - extensions: Flextype Shortcodes Extension to load.
+shortcodes:
+  extensions: ['BaseUrl', 'Entries', 'Registry', 'Snippets']
+
+# API's
+api:
+  images:
+    enabled: true
+    default_token:
+  entries:
+    enabled: true
+    default_token:
+  registry:
+    enabled: true
+    default_token:

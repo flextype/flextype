@@ -1,0 +1,11 @@
+<script>
+    $('.js-select').select2();
+    $('.js-tags').select2({tags: true, multiple: true, tokenSeparators: [',', ' ']});
+
+    $('.js-tags').on('change', function (e) {
+        $('.js-tags').each(function() {
+            var name = $(this).attr('data-name');
+            $('input[name='+name+']').val($(this).val().toString());
+        });
+    });
+</script>

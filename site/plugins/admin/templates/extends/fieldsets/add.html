@@ -1,0 +1,51 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    <form method="post" id="form">
+        {{ csrf() }}
+        <div class="flex row">
+            <div class="col w-full lg:w-4/12">
+                <div class="form-group">
+                    <label for="title" class="form-control-title">{{ tr('admin_title') }}</label>
+                    <input type="text" id="title" name="title" value="" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_title_empty_input') }}" data-parsley-required="true">
+                    <small>{{ tr('admin_help_text_for_fieldsets_label') }}</small>
+                </div>
+                <div class="form-group">
+                    <label for="id" class="form-control-title">{{ tr('admin_name') }}</label>
+                    <input type="text" id="id" name="id" value="" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_name_empty_input') }}" data-parsley-required="true">
+                    <small>{{ tr('admin_help_text_for_fieldsets_name') }}</small>
+                </div>
+                <div class="flex row">
+                    <div class="col w-full lg:w-6/12">
+                        <div class="form-group">
+                            <label for="icon" class="form-control-title">{{ tr('admin_icon') }}</label>
+                            <input type="text" id="fieldsetIcon" name="icon" value="far fa-file-alt" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_icon_empty_input') }}" data-parsley-required="true">
+                            <small>{{ tr('admin_help_text_for_fieldsets_icon', {':link': '<a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">fontawesome</a>'})|raw }}</small>
+                        </div>
+                    </div>
+                    <div class="col w-full lg:w-6/12">
+                        <div class="form-group">
+                            <label for="icon" class="form-control-title">{{ tr('admin_hide') }}</label>
+                            <select class="js-select form-control" id="fieldsetHide" name="hide">
+                                <option value="1">{{ tr('admin_yes') }}</option>
+                                <option value="0" selected="selected">{{ tr('admin_no') }}</option>
+                            </select>
+                            <small>{{ tr('admin_help_text_for_fieldsets_hide') }}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <div class="button-dropdown">
+                        <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="button">
+                        <a href="javascript:;" class="button js-dropdown-btn" data-dropdown="dropdown-list-create-new-fieldset">
+                            <i class="icon icon--white">{{ icon('fas fa-sort-down') }}</i>
+                        </a>
+                        <div id="dropdown-list-create-new-fieldset" class="dropdown">
+                            <input type="submit" id="create-and-edit" name="create-and-edit" value="{{ tr('admin_create_and_edit') }}" class="dropdown__item">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

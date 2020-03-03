@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use const DIRECTORY_SEPARATOR;
-use const PHP_VERSION;
 use function define;
 use function getcwd;
 use function is_file;
 use function sprintf;
 use function str_replace;
 use function version_compare;
+use const DIRECTORY_SEPARATOR;
+use const PHP_VERSION;
 
 /**
  * Define the application minimum supported PHP version.
@@ -38,11 +38,15 @@ define('PATH', [
     'entries'   => ROOT_DIR . '/site/entries',
     'snippets'  => ROOT_DIR . '/site/snippets',
     'fieldsets' => ROOT_DIR . '/site/fieldsets',
+    'tokens'    => ROOT_DIR . '/site/tokens',
+    'accounts'  => ROOT_DIR . '/site/accounts',
+    'uploads'  => ROOT_DIR  . '/site/uploads',
     'config'    => [
         'default' => ROOT_DIR . '/flextype/config',
         'site'    => ROOT_DIR . '/site/config',
     ],
-    'cache'     => ROOT_DIR . '/site/cache',
+    'cache'     => ROOT_DIR . '/var/cache',
+    'logs'      => ROOT_DIR . '/var/logs',
 ]);
 
 /**
@@ -53,7 +57,7 @@ version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(s
 /**
  * Ensure vendor libraries exist
  */
-! is_file($autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i>');
+! is_file($autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i> for flextype');
 
 /**
  * Register The Auto Loader

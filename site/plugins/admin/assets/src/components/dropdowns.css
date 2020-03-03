@@ -1,0 +1,37 @@
+/**
+ * COMPONENTS / DROPDOWN
+ *
+ * INDEX:
+ * - dropdown
+ *
+ */
+
+.dropdown
+{
+    @apply px-10 py-6 hidden rounded;
+}
+
+.dropdown__item
+{
+    @apply flex py-2 pl-4 pr-12 text-left opacity-90 bg-transparent;
+}
+
+.dropdown__item:hover
+{
+    @apply opacity-100;
+}
+
+.dropdown__divider
+{
+    @apply bg-gray-900 h-px my-1;
+}
+
+a.dropdown__item
+{
+    @apply text-white;
+}
+
+.tippy-tooltip
+{
+    z-index: 100;
+}

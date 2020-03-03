@@ -1,0 +1,12 @@
+<div class="form-group {{ size }}">
+    <label for="{{ id }}" class="form-control-title">{{ tr(title) }}</label>
+    <select class="{{ class }} js-tags" data-name="{{ name }}" multiple="multiple">
+        {% for key, value in current_value %}
+            <option value="{{ value }}" selected="selected">{{ value }}</option>
+        {% endfor %}
+    </select>
+    <input type="hidden" name="{{ name }}" value="{{ current_value|join(',') }}">
+    {% if help %}
+        <small>{{ help }}</small>
+    {% endif %}
+</div>

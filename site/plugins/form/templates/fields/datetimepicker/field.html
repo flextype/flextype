@@ -1,0 +1,7 @@
+<div class="form-group {{ size }}">
+    <label for="{{ id }}" class="form-control-title">{{ tr(title) }}</label>
+    <input type="text" id="{{ id }}" name="{{ id }}" value="{{ value|date(registry.flextype.date_display_format) }}" class="js-datetimepicker {{ class }}">
+    {% if help %}
+        <small>{{ help }}</small>
+    {% endif %}
+</div>

@@ -1,0 +1,28 @@
+<script>
+    var fileInput  = document.querySelector(".js-input-file"),
+        button     = document.querySelector(".js-input-file-trigger"),
+        the_return = document.querySelector(".js-file-return");
+
+    if (fileInput && button && the_return) {
+
+        button.addEventListener("keydown", function( event ) {
+            if ( event.keyCode == 13 || event.keyCode == 32 ) {
+                fileInput.focus();
+            }
+        });
+
+        button.addEventListener("click", function( event ) {
+           fileInput.focus();
+           return false;
+        });
+
+        fileInput.addEventListener("change", function( event ) {
+
+            var basename = function (path) {
+                return path.split(/.*[\/|\\]/)[1];
+            }
+
+            the_return.innerHTML = "<b>{{ tr('admin_selected_file') }}</b>: " + basename(this.value)
+        });
+    }
+</script>

@@ -8,9 +8,12 @@ use Flextype\Component\Arr\Arr;
 use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use function array_merge;
+use function array_replace_recursive;
 use function count;
 use function Flextype\Component\I18n\__;
 use function is_array;
+use function trim;
 
 /**
  * @property View $view
@@ -30,7 +33,7 @@ class ThemesController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/themes/index.html',
+            'plugins/admin/templates/extends/themes/index.html',
             [
                 'menu_item' => 'themes',
                 'themes_list' => $this->registry->get('themes'),
@@ -38,14 +41,14 @@ class ThemesController extends Controller
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [
                     'themes_get_more' => [
                         'link' => 'https://github.com/flextype/themes',
                         'title' => __('admin_get_more_themes'),
-                        'attributes' => ['class' => 'float-right btn', 'target' => '_blank'],
+                        'target' => '_blank',
                     ],
                 ],
             ]
@@ -61,67 +64,14 @@ class ThemesController extends Controller
     public function activateProcess(Request $request, Response $response) : Response
     {
         // Get data from the request
-        $data = $request->getParsedBody();
+        $post_data = $request->getParsedBody();
 
-        $site_theme_settings_dir     = PATH['config']['site'] . '/themes/';
-        $site_theme_settings_file    = PATH['config']['site'] . '/themes/' . $data['theme-id'] . '/settings.yaml';
-        $default_theme_settings_file = PATH['themes'] . '/' . $data['theme-id'] . '/settings.yaml';
+        $custom_settings_file = PATH['config']['site'] . '/settings.yaml';
+        $custom_settings_file_data = $this->parser->decode(Filesystem::read($custom_settings_file), 'yaml');
 
-        // Update current theme settings
-        $site_theme_settings_file_content = Filesystem::read($site_theme_settings_file);
-        if (trim($site_theme_settings_file_content) === '') {
-            $site_theme_settings = [];
-        } else {
-            $site_theme_settings = $this->parser->decode($site_theme_settings_file_content, 'yaml');
-        }
+        Arr::set($custom_settings_file_data, 'theme', $post_data['theme-id']);
 
-        Arr::set($site_theme_settings, 'enabled', ($data['theme-status'] === 'true'));
-        Filesystem::write($site_theme_settings_file, $this->parser->encode($site_theme_settings, 'yaml'));
-
-        // Get themes list
-        $themes_list = $this->themes->getThemes();
-
-        // Deactivate all others themes
-        if (is_array($themes_list) && count($themes_list) > 0) {
-            foreach ($themes_list as $theme) {
-                if ($theme['dirname'] === $data['theme-id']) {
-                    continue;
-                }
-
-                if (! Filesystem::has($theme_settings_file = $site_theme_settings_dir . $theme['dirname'] . '/settings.yaml')) {
-                    continue;
-                }
-
-
-                if (($content = Filesystem::read($theme_settings_file)) === false) {
-                    throw new RuntimeException('Load file: ' . $theme_settings_file . ' - failed!');
-                } else {
-                    if (trim($content) === '') {
-                        $theme_settings = [];
-                    } else {
-                        $theme_settings = $this->parser->decode($content, 'yaml');
-                    }
-                }
-
-                Arr::set($theme_settings, 'enabled', false);
-                Filesystem::write($theme_settings_file, $this->parser->encode($theme_settings, 'yaml'));
-            }
-        }
-
-        // Update theme in the site settings
-        $site_settings_file_path = PATH['config']['site'] . '/settings.yaml';
-        if (($content = Filesystem::read($site_settings_file_path)) === false) {
-            throw new RuntimeException('Load file: ' . $site_settings_file_path . ' - failed!');
-        } else {
-            if (trim($content) === '') {
-                $site_settings = [];
-            } else {
-                $site_settings = $this->parser->decode($content, 'yaml');
-            }
-        }
-
-        Arr::set($site_settings, 'theme', $data['theme-id']);
-        Filesystem::write($site_settings_file_path, $this->parser->encode($site_settings, 'yaml'));
+        Filesystem::write($custom_settings_file, $this->parser->encode($custom_settings_file_data, 'yaml'));
 
         // clear cache
         $this->cache->clear('doctrine');
@@ -141,48 +91,28 @@ class ThemesController extends Controller
         // Get Theme ID
         $id = $request->getQueryParams()['id'];
 
-        // Init theme configs
-        $theme                  = [];
-        $theme_manifest         = [];
-        $default_theme_manifest = [];
-        $site_theme_manifest    = [];
+        // Set theme custom manifest content
+        $custom_theme_manifest_file = PATH['themes'] . '/' . $id . '/theme.yaml';
 
-        $default_theme_manifest_file = PATH['themes'] . '/' . $id . '/theme.yaml';
-        $site_theme_manifest_file    = PATH['config']['site'] . '/themes/' . $id . '/theme.yaml';
-
-        // Get default theme manifest content
-        $default_theme_manifest_file_content = Filesystem::read($default_theme_manifest_file);
-        $default_theme_manifest              = $this->parser->decode($default_theme_manifest_file_content, 'yaml');
-
-        // Get site theme manifest content
-        $site_theme_manifest_file_content = Filesystem::read($site_theme_manifest_file);
-        if (trim($site_theme_manifest_file_content) === '') {
-            $site_theme_manifest = [];
-        } else {
-            $site_theme_manifest = $this->parser->decode($site_theme_manifest_file_content, 'yaml');
-        }
-
-        $theme[$id]['manifest'] = array_merge(
-            array_replace_recursive($default_theme_manifest, $site_theme_manifest)
-        );
+        // Get theme custom manifest content
+        $custom_theme_manifest_file_content = Filesystem::read($custom_theme_manifest_file);
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/themes/information.html',
+            'plugins/admin/templates/extends/themes/information.html',
             [
                 'menu_item' => 'themes',
                 'id' => $id,
-                'theme_manifest' => $theme[$id]['manifest'],
+                'theme_manifest' => $this->parser->decode($custom_theme_manifest_file_content, 'yaml'),
                 'links' =>  [
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'navbar-item'],
                     ],
                     'themes_information' => [
                         'link' => $this->router->pathFor('admin.themes.information') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_information'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                 ],
             ]
@@ -200,55 +130,35 @@ class ThemesController extends Controller
         // Get Theme ID
         $id = $request->getQueryParams()['id'];
 
-        // Init theme configs
-        $theme                  = [];
-        $theme_settings         = [];
-        $default_theme_settings = [];
-        $site_theme_settings    = [];
+        // Set theme config
+        $custom_theme_settings_file = PATH['config']['site'] . '/themes/' . $id . '/settings.yaml';
 
-        $default_theme_settings_file = PATH['themes'] . '/' . $id . '/settings.yaml';
-        $site_theme_settings_file    = PATH['config']['site'] . '/themes/' . $id . '/settings.yaml';
-
-        // Get default theme settings content
-        $default_theme_settings_file_content = Filesystem::read($default_theme_settings_file);
-        $default_theme_settings              = $this->parser->decode($default_theme_settings_file_content, 'yaml');
-
-        // Get site plugin settings content
-        $site_theme_settings_file_content = Filesystem::read($site_theme_settings_file);
-        if (trim($site_theme_settings_file_content) === '') {
-            $site_theme_settings = [];
-        } else {
-            $site_theme_settings = $this->parser->decode($site_theme_settings_file_content, 'yaml');
-        }
-
-        $theme[$id]['settings'] = array_merge(
-            array_replace_recursive($default_theme_settings, $site_theme_settings)
-        );
+        // Get theme settings content
+        $custom_theme_settings_file_content = Filesystem::read($custom_theme_settings_file);
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/extends/themes/settings.html',
+            'plugins/admin/templates/extends/themes/settings.html',
             [
                 'menu_item' => 'themes',
                 'id' => $id,
-                'theme_settings' => $this->parser->encode($theme[$id]['settings'], 'yaml'),
+                'theme_settings' => $custom_theme_settings_file_content,
                 'links' =>  [
                     'themes' => [
                         'link' => $this->router->pathFor('admin.themes.index'),
                         'title' => __('admin_themes'),
-                        'attributes' => ['class' => 'navbar-item'],
                     ],
                     'themes_settings' => [
                         'link' => $this->router->pathFor('admin.themes.settings') . '?id=' . $request->getQueryParams()['id'],
                         'title' => __('admin_settings'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                 ],
                 'buttons' => [
                     'save_theme_settings' => [
                         'link' => 'javascript:;',
                         'title' => __('admin_save'),
-                        'attributes' => ['class' => 'js-save-form-submit float-right btn'],
+                        'type' => 'action',
                     ],
                 ],
             ]
@@ -263,15 +173,14 @@ class ThemesController extends Controller
      */
     public function settingsProcess(Request $request, Response $response) : Response
     {
-        $data = $request->getParsedBody();
+        $post_data = $request->getParsedBody();
 
-        $id   = $data['id'];
-        $data = $data['data'];
+        $id   = $post_data['id'];
+        $data = $post_data['data'];
 
-        $site_theme_settings_dir  = PATH['config']['site'] . '/themes/' . $id;
-        $site_theme_settings_file = PATH['config']['site'] . '/themes/' . $id . '/settings.yaml';
+        $custom_theme_settings_file = PATH['config']['site'] . '/themes/' . $id . '/settings.yaml';
 
-        if (Filesystem::write($site_theme_settings_file, $data)) {
+        if (Filesystem::write($custom_theme_settings_file, $data)) {
             $this->flash->addMessage('success', __('admin_message_theme_settings_saved'));
         } else {
             $this->flash->addMessage('error', __('admin_message_theme_settings_not_saved'));

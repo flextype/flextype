@@ -9,22 +9,23 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Slim\Csrf\Guard;
 use Twig_Extension;
 use Twig_Extension_GlobalsInterface;
 use Twig_SimpleFunction;
 
 class CsrfTwigExtension extends Twig_Extension implements Twig_Extension_GlobalsInterface
 {
-    /** @var Guard */
-    protected $csrf;
+    /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
 
     /**
      * Constructor
      */
-    public function __construct(Guard $csrf)
+    public function __construct($flextype)
     {
-        $this->csrf = $csrf;
+        $this->flextype = $flextype;
     }
 
     /**
@@ -33,10 +34,10 @@ class CsrfTwigExtension extends Twig_Extension implements Twig_Extension_Globals
     public function getGlobals()
     {
         // CSRF token name and value
-        $csrfNameKey  = $this->csrf->getTokenNameKey();
-        $csrfValueKey = $this->csrf->getTokenValueKey();
-        $csrfName     = $this->csrf->getTokenName();
-        $csrfValue    = $this->csrf->getTokenValue();
+        $csrfNameKey  = $this->flextype->csrf->getTokenNameKey();
+        $csrfValueKey = $this->flextype->csrf->getTokenValueKey();
+        $csrfName     = $this->flextype->csrf->getTokenName();
+        $csrfValue    = $this->flextype->csrf->getTokenValue();
 
         return [
             'csrf'   => [
@@ -72,7 +73,7 @@ class CsrfTwigExtension extends Twig_Extension implements Twig_Extension_Globals
      */
     public function csrf() : string
     {
-        return '<input type="hidden" name="' . $this->csrf->getTokenNameKey() . '" value="' . $this->csrf->getTokenName() . '">' .
-               '<input type="hidden" name="' . $this->csrf->getTokenValueKey() . '" value="' . $this->csrf->getTokenValue() . '">';
+        return '<input type="hidden" name="' . $this->flextype->csrf->getTokenNameKey() . '" value="' . $this->flextype->csrf->getTokenName() . '">' .
+               '<input type="hidden" name="' . $this->flextype->csrf->getTokenValueKey() . '" value="' . $this->flextype->csrf->getTokenValue() . '">';
     }
 }

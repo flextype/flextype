@@ -43,6 +43,8 @@ use Slim\Views\TwigExtension;
 use Thunder\Shortcode\ShortcodeFacade;
 use Twig\Extension\DebugExtension;
 use function date;
+use function ucfirst;
+use function extension_loaded;
 
 /**
  * Supply a custom callable resolver, which resolves PSR-15 middlewares.
@@ -66,13 +68,11 @@ $flextype['csrf'] = static function ($container) {
 };
 
 /**
- * Add logger
+ * Add logger service to Flextype container
  */
 $flextype['logger'] = static function ($container) {
     $logger       = new Logger('flextype');
-    $file_handler = new StreamHandler(PATH['site'] . '/logs/' . date('Y-m-d') . '.log');
-    $logger->pushHandler($file_handler);
-
+    $logger->pushHandler(new StreamHandler(PATH['logs'] . '/' . date('Y-m-d') . '.log'));
     return $logger;
 };
 
@@ -88,12 +88,12 @@ $flextype['emitter'] = static function ($container) {
  */
 $flextype['slugify'] = static function ($container) {
     return new Slugify([
-        'separator' => $container['registry']->get('settings.slugify.separator'),
-        'lowercase' => $container['registry']->get('settings.slugify.lowercase'),
-        'trim' => $container['registry']->get('settings.slugify.trim'),
-        'regexp' => $container['registry']->get('settings.slugify.regexp'),
-        'lowercase_after_regexp' => $container['registry']->get('settings.slugify.lowercase_after_regexp'),
-        'strip_tags' => $container['registry']->get('settings.slugify.strip_tags'),
+        'separator' => $container['registry']->get('flextype.slugify.separator'),
+        'lowercase' => $container['registry']->get('flextype.slugify.lowercase'),
+        'trim' => $container['registry']->get('flextype.slugify.trim'),
+        'regexp' => $container['registry']->get('flextype.slugify.regexp'),
+        'lowercase_after_regexp' => $container['registry']->get('flextype.slugify.lowercase_after_regexp'),
+        'strip_tags' => $container['registry']->get('flextype.slugify.strip_tags'),
     ]);
 };
 
@@ -102,6 +102,28 @@ $flextype['slugify'] = static function ($container) {
  */
 $flextype['flash'] = static function ($container) {
     return new Messages();
+};
+
+/**
+ * Adds the cache adapter to the Flextype container
+ */
+$flextype['cache_adapter'] = static function ($container) use ($flextype) {
+    $driver_name = $container['registry']->get('flextype.cache.driver');
+
+    if (! $driver_name || $driver_name === 'auto') {
+        if (extension_loaded('apcu')) {
+            $driver_name = 'apcu';
+        } elseif (extension_loaded('wincache')) {
+            $driver_name = 'wincache';
+        } else {
+            $driver_name = 'filesystem';
+        }
+    }
+
+    $class = ucfirst($driver_name);
+    $adapter = "Flextype\\Cache\\{$class}Adapter";
+
+    return new $adapter($flextype);
 };
 
 /**
@@ -127,7 +149,7 @@ $flextype['images'] = static function ($container) {
 
     // Set source filesystem
     $source = new Filesystem(
-        new Local(PATH['entries'])
+        new Local(PATH['uploads'] . '/entries/')
     );
 
     // Set cache filesystem
@@ -181,13 +203,6 @@ $flextype['fieldsets'] = static function ($container) use ($flextype) {
 };
 
 /**
- * Add forms service to Flextype container
- */
-$flextype['forms'] = static function ($container) use ($flextype) {
-    return new Forms($flextype);
-};
-
-/**
  * Add snippets service to Flextype container
  */
 $flextype['snippets'] = static function ($container) use ($flextype, $app) {
@@ -229,53 +244,17 @@ $flextype['view'] = static function ($container) {
     // Add Twig Debug Extension
     $view->addExtension(new DebugExtension());
 
-    // Add Cache Twig Extension
-    $view->addExtension(new CacheTwigExtension($container));
+    // Load Flextype Twig extensions from directory /flextype/twig/ based on settings.twig.extensions array
+    $twig_extensions = $container['registry']->get('flextype.twig.extensions');
 
-    // Add Entries Twig Extension
-    $view->addExtension(new EntriesTwigExtension($container));
+    foreach ($twig_extensions as $twig_extension) {
+        $twig_extension_class_name = $twig_extension . 'TwigExtension';
+        $twig_extension_class_name_with_namespace = 'Flextype\\' . $twig_extension . 'TwigExtension';
 
-    // Add Emitter Twig Extension
-    $view->addExtension(new EmitterTwigExtension($container));
-
-    // Add Flash Twig Extension
-    $view->addExtension(new FlashTwigExtension($container));
-
-    // Add I18n Twig Extension
-    $view->addExtension(new I18nTwigExtension());
-
-    // Add Json Twig Extension
-    $view->addExtension(new JsonTwigExtension($container));
-
-    // Add Yaml Twig Extension
-    $view->addExtension(new YamlTwigExtension($container));
-
-    // Add Parser Twig Extension
-    $view->addExtension(new ParserTwigExtension($container));
-
-    // Add Markdown Twig Extension
-    $view->addExtension(new MarkdownTwigExtension($container));
-
-    // Add Filesystem Twig Extension
-    $view->addExtension(new FilesystemTwigExtension());
-
-    // Add Date Twig Extension
-    $view->addExtension(new DateTwigExtension());
-
-    // Add Assets Twig Extension
-    $view->addExtension(new AssetsTwigExtension());
-
-    // Add Csrf Twig Extension
-    $view->addExtension(new CsrfTwigExtension($container->get('csrf')));
-
-    // Add Global Vars Twig Extension
-    $view->addExtension(new GlobalVarsTwigExtension($container));
-
-    // Add Global Shortcodes Twig Extension
-    $view->addExtension(new ShortcodesTwigExtension($container));
-
-    // Add Global Snippets Twig Extension
-    $view->addExtension(new SnippetsTwigExtension($container));
+        if (file_exists(ROOT_DIR . '/flextype/twig/' . $twig_extension_class_name . '.php')) {
+            $view->addExtension(new $twig_extension_class_name_with_namespace($container));
+        }
+    }
 
     // Return view
     return $view;
@@ -285,12 +264,12 @@ $flextype['view'] = static function ($container) {
  * Add themes service to Flextype container
  */
 $flextype['themes'] = static function ($container) use ($flextype, $app) {
-     return new Themes($flextype, $app);
+    return new Themes($flextype, $app);
 };
 
 /**
  * Add plugins service to Flextype container
  */
 $flextype['plugins'] = static function ($container) use ($flextype, $app) {
-     return new Plugins($flextype, $app);
+    return new Plugins($flextype, $app);
 };

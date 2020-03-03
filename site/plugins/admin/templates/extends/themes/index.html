@@ -1,0 +1,75 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    {% if (themes_list | length > 0) %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        {{ tr('admin_theme') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_description') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_author') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_version') }}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, theme in themes_list %}
+                    <tr>
+                        <td class="w-1 text-center {% if key == registry.flextype.theme %}{% else %}opacity-50{% endif %}">
+                            <i class="icon">{{ icon('fas fa-palette') }}</i>
+                        </td>
+                        <td class="pl-0 {% if key == registry.flextype.theme %}{% else %}opacity-50{% endif %}">
+                            <a href="{{ path_for('admin.templates.index') }}?theme={{ key }}">{{ theme.name }}</a>
+                        </td>
+                        <td class="{% if key == registry.flextype.theme %}{% else %}opacity-50{% endif %}">{{ theme.description }}</td>
+                        <td class="{% if key == registry.flextype.theme %}{% else %}opacity-50{% endif %}">
+                            <a href="{{ theme.author.url }}" target="_blank">{{ theme.author.name }}</a>
+                        </td>
+                        <td class="{% if key == registry.flextype.theme %}{% else %}opacity-50{% endif %}">{{ theme.version }}</td>
+                        <td class="text-right">
+                            <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ key }}">
+                                <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                            </button>
+                            <div id="dropdown-{{ key }}" class="dropdown">
+                                {% if key == registry.flextype.theme %}
+                                {% else %}
+                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                              document.getElementById('activate-theme-id-{{ key }}').submit();">
+                                        <i class="icon icon--white mr-3">{{ icon('far fa-star') }}</i>
+                                        {{ tr('admin_activate') }}</a>
+                                {% endif %}
+                                <a class="dropdown__item" href="{{ path_for('admin.themes.information') }}?id={{ key }}">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-info-circle') }}</i>
+                                    {{ tr('admin_information') }}</a>
+                                <a class="dropdown__item" href="{{ path_for('admin.themes.settings') }}?id={{ key }}">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-cog') }}</i>
+                                    {{ tr('admin_settings') }}</a>
+                                <form id="activate-theme-id-{{ key }}" action="{{ path_for('admin.themes.activateProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="theme-id" value="{{ key }}">
+                                    <input type="hidden" name="theme-status" value="true">
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="text-center flex justify-center items-center h-full">
+            <div>
+                <i class="icon icon--4xl">{{ icon('fas fa-palette') }}</i>
+                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_no_themes') }}</h3>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

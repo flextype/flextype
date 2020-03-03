@@ -1,0 +1,57 @@
+html,
+body
+{
+    font-family: Roboto;
+    font-size: var(--font-size);
+
+    @apply text-dark;
+}
+
+a
+{
+    @apply text-dark;
+}
+
+main
+{
+    @apply flex w-full h-screen min-w-full bg-white text-dark;
+}
+
+small
+{
+    @apply block mt-1 opacity-75 text-sm;
+}
+
+h1,
+h2,
+h3,
+h4
+{
+    @apply text-dark;
+}
+
+h1
+{
+    @apply text-5xl;
+}
+
+h2
+{
+    @apply text-4xl;
+}
+
+h3
+{
+    @apply text-3xl;
+}
+
+h4
+{
+    @apply text-2xl;
+}
+
+input:focus,
+button:focus,
+button:active {
+    outline: none;
+}

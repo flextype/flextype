@@ -1,0 +1,40 @@
+.content
+{
+    position: relative;
+
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    max-width: calc(100% - var(--box-size));
+    height: 100vh;
+    margin-left: var(--box-size);
+}
+
+.content .bars
+{
+    position: fixed;
+    z-index: 20;
+    top: 0;
+
+    width: calc(100% - var(--box-size));
+}
+
+
+.row
+{
+    display: flex;
+    flex-wrap: wrap;
+
+    margin-right: -10px;
+    margin-left: -10px;
+}
+
+.col
+{
+    position: relative;
+
+    width: 100%;
+    padding-right: 10px;
+    padding-left: 10px;
+}

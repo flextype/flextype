@@ -1,0 +1,91 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    {% if fieldsets_list | length > 0 %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        {{ tr('admin_fieldset') }}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for id, title in fieldsets_list %}
+                    {% set fieldset_path = PATH_FIELDSETS ~ '/' ~ id ~ '.yaml' %}
+                    {% if filesystem_has(fieldset_path) %}
+                        {% set fieldset = parser_decode(filesystem_read(fieldset_path), 'yaml') %}
+                    {% endif %}
+                    <tr>
+                        <td class="w-1 text-center{% if fieldset.hide %}opacity-50{% endif %}">
+                            {% if fieldset.icon %}
+                                <i class="icon">{{ icon(fieldset.icon) }}</i>
+                            {% else %}
+                                <i class="icon">{{ icon('far fa-file-alt') }}</i>
+                            {% endif %}
+                        </td>
+                        <td class="pl-0 {% if fieldset.hide %}opacity-50{% endif %}">
+                            <a href="{{ path_for('admin.fieldsets.edit') }}?id={{ id }}">{{ title }}</a>
+                        </td>
+                        <td class="text-right">
+                            <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ id }}">
+                                <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                            </button>
+                            <div id="dropdown-{{ id }}" class="dropdown">
+                                <a class="dropdown__item" href="{{ path_for('admin.fieldsets.edit') }}?id={{ id }}">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
+                                    {{ tr('admin_edit') }}</a>
+                                <a class="dropdown__item" href="{{ path_for('admin.fieldsets.rename') }}?id={{ id }}">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
+                                    {{ tr('admin_rename') }}</a>
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                            document.getElementById('duplicate-fieldset-id-{{ id }}').submit();">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
+                                    {{ tr('admin_duplicate') }}</a>
+                                <div class="dropdown__divider"></div>
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault(); deleteFieldset('{{ id }}', {{ loop.index0 }});">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                                    {{ tr('admin_delete') }}</a>
+                                <form id="delete-fieldset-id-{{ id }}" action="{{ path_for('admin.fieldsets.deleteProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="fieldset-id" value="{{ id }}">
+                                </form>
+                                <form id="duplicate-fieldset-id-{{ id }}" action="{{ path_for('admin.fieldsets.duplicateProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="fieldset-id" value="{{ id }}">
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="text-center flex justify-center items-center h-full">
+            <div>
+                <i class="icon icon--4xl">{{ icon('far fa-list-alt') }}</i>
+                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_fieldsets_yet') }}</h3>
+                <a href="{{ path_for('admin.fieldsets.add') }}" class="button">{{ tr('admin_create_new_fieldset') }}</a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block tail %}
+    <script>
+        function deleteFieldset(id, row_num) {
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
+            Swal.fire(
+                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_fieldset_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}", reverseButtons: true}
+            ).then((result) => {
+                if (result.value) {
+                    document.getElementById('delete-fieldset-id-' + id).submit();
+                }
+            });
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    <form method="post" id="form">
+        {{ csrf() }}
+        <input type="hidden" name="action" value="save-form">
+        <input type="hidden" name="type" value="{{ type }}">
+        <input type="hidden" name="id" value="{{ id }}">
+        <input type="hidden" name="theme" value="{{ theme }}">
+        <textarea name="data" rows="0" cols="0" class="js-code">{{ data }}</textarea>
+    </form>
+{% endblock %}

@@ -1,0 +1,296 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    {% if entries_list | length > 0 %}
+        {% if items_view == 'table' %}
+            <div class="flex flex-wrap">
+                {% for entry in entries_list %}
+                    {% if cache.contains(entry.slug ~ '_counter') %}
+                        {% set _entries_length = cache.fetch(entry.slug ~ '_counter') %}
+                    {% else %}
+                        {% set _entries = entries.fetch(entry.slug, {}) %}
+                        {% set _entries_length = _entries | length %}
+                        {% do
+                            cache.save(entry.slug ~ '_counter', _entries_length) %}
+                    {% endif %}
+                    <div class="w-full md:w-3/12 lg:w-2/12 text-center p-4 relative">
+                        <button type="button" class="js-dropdown-btn relative" data-dropdown="dropdown-{{ entry.slug }}" style="top: 16px; right: 16px; position: absolute; z-index: 10; width: 34px; height: 34px;">
+                            <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                        </button>
+                        <div id="dropdown-{{ entry.slug }}" class="dropdown">
+                            <a class="dropdown__item" href="{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
+                                {{ tr('admin_edit') }}</a>
+                            <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                            selectEntryType('{{ entry.slug }}', {{ loop.index0 }});">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-plus-circle') }}</i>
+                                {{ tr('admin_add') }}</a>
+                            <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                   document.getElementById('duplicate-id-{{ entry.slug }}').submit();">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
+                                {{ tr('admin_duplicate') }}</a>
+                            <a class="dropdown__item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.slug }}">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
+                                {{ tr('admin_rename') }}</a>
+                            <a class="dropdown__item" href="{{ path_for('admin.entries.move') }}?id={{ entry.slug }}">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-angle-double-right') }}</i>
+                                {{ tr('admin_move') }}</a>
+                            <a class="dropdown__item" href="{{ base_url() }}/{{ entry.slug }}" target="_blank">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-eye') }}</i>
+                                {{ tr('admin_preview') }}</a>
+                            <a class="dropdown__item" href="{{ path_for('admin.entries.type') }}?id={{ entry.slug }}">
+                                <i class="icon icon--white mr-3">{{ icon('far fa-list-alt') }}</i>
+                                {{ tr('admin_type') }}</a>
+                            <div class="dropdown__divider"></div>
+                            <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault(); deleteEntry('{{ entry.slug }}', {{ loop.index0 }});">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                                {{ tr('admin_delete') }}</a>
+                            <form id="duplicate-id-{{ entry.slug }}" action="{{ path_for('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
+                                {{ csrf() }}
+                                <input type="hidden" name="id" value="{{ entry.slug }}">
+                            </form>
+                            <form id="delete-id-{{ entry.slug }}" action="{{ path_for('admin.entries.deleteProcess') }}" method="POST" style="display: none;">
+                                {{ csrf() }}
+                                <input type="hidden" name="id" value="{{ entry.slug }}">
+                                <input type="hidden" name="id-current" value="{{ id_current }}">
+                            </form>
+                        </div>
+
+                        <a
+                            href="{% if _entries_length > 0 %}{{ path_for('admin.entries.index') }}?id={{ entry.slug }}{% else %}{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor{% endif %}"
+                            class="block bg-gray-000 border-gray-100 border px-4 py-8 relative rounded {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+
+                            <div class="text-4xl">
+                                {% if entry.fieldset %}
+                                    {% set fieldset_path = PATH_FIELDSETS ~ '/' ~ entry.fieldset ~ '.yaml' %}
+                                    {% if filesystem_has(fieldset_path) %}
+                                        {% set fieldset = parser_decode(filesystem_read(fieldset_path), 'yaml') %}
+                                        {% if fieldset.icon %}
+                                            <i class="icon icon--large">{{ icon(fieldset.icon) }}</i>
+                                        {% else %}
+                                            <i class="icon icon--large">{{ icon('far fa-file-alt') }}</i>
+                                        {% endif %}
+                                    {% else %}
+                                        <i class="icon icon--large">{{ icon('far fa-file-alt') }}</i>
+                                    {% endif %}
+                                {% else %}
+                                    <i class="icon icon--large">{{ icon('far fa-file-alt') }}</i>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {% if entry.fieldset %}
+                                    {% if filesystem_has(fieldset_path) %}
+                                        {% if fieldset.default_field %}
+                                            {% if entry[fieldset.default_field] != '' %}
+                                                {{ entry[fieldset.default_field] }}
+                                            {% else %}
+                                                {{ entry.slug }}
+                                            {% endif %}
+                                        {% else %}
+                                            {{ entry.slug }}
+                                        {% endif %}
+                                    {% else %}
+                                        {{ entry.slug }}
+                                    {% endif %}
+                                {% else %}
+                                    {{ entry.slug }}
+                                {% endif %}
+                                {% if _entries_length > 0 %}
+                                    ({{ _entries_length }})
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            {{ tr('admin_title') }}
+                        </th>
+                        <th>
+                            {{ tr('admin_slug') }}
+                        </th>
+                        <th>
+                            {{ tr('admin_updated_at') }}
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in entries_list %}
+                        <tr>
+                            <td class="w-1 text-center {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                                {% if entry.fieldset %}
+                                    {% set fieldset_path = PATH_FIELDSETS ~ '/' ~ entry.fieldset ~ '.yaml' %}
+                                    {% if filesystem_has(fieldset_path) %}
+                                        {% set fieldset = parser_decode(filesystem_read(fieldset_path), 'yaml') %}
+                                        {% if fieldset.icon %}
+                                            <i class="icon">{{ icon(fieldset.icon) }}</i>
+                                        {% else %}
+                                            <i class="icon">{{ icon('far fa-file-alt') }}</i>
+                                        {% endif %}
+                                    {% else %}
+                                        <i class="icon">{{ icon('far fa-file-alt') }}</i>
+                                    {% endif %}
+                                {% else %}
+                                    <i class="icon">{{ icon('far fa-file-alt') }}</i>
+                                {% endif %}
+                            </td>
+                            <td class="pl-0 {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                                {% if cache.contains(entry.slug ~ '_counter') %}
+                                    {% set _entries_length = cache.fetch(entry.slug ~ '_counter') %}
+                                {% else %}
+                                    {% set _entries = entries.fetch(entry.slug, {}) %}
+                                    {% set _entries_length = _entries | length %}
+                                    {% do
+                                        cache.save(entry.slug ~ '_counter', _entries_length) %}
+                                {% endif %}
+                                <a href="{% if _entries_length > 0 %}{{ path_for('admin.entries.index') }}?id={{ entry.slug }}{% else %}{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor{% endif %}">
+                                    {% if entry.fieldset %}
+                                        {% if filesystem_has(fieldset_path) %}
+                                            {% if fieldset.default_field %}
+                                                {% if entry[fieldset.default_field] != '' %}
+                                                    {{ entry[fieldset.default_field] }}
+                                                {% else %}
+                                                    {{ entry.slug }}
+                                                {% endif %}
+                                            {% else %}
+                                                {{ entry.slug }}
+                                            {% endif %}
+                                        {% else %}
+                                            {{ entry.slug }}
+                                        {% endif %}
+                                    {% else %}
+                                        {{ entry.slug }}
+                                    {% endif %}
+                                    {% if _entries_length > 0 %}
+                                        ({{ _entries_length }})
+                                    {% endif %}
+                                </a>
+                            </td>
+                            <td class="truncate {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                                <a target="_blank" href="{{ base_url() }}/{{ entry.slug }}">/{{ entry.slug }}</a>
+                            </td>
+                            <td class="{% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                                {{ entry.published_at|date(registry.flextype.date_display_format) }}
+                            </td>
+                            <td class="text-right">
+                                <button type="button" class="js-dropdown-btn relative" data-dropdown="dropdown-{{ entry.slug }}">
+                                    <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                                </button>
+                                <div id="dropdown-{{ entry.slug }}" class="dropdown">
+                                    <a class="dropdown__item" href="{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
+                                        {{ tr('admin_edit') }}</a>
+                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                    selectEntryType('{{ entry.slug }}', {{ loop.index0 }});">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-plus-circle') }}</i>
+                                        {{ tr('admin_add') }}</a>
+                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                           document.getElementById('duplicate-id-{{ entry.slug }}').submit();">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
+                                        {{ tr('admin_duplicate') }}</a>
+                                    <a class="dropdown__item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.slug }}">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
+                                        {{ tr('admin_rename') }}</a>
+                                    <a class="dropdown__item" href="{{ path_for('admin.entries.move') }}?id={{ entry.slug }}">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-angle-double-right') }}</i>
+                                        {{ tr('admin_move') }}</a>
+                                    <a class="dropdown__item" href="{{ base_url() }}/{{ entry.slug }}" target="_blank">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-eye') }}</i>
+                                        {{ tr('admin_preview') }}</a>
+                                    <a class="dropdown__item" href="{{ path_for('admin.entries.type') }}?id={{ entry.slug }}">
+                                        <i class="icon icon--white mr-3">{{ icon('far fa-list-alt') }}</i>
+                                        {{ tr('admin_type') }}</a>
+                                    <div class="dropdown__divider"></div>
+                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault(); deleteEntry('{{ entry.slug }}', {{ loop.index0 }});">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                                        {{ tr('admin_delete') }}</a>
+                                    <form id="duplicate-id-{{ entry.slug }}" action="{{ path_for('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
+                                        {{ csrf() }}
+                                        <input type="hidden" name="id" value="{{ entry.slug }}">
+                                    </form>
+                                    <form id="delete-id-{{ entry.slug }}" action="{{ path_for('admin.entries.deleteProcess') }}" method="POST" style="display: none;">
+                                        {{ csrf() }}
+                                        <input type="hidden" name="id" value="{{ entry.slug }}">
+                                        <input type="hidden" name="id-current" value="{{ id_current }}">
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    {% else %}
+        <div class="text-center flex justify-center items-center h-full">
+            <div>
+                <i class="icon icon--4xl">{{ icon('fas fa-database') }}</i>
+                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_entries_yet') }}</h3>
+                <a href="javascript:;" class="button" onclick="event.preventDefault();
+                selectEntryType('{{ id_current }}', 0);">{{ tr('admin_create_new_entry') }}</a>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="_select-entry-type-template hidden">
+        <div class="flex row">
+            {% for key, fieldset in fieldsets %}
+                <div class="block col w-4/12 px-3 py-3 mb-2">
+                    <a href="javascript:;" onclick="event.preventDefault();
+                document.getElementById('add-entry-{{ key }}').submit();" class="block bg-gray-000 border-gray-100 border px-4 py-8 relative rounded">
+                        <div>
+                            {% if fieldset.icon %}
+                                <i class="icon icon--large">{{ icon(fieldset.icon) }}</i>
+                            {% else %}
+                                <i class="icon icon--large">{{ icon('far fa-file-alt') }}</i>
+                            {% endif %}
+                        </div>
+                        <div class="pt-3">{{ fieldset.title }}</div>
+                    </a>
+                    <form id="add-entry-{{ key }}" action="{{ path_for('admin.entries.selectEntryTypeProcess') }}" method="POST" style="display: none;" class="js-add-entry">
+                        {{ csrf() }}
+                        <input type="hidden" name="type" value="{{ key }}">
+                        <input type="hidden" name="id" value="{{ id_current }}">
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block tail %}
+    <script>
+        function deleteEntry(id, row_num) {
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
+            Swal.fire(
+                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_entry_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}", reverseButtons: true}
+            ).then((result) => {
+                if (result.value) {
+                    document.getElementById('delete-id-' + id).submit();
+                }
+            });
+        }
+
+        function selectEntryType(id, row_num) {
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
+            Swal.fire({
+                title: "{{ tr('admin_select_entry_type') }}",
+                showCloseButton: true,
+                showConfirmButton: false,
+                html: $('._select-entry-type-template').html(),
+                onBeforeOpen: () => {
+                    $('.js-add-entry input[name=id]').val(id);
+                }
+            });
+        }
+    </script>
+{% endblock %}

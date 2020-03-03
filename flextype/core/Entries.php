@@ -27,6 +27,7 @@ use function rtrim;
 use function str_replace;
 use function strpos;
 use function time;
+use function strtotime;
 
 class Entries
 {
@@ -53,27 +54,33 @@ class Entries
      * @access public
      */
     public $expression = [
+        'eq' => Comparison::EQ,
         '=' => Comparison::EQ,
+
         '<>' => Comparison::NEQ,
+        '!=' => Comparison::NEQ,
+        'neq' => Comparison::NEQ,
+
         '<' => Comparison::LT,
+        'lt' => Comparison::LT,
+
         '<=' => Comparison::LTE,
+        'lte' => Comparison::LTE,
+
         '>' => Comparison::GT,
+        'gt' => Comparison::GT,
+
         '>=' => Comparison::GTE,
+        'gte' => Comparison::GTE,
+
         'is' => Comparison::IS,
         'in' => Comparison::IN,
         'nin' => Comparison::NIN,
         'contains' => Comparison::CONTAINS,
+        'like' => Comparison::CONTAINS,
         'member_of' => Comparison::MEMBER_OF,
         'start_with' => Comparison::STARTS_WITH,
-        'ends_with' => Comparison::ENDS_WITH,
-
-        // alternative comparison syntax
-        'eq' => Comparison::EQ,
-        'neq' => Comparison::NEQ,
-        'lt' => Comparison::LT,
-        'lte' => Comparison::LTE,
-        'gt' => Comparison::GT,
-        'gte' => Comparison::GTE,
+        'ends_with' => Comparison::ENDS_WITH
     ];
 
     /**
@@ -85,6 +92,18 @@ class Entries
     public $direction = [
         'asc' => Criteria::ASC,
         'desc' => Criteria::DESC,
+    ];
+
+    /**
+     * Set Visibility
+     *
+     * @var array
+     * @access public
+     */
+    public $visibility = [
+        'draft' => 'draft',
+        'hidden' => 'hidden',
+        'visible' => 'visible'
     ];
 
     /**
@@ -105,7 +124,7 @@ class Entries
     }
 
     /**
-     * Fetch entry(enries)
+     * Fetch entry(entries)
      *
      * @param string     $id   Entry ID
      * @param array|null $args Query arguments.
@@ -162,27 +181,36 @@ class Entries
                 // Return empty array
                 return [];
 
-            // else Try to get requested entry from the filesystem
+                // else Try to get requested entry from the filesystem
             }
 
             $entry_decoded = $this->flextype['parser']->decode(Filesystem::read($entry_file), 'frontmatter');
 
+            //
             // Add predefined entry items
-            // Entry Date
-            $entry_decoded['published_at'] = $entry_decoded['published_at'] ?? Filesystem::getTimestamp($entry_file);
-            $entry_decoded['created_at']   = $entry_decoded['created_at'] ?? Filesystem::getTimestamp($entry_file);
+            //
 
-            // Entry Timestamp
-            $entry_decoded['modified_at'] = Filesystem::getTimestamp($entry_file);
+            // Entry Published At
+            $entry_decoded['published_at'] = isset($entry_decoded['published_at']) ? (int) strtotime($entry_decoded['published_at']) : (int) Filesystem::getTimestamp($entry_file);
+
+            // Entry Created At
+            $entry_decoded['created_at'] = isset($entry_decoded['created_at']) ? (int) strtotime($entry_decoded['created_at']) : (int) Filesystem::getTimestamp($entry_file);
+
+            // Entry Modified
+            $entry_decoded['modified_at'] = (int) Filesystem::getTimestamp($entry_file);
 
             // Entry Slug
-            $entry_decoded['slug'] = $entry_decoded['slug'] ?? ltrim(rtrim($id, '/'), '/');
+            $entry_decoded['slug'] = isset($entry_decoded['slug']) ? (string) $entry_decoded['slug'] : (string) ltrim(rtrim($id, '/'), '/');
 
-            // Entry routable
-            $entry_decoded['routable'] = $entry_decoded['routable'] ?? true;
+            // Entry Routable
+            $entry_decoded['routable'] = isset($entry_decoded['routable']) ? (bool) $entry_decoded['routable'] : true;
 
-            // Entry visibility
-            $entry_decoded['visibility'] = $entry_decoded['visibility'] ?? 'visible';
+            // Entry Visibility
+            if (isset($entry_decoded['visibility']) && in_array($entry_decoded['visibility'], $this->visibility)) {
+                $entry_decoded['visibility'] = (string) $this->visibility[$entry_decoded['visibility']];
+            } else {
+                $entry_decoded['visibility'] = (string) $this->visibility['visible'];
+            }
 
             // Save decoded entry content into the cache
             $this->flextype['cache']->save($entry_cache_id, $entry_decoded);
@@ -448,8 +476,7 @@ class Entries
         if (Filesystem::has($entry_file)) {
             $body  = Filesystem::read($entry_file);
             $entry = $this->flextype['parser']->decode($body, 'frontmatter');
-
-            return Filesystem::write($entry_file, $this->flextype['parser']->encode(array_replace_recursive($entry, $data), 'frontmatter'));
+            return Filesystem::write($entry_file, $this->flextype['parser']->encode(array_merge($entry, $data), 'frontmatter'));
         }
 
         return false;
@@ -475,12 +502,12 @@ class Entries
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file = $entry_dir . '/entry.md')) {
                     $data['uuid']         = Uuid::uuid4()->toString();
-                    $data['published_at'] = date($this->flextype->registry->get('settings.date_format'), time());
-                    $data['created_at']   = date($this->flextype->registry->get('settings.date_format'), time());
+                    $data['published_at'] = date($this->flextype->registry->get('flextype.date_format'), time());
+                    $data['created_at']   = date($this->flextype->registry->get('flextype.date_format'), time());
                     $data['published_by'] = (Session::exists('uuid') ? Session::get('uuid') : '');
                     $data['created_by']   = (Session::exists('uuid') ? Session::get('uuid') : '');
 
-                    if (isset($data['routable']) && is_array($data['routable'])) {
+                    if (isset($data['routable']) && is_bool($data['routable'])) {
                         $data['routable'] = $data['routable'];
                     } else {
                         $data['routable'] = true;

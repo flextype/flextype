@@ -1,0 +1,87 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="w-3/12">{{ tr('admin_cache') }}</th>
+                <th>{{ tr('admin_size') }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    {{ tr('admin_data') }}
+                </td>
+                <td>
+                    {% if doctrine_size %}{{ doctrine_size }}
+                    {% else %}0 KB{% endif %}
+                </td>
+                <td class="text-right">
+                    <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-data">
+                        <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                    </button>
+                    <div id="dropdown-data" class="dropdown">
+                        <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                  document.getElementById('clear-id-doctrine').submit();">
+                            <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                            {{ tr('admin_clear') }}</a>
+                        <form id="clear-id-doctrine" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                            {{ csrf() }}
+                            <input type="hidden" name="cache-id" value="doctrine">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ tr('admin_templates') }}
+                </td>
+                <td>
+                    {% if twig_size %}{{ twig_size }}
+                    {% else %}0 KB{% endif %}
+                </td>
+                <td class="text-right">
+                    <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-template">
+                        <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                    </button>
+                    <div id="dropdown-template" class="dropdown">
+                        <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                  document.getElementById('clear-id-twig').submit();">
+                            <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                            {{ tr('admin_clear') }}</a>
+                        <form id="clear-id-twig" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                            {{ csrf() }}
+                            <input type="hidden" name="cache-id" value="twig">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ tr('admin_images') }}
+                </td>
+                <td>
+                    {% if glide_size %}{{ glide_size }}
+                    {% else %}0 KB{% endif %}
+                </td>
+                <td class="text-right">
+                    <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-image">
+                        <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                    </button>
+                    <div id="dropdown-image" class="dropdown">
+                        <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                  document.getElementById('clear-id-glide').submit();">
+                            <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                            {{ tr('admin_clear') }}</a>
+                        <form id="clear-id-glide" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                            {{ csrf() }}
+                            <input type="hidden" name="cache-id" value="glide">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

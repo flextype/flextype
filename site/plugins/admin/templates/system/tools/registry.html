@@ -1,0 +1,24 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="w-3/12">{{ tr('admin_key') }}</th>
+                <th>{{ tr('admin_value') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in registry_dump %}
+                <tr>
+                    <td>
+                        {{ key }}
+                    </td>
+                    <td>
+                        {{ value }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

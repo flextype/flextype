@@ -1,0 +1,152 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+
+
+    {% set allowed_image_files = ['jpeg', 'png', 'gif', 'jpg'] %}
+
+    {% if files | length > 0 %}
+
+    <div class="flex row">
+        <div class="col w-full">
+            <form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data" action="{{ path_for('admin.entries.uploadMediaFileProcess') }}">
+                {{ csrf() }}
+                <input type="hidden" name="entry-id" value="{{ id }}">
+                <div class="form-group bg-gray-000 p-4">
+                    <div class="button-group mb-0 flex items-center justify-left">
+                        <input type="submit" id="upload_file" name="upload_file" value="{{ tr('admin_upload') }}" class="button">
+                        <div class="relative">
+                            <input class="js-input-file input-file" id="file" name="file" type="file">
+                            <label tabindex="0" for="file" class="js-input-file-trigger input-file-trigger button button--white">{{ tr('admin_select_file') }}</label>
+                        </div>
+                        <div class="js-file-return file-return text-center"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    {{ tr('admin_file') }}
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in files %}
+                {% set index = loop.index0 %}
+                <tr
+                    id="file_{{ index }}"
+                    data-direct-link="{{ site_url() }}/site/uploads/entries/{{ id }}/{{ filesystem_basename(file) }}"
+                    {% if (filesystem_ext(file) in allowed_image_files) %}
+                    data-delivery-images-api-link-state="true"
+                    data-delivery-images-api-link="{{ site_url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?token={{ registry.flextype.api.images.default_token }}"
+                    {% endif %}>
+                    <td style="height: 64px;">
+                        {{ filesystem_basename(file) }}
+                    </td>
+                    <td class="text-center flex justify-center" style="height: 64px;">
+                        {% if (filesystem_ext(file) in allowed_image_files) %}
+                            <img src="{{ site_url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?w=64&q=70&dpr=2&token={{ registry.flextype.api.images.default_token }}" alt="" class="border-2 rounded border-gray-200" style="height: 50px;">
+                        {% endif %}
+                    </td>
+                    <td class="text-right" style="height: 64px;">
+                        <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ index }}">
+                            <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                        </button>
+                        <div id="dropdown-{{ index }}" class="dropdown">
+                            <a class="dropdown__item js-snippets-info" href="javascript:;" onclick="event.preventDefault();
+                            embededCode('{{ filesystem_basename(file) }}', {{ index }});">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-code') }}</i>
+                                {{ tr('admin_embeded_code') }}</a>
+                            <div class="dropdown__divider"></div>
+                            <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                            deleteMedia('{{ index }}', {{ loop.index0 }});">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                                {{ tr('admin_delete') }}</a>
+                            <form id="delete-media-file-{{ index }}" action="{{ path_for('admin.entries.deleteMediaFileProcess') }}" method="POST" style="display: none;">
+                                {{ csrf() }}
+                                <input type="hidden" name="entry-id" value="{{ id }}">
+                                <input type="hidden" name="media-id" value="{{ filesystem_basename(file) }}">
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="text-center flex justify-center items-center h-full">
+        <div>
+            <i class="icon icon--4xl">{{ icon('fas fa-photo-video') }}</i>
+            <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_upload_any_files_yet') }}</h3>
+            <form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data" action="{{ path_for('admin.entries.uploadMediaFileProcess') }}">
+                {{ csrf() }}
+                <input type="hidden" name="entry-id" value="{{ id }}">
+                <div class="button-group flex items-center justify-center">
+                    <input type="submit" id="upload_file" name="upload_file" value="{{ tr('admin_upload') }}" class="button">
+                    <div class="relative">
+                        <input class="js-input-file input-file" id="file" name="file" type="file">
+                        <label tabindex="0" for="file" class="js-input-file-trigger input-file-trigger button button--white">{{ tr('admin_select_file') }}</label>
+                    </div>
+                </div>
+                <div class="js-file-return file-return text-center mt-4"></div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="_embeded-code-template hidden">
+        <div class="form-group">
+            <label for="shortcode" class="form-control-title text-left">{{ tr('admin_direct_link') }}</label>
+            <textarea class="js-direct-link form-control" style="height: 82px;"></textarea>
+        </div>
+        <div class="form-group js-delivery-images-api-link-wrapper hidden">
+            <label for="shortcode" class="form-control-title text-left">{{ tr('admin_delivery_images_api_link') }}</label>
+            <textarea class="js-delivery-images-api-link form-control" style="height: 82px;"></textarea>
+        </div>
+    </div>
+{% endblock %}
+
+{% block tail %}
+    <script>
+        function deleteMedia(id, row_num) {
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
+            Swal.fire(
+                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_file_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}"}
+            ).then((result) => {
+                if (result.value) {
+                    document.getElementById('delete-media-file-' + id).submit();
+                }
+            });
+        }
+
+        function embededCode(id, row_num) {
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
+            Swal.fire({
+                title: "{{ tr('admin_embeded_code') }}",
+                showCloseButton: true,
+                focusCloseButton: false,
+                showConfirmButton: false,
+                html: $('._embeded-code-template').html(),
+                onBeforeOpen: () => {
+                    $('.js-delivery-images-api-link-wrapper').addClass('hidden');
+                    const data = $('#file_' + row_num).attr('data-delivery-images-api-link-state');
+                    if (data === 'true') {
+                        $('.js-delivery-images-api-link-wrapper').removeClass('hidden');
+                        $('.js-delivery-images-api-link').val($('#file_' + row_num).attr('data-delivery-images-api-link'));
+                    }
+                    $('.js-direct-link').val($('#file_' + row_num).attr('data-direct-link'));
+                }
+            });
+        }
+    </script>
+{% endblock %}

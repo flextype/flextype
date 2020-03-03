@@ -1,0 +1,32 @@
+/**
+ * ADMIN PANEL
+ */
+
+@import 'tailwindcss/base';
+
+/* Base */
+@import 'base/variables';
+@import 'base/common';
+@import 'base/content';
+@import 'base/icons';
+
+/* Vendor modules */
+@import 'modules/codemirror';
+@import 'modules/presley';
+@import 'modules/tabs';
+@import 'modules/select2';
+@import 'modules/swal2';
+@import 'modules/trumbowyg';
+@import 'modules/flatpickr';
+@import 'modules/filepicker';
+
+/* Components */
+@import 'components/tables';
+@import 'components/navigations';
+@import 'components/buttons';
+@import 'components/dropdowns';
+@import 'components/forms';
+
+
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';

@@ -1,0 +1,11 @@
+name: Form
+version: 0.9.7
+description: Form plugin for Flextype
+icon: fas fa-check-circle
+author:
+  name: Sergey Romanenko
+  email: hello@romanenko.digital
+  url: http://flextype.org
+homepage: https://github.com/flextype
+bugs: https://github.com/flextype/issues
+license: MIT

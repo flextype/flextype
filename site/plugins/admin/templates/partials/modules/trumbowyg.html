@@ -1,0 +1,46 @@
+{% if registry.flextype.locale == 'en_US' %}
+    {% set trumbowyg_locale = 'en' %}
+{% else %}
+    {% set trumbowyg_locale = registry.flextype.locale|lower|slice(0, 2) %}
+{% endif %}
+{% if trumbowyg_locale != 'en' %}
+    <script type="text/javascript" src="{{ site_url() }}/site/plugins/admin/assets/dist/lang/trumbowyg/langs/{{ trumbowyg_locale }}.min.js "></script>
+{% endif %}
+<script>
+    $.trumbowyg.svgPath = '{{ site_url() }}/site/plugins/admin/assets/dist/fonts/trumbowyg/icons.svg';
+    $('.js-html-editor').trumbowyg({
+        btnsDef: {
+            // Customizables dropdowns
+            image: {
+                dropdown: [
+                    'insertImage', 'noembed'
+                ],
+                ico: 'insertImage'
+            }
+        },
+        btns: [
+            [
+                'undo', 'redo'
+            ], // Only supported in Blink browsers
+            ['formatting'],
+            [
+                'strong', 'em', 'del'
+            ],
+            ['link'],
+            ['image'],
+            [
+                'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'
+            ],
+            [
+                'unorderedList', 'orderedList'
+            ],
+            ['table'],
+            ['removeformat'],
+            ['fullscreen'],
+            ['viewHTML']
+        ],
+        lang: '{{ trumbowyg_locale }}',
+        autogrow: false,
+        removeformatPasted: true
+    });
+</script>

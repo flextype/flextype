@@ -1,0 +1,109 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    {% if (plugins_list | length > 0) %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        {{ tr('admin_plugin') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_description') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_author') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_version') }}
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, plugin in plugins_list %}
+                    <tr>
+                        <td class="w-1 text-center {% if plugin.enabled == false %}opacity-50{% endif %}">
+                            {% if plugin.icon %}
+                                <i class="icon">{{ icon(plugin.icon) }}</i>
+                            {% else %}
+                                <i class="icon">{{ icon('fas fa-plug') }}</i>
+                            {% endif %}
+                        </td>
+                        <td class="pl-0 {% if plugin.enabled == false %}opacity-50{% endif %}">
+                            <a href="{{ path_for('admin.plugins.information') }}?id={{ key }}">{{ plugin.name }}</a>
+                        </td>
+                        <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.description }}</td>
+                        <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">
+                            <a href="{{ plugin.author.url }}" target="_blank">{{ plugin.author.name }}</a>
+                        </td>
+                        <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.version }}</td>
+                        <td class="text-right">
+                            <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ key }}">
+                                <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                            </button>
+                            <div id="dropdown-{{ key }}" class="dropdown">
+                                <a class="dropdown__item" href="{{ path_for('admin.plugins.information') }}?id={{ key }}">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-info-circle') }}</i>
+                                    {{ tr('admin_information') }}</a>
+                                <a class="dropdown__item" href="{{ path_for('admin.plugins.settings') }}?id={{ key }}">
+                                    <i class="icon icon--white mr-3">{{ icon('fas fa-cog') }}</i>
+                                    {{ tr('admin_settings') }}</a>
+
+                                {% if plugin.enabled %}
+                                    {% if key == 'admin' or key == 'site' or key == 'form' or key == 'icon' %}
+                                        <a class="dropdown__item" onclick="event.preventDefault(); deactivatePlugin('{{ key }}', {{ loop.index0 }});" href="javascript:;">
+                                            <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
+                                            {{ tr('admin_deactivate') }}
+                                        </a>
+                                    {% else %}
+                                        <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
+                                            <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
+                                            {{ tr('admin_deactivate') }}
+                                        </a>
+                                    {% endif %}
+                                {% else %}
+                                    <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-off') }}</i>
+                                        {{ tr('admin_activate') }}
+                                    </a>
+                                {% endif %}
+                                <form id="update-plugin-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="plugin-key" value="{{ key }}">
+                                    <input type="hidden" name="plugin-status" value="{% if plugin.enabled %}true{% else %}false{% endif %}">
+                                    <input type="hidden" name="plugin-set-status" value="{% if plugin.enabled %}false{% else %}true{% endif %}">
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="text-center flex justify-center items-center h-full">
+            <div>
+                <i class="icon icon--4xl">{{ icon('fas fa-plug') }}</i>
+                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_no_plugins') }}</h3>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block tail %}
+    <script>
+        function deactivatePlugin(id, row_num) {
+            if (dropdown[row_num]) {
+                dropdown[row_num].hide();
+            }
+            Swal.fire(
+                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_deactivate_system_plugin') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}", reverseButtons: true}
+            ).then((result) => {
+                if (result.value) {
+                    document.getElementById('update-plugin-status-' + id).submit();
+                }
+            });
+        }
+    </script>
+{% endblock %}

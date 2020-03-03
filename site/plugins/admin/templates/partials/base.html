@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="{{ registry.settings.locale }}">
+    <head>
+        {% block head %}
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description" content="">
+            <meta name="author" content="">
+            <meta name="robots" content="noindex,nofollow">
+
+            {% do
+                emitter.emit('onAdminThemeMeta') %}
+
+            <title>FLEXTYPE</title>
+
+            <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+            {% set vendor_build_css = site_url() ~ '/site/plugins/admin/assets/dist/css/vendor-build.min.css' %}
+            {% set admin_panel_build_css = site_url() ~ '/site/plugins/admin/assets/dist/css/admin-panel-build.min.css' %}
+            {% do
+                assets.add('css', vendor_build_css, 'admin', 1) %}
+            {% do
+                assets.add('css', admin_panel_build_css, 'admin', 2) %}
+
+            {% for assets_admin in assets.get('css', 'admin') %}
+                {% for assets_by_priorities in assets_admin %}
+                    <link href="{{ assets_by_priorities.asset }}" rel="stylesheet">
+                {% endfor %}
+            {% endfor %}
+
+            {% do
+                emitter.emit('onAdminThemeHeader') %}
+        {% endblock %}
+    </head>
+    <body>
+        <main>
+            <nav class="navigation {% if not is_logged %}hidden{% endif %}">
+                <ul>
+                    <li class="navigation__item--logo-wrapper">
+                        <a href="javascript:;" class="navigation__item navigation__item--logo navigation__item--flextype-logo relative">
+                            <i class="icon icon--white">{{ icon('fas fa-user-circle') }}</i>
+                        </a>
+                        <a href="javascript:;" class="navigation__item navigation__item--logo navigation__item--bars-logo hidden relative js-left-nav-dropdown-btn" data-dropdown="dropdown-flextype-menu">
+                            <i class="icon icon--white">{{ icon('fas fa-bars') }}</i>
+                        </a>
+                        <div id="dropdown-flextype-menu" class="dropdown">
+                            <a class="dropdown__item" target="_blank" href="{{ site_url() }}">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-globe') }}</i>
+                                {{ tr('admin_view_site') }}</a>
+                            <a class="dropdown__item" href="{{ path_for('admin.settings.index') }}">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-cog') }}</i>
+                                {{ tr('admin_system_settings') }}</a>
+                            <div class="dropdown__divider"></div>
+                            <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                    document.getElementById('logoutProcess').submit();">
+                                <i class="icon icon--white mr-3">{{ icon('fas fa-sign-out-alt') }}</i>
+                                {{ tr('admin_logout') }}</a>
+                            <form id="logoutProcess" action="{{ path_for('admin.users.logoutProcess') }}" method="POST" style="display: none;">
+                                {{ csrf() }}
+                            </form>
+                        </div>
+                    </li>
+                    {% for key, item in registry.plugins.admin.navigation.content %}
+                        <li>
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ site_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                                <i class="icon icon--white">{{ icon(item.icon) }}</i>
+                            </a>
+                        </li>
+                    {% endfor %}
+                    {% for key, item in registry.plugins.admin.navigation.extends %}
+                        <li>
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ site_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                                <i class="icon icon--white">{{ icon(item.icon) }}</i>
+                            </a>
+                        </li>
+                    {% endfor %}
+                    {% for key, item in registry.plugins.admin.navigation.system %}
+                        <li>
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ site_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                                <i class="icon icon--white">{{ icon(item.icon) }}</i>
+                            </a>
+                        </li>
+                    {% endfor %}
+                    {% for key, item in registry.plugins.admin.navigation.information %}
+                        <li>
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                                <i class="icon icon--white">{{ icon(item.icon) }}</i>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <div class="content {% if not is_logged %}w-full max-w-full m-0{% endif %}">
+                <div class="bars clearfix {% if not is_logged %}hidden{% endif %}">
+                    <div class="navigation-top-primary">
+                        {% if links %}
+                            <div class="lg:w-auto block float-left">
+                                {% for link in links %}
+                                    <a href="{{ link.link }}" class="navigation-top-primary__item {% if link.active %}navigation-top-primary__item--active{% endif %}">{{ link.title }}</a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="navigation-top-secondary">
+                        <div class="block w-6/12 {% if is_current_path('admin.entries.index') %}w-4/12{% endif %}">
+                            {% if is_current_path('admin.entries.index')or
+                            is_current_path('admin.entries.edit')or
+                            is_current_path('admin.entries.add')or
+                            is_current_path('admin.entries.move')or
+                            is_current_path('admin.entries.rename')or
+                            is_current_path('admin.entries.type') %}
+                                {% for part in parts %}
+                                    {% set i = i - 1 %}
+                                    {% if (part != last) %}
+                                        <a href="{{ path_for('admin.entries.index') }}?id={{ (parts|slice(0, -i))|join('/') }}">
+                                            /
+                                            <span class="pr-1 pl-1">{{ part }}</span></a>
+                                    {% else %}
+                                        /
+                                        <span class="pr-1 pl-1">{{ part }}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+
+                            {% if is_current_path('admin.themes.index')or
+                            is_current_path('admin.templates.index')or
+                            is_current_path('admin.templates.edit')or
+                            is_current_path('admin.templates.rename')or
+                            is_current_path('admin.templates.add') %}
+                                /
+                                <a href="{{ path_for('admin.templates.index') }}?theme={{ theme }}">
+                                    <span class="pr-1 pl-1">{{ theme }}</span></a>
+                                {% if id %}
+                                    /
+                                    <span class="pr-1 pl-1">{{ id }}</span>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if is_current_path('admin.tools.information')or is_current_path('admin.tools.cache')or is_current_path('admin.tools.registry') %}
+                                /
+                            {% endif %}
+
+                            {% if is_current_path('admin.api.index') %}
+                                /
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_delivery.index') %}
+                                /
+                                <a href="{{ path_for('admin.api_delivery.index') }}">
+                                    <span class="pr-1 pl-1">delivery</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_delivery_entries.index') %}
+                                /
+                                <a href="{{ path_for('admin.api_delivery.index') }}">
+                                    <span class="pr-1 pl-1">delivery</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_delivery_entries.index') }}">
+                                    <span class="pr-1 pl-1">entries</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_delivery_entries.edit') %}
+                                /
+                                <a href="{{ path_for('admin.api_delivery.index') }}">
+                                    <span class="pr-1 pl-1">delivery</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_delivery_entries.index') }}">
+                                    <span class="pr-1 pl-1">entries</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_delivery_entries.edit') }}?token={{ token }}">
+                                    <span class="pr-1 pl-1">{{ token }}</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_delivery_entries.add') %}
+                                /
+                                <a href="{{ path_for('admin.api_delivery.index') }}">
+                                    <span class="pr-1 pl-1">delivery</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_delivery_entries.index') }}">
+                                    <span class="pr-1 pl-1">entries</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_delivery_images.index') %}
+                                /
+                                <a href="{{ path_for('admin.api_delivery.index') }}">
+                                    <span class="pr-1 pl-1">delivery</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_delivery_images.index') }}">
+                                    <span class="pr-1 pl-1">images</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_delivery_images.edit') %}
+                                /
+                                <a href="{{ path_for('admin.api_delivery.index') }}">
+                                    <span class="pr-1 pl-1">delivery</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_delivery_images.index') }}">
+                                    <span class="pr-1 pl-1">images</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_delivery_images.edit') }}?token={{ token }}">
+                                    <span class="pr-1 pl-1">{{ token }}</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_delivery_images.add') %}
+                                /
+                                <a href="{{ path_for('admin.api_delivery.index') }}">
+                                    <span class="pr-1 pl-1">delivery</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_delivery_images.index') }}">
+                                    <span class="pr-1 pl-1">images</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.themes.information')or
+                            is_current_path('admin.themes.settings') %}
+                                {% if id %}
+                                    /
+                                    <span class="pr-1 pl-1">{{ id }}</span>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if is_current_path('admin.fieldsets.index')or
+                            is_current_path('admin.fieldsets.edit')or
+                            is_current_path('admin.fieldsets.rename')or
+                            is_current_path('admin.fieldsets.add')or
+                            is_current_path('admin.snippets.index')or
+                            is_current_path('admin.snippets.edit')or
+                            is_current_path('admin.snippets.rename')or
+                            is_current_path('admin.snippets.add') %}
+                                /
+                                <span class="pr-1 pl-1">{{ id }}</span>
+                            {% endif %}
+
+                            {% if is_current_path('admin.plugins.index')or
+                            is_current_path('admin.plugins.information')or
+                            is_current_path('admin.plugins.settings') %}
+                                /
+                                <span class="pr-1 pl-1">{{ id }}</span>
+                            {% endif %}
+                        </div>
+
+                        {% if is_current_path('admin.entries.index') %}
+                            <div class="block w-4/12 text-center">
+                                <form id="items-view-list" action="{{ path_for('admin.entries.displayViewProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="id" value="{{ id_current }}">
+                                    <input type="hidden" name="items_view" value="list">
+                                </form>
+                                <form id="items-view-table" action="{{ path_for('admin.entries.displayViewProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="id" value="{{ id_current }}">
+                                    <input type="hidden" name="items_view" value="table">
+                                </form>
+                                <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-list').submit();" class="navigation-top-secondary__icon mr-1 {% if items_view == 'list' %}bg-gray-900{% endif %} hover:bg-gray-900">
+                                    <i class="icon icon--white">{{ icon('fas fa-bars') }}</i>
+                                </a>
+                                <a href="javascript:;" onclick="event.preventDefault(); document.getElementById('items-view-table').submit();" class="navigation-top-secondary__icon {% if items_view == 'table' %}bg-gray-900{% endif %} hover:bg-gray-900">
+                                    <i class="icon icon--white">{{ icon('fas fa-th') }}</i>
+                                </a>
+                            </div>
+                        {% endif %}
+
+                        <div class="block w-6/12 {% if is_current_path('admin.entries.index') %}w-4/12{% endif %} text-right">
+                            {% if buttons %}
+                                {% for button in buttons %}
+                                    {% if button.type == 'action' %}
+                                        <a
+                                            href="{{ button.link }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('{{ button.id }}').submit();"
+                                            class="js-save-form-submit navigation-top-secondary__item {% if link.active %}navigation-top-secondary__item--active{% endif %}">
+                                            {{ button.title }}
+                                        </a>
+                                        <form id="{{ button.id }}" action="{{ button.link }}" method="POST" style="display: none;">
+                                            {{ csrf() }}
+                                        </form>
+                                    {% else %}
+                                        <a href="{{ button.link }}" {% if button.onclick %} onclick="{{ button.onclick }}" {% endif %} class="navigation-top-secondary__item {% if link.active %}navigation-top-secondary__item--active{% endif %}">
+                                            {{ button.title|raw }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="relative" style="padding-bottom: 10px; padding-left: 20px; padding-right: 20px; padding-top: 112px; height: 100%;">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </main>
+
+        {% set admin_panel_build_js = site_url() ~ '/site/plugins/admin/assets/dist/js/admin-panel-build.min.js' %}
+        {% do
+            assets.add('js', admin_panel_build_js, 'admin', 1) %}
+        {% for assets_admin in assets.get('js', 'admin') %}
+            {% for assets_by_priorities in assets_admin %}
+                <script type="text/javascript" src="{{ assets_by_priorities.asset }}"></script>
+            {% endfor %}
+        {% endfor %}
+
+        {% include "plugins/admin/templates/partials/modules/codemirror.html" %}
+        {% include "plugins/admin/templates/partials/modules/tippy.html" %}
+        {% include "plugins/admin/templates/partials/modules/forms-save.html" %}
+        {% include "plugins/admin/templates/partials/modules/slugify.html" %}
+        {% include "plugins/admin/templates/partials/modules/tabs.html" %}
+        {% include "plugins/admin/templates/partials/modules/select2.html" %}
+        {% include "plugins/admin/templates/partials/modules/swal2.html" %}
+        {% include "plugins/admin/templates/partials/modules/trumbowyg.html" %}
+        {% include "plugins/admin/templates/partials/modules/datetimepicker.html" %}
+        {% include "plugins/admin/templates/partials/modules/filepicker.html" %}
+        {% include "plugins/admin/templates/partials/modules/clipboard.html" %}
+
+        {% do
+            emitter.emit('onAdminThemeTail') %}
+
+        {% block tail %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,40 @@
+/* purgecss start ignore */
+.CodeMirror
+{
+    font-size: 14px;
+
+    height: auto!important;
+    margin-top: -20px;
+    margin-right: -20px;
+    margin-left: -20px;
+}
+
+.CodeMirror-gutter,
+.CodeMirror-gutters,
+.CodeMirror-linenumber,
+.CodeMirror-scroll,
+.CodeMirror-sizer
+{
+    background: white;
+}
+
+
+.CodeMirror-gutters
+{
+    padding-right: 10px;
+
+    border-right: none;
+
+    @apply text-dark;
+}
+
+.CodeMirror-linenumber
+{
+    @apply text-dark;
+}
+
+.CodeMirror pre
+{
+    padding: 0 14px;
+}
+/* purgecss end ignore */

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @link http://romanenko.digital
+ * @link http://digital.flextype.org
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,16 +15,16 @@ use Flextype\Component\I18n\I18n;
 use function Flextype\Component\I18n\__;
 
 // Set Default Admin locale
-I18n::$locale = $flextype->registry->get('settings.locale');
+I18n::$locale = $flextype->registry->get('flextype.locale');
 
 // Add Admin Navigation
-$flextype->registry->set('admin_navigation.content.entries', ['title' => '<i class="fas fa-database"></i>' . __('admin_entries'), 'link' => $flextype->router->pathFor('admin.entries.index'), 'attributes' => ['class' => 'nav-link']]);
-$flextype->registry->set('admin_navigation.extends.fieldsets', ['title' => '<i class="far fa-list-alt"></i>' . __('admin_fieldsets'), 'link' => $flextype->router->pathFor('admin.fieldsets.index'), 'attributes' => ['class' => 'nav-link']]);
-$flextype->registry->set('admin_navigation.extends.themes', ['title' => '<i class="fas fa-palette"></i>' . __('admin_themes'), 'link' => $flextype->router->pathFor('admin.themes.index'), 'attributes' => ['class' => 'nav-link']]);
-$flextype->registry->set('admin_navigation.extends.snippets', ['title' => '<i class="far fa-file-code"></i>' . __('admin_snippets'), 'link' => $flextype->router->pathFor('admin.snippets.index'), 'attributes' => ['class' => 'nav-link']]);
-$flextype->registry->set('admin_navigation.extends.plugins', ['title' => '<i class="fas fa-plug"></i>' . __('admin_plugins'), 'link' => $flextype->router->pathFor('admin.plugins.index'), 'attributes' => ['class' => 'nav-link']]);
-$flextype->registry->set('admin_navigation.settings.tools', ['title' => '<i class="fas fa-toolbox"></i>' . __('admin_tools'), 'link' => $flextype->router->pathFor('admin.tools.index'), 'attributes' => ['class' => 'nav-link']]);
-$flextype->registry->set('admin_navigation.settings.settings', ['title' => '<i class="fas fa-cog"></i>' . __('admin_settings'), 'link' => $flextype->router->pathFor('admin.settings.index'), 'attributes' => ['class' => 'nav-link']]);
+$flextype->registry->set('plugins.admin.navigation.content.entries', ['title' => __('admin_entries'), 'icon' => 'fas fa-database', 'link' => $flextype->router->pathFor('admin.entries.index')]);
+$flextype->registry->set('plugins.admin.navigation.extends.fieldsets', ['title' => __('admin_fieldsets'),'icon' => 'far fa-list-alt', 'link' => $flextype->router->pathFor('admin.fieldsets.index')]);
+$flextype->registry->set('plugins.admin.navigation.extends.themes', ['title' => __('admin_themes'),'icon' => 'fas fa-palette', 'link' => $flextype->router->pathFor('admin.themes.index')]);
+$flextype->registry->set('plugins.admin.navigation.extends.snippets', ['title' => __('admin_snippets'),'icon' => 'far fa-file-code', 'link' => $flextype->router->pathFor('admin.snippets.index')]);
+$flextype->registry->set('plugins.admin.navigation.extends.plugins', ['title' => __('admin_plugins'),'icon' => 'fas fa-plug', 'link' => $flextype->router->pathFor('admin.plugins.index')]);
+$flextype->registry->set('plugins.admin.navigation.system.tools', ['title' => __('admin_tools'),'icon' => 'fas fa-toolbox', 'link' => $flextype->router->pathFor('admin.tools.index')]);
+$flextype->registry->set('plugins.admin.navigation.system.api', ['title' => __('admin_api'),'icon' => 'fas fa-network-wired', 'link' => $flextype->router->pathFor('admin.api.index')]);
 
 // Add Global Vars Admin Twig Extension
 $flextype->view->addExtension(new GlobalVarsAdminTwigExtension($flextype));
@@ -71,4 +71,24 @@ $flextype['UsersController'] = static function ($container) {
 
 $flextype['ToolsController'] = static function ($container) {
     return new ToolsController($container);
+};
+
+$flextype['ApiController'] = static function ($container) {
+    return new ApiController($container);
+};
+
+$flextype['ApiDeliveryController'] = static function ($container) {
+    return new ApiDeliveryController($container);
+};
+
+$flextype['ApiDeliveryEntriesController'] = static function ($container) {
+    return new ApiDeliveryEntriesController($container);
+};
+
+$flextype['ApiDeliveryImagesController'] = static function ($container) {
+    return new ApiDeliveryImagesController($container);
+};
+
+$flextype['ApiDeliveryRegistryController'] = static function ($container) {
+    return new ApiDeliveryRegistryController($container);
 };

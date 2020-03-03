@@ -1,0 +1,36 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <td class="w-3/12">{{ tr('admin_flextype_version') }}</td>
+                <td>{{ FLEXTYPE_VERSION }}</td>
+            </tr>
+            <tr>
+                <td>{{ tr('admin_php_version') }}</td>
+                <td>{{ PHP_VERSION }}</td>
+            </tr>
+            <tr>
+                <td>{{ tr('admin_php_built_on') }}</td>
+                <td>{{ php_uname }}</td>
+            </tr>
+            <tr>
+                <td>{{ tr('admin_web_server') }}</td>
+                <td>{{ webserver }}</td>
+            </tr>
+            <tr>
+                <td>{{ tr('admin_web_server_php_interface') }}</td>
+                <td>{{ php_sapi_name }}</td>
+            </tr>
+            <tr>
+                <td>{{ tr('admin_licence') }}</td>
+                <td>
+                    <a href="https://github.com/flextype/flextype/blob/master/LICENSE.txt" target="_blank">The MIT License (MIT)</a>
+                    Copyright (c) 2018-2020
+                    <a href="https://github.com/Awilum" target="_blank">Sergey Romanenko</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

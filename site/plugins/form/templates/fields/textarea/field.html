@@ -1,0 +1,7 @@
+<div class="form-group {{ size }}">
+    <label for="{{ id }}" class="form-control-title">{{ tr(title) }}</label>
+    <textarea id="{{ id }}" name="{{ name }}" rows="0" cols="0" class="{{ class }}">{{ value }}</textarea>
+    {% if help %}
+        <small>{{ help }}</small>
+    {% endif %}
+</div>

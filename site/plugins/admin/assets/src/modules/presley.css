@@ -1,0 +1,6 @@
+/* purgecss start ignore */
+.parsley-errors-list
+{
+    @apply mt-2 mb-1 text-xs text-red;
+}
+/* purgecss end ignore */

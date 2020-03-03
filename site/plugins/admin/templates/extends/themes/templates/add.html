@@ -1,0 +1,35 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    <form method="post" id="form">
+        {{ csrf() }}
+        <input type="hidden" name="theme" value="{{ theme }}">
+        <div class="flex row">
+            <div class="col w-full lg:w-4/12">
+                <div class="form-group">
+                    <label for="id" class="form-control-title">{{ tr('admin_name') }}</label>
+                    <input type="text" id="id" name="id" value="" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_name_empty_input') }}" data-parsley-required="true">
+                    <small>{{ tr('admin_help_text_for_temlates_name') }}</small>
+                </div>
+                <div class="form-group">
+                    <label for="type" class="form-control-title">{{ tr('admin_type') }}</label>
+                    <select class="form-control js-select" name="type">
+                        <option value="partial">{{ tr('admin_partial') }}</option>
+                        <option value="template">{{ tr('admin_template') }}</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <div class="button-dropdown">
+                        <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="button">
+                        <a href="javascript:;" class="button js-dropdown-btn" data-dropdown="dropdown-list-create-new-template">
+                            <i class="icon icon--white">{{ icon('fas fa-sort-down') }}</i>
+                        </a>
+                        <div id="dropdown-list-create-new-template" class="dropdown">
+                            <input type="submit" id="create-and-edit" name="create-and-edit" value="{{ tr('admin_create_and_edit') }}" class="dropdown__item">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

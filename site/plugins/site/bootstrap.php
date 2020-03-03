@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @link http://romanenko.digital
+ * @link http://digital.flextype.org
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,7 +16,7 @@ use function is_file;
 /**
  * Ensure vendor libraries exist
  */
-! is_file($site_autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i>');
+! is_file($site_autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i> for site plugin');
 
 /**
  * Register The Auto Loader
@@ -35,6 +35,16 @@ $site_loader = require_once $site_autoload;
 include_once 'routes/web.php';
 
 /**
+ * Include shortcodes
+ */
+include_once 'shortcodes/SiteUrlShortcodeExtension.php';
+
+/**
  * Include dependencies
  */
 include_once 'dependencies.php';
+
+/**
+ * Include Middlewares
+ */
+include_once 'middlewares.php';

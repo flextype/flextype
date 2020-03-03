@@ -1,0 +1,60 @@
+/* purgecss start ignore */
+.swal2-container
+{
+    @apply bg-transparent;
+}
+
+.swal2-popup
+{
+    @apply border-none rounded;
+}
+
+.swal2-title
+{
+    @apply text-3xl font-normal text-dark;
+}
+
+.swal2-content
+{
+    font-size: var(--font-size);
+    @apply text-dark;
+}
+
+.swal2-styled.swal2-confirm
+{
+    font-size: var(--font-size);
+    @apply px-4 py-2 border border-solid border-dark text-white inline-block w-auto bg-dark rounded;
+}
+
+.swal2-styled.swal2-confirm:focus
+{
+    @apply shadow-none;
+}
+
+.swal2-styled.swal2-cancel
+{
+    font-size: var(--font-size);
+    @apply px-4 py-2 border border-solid border-dark inline-block w-auto bg-white text-dark rounded;
+}
+
+.swal2-actions:not(.swal2-loading) .swal2-styled:hover
+{
+    @apply border-dark bg-dark text-white;
+}
+
+.swal2-close:focus
+{
+    @apply outline-none;
+}
+
+.swal2-popup.swal2-toast .swal2-title
+{
+    font-size: var(--font-size);
+    @apply font-normal text-white;
+}
+
+.swal2-popup.swal2-toast
+{
+    @apply bg-dark border border-solid border-dark shadow-none;
+}
+/* purgecss end ignore */

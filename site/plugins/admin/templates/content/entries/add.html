@@ -1,0 +1,58 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    <div class="flex row">
+        <div class="col w-full lg:w-4/12">
+            <form method="post" id="form">
+                {{ csrf() }}
+                <input type="hidden" id="current_id" name="current_id" value="{{ current_id }}">
+                <input type="hidden" id="fieldset" name="fieldset" value="{{ type }}">
+
+                <div class="form-group">
+                    <label for="title" class="form-control-title">{{ tr('admin_title') }}</label>
+                    <input type="text" id="title" name="title" value="" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_title_empty_input') }}" data-parsley-required="true">
+                    <small>{{ tr('admin_help_text_for_entry_label') }}</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="id" class="form-control-title">{{ tr('admin_name') }}</label>
+                    <input type="text" id="id" name="id" value="" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_name_empty_input') }}" data-parsley-required="true">
+                    <small>{{ tr('admin_help_text_for_entry_name') }}</small>
+                </div>
+
+                <div class="flex row">
+                    <div class="col w-full lg:w-6/12">
+                        <div class="form-group">
+                            <label class="form-control-title">{{ tr('admin_routable') }}</label>
+                            <select class="form-control js-select" name="routable">
+                                <option value="1" selected="selected">{{ tr('admin_yes') }}</option>
+                                <option value="0">{{ tr('admin_no') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col w-full lg:w-6/12">
+                        <div class="form-group">
+                            <label class="form-control-title">{{ tr('admin_visibility') }}</label>
+                            <select class="form-control js-select" name="visibility">
+                                <option value="visible" selected="selected">{{ tr('admin_visible') }}</option>
+                                <option value="hidden">{{ tr('admin_hidden') }}</option>
+                                <option value="draft">{{ tr('admin_draft') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <div class="button-dropdown">
+                        <input type="submit" id="create" name="create" value="{{ tr('admin_create') }}" class="button">
+                        <a href="javascript:;" class="button js-dropdown-btn" data-dropdown="dropdown-list-create-new-entry">
+                            <i class="icon icon--white">{{ icon('fas fa-sort-down') }}</i>
+                        </a>
+                        <div id="dropdown-list-create-new-entry" class="dropdown">
+                            <input type="submit" id="create-and-edit" name="create-and-edit" value="{{ tr('admin_create_and_edit') }}" class="dropdown__item">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

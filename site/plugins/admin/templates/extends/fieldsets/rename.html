@@ -1,0 +1,20 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    <form method="post" id="form">
+        {{ csrf() }}
+        <input type="hidden" id="fieldset-id-current-{{ id }}" name="fieldset-id-current" value="{{ id }}">
+        <div class="flex row">
+            <div class="col w-full lg:w-4/12">
+                <div class="form-group">
+                    <label for="id" class="form-control-title">{{ tr('admin_name') }}</label>
+                    <input type="text" id="id" name="id" value="{{ id }}" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_name_empty_input') }}" data-parsley-required="true">
+                    <small>{{ tr('admin_help_text_for_fieldsets_name') }}</small>
+                </div>
+                <div class="button-group">
+                    <input type="submit" id="renameFieldset" name="rename_fieldset" value="{{ tr('admin_save') }}" class="button">
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

@@ -4,11 +4,7 @@ namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
-use Flextype\Component\Date\Date;
-use Flextype\Component\Form\Form;
 use Flextype\Component\Arr\Arr;
-use Flextype\Component\Text\Text;
-use Flextype\Component\Registry\Registry;
 use function Flextype\Component\I18n\__;
 use Respect\Validation\Validator as v;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -69,13 +65,48 @@ class EntriesController extends Controller
             $parts = [0 => ''];
         }
 
+        // Init Fieldsets
+        $fieldsets = [];
+
+        // Get fieldsets files
+        $fieldsets_list = Filesystem::listContents(PATH['site'] . '/fieldsets/');
+
+        // If there is any fieldset file then go...
+        if (count($fieldsets_list) > 0) {
+            foreach ($fieldsets_list as $fieldset) {
+                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
+                    $fieldset_content = $this->parser->decode(Filesystem::read($fieldset['path']), 'yaml');
+                    if (isset($fieldset_content['sections']) &&
+                        isset($fieldset_content['sections']['main']) &&
+                        isset($fieldset_content['sections']['main']['fields']) &&
+                        isset($fieldset_content['sections']['main']['fields']['title'])) {
+                        if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
+                            continue;
+                        }
+                        $fieldsets[$fieldset['basename']] = $fieldset_content;
+                    }
+                }
+            }
+        }
+
+        $entry_current = $this->entries->fetch($this->getEntryID($query));
+
+        if (isset($entry_current['items_view'])) {
+            $items_view = $entry_current['items_view'];
+        } else {
+            $items_view = $this->registry->get('plugins.admin.entries.items_view_default');
+        }
+
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/content/entries/index.html',
+            'plugins/admin/templates/content/entries/index.html',
             [
                             'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]),
                             'id_current' => $this->getEntryID($query),
+                            'entry_current' => $entry_current,
+                            'items_view' => $items_view,
                             'menu_item' => 'entries',
+                            'fieldsets' => $fieldsets,
                             'parts' => $parts,
                             'i' => count($parts),
                             'last' => Arr::last($parts),
@@ -83,14 +114,14 @@ class EntriesController extends Controller
                                         'entries' => [
                                                 'link' => $this->router->pathFor('admin.entries.index'),
                                                 'title' => __('admin_entries'),
-                                                'attributes' => ['class' => 'navbar-item active']
+                                                'active' => true
                                             ]
                                         ],
                             'buttons'  => [
                                         'create' => [
-                                                'link'       => $this->router->pathFor('admin.entries.add') . '?id=' . $this->getEntryID($query),
-                                                'title'      => __('admin_create_new_entry'),
-                                                'attributes' => ['class' => 'float-right btn']
+                                                'link'    => 'javascript:;',
+                                                'title'   => __('admin_create_new_entry'),
+                                                'onclick' => 'event.preventDefault(); selectEntryType("'.$this->getEntryID($query).'", 0);'
                                             ]
                                         ]
                             ]
@@ -117,54 +148,49 @@ class EntriesController extends Controller
             $parts = [0 => ''];
         }
 
-        // Init Fieldsets
-        $fieldsets = [];
+        $type = isset($query['type']) ? $query['type']: '';
 
-        // Get fieldsets files
-        $fieldsets_list = Filesystem::listContents(PATH['site'] . '/fieldsets/');
-
-        // If there is any fieldset file then go...
-        if (count($fieldsets_list) > 0) {
-            foreach ($fieldsets_list as $fieldset) {
-                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = $this->parser->decode(Filesystem::read($fieldset['path']), 'yaml');
-                    if (isset($fieldset_content['sections']) &&
-                        isset($fieldset_content['sections']['main']) &&
-                        isset($fieldset_content['sections']['main']['fields']) &&
-                        isset($fieldset_content['sections']['main']['fields']['title'])) {
-                        if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
-                            continue;
-                        }
-                        $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
-                    }
-                }
-            }
-        }
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/content/entries/add.html',
+            'plugins/admin/templates/content/entries/add.html',
             [
                             'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'title', 'direction' => 'asc']]),
                             'menu_item' => 'entries',
-                            'fieldsets' => $fieldsets,
                             'current_id' => $this->getEntryID($query),
                             'parts' => $parts,
                             'i' => count($parts),
                             'last' => Arr::last($parts),
+                            'type' => $type,
                             'links' => [
                                         'entries' => [
                                             'link' => $this->router->pathFor('admin.entries.index'),
                                             'title' => __('admin_entries'),
-                                            'attributes' => ['class' => 'navbar-item']
+
                                         ],
                                         'entries_add' => [
                                             'link' => $this->router->pathFor('admin.entries.add') . '?id=' . $this->getEntryID($query),
                                             'title' => __('admin_create_new_entry'),
-                                            'attributes' => ['class' => 'navbar-item active']
+                                            'active' => true
                                             ]
                                         ]
                         ]
         );
+    }
+
+    /**
+     * Select Entry Type - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function selectEntryTypeProcess(Request $request, Response $response) : Response
+    {
+        // Get data from POST
+        $data = $request->getParsedBody();
+
+        return $response->withRedirect($this->router->pathFor('admin.entries.add') . '?id=' . $data['id'] . '&type=' . $data['type']);
     }
 
     /**
@@ -188,7 +214,11 @@ class EntriesController extends Controller
         }
 
         // Set new Entry ID
-        $id = $parent_entry_id . '/' . $this->slugify->slugify($data['id']);
+        if ($this->registry->get('plugins.admin.entries.slugify') == true) {
+            $id = $parent_entry_id . '/' . $this->slugify->slugify($data['id']);
+        } else {
+            $id = $parent_entry_id . '/' . $data['id'];
+        }
 
         // Check if entry exists then try to create
         if (!$this->entries->has($id)) {
@@ -201,7 +231,7 @@ class EntriesController extends Controller
 
                 // We need to check if template for current fieldset is exists
                 // if template is not exist then `default` template will be used!
-                $template_path = PATH['themes'] . '/' . $this->registry->get('settings.theme') . '/templates/' . $data['fieldset'] . '.html';
+                $template_path = PATH['themes'] . '/' . $this->registry->get('flextype.theme') . '/templates/' . $data['fieldset'] . '.html';
                 $template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
 
                 // Init entry data
@@ -210,9 +240,11 @@ class EntriesController extends Controller
                 $data_result             = [];
 
                 // Define data values based on POST data
-                $data_from_post['title']    = $data['title'];
-                $data_from_post['template'] = $template;
-                $data_from_post['fieldset'] = $data['fieldset'];
+                $data_from_post['title']      = $data['title'];
+                $data_from_post['template']   = $template;
+                $data_from_post['fieldset']   = $data['fieldset'];
+                $data_from_post['visibility'] = $data['visibility'];
+                $data_from_post['routable']   = isset($data['routable']) ? (bool) $data['routable'] : false;
 
                 // Predefine data values based on fieldset default values
                 foreach ($fieldset['sections'] as $section_name => $section_body) {
@@ -249,16 +281,26 @@ class EntriesController extends Controller
                 }
 
                 if ($this->entries->create($id, $data_result)) {
+
+                    if (! Filesystem::has(PATH['uploads'] . '/entries/' . $id)) {
+                        Filesystem::createDir(PATH['uploads'] . '/entries/' . $id);
+                    }
+
                     $this->clearEntryCounter($parent_entry_id);
                     $this->flash->addMessage('success', __('admin_message_entry_created'));
                 } else {
                     $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
                 }
-
             } else {
                 $this->flash->addMessage('error', __('admin_message_fieldset_not_found'));
             }
+        } else {
+            $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
+        }
 
+        if (isset($data['create-and-edit'])) {
+            return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $data['id'] . '&type=editor');
+        } else {
             return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $parent_entry_id);
         }
     }
@@ -310,7 +352,7 @@ class EntriesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/content/entries/type.html',
+            'plugins/admin/templates/content/entries/type.html',
             [
                             'fieldset' => $entry['fieldset'],
                             'fieldsets' => $fieldsets,
@@ -323,12 +365,12 @@ class EntriesController extends Controller
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
                                     'title' => __('admin_entries'),
-                                    'attributes' => ['class' => 'navbar-item']
+
                                 ],
                                 'entries_type' => [
                                     'link' => $this->router->pathFor('admin.entries.type') . '?id=' . $this->getEntryID($query),
                                     'title' => __('admin_type'),
-                                    'attributes' => ['class' => 'navbar-item active']
+                                    'active' => true
                                     ]
                                 ]
                         ]
@@ -345,22 +387,25 @@ class EntriesController extends Controller
      */
     public function typeProcess(Request $request, Response $response) : Response
     {
-        $_data = $request->getParsedBody();
+        $post_data = $request->getParsedBody();
 
-        $id = $_data['id'];
+        $id = $post_data['id'];
 
         $entry = $this->entries->fetch($id);
 
         Arr::delete($entry, 'slug');
         Arr::delete($entry, 'modified_at');
-        Arr::delete($_data, 'csrf_name');
-        Arr::delete($_data, 'csrf_value');
-        Arr::delete($_data, 'save_entry');
-        Arr::delete($_data, 'id');
+        Arr::delete($entry, 'created_at');
+        Arr::delete($entry, 'published_at');
 
-        $_data['published_by'] = Session::get('uuid');
+        Arr::delete($post_data, 'csrf_name');
+        Arr::delete($post_data, 'csrf_value');
+        Arr::delete($post_data, 'save_entry');
+        Arr::delete($post_data, 'id');
 
-        $data = array_merge($entry, $_data);
+        $post_data['published_by'] = Session::get('uuid');
+
+        $data = array_merge($entry, $post_data);
 
         if ($this->entries->update(
             $id,
@@ -409,13 +454,13 @@ class EntriesController extends Controller
             if ($_entry['slug'] != '') {
                 $entries_list[$_entry['slug']] = $_entry['slug'];
             } else {
-                $entries_list[$this->registry->get('settings.entries.main')] = $this->registry->get('settings.entries.main');
+                $entries_list[$this->registry->get('flextype.entries.main')] = $this->registry->get('flextype.entries.main');
             }
         }
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/content/entries/move.html',
+            'plugins/admin/templates/content/entries/move.html',
             [
                             'menu_item' => 'entries',
                             'entries_list' => $entries_list,
@@ -429,12 +474,12 @@ class EntriesController extends Controller
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
                                     'title' => __('admin_entries'),
-                                    'attributes' => ['class' => 'navbar-item']
+
                                 ],
                                 'entries_move' => [
                                     'link' => $this->router->pathFor('admin.entries.move'),
                                     'title' => __('admin_move'),
-                                    'attributes' => ['class' => 'navbar-item active']
+                                    'active' => true
                                     ]
                                 ]
                         ]
@@ -454,11 +499,15 @@ class EntriesController extends Controller
         // Get data from POST
         $data = $request->getParsedBody();
 
-        if (!$this->entries->has($data['parent_entry'] . '/' . $data['entry_id_current'])) {
+        // Set entry id current
+        $entry_id_current = $data['entry_id_current'];
+
+        if (!$this->entries->has($data['parent_entry'] . '/' . $entry_id_current)) {
             if ($this->entries->rename(
                 $data['entry_id_path_current'],
-                $data['parent_entry'] . '/' . $this->slugify->slugify($data['entry_id_current'])
+                $data['parent_entry'] . '/' . $entry_id_current
             )) {
+                rename(PATH['uploads'] . '/entries/' . $data['entry_id_path_current'], PATH['uploads'] . '/entries/' . $data['parent_entry'] . '/' . $entry_id_current);
                 $this->clearEntryCounter($data['parent_entry']);
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
             } else {
@@ -493,7 +542,7 @@ class EntriesController extends Controller
 
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/content/entries/rename.html',
+            'plugins/admin/templates/content/entries/rename.html',
             [
                             'name_current' => Arr::last(explode("/", $this->getEntryID($query))),
                             'entry_path_current' => $this->getEntryID($query),
@@ -506,12 +555,12 @@ class EntriesController extends Controller
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
                                     'title' => __('admin_entries'),
-                                    'attributes' => ['class' => 'navbar-item']
+
                                 ],
                                 'entries_type' => [
                                     'link' => $this->router->pathFor('admin.entries.rename') . '?id=' . $this->getEntryID($query),
                                     'title' => __('admin_rename'),
-                                    'attributes' => ['class' => 'navbar-item active']
+                                    'active' => true
                                     ]
                                 ]
                         ]
@@ -530,10 +579,18 @@ class EntriesController extends Controller
     {
         $data = $request->getParsedBody();
 
+        // Set name
+        if ($this->registry->get('plugins.admin.entries.slugify') == true) {
+            $name = $this->slugify->slugify($data['name']);
+        } else {
+            $name = $data['name'];
+        }
+
         if ($this->entries->rename(
             $data['entry_path_current'],
-            $data['entry_parent'] . '/' . $this->slugify->slugify($data['name'])
-        )) {
+            $data['entry_parent'] . '/' . $name)
+        ) {
+            rename(PATH['uploads'] . '/entries/' . $data['entry_path_current'], PATH['uploads'] . '/entries/' . $data['entry_parent'] . '/' . $this->slugify->slugify($data['name']));
             $this->clearEntryCounter($data['entry_path_current']);
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
@@ -560,6 +617,8 @@ class EntriesController extends Controller
 
         if ($this->entries->delete($id)) {
 
+            Filesystem::deleteDir(PATH['uploads'] . '/entries/' . $id);
+
             $this->clearEntryCounter($id_current);
 
             $this->flash->addMessage('success', __('admin_message_entry_deleted'));
@@ -585,7 +644,15 @@ class EntriesController extends Controller
         $id = $data['id'];
         $parent_id = implode('/', array_slice(explode("/", $id), 0, -1));
 
-        $this->entries->copy($id, $id . '-duplicate-' . date("Ymd_His"), true);
+        $random_date = date("Ymd_His");
+
+        $this->entries->copy($id, $id . '-duplicate-' . $random_date, true);
+
+        if (Filesystem::has(PATH['uploads'] . '/entries/' . $id)) {
+            Filesystem::copy(PATH['uploads'] . '/entries/' . $id, PATH['uploads'] . '/entries/' . $id . '-duplicate-' . $random_date, true);
+        } else {
+            Filesystem::createDir(PATH['uploads'] . '/entries/' . $id . '-duplicate-' . $random_date);
+        }
 
         $this->clearEntryCounter($parent_id);
 
@@ -628,9 +695,12 @@ class EntriesController extends Controller
         is_null($fieldsets) and $fieldsets = [];
 
         if ($type == 'source') {
+            $entry['published_at'] = date($this->registry->get('flextype.date_format'), $entry['published_at']);
+            $entry['created_at'] = date($this->registry->get('flextype.date_format'), $entry['created_at']);
+
             return $this->view->render(
                 $response,
-                'plugins/admin/views/templates/content/entries/source.html',
+                'plugins/admin/templates/content/entries/source.html',
                 [
                         'parts' => $parts,
                         'i' => count($parts),
@@ -643,29 +713,29 @@ class EntriesController extends Controller
                             'entries' => [
                                 'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                                 'title' => __('admin_entries'),
-                                'attributes' => ['class' => 'navbar-item']
+
                             ],
                             'edit_entry' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query). '&type=editor',
                                 'title' => __('admin_editor'),
-                                'attributes' => ['class' => 'navbar-item']
+
                             ],
                             'edit_entry_media' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
                                 'title' => __('admin_media'),
-                                'attributes' => ['class' => 'navbar-item']
+
                             ],
                             'edit_entry_source' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
                                 'title' => __('admin_source'),
-                                'attributes' => ['class' => 'navbar-item active']
+                                'active' => true
                             ],
                         ],
                         'buttons' => [
                             'save_entry' => [
                                             'link'       => 'javascript:;',
                                             'title'      => __('admin_save'),
-                                            'attributes' => ['class' => 'js-save-form-submit float-right btn']
+                                            'type' => 'action'
                                         ],
                         ]
                 ]
@@ -673,7 +743,7 @@ class EntriesController extends Controller
         } elseif ($type == 'media') {
             return $this->view->render(
                 $response,
-                'plugins/admin/views/templates/content/entries/media.html',
+                'plugins/admin/templates/content/entries/media.html',
                 [
                         'parts' => $parts,
                         'i' => count($parts),
@@ -685,22 +755,21 @@ class EntriesController extends Controller
                             'entries' => [
                                 'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                                 'title' => __('admin_entries'),
-                                'attributes' => ['class' => 'navbar-item']
+
                             ],
                             'edit_entry' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
                                 'title' => __('admin_editor'),
-                                'attributes' => ['class' => 'navbar-item']
+
                             ],
                             'edit_entry_media' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
                                 'title' => __('admin_media'),
-                                'attributes' => ['class' => 'navbar-item active']
+                                'active' => true
                             ],
                             'edit_entry_source' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
                                 'title' => __('admin_source'),
-                                'attributes' => ['class' => 'navbar-item']
                             ],
                         ]
                 ]
@@ -709,14 +778,14 @@ class EntriesController extends Controller
 
             // Merge current entry fieldset with global fildset
             if (isset($entry['entry_fieldset'])) {
-                $form = $this->forms->render(array_replace_recursive($fieldsets, $entry['entry_fieldset']), $entry, $request);
+                $form = $this->FormController->render(array_replace_recursive($fieldsets, $entry['entry_fieldset']), $entry, $request);
             } else {
-                $form = $this->forms->render($fieldsets, $entry, $request);
+                $form = $this->FormController->render($fieldsets, $entry, $request);
             }
 
             return $this->view->render(
                 $response,
-                'plugins/admin/views/templates/content/entries/edit.html',
+                'plugins/admin/templates/content/entries/edit.html',
                 [
                         'parts' => $parts,
                         'i' => count($parts),
@@ -726,30 +795,27 @@ class EntriesController extends Controller
                         'links' => [
                             'entries' => [
                                 'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
-                                'title' => __('admin_entries'),
-                                'attributes' => ['class' => 'navbar-item']
+                                'title' => __('admin_entries')
                             ],
                             'edit_entry' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
                                 'title' => __('admin_editor'),
-                                'attributes' => ['class' => 'navbar-item active']
+                                'active' => true
                             ],
                             'edit_entry_media' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
-                                'title' => __('admin_media'),
-                                'attributes' => ['class' => 'navbar-item']
+                                'title' => __('admin_media')
                             ],
                             'edit_entry_source' => [
                                 'link' => $this->router->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
-                                'title' => __('admin_source'),
-                                'attributes' => ['class' => 'navbar-item']
+                                'title' => __('admin_source')
                             ],
                         ],
                         'buttons' => [
                             'save_entry' => [
                                             'link'       => 'javascript:;',
                                             'title'      => __('admin_save'),
-                                            'attributes' => ['class' => 'js-save-form-submit float-right btn']
+                                            'type' => 'action'
                                         ],
                         ]
                 ]
@@ -782,6 +848,9 @@ class EntriesController extends Controller
 
             $entry['published_by'] = Session::get('uuid');
 
+            Arr::delete($entry, 'slug');
+            Arr::delete($entry, 'modified_at');
+
             // Update entry
             if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.md', $this->parser->encode($entry, 'frontmatter'))) {
                 $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
@@ -802,14 +871,33 @@ class EntriesController extends Controller
             Arr::delete($data, 'action');
 
             $data['published_by'] = Session::get('uuid');
-            $data['routable'] = isset($data['routable']) ? (bool) $data['routable'] : false;
 
             // Fetch entry
             $entry = $this->entries->fetch($id);
             Arr::delete($entry, 'slug');
             Arr::delete($entry, 'modified_at');
 
-            // Merge entry data with $to_save_data
+            if (isset($data['created_at'])) {
+                $data['created_at'] = date($this->registry->get('flextype.date_format'), strtotime($data['created_at']));
+            } else {
+                $data['created_at'] = date($this->registry->get('flextype.date_format'), $entry['created_at']);
+            }
+
+            if (isset($data['published_at'])) {
+                $data['published_at'] = (string) date($this->registry->get('flextype.date_format'), strtotime($data['published_at']));
+            } else {
+                $data['published_at'] = (string) date($this->registry->get('flextype.date_format'), $entry['published_at']);
+            }
+
+            if (isset($data['routable'])) {
+                $data['routable'] = (bool) $data['routable'];
+            } elseif(isset($entry['routable'])) {
+                $data['routable'] = (bool) $entry['routable'];
+            } else {
+                $data['routable'] = true;
+            }
+
+            // Merge entry data with $data
             $result_data = array_merge($entry, $data);
 
             // Update entry
@@ -838,7 +926,7 @@ class EntriesController extends Controller
         $entry_id = $data['entry-id'];
         $media_id = $data['media-id'];
 
-        $files_directory = PATH['entries'] . '/' . $entry_id . '/' . $media_id;
+        $files_directory = PATH['uploads'] . '/entries/' . $entry_id . '/' . $media_id;
 
         Filesystem::delete($files_directory);
 
@@ -861,33 +949,33 @@ class EntriesController extends Controller
 
         $id = $data['entry-id'];
 
-        $files_directory = PATH['entries'] . '/' . $id . '/';
+        $files_directory = PATH['uploads'] . '/entries/' . $id . '/';
 
-        $file = $this->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('settings.entries.media.accept_file_types'), 27000000);
+        $file = $this->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('plugins.admin.entries.media.accept_file_types'), 27000000);
 
         if ($file !== false) {
             if (in_array(pathinfo($file)['extension'], ['jpg', 'jpeg', 'png', 'gif'])) {
                 // open an image file
                 $img = Image::make($file);
                 // now you are able to resize the instance
-                if ($this->registry->get('settings.entries.media.upload_images_width') > 0 && $this->registry->get('settings.entries.media.upload_images_height') > 0) {
-                    $img->resize($this->registry->get('settings.entries.media.upload_images_width'), $this->registry->get('settings.entries.media.upload_images_height'), function($constraint) {
+                if ($this->registry->get('plugins.admin.entries.media.upload_images_width') > 0 && $this->registry->get('plugins.admin.entries.media.upload_images_height') > 0) {
+                    $img->resize($this->registry->get('plugins.admin.entries.media.upload_images_width'), $this->registry->get('plugins.admin.entries.media.upload_images_height'), function($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     });
-                } elseif ($this->registry->get('settings.entries.media.upload_images_width') > 0) {
-                    $img->resize($this->registry->get('settings.entries.media.upload_images_width'), null, function($constraint) {
+                } elseif ($this->registry->get('plugins.admin.entries.media.upload_images_width') > 0) {
+                    $img->resize($this->registry->get('plugins.admin.entries.media.upload_images_width'), null, function($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     });
-                } elseif ($this->registry->get('settings.entries.media.upload_images_height') > 0) {
-                    $img->resize(null, $this->registry->get('settings.entries.media.upload_images_height'), function($constraint) {
+                } elseif ($this->registry->get('plugins.admin.entries.media.upload_images_height') > 0) {
+                    $img->resize(null, $this->registry->get('plugins.admin.entries.media.upload_images_height'), function($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     });
                 }
                 // finally we save the image as a new file
-                $img->save($file, $this->registry->get('settings.entries.media.upload_images_quality'));
+                $img->save($file, $this->registry->get('plugins.admin.entries.media.upload_images_quality'));
 
                 // destroy
                 $img->destroy();
@@ -923,7 +1011,7 @@ class EntriesController extends Controller
         array $file,
         string $upload_directory,
         string $allowed = 'jpeg, png, gif, jpg',
-        int $max_size = 3000000,
+        int $max_size = 5000000,
         string $filename = null,
         bool $remove_spaces = true,
         int $max_width = null,
@@ -1036,8 +1124,13 @@ class EntriesController extends Controller
     {
         $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
         $files = [];
-        foreach (array_diff(scandir(PATH['entries'] . '/' . $id), ['..', '.']) as $file) {
-            if (strpos($this->registry->get('settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
+
+        if (!Filesystem::has(PATH['uploads'] . '/entries/' . $id)) {
+            Filesystem::createDir(PATH['uploads'] . '/entries/' . $id);
+        }
+
+        foreach (array_diff(scandir(PATH['uploads'] . '/entries/' . $id), ['..', '.']) as $file) {
+            if (strpos($this->registry->get('plugins.admin.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($file !== 'entry.md') {
                         if ($path) {
@@ -1050,6 +1143,29 @@ class EntriesController extends Controller
             }
         }
         return $files;
+    }
+
+    /**
+     * Display view - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     */
+    public function displayViewProcess(Request $request, Response $response) : Response
+    {
+        // Get POST data
+        $post_data = $request->getParsedBody();
+
+        if ($post_data['id'] == '') {
+            $data = [];
+            $admin_plugin_settings = $this->parser->decode(Filesystem::read(PATH['config']['site'] . '/plugins/admin/settings.yaml'), 'yaml');
+            $admin_plugin_settings['entries']['items_view_default'] = $post_data['items_view'];
+            Filesystem::write(PATH['config']['site'] . '/plugins/admin/settings.yaml', $this->parser->encode($admin_plugin_settings, 'yaml'));
+        } else {
+            $this->entries->update($post_data['id'], ['items_view' => $post_data['items_view']]);
+        }
+
+        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $post_data['id']);
     }
 
     /**

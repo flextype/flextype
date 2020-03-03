@@ -1,0 +1,13 @@
+<script>
+    {% if (registry.plugins.admin.entries.slugify == false) and (is_current_path('admin.entries.add') or is_current_path('admin.entries.rename')) %}
+        $("#title").on("keyup change", function () {
+            var slug = $("#title").val();
+            $("#id").val(slug);
+        });
+    {% else %}
+        $("#title").on("keyup change", function () {
+            var slug = getSlug($("#title").val());
+            $("#id").val(slug);
+        });
+    {% endif %}
+</script>

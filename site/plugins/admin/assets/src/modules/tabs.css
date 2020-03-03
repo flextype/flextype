@@ -1,0 +1,38 @@
+.tabs__nav > div
+{
+    @apply rounded border border-solid border-dark text-white bg-dark cursor-pointer mb-6;
+}
+
+.tabs__nav > div a:first-of-type
+{
+    @apply rounded-l;
+}
+
+.tabs__nav > div a:last-of-type
+{
+    @apply rounded-r;
+}
+
+.tabs__content
+{
+    @apply hidden rounded;
+}
+
+.tabs__content--active
+{
+    @apply block;
+}
+
+.tabs__nav__link
+{
+    flex-basis: 0;
+    flex-grow: 1;
+
+    @apply block text-white text-center opacity-80 py-2;
+}
+
+.tabs__nav__link:hover,
+.tabs__nav__link--active
+{
+    @apply bg-dark-muted opacity-100;
+}

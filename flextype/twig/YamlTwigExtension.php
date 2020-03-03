@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Twig_Extension;
-use Twig_SimpleFunction;
 use Twig_SimpleFilter;
+use Twig_SimpleFunction;
 
 class YamlTwigExtension extends Twig_Extension
 {

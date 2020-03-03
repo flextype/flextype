@@ -1,7 +1,7 @@
 ![preview](/site/plugins/admin/preview.png)
 
 <p align="center">
-<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?colorB=blue" alt="Total downloads"></a> <a href="https://crowdin.com/project/flextype"><img src="https://d322cqt584bo4o.cloudfront.net/flextype/localized.svg" alt="Crowdin"></a> <a href="https://scrutinizer-ci.com/g/flextype/flextype?branch=master"><img src="https://img.shields.io/scrutinizer/g/flextype/flextype.svg?branch=master" alt="Quality Score"></a> <a href="https://discordapp.com/invite/CCKPKVG"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&colorB=728ADA&label=Discord%20Chat" alt="Discord"></a>
+<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?colorB=blue" alt="Total downloads"></a> <a href="https://crowdin.com/project/flextype"><img src="https://d322cqt584bo4o.cloudfront.net/flextype/localized.svg" alt="Crowdin"></a> <a href="https://scrutinizer-ci.com/g/flextype/flextype?branch=master"><img src="https://img.shields.io/scrutinizer/g/flextype/flextype.svg?branch=master" alt="Quality Score"></a> <a href=""><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&colorB=728ADA&label=Discord%20Chat" alt="Discord"></a>
 </p>
 
 <h1 align="center">Supporting Flextype</h1>
@@ -68,9 +68,8 @@ Mobile
 Flextype is open source, community driven project, and maintained by community!
 
 - [Github](https://github.com/flextype)
-- [Discord](https://discord.gg/CCKPKVG)
+- [Discord](https://flextype.org/en/discord)
 - [Twitter](https://twitter.com/getflextype)
-- [Forum](http://forum.flextype.org)
 - [Vkontakte](https://vk.com/flextype)
 
 ## CONTRIBUTE
@@ -86,4 +85,4 @@ Flextype is an open source project and community contributions are essential to 
 
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
-Copyright (c) 2018-2019 [Sergey Romanenko](https://github.com/Awilum)
+Copyright (c) 2018-2020 [Sergey Romanenko](https://github.com/Awilum)

@@ -47,7 +47,7 @@ class ToolsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/system/tools/information.html',
+            'plugins/admin/templates/system/tools/information.html',
             [
                 'menu_item' => 'tools',
                 'php_uname' => php_uname(),
@@ -57,17 +57,17 @@ class ToolsController extends Controller
                     'information' => [
                         'link' => $this->router->pathFor('admin.tools.index'),
                         'title' => __('admin_information'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                     'cache' => [
                         'link' => $this->router->pathFor('admin.tools.cache'),
                         'title' => __('admin_cache'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'registry' => [
                         'link' => $this->router->pathFor('admin.tools.registry'),
                         'title' => __('admin_registry'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                 ],
             ]
@@ -84,7 +84,7 @@ class ToolsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/system/tools/cache.html',
+            'plugins/admin/templates/system/tools/cache.html',
             [
                 'menu_item' => 'tools',
                 'doctrine_size' => Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/doctrine')),
@@ -94,17 +94,17 @@ class ToolsController extends Controller
                     'information' => [
                         'link' => $this->router->pathFor('admin.tools.index'),
                         'title' => __('admin_information'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'cache' => [
                         'link' => $this->router->pathFor('admin.tools.cache'),
                         'title' => __('admin_cache'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                     'registry' => [
                         'link' => $this->router->pathFor('admin.tools.registry'),
                         'title' => __('admin_registry'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                 ],
                 'buttons' => [
@@ -113,7 +113,6 @@ class ToolsController extends Controller
                         'id' => 'clear-cache-all',
                         'link' => $this->router->pathFor('admin.tools.clearCacheAllProcess'),
                         'title' => __('admin_clear_cache_all'),
-                        'attributes' => ['class' => 'float-right btn'],
                     ],
                 ],
             ]
@@ -130,7 +129,7 @@ class ToolsController extends Controller
     {
         return $this->view->render(
             $response,
-            'plugins/admin/views/templates/system/tools/registry.html',
+            'plugins/admin/templates/system/tools/registry.html',
             [
                 'menu_item' => 'tools',
                 'registry_dump' => $this->dotArray($this->registry->dump()),
@@ -138,17 +137,17 @@ class ToolsController extends Controller
                     'information' => [
                         'link' => $this->router->pathFor('admin.tools.index'),
                         'title' => __('admin_information'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'cache' => [
                         'link' => $this->router->pathFor('admin.tools.cache'),
                         'title' => __('admin_cache'),
-                        'attributes' => ['class' => 'navbar-item'],
+
                     ],
                     'registry' => [
                         'link' => $this->router->pathFor('admin.tools.registry'),
                         'title' => __('admin_registry'),
-                        'attributes' => ['class' => 'navbar-item active'],
+                        'active' => true
                     ],
                 ],
             ]
@@ -188,7 +187,7 @@ class ToolsController extends Controller
     }
 
     /**
-     * dotArray
+     * _dotArray
      */
     private function dotArray($array, $prepend = '') : array
     {
@@ -206,7 +205,7 @@ class ToolsController extends Controller
     }
 
     /**
-     * getDirectorySize
+     * _getDirectorySize
      */
     private function getDirectorySize($path)
     {

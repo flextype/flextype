@@ -1,0 +1,27 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    <div class="flex">
+        <div class="w-full lg:w-4/12">
+            <form method="post" id="form">
+                {{ csrf() }}
+                <input type="hidden" name="entry_id_current" value="{{ entry_id_current }}">
+                <input type="hidden" name="entry_id_path_parent" value="{{ entry_id_path_parent }}">
+                <input type="hidden" name="entry_id_path_current" value="{{ entry_id_path_current }}">
+                <div class="form-group">
+                    <label for="title" class="form-control-title">{{ tr('admin_parent_entry') }}</label>
+                    <select class="form-control js-select" name="parent_entry">
+                        {% for key, value in entries_list %}
+                            {% if key != entry_id_path_current %}
+                                <option value="{{ key }}" {% if key == entry_id_path_parent %} selected="selected" {% endif %}>{{ value }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="button-group">
+                    <input type="submit" id="moveEntry" name="move_entry" value="{{ tr('admin_save') }}" class="button mr-3">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

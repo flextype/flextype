@@ -136,6 +136,10 @@ fa:
   name: Persian
   nativeName: فارسی
   orientation: rtl
+fa_IR:
+  name: Persian
+  nativeName: فارسی
+  orientation: rtl
 fi:
   name: Finnish
   nativeName: Suomi
@@ -176,6 +180,9 @@ gd:
   name: Gaelic (Scotland)
   nativeName: Gàidhlig
 gl:
+  name: Galician
+  nativeName: Galego
+gl_ES:
   name: Galician
   nativeName: Galego
 gu:
@@ -220,6 +227,9 @@ hy_AM:
   name: Armenian
   nativeName: Հայերեն
 id:
+  name: Indonesian
+  nativeName: Bahasa Indonesia
+id_ID:
   name: Indonesian
   nativeName: Bahasa Indonesia
 is:

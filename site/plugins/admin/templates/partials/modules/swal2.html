@@ -1,0 +1,27 @@
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'bottom-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: false,
+        showClass: {
+            popup: 'animated fadeInRight faster'
+        },
+        hideClass: {
+            popup: 'animated fadeOutRight faster'
+        }
+    });
+
+    {% for message in flash()['success'] %}
+        Toast.fire({icon: '', title: '{{ message }}'});
+    {% endfor %}
+
+    {% for message in flash()['warning'] %}
+        Toast.fire({icon: '', title: '{{ message }}'});
+    {% endfor %}
+
+    {% for message in flash()['error'] %}
+        Toast.fire({icon: '', title: '{{ message }}'});
+    {% endfor %}
+</script>

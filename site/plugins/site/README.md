@@ -5,4 +5,4 @@ Site Plugin for Flextype.
 
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
-Copyright (c) 2018-2019 [Sergey Romanenko](https://github.com/Awilum)
+Copyright (c) 2018-2020 [Sergey Romanenko](https://github.com/Awilum)

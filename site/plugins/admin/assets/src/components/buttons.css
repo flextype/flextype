@@ -1,0 +1,60 @@
+/**
+ * COMPONENTS / BUTTONS
+ *
+ * INDEX:
+ * - button
+ * - button--white
+ * - button-group
+ *
+ */
+
+.button
+{
+    @apply rounded px-4 py-2 border border-solid border-dark text-white inline-block w-auto bg-dark cursor-pointer;
+}
+
+.button--white
+{
+    @apply bg-white text-dark;
+}
+
+.button:hover,
+.button--white:hover
+{
+    @apply border-black bg-dark text-white;
+}
+
+.button-group
+{
+    @apply mb-3;
+}
+
+.button-group .button
+{
+    @apply mr-2;
+}
+
+.button-dropdown
+{
+    @apply rounded border border-solid border-dark text-white inline-flex w-auto bg-dark cursor-pointer;
+}
+
+.button-dropdown .button
+{
+    @apply border-none m-0;
+}
+
+.button-dropdown .button
+{
+    @apply border-r-0;
+}
+
+.button-dropdown .button:last-of-type
+{
+    @apply border-l-0 border-r;
+}
+
+.button-dropdown .button:last-of-type .icon > svg
+{
+    vertical-align: 0;
+}

@@ -1,0 +1,36 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    <form action="" method="post">
+        {{ csrf() }}
+        <div class="text-left flex justify-center items-center h-full">
+            <div class="w-3/12">
+                <h3 class="text-4xl pb-2 text-center">{{ tr('admin_welcome') }}</h3>
+                <p class="text-center">{{ tr('admin_create_new_user_welcome') }}</p>
+                <div class="form-group">
+                    <label class="form-control-title">{{ tr('admin_username') }}</label>
+                    <input type="text" name="username" value="" class="form-control" placeholder="" pattern="^[a-z0-9_-]{3,16}$" required="required">
+                    <small>
+                        {{ tr('admin_installation_username_tip') }}
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-control-title">{{ tr('admin_email') }}</label>
+                    <input type="text" name="email" value="" class="form-control" placeholder="" required="required">
+                    <small>
+                        {{ tr('admin_installation_email_tip') }}
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-control-title">{{ tr('admin_password') }}</label>
+                    <input type="password" name="password" value="" class="form-control" placeholder="" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required="required">
+                    <small>
+                        {{ tr('admin_installation_password_tip') }}
+                    </small>
+                </div>
+                <div class="button-group">
+                    <input type="submit" name="registration" value="{{ tr('admin_create_user') }}" class="button w-full">
+                </div>
+            </div>
+        </div>
+    {% endblock %}

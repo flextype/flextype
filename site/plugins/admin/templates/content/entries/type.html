@@ -1,0 +1,24 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    <div class="flex">
+        <div class="w-full lg:w-4/12">
+            <form method="post" id="form">
+                {{ csrf() }}
+                <input type="hidden" name="id" value="{{ id }}">
+                <div class="form-group">
+                    <label for="title" class="form-control-title">{{ tr('admin_type') }}</label>
+                    <select class="form-control js-select" name="fieldset">
+                        {% for key, value in fieldsets %}
+                            <option value="{{ key }}" {% if key == fieldset %} selected="selected" {% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                    <small>{{ tr('admin_help_text_for_entry_type') }}</small>
+                </div>
+                <div class="button-group">
+                    <input type="submit" id="saveEntry" name="save_entry" value="{{ tr('admin_save') }}" class="button mr-3">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
