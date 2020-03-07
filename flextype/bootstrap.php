@@ -45,7 +45,7 @@ $registry = new Registry();
  * Load flextype settings
  *
  * 1. Set settings files paths.
- * 2. Load flextype default and flextype custom settings files.
+ * 2. Load flextype default and flextype custom site settings files.
  * 3. Merge settings.
  * 4. Store settings in the flextype registry.
  */
@@ -83,7 +83,7 @@ if (($custom_flextype_settings_content = Filesystem::read($custom_flextype_setti
     }
 }
 
-// Merge flextype settings
+// Merge flextype default settings with custom site settings.
 $flextype_settings = array_replace_recursive($default_flextype_settings, $custom_flextype_settings);
 
 // Store flextype merged settings in the flextype registry.
@@ -162,7 +162,7 @@ if ($flextype['registry']->get('flextype.errors.display')) {
  * Set default timezone
  */
 date_default_timezone_set($flextype['registry']->get('flextype.timezone'));
- 
+
 /**
  * Init shortocodes
  *
