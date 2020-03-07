@@ -15,8 +15,8 @@
 
             <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-            {% set vendor_build_css = site_url() ~ '/site/plugins/admin/assets/dist/css/vendor-build.min.css' %}
-            {% set admin_panel_build_css = site_url() ~ '/site/plugins/admin/assets/dist/css/admin-panel-build.min.css' %}
+            {% set vendor_build_css = url() ~ '/site/plugins/admin/assets/dist/css/vendor-build.min.css' %}
+            {% set admin_panel_build_css = url() ~ '/site/plugins/admin/assets/dist/css/admin-panel-build.min.css' %}
             {% do
                 assets.add('css', vendor_build_css, 'admin', 1) %}
             {% do
@@ -44,7 +44,7 @@
                             <i class="icon icon--white">{{ icon('fas fa-bars') }}</i>
                         </a>
                         <div id="dropdown-flextype-menu" class="dropdown">
-                            <a class="dropdown__item" target="_blank" href="{{ site_url() }}">
+                            <a class="dropdown__item" target="_blank" href="{{ url() }}">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-globe') }}</i>
                                 {{ tr('admin_view_site') }}</a>
                             <a class="dropdown__item" href="{{ path_for('admin.settings.index') }}">
@@ -62,21 +62,21 @@
                     </li>
                     {% for key, item in registry.plugins.admin.navigation.content %}
                         <li>
-                            <a data-tippy-content="{{ item.title|raw }}" href="{{ site_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
                                 <i class="icon icon--white">{{ icon(item.icon) }}</i>
                             </a>
                         </li>
                     {% endfor %}
                     {% for key, item in registry.plugins.admin.navigation.extends %}
                         <li>
-                            <a data-tippy-content="{{ item.title|raw }}" href="{{ site_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
                                 <i class="icon icon--white">{{ icon(item.icon) }}</i>
                             </a>
                         </li>
                     {% endfor %}
                     {% for key, item in registry.plugins.admin.navigation.system %}
                         <li>
-                            <a data-tippy-content="{{ item.title|raw }}" href="{{ site_url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                            <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
                                 <i class="icon icon--white">{{ icon(item.icon) }}</i>
                             </a>
                         </li>
@@ -288,7 +288,7 @@
             </div>
         </main>
 
-        {% set admin_panel_build_js = site_url() ~ '/site/plugins/admin/assets/dist/js/admin-panel-build.min.js' %}
+        {% set admin_panel_build_js = url() ~ '/site/plugins/admin/assets/dist/js/admin-panel-build.min.js' %}
         {% do
             assets.add('js', admin_panel_build_js, 'admin', 1) %}
         {% for assets_admin in assets.get('js', 'admin') %}

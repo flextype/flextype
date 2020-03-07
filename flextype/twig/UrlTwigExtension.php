@@ -11,8 +11,10 @@ namespace Flextype;
 
 use Twig_Extension;
 use Twig_SimpleFunction;
+use Slim\Http\Environment;
+use Slim\Http\Uri;
 
-class SiteUrlTwigExtension extends Twig_Extension
+class UrlTwigExtension extends Twig_Extension
 {
     /**
      * Flextype Dependency Container
@@ -35,15 +37,19 @@ class SiteUrlTwigExtension extends Twig_Extension
     public function getFunctions() : array
     {
         return [
-            new Twig_SimpleFunction('site_url', [$this, 'site_url'], ['is_safe' => ['html']])
+            new Twig_SimpleFunction('url', [$this, 'url'], ['is_safe' => ['html']])
         ];
     }
 
     /**
-     * Get Site URL
+     * Get App URL
      */
-    public function site_url() : string
+    public function url() : string
     {
-        return $this->flextype->SiteController->getSiteUrl();
+        if ($this->flextype['registry']->has('flextype.url') && $this->flextype['registry']->get('flextype.url') != '') {
+            return $this->flextype['registry']->get('flextype.url');
+        } else {
+            return Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
+        }
     }
 }

@@ -99,22 +99,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Get Site URL
-     *
-     * @return string
-     *
-     * @access public
-     */
-    public function getSiteUrl()
-    {
-        if ($this->registry->has('plugins.site.site_url') && $this->registry->get('plugins.site.site_url') != '') {
-            return $this->registry->get('plugins.site.site_url');
-        } else {
-            return Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
-        }
-    }
-
-    /**
      * Error404 page
      *
      * @return array The 404 error entry array data.

@@ -23,6 +23,11 @@ theme: default
 # Available locales to use: flextype/config/locales.yaml
 locale: en_US
 
+# Application URL
+#
+# Define custom application url
+url: ''
+
 # Valid date format
 #
 # - date_format: Valid date format
@@ -187,7 +192,7 @@ twig:
   cache: true
   debug: false
   charset: "UTF-8"
-  extensions: ['Cache', 'Entries', 'Emitter', 'Flash', 'I18n', 'Json', 'Yaml', 'Parser', 'Markdown', 'Filesystem', 'Date', 'Assets', 'Csrf', 'Shortcodes', 'Snippets', 'GlobalVars']
+  extensions: ['Cache', 'Entries', 'Emitter', 'Flash', 'I18n', 'Json', 'Yaml', 'Parser', 'Markdown', 'Filesystem', 'Date', 'Assets', 'Csrf', 'Shortcodes', 'Snippets', 'GlobalVars', 'Url']
 
 # Slugify
 #
@@ -230,7 +235,7 @@ image:
 #
 # - extensions: Flextype Shortcodes Extension to load.
 shortcodes:
-  extensions: ['BaseUrl', 'Entries', 'Registry', 'Snippets']
+  extensions: ['BaseUrl', 'Entries', 'Registry', 'Snippets', 'Url']
 
 # API's
 api:

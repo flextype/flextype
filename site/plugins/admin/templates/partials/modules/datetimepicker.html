@@ -4,7 +4,7 @@
     {% set flatpickr_locale = registry.flextype.locale|lower|slice(0, 2) %}
 {% endif %}
 {% if flatpickr_locale != 'en' %}
-    <script type="text/javascript" src="{{ site_url() }}/site/plugins/admin/assets/dist/lang/flatpickr/l10n/{{ flatpickr_locale }}.js "></script>
+    <script type="text/javascript" src="{{ url() }}/site/plugins/admin/assets/dist/lang/flatpickr/l10n/{{ flatpickr_locale }}.js "></script>
 {% endif %}
 <script>
     flatpickr(".js-datetimepicker", {
