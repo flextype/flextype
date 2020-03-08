@@ -12,8 +12,15 @@ declare(strict_types=1);
 namespace Flextype;
 
 /**
- * Add forms controller to Flextype container
+ * Add Form Controller to Flextype container
  */
 $flextype['FormController'] = static function ($container) {
     return new FormController($container);
+};
+
+/**
+ * Add Fieldsets Model to Flextype container
+ */
+$flextype['fieldsets'] = static function ($container) {
+    return new Fieldsets($container);
 };

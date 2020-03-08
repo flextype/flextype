@@ -196,13 +196,6 @@ $flextype['images'] = static function ($container) {
 };
 
 /**
- * Add fieldsets service to Flextype container
- */
-$flextype['fieldsets'] = static function ($container) use ($flextype) {
-    return new Fieldsets($flextype);
-};
-
-/**
  * Add snippets service to Flextype container
  */
 $flextype['snippets'] = static function ($container) use ($flextype, $app) {
@@ -215,7 +208,6 @@ $flextype['snippets'] = static function ($container) use ($flextype, $app) {
 $flextype['shortcodes'] = static function ($container) {
     return new ShortcodeFacade();
 };
-
 
 /**
  * Add entries service to Flextype container
