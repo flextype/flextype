@@ -149,18 +149,16 @@ class Plugins
                 $default_plugin_manifest              = $this->flextype['parser']->decode($default_plugin_manifest_file_content, 'yaml');
 
                 // Merge plugin settings and manifest data
-                $plugins[$plugin['dirname']] = array_merge(
-                    array_replace_recursive($default_plugin_settings, $site_plugin_settings),
-                    $default_plugin_manifest
-                );
+                $plugins[$plugin['dirname']]['manifest'] = $default_plugin_manifest;
+                $plugins[$plugin['dirname']]['settings'] = array_replace_recursive($default_plugin_settings, $site_plugin_settings);
 
                 // Check if isset plugin priority
-                if (isset($plugins[$plugin['dirname']]['priority'])) {
+                if (isset($plugins[$plugin['dirname']]['settings']['priority'])) {
                     continue;
                 }
 
                 // Set default plugin priority = 0
-                $plugins[$plugin['dirname']]['priority'] = 0;
+                $plugins[$plugin['dirname']]['settings']['priority'] = 0;
             }
 
             // Sort plugins list by priority.
@@ -277,7 +275,7 @@ class Plugins
         }
 
         foreach ($this->flextype['registry']->get('plugins') as $plugin_name => $plugin) {
-            if (! $this->flextype['registry']->get('plugins.' . $plugin_name . '.enabled')) {
+            if (! $this->flextype['registry']->get('plugins.' . $plugin_name . '.settings.enabled')) {
                 continue;
             }
 

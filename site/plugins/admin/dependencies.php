@@ -18,13 +18,13 @@ use function Flextype\Component\I18n\__;
 I18n::$locale = $flextype->registry->get('flextype.locale');
 
 // Add Admin Navigation
-$flextype->registry->set('plugins.admin.navigation.content.entries', ['title' => __('admin_entries'), 'icon' => 'fas fa-database', 'link' => $flextype->router->pathFor('admin.entries.index')]);
-$flextype->registry->set('plugins.admin.navigation.extends.fieldsets', ['title' => __('admin_fieldsets'),'icon' => 'far fa-list-alt', 'link' => $flextype->router->pathFor('admin.fieldsets.index')]);
-$flextype->registry->set('plugins.admin.navigation.extends.themes', ['title' => __('admin_themes'),'icon' => 'fas fa-palette', 'link' => $flextype->router->pathFor('admin.themes.index')]);
-$flextype->registry->set('plugins.admin.navigation.extends.snippets', ['title' => __('admin_snippets'),'icon' => 'far fa-file-code', 'link' => $flextype->router->pathFor('admin.snippets.index')]);
-$flextype->registry->set('plugins.admin.navigation.extends.plugins', ['title' => __('admin_plugins'),'icon' => 'fas fa-plug', 'link' => $flextype->router->pathFor('admin.plugins.index')]);
-$flextype->registry->set('plugins.admin.navigation.system.tools', ['title' => __('admin_tools'),'icon' => 'fas fa-toolbox', 'link' => $flextype->router->pathFor('admin.tools.index')]);
-$flextype->registry->set('plugins.admin.navigation.system.api', ['title' => __('admin_api'),'icon' => 'fas fa-network-wired', 'link' => $flextype->router->pathFor('admin.api.index')]);
+$flextype->registry->set('plugins.admin.settings.navigation.content.entries', ['title' => __('admin_entries'), 'icon' => 'fas fa-database', 'link' => $flextype->router->pathFor('admin.entries.index')]);
+$flextype->registry->set('plugins.admin.settings.navigation.extends.fieldsets', ['title' => __('admin_fieldsets'),'icon' => 'far fa-list-alt', 'link' => $flextype->router->pathFor('admin.fieldsets.index')]);
+$flextype->registry->set('plugins.admin.settings.navigation.extends.themes', ['title' => __('admin_themes'),'icon' => 'fas fa-palette', 'link' => $flextype->router->pathFor('admin.themes.index')]);
+$flextype->registry->set('plugins.admin.settings.navigation.extends.snippets', ['title' => __('admin_snippets'),'icon' => 'far fa-file-code', 'link' => $flextype->router->pathFor('admin.snippets.index')]);
+$flextype->registry->set('plugins.admin.settings.navigation.extends.plugins', ['title' => __('admin_plugins'),'icon' => 'fas fa-plug', 'link' => $flextype->router->pathFor('admin.plugins.index')]);
+$flextype->registry->set('plugins.admin.settings.navigation.system.tools', ['title' => __('admin_tools'),'icon' => 'fas fa-toolbox', 'link' => $flextype->router->pathFor('admin.tools.index')]);
+$flextype->registry->set('plugins.admin.settings.navigation.system.api', ['title' => __('admin_api'),'icon' => 'fas fa-network-wired', 'link' => $flextype->router->pathFor('admin.api.index')]);
 
 // Add Global Vars Admin Twig Extension
 $flextype->view->addExtension(new GlobalVarsAdminTwigExtension($flextype));

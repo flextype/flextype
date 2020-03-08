@@ -115,10 +115,9 @@ class Themes
                 $default_theme_manifest              = $this->flextype['parser']->decode($default_theme_manifest_file_content, 'yaml');
 
                 // Merge theme settings and manifest data
-                $themes[$theme['dirname']] = array_merge(
-                    array_replace_recursive($default_theme_settings, $custom_theme_settings),
-                    $default_theme_manifest
-                );
+                $themes[$theme['dirname']]['manifest'] = $default_theme_manifest;
+                $themes[$theme['dirname']]['settings'] = array_replace_recursive($default_theme_settings, $custom_theme_settings);
+
             }
 
             // Save parsed themes list in the registry themes

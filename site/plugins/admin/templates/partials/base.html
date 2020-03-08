@@ -60,28 +60,28 @@
                             </form>
                         </div>
                     </li>
-                    {% for key, item in registry.plugins.admin.navigation.content %}
+                    {% for key, item in registry.plugins.admin.settings.navigation.content %}
                         <li>
                             <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
                                 <i class="icon icon--white">{{ icon(item.icon) }}</i>
                             </a>
                         </li>
                     {% endfor %}
-                    {% for key, item in registry.plugins.admin.navigation.extends %}
+                    {% for key, item in registry.plugins.admin.settings.navigation.extends %}
                         <li>
                             <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
                                 <i class="icon icon--white">{{ icon(item.icon) }}</i>
                             </a>
                         </li>
                     {% endfor %}
-                    {% for key, item in registry.plugins.admin.navigation.system %}
+                    {% for key, item in registry.plugins.admin.settings.navigation.system %}
                         <li>
                             <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
                                 <i class="icon icon--white">{{ icon(item.icon) }}</i>
                             </a>
                         </li>
                     {% endfor %}
-                    {% for key, item in registry.plugins.admin.navigation.information %}
+                    {% for key, item in registry.plugins.admin.settings.navigation.information %}
                         <li>
                             <a data-tippy-content="{{ item.title|raw }}" href="{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
                                 <i class="icon icon--white">{{ icon(item.icon) }}</i>

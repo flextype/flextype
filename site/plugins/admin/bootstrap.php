@@ -18,7 +18,7 @@ use function is_file;
 /**
  * Set base admin route
  */
-$admin_route = $flextype->registry->get('plugins.admin.route');
+$admin_route = $flextype->registry->get('plugins.admin.settings.route');
 
 /**
  * Ensure vendor libraries exist

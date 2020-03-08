@@ -24,21 +24,21 @@
             <tbody>
                 {% for key, plugin in plugins_list %}
                     <tr>
-                        <td class="w-1 text-center {% if plugin.enabled == false %}opacity-50{% endif %}">
+                        <td class="w-1 text-center {% if plugin.settings.enabled == false %}opacity-50{% endif %}">
                             {% if plugin.icon %}
-                                <i class="icon">{{ icon(plugin.icon) }}</i>
+                                <i class="icon">{{ icon(plugin.manifest.icon) }}</i>
                             {% else %}
                                 <i class="icon">{{ icon('fas fa-plug') }}</i>
                             {% endif %}
                         </td>
-                        <td class="pl-0 {% if plugin.enabled == false %}opacity-50{% endif %}">
-                            <a href="{{ path_for('admin.plugins.information') }}?id={{ key }}">{{ plugin.name }}</a>
+                        <td class="pl-0 {% if plugin.settings.enabled == false %}opacity-50{% endif %}">
+                            <a href="{{ path_for('admin.plugins.information') }}?id={{ key }}">{{ plugin.manifest.name }}</a>
                         </td>
-                        <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.description }}</td>
-                        <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">
-                            <a href="{{ plugin.author.url }}" target="_blank">{{ plugin.author.name }}</a>
+                        <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">{{ plugin.manifest.description }}</td>
+                        <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">
+                            <a href="{{ plugin.author.url }}" target="_blank">{{ plugin.manifest.author.name }}</a>
                         </td>
-                        <td class="{% if plugin.enabled == false %}opacity-50{% endif %}">{{ plugin.version }}</td>
+                        <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">{{ plugin.manifest.version }}</td>
                         <td class="text-right">
                             <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ key }}">
                                 <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
@@ -51,7 +51,7 @@
                                     <i class="icon icon--white mr-3">{{ icon('fas fa-cog') }}</i>
                                     {{ tr('admin_settings') }}</a>
 
-                                {% if plugin.enabled %}
+                                {% if plugin.settings.enabled %}
                                     {% if key == 'admin' or key == 'site' or key == 'form' or key == 'icon' %}
                                         <a class="dropdown__item" onclick="event.preventDefault(); deactivatePlugin('{{ key }}', {{ loop.index0 }});" href="javascript:;">
                                             <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
@@ -72,8 +72,8 @@
                                 <form id="update-plugin-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
                                     {{ csrf() }}
                                     <input type="hidden" name="plugin-key" value="{{ key }}">
-                                    <input type="hidden" name="plugin-status" value="{% if plugin.enabled %}true{% else %}false{% endif %}">
-                                    <input type="hidden" name="plugin-set-status" value="{% if plugin.enabled %}false{% else %}true{% endif %}">
+                                    <input type="hidden" name="plugin-status" value="{% if plugin.settings.enabled %}true{% else %}false{% endif %}">
+                                    <input type="hidden" name="plugin-set-status" value="{% if plugin.settings.enabled %}false{% else %}true{% endif %}">
                                 </form>
                             </div>
                         </td>
