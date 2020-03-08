@@ -25,11 +25,20 @@ class IconController extends Controller
             $icon_category = 'brands';
         } elseif ($icon_parts[0] == 'far') {
             $icon_category = 'regular';
+        } else {
+            $icon_category = 'regular';
         }
 
         $icon_name = str_replace("fa-", "", $icon_parts[1]);
 
-        $icon = Filesystem::read(PATH['plugins'] . '/icon/assets/dist/fontawesome/svgs/' . $icon_category . '/' . $icon_name . '.svg');
+        $icon_file_path = PATH['plugins'] . '/icon/assets/dist/fontawesome/svgs/' . $icon_category . '/' . $icon_name . '.svg';
+        $icon_fallback_file_path = PATH['plugins'] . '/icon/assets/dist/fontawesome/svgs/regular/file-alt.svg';
+
+        if (Filesystem::has($icon_file_path)) {
+            $icon = Filesystem::read($icon_file_path);
+        } else {
+            $icon = Filesystem::read($icon_fallback_file_path);
+        }
 
         return $icon;
     }
