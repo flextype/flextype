@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /**
  * @property Router $router
  */
-class AuthMiddleware extends Middleware
+class AdminPanelAuthMiddleware extends Middleware
 {
     /**
      * __invoke

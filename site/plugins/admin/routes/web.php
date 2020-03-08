@@ -123,4 +123,4 @@ $app->group('/' . $admin_route, function () use ($app) : void {
     $app->post('/api/delivery/registry/edit', 'ApiDeliveryRegistryController:editProcess')->setName('admin.api_delivery_registry.editProcess');
     $app->post('/api/delivery/registry/delete', 'ApiDeliveryRegistryController:deleteProcess')->setName('admin.api_delivery_registry.deleteProcess');
 
-})->add(new AuthMiddleware($flextype));
+})->add(new AdminPanelAuthMiddleware($flextype));
