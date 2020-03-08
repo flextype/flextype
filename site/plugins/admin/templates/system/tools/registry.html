@@ -15,7 +15,9 @@
                         {{ key }}
                     </td>
                     <td>
-                        {{ value }}
+                        {% if value is not iterable %}
+                            {{ value }}
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
