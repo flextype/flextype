@@ -9,7 +9,7 @@
             <meta name="robots" content="{% if entry.robots %}{{ entry.robots }}{% else %}{{ registry.plugins.site.robots }}{% endif %}">
             <meta name="generator" content="Powered by Flextype {{ FLEXTYPE_VERSION }}"/>
 
-            {% do 
+            {% do
                 emitter.emit('onThemeMeta') %}
 
             <title>
@@ -20,7 +20,7 @@
             <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext" rel="stylesheet">
 
             {% set build_css = url() ~ '/site/themes/' ~ registry.flextype.theme ~ '/assets/dist/css/build.min.css' %}
-            {% do 
+            {% do
                 assets.add('css', build_css, 'site', 1) %}
             {% for assets_site in assets.get('css', 'site') %}
                 {% for assets_by_priorities in assets_site %}
@@ -28,7 +28,7 @@
                 {% endfor %}
             {% endfor %}
 
-            {% do 
+            {% do
                 emitter.emit('onThemeHeader') %}
             {{ snippets.exec('google-analytics')|raw }}
         {% endblock %}
@@ -74,7 +74,7 @@
             </div>
         </nav>
 
-        <main class="container">
+        <main class="container mx-auto">
             <section id="content" class="p-16">
                 {% block content %}{% endblock %}
             </section>
@@ -87,7 +87,7 @@
             </footer>
         </main>
 
-        {% do 
+        {% do
             emitter.emit('onThemeTail') %}
     </body>
 </html>
