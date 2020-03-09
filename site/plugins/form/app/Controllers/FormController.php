@@ -90,7 +90,7 @@ class FormController extends Controller
         $form .= $this->_actionHiddenField();
 
         // Go through all sections
-        if (count($fieldset['sections']) > 0) {
+        if (isset($fieldset['sections']) && count($fieldset['sections']) > 0) {
 
             $form .= '<nav class="tabs__nav w-full"><div class="flex bg-dark text-white">';
 
