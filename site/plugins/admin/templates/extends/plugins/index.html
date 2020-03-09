@@ -25,7 +25,7 @@
                 {% for key, plugin in plugins_list %}
                     <tr>
                         <td class="w-1 text-center {% if plugin.settings.enabled == false %}opacity-50{% endif %}">
-                            {% if plugin.icon %}
+                            {% if plugin.manifest.icon %}
                                 <i class="icon">{{ icon(plugin.manifest.icon) }}</i>
                             {% else %}
                                 <i class="icon">{{ icon('fas fa-plug') }}</i>
