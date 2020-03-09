@@ -83,7 +83,7 @@ class FormController extends Controller
      *
      * @access public
      */
-    public function render(array $fieldset, array $values = [], Request $request) : string
+    public function render(array $fieldset, array $values = []) : string
     {
         $form  = '<form method="post" id="form">';
         $form .= $this->_csrfHiddenField();
@@ -154,7 +154,7 @@ class FormController extends Controller
                             $form_field = $this->dateField($field_id, $field_name, $field_value, $properties);
                             break;
                         case 'media_select':
-                            $form_field = $this->mediaSelectField($field_id, $field_name, $field_value, $properties, $request);
+                            $form_field = $this->mediaSelectField($field_id, $field_name, $field_value, $properties);
                             break;
                         default:
                             $form_field = $this->textField($field_id, $field_name, $field_value, $properties);
@@ -256,13 +256,12 @@ class FormController extends Controller
      * @param string  $field_name  Field name
      * @param mixed   $field_value Field value
      * @param array   $properties  Field properties
-     * @param Request $request     PSR7 request
      *
      * @return string Returns field
      *
      * @access protected
      */
-    protected function mediaSelectField(string $field_id, string $field_name, $field_value, array $properties, Request $request) : string
+    protected function mediaSelectField(string $field_id, string $field_name, $field_value, array $properties) : string
     {
         $title = isset($properties['title']) ? $properties['title'] : '';
         $size  = isset($properties['size'])  ? $this->sizes[$properties['size']] : $this->sizes['12'];
@@ -273,7 +272,7 @@ class FormController extends Controller
         $name    = isset($properties['name'])  ? $properties['name'] : $field_name;
         $current_value   = isset($properties['value']) ? $properties['value'] : $field_value;
 
-        $options = $this->flextype->EntriesController->getMediaList($request->getQueryParams()['id'], false);
+        $options = $this->flextype->EntriesController->getMediaList($_GET['id'], false);
 
         return $this->flextype['view']->fetch('plugins/form/templates/fields/select-template/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help , 'options' => $options, 'current_value' => $current_value]);
     }
@@ -538,7 +537,7 @@ class FormController extends Controller
         if (! empty($current_value)) {
             $current_value = array_map('trim', explode(',', $current_value));
         }
-        
+
         return $this->flextype['view']->fetch('plugins/form/templates/fields/tags/field.html', ['title' => $title, 'size' => $size, 'name' => $name, 'id' => $id, 'class' => $class, 'help' => $help , 'options' => $options, 'current_value' => $current_value]);
     }
 
