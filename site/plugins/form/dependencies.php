@@ -24,3 +24,8 @@ $flextype['FormController'] = static function ($container) {
 $flextype['fieldsets'] = static function ($container) {
     return new Fieldsets($container);
 };
+
+/**
+ * Add form twig extension
+ */
+$flextype->view->addExtension(new FormTwigExtension($flextype));
