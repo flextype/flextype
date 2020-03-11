@@ -77,22 +77,72 @@ class FormController extends Controller
      *
      * @param array   $fieldset Fieldset
      * @param array   $values   Fieldset values
-     * @param Request $request  PSR7 request
      *
-     * @return string Returns form based on fieldsets
+     * @return string Returns form based on fieldset
      *
      * @access public
      */
     public function render(array $fieldset, array $values = []) : string
     {
+        // Init form
+        $form = '';
+
+        // Render form with section
+        if (isset($fieldset['sections']) && count($fieldset['sections']) > 0) {
+            $form = $this->renderFormWithSections($fieldset, $values);
+        }
+
+        // Render form classic
+        if (isset($fieldset['form']) && count($fieldset['form']['fields']) > 0) {
+            $form = $this->renderForm($fieldset, $values);
+        }
+
+        return $form;
+    }
+
+    /**
+     * Render classic form
+     *
+     * @param array   $fieldset Fieldset
+     * @param array   $values   Fieldset values
+     *
+     * @return string Returns form based on fieldset
+     *
+     * @access public
+     */
+    public function renderForm(array $fieldset, array $values = []) : string
+    {
+        $form  = '<form method="post" id="form">';
+        $form .= $this->_csrfHiddenField();
+        $form .= $this->_actionHiddenField();
+        $form .= '<div class="row">';
+        $form .= $this->renderFields($fieldset['form']['fields'], $values);
+        $form .= '</div>';
+        $form .= '</form>';
+
+        return $form;
+    }
+
+    /**
+     * Render form with sections
+     *
+     * @param array   $fieldset Fieldset
+     * @param array   $values   Fieldset values
+     *
+     * @return string Returns form based on fieldset
+     *
+     * @access public
+     */
+    public function renderFormWithSections(array $fieldset, array $values = []) : string
+    {
         $form  = '<form method="post" id="form">';
         $form .= $this->_csrfHiddenField();
         $form .= $this->_actionHiddenField();
 
-        // Go through all sections
         if (isset($fieldset['sections']) && count($fieldset['sections']) > 0) {
 
-            $form .= '<nav class="tabs__nav w-full"><div class="flex bg-dark text-white">';
+            $form .= '<nav class="tabs__nav w-full">';
+            $form .= '<div class="flex bg-dark text-white">';
 
             // Go through all sections and create nav items
             foreach ($fieldset['sections'] as $key => $section) {
@@ -108,61 +158,8 @@ class FormController extends Controller
                 $form .= '<div class="tabs__content w-full ' . ($key === 'main' ? 'tabs__content--active' : '') . '">';
                 $form .= '<div class="row">';
 
-                foreach ($section['fields'] as $element => $properties) {
-                    // Set empty form field element
-                    $form_field = '';
+                $form .= $this->renderFields($section['form']['fields'], $values);
 
-                    // Set element name
-                    $field_name = $this->getElementName($element);
-
-                    // Set element id
-                    $field_id = $this->getElementID($element);
-
-                    // Set element default value
-                    $field_value = $this->getElementValue($element, $values, $properties);
-
-                    // Seletct field type
-                    switch ($properties['type']) {
-                        case 'textarea':
-                            $form_field = $this->textareaField($field_id, $field_name, $field_value, $properties);
-                            break;
-                        case 'hidden':
-                            $form_field = $this->hiddenField($field_id, $field_name, $field_value, $properties);
-                            break;
-                        case 'html':
-                            $form_field = $this->htmlField($field_id, $field_name, $field_value, $properties);
-                            break;
-                        case 'select':
-                            $form_field = $this->selectField($field_id, $field_name, $field_value, $properties);
-                            break;
-                        case 'template_select':
-                            $form_field = $this->templateSelectField($field_id, $field_name, $field_value, $properties);
-                            break;
-                        case 'visibility_select':
-                            $form_field = $this->visibilitySelectField($field_id, $field_name, $field_value, $properties);
-                            break;
-                        case 'heading':
-                            $form_field = $this->headingField($field_id, $properties);
-                            break;
-                        case 'routable_select':
-                            $form_field = $this->routableSelectField($field_id, $field_name, $field_value, $properties);
-                            break;
-                        case 'tags':
-                            $form_field = $this->tagsField($field_id, $field_name, $field_value, $properties);
-                            break;
-                        case 'datetimepicker':
-                            $form_field = $this->dateField($field_id, $field_name, $field_value, $properties);
-                            break;
-                        case 'media_select':
-                            $form_field = $this->mediaSelectField($field_id, $field_name, $field_value, $properties);
-                            break;
-                        default:
-                            $form_field = $this->textField($field_id, $field_name, $field_value, $properties);
-                            break;
-                    }
-
-                    $form .= $form_field;
-                }
                 $form .= '</div>';
                 $form .= '</div>';
             }
@@ -173,6 +170,79 @@ class FormController extends Controller
         $form .= '</form>';
 
         return $form;
+    }
+
+    /**
+     * Render form fields
+     *
+     * @param array   $fields Fields
+     * @param array   $values Fieldset values
+     *
+     * @return string Returns form fields based on fieldset
+     *
+     * @access public
+     */
+    public function renderFields(array $fields, array $values = []) : string
+    {
+        $_form_field = '';
+
+        foreach ($fields as $element => $properties) {
+            // Set empty form field element
+            $form_field = '';
+
+            // Set element name
+            $field_name = $this->getElementName($element);
+
+            // Set element id
+            $field_id = $this->getElementID($element);
+
+            // Set element default value
+            $field_value = $this->getElementValue($element, $values, $properties);
+
+            // Seletct field type
+            switch ($properties['type']) {
+                case 'textarea':
+                    $form_field = $this->textareaField($field_id, $field_name, $field_value, $properties);
+                    break;
+                case 'hidden':
+                    $form_field = $this->hiddenField($field_id, $field_name, $field_value, $properties);
+                    break;
+                case 'html':
+                    $form_field = $this->htmlField($field_id, $field_name, $field_value, $properties);
+                    break;
+                case 'select':
+                    $form_field = $this->selectField($field_id, $field_name, $field_value, $properties);
+                    break;
+                case 'template_select':
+                    $form_field = $this->templateSelectField($field_id, $field_name, $field_value, $properties);
+                    break;
+                case 'visibility_select':
+                    $form_field = $this->visibilitySelectField($field_id, $field_name, $field_value, $properties);
+                    break;
+                case 'heading':
+                    $form_field = $this->headingField($field_id, $properties);
+                    break;
+                case 'routable_select':
+                    $form_field = $this->routableSelectField($field_id, $field_name, $field_value, $properties);
+                    break;
+                case 'tags':
+                    $form_field = $this->tagsField($field_id, $field_name, $field_value, $properties);
+                    break;
+                case 'datetimepicker':
+                    $form_field = $this->dateField($field_id, $field_name, $field_value, $properties);
+                    break;
+                case 'media_select':
+                    $form_field = $this->mediaSelectField($field_id, $field_name, $field_value, $properties);
+                    break;
+                default:
+                    $form_field = $this->textField($field_id, $field_name, $field_value, $properties);
+                    break;
+            }
+
+            $_form_field .= $form_field;
+        }
+
+        return $_form_field;
     }
 
     /**
