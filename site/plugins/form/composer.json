@@ -27,7 +27,8 @@
     },
     "autoload": {
         "classmap": [
-            "app"
+            "app",
+            "twig"
         ]
     }
 }
