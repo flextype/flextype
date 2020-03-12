@@ -12,10 +12,10 @@ declare(strict_types=1);
 namespace Flextype;
 
 /**
- * Add Form Controller to Flextype container
+ * Add Form Model to Flextype container
  */
-$flextype['FormController'] = static function ($container) {
-    return new FormController($container);
+$flextype['form'] = static function ($container) {
+    return new Form($container);
 };
 
 /**
@@ -26,6 +26,6 @@ $flextype['fieldsets'] = static function ($container) {
 };
 
 /**
- * Add form twig extension
+ * Add Form Twig extension
  */
 $flextype->view->addExtension(new FormTwigExtension($flextype));

@@ -1,7 +1,7 @@
-<div class="form-group {{ size }}">
-    <label for="{{ id }}" class="form-control-title">{{ tr(title) }}</label>
-    <textarea id="{{ id }}" name="{{ name }}" rows="0" cols="0" class="js-html-editor {{ class }}">{{ value }}</textarea>
-    {% if help %}
-        <small>{{ help }}</small>
+<div class="form-group {% if properties.size %}{{ sizes[properties.size] }}{% else %}{{ sizes[12] }}{% endif %}">
+    <label for="{{ field_id }}" class="form-control-title">{{ tr(properties.title) }}</label>
+    <textarea id="{{ field_id }}" name="{{ field_name }}" rows="0" cols="0" class="js-html-editor form-control {{ properties.class }}">{{ field_value }}</textarea>
+    {% if properties.help %}
+        <small>{{ properties.help }}</small>
     {% endif %}
 </div>

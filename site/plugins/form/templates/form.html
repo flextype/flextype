@@ -1,18 +1,45 @@
-{# form skeleton #}
-<form method="post" id="form">
-    <nav class="tabs__nav w-full">
-        <div class="flex bg-dark text-white">
-            <a href="javascript:;" class="tabs__nav__link tabs__nav__link--active">
-                {# form tab link #}
-            </a>
-        </div>
-        <div class="tabs flex">
-            <div class="tabs__content w-full tabs__content--active">
-                <div class="row">
-                    {# form tab content #}
-                </div>
+<form action="" method="post" id="form">
+    {{ csrf() }}
+    <input type="hidden" id="action" name="action" value="save-form">
+
+    {% if fieldset.sections %}
+        <nav class="tabs__nav w-full">
+            <div class="flex bg-dark text-white">
+                {% for key, section in fieldset.sections %}
+                    <a href="javascript:;" class="tabs__nav__link {% if key == 'main' %} tabs__nav__link--active {% endif %}">{{ tr(section.title) }}</a>
+                {% endfor %}
             </div>
+        </nav>
+        <div class="tabs flex">
+            {% for key, section in fieldset.sections %}
+                <div class="tabs__content w-full {% if key == 'main' %} tabs__content--active {% endif %}">
+                    <div class="row">
+                        {% for element, properties in section.form.fields  %}
+
+                            {% set field_name = form.getElementName(element) %}
+                            {% set field_id = form.getElementID(element) %}
+                            {% set field_value = form.getElementValue(element, values, properties) %}
+
+                            {% include "plugins/form/templates/fields/fields.html" %}
+
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    </nav>
+    {% else %}
+        {% for element, properties in fieldset.form.fields  %}
+
+            {% set field_name = form.getElementName(element) %}
+            {% set field_id = form.getElementID(element) %}
+            {% set field_value = form.getElementValue(element, values, properties) %}
+
+            {% include "plugins/form/templates/fields/fields.html" %}
+
+        {% endfor %}
+    {% endif %}
+
+    {% if fieldset.form.submit %}
+        <input type="submit" value="{{ fieldset.form.submit.title }}" class="{{ fieldset.form.submit.class }}">
+    {% endif %}
 </form>
-{# /form skeleton #}

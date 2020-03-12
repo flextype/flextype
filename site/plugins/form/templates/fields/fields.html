@@ -1,0 +1,23 @@
+{% set fields = ['text', 'textarea', 'hidden', 'datetimepicker', 'heading', 'html', 'tags', 'select', 'select-routable', 'select-visibility', 'select-template', 'select-media'] %}
+{% set sizes =
+    {
+        '1/12': 'col w-1/12',
+         '2/12': 'col w-2/12',
+         '3/12': 'col w-3/12',
+         '4/12': 'col w-4/12',
+         '5/12': 'col w-5/12',
+         '6/12': 'col w-6/12',
+         '7/12': 'col w-7/12',
+         '8/12': 'col w-8/12',
+         '9/12': 'col w-9/12',
+         '10/12': 'col w-10/12',
+         '12/12': 'col w-full',
+         '12': 'col w-full'
+     }
+%}
+
+{% for field in fields %}
+    {% if properties.type == field %}
+        {% include "plugins/form/templates/fields/" ~ field ~ "/field.html" %}
+    {% endif %}
+{% endfor %}

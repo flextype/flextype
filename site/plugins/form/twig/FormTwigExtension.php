@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Twig_Extension;
-use Twig_SimpleFunction;
+use Twig_Extension_GlobalsInterface;
 
-class FormTwigExtension extends Twig_Extension
+class FormTwigExtension extends Twig_Extension implements Twig_Extension_GlobalsInterface
 {
     /**
      * Flextype Dependency Container
@@ -28,22 +28,60 @@ class FormTwigExtension extends Twig_Extension
     }
 
     /**
-     * Returns a list of functions to add to the existing list.
-     *
-     * @return array
+     * Register Global variables in an extension
      */
-    public function getFunctions() : array
+    public function getGlobals()
     {
         return [
-            new Twig_SimpleFunction('form_render', [$this, 'form_render'], ['is_safe' => ['html']])
+            'form' => new FormTwig($this->flextype),
         ];
+    }
+}
+
+class FormTwig
+{
+    /**
+     * Flextype Dependency Container
+     */
+    private $flextype;
+
+    /**
+     * Constructor
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
     }
 
     /**
-     * Form Render
+     *
      */
-    public function form_render(array $fieldset, array $values = []) : string
+    public function render(array $fieldset, array $values = []) : string
     {
-        return $this->flextype->FormController->render($fieldset, $values);
+        return $this->flextype['form']->render($fieldset, $values);
+    }
+
+    /**
+     *
+     */
+    public function getElementID(string $element) : string
+    {
+        return $this->flextype['form']->getElementID($element);
+    }
+
+    /**
+     *
+     */
+    public function getElementName(string $element) : string
+    {
+        return $this->flextype['form']->getElementName($element);
+    }
+
+    /**
+     *
+     */
+    public function getElementValue(string $element, array $values, array $properties)
+    {
+        return $this->flextype['form']->getElementValue($element, $values, $properties);
     }
 }

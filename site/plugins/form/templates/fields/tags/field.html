@@ -1,12 +1,13 @@
-<div class="form-group {{ size }}">
-    <label for="{{ id }}" class="form-control-title">{{ tr(title) }}</label>
-    <select class="{{ class }} js-tags" data-name="{{ name }}" multiple="multiple">
-        {% for key, value in current_value %}
-            <option value="{{ value }}" selected="selected">{{ value }}</option>
+{% set field_value = field_value|split(',') %}
+<div class="form-group {% if properties.size %}{{ sizes[properties.size] }}{% else %}{{ sizes[12] }}{% endif %}">
+    <label for="{{ field_id }}" class="form-control-title">{{ tr(properties.title) }}</label>
+    <select class="form-control js-tags {{ properties.class }}" data-name="{{ field_name }}" multiple="multiple">
+        {% for key, value in field_value %}
+            <option value="{{ value|trim }}" selected="selected">{{ value|trim }}</option>
         {% endfor %}
     </select>
-    <input type="hidden" name="{{ name }}" value="{{ current_value|join(',') }}">
-    {% if help %}
-        <small>{{ help }}</small>
+    <input type="hidden" name="{{ field_name }}" value="{{ field_value|join(',') }}">
+    {% if properties.help %}
+        <small>{{ properties.help }}</small>
     {% endif %}
 </div>

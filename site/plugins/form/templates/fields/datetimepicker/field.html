@@ -1,7 +1,7 @@
-<div class="form-group {{ size }}">
-    <label for="{{ id }}" class="form-control-title">{{ tr(title) }}</label>
-    <input type="text" id="{{ id }}" name="{{ id }}" value="{{ value|date(registry.flextype.date_display_format) }}" class="js-datetimepicker {{ class }}">
-    {% if help %}
-        <small>{{ help }}</small>
+<div class="form-group {% if properties.size %}{{ sizes[properties.size] }}{% else %}{{ sizes[12] }}{% endif %}">
+    <label for="{{ field_id }}" class="form-control-title">{{ tr(properties.title) }}</label>
+    <input type="text" id="{{ field_id }}" name="{{ field_id }}" value="{{ field_value|date(registry.flextype.date_display_format) }}" class="form-control js-datetimepicker {{ properties.class }}">
+    {% if properties.help %}
+        <small>{{ properties.help }}</small>
     {% endif %}
 </div>
