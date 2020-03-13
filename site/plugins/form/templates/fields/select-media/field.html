@@ -1,7 +1,7 @@
 {% set media_files = filesystem_list_contents(PATH_UPLOADS ~ '/entries/' ~ query.id ~ '/') %}
 <div class="form-group {% if properties.size %}{{ sizes[properties.size] }}{% else %}{{ sizes[12] }}{% endif %}">
     <label for="{{ field_id }}" class="form-control-title">{{ tr(properties.title) }}</label>
-    <select class="form-control {{ properties.class }} js-select" name="{{ field_name }}">
+    <select class="form-control {{ properties.class }} js-select-media" name="{{ field_name }}">
         {% for media_file in media_files %}
             {% if media_file.extension in registry.plugins.admin.settings.entries.media.accept_file_types %}
                 <option value="{{ template.basename }}" {% if media_file.basename == field_value %} selected="selected" {% endif %}>{{ media_file.basename }}</option>
@@ -12,3 +12,6 @@
         <small>{{ properties.help }}</small>
     {% endif %}
 </div>
+
+{% set select_media_js = url() ~ '/site/plugins/form/assets/src/select-media/select-media.js' %}
+{% do assets.add('js', select_media_js, 'admin', 2) %}

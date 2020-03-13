@@ -1,7 +1,7 @@
 {% set options = {'draft': tr('admin_entries_draft'), 'visible': tr('admin_entries_visible'), 'hidden': tr('admin_entries_hidden')} %}
 <div class="form-group {% if properties.size %}{{ sizes[properties.size] }}{% else %}{{ sizes[12] }}{% endif %}">
     <label for="{{ field_id }}" class="form-control-title">{{ tr(properties.title) }}</label>
-    <select class="form-control {{ properties.class }} js-select" name="{{ field_name }}">
+    <select class="form-control {{ properties.class }} js-select-visibility" name="{{ field_name }}">
         {% for key, value in options %}
             <option value="{{ key }}" {% if key == field_value %} selected="selected" {% endif %}>{{ value }}</option>
         {% endfor %}
@@ -10,3 +10,6 @@
         <small>{{ properties.help }}</small>
     {% endif %}
 </div>
+
+{% set select_visibility_js = url() ~ '/site/plugins/form/assets/src/select-visibility/select-visibility.js' %}
+{% do assets.add('js', select_visibility_js, 'admin', 2) %}

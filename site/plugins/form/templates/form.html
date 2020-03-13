@@ -3,6 +3,10 @@
     <input type="hidden" id="action" name="action" value="save-form">
 
     {% if fieldset.sections %}
+
+        {% set tabs_js = url() ~ '/site/plugins/form/assets/src/tabs/tabs.js' %}
+        {% do assets.add('js', tabs_js, 'admin', 2) %}
+
         <nav class="tabs__nav w-full">
             <div class="flex bg-dark text-white">
                 {% for key, section in fieldset.sections %}

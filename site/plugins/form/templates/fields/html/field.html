@@ -5,3 +5,19 @@
         <small>{{ properties.help }}</small>
     {% endif %}
 </div>
+
+{% if registry.flextype.locale == 'en_US' %}
+    {% set trumbowyg_locale = 'en' %}
+{% else %}
+    {% set trumbowyg_locale = registry.flextype.locale|lower|slice(0, 2) %}
+{% endif %}
+{% if trumbowyg_locale != 'en' %}
+    {% set trumbowyg_locale_js = url() ~ '/site/plugins/admin/assets/dist/lang/trumbowyg/langs/' ~ trumbowyg_locale ~ '.min.js' %}
+    {% do assets.add('js', trumbowyg_locale_js, 'admin', 2) %}
+{% endif %}
+
+{% set trumbowyg_js = url() ~ '/site/plugins/form/assets/src/trumbowyg/trumbowyg.js' %}
+{% do assets.add('js', trumbowyg_js, 'admin', 2) %}
+
+<input type="hidden" name="trumbowyg-icons-path" value="{{ url() }}/site/plugins/admin/assets/dist/fonts/trumbowyg/icons.svg">
+<input type="hidden" name="trumbowyg-locale" value="{{ trumbowyg_locale }}">

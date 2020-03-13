@@ -5,3 +5,20 @@
         <small>{{ properties.help }}</small>
     {% endif %}
 </div>
+
+{% if registry.flextype.locale == 'en_US' %}
+    {% set flatpickr_locale = 'en' %}
+{% else %}
+    {% set flatpickr_locale = registry.flextype.locale|lower|slice(0, 2) %}
+{% endif %}
+
+{% if flatpickr_locale != 'en' %}
+    {% set flatpickr_locale_js = url() ~ '/site/plugins/admin/assets/dist/lang/flatpickr/l10n/' ~ flatpickr_locale ~  '.js' %}
+    {% do assets.add('js', flatpickr_locale_js, 'admin', 2) %}
+{% endif %}
+
+{% set flatpickr_js = url() ~ '/site/plugins/form/assets/src/flatpickr/flatpickr.js' %}
+{% do assets.add('js', flatpickr_js, 'admin', 3) %}
+
+<input type="hidden" name="flatpickr-date-format" value="{{ registry.flextype.date_format }}">
+<input type="hidden" name="flatpickr-locale" value="{{ flatpickr_locale }}">

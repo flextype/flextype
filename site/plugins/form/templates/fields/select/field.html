@@ -9,3 +9,6 @@
         <small>{{ properties.help }}</small>
     {% endif %}
 </div>
+
+{% set select_js = url() ~ '/site/plugins/form/assets/src/select/select.js' %}
+{% do assets.add('js', select_js, 'admin', 2) %}
