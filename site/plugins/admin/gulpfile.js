@@ -11,21 +11,11 @@ const tailwindConfig = "tailwind.config.js";
 
    return gulp
      .src([
-           // Select2
-          'node_modules/select2/dist/css/select2.min.css',
-
           // Swal2
           'node_modules/sweetalert2/dist/sweetalert2.min.css',
 
           // AnimateCSS
           'node_modules/animate.css/animate.min.css',
-
-          // Flatpickr
-          'node_modules/flatpickr/dist/flatpickr.min.css',
-
-          // Trumbowyg
-          'node_modules/trumbowyg/dist/ui/trumbowyg.min.css',
-          'node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css',
 
            // CodeMirror
           'node_modules/codemirror/lib/codemirror.css',
@@ -62,7 +52,7 @@ gulp.task("admin-panel-css", function() {
     .pipe(postcss([atimport(), tailwindcss(tailwindConfig)]))
     .pipe(
       purgecss({
-        content: ["../form/templates/**/*.html", "templates/**/*.html"],
+        content: ["templates/**/*.html"],
         extractors: [
           {
             extractor: TailwindExtractor = (content) => {
@@ -94,9 +84,6 @@ gulp.task("admin-panel-css", function() {
    return gulp.src([ // jQuery
                     'node_modules/jquery/dist/jquery.min.js',
 
-                    // Select2
-                    'node_modules/select2/dist/js/select2.min.js',
-
                     // Swal2
                     'node_modules/sweetalert2/dist/sweetalert2.min.js',
 
@@ -115,14 +102,6 @@ gulp.task("admin-panel-css", function() {
                     // Clipboard
                     'node_modules/clipboard/dist/clipboard.min.js',
 
-                    // Flatpickr
-                    'node_modules/flatpickr/dist/flatpickr.min.js',
-
-                    // Trumbowyg
-                    'node_modules/trumbowyg/dist/trumbowyg.min.js',
-                    'node_modules/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.min.js',
-                    'node_modules/trumbowyg/dist/plugins/table/trumbowyg.table.min.js',
-
                     // CodeMirror
                     'node_modules/codemirror/lib/codemirror.js',
                     'node_modules/codemirror/mode/htmlmixed/htmlmixed.js',
@@ -139,47 +118,15 @@ gulp.task("admin-panel-css", function() {
  });
 
 /**
- * Task: gulp trumbowyg-fonts
- */
-gulp.task('trumbowyg-fonts', function(){
-    return gulp.src(['node_modules/trumbowyg/dist/ui/icons.svg'])
-        .pipe(gulp.dest('assets/dist/fonts/trumbowyg'));
-});
-
-/**
- * Task: gulp trumbowyg-langs
- */
-gulp.task('trumbowyg-langs', function(){
-    return gulp.src(['node_modules/trumbowyg/dist/*langs/**/*'])
-        .pipe(gulp.dest('assets/dist/lang/trumbowyg'));
-});
-
-/**
- * Task: gulp flatpickr-langs
- */
-gulp.task('flatpickr-langs', function(){
-    return gulp.src(['node_modules/flatpickr/dist/*l10n/**/*'])
-        .pipe(gulp.dest('assets/dist/lang/flatpickr'));
-});
-
-/**
- * Task: gulp fontawesome-icons
- */
-gulp.task('fontawesome-icons', function(){
-    return gulp.src(['node_modules/@fortawesome/fontawesome-free/svgs/**/*'])
-        .pipe(gulp.dest('assets/dist/fontawesome/svgs'));
-});
-
-/**
  * Task: gulp default
  */
 gulp.task('default', gulp.series(
-    'fontawesome-icons', 'trumbowyg-fonts', 'trumbowyg-langs', 'flatpickr-langs', 'vendor-css', 'admin-panel-css', 'vendor-js'
+    'vendor-css', 'admin-panel-css', 'vendor-js'
 ));
 
 /**
  * Task: gulp watch
  */
 gulp.task('watch', function () {
-    gulp.watch(["../form/templates/**/*.html", "templates/**/*.html", "assets/src/"], gulp.series('vendor-css', 'admin-panel-css'));
+    gulp.watch(["templates/**/*.html", "assets/src/"], gulp.series('vendor-css', 'admin-panel-css'));
 });
