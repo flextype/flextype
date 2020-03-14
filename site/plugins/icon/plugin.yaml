@@ -1,0 +1,11 @@
+name: Icon
+version: 1.0.0
+description: Icon plugin to present Font Awesome icons set for Flextype.
+icon: fab fa-font-awesome-flag
+author:
+  name: Sergey Romanenko
+  email: support@flextype.org
+  url: http://flextype.org
+homepage: https://github.com/flextype-plugins/icon
+bugs: https://github.com/flextype-plugins/icon/issues
+license: MIT
