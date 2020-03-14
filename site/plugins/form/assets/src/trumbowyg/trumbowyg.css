@@ -1,0 +1,51 @@
+/* purgecss start ignore */
+.trumbowyg-button-pane
+{
+    @apply bg-white border-b-0 rounded;
+}
+
+.trumbowyg-button-pane::after
+{
+    @apply bg-gray-600;
+}
+
+.trumbowyg-box,
+.trumbowyg-editor
+{
+    @apply border-gray-600 m-0 rounded;
+}
+
+.trumbowyg-button-pane .trumbowyg-open-dropdown::after,
+.trumbowyg-button-pane button > svg
+{
+    color: #6c6c6c;
+
+    fill: #6c6c6c;
+}
+
+.trumbowyg-button-pane .trumbowyg-open-dropdown:hover::after,
+.trumbowyg-viewHTML-button.trumbowyg-not-disable:hover svg,
+.trumbowyg-button-pane button:hover > svg
+{
+    color: black;
+
+    fill: black;
+}
+
+.trumbowyg-button-pane button.trumbowyg-active > svg
+{
+    color: black;
+
+    fill: black;
+}
+
+.trumbowyg-button-pane .trumbowyg-button-group::after
+{
+    @apply bg-white;
+}
+
+.trumbowyg-button-pane .trumbowyg-button-group.trumbowyg-right::after
+{
+    @apply w-0 m-0 bg-white;
+}
+/* purgecss end ignore */

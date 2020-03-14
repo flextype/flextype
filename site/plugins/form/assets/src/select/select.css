@@ -1,0 +1,92 @@
+/* purgecss start ignore */
+input[type="search"] {
+    -webkit-appearance: textfield;
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance:none;
+}
+
+.select2-container
+{
+    @apply outline-none block;
+}
+
+.select2-dropdown
+{
+    @apply w-full rounded outline-none;
+}
+
+.select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--single
+{
+    @apply px-2 py-2 outline-none rounded h-auto;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected]
+{
+    @apply bg-gray-100 text-dark;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field
+{
+    @apply outline-none;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered
+{
+    line-height: 21px!important;
+
+    @apply p-0 h-auto;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+    height: 37px;
+}
+
+.select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--single {
+    min-height: 37px;
+}
+
+.select2-container--open .select2-dropdown--above,
+.select2-container--default.select2-container--open.select2-container--above .select2-selection--multiple,
+.select2-container--default.select2-container--open.select2-container--above .select2-selection--single
+{
+    @apply border-dark;
+}
+
+.select2-selection.select2-selection--multiple
+{
+    @apply p-0 pt-px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice
+{
+    @apply border-dark bg-dark text-white opacity-90 rounded;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove
+{
+    margin-right: 5px;
+    padding-right: 5px;
+    @apply border-gray-900 border-r border-solid;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice:hover
+{
+    @apply border-dark bg-dark text-white opacity-100;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove
+{
+    @apply opacity-90 text-white;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover
+{
+    @apply opacity-100 text-white;
+}
+/* purgecss end ignore */

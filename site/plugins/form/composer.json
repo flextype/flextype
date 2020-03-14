@@ -1,14 +1,14 @@
 {
     "name": "flextype-plugins/form",
     "type": "project",
-    "description": "Form plugin for Flextype",
+    "description": "Form Plugin to manage user forms for Flextype.",
     "keywords": ["form", "plugin", "flextype", "php", "html"],
-    "homepage": "https://github.com/flextype",
+    "homepage": "https://github.com/flextype-plugins/form",
     "license": "MIT",
     "authors": [
         {
             "name": "Sergey Romanenko",
-            "email": "hello@romanenko.digital",
+            "email": "support@flextype.org",
             "homepage": "http://digital.flextype.org"
         }
     ],

@@ -1,7 +1,7 @@
 {
   "name": "Form",
-  "version": "0.9.7",
-  "description": "Form plugin for Flextype",
+  "version": "1.0.0",
+  "description": "Form Plugin to manage user forms for Flextype.",
   "homepage": "http://flextype.org",
   "author": "Sergey Romanenko",
   "license": "MIT",
@@ -11,10 +11,12 @@
     "flat cms",
     "flatfile cms",
     "css",
-    "html"
+    "form",
+    "forms",
+    "plugin"
   ],
   "bugs": {
-    "url": "https://github.com/flextype/flextype/issues"
+    "url": "https://github.com/flextype-plugins/form/issues"
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^2.0.6",
@@ -32,11 +34,7 @@
     "parsleyjs": "^2.9.2",
     "postcss-import": "^12.0.1",
     "select2": "^4.0.13",
-    "speakingurl": "^14.0.1",
-    "sweetalert2": "^9.7.2",
     "tailwindcss": "^1.2.0",
-    "tippy.js": "^5.2.1",
-    "clipboard": "~2.0.4",
     "trumbowyg": "~2.21.0"
   }
 }
