@@ -193,13 +193,6 @@ $flextype['images'] = static function ($container) {
 };
 
 /**
- * Add snippets service to Flextype container
- */
-$flextype['snippets'] = static function ($container) use ($flextype, $app) {
-    return new Snippets($flextype, $app);
-};
-
-/**
  * Add shortcodes service to Flextype container
  */
 $flextype['shortcodes'] = static function ($container) {
