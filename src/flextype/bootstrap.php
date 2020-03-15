@@ -121,16 +121,11 @@ $flextype = $app->getContainer();
 include_once 'dependencies.php';
 
 /**
- * Include Middlewares
- */
-include_once 'middlewares.php';
-
-/**
  * Include API ENDPOINTS
  */
-include_once 'api/delivery/images.php';
-include_once 'api/delivery/entries.php';
-include_once 'api/delivery/registry.php';
+include_once 'endpoints/delivery/images.php';
+include_once 'endpoints/delivery/entries.php';
+include_once 'endpoints/delivery/registry.php';
 
 /**
  * Set internal encoding
