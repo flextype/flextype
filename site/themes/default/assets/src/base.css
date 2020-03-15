@@ -1,8 +1,0 @@
-body {
-    font-family: 'Roboto', sans-serif;
-    @apply bg-white text-black text-base;
-}
-
-a {
-    @apply underline;
-}
