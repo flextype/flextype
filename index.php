@@ -34,13 +34,8 @@ define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
 define('PATH', [
     'site'      => ROOT_DIR . '/site',
     'plugins'   => ROOT_DIR . '/site/plugins',
-    'themes'    => ROOT_DIR . '/site/themes',
     'entries'   => ROOT_DIR . '/site/entries',
-    'snippets'  => ROOT_DIR . '/site/snippets',
-    'fieldsets' => ROOT_DIR . '/site/fieldsets',
     'tokens'    => ROOT_DIR . '/site/tokens',
-    'accounts'  => ROOT_DIR . '/site/accounts',
-    'uploads'  => ROOT_DIR  . '/site/uploads',
     'config'    => [
         'default' => ROOT_DIR . '/flextype/config',
         'site'    => ROOT_DIR . '/site/config',
@@ -53,7 +48,7 @@ define('PATH', [
  * Check PHP Version
  */
 version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(sprintf('You are running PHP %s, but Flextype needs at least <strong>PHP %s</strong> to run.', $ver, $req));
-
+echo PHP_VERSION;
 /**
  * Ensure vendor libraries exist
  */
