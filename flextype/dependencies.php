@@ -214,13 +214,6 @@ $flextype['entries'] = static function ($container) {
 };
 
 /**
- * Add themes service to Flextype container
- */
-$flextype['themes'] = static function ($container) use ($flextype, $app) {
-    return new Themes($flextype, $app);
-};
-
-/**
  * Add plugins service to Flextype container
  */
 $flextype['plugins'] = static function ($container) use ($flextype, $app) {
