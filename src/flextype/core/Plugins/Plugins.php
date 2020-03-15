@@ -42,7 +42,7 @@ class Plugins
     public function __construct($flextype, $app)
     {
         $this->flextype = $flextype;
-        $this->locales  = $this->flextype['parser']->decode(Filesystem::read(ROOT_DIR . '/flextype/config/locales.yaml'), 'yaml');
+        $this->locales  = $this->flextype['parser']->decode(Filesystem::read(ROOT_DIR . '/src/flextype/config/locales.yaml'), 'yaml');
     }
 
     /**

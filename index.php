@@ -37,7 +37,7 @@ define('PATH', [
     'entries'   => ROOT_DIR . '/site/entries',
     'tokens'    => ROOT_DIR . '/site/tokens',
     'config'    => [
-        'default' => ROOT_DIR . '/flextype/config',
+        'default' => ROOT_DIR . '/src/flextype/config',
         'site'    => ROOT_DIR . '/site/config',
     ],
     'cache'     => ROOT_DIR . '/var/cache',
