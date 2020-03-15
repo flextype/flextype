@@ -8,8 +8,3 @@ declare(strict_types=1);
  */
 
 namespace Flextype;
-
-/**
- * Add middleware CSRF (cross-site request forgery) protection for all routes
- */
-$app->add($flextype->get('csrf'));

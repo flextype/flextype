@@ -58,13 +58,6 @@ $flextype['registry'] = static function ($container) use ($registry) {
 };
 
 /**
- * Add CSRF (cross-site request forgery) protection service to Flextype container
- */
-$flextype['csrf'] = static function ($container) {
-    return new Guard();
-};
-
-/**
  * Add logger service to Flextype container
  */
 $flextype['logger'] = static function ($container) {
