@@ -88,13 +88,6 @@ $flextype['slugify'] = static function ($container) {
 };
 
 /**
- * Add flash service to Flextype container
- */
-$flextype['flash'] = static function ($container) {
-    return new Messages();
-};
-
-/**
  * Adds the cache adapter to the Flextype container
  */
 $flextype['cache_adapter'] = static function ($container) use ($flextype) {
