@@ -8,7 +8,7 @@
     "authors": [
         {
             "name": "Sergey Romanenko",
-            "email": "hello@romanenko.digital",
+            "email": "support@flextype.org",
             "homepage": "http://digital.flextype.org"
         }
     ],
@@ -38,7 +38,6 @@
         "flextype-components/text" : "1.1.2",
 
         "slim/slim": "~3.12.3",
-        "slim/twig-view": "~2.5.0",
         "slim/flash": "~0.4.0",
         "slim/csrf": "~0.8.3",
 

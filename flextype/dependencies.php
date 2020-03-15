@@ -38,10 +38,7 @@ use Slim\Csrf\Guard;
 use Slim\Flash\Messages;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
-use Slim\Views\Twig;
-use Slim\Views\TwigExtension;
 use Thunder\Shortcode\ShortcodeFacade;
-use Twig\Extension\DebugExtension;
 use function date;
 use function ucfirst;
 use function extension_loaded;
@@ -214,42 +211,6 @@ $flextype['shortcodes'] = static function ($container) {
  */
 $flextype['entries'] = static function ($container) {
     return new Entries($container);
-};
-
-/**
- * Add view service to Flextype container
- */
-$flextype['view'] = static function ($container) {
-    // Get twig settings
-    $twigSettings = $container->get('settings')['twig'];
-
-    // Create Twig View
-    $view = new Twig(PATH['site'], $twigSettings);
-
-    // Instantiate
-    $router = $container->get('router');
-    $uri    = Uri::createFromEnvironment(new Environment($_SERVER));
-
-    // Add Twig Extension
-    $view->addExtension(new TwigExtension($router, $uri));
-
-    // Add Twig Debug Extension
-    $view->addExtension(new DebugExtension());
-
-    // Load Flextype Twig extensions from directory /flextype/twig/ based on settings.twig.extensions array
-    $twig_extensions = $container['registry']->get('flextype.twig.extensions');
-
-    foreach ($twig_extensions as $twig_extension) {
-        $twig_extension_class_name = $twig_extension . 'TwigExtension';
-        $twig_extension_class_name_with_namespace = 'Flextype\\' . $twig_extension . 'TwigExtension';
-
-        if (file_exists(ROOT_DIR . '/flextype/twig/' . $twig_extension_class_name . '.php')) {
-            $view->addExtension(new $twig_extension_class_name_with_namespace($container));
-        }
-    }
-
-    // Return view
-    return $view;
 };
 
 /**

@@ -104,12 +104,6 @@ $app = new App([
         'outputBuffering' => $registry->get('flextype.output_buffering'),
         'responseChunkSize' => $registry->get('flextype.response_chunk_size'),
         'httpVersion' => $registry->get('flextype.http_version'),
-        'twig' => [
-            'charset' => $registry->get('flextype.twig.charset'),
-            'debug' => $registry->get('flextype.twig.debug'),
-            'cache' => $registry->get('flextype.twig.cache') ? PATH['cache'] . '/twig' : false,
-            'auto_reload' => $registry->get('flextype.twig.auto_reload'),
-        ],
         'images' => [
             'driver' => $registry->get('flextype.image.driver'),
         ],
