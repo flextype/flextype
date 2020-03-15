@@ -177,11 +177,6 @@ foreach ($shortcodes_extensions as $shortcodes_extension) {
 $flextype['plugins']->init($flextype, $app);
 
 /**
- * Init themes
- */
-$flextype['themes']->init($flextype, $app);
-
-/**
  * Run application
  */
 $app->run();
