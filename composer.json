@@ -38,7 +38,6 @@
         "flextype-components/text" : "1.1.2",
 
         "slim/slim": "~3.12.3",
-
         "zeuxisoo/slim-whoops": "~0.6.5",
 
         "league/glide-slim": "~1.0.0",
@@ -48,7 +47,6 @@
         "respect/validation": "~1.1.31",
         "monolog/monolog": "~2.0.2",
         "cocur/slugify": "~4.0.0",
-        "thunderer/shortcode": "~0.7.3",
         "ramsey/uuid": "~3.9.2",
         "symfony/yaml": "~4.4.4",
 
