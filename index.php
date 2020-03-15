@@ -48,7 +48,7 @@ define('PATH', [
  * Check PHP Version
  */
 version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(sprintf('You are running PHP %s, but Flextype needs at least <strong>PHP %s</strong> to run.', $ver, $req));
-echo PHP_VERSION;
+
 /**
  * Ensure vendor libraries exist
  */
