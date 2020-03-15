@@ -34,11 +34,9 @@ use League\Glide\Responses\SlimResponseFactory;
 use League\Glide\ServerFactory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Slim\Http\Environment;
-use Slim\Http\Uri;
 use function date;
-use function ucfirst;
 use function extension_loaded;
+use function ucfirst;
 
 /**
  * Supply a custom callable resolver, which resolves PSR-15 middlewares.
@@ -58,8 +56,9 @@ $flextype['registry'] = static function ($container) use ($registry) {
  * Add logger service to Flextype container
  */
 $flextype['logger'] = static function ($container) {
-    $logger       = new Logger('flextype');
+    $logger = new Logger('flextype');
     $logger->pushHandler(new StreamHandler(PATH['logs'] . '/' . date('Y-m-d') . '.log'));
+
     return $logger;
 };
 
@@ -100,7 +99,7 @@ $flextype['cache_adapter'] = static function ($container) use ($flextype) {
         }
     }
 
-    $class = ucfirst($driver_name);
+    $class   = ucfirst($driver_name);
     $adapter = "Flextype\\Cache\\{$class}Adapter";
 
     return new $adapter($flextype);

@@ -13,12 +13,12 @@ use Flextype\Component\Arr\Arr;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\I18n\I18n;
 use RuntimeException;
-use function array_merge;
 use function array_replace_recursive;
 use function count;
 use function filemtime;
 use function is_array;
 use function md5;
+use function trim;
 
 class Plugins
 {
@@ -59,8 +59,6 @@ class Plugins
 
     /**
      * Init Plugins
-     *
-     * @return void
      *
      * @access private
      */
@@ -105,9 +103,8 @@ class Plugins
 
             // Go through...
             foreach ($plugins_list as $plugin) {
-
                 // Set plugin settings directory
-                $site_plugin_settings_dir     = PATH['config']['site'] . '/plugins/' . $plugin['dirname'];
+                $site_plugin_settings_dir = PATH['config']['site'] . '/plugins/' . $plugin['dirname'];
 
                 // Set default plugin settings and manifest files
                 $default_plugin_settings_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml';
@@ -263,8 +260,6 @@ class Plugins
 
     /**
      * Include enabled plugins
-     *
-     * @return void
      *
      * @access protected
      */

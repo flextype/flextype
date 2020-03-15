@@ -23,6 +23,7 @@ use function function_exists;
 use function mb_internal_encoding;
 use function mb_language;
 use function mb_regex_encoding;
+use function trim;
 
 /**
  * The version of Flextype

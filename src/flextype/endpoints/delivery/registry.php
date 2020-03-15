@@ -12,6 +12,7 @@ namespace Flextype;
 use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use function array_replace_recursive;
 
 /**
  * Validate delivery registry token
@@ -27,7 +28,6 @@ function validate_delivery_registry_token($request, $flextype) : bool
  * endpoint: /api/delivery/registry
  */
 $app->get('/api/delivery/registry', function (Request $request, Response $response) use ($flextype) {
-
     // Get Query Params
     $query = $request->getQueryParams();
 
@@ -35,41 +35,40 @@ $app->get('/api/delivery/registry', function (Request $request, Response $respon
     $id = $query['id'];
 
     if ($flextype['registry']->get('flextype.api.registry.enabled')) {
-
         // Validate delivery token
         if (validate_delivery_registry_token($request, $flextype)) {
             $delivery_registry_token_file_path = PATH['tokens'] . '/delivery/registry/' . $request->getQueryParams()['token'] . '/token.yaml';
 
             // Set delivery token file
             if ($delivery_registry_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_registry_token_file_path), 'yaml')) {
-                if ($delivery_registry_token_file_data['state'] == 'disabled' ||
-                    ($delivery_registry_token_file_data['limit_calls'] != 0 && $delivery_registry_token_file_data['calls'] >= $delivery_registry_token_file_data['limit_calls'])) {
-                    return $response->withJson(["detail" => "Incorrect authentication credentials."], 401);
-                } else {
-                    // Fetch registry
-                    $data = $flextype['registry']->get($id);
-
-                    // Update calls counter
-                    Filesystem::write($delivery_registry_token_file_path, $flextype['parser']->encode(array_replace_recursive($delivery_registry_token_file_data, ['calls' => $delivery_registry_token_file_data['calls'] + 1]), 'yaml'));
-
-                    // Return response
-                    return $response
-                           ->withJson($data, 200)
-                           ->withHeader('Access-Control-Allow-Origin', '*');
+                if ($delivery_registry_token_file_data['state'] === 'disabled' ||
+                    ($delivery_registry_token_file_data['limit_calls'] !== 0 && $delivery_registry_token_file_data['calls'] >= $delivery_registry_token_file_data['limit_calls'])) {
+                    return $response->withJson(['detail' => 'Incorrect authentication credentials.'], 401);
                 }
-            } else {
+
+                // Fetch registry
+                $data = $flextype['registry']->get($id);
+
+                // Update calls counter
+                Filesystem::write($delivery_registry_token_file_path, $flextype['parser']->encode(array_replace_recursive($delivery_registry_token_file_data, ['calls' => $delivery_registry_token_file_data['calls'] + 1]), 'yaml'));
+
+                // Return response
                 return $response
-                       ->withJson(["detail" => "Incorrect authentication credentials."], 401)
+                       ->withJson($data, 200)
                        ->withHeader('Access-Control-Allow-Origin', '*');
             }
-        } else {
+
             return $response
-                   ->withJson(["detail" => "Incorrect authentication credentials."], 401)
+                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
-    } else {
+
         return $response
-               ->withJson(["detail" => "Incorrect authentication credentials."], 401)
+               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
+
+    return $response
+           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+           ->withHeader('Access-Control-Allow-Origin', '*');
 });

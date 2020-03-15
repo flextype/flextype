@@ -15,10 +15,13 @@ use Doctrine\Common\Collections\Expr\Comparison;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
 use Ramsey\Uuid\Uuid;
-use function array_replace_recursive;
+use function array_merge;
 use function count;
 use function date;
 use function error_reporting;
+use function in_array;
+use function is_array;
+use function is_bool;
 use function json_encode;
 use function ltrim;
 use function md5;
@@ -26,8 +29,8 @@ use function rename;
 use function rtrim;
 use function str_replace;
 use function strpos;
-use function time;
 use function strtotime;
+use function time;
 
 class Entries
 {
@@ -80,7 +83,7 @@ class Entries
         'like' => Comparison::CONTAINS,
         'member_of' => Comparison::MEMBER_OF,
         'start_with' => Comparison::STARTS_WITH,
-        'ends_with' => Comparison::ENDS_WITH
+        'ends_with' => Comparison::ENDS_WITH,
     ];
 
     /**
@@ -103,7 +106,7 @@ class Entries
     public $visibility = [
         'draft' => 'draft',
         'hidden' => 'hidden',
-        'visible' => 'visible'
+        'visible' => 'visible',
     ];
 
     /**
@@ -133,14 +136,14 @@ class Entries
      *
      * @access public
      */
-    public function fetch(string $id, $args = null) : array
+    public function fetch(string $id, ?array $args = null) : array
     {
         // If args is array then it is entries collection request
         if (is_array($args)) {
             return $this->fetchCollection($id, $args);
-        } else {
-            return $this->fetchSingle($id);
         }
+
+        return $this->fetchSingle($id);
     }
 
     /**
@@ -186,10 +189,7 @@ class Entries
 
             $entry_decoded = $this->flextype['parser']->decode(Filesystem::read($entry_file), 'frontmatter');
 
-            //
             // Add predefined entry items
-            //
-
             // Entry Published At
             $entry_decoded['published_at'] = isset($entry_decoded['published_at']) ? (int) strtotime($entry_decoded['published_at']) : (int) Filesystem::getTimestamp($entry_file);
 
@@ -232,8 +232,8 @@ class Entries
     /**
      * Fetch entries collection
      *
-     * @param string $id Entry ID
-     * @param array $args Query arguments.
+     * @param string $id   Entry ID
+     * @param array  $args Query arguments.
      *
      * @return array The entries array data.
      *
@@ -476,6 +476,7 @@ class Entries
         if (Filesystem::has($entry_file)) {
             $body  = Filesystem::read($entry_file);
             $entry = $this->flextype['parser']->decode($body, 'frontmatter');
+
             return Filesystem::write($entry_file, $this->flextype['parser']->encode(array_merge($entry, $data), 'frontmatter'));
         }
 
@@ -554,7 +555,7 @@ class Entries
      *
      * @access public
      */
-    public function copy(string $id, string $new_id, bool $recursive = false)
+    public function copy(string $id, string $new_id, bool $recursive = false) : ?bool
     {
         return Filesystem::copy($this->getDirLocation($id), $this->getDirLocation($new_id), $recursive);
     }
