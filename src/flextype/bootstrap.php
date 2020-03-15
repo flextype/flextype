@@ -26,13 +26,6 @@ use function mb_regex_encoding;
 use function trim;
 
 /**
- * The version of Flextype
- *
- * @var string
- */
-define('FLEXTYPE_VERSION', '0.9.7');
-
-/**
  * Start the session
  */
 Session::start();
