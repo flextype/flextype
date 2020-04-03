@@ -92,6 +92,7 @@ class Plugins
                 $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
                 $this->flextype['cache']->save($locale, $dictionary[$locale]);
             }
+
         } else {
             // Init plugin configs
             $plugins                 = [];
@@ -149,17 +150,24 @@ class Plugins
                 $plugins[$plugin['dirname']]['manifest'] = $default_plugin_manifest;
                 $plugins[$plugin['dirname']]['settings'] = array_replace_recursive($default_plugin_settings, $site_plugin_settings);
 
-                // Check if isset plugin priority
-                if (isset($plugins[$plugin['dirname']]['settings']['priority'])) {
-                    continue;
+                // Check if is not set plugin priority
+                if (! isset($plugins[$plugin['dirname']]['settings']['priority'])) {
+
+                    // Set default plugin priority = 1
+                    $plugins[$plugin['dirname']]['settings']['priority'] = 100;
                 }
 
-                // Set default plugin priority = 0
-                $plugins[$plugin['dirname']]['settings']['priority'] = 0;
+                // Set tmp _priority field for sorting
+                $plugins[$plugin['dirname']]['_priority'] = $plugins[$plugin['dirname']]['settings']['priority'];
             }
 
             // Sort plugins list by priority.
-            $plugins = Arr::sort($plugins, 'priority', 'DESC');
+            $plugins = Arr::sort($plugins, '_priority', 'DESC');
+
+            // ... and delete tmp _priority field for sorting
+            foreach ($plugins as $plugin_name => $plugin_data) {
+                Arr::delete($plugins, $plugin_name . '._priority');
+            }
 
             // Save plugins list
             $this->flextype['registry']->set('plugins', $plugins);
@@ -195,7 +203,9 @@ class Plugins
                 throw new RuntimeException('Load file: ' . $language_file . ' - failed!');
             }
 
-            I18n::add($this->flextype['parser']->decode($content, 'yaml'), $locale);
+            $translates = $this->flextype['parser']->decode($content, 'yaml');
+
+            I18n::add($translates, $locale);
         }
 
         return I18n::$dictionary;
