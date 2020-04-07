@@ -27,7 +27,6 @@
         "doctrine/collections": "~1.6.4",
 
         "flextype-components/arr" : "1.2.5",
-        "flextype-components/assets" : "1.0.3",
         "flextype-components/cookie" : "1.2.0",
         "flextype-components/date" : "1.1.0",
         "flextype-components/filesystem" : "2.0.6",
@@ -50,7 +49,9 @@
         "ramsey/uuid": "~3.9.2",
         "symfony/yaml": "~4.4.4",
 
-        "bnf/slim3-psr15": "~1.1.1"
+        "bnf/slim3-psr15": "~1.1.1",
+
+        "composer/semver": "~1.5.1"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
