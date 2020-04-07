@@ -12,6 +12,7 @@ namespace Flextype;
 use Flextype\Component\Arr\Arr;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\I18n\I18n;
+use Composer\Semver\Comparator;
 use RuntimeException;
 use function array_replace_recursive;
 use function count;
@@ -169,6 +170,9 @@ class Plugins
                 Arr::delete($plugins, $plugin_name . '._priority');
             }
 
+            // Get Valid Plugins Dependencies
+            $plugins = $this->getValidPluginsDependencies($plugins);
+
             // Save plugins list
             $this->flextype['registry']->set('plugins', $plugins);
             $this->flextype['cache']->save($plugins_cache_id, $plugins);
@@ -243,6 +247,52 @@ class Plugins
 
         // Return plugin cache id
         return $plugins_cache_id;
+    }
+
+    /**
+     * Get valid plugins dependencies
+     *
+     * @param  array $plugins Plugins list
+     *
+     * @access protected
+     */
+    public function getValidPluginsDependencies($plugins) : array
+    {
+        foreach ($plugins as $plugin_name => $plugin_data) {
+            if (isset($plugin_data['manifest']['dependencies']['flextype']) &&
+                      Comparator::equalTo($plugin_data['manifest']['dependencies']['flextype'], '0.9.7')) {
+                $plugins[$plugin_name] = $plugin_data;
+            } else {
+                unset($plugins[$plugin_name]);
+            }
+        }
+
+        foreach ($plugins as $plugin_name => $plugin_data) {
+
+            $allowed_plugin = true;
+
+            if (isset($plugin_data['manifest']['dependencies']['plugins'])) {
+
+                foreach ($plugin_data['manifest']['dependencies']['plugins'] as $dependencies_plugin_name => $plugin_value) {
+
+                     if (isset($plugins[$dependencies_plugin_name]) && $plugin_value == $plugins[$dependencies_plugin_name]['manifest']['version'] ) {
+
+                     } else {
+                         $allowed_plugin = false;
+                         unset($plugins[$plugin_name]);
+                     }
+                }
+
+                if ($allowed_plugin) {
+                    $plugins[$plugin_name] = $plugin_data;
+                }
+
+            } else {
+                $plugins[$plugin_name] = $plugin_data;
+            }
+        }
+
+        return $plugins;
     }
 
     /**
