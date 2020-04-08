@@ -20,7 +20,7 @@ use function count;
  */
 function validate_delivery_entries_token($request, $flextype) : bool
 {
-    return Filesystem::has(PATH['tokens'] . '/delivery/entries/' . $request->getQueryParams()['token'] . '/token.yaml');
+    return Filesystem::has(PATH['site'] . '/tokens/delivery/entries/' . $request->getQueryParams()['token'] . '/token.yaml');
 }
 
 /**
@@ -39,7 +39,7 @@ $app->get('/api/delivery/entries', function (Request $request, Response $respons
     if ($flextype['registry']->get('flextype.api.entries.enabled')) {
         // Validate delivery token
         if (validate_delivery_entries_token($request, $flextype)) {
-            $delivery_entries_token_file_path = PATH['tokens'] . '/delivery/entries/' . $request->getQueryParams()['token'] . '/token.yaml';
+            $delivery_entries_token_file_path = PATH['site'] . '/tokens/delivery/entries/' . $request->getQueryParams()['token'] . '/token.yaml';
 
             // Set delivery token file
             if ($delivery_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_entries_token_file_path), 'yaml')) {

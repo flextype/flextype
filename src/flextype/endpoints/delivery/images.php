@@ -20,7 +20,7 @@ use function header;
  */
 function validate_delivery_images_token($request, $flextype) : bool
 {
-    return Filesystem::has(PATH['tokens'] . '/delivery/images/' . $request->getQueryParams()['token'] . '/token.yaml');
+    return Filesystem::has(PATH['site'] . '/tokens/delivery/images/' . $request->getQueryParams()['token'] . '/token.yaml');
 }
 
 /**
@@ -35,7 +35,7 @@ $app->get('/api/delivery/images/{path:.+}', function (Request $request, Response
     if ($flextype['registry']->get('flextype.api.images.enabled')) {
         // Validate delivery image token
         if (validate_delivery_images_token($request, $flextype)) {
-            $delivery_images_token_file_path = PATH['tokens'] . '/delivery/images/' . $request->getQueryParams()['token'] . '/token.yaml';
+            $delivery_images_token_file_path = PATH['site'] . '/site/delivery/images/' . $request->getQueryParams()['token'] . '/token.yaml';
 
             // Set delivery token file
             if ($delivery_images_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_images_token_file_path), 'yaml')) {
@@ -47,7 +47,7 @@ $app->get('/api/delivery/images/{path:.+}', function (Request $request, Response
                 // Update calls counter
                 Filesystem::write($delivery_images_token_file_path, $flextype['parser']->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1]), 'yaml'));
 
-                if (Filesystem::has(PATH['uploads'] . '/entries/' . $args['path'])) {
+                if (Filesystem::has(PATH['site'] . '/uploads/entries/' . $args['path'])) {
                     header('Access-Control-Allow-Origin: *');
 
                     return $flextype['images']->getImageResponse($args['path'], $_GET);

@@ -106,14 +106,14 @@ class Plugins
             // Go through...
             foreach ($plugins_list as $plugin) {
                 // Set plugin settings directory
-                $site_plugin_settings_dir = PATH['config']['site'] . '/plugins/' . $plugin['dirname'];
+                $site_plugin_settings_dir = PATH['config'] . '/site/plugins/' . $plugin['dirname'];
 
                 // Set default plugin settings and manifest files
-                $default_plugin_settings_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml';
-                $default_plugin_manifest_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml';
+                $default_plugin_settings_file = PATH['site'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $default_plugin_manifest_file = PATH['site'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
 
                 // Set site plugin settings file
-                $site_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $site_plugin_settings_file = PATH['site'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
 
                 // Create site plugin settings directory
                 ! Filesystem::has($site_plugin_settings_dir) and Filesystem::createDir($site_plugin_settings_dir);
@@ -180,6 +180,7 @@ class Plugins
             // Save plugins dictionary
             $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
             $this->flextype['cache']->save($locale, $dictionary[$locale]);
+
         }
 
         $this->includeEnabledPlugins($flextype, $app);
@@ -197,7 +198,7 @@ class Plugins
     private function getPluginsDictionary(array $plugins_list, string $locale) : array
     {
         foreach ($plugins_list as $plugin) {
-            $language_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
+            $language_file = PATH['site'] . '/plugins/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
 
             if (! Filesystem::has($language_file)) {
                 continue;
@@ -230,9 +231,9 @@ class Plugins
         // Go through...
         if (is_array($plugins_list) && count($plugins_list) > 0) {
             foreach ($plugins_list as $plugin) {
-                $default_plugin_settings_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/settings.yaml';
-                $default_plugin_manifest_file = PATH['plugins'] . '/' . $plugin['dirname'] . '/plugin.yaml';
-                $site_plugin_settings_file    = PATH['config']['site'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $default_plugin_settings_file = PATH['site'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $default_plugin_manifest_file = PATH['site'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
+                $site_plugin_settings_file    = PATH['config'] . '/site/plugins/' . $plugin['dirname'] . '/settings.yaml';
 
                 $f1 = Filesystem::has($default_plugin_settings_file) ? filemtime($default_plugin_settings_file) : '';
                 $f2 = Filesystem::has($default_plugin_manifest_file) ? filemtime($default_plugin_manifest_file) : '';
@@ -243,7 +244,7 @@ class Plugins
         }
 
         // Create Unique Cache ID for Plugins
-        $plugins_cache_id = md5('plugins' . PATH['plugins'] . '/' . $_plugins_cache_id);
+        $plugins_cache_id = md5('plugins' . PATH['site'] . '/plugins/' . $_plugins_cache_id);
 
         // Return plugin cache id
         return $plugins_cache_id;
@@ -307,7 +308,7 @@ class Plugins
         // Get Plugins List
         $plugins_list = [];
 
-        foreach (Filesystem::listContents(PATH['plugins']) as $plugin) {
+        foreach (Filesystem::listContents(PATH['site'] . '/plugins/') as $plugin) {
             if ($plugin['type'] !== 'dir') {
                 continue;
             }
@@ -334,7 +335,7 @@ class Plugins
                 continue;
             }
 
-            include_once PATH['plugins'] . '/' . $plugin_name . '/bootstrap.php';
+            include_once PATH['site'] . '/plugins/' . $plugin_name . '/bootstrap.php';
         }
     }
 }

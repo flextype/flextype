@@ -33,13 +33,7 @@ define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
  */
 define('PATH', [
     'site'      => ROOT_DIR . '/site',
-    'plugins'   => ROOT_DIR . '/site/plugins',
-    'entries'   => ROOT_DIR . '/site/entries',
-    'tokens'    => ROOT_DIR . '/site/tokens',
-    'config'    => [
-        'default' => ROOT_DIR . '/src/flextype/config',
-        'site'    => ROOT_DIR . '/site/config',
-    ],
+    'config'    => ROOT_DIR . '/src/flextype/config',
     'cache'     => ROOT_DIR . '/var/cache',
     'logs'      => ROOT_DIR . '/var/logs',
 ]);

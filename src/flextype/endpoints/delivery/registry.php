@@ -19,7 +19,7 @@ use function array_replace_recursive;
  */
 function validate_delivery_registry_token($request, $flextype) : bool
 {
-    return Filesystem::has(PATH['tokens'] . '/delivery/registry/' . $request->getQueryParams()['token'] . '/token.yaml');
+    return Filesystem::has(PATH['site'] . '/tokens/delivery/registry/' . $request->getQueryParams()['token'] . '/token.yaml');
 }
 
 /**
@@ -37,7 +37,7 @@ $app->get('/api/delivery/registry', function (Request $request, Response $respon
     if ($flextype['registry']->get('flextype.api.registry.enabled')) {
         // Validate delivery token
         if (validate_delivery_registry_token($request, $flextype)) {
-            $delivery_registry_token_file_path = PATH['tokens'] . '/delivery/registry/' . $request->getQueryParams()['token'] . '/token.yaml';
+            $delivery_registry_token_file_path = PATH['site'] . '/tokens/delivery/registry/' . $request->getQueryParams()['token'] . '/token.yaml';
 
             // Set delivery token file
             if ($delivery_registry_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_registry_token_file_path), 'yaml')) {

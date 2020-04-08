@@ -329,7 +329,7 @@ class Entries
                         // Get entry uid
                         // 1. Remove entries path
                         // 2. Remove left and right slashes
-                        $uid = ltrim(rtrim(str_replace(PATH['entries'], '', $current_entry['path']), '/'), '/');
+                        $uid = ltrim(rtrim(str_replace(PATH['site'] . '/entries/', '', $current_entry['path']), '/'), '/');
 
                         // For each founded entry we should create $entries array.
                         $entry = $this->fetch($uid);
@@ -585,7 +585,7 @@ class Entries
      */
     public function getFileLocation(string $id) : string
     {
-        return PATH['entries'] . '/' . $id . '/entry.md';
+        return PATH['site'] . '/entries/' . $id . '/entry.md';
     }
 
     /**
@@ -599,6 +599,6 @@ class Entries
      */
     public function getDirLocation(string $id) : string
     {
-        return PATH['entries'] . '/' . $id;
+        return PATH['site'] . '/entries/' . $id;
     }
 }

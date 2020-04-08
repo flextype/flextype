@@ -43,8 +43,8 @@ $registry = new Registry();
  * 3. Merge settings.
  * 4. Store settings in the flextype registry.
  */
-$default_flextype_settings_file_path = PATH['config']['default'] . '/settings.yaml';
-$custom_flextype_settings_file_path  = PATH['config']['site'] . '/settings.yaml';
+$default_flextype_settings_file_path = PATH['config'] . '/settings.yaml';
+$custom_flextype_settings_file_path  = PATH['site'] . '/config/settings.yaml';
 
 // Create config dir
 ! Filesystem::has(PATH['site'] . '/config/') and Filesystem::createDir(PATH['site'] . '/config/');
