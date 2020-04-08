@@ -1,4 +1,4 @@
-![preview](/site/plugins/admin/preview.png)
+![preview](http://flextype.org/site/uploads/entries/en/press-kit/github-banner-white.jpg)
 
 <p align="center">
 <a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?colorB=blue" alt="Total downloads"></a> <a href="https://crowdin.com/project/flextype"><img src="https://d322cqt584bo4o.cloudfront.net/flextype/localized.svg" alt="Crowdin"></a> <a href="https://scrutinizer-ci.com/g/flextype/flextype?branch=master"><img src="https://img.shields.io/scrutinizer/g/flextype/flextype.svg?branch=master" alt="Quality Score"></a> <a href=""><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&colorB=728ADA&label=Discord%20Chat" alt="Discord"></a>
@@ -50,19 +50,6 @@ Flextype needs the following PHP extensions to be enabled:
 
 Although it is optional, we strongly recommend enabling the following PHP extensions:
 APC, APCu, XCache, Memcached, or Redis for better performance.
-
-#### Browser requirements
-The admin panel of Flextype is compatible with:
-
-Windows and macOS
-- Chrome 29 or later
-- Firefox 28 or later
-- Safari 9.0 or later
-- Microsoft Edge
-
-Mobile
-- iOS: Safari 9.1 or later
-- Android: Chrome 4.4 or later
 
 ## COMMUNITY
 Flextype is open source, community driven project, and maintained by community!

@@ -1,0 +1,10 @@
+name: Flextype
+version: 0.9.7
+description: Build fast, flexible, easier to manage websites with Flextype.
+author:
+  name: Sergey Romanenko
+  email: support@flextype.org
+  url: http://flextype.org
+homepage: https://github.com/flextype
+bugs: https://github.com/flextype/issues
+license: MIT
