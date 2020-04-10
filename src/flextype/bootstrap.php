@@ -43,6 +43,7 @@ $registry = new Registry();
  * 3. Merge settings.
  * 4. Store settings in the flextype registry.
  */
+$flextype_manifest_file_path         = PATH['config'] . '/flextype.yaml';
 $default_flextype_settings_file_path = PATH['config'] . '/settings.yaml';
 $custom_flextype_settings_file_path  = PATH['site'] . '/config/settings.yaml';
 
@@ -58,9 +59,9 @@ if (($default_flextype_settings_content = Filesystem::read($default_flextype_set
     throw new RuntimeException('Load file: ' . $default_flextype_settings_file_path . ' - failed!');
 } else {
     if (trim($default_flextype_settings_content) === '') {
-        $default_flextype_settings = [];
+        $default_flextype_settings['settings'] = [];
     } else {
-        $default_flextype_settings = Yaml::decode($default_flextype_settings_content);
+        $default_flextype_settings['settings'] = Yaml::decode($default_flextype_settings_content);
     }
 }
 
@@ -71,14 +72,24 @@ if (($custom_flextype_settings_content = Filesystem::read($custom_flextype_setti
     throw new RuntimeException('Load file: ' . $custom_flextype_settings_file_path . ' - failed!');
 } else {
     if (trim($custom_flextype_settings_content) === '') {
-        $custom_flextype_settings = [];
+        $custom_flextype_settings['settings'] = [];
     } else {
-        $custom_flextype_settings = Yaml::decode($custom_flextype_settings_content);
+        $custom_flextype_settings['settings'] = Yaml::decode($custom_flextype_settings_content);
+    }
+}
+
+if (($flextype_manifest_content = Filesystem::read($flextype_manifest_file_path)) === false) {
+    throw new RuntimeException('Load file: ' . $flextype_manifest_file_path . ' - failed!');
+} else {
+    if (trim($flextype_manifest_content) === '') {
+        $flextype_manifest['manifest'] = [];
+    } else {
+        $flextype_manifest['manifest'] = Yaml::decode($flextype_manifest_content);
     }
 }
 
 // Merge flextype default settings with custom site settings.
-$flextype_settings = array_replace_recursive($default_flextype_settings, $custom_flextype_settings);
+$flextype_settings = array_replace_recursive($default_flextype_settings, $custom_flextype_settings, $flextype_manifest);
 
 // Store flextype merged settings in the flextype registry.
 $registry->set('flextype', $flextype_settings);
