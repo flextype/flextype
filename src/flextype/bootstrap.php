@@ -99,18 +99,18 @@ $registry->set('flextype', $flextype_settings);
  */
 $app = new App([
     'settings' => [
-        'debug' => $registry->get('flextype.errors.display'),
-        'whoops.editor' => $registry->get('flextype.whoops.editor'),
-        'whoops.page_title' => $registry->get('flextype.whoops.page_title'),
-        'displayErrorDetails' => $registry->get('flextype.display_error_details'),
-        'addContentLengthHeader' => $registry->get('flextype.add_content_length_header'),
-        'routerCacheFile' => $registry->get('flextype.router_cache_file'),
-        'determineRouteBeforeAppMiddleware' => $registry->get('flextype.determine_route_before_app_middleware'),
-        'outputBuffering' => $registry->get('flextype.output_buffering'),
-        'responseChunkSize' => $registry->get('flextype.response_chunk_size'),
-        'httpVersion' => $registry->get('flextype.http_version'),
+        'debug' => $registry->get('flextype.settings.errors.display'),
+        'whoops.editor' => $registry->get('flextype.settings.whoops.editor'),
+        'whoops.page_title' => $registry->get('flextype.settings.whoops.page_title'),
+        'displayErrorDetails' => $registry->get('flextype.settings.display_error_details'),
+        'addContentLengthHeader' => $registry->get('flextype.settings.add_content_length_header'),
+        'routerCacheFile' => $registry->get('flextype.settings.router_cache_file'),
+        'determineRouteBeforeAppMiddleware' => $registry->get('flextype.settings.determine_route_before_app_middleware'),
+        'outputBuffering' => $registry->get('flextype.settings.output_buffering'),
+        'responseChunkSize' => $registry->get('flextype.settings.response_chunk_size'),
+        'httpVersion' => $registry->get('flextype.settings.http_version'),
         'images' => [
-            'driver' => $registry->get('flextype.image.driver'),
+            'driver' => $registry->get('flextype.settings.image.driver'),
         ],
     ],
 ]);
@@ -131,18 +131,19 @@ include_once 'dependencies.php';
 include_once 'endpoints/delivery/images.php';
 include_once 'endpoints/delivery/entries.php';
 include_once 'endpoints/delivery/registry.php';
+include_once 'endpoints/management/entries.php';
 
 /**
  * Set internal encoding
  */
 function_exists('mb_language') and mb_language('uni');
-function_exists('mb_regex_encoding') and mb_regex_encoding($flextype['registry']->get('flextype.charset'));
-function_exists('mb_internal_encoding') and mb_internal_encoding($flextype['registry']->get('flextype.charset'));
+function_exists('mb_regex_encoding') and mb_regex_encoding($flextype['registry']->get('flextype.settings.charset'));
+function_exists('mb_internal_encoding') and mb_internal_encoding($flextype['registry']->get('flextype.settings.charset'));
 
 /**
  * Display Errors
  */
-if ($flextype['registry']->get('flextype.errors.display')) {
+if ($flextype['registry']->get('flextype.settings.errors.display')) {
 
     /**
      * Add WhoopsMiddleware
@@ -155,7 +156,7 @@ if ($flextype['registry']->get('flextype.errors.display')) {
 /**
  * Set default timezone
  */
-date_default_timezone_set($flextype['registry']->get('flextype.timezone'));
+date_default_timezone_set($flextype['registry']->get('flextype.settings.timezone'));
 
 /**
  * Init plugins
