@@ -32,7 +32,7 @@ $app->get('/api/delivery/images/{path:.+}', function (Request $request, Response
     // Get Query Params
     $query = $request->getQueryParams();
 
-    if ($flextype['registry']->get('flextype.api.images.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.images.enabled')) {
         // Validate delivery image token
         if (validate_delivery_images_token($request, $flextype)) {
             $delivery_images_token_file_path = PATH['site'] . '/site/delivery/images/' . $request->getQueryParams()['token'] . '/token.yaml';

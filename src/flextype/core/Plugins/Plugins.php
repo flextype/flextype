@@ -69,7 +69,7 @@ class Plugins
         $this->flextype['registry']->set('plugins', []);
 
         // Set locale
-        $locale = $this->flextype['registry']->get('flextype.locale');
+        $locale = $this->flextype['registry']->get('flextype.settings.locale');
 
         // Get plugins list
         $plugins_list = $this->getPluginsList();

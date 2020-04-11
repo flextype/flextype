@@ -34,9 +34,9 @@ $app->get('/api/delivery/entries', function (Request $request, Response $respons
 
     // Set variables
     $id   = $query['id'];
-    $args = $query['args'] ?? null;
+    $data = $query['args'] ?? null;
 
-    if ($flextype['registry']->get('flextype.api.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
         // Validate delivery token
         if (validate_delivery_entries_token($request, $flextype)) {
             $delivery_entries_token_file_path = PATH['site'] . '/tokens/delivery/entries/' . $request->getQueryParams()['token'] . '/token.yaml';
@@ -49,7 +49,7 @@ $app->get('/api/delivery/entries', function (Request $request, Response $respons
                 }
 
                 // Fetch entry
-                $data = $flextype['entries']->fetch($id, $args);
+                $data = $flextype['entries']->fetch($id, $data);
 
                 // Set response code
                 $response_code = count($data) > 0 ? 200 : 404;

@@ -34,7 +34,7 @@ $app->get('/api/delivery/registry', function (Request $request, Response $respon
     // Set variables
     $id = $query['id'];
 
-    if ($flextype['registry']->get('flextype.api.registry.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.registry.enabled')) {
         // Validate delivery token
         if (validate_delivery_registry_token($request, $flextype)) {
             $delivery_registry_token_file_path = PATH['site'] . '/tokens/delivery/registry/' . $request->getQueryParams()['token'] . '/token.yaml';

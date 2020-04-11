@@ -74,12 +74,12 @@ $flextype['emitter'] = static function ($container) {
  */
 $flextype['slugify'] = static function ($container) {
     return new Slugify([
-        'separator' => $container['registry']->get('flextype.slugify.separator'),
-        'lowercase' => $container['registry']->get('flextype.slugify.lowercase'),
-        'trim' => $container['registry']->get('flextype.slugify.trim'),
-        'regexp' => $container['registry']->get('flextype.slugify.regexp'),
-        'lowercase_after_regexp' => $container['registry']->get('flextype.slugify.lowercase_after_regexp'),
-        'strip_tags' => $container['registry']->get('flextype.slugify.strip_tags'),
+        'separator' => $container['registry']->get('flextype.settings.slugify.separator'),
+        'lowercase' => $container['registry']->get('flextype.settings.slugify.lowercase'),
+        'trim' => $container['registry']->get('flextype.settings.slugify.trim'),
+        'regexp' => $container['registry']->get('flextype.settings.slugify.regexp'),
+        'lowercase_after_regexp' => $container['registry']->get('flextype.settings.slugify.lowercase_after_regexp'),
+        'strip_tags' => $container['registry']->get('flextype.settings.slugify.strip_tags'),
     ]);
 };
 
@@ -87,7 +87,7 @@ $flextype['slugify'] = static function ($container) {
  * Adds the cache adapter to the Flextype container
  */
 $flextype['cache_adapter'] = static function ($container) use ($flextype) {
-    $driver_name = $container['registry']->get('flextype.cache.driver');
+    $driver_name = $container['registry']->get('flextype.settings.cache.driver');
 
     if (! $driver_name || $driver_name === 'auto') {
         if (extension_loaded('apcu')) {
