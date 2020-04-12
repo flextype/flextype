@@ -46,7 +46,8 @@ $app->get('/api/delivery/entries', function (Request $request, Response $respons
     $token  = $query['token'];
     $filter = $query['filter'] ?? null;
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.delivery.entries.enabled')) {
+
         // Validate delivery token
         if (validate_delivery_entries_token($token)) {
             $delivery_entries_token_file_path = PATH['site'] . '/tokens/delivery/entries/' . $token. '/token.yaml';

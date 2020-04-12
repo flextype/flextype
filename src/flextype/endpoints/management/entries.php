@@ -53,7 +53,7 @@ $app->get('/api/management/entries', function (Request $request, Response $respo
     $token  = $query['token'];
     $filter = $query['filter'] ?? null;
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
         // Validate management token
         if (validate_management_entries_token($token)) {
             $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token. '/token.yaml';
@@ -121,7 +121,7 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
     $id           = $post_data['id'];
     $data         = $post_data['data'];
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
 
         // Validate management and auth token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
@@ -203,7 +203,7 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
     $id           = $post_data['id'];
     $data         = $post_data['data'];
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
 
         // Validate management and auth token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
@@ -285,7 +285,7 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
     $id            = $post_data['id'];
     $new_id        = $post_data['new_id'];
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
 
         // Validate management and auth token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
@@ -368,7 +368,7 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
     $id           = $post_data['id'];
     $new_id       = $post_data['new_id'];
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
 
         // Validate management and auth token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
@@ -449,7 +449,7 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
     $access_token = $post_data['access_token'];
     $id           = $post_data['id'];
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
 
         // Validate management and auth token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {

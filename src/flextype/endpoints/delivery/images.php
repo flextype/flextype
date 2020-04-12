@@ -45,7 +45,7 @@ $app->get('/api/delivery/images/{path:.+}', function (Request $request, Response
     // Set variables
     $token = $query['token'];
 
-    if ($flextype['registry']->get('flextype.settings.api.images.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.delivery.images.enabled')) {
 
         // Validate delivery image token
         if (validate_delivery_images_token($token)) {

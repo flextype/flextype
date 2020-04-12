@@ -189,12 +189,17 @@ image:
 
 # API's
 api:
-  images:
-    enabled: true
-    default_token:
-  entries:
-    enabled: true
-    default_token:
-  registry:
-    enabled: true
-    default_token:
+  delivery:
+    images:
+      enabled: true
+      default_token:
+    entries:
+      enabled: true
+      default_token:
+    registry:
+      enabled: true
+      default_token:
+  management:
+    entries:
+      enabled: true
+      default_token:

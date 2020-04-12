@@ -43,7 +43,7 @@ $app->get('/api/delivery/registry', function (Request $request, Response $respon
     $id    = $query['id'];
     $token = $query['token'];
 
-    if ($flextype['registry']->get('flextype.settings.api.registry.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.delivery.registry.enabled')) {
 
         // Validate delivery token
         if (validate_delivery_registry_token($token)) {
