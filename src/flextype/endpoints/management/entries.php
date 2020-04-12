@@ -116,10 +116,10 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
     $post_data = $request->getParsedBody();
 
     // Set variables
-    $token      = $post_data['token'];
+    $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id         = $post_data['id'];
-    $data       = $post_data['data'];
+    $id           = $post_data['id'];
+    $data         = $post_data['data'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
@@ -198,10 +198,10 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
     $post_data = $request->getParsedBody();
 
     // Set variables
-    $token      = $post_data['token'];
+    $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id         = $post_data['id'];
-    $data       = $post_data['data'];
+    $id           = $post_data['id'];
+    $data         = $post_data['data'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
@@ -280,10 +280,10 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
     $post_data = $request->getParsedBody();
 
     // Set variables
-    $token       = $post_data['token'];
+    $token         = $post_data['token'];
     $access_token  = $post_data['access_token'];
-    $id          = $post_data['id'];
-    $new_id      = $post_data['new_id'];
+    $id            = $post_data['id'];
+    $new_id        = $post_data['new_id'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
@@ -363,10 +363,10 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
     $data = $request->getParsedBody();
 
     // Set variables
-    $token      = $post_data['token'];
+    $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id         = $post_data['id'];
-    $new_id     = $post_data['new_id'];
+    $id           = $post_data['id'];
+    $new_id       = $post_data['new_id'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
@@ -445,9 +445,9 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
     $post_data = $request->getParsedBody();
 
     // Set variables
-    $token      = $post_data['token'];
+    $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id         = $post_data['id'];
+    $id           = $post_data['id'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
