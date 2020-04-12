@@ -24,11 +24,11 @@ function validate_management_entries_token($token) : bool
 }
 
 /**
- * Validate auth token
+ * Validate access token
  */
-function validate_auth_token($token) : bool
+function validate_access_token($token) : bool
 {
-    return Filesystem::has(PATH['site'] . '/tokens/auth/' . $token . '/token.yaml');
+    return Filesystem::has(PATH['site'] . '/tokens/access/' . $token . '/token.yaml');
 }
 
 /**
@@ -102,10 +102,10 @@ $app->get('/api/management/entries', function (Request $request, Response $respo
  * endpoint: POST /api/management/entries
  *
  * Body:
- * id         - [REQUIRED] - Unique identifier of the entry.
- * token      - [REQUIRED] - Valid Content Management API token for Entries.
- * auth_token - [REQUIRED] - Valid Authentication token.
- * data       - [REQUIRED] - Data to store for the entry.
+ * id            - [REQUIRED] - Unique identifier of the entry.
+ * token         - [REQUIRED] - Valid Content Management API token for Entries.
+ * access_token  - [REQUIRED] - Valid Authentication token.
+ * data          - [REQUIRED] - Data to store for the entry.
  *
  * Returns:
  * Returns the entry item object for the entry item that was just created.
@@ -117,28 +117,28 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
 
     // Set variables
     $token      = $post_data['token'];
-    $auth_token = $post_data['auth_token'];
+    $access_token = $post_data['access_token'];
     $id         = $post_data['id'];
     $data       = $post_data['data'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
         // Validate management and auth token
-        if (validate_management_entries_token($token) && validate_auth_token($auth_token)) {
+        if (validate_management_entries_token($token) && validate_access_token($access_token)) {
             $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
-            $auth_token_file_path = PATH['site'] . '/tokens/auth/' . $auth_token . '/token.yaml';
+            $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and auth token file
             if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
-                ($auth_token_file_data = $flextype['parser']->decode(Filesystem::read($auth_token_file_path), 'yaml'))) {
+                ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
                     return $response->withJson(['detail' => 'Incorrect authentication credentials.0'], 401);
                 }
 
-                if ($auth_token_file_data['state'] === 'disabled' ||
-                    ($auth_token_file_data['limit_calls'] !== 0 && $auth_token_file_data['calls'] >= $auth_token_file_data['limit_calls'])) {
+                if ($access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
                     return $response->withJson(['detail' => 'Incorrect authentication credentials.00'], 401);
                 }
 
@@ -184,10 +184,10 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
  * endpoint: PATCH /api/management/entries
  *
  * Body:
- * id         - [REQUIRED] - Unique identifier of the entry.
- * token      - [REQUIRED] - Valid Content Management API token for Entries.
- * auth_token - [REQUIRED] - Valid Authentication token.
- * data       - [REQUIRED] - Data to update for the entry.
+ * id           - [REQUIRED] - Unique identifier of the entry.
+ * token        - [REQUIRED] - Valid Content Management API token for Entries.
+ * access_token - [REQUIRED] - Valid Authentication token.
+ * data         - [REQUIRED] - Data to update for the entry.
  *
  * Returns:
  * Returns the entry item object for the entry item that was just created.
@@ -199,28 +199,28 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
 
     // Set variables
     $token      = $post_data['token'];
-    $auth_token = $post_data['auth_token'];
+    $access_token = $post_data['access_token'];
     $id         = $post_data['id'];
     $data       = $post_data['data'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
         // Validate management and auth token
-        if (validate_management_entries_token($token) && validate_auth_token($auth_token)) {
+        if (validate_management_entries_token($token) && validate_access_token($access_token)) {
             $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
-            $auth_token_file_path = PATH['site'] . '/tokens/auth/' . $auth_token . '/token.yaml';
+            $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and auth token file
             if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
-                ($auth_token_file_data = $flextype['parser']->decode(Filesystem::read($auth_token_file_path), 'yaml'))) {
+                ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
                     return $response->withJson(['detail' => 'Incorrect authentication credentials.0'], 401);
                 }
 
-                if ($auth_token_file_data['state'] === 'disabled' ||
-                    ($auth_token_file_data['limit_calls'] !== 0 && $auth_token_file_data['calls'] >= $auth_token_file_data['limit_calls'])) {
+                if ($access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
                     return $response->withJson(['detail' => 'Incorrect authentication credentials.00'], 401);
                 }
 
@@ -266,10 +266,10 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
  * endpoint: PUT /api/management/entries
  *
  * Body:
- * id          - [REQUIRED] - Unique identifier of the entry.
- * new_id      - [REQUIRED] - New Unique identifier of the entry.
- * token       - [REQUIRED] - Valid Content Management API token for Entries.
- * auth_token  - [REQUIRED] - Valid Authentication token.
+ * id            - [REQUIRED] - Unique identifier of the entry.
+ * new_id        - [REQUIRED] - New Unique identifier of the entry.
+ * token         - [REQUIRED] - Valid Content Management API token for Entries.
+ * access_token  - [REQUIRED] - Valid Authentication token.
  *
  * Returns:
  * Returns the entry item object for the entry item that was just renamed.
@@ -281,28 +281,28 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
 
     // Set variables
     $token       = $post_data['token'];
-    $auth_token  = $post_data['auth_token'];
+    $access_token  = $post_data['access_token'];
     $id          = $post_data['id'];
     $new_id      = $post_data['new_id'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
         // Validate management and auth token
-        if (validate_management_entries_token($token) && validate_auth_token($auth_token)) {
+        if (validate_management_entries_token($token) && validate_access_token($access_token)) {
             $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
-            $auth_token_file_path = PATH['site'] . '/tokens/auth/' . $auth_token . '/token.yaml';
+            $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and auth token file
             if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
-                ($auth_token_file_data = $flextype['parser']->decode(Filesystem::read($auth_token_file_path), 'yaml'))) {
+                ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
                     return $response->withJson(['detail' => 'Incorrect authentication credentials.0'], 401);
                 }
 
-                if ($auth_token_file_data['state'] === 'disabled' ||
-                    ($auth_token_file_data['limit_calls'] !== 0 && $auth_token_file_data['calls'] >= $auth_token_file_data['limit_calls'])) {
+                if ($access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
                     return $response->withJson(['detail' => 'Incorrect authentication credentials.00'], 401);
                 }
 
@@ -349,10 +349,10 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
  * endpoint: PUT /api/management/entries/copy
  *
  * Body:
- * id         - [REQUIRED] - Unique identifier of the entry.
- * new_id     - [REQUIRED] - New Unique identifier of the entry.
- * token      - [REQUIRED] - Valid Content Management API token for Entries.
- * auth_token - [REQUIRED] - Valid Authentication token.
+ * id            - [REQUIRED] - Unique identifier of the entry.
+ * new_id        - [REQUIRED] - New Unique identifier of the entry.
+ * token         - [REQUIRED] - Valid Content Management API token for Entries.
+ * access_token  - [REQUIRED] - Valid Authentication token.
  *
  * Returns:
  * Returns the entry item object for the entry item that was just copied.
@@ -364,28 +364,28 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
 
     // Set variables
     $token      = $post_data['token'];
-    $auth_token = $post_data['auth_token'];
+    $access_token = $post_data['access_token'];
     $id         = $post_data['id'];
     $new_id     = $post_data['new_id'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
         // Validate management and auth token
-        if (validate_management_entries_token($token) && validate_auth_token($auth_token)) {
+        if (validate_management_entries_token($token) && validate_access_token($access_token)) {
             $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
-            $auth_token_file_path = PATH['site'] . '/tokens/auth/' . $auth_token . '/token.yaml';
+            $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and auth token file
             if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
-                ($auth_token_file_data = $flextype['parser']->decode(Filesystem::read($auth_token_file_path), 'yaml'))) {
+                ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
                     return $response->withJson(['detail' => 'Incorrect authentication credentials.0'], 401);
                 }
 
-                if ($auth_token_file_data['state'] === 'disabled' ||
-                    ($auth_token_file_data['limit_calls'] !== 0 && $auth_token_file_data['calls'] >= $auth_token_file_data['limit_calls'])) {
+                if ($access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
                     return $response->withJson(['detail' => 'Incorrect authentication credentials.00'], 401);
                 }
 
@@ -432,9 +432,9 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
  * endpoint: DELETE /api/management/entries
  *
  * Body:
- * id         - [REQUIRED] - Unique identifier of the entry.
- * token      - [REQUIRED] - Valid Content Management API token for Entries.
- * auth_token - [REQUIRED] - Valid Authentication token.
+ * id           - [REQUIRED] - Unique identifier of the entry.
+ * token        - [REQUIRED] - Valid Content Management API token for Entries.
+ * access_token - [REQUIRED] - Valid Authentication token.
  *
  * Returns:
  * Returns an empty body with HTTP status 204
@@ -446,27 +446,27 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
 
     // Set variables
     $token      = $post_data['token'];
-    $auth_token = $post_data['auth_token'];
+    $access_token = $post_data['access_token'];
     $id         = $post_data['id'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
         // Validate management and auth token
-        if (validate_management_entries_token($token) && validate_auth_token($auth_token)) {
+        if (validate_management_entries_token($token) && validate_access_token($access_token)) {
             $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
-            $auth_token_file_path = PATH['site'] . '/tokens/auth/' . $auth_token . '/token.yaml';
+            $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and auth token file
             if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
-                ($auth_token_file_data = $flextype['parser']->decode(Filesystem::read($auth_token_file_path), 'yaml'))) {
+                ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
                     return $response->withJson(['detail' => 'Incorrect authentication credentials.0'], 401);
                 }
 
-                if ($auth_token_file_data['state'] === 'disabled' ||
-                    ($auth_token_file_data['limit_calls'] !== 0 && $auth_token_file_data['calls'] >= $auth_token_file_data['limit_calls'])) {
+                if ($access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
                     return $response->withJson(['detail' => 'Incorrect authentication credentials.00'], 401);
                 }
 
