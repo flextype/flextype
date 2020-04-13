@@ -17,6 +17,10 @@
     /api/management/entries
     ```
 * **core:** add Container for extending Flextype Container instead of Controller(s)
+* **core:** add Application URL `url` into the common flextype settings #405
+* **core:** add new improved plugins sorting in the Plugins API.
+* **core:** add dependencies validation for Plugins API #411
+* **core:** add manifest file `/src/flextype/config/flextype.yaml` for Flextype 
 
 ### Bug Fixes
 
@@ -34,6 +38,17 @@
     and this is a correct code to access site title:
     ```
     {{ registry.get('plugins.site.settings.title')|e('html') }}
+    ```
+* **core:** We should add app `url` into the core instead of `base_url` and `site_url` #405
+
+    for e.g. this is a wrong code to access site url:
+    ```
+    {{ registry.plugins.site.url }}
+    ```
+
+    and this is a correct code to access app url:
+    ```
+    {{ registry.get('flextype.settings.url') }}
     ```
 
 <a name="0.9.7"></a>
