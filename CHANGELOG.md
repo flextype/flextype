@@ -1,3 +1,41 @@
+<a name="0.9.8"></a>
+# [0.9.8](https://github.com/flextype/flextype/compare/v0.9.7...v0.9.8) (2020-04-xx)
+
+### Features
+* **core:** New lightweight and powerful core for kickass Applications!
+* **core:** New Management API for Entries. #421
+
+    The Content Management API (CMA), is a read-write API for managing content.
+    You could use the CMA for several use cases, such as:
+
+    Automatic imports from WordPress, Joomla, Drupal, and more.
+    Integration with other backend systems, such as an e-commerce shop.
+    Building custom editing experiences.
+
+    Endpoints for Management API:
+    ```
+    /api/management/entries
+    ```
+* **core:** add Container for extending Flextype Container instead of Controller(s)
+
+### Bug Fixes
+
+* **core:** fix incorrect data merging of manifest and settings for plugins and themes #404
+
+### BREAKING CHANGES
+
+* **core:** new way for data merging of manifest and settings for plugins and themes #404
+
+    for e.g. this is a wrong code to access site title:
+    ```
+    {{ registry.plugins.site.title|e('html') }}
+    ```
+
+    and this is a correct code to access site title:
+    ```
+    {{ registry.get('plugins.site.settings.title')|e('html') }}
+    ```
+
 <a name="0.9.7"></a>
 # [0.9.7](https://github.com/flextype/flextype/compare/v0.9.6...v0.9.7) (2020-03-03)
 
