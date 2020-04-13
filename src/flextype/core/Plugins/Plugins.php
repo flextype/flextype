@@ -105,8 +105,9 @@ class Plugins
 
             // Go through...
             foreach ($plugins_list as $plugin) {
+
                 // Set plugin settings directory
-                $site_plugin_settings_dir = PATH['config'] . '/site/plugins/' . $plugin['dirname'];
+                $site_plugin_settings_dir = PATH['site'] . '/config/plugins/' . $plugin['dirname'];
 
                 // Set default plugin settings and manifest files
                 $default_plugin_settings_file = PATH['site'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
@@ -132,6 +133,7 @@ class Plugins
 
                 // Get site plugin settings content
                 $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
+                
                 if (trim($site_plugin_settings_file_content) === '') {
                     $site_plugin_settings = [];
                 } else {
