@@ -49,10 +49,11 @@ $app->get('/api/delivery/images/{path:.+}', function (Request $request, Response
 
         // Validate delivery image token
         if (validate_delivery_images_token($token)) {
-            $delivery_images_token_file_path = PATH['site'] . '/site/delivery/images/' . $token . '/token.yaml';
+            $delivery_images_token_file_path = PATH['site'] . '/tokens/delivery/images/' . $token . '/token.yaml';
 
             // Set delivery token file
             if ($delivery_images_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_images_token_file_path), 'yaml')) {
+
                 if ($delivery_images_token_file_data['state'] === 'disabled' ||
                     ($delivery_images_token_file_data['limit_calls'] !== 0 && $delivery_images_token_file_data['calls'] >= $delivery_images_token_file_data['limit_calls'])) {
                     return $response->withJson(['detail' => 'Incorrect authentication credentials.'], 401);
