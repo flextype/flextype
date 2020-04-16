@@ -190,9 +190,6 @@ image:
 # API's
 api:
   delivery:
-    images:
-      enabled: true
-      default_token:
     entries:
       enabled: true
       default_token:
@@ -203,3 +200,6 @@ api:
     entries:
       enabled: true
       default_token:
+  images:
+    enabled: true
+    default_token:

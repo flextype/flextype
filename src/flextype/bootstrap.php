@@ -132,6 +132,7 @@ include_once 'endpoints/delivery/images.php';
 include_once 'endpoints/delivery/entries.php';
 include_once 'endpoints/delivery/registry.php';
 include_once 'endpoints/management/entries.php';
+include_once 'endpoints/images/images.php';
 
 /**
  * Set internal encoding

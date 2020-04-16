@@ -16,17 +16,17 @@ use function array_replace_recursive;
 use function header;
 
 /**
- * Validate delivery images token
+ * Validate images token
  */
-function validate_delivery_images_token($token) : bool
+function validate_images_token($token) : bool
 {
-    return Filesystem::has(PATH['site'] . '/tokens/delivery/images/' . $token . '/token.yaml');
+    return Filesystem::has(PATH['site'] . '/tokens/images/' . $token . '/token.yaml');
 }
 
 /**
  * Fetch image
  *
- * endpoint: GET /api/delivery/images
+ * endpoint: GET /api/images
  *
  * Parameters:
  * path - [REQUIRED] - The file path with valid params for image manipulations.
@@ -37,7 +37,7 @@ function validate_delivery_images_token($token) : bool
  * Returns:
  * Image file
  */
-$app->get('/api/delivery/images/{path:.+}', function (Request $request, Response $response, $args) use ($flextype) {
+$app->get('/api/images/{path:.+}', function (Request $request, Response $response, $args) use ($flextype) {
 
     // Get Query Params
     $query = $request->getQueryParams();
@@ -45,11 +45,11 @@ $app->get('/api/delivery/images/{path:.+}', function (Request $request, Response
     // Set variables
     $token = $query['token'];
 
-    if ($flextype['registry']->get('flextype.settings.api.delivery.images.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.images.enabled')) {
 
         // Validate delivery image token
-        if (validate_delivery_images_token($token)) {
-            $delivery_images_token_file_path = PATH['site'] . '/tokens/delivery/images/' . $token . '/token.yaml';
+        if (validate_images_token($token)) {
+            $delivery_images_token_file_path = PATH['site'] . '/tokens/images/' . $token . '/token.yaml';
 
             // Set delivery token file
             if ($delivery_images_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_images_token_file_path), 'yaml')) {
