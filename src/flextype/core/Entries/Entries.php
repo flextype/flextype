@@ -129,18 +129,18 @@ class Entries
     /**
      * Fetch entry(entries)
      *
-     * @param string     $id   Entry ID
-     * @param array|null $args Query arguments.
+     * @param string     $id     Unique identifier of the entry(entries).
+     * @param array|null $filter Select items in collection by given conditions.
      *
      * @return array The entry array data.
      *
      * @access public
      */
-    public function fetch(string $id, ?array $args = null) : array
+    public function fetch(string $id, ?array $filter = null) : array
     {
-        // If args is array then it is entries collection request
-        if (is_array($args)) {
-            return $this->fetchCollection($id, $args);
+        // If filter is array then it is entries collection request
+        if (is_array($filter)) {
+            return $this->fetchCollection($id, $filter);
         }
 
         return $this->fetchSingle($id);
@@ -149,7 +149,7 @@ class Entries
     /**
      * Fetch single entry
      *
-     * @param string $id Entry ID
+     * @param string $id Unique identifier of the entry(entries).
      *
      * @return array The entry array data.
      *
@@ -232,14 +232,14 @@ class Entries
     /**
      * Fetch entries collection
      *
-     * @param string $id   Entry ID
-     * @param array  $args Query arguments.
+     * @param string $id     Unique identifier of the entry(entries).
+     * @param array  $filter Select items in collection by given conditions.
      *
      * @return array The entries array data.
      *
      * @access public
      */
-    public function fetchCollection(string $id, array $args = []) : array
+    public function fetchCollection(string $id, array $filter = []) : array
     {
         // Init Entries
         $entries = [];
@@ -257,26 +257,26 @@ class Entries
         $bind_id = $id;
 
         // Bind: recursive
-        $bind_recursive = $args['recursive'] ?? false;
+        $bind_recursive = $filter['recursive'] ?? false;
 
         // Bind: set first result
-        $bind_set_first_result = $args['set_first_result'] ?? false;
+        $bind_set_first_result = $filter['set_first_result'] ?? false;
 
         // Bind: set max result
-        $bind_set_max_result = $args['set_max_result'] ?? false;
+        $bind_set_max_result = $filter['set_max_result'] ?? false;
 
         // Bind: where
         $bind_where = [];
-        if (isset($args['where']['key']) && isset($args['where']['expr']) && isset($args['where']['value'])) {
-            $bind_where['where']['key']   = $args['where']['key'];
-            $bind_where['where']['expr']  = $expression[$args['where']['expr']];
-            $bind_where['where']['value'] = $args['where']['value'];
+        if (isset($filter['where']['key']) && isset($filter['where']['expr']) && isset($filter['where']['value'])) {
+            $bind_where['where']['key']   = $filter['where']['key'];
+            $bind_where['where']['expr']  = $expression[$filter['where']['expr']];
+            $bind_where['where']['value'] = $filter['where']['value'];
         }
 
         // Bind: and where
         $bind_and_where = [];
-        if (isset($args['and_where'])) {
-            foreach ($args['and_where'] as $key => $value) {
+        if (isset($filter['and_where'])) {
+            foreach ($filter['and_where'] as $key => $value) {
                 if (! isset($value['key']) || ! isset($value['expr']) || ! isset($value['value'])) {
                     continue;
                 }
@@ -287,8 +287,8 @@ class Entries
 
         // Bind: or where
         $bind_or_where = [];
-        if (isset($args['or_where'])) {
-            foreach ($args['or_where'] as $key => $value) {
+        if (isset($filter['or_where'])) {
+            foreach ($filter['or_where'] as $key => $value) {
                 if (! isset($value['key']) || ! isset($value['expr']) || ! isset($value['value'])) {
                     continue;
                 }
@@ -299,9 +299,9 @@ class Entries
 
         // Bind: order by
         $bind_order_by = [];
-        if (isset($args['order_by']['field']) && isset($args['order_by']['direction'])) {
-            $bind_order_by['order_by']['field']     = $args['order_by']['field'];
-            $bind_order_by['order_by']['direction'] = $args['order_by']['direction'];
+        if (isset($filter['order_by']['field']) && isset($filter['order_by']['direction'])) {
+            $bind_order_by['order_by']['field']     = $filter['order_by']['field'];
+            $bind_order_by['order_by']['direction'] = $filter['order_by']['direction'];
         }
 
         // Get entries path
@@ -447,8 +447,8 @@ class Entries
     /**
      * Rename entry
      *
-     * @param string $id     Entry ID
-     * @param string $new_id New Entry ID
+     * @param string $id     Unique identifier of the entry(entries).
+     * @param string $new_id New Unique identifier of the entry(entries).
      *
      * @return bool True on success, false on failure.
      *
@@ -462,8 +462,8 @@ class Entries
     /**
      * Update entry
      *
-     * @param string $id   Entry ID
-     * @param array  $data Data
+     * @param string $id   Unique identifier of the entry(entries).
+     * @param array  $data Data to update for the entry.
      *
      * @return bool True on success, false on failure.
      *
@@ -486,8 +486,8 @@ class Entries
     /**
      * Create entry
      *
-     * @param string $id   Entry ID
-     * @param array  $data Data
+     * @param string $id   Unique identifier of the entry(entries).
+     * @param array  $data Data to create for the entry.
      *
      * @return bool True on success, false on failure.
      *
@@ -533,7 +533,7 @@ class Entries
     /**
      * Delete entry
      *
-     * @param string $id Entry ID
+     * @param string $id Unique identifier of the entry(entries).
      *
      * @return bool True on success, false on failure.
      *
@@ -547,8 +547,8 @@ class Entries
     /**
      * Copy entry(s)
      *
-     * @param string $id        Entry id
-     * @param string $new_id    New entry id
+     * @param string $id        Unique identifier of the entry(entries).
+     * @param string $new_id    New Unique identifier of the entry(entries).
      * @param bool   $recursive Recursive copy entries.
      *
      * @return bool|null True on success, false on failure.
@@ -563,7 +563,7 @@ class Entries
     /**
      * Check whether entry exists
      *
-     * @param string $id Entry ID
+     * @param string $id Unique identifier of the entry(entries).
      *
      * @return bool True on success, false on failure.
      *
@@ -577,7 +577,7 @@ class Entries
     /**
      * Get entry file location
      *
-     * @param string $id Entry ID
+     * @param string $id Unique identifier of the entry(entries).
      *
      * @return string entry file location
      *
@@ -591,7 +591,7 @@ class Entries
     /**
      * Get entry directory location
      *
-     * @param string $id Entry ID
+     * @param string $id Unique identifier of the entry(entries).
      *
      * @return string entry directory location
      *
