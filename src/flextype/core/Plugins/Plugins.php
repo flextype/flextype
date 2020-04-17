@@ -133,7 +133,7 @@ class Plugins
 
                 // Get site plugin settings content
                 $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
-                
+
                 if (trim($site_plugin_settings_file_content) === '') {
                     $site_plugin_settings = [];
                 } else {
