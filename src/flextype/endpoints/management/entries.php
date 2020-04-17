@@ -104,7 +104,7 @@ $app->get('/api/management/entries', function (Request $request, Response $respo
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
  * token         - [REQUIRED] - Valid Content Management API token for Entries.
- * access_token  - [REQUIRED] - Valid Authentication token.
+ * access_token  - [REQUIRED] - Valid Access token.
  * data          - [REQUIRED] - Data to store for the entry.
  *
  * Returns:
@@ -123,32 +123,32 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
 
     if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
 
-        // Validate management and auth token
+        // Validate management and access token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
             $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
             $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set management and auth token file
+            // Set management and access token file
             if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.0'], 401);
+                    return $response->withJson(['detail' => 'Incorrect authentication credentials.'], 401);
                 }
 
                 if ($access_token_file_data['state'] === 'disabled' ||
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.00'], 401);
+                    return $response->withJson(['detail' => 'Incorrect authentication credentials.'], 401);
                 }
 
                 // Create entry
                 $create_entry = $flextype['entries']->create($id, $data);
 
                 if ($create_entry) {
-                    $data = $flextype['entries']->fetch($id);
+                    $response_data['data'] = $flextype['entries']->fetch($id);
                 } else {
-                    $data = [];
+                    $response_data['data'] = [];
                 }
 
                 // Set response code
@@ -159,22 +159,22 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
 
                 // Return response
                 return $response
-                       ->withJson($data, $response_code)
+                       ->withJson($response_data, $response_code)
                        ->withHeader('Access-Control-Allow-Origin', '*');
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.1'], 401)
+                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withJson(['detail' => 'Incorrect authentication credentials.2'], 401)
+               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.3'], 401)
+           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });
 
@@ -190,7 +190,7 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
  * data         - [REQUIRED] - Data to update for the entry.
  *
  * Returns:
- * Returns the entry item object for the entry item that was just created.
+ * Returns the entry item object for the entry item that was just updated.
  */
 $app->patch('/api/management/entries', function (Request $request, Response $response) use ($flextype) {
 
@@ -205,12 +205,12 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
 
     if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
 
-        // Validate management and auth token
+        // Validate management and access token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
             $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
             $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set management and auth token file
+            // Set management and access token file
             if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
@@ -228,9 +228,9 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
                 $update_entry = $flextype['entries']->update($id, $data);
 
                 if ($update_entry) {
-                    $data = $flextype['entries']->fetch($id);
+                    $response_data['data'] = $flextype['entries']->fetch($id);
                 } else {
-                    $data = [];
+                    $response_data['data'] = [];
                 }
 
                 // Set response code
@@ -241,22 +241,22 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
 
                 // Return response
                 return $response
-                       ->withJson($data, $response_code)
+                       ->withJson($response_data, $response_code)
                        ->withHeader('Access-Control-Allow-Origin', '*');
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.1'], 401)
+                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withJson(['detail' => 'Incorrect authentication credentials.2'], 401)
+               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.3'], 401)
+           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });
 
@@ -287,12 +287,12 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
 
     if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
 
-        // Validate management and auth token
+        // Validate management and access token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
             $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
             $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set management and auth token file
+            // Set management and access token file
             if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
@@ -311,35 +311,35 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
 
                 // Get entry data
                 if ($rename_entry) {
-                    $data = $flextype['entries']->fetch($new_id);
+                    $response_data['data'] = $flextype['entries']->fetch($new_id);
                 } else {
-                    $data = [];
+                    $response_data['data'] = [];
                 }
 
                 // Set response code
-                $response_code = ($data) ? 200 : 404;
+                $response_code = ($rename_entry) ? 200 : 404;
 
                 // Update calls counter
                 Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 // Return response
                 return $response
-                       ->withJson($data, $response_code)
+                       ->withJson($response_data, $response_code)
                        ->withHeader('Access-Control-Allow-Origin', '*');
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.1'], 401)
+                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withJson(['detail' => 'Incorrect authentication credentials.2'], 401)
+               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.3'], 401)
+           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });
 
@@ -360,22 +360,22 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
 $app->put('/api/management/entries/copy', function (Request $request, Response $response) use ($flextype) {
 
     // Get Post Data
-    $data = $request->getParsedBody();
+    $post_data = $request->getParsedBody();
 
     // Set variables
-    $token        = $post_data['token'];
-    $access_token = $post_data['access_token'];
-    $id           = $post_data['id'];
-    $new_id       = $post_data['new_id'];
+    $token         = $post_data['token'];
+    $access_token  = $post_data['access_token'];
+    $id            = $post_data['id'];
+    $new_id        = $post_data['new_id'];
 
     if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
 
-        // Validate management and auth token
+        // Validate management and access token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
             $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
             $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set management and auth token file
+            // Set management and access token file
             if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
@@ -389,40 +389,40 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
                     return $response->withJson(['detail' => 'Incorrect authentication credentials.00'], 401);
                 }
 
-                // Rename entry
-                $rename_entry = $flextype['entries']->copy($id, $new_id);
+                // Copy entry
+                $copy_entry = $flextype['entries']->copy($id, $new_id, true);
 
                 // Get entry data
-                if ($rename_entry) {
-                    $data = $flextype['entries']->fetch($new_id);
+                if ($copy_entry === null) {
+                    $response_data['data'] = $flextype['entries']->fetch($new_id);
                 } else {
-                    $data = [];
+                    $response_data['data'] = [];
                 }
 
                 // Set response code
-                $response_code = ($data) ? 200 : 404;
+                $response_code = ($copy_entry) ? 200 : 404;
 
                 // Update calls counter
                 Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 // Return response
                 return $response
-                       ->withJson($data, $response_code)
+                       ->withJson($response_data, $response_code)
                        ->withHeader('Access-Control-Allow-Origin', '*');
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.1'], 401)
+                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withJson(['detail' => 'Incorrect authentication credentials.2'], 401)
+               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.3'], 401)
+           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });
 
@@ -451,12 +451,12 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
 
     if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
 
-        // Validate management and auth token
+        // Validate management and access token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
-            $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
+            $management_entries_token_file_path => PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
             $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set management and auth token file
+            // Set management and access token file
             if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
@@ -471,31 +471,31 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
                 }
 
                 // Delete entry
-                $data = $flextype['entries']->delete($id);
+                $delete_entry = $flextype['entries']->delete($id);
 
                 // Set response code
-                $response_code = ($data) ? 204 : 404;
+                $response_code = ($delete_entry) ? 204 : 404;
 
                 // Update calls counter
                 Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 // Return response
                 return $response
-                       ->withJson($data, $response_code)
+                       ->withJson($delete_entry, $response_code)
                        ->withHeader('Access-Control-Allow-Origin', '*');
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.1'], 401)
+                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withJson(['detail' => 'Incorrect authentication credentials.2'], 401)
+               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.3'], 401)
+           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });
