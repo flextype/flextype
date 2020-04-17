@@ -32,7 +32,7 @@ function validate_images_token($token) : bool
  * path - [REQUIRED] - The file path with valid params for image manipulations.
  *
  * Query:
- * token  - [REQUIRED] - Valid Content Delivery API token for Entries.
+ * token  - [REQUIRED] - Valid Images API token.
  *
  * Returns:
  * Image file
