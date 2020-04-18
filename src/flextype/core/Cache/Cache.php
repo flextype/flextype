@@ -164,7 +164,7 @@ class Cache
     }
 
     /**
-     * Delete item from the chache
+     * Delete item from the cache
      */
     public function delete(string $id) : void
     {

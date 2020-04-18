@@ -420,7 +420,7 @@ class Entries
                     $criteria->setFirstResult($bind_set_first_result);
                 }
 
-                // Get entries for matching criterias
+                // Get entries for matching criteria
                 $entries = $collection->matching($criteria);
 
                 // Gets a native PHP array representation of the collection.
