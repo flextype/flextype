@@ -24,6 +24,12 @@ function validate_images_token($token) : bool
 }
 
 /**
+ * API sys messages
+ */
+$api_sys_messages['AccessTokenInvalid'] = ['sys' => ['type' => 'Error', 'id' => 'AccessTokenInvalid'], 'message' => 'The access token you sent could not be found or is invalid.'];
+$api_sys_messages['NotFound'] = ['sys' => ['type' => 'Error', 'id' => 'NotFound'], 'message' => 'The resource could not be found.'];
+
+/**
  * Fetch image
  *
  * endpoint: GET /api/images
@@ -37,7 +43,7 @@ function validate_images_token($token) : bool
  * Returns:
  * Image file
  */
-$app->get('/api/images/{path:.+}', function (Request $request, Response $response, $args) use ($flextype) {
+$app->get('/api/images/{path:.+}', function (Request $request, Response $response, $args) use ($flextype, $api_sys_messages) {
 
     // Get Query Params
     $query = $request->getQueryParams();
@@ -56,7 +62,7 @@ $app->get('/api/images/{path:.+}', function (Request $request, Response $respons
 
                 if ($delivery_images_token_file_data['state'] === 'disabled' ||
                     ($delivery_images_token_file_data['limit_calls'] !== 0 && $delivery_images_token_file_data['calls'] >= $delivery_images_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 // Update calls counter
@@ -69,25 +75,21 @@ $app->get('/api/images/{path:.+}', function (Request $request, Response $respons
                 }
 
                 return $response
-                    ->withJson([], 404)
+                    ->withJson($api_sys_messages['NotFound'], 404)
                     ->withHeader('Access-Control-Allow-Origin', '*');
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
-                   ->withHeader('Access-Control-Allow-Origin', '*');
-        } else {
-            return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withStatus(404)
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });

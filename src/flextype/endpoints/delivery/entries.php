@@ -16,6 +16,12 @@ use function array_replace_recursive;
 use function count;
 
 /**
+ * API sys messages
+ */
+$api_sys_messages['AccessTokenInvalid'] = ['sys' => ['type' => 'Error', 'id' => 'AccessTokenInvalid'], 'message' => 'The access token you sent could not be found or is invalid.'];
+$api_sys_messages['NotFound'] = ['sys' => ['type' => 'Error', 'id' => 'NotFound'], 'message' => 'The resource could not be found.'];
+
+/**
  * Validate delivery entries token
  */
 function validate_delivery_entries_token($token) : bool
@@ -36,7 +42,7 @@ function validate_delivery_entries_token($token) : bool
  * Returns:
  * An array of entry item objects.
  */
-$app->get('/api/delivery/entries', function (Request $request, Response $response) use ($flextype) {
+$app->get('/api/delivery/entries', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
 
     // Get Query Params
     $query = $request->getQueryParams();
@@ -56,35 +62,43 @@ $app->get('/api/delivery/entries', function (Request $request, Response $respons
             if ($delivery_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_entries_token_file_path), 'yaml')) {
                 if ($delivery_entries_token_file_data['state'] === 'disabled' ||
                     ($delivery_entries_token_file_data['limit_calls'] !== 0 && $delivery_entries_token_file_data['calls'] >= $delivery_entries_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 // Fetch entry
-                $data['data'] = $flextype['entries']->fetch($id, $filter);
+                $response_data['data'] = $flextype['entries']->fetch($id, $filter);
 
                 // Set response code
-                $response_code = count($data['data']) > 0 ? 200 : 404;
+                $response_code = count($response_data['data']) > 0 ? 200 : 404;
 
                 // Update calls counter
                 Filesystem::write($delivery_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($delivery_entries_token_file_data, ['calls' => $delivery_entries_token_file_data['calls'] + 1]), 'yaml'));
 
+                if ($response_code == 404) {
+
+                    // Return response
+                    return $response
+                           ->withJson($api_sys_messages['NotFound'], $response_code)
+                           ->withHeader('Access-Control-Allow-Origin', '*');
+                }
+
                 // Return response
                 return $response
-                       ->withJson($data, $response_code)
+                       ->withJson($response_data, $response_code)
                        ->withHeader('Access-Control-Allow-Origin', '*');
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });

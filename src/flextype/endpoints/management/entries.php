@@ -16,6 +16,12 @@ use function array_replace_recursive;
 use function count;
 
 /**
+ * API sys messages
+ */
+$api_sys_messages['AccessTokenInvalid'] = ['sys' => ['type' => 'Error', 'id' => 'AccessTokenInvalid'], 'message' => 'The access token you sent could not be found or is invalid.'];
+$api_sys_messages['NotFound'] = ['sys' => ['type' => 'Error', 'id' => 'NotFound'], 'message' => 'The resource could not be found.'];
+
+/**
  * Validate management entries token
  */
 function validate_management_entries_token($token) : bool
@@ -44,7 +50,7 @@ function validate_access_token($token) : bool
  * Returns:
  * An array of entry item objects.
  */
-$app->get('/api/management/entries', function (Request $request, Response $response) use ($flextype) {
+$app->get('/api/management/entries', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
     // Get Query Params
     $query = $request->getQueryParams();
 
@@ -62,36 +68,44 @@ $app->get('/api/management/entries', function (Request $request, Response $respo
             if ($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) {
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 // Fetch entry
-                $data['data'] = $flextype['entries']->fetch($id, $filter);
+                $response_data['data'] = $flextype['entries']->fetch($id, $filter);
 
                 // Set response code
-                $response_code = count($data['data']) > 0 ? 200 : 404;
+                $response_code = count($response_data['data']) > 0 ? 200 : 404;
 
                 // Update calls counter
                 Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
+                if ($response_code == 404) {
+
+                    // Return response
+                    return $response
+                           ->withJson($api_sys_messages['NotFound'], $response_code)
+                           ->withHeader('Access-Control-Allow-Origin', '*');
+                }
+
                 // Return response
                 return $response
-                       ->withJson($data, $response_code)
+                       ->withJson($response_data, $response_code)
                        ->withHeader('Access-Control-Allow-Origin', '*');
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });
 
@@ -110,7 +124,7 @@ $app->get('/api/management/entries', function (Request $request, Response $respo
  * Returns:
  * Returns the entry item object for the entry item that was just created.
  */
-$app->post('/api/management/entries', function (Request $request, Response $response) use ($flextype) {
+$app->post('/api/management/entries', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
 
     // Get Post Data
     $post_data = $request->getParsedBody();
@@ -134,12 +148,12 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 if ($access_token_file_data['state'] === 'disabled' ||
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 // Create entry
@@ -157,6 +171,14 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
                 // Update calls counter
                 Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
+                if ($response_code == 404) {
+
+                    // Return response
+                    return $response
+                           ->withJson($api_sys_messages['NotFound'], $response_code)
+                           ->withHeader('Access-Control-Allow-Origin', '*');
+                }
+
                 // Return response
                 return $response
                        ->withJson($response_data, $response_code)
@@ -164,17 +186,17 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });
 
@@ -216,12 +238,12 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.0'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 if ($access_token_file_data['state'] === 'disabled' ||
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.00'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 // Update entry
@@ -239,6 +261,14 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
                 // Update calls counter
                 Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
+                if ($response_code == 404) {
+
+                    // Return response
+                    return $response
+                           ->withJson($api_sys_messages['NotFound'], $response_code)
+                           ->withHeader('Access-Control-Allow-Origin', '*');
+                }
+
                 // Return response
                 return $response
                        ->withJson($response_data, $response_code)
@@ -246,17 +276,17 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });
 
@@ -298,12 +328,12 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.0'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 if ($access_token_file_data['state'] === 'disabled' ||
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.00'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 // Rename entry
@@ -322,6 +352,14 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
                 // Update calls counter
                 Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
+                if ($response_code == 404) {
+
+                    // Return response
+                    return $response
+                           ->withJson($api_sys_messages['NotFound'], $response_code)
+                           ->withHeader('Access-Control-Allow-Origin', '*');
+                }
+
                 // Return response
                 return $response
                        ->withJson($response_data, $response_code)
@@ -329,17 +367,17 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });
 
@@ -381,12 +419,12 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.0'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 if ($access_token_file_data['state'] === 'disabled' ||
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.00'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 // Copy entry
@@ -405,6 +443,14 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
                 // Update calls counter
                 Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
+                if ($response_code == 404) {
+
+                    // Return response
+                    return $response
+                           ->withJson($api_sys_messages['NotFound'], $response_code)
+                           ->withHeader('Access-Control-Allow-Origin', '*');
+                }
+
                 // Return response
                 return $response
                        ->withJson($response_data, $response_code)
@@ -412,17 +458,17 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });
 
@@ -453,7 +499,7 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
 
         // Validate management and access token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
-            $management_entries_token_file_path => PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
+            $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
             $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and access token file
@@ -462,12 +508,12 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.0'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 if ($access_token_file_data['state'] === 'disabled' ||
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.00'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 // Delete entry
@@ -479,6 +525,14 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
                 // Update calls counter
                 Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
+                if ($response_code == 404) {
+
+                    // Return response
+                    return $response
+                           ->withJson($api_sys_messages['NotFound'], $response_code)
+                           ->withHeader('Access-Control-Allow-Origin', '*');
+                }
+
                 // Return response
                 return $response
                        ->withJson($delete_entry, $response_code)
@@ -486,16 +540,16 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });

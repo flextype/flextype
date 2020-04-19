@@ -15,6 +15,12 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use function array_replace_recursive;
 
 /**
+ * API sys messages
+ */
+$api_sys_messages['AccessTokenInvalid'] = ['sys' => ['type' => 'Error', 'id' => 'AccessTokenInvalid'], 'message' => 'The access token you sent could not be found or is invalid.'];
+$api_sys_messages['NotFound'] = ['sys' => ['type' => 'Error', 'id' => 'NotFound'], 'message' => 'The resource could not be found.'];
+
+/**
  * Validate delivery registry token
  */
 function validate_delivery_registry_token($token) : bool
@@ -34,7 +40,7 @@ function validate_delivery_registry_token($token) : bool
  * Returns:
  * An array of registry item objects.
  */
-$app->get('/api/delivery/registry', function (Request $request, Response $response) use ($flextype) {
+$app->get('/api/delivery/registry', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
 
     // Get Query Params
     $query = $request->getQueryParams();
@@ -53,37 +59,50 @@ $app->get('/api/delivery/registry', function (Request $request, Response $respon
             if ($delivery_registry_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_registry_token_file_path), 'yaml')) {
                 if ($delivery_registry_token_file_data['state'] === 'disabled' ||
                     ($delivery_registry_token_file_data['limit_calls'] !== 0 && $delivery_registry_token_file_data['calls'] >= $delivery_registry_token_file_data['limit_calls'])) {
-                    return $response->withJson(['detail' => 'Incorrect authentication credentials.'], 401);
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
                 // Fetch registry
                 if ($flextype['registry']->has($id)) {
-                    $data['data']['key']   = $id;
-                    $data['data']['value'] = $flextype['registry']->get($id);
+                    $response_data['data']['key']   = $id;
+                    $response_data['data']['value'] = $flextype['registry']->get($id);
+
+                    // Set response code
+                    $response_code = 200;
+
                 } else {
-                    $data = [];
+                    $response_data = [];
+                    $response_code = 404;
                 }
 
                 // Update calls counter
                 Filesystem::write($delivery_registry_token_file_path, $flextype['parser']->encode(array_replace_recursive($delivery_registry_token_file_data, ['calls' => $delivery_registry_token_file_data['calls'] + 1]), 'yaml'));
 
+                if ($response_code == 404) {
+
+                    // Return response
+                    return $response
+                           ->withJson($api_sys_messages['NotFound'], $response_code)
+                           ->withHeader('Access-Control-Allow-Origin', '*');
+                }
+
                 // Return response
                 return $response
-                       ->withJson($data, 200)
+                       ->withJson($response_data, $response_code)
                        ->withHeader('Access-Control-Allow-Origin', '*');
             }
 
             return $response
-                   ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                    ->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         return $response
-               ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
                ->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     return $response
-           ->withJson(['detail' => 'Incorrect authentication credentials.'], 401)
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
            ->withHeader('Access-Control-Allow-Origin', '*');
 });
