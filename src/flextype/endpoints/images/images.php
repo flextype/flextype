@@ -75,21 +75,17 @@ $app->get('/api/images/{path:.+}', function (Request $request, Response $respons
                 }
 
                 return $response
-                    ->withJson($api_sys_messages['NotFound'], 404)
-                    ->withHeader('Access-Control-Allow-Origin', '*');
+                    ->withJson($api_sys_messages['NotFound'], 404);
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-                   ->withHeader('Access-Control-Allow-Origin', '*');
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-               ->withHeader('Access-Control-Allow-Origin', '*');
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-           ->withHeader('Access-Control-Allow-Origin', '*');
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
 });

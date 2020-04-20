@@ -82,27 +82,22 @@ $app->get('/api/delivery/registry', function (Request $request, Response $respon
 
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code)
-                           ->withHeader('Access-Control-Allow-Origin', '*');
+                           ->withJson($api_sys_messages['NotFound'], $response_code);
                 }
 
                 // Return response
                 return $response
-                       ->withJson($response_data, $response_code)
-                       ->withHeader('Access-Control-Allow-Origin', '*');
+                       ->withJson($response_data, $response_code);
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-                   ->withHeader('Access-Control-Allow-Origin', '*');
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-               ->withHeader('Access-Control-Allow-Origin', '*');
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-           ->withHeader('Access-Control-Allow-Origin', '*');
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
 });

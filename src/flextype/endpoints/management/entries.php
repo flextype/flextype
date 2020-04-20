@@ -84,29 +84,24 @@ $app->get('/api/management/entries', function (Request $request, Response $respo
 
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code)
-                           ->withHeader('Access-Control-Allow-Origin', '*');
+                           ->withJson($api_sys_messages['NotFound'], $response_code);
                 }
 
                 // Return response
                 return $response
-                       ->withJson($response_data, $response_code)
-                       ->withHeader('Access-Control-Allow-Origin', '*');
+                       ->withJson($response_data, $response_code);
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-                   ->withHeader('Access-Control-Allow-Origin', '*');
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-               ->withHeader('Access-Control-Allow-Origin', '*');
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-           ->withHeader('Access-Control-Allow-Origin', '*');
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
 });
 
 
@@ -175,29 +170,24 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
 
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code)
-                           ->withHeader('Access-Control-Allow-Origin', '*');
+                           ->withJson($api_sys_messages['NotFound'], $response_code);
                 }
 
                 // Return response
                 return $response
-                       ->withJson($response_data, $response_code)
-                       ->withHeader('Access-Control-Allow-Origin', '*');
+                       ->withJson($response_data, $response_code);
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-                   ->withHeader('Access-Control-Allow-Origin', '*');
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-               ->withHeader('Access-Control-Allow-Origin', '*');
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-           ->withHeader('Access-Control-Allow-Origin', '*');
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
 });
 
 /**
@@ -265,29 +255,24 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
 
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code)
-                           ->withHeader('Access-Control-Allow-Origin', '*');
+                           ->withJson($api_sys_messages['NotFound'], $response_code);
                 }
 
                 // Return response
                 return $response
-                       ->withJson($response_data, $response_code)
-                       ->withHeader('Access-Control-Allow-Origin', '*');
+                       ->withJson($response_data, $response_code);
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-                   ->withHeader('Access-Control-Allow-Origin', '*');
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-               ->withHeader('Access-Control-Allow-Origin', '*');
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-           ->withHeader('Access-Control-Allow-Origin', '*');
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
 });
 
 /**
@@ -356,29 +341,24 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
 
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code)
-                           ->withHeader('Access-Control-Allow-Origin', '*');
+                           ->withJson($api_sys_messages['NotFound'], $response_code);
                 }
 
                 // Return response
                 return $response
-                       ->withJson($response_data, $response_code)
-                       ->withHeader('Access-Control-Allow-Origin', '*');
+                       ->withJson($response_data, $response_code);
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-                   ->withHeader('Access-Control-Allow-Origin', '*');
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-               ->withHeader('Access-Control-Allow-Origin', '*');
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-           ->withHeader('Access-Control-Allow-Origin', '*');
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
 });
 
 /**
@@ -447,29 +427,24 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
 
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code)
-                           ->withHeader('Access-Control-Allow-Origin', '*');
+                           ->withJson($api_sys_messages['NotFound'], $response_code);
                 }
 
                 // Return response
                 return $response
-                       ->withJson($response_data, $response_code)
-                       ->withHeader('Access-Control-Allow-Origin', '*');
+                       ->withJson($response_data, $response_code);
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-                   ->withHeader('Access-Control-Allow-Origin', '*');
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-               ->withHeader('Access-Control-Allow-Origin', '*');
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-           ->withHeader('Access-Control-Allow-Origin', '*');
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
 });
 
 /**
@@ -529,27 +504,22 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
 
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code)
-                           ->withHeader('Access-Control-Allow-Origin', '*');
+                           ->withJson($api_sys_messages['NotFound'], $response_code);
                 }
 
                 // Return response
                 return $response
-                       ->withJson($delete_entry, $response_code)
-                       ->withHeader('Access-Control-Allow-Origin', '*');
+                       ->withJson($delete_entry, $response_code);
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-                   ->withHeader('Access-Control-Allow-Origin', '*');
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-               ->withHeader('Access-Control-Allow-Origin', '*');
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401)
-           ->withHeader('Access-Control-Allow-Origin', '*');
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
 });
