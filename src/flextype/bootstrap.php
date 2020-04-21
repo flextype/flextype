@@ -165,18 +165,12 @@ $flextype['plugins']->init($flextype, $app);
 
 /**
  * Enable lazy CORS
+ *
+ * CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.
+ * This is important for third party web apps using Flextype, as without CORS, a JavaScript app hosted on example.com
+ * couldn't access our APIs because they're hosted on another.com which is a different domain.
  */
-$app->options('/{routes:.+}', function ($request, $response, $args) {
-    return $response;
-});
-
-$app->add(function ($req, $res, $next) {
-    $response = $next($req, $res);
-    return $response
-            ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
-            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-});
+$flextype['cors']->init();
 
 /**
  * Run application

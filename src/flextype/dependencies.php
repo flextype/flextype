@@ -187,3 +187,10 @@ $flextype['entries'] = static function ($container) {
 $flextype['plugins'] = static function ($container) use ($flextype, $app) {
     return new Plugins($flextype, $app);
 };
+
+/**
+ * Add cors service to Flextype container
+ */
+$flextype['cors'] = static function ($container) use ($flextype, $app) {
+    return new Cors($flextype, $app);
+};
