@@ -514,7 +514,7 @@ class Entries
                         $data['routable'] = true;
                     }
 
-                    if (isset($data['visibility']) && in_array($data['visibility'], ['visible', 'draft', 'hidden'])) {
+                    if (isset($data['visibility']) && in_array($data['visibility'], $this->visibility)) {
                         $data['visibility'] = $data['visibility'];
                     } else {
                         $data['visibility'] = 'visible';
