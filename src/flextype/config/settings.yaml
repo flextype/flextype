@@ -230,8 +230,7 @@ cors:
   expose: []
   credentials: false
 
-
-# API's
+# Content APIs
 api:
   delivery:
     entries:
