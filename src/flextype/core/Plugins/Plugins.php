@@ -263,7 +263,7 @@ class Plugins
     {
         foreach ($plugins as $plugin_name => $plugin_data) {
             if (isset($plugin_data['manifest']['dependencies']['flextype']) &&
-                      Comparator::equalTo($plugin_data['manifest']['dependencies']['flextype'], '0.9.7')) {
+                      Comparator::equalTo($plugin_data['manifest']['dependencies']['flextype'], $this->flextype['registry']->get('flextype.manifest.version'))) {
                 $plugins[$plugin_name] = $plugin_data;
             } else {
                 unset($plugins[$plugin_name]);
