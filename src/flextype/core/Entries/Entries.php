@@ -325,7 +325,7 @@ class Entries
                 } else {
                     // We are checking...
                     // Whether the requested entry is a director and whether the file entry is in this directory.
-                    if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry.md')) {
+                    if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry' . '.' . $this->flextype->registry->get('flextype.entries.extension'))) {
                         // Get entry uid
                         // 1. Remove entries path
                         // 2. Remove left and right slashes
@@ -341,7 +341,7 @@ class Entries
                         $entries_ids .= $uid;
 
                         // Create entries IDs timestamps
-                        $entries_ids_timestamps .= Filesystem::getTimestamp($current_entry['path'] . '/entry.md');
+                        $entries_ids_timestamps .= Filesystem::getTimestamp($current_entry['path'] . '/entry' . '.' . $this->flextype->registry->get('flextype.entries.extension'));
                     }
                 }
             }
@@ -501,7 +501,7 @@ class Entries
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
                 // Check if new entry file exists
-                if (! Filesystem::has($entry_file = $entry_dir . '/entry.md')) {
+                if (! Filesystem::has($entry_file = $entry_dir . '/entry' . '.' . $this->flextype->registry->get('flextype.entries.extension'))) {
                     $data['uuid']         = Uuid::uuid4()->toString();
                     $data['published_at'] = date($this->flextype->registry->get('flextype.settings.date_format'), time());
                     $data['created_at']   = date($this->flextype->registry->get('flextype.settings.date_format'), time());
@@ -585,7 +585,7 @@ class Entries
      */
     public function getFileLocation(string $id) : string
     {
-        return PATH['site'] . '/entries/' . $id . '/entry.md';
+        return PATH['site'] . '/entries/' . $id . '/entry' . '.' . $this->flextype->registry->get('flextype.entries.extension');
     }
 
     /**

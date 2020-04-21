@@ -53,6 +53,12 @@ date_display_format: 'd-m-Y H:i'
 errors:
   display: false
 
+# Entries
+#
+# - extension: Set entries file extension
+entries:
+  extension: md
+
 # Cache
 #
 # - enabled:         Set to true to enable caching
