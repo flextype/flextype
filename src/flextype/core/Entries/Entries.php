@@ -320,7 +320,7 @@ class Entries
 
             // Create entries array from entries list and ignore current requested entry
             foreach ($entries_list as $current_entry) {
-                if (strpos($current_entry['path'], $bind_id . '/entry' . '.' . 'md') !== false) {
+                if (strpos($current_entry['path'], $bind_id . '/entry' . '.' . $this->flextype->registry->get('flextype.entries.extension')) !== false) {
                     // ignore ...
                 } else {
                     // We are checking...
