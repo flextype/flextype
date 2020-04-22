@@ -28,6 +28,10 @@ class Parser
             'name' => 'markdown',
             'ext' => 'md',
         ],
+        'shortcodes' => [
+            'name' => 'shortcodes',
+            'ext' => 'php',
+        ],
     ];
 
     /**
@@ -54,31 +58,7 @@ class Parser
     }
 
     /**
-     * Dumps a PHP value to a string CONTENT.
-     *
-     * @param mixed  $input  Content to parse
-     * @param string $parser Parser type [markdown]
-     *
-     * @return mixed PHP value converted to a string CONTENT.
-     */
-    public function encode($input, string $parser) : string
-    {
-        switch ($parser) {
-            case 'markdown':
-                return $input;
-
-                break;
-            case 'shortcodes':
-                return $input;
-
-                break;
-            default:
-                break;
-        }
-    }
-
-    /**
-     * Parse INPUT content into a PHP value.
+     * Parse INPUT content.
      *
      * @param string $input  Content to parse
      * @param string $parser Parser type [frontmatter, json, yaml, markdown]
@@ -86,7 +66,7 @@ class Parser
      *
      * @return mixed The Content converted to a PHP value
      */
-    public function decode(string $input, string $parser, bool $cache = true)
+    public function parse(string $input, string $parser, bool $cache = true)
     {
         switch ($parser) {
             case 'markdown':

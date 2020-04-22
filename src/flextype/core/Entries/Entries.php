@@ -234,15 +234,20 @@ class Entries
                 foreach ($entry_decoded['parsers'] as $parser_name => $parser_data) {
                     if (in_array($parser_name, ['markdown', 'shortcodes'])) {
                         if (isset($entry_decoded['parsers'][$parser_name]['enabled']) && $entry_decoded['parsers'][$parser_name]['enabled'] === true) {
+                            if (isset($entry_decoded['parsers'][$parser_name]['cache']) && $entry_decoded['parsers'][$parser_name]['cache'] === true) {
+                                $cache = true;
+                            } else {
+                                $cache = false;
+                            }
                             if (isset($entry_decoded['parsers'][$parser_name]['fields'])) {
                                 if (is_array($entry_decoded['parsers'][$parser_name]['fields'])) {
                                     foreach ($entry_decoded['parsers'][$parser_name]['fields'] as $field) {
                                         if (! in_array($field, $this->system_fields)) {
                                             if ($parser_name == 'markdown') {
-                                                $entry_decoded[$field] = $this->flextype['parser']->decode($entry_decoded[$field], 'markdown');
+                                                $entry_decoded[$field] = $this->flextype['parser']->parse($entry_decoded[$field], 'markdown', $cache);
                                             }
                                             if ($parser_name == 'shortcodes') {
-                                                $entry_decoded[$field] = $this->flextype['parser']->decode($entry_decoded[$field], 'shortcodes');
+                                                $entry_decoded[$field] = $this->flextype['parser']->parse($entry_decoded[$field], 'shortcodes', $cache);
                                             }
                                         }
                                     }
@@ -250,10 +255,10 @@ class Entries
                                     foreach ($entry_decoded as $key => $value) {
                                         if (! in_array($key, $this->system_fields)) {
                                             if ($parser_name == 'markdown') {
-                                                $entry_decoded[$key] = $this->flextype['parser']->decode($entry_decoded[$key], 'markdown');
+                                                $entry_decoded[$key] = $this->flextype['parser']->parse($entry_decoded[$key], 'markdown', $cache);
                                             }
                                             if ($parser_name == 'shortcodes') {
-                                                $entry_decoded[$key] = $this->flextype['parser']->decode($entry_decoded[$key], 'shortcodes');
+                                                $entry_decoded[$key] = $this->flextype['parser']->parse($entry_decoded[$key], 'shortcodes', $cache);
                                             }
                                         }
                                     }
