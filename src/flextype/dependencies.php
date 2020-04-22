@@ -34,6 +34,7 @@ use League\Glide\Responses\SlimResponseFactory;
 use League\Glide\ServerFactory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Thunder\Shortcode\ShortcodeFacade;
 use function date;
 use function extension_loaded;
 use function ucfirst;
@@ -110,6 +111,20 @@ $flextype['cache_adapter'] = static function ($container) use ($flextype) {
  */
 $flextype['cache'] = static function ($container) use ($flextype) {
     return new Cache($flextype);
+};
+
+/**
+ * Add shortcodes service to Flextype container
+ */
+$flextype['shortcodes'] = static function ($container) {
+    return new ShortcodeFacade();
+};
+
+/**
+ * Add serializer service to Flextype container
+ */
+$flextype['serializer'] = static function ($container) use ($flextype) {
+    return new Serializer($flextype);
 };
 
 /**

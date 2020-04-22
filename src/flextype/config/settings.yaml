@@ -193,6 +193,12 @@ slugify:
 image:
   driver: gd
 
+# Shortcodes
+#
+# - extensions: Flextype Shortcodes Extension to load.
+shortcodes:
+  extensions: ['Entries', 'Registry', 'Url']
+
 # CORS
 #
 # CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.

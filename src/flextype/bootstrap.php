@@ -159,6 +159,20 @@ if ($flextype['registry']->get('flextype.settings.errors.display')) {
 date_default_timezone_set($flextype['registry']->get('flextype.settings.timezone'));
 
 /**
+ * Init shortocodes
+ *
+ * Load Flextype Shortcodes extensions from directory /flextype/shortcodes/ based on settings.shortcodes.extensions array
+ */
+$shortcodes_extensions = $flextype['registry']->get('flextype.settings.shortcodes.extensions');
+
+foreach ($shortcodes_extensions as $shortcodes_extension) {
+    $shortcodes_extension_file_path = ROOT_DIR . '/src/flextype/core/Parsers/shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';
+    if (file_exists($shortcodes_extension_file_path)) {
+        include_once $shortcodes_extension_file_path;
+    }
+}
+
+/**
  * Init plugins
  */
 $flextype['plugins']->init($flextype, $app);

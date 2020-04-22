@@ -65,7 +65,7 @@ $app->get('/api/management/entries', function (Request $request, Response $respo
             $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token. '/token.yaml';
 
             // Set management token file
-            if ($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) {
+            if ($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) {
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
@@ -78,7 +78,7 @@ $app->get('/api/management/entries', function (Request $request, Response $respo
                 $response_code = count($response_data['data']) > 0 ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($management_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 
@@ -138,8 +138,8 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
             $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and access token file
-            if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
-                ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+            if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
+                ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
@@ -164,7 +164,7 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
                 $response_code = ($create_entry) ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($management_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 
@@ -223,8 +223,8 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
             $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and access token file
-            if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
-                ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+            if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
+                ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
@@ -249,7 +249,7 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
                 $response_code = ($update_entry) ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($management_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 
@@ -308,8 +308,8 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
             $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and access token file
-            if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
-                ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+            if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
+                ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
@@ -335,7 +335,7 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
                 $response_code = ($rename_entry) ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($management_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 
@@ -394,8 +394,8 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
             $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and access token file
-            if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
-                ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+            if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
+                ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
@@ -421,7 +421,7 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
                 $response_code = ($copy_entry) ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($management_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 
@@ -478,8 +478,8 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
             $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and access token file
-            if (($management_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
-                ($access_token_file_data = $flextype['parser']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+            if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
+                ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
                 if ($management_entries_token_file_data['state'] === 'disabled' ||
                     ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
@@ -498,7 +498,7 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
                 $response_code = ($delete_entry) ? 204 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($management_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 

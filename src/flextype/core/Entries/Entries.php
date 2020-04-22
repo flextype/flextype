@@ -51,7 +51,7 @@ class Entries
     public $entries = [];
 
     /**
-     * Set Expression
+     * Expression
      *
      * @var array
      * @access public
@@ -87,7 +87,7 @@ class Entries
     ];
 
     /**
-     * Set Order Direction
+     * Entires Order Direction
      *
      * @var array
      * @access public
@@ -98,7 +98,7 @@ class Entries
     ];
 
     /**
-     * Set Visibility
+     * Entries Visibility
      *
      * @var array
      * @access public
@@ -107,6 +107,23 @@ class Entries
         'draft' => 'draft',
         'hidden' => 'hidden',
         'visible' => 'visible',
+    ];
+
+    /**
+     * Entries system fields
+     *
+     * @var array
+     * @access public
+     */
+    public $system_fields = [
+        'published_at' => 'published_at',
+        'published_by' => 'published_by',
+        'created_at' => 'created_at',
+        'modified_at' => 'modified_at',
+        'slug' => 'slug',
+        'routable' => 'routable',
+        'parsers' => 'parsers',
+        'visibility' => 'visibility',
     ];
 
     /**
@@ -187,7 +204,7 @@ class Entries
                 // else Try to get requested entry from the filesystem
             }
 
-            $entry_decoded = $this->flextype['parser']->decode(Filesystem::read($entry_file), 'frontmatter');
+            $entry_decoded = $this->flextype['serializer']->decode(Filesystem::read($entry_file), 'frontmatter');
 
             // Add predefined entry items
             // Entry Published At
@@ -210,6 +227,41 @@ class Entries
                 $entry_decoded['visibility'] = (string) $this->visibility[$entry_decoded['visibility']];
             } else {
                 $entry_decoded['visibility'] = (string) $this->visibility['visible'];
+            }
+
+            // Parsers
+            if (isset($entry_decoded['parsers'])) {
+                foreach ($entry_decoded['parsers'] as $parser_name => $parser_data) {
+                    if (in_array($parser_name, ['markdown', 'shortcodes'])) {
+                        if (isset($entry_decoded['parsers'][$parser_name]['enabled']) && $entry_decoded['parsers'][$parser_name]['enabled'] === true) {
+                            if (isset($entry_decoded['parsers'][$parser_name]['fields'])) {
+                                if (is_array($entry_decoded['parsers'][$parser_name]['fields'])) {
+                                    foreach ($entry_decoded['parsers'][$parser_name]['fields'] as $field) {
+                                        if (! in_array($field, $this->system_fields)) {
+                                            if ($parser_name == 'markdown') {
+                                                $entry_decoded[$field] = $this->flextype['parser']->decode($entry_decoded[$field], 'markdown');
+                                            }
+                                            if ($parser_name == 'shortcodes') {
+                                                $entry_decoded[$field] = $this->flextype['parser']->decode($entry_decoded[$field], 'shortcodes');
+                                            }
+                                        }
+                                    }
+                                } elseif ($entry_decoded['parsers']['shortcodes']['fields'] == "*") {
+                                    foreach ($entry_decoded as $key => $value) {
+                                        if (! in_array($key, $this->system_fields)) {
+                                            if ($parser_name == 'markdown') {
+                                                $entry_decoded[$key] = $this->flextype['parser']->decode($entry_decoded[$key], 'markdown');
+                                            }
+                                            if ($parser_name == 'shortcodes') {
+                                                $entry_decoded[$key] = $this->flextype['parser']->decode($entry_decoded[$key], 'shortcodes');
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             // Save decoded entry content into the cache
@@ -320,12 +372,12 @@ class Entries
 
             // Create entries array from entries list and ignore current requested entry
             foreach ($entries_list as $current_entry) {
-                if (strpos($current_entry['path'], $bind_id . '/entry' . '.' . $this->flextype->registry->get('flextype.entries.extension')) !== false) {
+                if (strpos($current_entry['path'], $bind_id . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension')) !== false) {
                     // ignore ...
                 } else {
                     // We are checking...
                     // Whether the requested entry is a director and whether the file entry is in this directory.
-                    if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry' . '.' . $this->flextype->registry->get('flextype.entries.extension'))) {
+                    if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension'))) {
                         // Get entry uid
                         // 1. Remove entries path
                         // 2. Remove left and right slashes
@@ -341,7 +393,7 @@ class Entries
                         $entries_ids .= $uid;
 
                         // Create entries IDs timestamps
-                        $entries_ids_timestamps .= Filesystem::getTimestamp($current_entry['path'] . '/entry' . '.' . $this->flextype->registry->get('flextype.entries.extension'));
+                        $entries_ids_timestamps .= Filesystem::getTimestamp($current_entry['path'] . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension'));
                     }
                 }
             }
@@ -475,9 +527,9 @@ class Entries
 
         if (Filesystem::has($entry_file)) {
             $body  = Filesystem::read($entry_file);
-            $entry = $this->flextype['parser']->decode($body, 'frontmatter');
+            $entry = $this->flextype['serializer']->decode($body, 'frontmatter');
 
-            return Filesystem::write($entry_file, $this->flextype['parser']->encode(array_merge($entry, $data), 'frontmatter'));
+            return Filesystem::write($entry_file, $this->flextype['serializer']->encode(array_merge($entry, $data), 'frontmatter'));
         }
 
         return false;
@@ -501,7 +553,7 @@ class Entries
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
                 // Check if new entry file exists
-                if (! Filesystem::has($entry_file = $entry_dir . '/entry' . '.' . $this->flextype->registry->get('flextype.entries.extension'))) {
+                if (! Filesystem::has($entry_file = $entry_dir . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension'))) {
                     $data['uuid']         = Uuid::uuid4()->toString();
                     $data['published_at'] = date($this->flextype->registry->get('flextype.settings.date_format'), time());
                     $data['created_at']   = date($this->flextype->registry->get('flextype.settings.date_format'), time());
@@ -520,7 +572,7 @@ class Entries
                         $data['visibility'] = 'visible';
                     }
 
-                    return Filesystem::write($entry_file, $this->flextype['parser']->encode($data, 'frontmatter'));
+                    return Filesystem::write($entry_file, $this->flextype['serializer']->encode($data, 'frontmatter'));
                 }
 
                 return false;
@@ -585,7 +637,7 @@ class Entries
      */
     public function getFileLocation(string $id) : string
     {
-        return PATH['site'] . '/entries/' . $id . '/entry' . '.' . $this->flextype->registry->get('flextype.entries.extension');
+        return PATH['site'] . '/entries/' . $id . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension');
     }
 
     /**

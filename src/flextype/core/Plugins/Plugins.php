@@ -43,7 +43,7 @@ class Plugins
     public function __construct($flextype, $app)
     {
         $this->flextype = $flextype;
-        $this->locales  = $this->flextype['parser']->decode(Filesystem::read(ROOT_DIR . '/src/flextype/config/locales.yaml'), 'yaml');
+        $this->locales  = $this->flextype['serializer']->decode(Filesystem::read(ROOT_DIR . '/src/flextype/config/locales.yaml'), 'yaml');
     }
 
     /**
@@ -126,7 +126,7 @@ class Plugins
 
                 // Get default plugin settings content
                 $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
-                $default_plugin_settings              = $this->flextype['parser']->decode($default_plugin_settings_file_content, 'yaml');
+                $default_plugin_settings              = $this->flextype['serializer']->decode($default_plugin_settings_file_content, 'yaml');
 
                 // Create site plugin settings file
                 ! Filesystem::has($site_plugin_settings_file) and Filesystem::write($site_plugin_settings_file, $default_plugin_settings_file_content);
@@ -137,7 +137,7 @@ class Plugins
                 if (trim($site_plugin_settings_file_content) === '') {
                     $site_plugin_settings = [];
                 } else {
-                    $site_plugin_settings = $this->flextype['parser']->decode($site_plugin_settings_file_content, 'yaml');
+                    $site_plugin_settings = $this->flextype['serializer']->decode($site_plugin_settings_file_content, 'yaml');
                 }
 
                 // Check if default plugin manifest file exists
@@ -147,7 +147,7 @@ class Plugins
 
                 // Get default plugin manifest content
                 $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
-                $default_plugin_manifest              = $this->flextype['parser']->decode($default_plugin_manifest_file_content, 'yaml');
+                $default_plugin_manifest              = $this->flextype['serializer']->decode($default_plugin_manifest_file_content, 'yaml');
 
                 // Merge plugin settings and manifest data
                 $plugins[$plugin['dirname']]['manifest'] = $default_plugin_manifest;
@@ -210,7 +210,7 @@ class Plugins
                 throw new RuntimeException('Load file: ' . $language_file . ' - failed!');
             }
 
-            $translates = $this->flextype['parser']->decode($content, 'yaml');
+            $translates = $this->flextype['serializer']->decode($content, 'yaml');
 
             I18n::add($translates, $locale);
         }

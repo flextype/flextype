@@ -59,7 +59,7 @@ $app->get('/api/delivery/entries', function (Request $request, Response $respons
             $delivery_entries_token_file_path = PATH['site'] . '/tokens/delivery/entries/' . $token. '/token.yaml';
 
             // Set delivery token file
-            if ($delivery_entries_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_entries_token_file_path), 'yaml')) {
+            if ($delivery_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($delivery_entries_token_file_path), 'yaml')) {
                 if ($delivery_entries_token_file_data['state'] === 'disabled' ||
                     ($delivery_entries_token_file_data['limit_calls'] !== 0 && $delivery_entries_token_file_data['calls'] >= $delivery_entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
@@ -72,7 +72,7 @@ $app->get('/api/delivery/entries', function (Request $request, Response $respons
                 $response_code = count($response_data['data']) > 0 ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($delivery_entries_token_file_path, $flextype['parser']->encode(array_replace_recursive($delivery_entries_token_file_data, ['calls' => $delivery_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($delivery_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($delivery_entries_token_file_data, ['calls' => $delivery_entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 

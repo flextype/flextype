@@ -56,7 +56,7 @@ $app->get('/api/delivery/registry', function (Request $request, Response $respon
             $delivery_registry_token_file_path = PATH['site'] . '/tokens/delivery/registry/' . $token . '/token.yaml';
 
             // Set delivery token file
-            if ($delivery_registry_token_file_data = $flextype['parser']->decode(Filesystem::read($delivery_registry_token_file_path), 'yaml')) {
+            if ($delivery_registry_token_file_data = $flextype['serializer']->decode(Filesystem::read($delivery_registry_token_file_path), 'yaml')) {
                 if ($delivery_registry_token_file_data['state'] === 'disabled' ||
                     ($delivery_registry_token_file_data['limit_calls'] !== 0 && $delivery_registry_token_file_data['calls'] >= $delivery_registry_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
@@ -76,7 +76,7 @@ $app->get('/api/delivery/registry', function (Request $request, Response $respon
                 }
 
                 // Update calls counter
-                Filesystem::write($delivery_registry_token_file_path, $flextype['parser']->encode(array_replace_recursive($delivery_registry_token_file_data, ['calls' => $delivery_registry_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($delivery_registry_token_file_path, $flextype['serializer']->encode(array_replace_recursive($delivery_registry_token_file_data, ['calls' => $delivery_registry_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 

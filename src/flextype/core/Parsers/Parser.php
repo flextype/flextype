@@ -24,16 +24,7 @@ class Parser
      * @var array
      */
     private $parsers = [
-        'frontmatter' => [
-            'name' => 'frontmatter',
-            'ext' => 'md',
-        ], 'json' => [
-            'name' => 'json',
-            'ext' => 'json',
-        ], 'yaml' => [
-            'name' => 'yaml',
-            'ext' => 'yaml',
-        ], 'markdown' => [
+        'markdown' => [
             'name' => 'markdown',
             'ext' => 'md',
         ],
@@ -66,23 +57,19 @@ class Parser
      * Dumps a PHP value to a string CONTENT.
      *
      * @param mixed  $input  Content to parse
-     * @param string $parser Parser type [frontmatter, json, yaml]
+     * @param string $parser Parser type [markdown]
      *
      * @return mixed PHP value converted to a string CONTENT.
      */
     public function encode($input, string $parser) : string
     {
         switch ($parser) {
-            case 'frontmatter':
-                return Frontmatter::encode($input);
+            case 'markdown':
+                return $input;
 
                 break;
-            case 'json':
-                return Json::encode($input);
-
-                break;
-            case 'yaml':
-                return Yaml::encode($input);
+            case 'shortcodes':
+                return $input;
 
                 break;
             default:
@@ -102,57 +89,6 @@ class Parser
     public function decode(string $input, string $parser, bool $cache = true)
     {
         switch ($parser) {
-            case 'frontmatter':
-                if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
-                    $key = md5($input);
-
-                    if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
-                        return $data_from_cache;
-                    }
-
-                    $data = Frontmatter::decode($input);
-                    $this->flextype['cache']->save($key, $data);
-
-                    return $data;
-                } else {
-                    return Frontmatter::decode($input);
-                }
-
-                break;
-            case 'json':
-                if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
-                    $key = md5($input);
-
-                    if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
-                        return $data_from_cache;
-                    }
-
-                    $data = Json::decode($input);
-                    $this->flextype['cache']->save($key, $data);
-
-                    return $data;
-                } else {
-                    return Json::decode($input);
-                }
-
-                break;
-            case 'yaml':
-                if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
-                    $key = md5($input);
-
-                    if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
-                        return $data_from_cache;
-                    }
-
-                    $data = Yaml::decode($input);
-                    $this->flextype['cache']->save($key, $data);
-
-                    return $data;
-                } else {
-                    return Yaml::decode($input);
-                }
-
-                break;
             case 'markdown':
                 if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
                     $key = md5($input);
@@ -168,6 +104,23 @@ class Parser
                 } else {
                     return Markdown::decode($input);
                 }
+
+                break;
+                case 'shortcodes':
+                    if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
+                        $key = md5($input);
+
+                        if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
+                            return $data_from_cache;
+                        }
+
+                        $data = $this->flextype['shortcodes']->process($input);
+                        $this->flextype['cache']->save($key, $data);
+
+                        return $data;
+                    } else {
+                        return $this->flextype['shortcodes']->process($input);
+                    }
 
                 break;
             default:
