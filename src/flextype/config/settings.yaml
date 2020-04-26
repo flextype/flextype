@@ -1,4 +1,4 @@
-# Set the timezone to be used on the website.
+# Set the timezone to be used on the project.
 # For a list of valid timezone settings, see:
 # http://php.net/manual/en/timezones.php
 timezone: UTC

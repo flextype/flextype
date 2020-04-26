@@ -143,7 +143,7 @@ $flextype['images'] = static function ($container) {
 
     // Set source filesystem
     $source = new Filesystem(
-        new Local(PATH['site'] . '/uploads/entries/')
+        new Local(PATH['project'] . '/uploads/entries/')
     );
 
     // Set cache filesystem
@@ -153,7 +153,7 @@ $flextype['images'] = static function ($container) {
 
     // Set watermarks filesystem
     $watermarks = new Filesystem(
-        new Local(PATH['site'] . '/watermarks')
+        new Local(PATH['project'] . '/watermarks')
     );
 
     // Set image manager

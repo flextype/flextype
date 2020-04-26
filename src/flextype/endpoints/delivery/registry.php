@@ -25,7 +25,7 @@ $api_sys_messages['NotFound'] = ['sys' => ['type' => 'Error', 'id' => 'NotFound'
  */
 function validate_delivery_registry_token($token) : bool
 {
-    return Filesystem::has(PATH['site'] . '/tokens/delivery/registry/' . $token . '/token.yaml');
+    return Filesystem::has(PATH['project'] . '/tokens/delivery/registry/' . $token . '/token.yaml');
 }
 
 /**
@@ -53,7 +53,7 @@ $app->get('/api/delivery/registry', function (Request $request, Response $respon
 
         // Validate delivery token
         if (validate_delivery_registry_token($token)) {
-            $delivery_registry_token_file_path = PATH['site'] . '/tokens/delivery/registry/' . $token . '/token.yaml';
+            $delivery_registry_token_file_path = PATH['project'] . '/tokens/delivery/registry/' . $token . '/token.yaml';
 
             // Set delivery token file
             if ($delivery_registry_token_file_data = $flextype['serializer']->decode(Filesystem::read($delivery_registry_token_file_path), 'yaml')) {

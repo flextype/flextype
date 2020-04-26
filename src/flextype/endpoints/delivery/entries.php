@@ -26,7 +26,7 @@ $api_sys_messages['NotFound'] = ['sys' => ['type' => 'Error', 'id' => 'NotFound'
  */
 function validate_delivery_entries_token($token) : bool
 {
-    return Filesystem::has(PATH['site'] . '/tokens/delivery/entries/' . $token . '/token.yaml');
+    return Filesystem::has(PATH['project'] . '/tokens/delivery/entries/' . $token . '/token.yaml');
 }
 
 /**
@@ -56,7 +56,7 @@ $app->get('/api/delivery/entries', function (Request $request, Response $respons
 
         // Validate delivery token
         if (validate_delivery_entries_token($token)) {
-            $delivery_entries_token_file_path = PATH['site'] . '/tokens/delivery/entries/' . $token. '/token.yaml';
+            $delivery_entries_token_file_path = PATH['project'] . '/tokens/delivery/entries/' . $token. '/token.yaml';
 
             // Set delivery token file
             if ($delivery_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($delivery_entries_token_file_path), 'yaml')) {

@@ -26,7 +26,7 @@ $api_sys_messages['NotFound'] = ['sys' => ['type' => 'Error', 'id' => 'NotFound'
  */
 function validate_management_entries_token($token) : bool
 {
-    return Filesystem::has(PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml');
+    return Filesystem::has(PATH['project'] . '/tokens/management/entries/' . $token . '/token.yaml');
 }
 
 /**
@@ -34,7 +34,7 @@ function validate_management_entries_token($token) : bool
  */
 function validate_access_token($token) : bool
 {
-    return Filesystem::has(PATH['site'] . '/tokens/access/' . $token . '/token.yaml');
+    return Filesystem::has(PATH['project'] . '/tokens/access/' . $token . '/token.yaml');
 }
 
 /**
@@ -62,7 +62,7 @@ $app->get('/api/management/entries', function (Request $request, Response $respo
     if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
         // Validate management token
         if (validate_management_entries_token($token)) {
-            $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token. '/token.yaml';
+            $management_entries_token_file_path = PATH['project'] . '/tokens/management/entries/' . $token. '/token.yaml';
 
             // Set management token file
             if ($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) {
@@ -134,8 +134,8 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
 
         // Validate management and access token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
-            $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
-            $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
+            $management_entries_token_file_path = PATH['project'] . '/tokens/management/entries/' . $token . '/token.yaml';
+            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and access token file
             if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
@@ -219,8 +219,8 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
 
         // Validate management and access token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
-            $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
-            $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
+            $management_entries_token_file_path = PATH['project'] . '/tokens/management/entries/' . $token . '/token.yaml';
+            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and access token file
             if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
@@ -304,8 +304,8 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
 
         // Validate management and access token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
-            $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
-            $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
+            $management_entries_token_file_path = PATH['project'] . '/tokens/management/entries/' . $token . '/token.yaml';
+            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and access token file
             if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
@@ -390,8 +390,8 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
 
         // Validate management and access token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
-            $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
-            $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
+            $management_entries_token_file_path = PATH['project'] . '/tokens/management/entries/' . $token . '/token.yaml';
+            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and access token file
             if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
@@ -474,8 +474,8 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
 
         // Validate management and access token
         if (validate_management_entries_token($token) && validate_access_token($access_token)) {
-            $management_entries_token_file_path = PATH['site'] . '/tokens/management/entries/' . $token . '/token.yaml';
-            $access_token_file_path = PATH['site'] . '/tokens/access/' . $access_token . '/token.yaml';
+            $management_entries_token_file_path = PATH['project'] . '/tokens/management/entries/' . $token . '/token.yaml';
+            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set management and access token file
             if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&

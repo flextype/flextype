@@ -100,24 +100,24 @@ class Plugins
             $plugin_settings         = [];
             $plugin_manifest         = [];
             $default_plugin_settings = [];
-            $site_plugin_settings    = [];
+            $project_plugin_settings    = [];
             $default_plugin_manifest = [];
 
             // Go through...
             foreach ($plugins_list as $plugin) {
 
                 // Set plugin settings directory
-                $site_plugin_settings_dir = PATH['site'] . '/config/plugins/' . $plugin['dirname'];
+                $project_plugin_settings_dir = PATH['project'] . '/config/plugins/' . $plugin['dirname'];
 
                 // Set default plugin settings and manifest files
-                $default_plugin_settings_file = PATH['site'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
-                $default_plugin_manifest_file = PATH['site'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
+                $default_plugin_settings_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $default_plugin_manifest_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
 
-                // Set site plugin settings file
-                $site_plugin_settings_file = PATH['site'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                // Set project plugin settings file
+                $project_plugin_settings_file = PATH['project'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
 
-                // Create site plugin settings directory
-                ! Filesystem::has($site_plugin_settings_dir) and Filesystem::createDir($site_plugin_settings_dir);
+                // Create project plugin settings directory
+                ! Filesystem::has($project_plugin_settings_dir) and Filesystem::createDir($project_plugin_settings_dir);
 
                 // Check if default plugin settings file exists
                 if (! Filesystem::has($default_plugin_settings_file)) {
@@ -128,16 +128,16 @@ class Plugins
                 $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
                 $default_plugin_settings              = $this->flextype['serializer']->decode($default_plugin_settings_file_content, 'yaml');
 
-                // Create site plugin settings file
-                ! Filesystem::has($site_plugin_settings_file) and Filesystem::write($site_plugin_settings_file, $default_plugin_settings_file_content);
+                // Create project plugin settings file
+                ! Filesystem::has($project_plugin_settings_file) and Filesystem::write($project_plugin_settings_file, $default_plugin_settings_file_content);
 
-                // Get site plugin settings content
-                $site_plugin_settings_file_content = Filesystem::read($site_plugin_settings_file);
+                // Get project plugin settings content
+                $project_plugin_settings_file_content = Filesystem::read($project_plugin_settings_file);
 
-                if (trim($site_plugin_settings_file_content) === '') {
-                    $site_plugin_settings = [];
+                if (trim($project_plugin_settings_file_content) === '') {
+                    $project_plugin_settings = [];
                 } else {
-                    $site_plugin_settings = $this->flextype['serializer']->decode($site_plugin_settings_file_content, 'yaml');
+                    $project_plugin_settings = $this->flextype['serializer']->decode($project_plugin_settings_file_content, 'yaml');
                 }
 
                 // Check if default plugin manifest file exists
@@ -151,7 +151,7 @@ class Plugins
 
                 // Merge plugin settings and manifest data
                 $plugins[$plugin['dirname']]['manifest'] = $default_plugin_manifest;
-                $plugins[$plugin['dirname']]['settings'] = array_replace_recursive($default_plugin_settings, $site_plugin_settings);
+                $plugins[$plugin['dirname']]['settings'] = array_replace_recursive($default_plugin_settings, $project_plugin_settings);
 
                 // Check if is not set plugin priority
                 if (! isset($plugins[$plugin['dirname']]['settings']['priority'])) {
@@ -200,7 +200,7 @@ class Plugins
     private function getPluginsDictionary(array $plugins_list, string $locale) : array
     {
         foreach ($plugins_list as $plugin) {
-            $language_file = PATH['site'] . '/plugins/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
+            $language_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
 
             if (! Filesystem::has($language_file)) {
                 continue;
@@ -233,20 +233,20 @@ class Plugins
         // Go through...
         if (is_array($plugins_list) && count($plugins_list) > 0) {
             foreach ($plugins_list as $plugin) {
-                $default_plugin_settings_file = PATH['site'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
-                $default_plugin_manifest_file = PATH['site'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
-                $site_plugin_settings_file    = PATH['config'] . '/site/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $default_plugin_settings_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $default_plugin_manifest_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
+                $project_plugin_settings_file    = PATH['config'] . '/project/plugins/' . $plugin['dirname'] . '/settings.yaml';
 
                 $f1 = Filesystem::has($default_plugin_settings_file) ? filemtime($default_plugin_settings_file) : '';
                 $f2 = Filesystem::has($default_plugin_manifest_file) ? filemtime($default_plugin_manifest_file) : '';
-                $f3 = Filesystem::has($site_plugin_settings_file) ? filemtime($site_plugin_settings_file) : '';
+                $f3 = Filesystem::has($project_plugin_settings_file) ? filemtime($project_plugin_settings_file) : '';
 
                 $_plugins_cache_id .= $f1 . $f2 . $f3;
             }
         }
 
         // Create Unique Cache ID for Plugins
-        $plugins_cache_id = md5('plugins' . PATH['site'] . '/plugins/' . $_plugins_cache_id);
+        $plugins_cache_id = md5('plugins' . PATH['project'] . '/plugins/' . $_plugins_cache_id);
 
         // Return plugin cache id
         return $plugins_cache_id;
@@ -310,7 +310,7 @@ class Plugins
         // Get Plugins List
         $plugins_list = [];
 
-        foreach (Filesystem::listContents(PATH['site'] . '/plugins/') as $plugin) {
+        foreach (Filesystem::listContents(PATH['project'] . '/plugins/') as $plugin) {
             if ($plugin['type'] !== 'dir') {
                 continue;
             }
@@ -337,7 +337,7 @@ class Plugins
                 continue;
             }
 
-            include_once PATH['site'] . '/plugins/' . $plugin_name . '/bootstrap.php';
+            include_once PATH['project'] . '/plugins/' . $plugin_name . '/bootstrap.php';
         }
     }
 }

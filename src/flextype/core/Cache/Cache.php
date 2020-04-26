@@ -67,7 +67,7 @@ class Cache
         $this->now = time();
 
         // Create cache key to allow invalidate all cache on configuration changes.
-        $this->key = ($this->flextype['registry']->get('flextype.settings.cache.prefix') ?? 'flextype') . '-' . md5(PATH['site'] . 'Flextype::VERSION');
+        $this->key = ($this->flextype['registry']->get('flextype.settings.cache.prefix') ?? 'flextype') . '-' . md5(PATH['project'] . 'Flextype::VERSION');
 
         // Get Cache Driver
         $this->driver = $this->getCacheDriver();

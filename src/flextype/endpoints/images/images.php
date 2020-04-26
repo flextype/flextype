@@ -20,7 +20,7 @@ use function header;
  */
 function validate_images_token($token) : bool
 {
-    return Filesystem::has(PATH['site'] . '/tokens/images/' . $token . '/token.yaml');
+    return Filesystem::has(PATH['project'] . '/tokens/images/' . $token . '/token.yaml');
 }
 
 /**
@@ -55,7 +55,7 @@ $app->get('/api/images/{path:.+}', function (Request $request, Response $respons
 
         // Validate delivery image token
         if (validate_images_token($token)) {
-            $delivery_images_token_file_path = PATH['site'] . '/tokens/images/' . $token . '/token.yaml';
+            $delivery_images_token_file_path = PATH['project'] . '/tokens/images/' . $token . '/token.yaml';
 
             // Set delivery token file
             if ($delivery_images_token_file_data = $flextype['serializer']->decode(Filesystem::read($delivery_images_token_file_path), 'yaml')) {
@@ -68,7 +68,7 @@ $app->get('/api/images/{path:.+}', function (Request $request, Response $respons
                 // Update calls counter
                 Filesystem::write($delivery_images_token_file_path, $flextype['serializer']->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1]), 'yaml'));
 
-                if (Filesystem::has(PATH['site'] . '/uploads/entries/' . $args['path'])) {
+                if (Filesystem::has(PATH['project'] . '/uploads/entries/' . $args['path'])) {
                     header('Access-Control-Allow-Origin: *');
 
                     return $flextype['images']->getImageResponse($args['path'], $_GET);
