@@ -54,25 +54,25 @@ Flextype is open source, community driven project, and maintained by community!
 
 ## SUPPORTING FLEXTYPE
 
+Flextype is an open source project and community contributions are essential to its growing and success.
+Contributing to the Flextype is easy and you can give as little or as much time as you want.
+
+#### FINANCIAL SUPPORT
 Flextype is an MIT-licensed open source project and completely free to use.
+However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing.
 
-However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing. You can support it's ongoing development by being a backer or a sponsor:
-
+You can support it's ongoing development by being a project backer or a sponsor:
 - [Become a backer or sponsor on Patreon](https://www.patreon.com/awilum).
 - [One-time donation via PayPal, QIWI, Sberbank, Yandex](http://flextype.org/en/one-time-donation)
 - [Visit our Sponsors & Backers page](http://flextype.org/en/sponsors)
 
-## CONTRIBUTE
+#### INTERNATIONAL TRANSLATOR TEAM
+We are on a mission to build high quality platform to develop fast, flexible, easier to manage websites with Flextype!
 
-Flextype is an open source project and community contributions are essential to its growing and success. Contributing to the Flextype is easy and you can give as little or as much time as you want.
+If you wish to participate in the translation of Flextype, please Join Flextype International Translator Team and start translating!
 
-- Help on the [Communities.](http://flextype.org/en/community)
-- Develop a new plugin.
-- Create a new theme.
-- Find and [report issues.](https://github.com/flextype/flextype/issues)
-- Link back to [Flextype](http://flextype.org).
-- [Donate to keep Flextype free.](http://flextype.org/en/sponsors)
-- [Join Flextype International Translator Team](http://flextype.org/en/international-translator-team)
+Our crowdin projects:
+[Flextype Admin Panel Plugin](https://crowdin.com/project/flextype-plugin-admin), [Flextype Form Admin Plugin](https://crowdin.com/project/flextype-plugin-form-admin), [Flextype Themes Admin Plugin](https://crowdin.com/project/flextype-plugin-themes-admin), [Flextype Website](https://crowdin.com/project/flextype-website), [Flextype Documentation](https://crowdin.com/project/flextype-documentation)
 
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
