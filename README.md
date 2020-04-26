@@ -55,10 +55,13 @@ Flextype is open source, community driven project, and maintained by community!
 ## SUPPORTING FLEXTYPE
 
 Flextype is an open source project and community contributions are essential to its growing and success.
+
 Contributing to the Flextype is easy and you can give as little or as much time as you want.
 
 #### FINANCIAL SUPPORT
+
 Flextype is an MIT-licensed open source project and completely free to use.
+
 However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing.
 
 You can support it's ongoing development by being a project backer or a sponsor:
@@ -67,6 +70,7 @@ You can support it's ongoing development by being a project backer or a sponsor:
 - [Visit our Sponsors & Backers page](http://flextype.org/en/sponsors)
 
 #### INTERNATIONAL TRANSLATOR TEAM
+
 We are on a mission to build high quality platform to develop fast, flexible, easier to manage websites with Flextype!
 
 If you wish to participate in the translation of Flextype, please Join Flextype International Translator Team and start translating!
