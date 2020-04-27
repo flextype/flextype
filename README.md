@@ -23,13 +23,13 @@ The underlying architecture of Flextype is built using well established and best
 
 ## REQUIREMENTS
 
-#### System requirements
+#### SYSTEM REQUIREMENTS
 Make sure your server meets the following requirements.
 
 * Webserver (Apache with Mod Rewrite)
 * PHP 7.2.0 or higher
 
-#### PHP extensions
+#### PHP EXTENSIONS
 Flextype needs the following PHP extensions to be enabled:
 
 * PHP [mbstring](http://php.net/manual/en/book.mbstring.php) module for full UTF-8 support.
