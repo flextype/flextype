@@ -1,11 +1,9 @@
-<h1 align="center">
-SELF-HOSTED DATA-FIRST HEADLESS CMS & API.
-</h1>
+<h1 align="center">SELF-HOSTED DATA-FIRST HEADLESS CMS & API.</h1>
 
 ![preview](http://flextype.org/site/uploads/entries/en/press-kit/flextype-banner-invert.jpg?v1)
 
 <p align="center">
-<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version&color=black"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?color=black" alt="Total downloads"></a> <a href="https://scrutinizer-ci.com/g/flextype/flextype?branch=master"><img src="https://img.shields.io/scrutinizer/g/flextype/flextype.svg?branch=master&color=black" alt="Quality Score"></a> <a href=""><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat" alt="Discord"></a>
+<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version&color=black"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?color=black" alt="Total downloads"></a> <a href="https://scrutinizer-ci.com/g/flextype/flextype?branch=master"><img src="https://img.shields.io/scrutinizer/g/flextype/flextype.svg?branch=master&color=black" alt="Quality Score"></a> <a href="https://flextype.org/en/discord"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat" alt="Discord"></a>
 </p>
 <br>
 
@@ -47,10 +45,21 @@ APC, APCu, XCache, Memcached, or Redis for better performance.
 ## COMMUNITY
 Flextype is open source, community driven project, and maintained by community!
 
-- [Github](https://github.com/flextype)
-- [Discord](https://flextype.org/en/discord)
-- [Twitter](https://twitter.com/getflextype)
-- [Vkontakte](https://vk.com/flextype)
+#### [Discord](https://flextype.org/en/discord)
+
+Got a question about setting up or using Flextype? We'll do our best to help you out. Also here you may start discussions about core, plugin and themes development.
+
+#### [Github](https://github.com/flextype)
+
+If you want to report a bug or contribute your ideas, you can use the Flextype GitHub Issues tracker.
+
+#### [Twitter](https://twitter.com/getflextype)
+
+Follow Flextype on Twitter to get real-time news regarding the development and all events we are attending.
+
+#### [Vkontakte](https://vk.com/flextype)
+
+Russian Flextype Community!
 
 ## SUPPORTING FLEXTYPE
 
