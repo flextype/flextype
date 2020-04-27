@@ -251,7 +251,7 @@ class Entries
                                             }
                                         }
                                     }
-                                } elseif ($entry_decoded['parsers']['shortcodes']['fields'] == "*") {
+                                } elseif ($entry_decoded['parsers'][$parser_name]['fields'] == "*") {
                                     foreach ($entry_decoded as $key => $value) {
                                         if (! in_array($key, $this->system_fields)) {
                                             if ($parser_name == 'markdown') {
