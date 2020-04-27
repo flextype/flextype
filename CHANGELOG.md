@@ -1,5 +1,5 @@
 <a name="0.9.8"></a>
-# [0.9.8](https://github.com/flextype/flextype/compare/v0.9.7...v0.9.8) (2020-04-xx)
+# [0.9.8](https://github.com/flextype/flextype/compare/v0.9.7...v0.9.8) (2020-05-xx)
 
 ### Features
 * **core:** New lightweight and powerful core for kickass Applications!
@@ -20,7 +20,20 @@
 * **core:** add Application URL `url` into the common flextype settings #405
 * **core:** add new improved plugins sorting in the Plugins API.
 * **core:** add dependencies validation for Plugins API #411
-* **core:** add manifest file `/src/flextype/config/flextype.yaml` for Flextype 
+* **core:** add configurable CORS(Cross-origin resource sharing).
+
+    ```
+    cors:
+      enabled: true
+      origin: "*"
+      headers: ["X-Requested-With", "Content-Type", "Accept", "Origin", "Authorization"]
+      methods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+      expose: []
+      credentials: false
+    ```
+
+* **core:** add manifest file `/src/flextype/config/flextype.yaml` for Flextype.
+* **core:** add Serializer for data encoding/decoding and Parser for data parsing #424
 
 ### Bug Fixes
 
@@ -50,6 +63,11 @@
     ```
     {{ registry.get('flextype.settings.url') }}
     ```
+
+* **core:** new `project` folder instead of `site`
+
+    - rename folder `site` into `project`
+    - use new constant PATH['project'] instead of constant PATH['site']
 
 <a name="0.9.7"></a>
 # [0.9.7](https://github.com/flextype/flextype/compare/v0.9.6...v0.9.7) (2020-03-03)
