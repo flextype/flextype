@@ -45,7 +45,7 @@ APC, APCu, XCache, Memcached, or Redis for better performance.
 ## QUICK INSTALLATION
 
 1. [Download the latest version of Flextype](http://flextype.org/en/downloads).
-2. Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, create directory <code>/site</code> and be sure to chmod the following directory to <code>755</code> (or <code>777</code>), so it is readable and writable by Flextype.<br>
+2. Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, create directory <code>/project</code> and be sure to chmod the following directory to <code>755</code> (or <code>777</code>), so it is readable and writable by Flextype.<br>
 3. Create CDA, CMA and Access tokens for your project using this [webpage](http://flextype.org/en/downloads).
 
 [READ THE DOCUMENTATION](https://github.com/flextype/plugins)
