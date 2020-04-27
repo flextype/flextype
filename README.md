@@ -1,6 +1,6 @@
 <h1 align="center">SELF-HOSTED DATA-FIRST HEADLESS CMS & API.</h1>
 
-![preview](http://flextype.org/site/uploads/entries/en/press-kit/flextype-banner-invert.jpg?v1)
+![preview](https://flextype.org/site/uploads/entries/en/press-kit/flextype-banner-invert.jpg?v1)
 
 <p align="center">
 <a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version&color=black"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?color=black" alt="Total downloads"></a> <a href="https://scrutinizer-ci.com/g/flextype/flextype?branch=master"><img src="https://img.shields.io/scrutinizer/g/flextype/flextype.svg?branch=master&color=black" alt="Quality Score"></a> <a href="https://flextype.org/en/discord"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat" alt="Discord"></a>
@@ -26,18 +26,18 @@ The underlying architecture of Flextype is built using well established and best
 #### System requirements
 Make sure your server meets the following requirements.
 
-- Webserver (Apache with Mod Rewrite)
-- PHP 7.2.0 or higher
+* Webserver (Apache with Mod Rewrite)
+* PHP 7.2.0 or higher
 
 #### PHP extensions
 Flextype needs the following PHP extensions to be enabled:
 
-- PHP [mbstring](http://php.net/manual/en/book.mbstring.php) module for full UTF-8 support.
-- PHP [gd](http://php.net/manual/en/book.image.php) or [ImageMagick](http://php.net/manual/en/book.imagick.php) module for image processing.
-- PHP [json](https://php.net/manual/en/book.json.php) module for JSON manipulation.
-- PHP [Fileinfo](https://www.php.net/manual/en/book.fileinfo.php)
-- PHP [SPL](https://www.php.net/manual/en/book.spl.php)
-- PHP [DOM](https://www.php.net/manual/ru/class.domdocument.php)
+* PHP [mbstring](http://php.net/manual/en/book.mbstring.php) module for full UTF-8 support.
+* PHP [gd](http://php.net/manual/en/book.image.php) or [ImageMagick](http://php.net/manual/en/book.imagick.php) module for image processing.
+* PHP [json](https://php.net/manual/en/book.json.php) module for JSON manipulation.
+* PHP [Fileinfo](https://www.php.net/manual/en/book.fileinfo.php)
+* PHP [SPL](https://www.php.net/manual/en/book.spl.php)
+* PHP [DOM](https://www.php.net/manual/ru/class.domdocument.php)
 
 Although it is optional, we strongly recommend enabling the following PHP extensions:
 APC, APCu, XCache, Memcached, or Redis for better performance.
@@ -67,25 +67,40 @@ Flextype is an open source project and community contributions are essential to 
 
 Contributing to the Flextype is easy and you can give as little or as much time as you want.
 
-#### FINANCIAL SUPPORT
+### FINANCIAL SUPPORT
 
 Flextype is an MIT-licensed open source project and completely free to use.
 
 However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing.
 
 You can support it's ongoing development by being a project backer or a sponsor:
-- [Become a backer or sponsor on Patreon](https://www.patreon.com/awilum).
-- [One-time donation via PayPal, QIWI, Sberbank, Yandex](http://flextype.org/en/one-time-donation)
-- [Visit our Sponsors & Backers page](http://flextype.org/en/sponsors)
+* [Become a backer or sponsor on Patreon](https://www.patreon.com/awilum).
+* [One-time donation via PayPal, QIWI, Sberbank, Yandex](https://flextype.org/en/one-time-donation)
+* [Visit our Sponsors & Backers page](https://flextype.org/en/sponsors)
 
-#### INTERNATIONAL TRANSLATOR TEAM
+### PLATFORM CONTRIBUTIONS
+
+Another excellent way to help out is by contributing your time or services.
+
+#### TRANSLATION
 
 We are on a mission to build high quality platform to develop fast, flexible, easier to manage websites with Flextype!
 
-If you wish to participate in the translation of Flextype, please Join Flextype International Translator Team and start translating!
+If you wish to participate in the translation of Flextype, please [Join Flextype International Translator Team and start translating](https://flextype.org/en/international-translator-team)!
 
-Our crowdin projects:
-[Flextype Admin Panel Plugin](https://crowdin.com/project/flextype-plugin-admin), [Flextype Form Admin Plugin](https://crowdin.com/project/flextype-plugin-form-admin), [Flextype Themes Admin Plugin](https://crowdin.com/project/flextype-plugin-themes-admin), [Flextype Website](https://crowdin.com/project/flextype-website), [Flextype Documentation](https://crowdin.com/project/flextype-documentation)
+#### BUG REPORTING
+
+We are using GitHub Issues to manage our public bugs. We keep a close eye on this so before filing a new issue, try to make sure the problem does not already exist.
+
+#### PULL REQUESTS
+
+We actively welcome your pull requests!
+
+If you need help with Git or our workflow, please ask in our community chat. We want your contributions even if you're just learning Git. Our maintainers are happy to help!
+
+#### DOCS
+
+You may help us to create amazing knowledge base for Flextype. Fix spelling, add code examples, help organize, write new articles, and etc...
 
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
