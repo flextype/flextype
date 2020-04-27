@@ -51,6 +51,11 @@
 
         "bnf/slim3-psr15": "~1.1.1",
 
+        "erusev/parsedown": "~1.7.3",
+        "erusev/parsedown-extra": "~0.7.1",
+
+        "thunderer/shortcode": "~0.7.3",
+
         "composer/semver": "~1.5.1"
     },
     "suggest": {
