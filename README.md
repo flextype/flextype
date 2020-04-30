@@ -96,7 +96,7 @@ Another excellent way to help out is by contributing your time or services.
 
 We are on a mission to build high quality platform to develop fast, flexible, easier to manage websites with Flextype!
 
-If you wish to participate in the translation of Flextype, please [Join Flextype International Translator Team and start translating](https://flextype.org/en/international-translator-team)!
+If you wish to participate in the translation of Flextype, please [Join Flextype International Translator Team](https://flextype.org/en/international-translator-team) and start translating!
 
 #### BUG REPORTING
 
