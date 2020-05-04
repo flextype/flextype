@@ -13,6 +13,7 @@ use Flextype\Component\Arr\Arr;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\I18n\I18n;
 use Composer\Semver\Comparator;
+use Composer\Semver\Semver;
 use RuntimeException;
 use function array_replace_recursive;
 use function count;
@@ -261,41 +262,49 @@ class Plugins
      */
     public function getValidPluginsDependencies($plugins) : array
     {
+
+        // Set verified plugins array
+        $verified_plugins = [];
+
+        // Go through plugins list and verify them.
         foreach ($plugins as $plugin_name => $plugin_data) {
-            if (isset($plugin_data['manifest']['dependencies']['flextype']) &&
-                      Comparator::equalTo($plugin_data['manifest']['dependencies']['flextype'], $this->flextype['registry']->get('flextype.manifest.version'))) {
-                $plugins[$plugin_name] = $plugin_data;
-            } else {
-                unset($plugins[$plugin_name]);
+
+            // Set verified true by default
+            $verified = true;
+
+            // If there is any dependencies for this plugin
+            if (isset($plugin_data['manifest']['dependencies'])) {
+
+                // Go through plugin dependencies
+                foreach ($plugin_data['manifest']['dependencies'] as $dependency => $constraints) {
+
+                    // Verify flextype version
+                    if ($dependency === 'flextype') {
+                        if (!Semver::satisfies($this->flextype['registry']->get('flextype.manifest.version'), $constraints)) {
+                            $verified = false;
+                        }
+                    } else {
+                        // Verify plugin dependencies
+                        if (!isset($plugins[$dependency])) {
+                            $verified = false;
+                        } else {
+                            $version = $plugins[$dependency]['manifest']['version'];
+                            if (!Semver::satisfies($version, $constraints)) {
+                                $verified = false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // If plugin is verified than include it
+            if ($verified) {
+                $verified_plugins[$plugin_name] = $plugin_data;
             }
         }
 
-        foreach ($plugins as $plugin_name => $plugin_data) {
-
-            $allowed_plugin = true;
-
-            if (isset($plugin_data['manifest']['dependencies']['plugins'])) {
-
-                foreach ($plugin_data['manifest']['dependencies']['plugins'] as $dependencies_plugin_name => $plugin_value) {
-
-                     if (isset($plugins[$dependencies_plugin_name]) && $plugin_value == $plugins[$dependencies_plugin_name]['manifest']['version'] ) {
-
-                     } else {
-                         $allowed_plugin = false;
-                         unset($plugins[$plugin_name]);
-                     }
-                }
-
-                if ($allowed_plugin) {
-                    $plugins[$plugin_name] = $plugin_data;
-                }
-
-            } else {
-                $plugins[$plugin_name] = $plugin_data;
-            }
-        }
-
-        return $plugins;
+        // Return verified plugins list 
+        return $verified_plugins;
     }
 
     /**
