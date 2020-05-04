@@ -266,8 +266,11 @@ class Plugins
         // Set verified plugins array
         $verified_plugins = [];
 
+        // Set non verfied plugins
+        $non_verified_plugins = $plugins;
+
         // Go through plugins list and verify them.
-        foreach ($plugins as $plugin_name => $plugin_data) {
+        foreach ($plugins as $plugin_name => &$plugin_data) {
 
             // Set verified true by default
             $verified = true;
@@ -286,6 +289,7 @@ class Plugins
                             // Remove plugin where it is require this dependency
                             foreach ($plugins as $_plugin_name => $_plugin_data) {
                                 if ($_plugin_data['manifest']['dependencies'][$plugin_name]) {
+                                    unset($plugins[$_plugin_name]);
                                     unset($verified_plugins[$_plugin_name]);
                                 }
                             }
@@ -299,6 +303,7 @@ class Plugins
                             // Remove plugin where it is require this dependency
                             foreach ($plugins as $_plugin_name => $_plugin_data) {
                                 if ($_plugin_data['manifest']['dependencies'][$plugin_name]) {
+                                    unset($plugins[$_plugin_name]);
                                     unset($verified_plugins[$_plugin_name]);
                                 }
                             }
@@ -312,6 +317,7 @@ class Plugins
                                 // Remove plugin where it is require this dependency
                                 foreach ($plugins as $_plugin_name => $_plugin_data) {
                                     if ($_plugin_data['manifest']['dependencies'][$plugin_name]) {
+                                        unset($plugins[$_plugin_name]);
                                         unset($verified_plugins[$_plugin_name]);
                                     }
                                 }
@@ -325,6 +331,18 @@ class Plugins
             if ($verified) {
                 $verified_plugins[$plugin_name] = $plugin_data;
             }
+        }
+
+        // Show alert if dependencies are not installed properly
+        $diff = array_diff_key($non_verified_plugins, $verified_plugins);
+        if (count($diff) > 0) {
+            echo '<b>The following dependencies need to be installed properly:</b>';
+            echo '<ul>';
+            foreach($diff as $plugin_name => $plugin_data) {
+                echo '<li>'.$plugin_name.'</li>';
+            }
+            echo '</ul>';
+            die();
         }
 
         // Return verified plugins list
