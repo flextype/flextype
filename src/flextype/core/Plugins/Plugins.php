@@ -282,15 +282,39 @@ class Plugins
                     if ($dependency === 'flextype') {
                         if (!Semver::satisfies($this->flextype['registry']->get('flextype.manifest.version'), $constraints)) {
                             $verified = false;
+
+                            // Remove plugin where it is require this dependency
+                            foreach ($plugins as $_plugin_name => $_plugin_data) {
+                                if ($_plugin_data['manifest']['dependencies'][$plugin_name]) {
+                                    unset($verified_plugins[$_plugin_name]);
+                                }
+                            }
+
                         }
                     } else {
                         // Verify plugin dependencies
                         if (!isset($plugins[$dependency])) {
                             $verified = false;
+
+                            // Remove plugin where it is require this dependency
+                            foreach ($plugins as $_plugin_name => $_plugin_data) {
+                                if ($_plugin_data['manifest']['dependencies'][$plugin_name]) {
+                                    unset($verified_plugins[$_plugin_name]);
+                                }
+                            }
+
                         } else {
                             $version = $plugins[$dependency]['manifest']['version'];
                             if (!Semver::satisfies($version, $constraints)) {
+
                                 $verified = false;
+
+                                // Remove plugin where it is require this dependency
+                                foreach ($plugins as $_plugin_name => $_plugin_data) {
+                                    if ($_plugin_data['manifest']['dependencies'][$plugin_name]) {
+                                        unset($verified_plugins[$_plugin_name]);
+                                    }
+                                }
                             }
                         }
                     }
@@ -303,7 +327,7 @@ class Plugins
             }
         }
 
-        // Return verified plugins list 
+        // Return verified plugins list
         return $verified_plugins;
     }
 
