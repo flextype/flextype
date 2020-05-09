@@ -6,6 +6,7 @@
 * **core:** New Management API for Entries. #421
 
     The Content Management API (CMA), is a read-write API for managing content.
+
     You could use the CMA for several use cases, such as:
 
     Automatic imports from WordPress, Joomla, Drupal, and more.
@@ -41,6 +42,10 @@
 
 ### BREAKING CHANGES
 
+* **core:** core decoupled in the plugins, and moved out of Flextype release package.
+
+    Install all needed for you plugin by your self.
+
 * **core:** new way for data merging of manifest and settings for plugins and themes #404
 
     for e.g. this is a wrong code to access site title:
@@ -68,6 +73,20 @@
 
     - rename folder `site` into `project`
     - use new constant PATH['project'] instead of constant PATH['site']
+
+* **core:** removed constants
+
+    - PATH['plugins']
+    - PATH['themes']
+    - PATH['entries']
+    - PATH['themes']
+    - PATH['snippets']
+    - PATH['fieldsets']
+    - PATH['tokens']
+    - PATH['accounts']
+    - PATH['uploads']
+
+* **core:** removed Snippets functionality
 
 <a name="0.9.7"></a>
 # [0.9.7](https://github.com/flextype/flextype/compare/v0.9.6...v0.9.7) (2020-03-03)
