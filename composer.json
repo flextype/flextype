@@ -3,7 +3,7 @@
     "type": "project",
     "description": "Self-hosted Data-First Headless CMS & API",
     "keywords": ["flextype", "php", "cms", "flat-file cms", "flat cms", "flatfile cms", "headless", "API", "html"],
-    "homepage": "http://flextype.org",
+    "homepage": "https://flextype.org",
     "license": "MIT",
     "authors": [
         {
@@ -43,10 +43,10 @@
         "league/event": "~2.2.0",
         "league/glide": "~1.5.0",
 
-        "respect/validation": "~1.1.31",
+        "respect/validation": "~2.0.1",
         "monolog/monolog": "~2.0.2",
         "cocur/slugify": "~4.0.0",
-        "ramsey/uuid": "~3.9.2",
+        "ramsey/uuid": "~4.0.1",
         "symfony/yaml": "~4.4.4",
 
         "bnf/slim3-psr15": "~1.1.1",
@@ -56,7 +56,7 @@
 
         "thunderer/shortcode": "~0.7.3",
 
-        "composer/semver": "~1.5.1"
+        "composer/semver": "~2.0.0"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
