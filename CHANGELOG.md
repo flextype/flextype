@@ -109,6 +109,28 @@
 
 * **core:** removed Snippets functionality
 
+### Update from Flextype 0.9.7 to Flextype 0.9.8
+
+1. Backup your Site First!
+2. Read BREAKING CHANGES section!
+3. Download flextype-0.9.8.zip
+4. Unzip the contents to a new folder on your local computer.
+5. Remove on your server this folders and files:
+    ```
+    /flextype/
+    /vendor/
+    /index.php
+    ```
+6. Upload on your server this folders and files:
+    ```
+    /flextype/
+    /vendor/
+    /index.php
+    ```
+7. Rename `/site/` to `/project/`
+8. Clear browser cache!
+9. Create CDA, CMA and Access tokens for your project using this [webpage](https://flextype.org/en/api-token-generator).
+
 <a name="0.9.7"></a>
 # [0.9.7](https://github.com/flextype/flextype/compare/v0.9.6...v0.9.7) (2020-03-03)
 
