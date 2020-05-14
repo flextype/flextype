@@ -23,11 +23,25 @@
     | PUT | /api/management/entries/copy | Copy entry(entries) |
     | DELETE | /api/management/entries | Delete entry |
 
+    API Tokens folder: /project/tokens/management/entries
+
+* **core:** New Images API.
+
+    | Method | Endpoint | Description |
+    | --- | --- | --- |
+    | GET | /api/images | Fetch image |
+
+    API Tokens folder: /project/tokens/images
+
+* **core:** New Access API to create secret tokens for Content Management API (CMA).
+
+    API Tokens folder: /project/tokens/access
+
 * **core:** add Container for extending Flextype Container instead of Controller(s)
-* **core:** add Application URL `url` into the common flextype settings #405
+* **core:** add Application URL `url` into the common Flextype settings #405
 * **core:** add new improved plugins sorting in the Plugins API.
 * **core:** add dependencies validation for Plugins API #411
-* **core:** add configurable CORS(Cross-origin resource sharing).
+* **core:** add configurable CORS (Cross-origin resource sharing).
 
     ```
     cors:
@@ -48,9 +62,10 @@
 
 ### BREAKING CHANGES
 
-* **core:** core decoupled in the plugins, and moved out of Flextype release package.
+* **core:** core decoupled in the plugins, and moved out of the Flextype release package!
 
-    Install all needed for you plugin by your self.
+    Install all needed plugins for your project by your self.
+    Browse plugins: https://github.com/flextype-plugins
 
 * **core:** new way for data merging of manifest and settings for plugins and themes #404
 
