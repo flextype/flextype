@@ -3,20 +3,26 @@
 
 ### Features
 * **core:** New lightweight and powerful core for kickass Applications!
-* **core:** New Management API for Entries. #421
+* **core:** New Content Management API (CMA) for Entries. #421
 
     The Content Management API (CMA), is a read-write API for managing content.
 
     You could use the CMA for several use cases, such as:
 
-    Automatic imports from WordPress, Joomla, Drupal, and more.
-    Integration with other backend systems, such as an e-commerce shop.
-    Building custom editing experiences.
+    * Automatic imports from WordPress, Joomla, Drupal, and more.
+    * Integration with other backend systems, such as an e-commerce shop.
+    * Building custom editing experiences.
 
-    Endpoints for Management API:
-    ```
-    /api/management/entries
-    ```
+    Endpoints for Content Management API:
+    | Method | Endpoint | Description |
+    | --- | --- | --- |
+    | GET | /api/management/entries | Fetch entry(entries) |
+    | POST | /api/management/entries | Create entry |
+    | PATCH | /api/management/entries | Update entry |
+    | PUT | /api/management/entries | Rename entry |
+    | PUT | /api/management/entries/copy | Copy entry(entries) |
+    | DELETE | /api/management/entries | Delete entry |
+
 * **core:** add Container for extending Flextype Container instead of Controller(s)
 * **core:** add Application URL `url` into the common flextype settings #405
 * **core:** add new improved plugins sorting in the Plugins API.
