@@ -123,7 +123,7 @@
     ```
 6. Upload on your server this folders and files:
     ```
-    /flextype/
+    /src/
     /vendor/
     /index.php
     ```
