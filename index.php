@@ -32,19 +32,8 @@ define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
  * Define the PATH (without trailing slash).
  */
 define('PATH', [
-    'site'      => ROOT_DIR . '/site',
-    'plugins'   => ROOT_DIR . '/site/plugins',
-    'themes'    => ROOT_DIR . '/site/themes',
-    'entries'   => ROOT_DIR . '/site/entries',
-    'snippets'  => ROOT_DIR . '/site/snippets',
-    'fieldsets' => ROOT_DIR . '/site/fieldsets',
-    'tokens'    => ROOT_DIR . '/site/tokens',
-    'accounts'  => ROOT_DIR . '/site/accounts',
-    'uploads'  => ROOT_DIR  . '/site/uploads',
-    'config'    => [
-        'default' => ROOT_DIR . '/flextype/config',
-        'site'    => ROOT_DIR . '/site/config',
-    ],
+    'project'   => ROOT_DIR . '/project',
+    'config'    => ROOT_DIR . '/src/flextype/config',
     'cache'     => ROOT_DIR . '/var/cache',
     'logs'      => ROOT_DIR . '/var/logs',
 ]);
@@ -57,7 +46,7 @@ version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(s
 /**
  * Ensure vendor libraries exist
  */
-! is_file($autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i> for flextype');
+! is_file($flextype_autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i> for flextype');
 
 /**
  * Register The Auto Loader
@@ -68,7 +57,7 @@ version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(s
  * loading any of our classes later on. It feels nice to relax.
  * Register The Auto Loader
  */
-$loader = require_once $autoload;
+$flextype_loader = require_once $flextype_autoload;
 
 /**
  * Bootstraps the Flextype
@@ -77,4 +66,4 @@ $loader = require_once $autoload;
  * will load up this application so that we can run it and send
  * the responses back to the browser and delight our users.
  */
-include 'flextype/bootstrap.php';
+include 'src/flextype/bootstrap.php';

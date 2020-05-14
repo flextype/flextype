@@ -1,0 +1,10 @@
+name: Flextype
+version: 0.9.8
+description: Self-hosted Data-First Headless CMS & API.
+author:
+  name: Sergey Romanenko
+  email: support@flextype.org
+  url: https://flextype.org
+homepage: https://github.com/flextype
+bugs: https://github.com/flextype/issues
+license: MIT

@@ -1,15 +1,15 @@
 {
     "name": "flextype/flextype",
     "type": "project",
-    "description": "Build fast, flexible, easier to manage websites with Flextype.",
-    "keywords": ["flextype", "php", "cms", "flat-file cms", "flat cms", "flatfile cms", "html"],
-    "homepage": "http://flextype.org",
+    "description": "Self-hosted Data-First Headless CMS & API",
+    "keywords": ["flextype", "php", "cms", "flat-file cms", "flat cms", "flatfile cms", "headless", "API", "html"],
+    "homepage": "https://flextype.org",
     "license": "MIT",
     "authors": [
         {
             "name": "Sergey Romanenko",
-            "email": "hello@romanenko.digital",
-            "homepage": "http://digital.flextype.org"
+            "email": "support@flextype.org",
+            "homepage": "https://flextype.org"
         }
     ],
     "support": {
@@ -18,7 +18,6 @@
     "require": {
         "php": ">=7.2.0",
         "ext-json": "*",
-        "ext-gd": "*",
         "ext-dom": "*",
         "ext-spl": "*",
         "ext-mbstring": "*",
@@ -28,7 +27,6 @@
         "doctrine/collections": "~1.6.4",
 
         "flextype-components/arr" : "1.2.5",
-        "flextype-components/assets" : "1.0.3",
         "flextype-components/cookie" : "1.2.0",
         "flextype-components/date" : "1.1.0",
         "flextype-components/filesystem" : "2.0.6",
@@ -39,27 +37,26 @@
         "flextype-components/text" : "1.1.2",
 
         "slim/slim": "~3.12.3",
-        "slim/twig-view": "~2.5.0",
-        "slim/flash": "~0.4.0",
-        "slim/csrf": "~0.8.3",
-
         "zeuxisoo/slim-whoops": "~0.6.5",
 
         "league/glide-slim": "~1.0.0",
         "league/event": "~2.2.0",
         "league/glide": "~1.5.0",
 
-        "respect/validation": "~1.1.31",
+        "respect/validation": "~2.0.1",
         "monolog/monolog": "~2.0.2",
         "cocur/slugify": "~4.0.0",
-        "thunderer/shortcode": "~0.7.3",
-        "ramsey/uuid": "~3.9.2",
+        "ramsey/uuid": "~4.0.1",
         "symfony/yaml": "~4.4.4",
+
+        "bnf/slim3-psr15": "~1.1.1",
 
         "erusev/parsedown": "~1.7.3",
         "erusev/parsedown-extra": "~0.7.1",
 
-        "bnf/slim3-psr15": "~1.1.1"
+        "thunderer/shortcode": "~0.7.3",
+
+        "composer/semver": "~2.0.0"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
@@ -76,7 +73,7 @@
     },
     "autoload": {
         "classmap": [
-            "flextype"
+            "src"
         ]
     },
     "require-dev": {

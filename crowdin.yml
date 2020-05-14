@@ -1,3 +1,0 @@
-files:
-  - source: /site/plugins/admin/lang/en_US.yaml
-    translation: /site/plugins/admin/lang/%locale_with_underscore%.yaml
