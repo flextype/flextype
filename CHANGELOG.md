@@ -1,5 +1,5 @@
 <a name="0.9.8"></a>
-# [0.9.8](https://github.com/flextype/flextype/compare/v0.9.7...v0.9.8) (2020-05-xx)
+# [0.9.8](https://github.com/flextype/flextype/compare/v0.9.7...v0.9.8) (2020-05-14)
 
 ### Features
 * **core:** New lightweight and powerful core for kickass Applications!
