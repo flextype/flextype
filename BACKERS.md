@@ -9,5 +9,8 @@ However, the amount of effort needed to maintain and develop new features for th
 * [Visit our Sponsors & Backers page](http://flextype.org/en/sponsors)
 
 
+### Generous Backer
+* Jeremy Monroe
+
 ### Backers
 * Arseni Khramenkin
