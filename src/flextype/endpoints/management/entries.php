@@ -30,14 +30,6 @@ function validate_management_entries_token($token) : bool
 }
 
 /**
- * Validate access token
- */
-function validate_access_token($token) : bool
-{
-    return Filesystem::has(PATH['project'] . '/tokens/access/' . $token . '/token.yaml');
-}
-
-/**
  * Fetch entry(entries)
  *
  * endpoint: GET /api/management/entries
