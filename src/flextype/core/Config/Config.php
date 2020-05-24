@@ -38,7 +38,7 @@ class Config
      *
      * @return mixed
      */
-    public function get(string $config, $key, $default = null)
+    public function get(string $config, string $key, $default = null)
     {
         $config_file = $this->getFileLocation($config);
 
@@ -56,7 +56,7 @@ class Config
      *
      * @return bool
      */
-    public function create(string $config, $key, $value) : bool
+    public function create(string $config, string $key, $value) : bool
     {
         $config_file = $this->getFileLocation($config);
 
@@ -84,7 +84,7 @@ class Config
      *
      * @return bool
      */
-    public function update(string $config, $key, $value) : bool
+    public function update(string $config, string $key, $value) : bool
     {
         $config_file = $this->getFileLocation($config);
 
@@ -159,9 +159,9 @@ class Config
     /**
      * Get config file location
      *
-     * @param string $id Unique identifier of the entry(entries).
+     * @param string $config  Config namespace.
      *
-     * @return string entry file location
+     * @return string config file location
      *
      * @access private
      */
@@ -173,9 +173,9 @@ class Config
     /**
      * Get config directory location
      *
-     * @param string $id Unique identifier of the entry(entries).
+     * @param string $config  Config namespace.
      *
-     * @return string entry directory location
+     * @return string config directory location
      *
      * @access private
      */
