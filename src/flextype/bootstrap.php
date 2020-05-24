@@ -130,7 +130,9 @@ include_once 'dependencies.php';
  */
 include_once 'endpoints/delivery/entries.php';
 include_once 'endpoints/delivery/registry.php';
+include_once 'endpoints/delivery/config.php';
 include_once 'endpoints/management/entries.php';
+include_once 'endpoints/management/config.php';
 include_once 'endpoints/images/images.php';
 
 /**

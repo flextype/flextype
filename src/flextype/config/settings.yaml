@@ -245,8 +245,14 @@ api:
     registry:
       enabled: true
       default_token:
+    config:
+      enabled: true
+      default_token:
   management:
     entries:
+      enabled: true
+      default_token:
+    config:
       enabled: true
       default_token:
   images:

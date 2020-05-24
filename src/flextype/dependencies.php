@@ -114,6 +114,13 @@ $flextype['cache'] = static function ($container) use ($flextype) {
 };
 
 /**
+ * Add options service to Flextype container
+ */
+$flextype['config'] = static function ($container) use ($flextype) {
+    return new Config($flextype);
+};
+
+/**
  * Add shortcodes service to Flextype container
  */
 $flextype['shortcodes'] = static function ($container) {
