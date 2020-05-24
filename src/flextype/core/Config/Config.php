@@ -30,7 +30,7 @@ class Config
     }
 
     /**
-     * Get key value from the config
+     * Get itme from the config
      *
      * @param string $config  Config namespace.
      * @param string $key     The key of the config item to get.
@@ -48,7 +48,7 @@ class Config
     }
 
     /**
-     * Create new config key
+     * Create new config item
      *
      * @param string $config  Config namespace.
      * @param string $key     The key of the config item to get.
@@ -76,7 +76,7 @@ class Config
     }
 
     /**
-     * Update config key
+     * Update config item
      *
      * @param string $config  Config namespace.
      * @param string $key     The key of the config item to get.
@@ -104,7 +104,7 @@ class Config
     }
 
     /**
-     * Delete config key
+     * Delete config item
      *
      * @param string $config  Config namespace.
      * @param string $key     The key of the config item to get.
@@ -131,7 +131,7 @@ class Config
     }
 
     /**
-     * Checks if an config key with this key name is in the config.
+     * Checks if an config item with this key name is in the config.
      *
      * @param string $config  Config namespace.
      * @param string $key     The key of the config item to get.
