@@ -36,17 +36,15 @@ class Config
      * @param string $key     The key of the config item to get.
      * @param mixed  $default Default value
      *
-     * @return array
+     * @return mixed
      */
-    public function get(string $config, $key, $default = null) : array
+    public function get(string $config, $key, $default = null)
     {
         $config_file = $this->getFileLocation($config);
 
         if (Filesystem::has($config_file)) {
             return Arr::get($this->flextype->serializer->decode(Filesystem::read($config_file), 'yaml'), $key, $default);
         }
-
-        return [];
     }
 
     /**
