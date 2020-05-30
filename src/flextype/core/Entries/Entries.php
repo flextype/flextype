@@ -513,8 +513,8 @@ class Entries
      */
     public function rename(string $id, string $new_id) : bool
     {
-        if (!Filesystem::has($this->getFileLocation($new_id))) {
-            return rename($this->getFileLocation($id), $this->getFileLocation($new_id));
+        if (!Filesystem::has($this->getDirLocation($new_id))) {
+            return rename($this->getDirLocation($id), $this->getDirLocation($new_id));
         } else {
             return false;
         }
