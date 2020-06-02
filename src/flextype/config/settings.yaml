@@ -244,6 +244,8 @@ media:
   image_width: 1600
   image_height: 0
   image_quality: 70
+  max_image_width: null
+  max_image_height: null
 
 # Content APIs
 api:
