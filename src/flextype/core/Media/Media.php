@@ -35,7 +35,7 @@ class Media
     }
 
     /**
-     * Create file
+     * Create a media file
      *
      * @param array  $file   Raw file data (multipart/form-data).
      * @param string $folder The folder you're targetting.
@@ -55,15 +55,16 @@ class Media
             Filesystem::createDir($upload_metadata_folder);
         }
 
-        $allowed = 'gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg';
-        $max_size = 5000000;
-        $filename = null;
-        $remove_spaces = true;
-        $max_width = null;
-        $max_height = null;
+        $accept_file_types = $this->flextype['registry']->get('flextype.settings.media.accept_file_types');
+        $max_file_size = $this->flextype['registry']->get('flextype.settings.media.max_file_size');
+        $safe_names = $this->flextype['registry']->get('flextype.settings.media.safe_names');
+        $max_image_width = $this->flextype['registry']->get('flextype.settings.media.max_image_width');
+        $max_image_height = $this->flextype['registry']->get('flextype.settings.media.max_image_height');
+
         $exact = false;
         $chmod = 0644;
-        $ff = [];
+        $filename = null;
+        $exif_data = [];
 
         //
         // Tests if a successful upload has been made.
@@ -83,7 +84,7 @@ class Media
                 //
                 // Test if an uploaded file is an allowed file type, by extension.
                 //
-                if (strpos($allowed, strtolower(pathinfo($file['name'], PATHINFO_EXTENSION))) !== false) {
+                if (strpos($accept_file_types, strtolower(pathinfo($file['name'], PATHINFO_EXTENSION))) !== false) {
                     //
                     // Validation rule to test if an uploaded file is allowed by file size.
                     //
@@ -94,7 +95,7 @@ class Media
                         // Validation rule to test if an upload is an image and, optionally, is the correct size.
                         //
                         if (in_array(mime_content_type($file['tmp_name']), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
-                            function validateImage($file, $max_width, $max_height, $exact)
+                            function validateImage($file, $max_image_width, $max_image_height, $exact)
                             {
                                 try {
                                     // Get the width and height from the uploaded image
@@ -106,24 +107,24 @@ class Media
                                     // Cannot get image size, cannot validate
                                     return false;
                                 }
-                                if (!$max_width) {
+                                if (!$max_image_width) {
                                     // No limit, use the image width
-                                    $max_width = $width;
+                                    $max_image_width = $width;
                                 }
-                                if (!$max_height) {
+                                if (!$max_image_height) {
                                     // No limit, use the image height
-                                    $max_height = $height;
+                                    $max_image_height = $height;
                                 }
                                 if ($exact) {
                                     // Check if dimensions match exactly
-                                    return ($width === $max_width and $height === $max_height);
+                                    return ($width === $max_image_width and $height === $max_image_height);
                                 } else {
                                     // Check if size is within maximum dimensions
-                                    return ($width <= $max_width and $height <= $max_height);
+                                    return ($width <= $max_image_width and $height <= $max_image_height);
                                 }
                                 return false;
                             }
-                            if (validateImage($file, $max_width, $max_height, $exact) === false) {
+                            if (validateImage($file, $max_image_width, $max_image_height, $exact) === false) {
                                 return false;
                             }
                         }
@@ -135,7 +136,7 @@ class Media
                             // Use the default filename
                             $filename = $file['name'];
                         }
-                        if ($remove_spaces === true) {
+                        if ($safe_names === true) {
                             // Remove spaces from the filename
                             $filename = $this->flextype['slugify']->slugify(pathinfo($filename)['filename']) . '.' . pathinfo($filename)['extension'];
                         }
@@ -179,10 +180,10 @@ class Media
 
                                 $headers = exif_read_data($filename);
 
-                                $ff = [];
+                                $exif_data = [];
 
                                 foreach ($headers['COMPUTED'] as $header => $value) {
-                                    $ff[$header] = $value;
+                                    $exif_data[$header] = $value;
                                 }
                             }
 
@@ -192,7 +193,7 @@ class Media
                                          'type' => mime_content_type($filename),
                                          'filesize' => Filesystem::getSize($filename),
                                          'uploaded_on' => time(),
-                                         'exif' => $ff];
+                                         'exif' => $exif_data];
 
                             Filesystem::write($upload_metadata_folder . basename($filename) . '.yaml',
                                               $this->flextype['serializer']->encode($metadata, 'yaml'));
