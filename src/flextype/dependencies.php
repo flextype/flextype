@@ -196,6 +196,10 @@ $flextype['entries'] = static function ($container) {
     return new Entries($container);
 };
 
+$flextype['media'] = static function ($container) use ($flextype, $app) {
+    return new Media($flextype, $app);
+};
+
 /**
  * Add plugins service to Flextype container
  */
