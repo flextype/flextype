@@ -15,7 +15,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
 
-class Media
+class MediaFiles
 {
     /**
      * Flextype Dependency Container
@@ -42,7 +42,7 @@ class Media
      *
      * @access public
      */
-    public function createFile(array $file, string $folder)
+    public function create(array $file, string $folder)
     {
         $upload_folder = PATH['project'] . '/uploads/' . $folder . '/';
         $upload_metadata_folder = PATH['project'] . '/uploads/.meta/' . $folder . '/';
@@ -90,7 +90,7 @@ class Media
                     //
                     if (($file['error'] != UPLOAD_ERR_INI_SIZE)
                                   and ($file['error'] == UPLOAD_ERR_OK)
-                                  and ($file['size'] <= $max_size)) {
+                                  and ($file['size'] <= $max_file_size)) {
                         //
                         // Validation rule to test if an upload is an image and, optionally, is the correct size.
                         //
@@ -211,17 +211,44 @@ class Media
     }
 
     /**
+     * Fetch single file
+     *
+     * @param string $directory The directory to list.
+     *
+     * @return array A list of file metadata.
+     */
+    public function fetchsingle(string $id) : array
+    {
+        $result = [];
+
+        if (Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($id))) {
+            $result = $this->flextype['serializer']->decode(Filesystem::read($this->flextype['media_files_meta']->getFileMetaLocation($id)), 'yaml');
+            $result['url'] = 'project/uploads/' . $id;
+
+            if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') != '') {
+                $full_url = $this->flextype['registry']->get('flextype.settings.url');
+            } else {
+                $full_url = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
+            }
+
+            $result['full_url'] = $full_url . '/project/uploads/' . $id;
+        }
+
+        return $result;
+    }
+
+    /**
      * Fetch files collection
      *
      * @param string $folder The directory to list.
      *
      * @return array A list of file metadata.
      */
-    public function fetchFilesCollection(string $folder) : array
+    public function fetchCollection(string $folder) : array
     {
         $result = [];
 
-        foreach (Filesystem::listContents($this->getDirMetaLocation($folder)) as $file) {
+        foreach (Filesystem::listContents($this->flextype['media_folders_meta']->getFolderMetaLocation($folder)) as $file) {
             $result[$file['basename']] = $this->flextype['serializer']->decode(Filesystem::read($file['path']), 'yaml');
             $result[$file['basename']]['url'] = 'project/uploads/' . $folder . '/' . $file['basename'];
 
@@ -238,55 +265,6 @@ class Media
     }
 
     /**
-     * Fetch single file
-     *
-     * @param string $directory The directory to list.
-     *
-     * @return array A list of file metadata.
-     */
-    public function fetchFilesSingle(string $id) : array
-    {
-        $result = [];
-
-        if (Filesystem::has($this->getFileMetaLocation($id))) {
-            $result = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
-            $result['url'] = 'project/uploads/' . $id;
-
-            if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') != '') {
-                $full_url = $this->flextype['registry']->get('flextype.settings.url');
-            } else {
-                $full_url = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
-            }
-
-            $result['full_url'] = $full_url . '/project/uploads/' . $id;
-        }
-
-        return $result;
-    }
-
-    /**
-     * Create folder
-     *
-     * @param string $id Unique identifier of the folder.
-     *
-     * @return bool True on success, false on failure.
-     *
-     * @access public
-     */
-    public function createFolder(string $id) : bool
-    {
-        if (!Filesystem::has($this->getDirLocation($id)) && !Filesystem::has($this->getDirMetaLocation($id))) {
-            if (Filesystem::createDir($this->getDirLocation($id))) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Rename file
      *
      * @param string $id     Unique identifier of the file.
@@ -296,107 +274,16 @@ class Media
      *
      * @access public
      */
-    public function renameFile(string $id, string $new_id) : bool
+    public function rename(string $id, string $new_id) : bool
     {
-        if (!Filesystem::has($this->getFileLocation($new_id)) && !Filesystem::has($this->getFileMetaLocation($new_id))) {
-            if (rename($this->getFileLocation($id), $this->getFileLocation($new_id)) && rename($this->getFileMetaLocation($id), $this->getFileMetaLocation($new_id))) {
+        if (!Filesystem::has($this->getFileLocation($new_id)) && !Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($new_id))) {
+            if (rename($this->getFileLocation($id), $this->getFileLocation($new_id)) && rename($this->flextype['media_files_meta']->getFileMetaLocation($id), $this->flextype['media_files_meta']->getFileMetaLocation($new_id))) {
 
                 // Update meta file
-                $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($new_id)), 'yaml');
+                $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->flextype['media_files_meta']->getFileMetaLocation($new_id)), 'yaml');
                 $file_data['filename'] = basename($new_id);
-                Filesystem::write($this->getFileMetaLocation($new_id), $this->flextype['serializer']->encode($file_data, 'yaml'));
+                Filesystem::write($this->flextype['media_files_meta']->getFileMetaLocation($new_id), $this->flextype['serializer']->encode($file_data, 'yaml'));
 
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Update file meta information
-     *
-     * @param string $id    Unique identifier of the file.
-     * @param string $field Field name
-     * @param string $value Field value
-     *
-     * @return bool True on success, false on failure.
-     *
-     * @access public
-     */
-    public function updateFileMeta(string $id, string $field, string $value) : bool
-    {
-        $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
-
-        if (Arr::keyExists($file_data, $field)) {
-            Arr::set($file_data, $field, $value);
-            return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
-        }
-
-        return false;
-    }
-
-    /**
-     * Add file meta information
-     *
-     * @param string $id    Unique identifier of the file.
-     * @param string $field Field name
-     * @param string $value Field value
-     *
-     * @return bool True on success, false on failure.
-     *
-     * @access public
-     */
-    public function addFileMeta(string $id, string $field, string $value) : bool
-    {
-        $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
-
-        if (!Arr::keyExists($file_data, $field)) {
-            Arr::set($file_data, $field, $value);
-            return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
-        }
-
-        return false;
-    }
-
-    /**
-     * Delete file meta information
-     *
-     * @param string $id    Unique identifier of the file.
-     * @param string $field Field name
-     *
-     * @return bool True on success, false on failure.
-     *
-     * @access public
-     */
-    public function deleteFileMeta(string $id, string $field) : bool
-    {
-        $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
-
-        if (Arr::keyExists($file_data, $field)) {
-            Arr::delete($file_data, $field);
-            return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
-        }
-
-        return false;
-    }
-
-    /**
-     * Rename folder
-     *
-     * @param string $id     Unique identifier of the folder.
-     * @param string $new_id New Unique identifier of the folder.
-     *
-     * @return bool True on success, false on failure.
-     *
-     * @access public
-     */
-    public function renameFolder(string $id, string $new_id) : bool
-    {
-        if (!Filesystem::has($this->getDirLocation($new_id)) && !Filesystem::has($this->getDirMetaLocation($new_id))) {
-            if (rename($this->getDirLocation($id), $this->getDirLocation($new_id)) && rename($this->getDirMetaLocation($id), $this->getDirMetaLocation($new_id))) {
                 return true;
             } else {
                 return false;
@@ -415,25 +302,10 @@ class Media
      *
      * @access public
      */
-    public function deleteFile(string $id)
+    public function delete(string $id)
     {
         Filesystem::delete($this->getFileLocation($id));
-        Filesystem::delete($this->getFileMetaLocation($id));
-    }
-
-    /**
-     * Delete dir
-     *
-     * @param string $id Unique identifier of the file.
-     *
-     * @return bool True on success, false on failure.
-     *
-     * @access public
-     */
-    public function deleteFolder(string $id)
-    {
-        Filesystem::deleteDir($this->getDirLocation($id));
-        Filesystem::deleteDir($this->getDirMetaLocation($id));
+        Filesystem::delete($this->flextype['media_files_meta']->getFileMetaLocation($id));
     }
 
     /**
@@ -448,47 +320,5 @@ class Media
     public function getFileLocation(string $id) : string
     {
         return PATH['project'] . '/uploads/' . $id;
-    }
-
-    /**
-     * Get file meta location
-     *
-     * @param string $id Unique identifier of the file.
-     *
-     * @return string entry file location
-     *
-     * @access public
-     */
-    public function getFileMetaLocation(string $id) : string
-    {
-        return PATH['project'] . '/uploads/.meta/' . $id . '.yaml';
-    }
-
-    /**
-     * Get files directory location
-     *
-     * @param string $id Unique identifier of the folder.
-     *
-     * @return string entry directory location
-     *
-     * @access public
-     */
-    public function getDirLocation(string $id) : string
-    {
-        return PATH['project'] . '/uploads/' . $id;
-    }
-
-    /**
-     * Get files directory meta location
-     *
-     * @param string $id Unique identifier of the folder.
-     *
-     * @return string entry directory location
-     *
-     * @access public
-     */
-    public function getDirMetaLocation(string $id) : string
-    {
-        return PATH['project'] . '/uploads/.meta/' . $id;
     }
 }
