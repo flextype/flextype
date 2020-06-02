@@ -12,6 +12,8 @@ namespace Flextype;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Arr\Arr;
 use Intervention\Image\ImageManagerStatic as Image;
+use Slim\Http\Environment;
+use Slim\Http\Uri;
 
 class Media
 {
@@ -214,12 +216,48 @@ class Media
      *
      * @return array A list of file metadata.
      */
-    public function listContents(string $folder) : array
+    public function fetchFilesCollection(string $folder) : array
     {
         $result = [];
 
         foreach (Filesystem::listContents($this->getDirMetaLocation($folder)) as $file) {
             $result[$file['basename']] = $this->flextype['serializer']->decode(Filesystem::read($file['path']), 'yaml');
+            $result[$file['basename']]['url'] = 'project/uploads/' . $folder . '/' . $file['basename'];
+
+            if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') != '') {
+                $full_url = $this->flextype['registry']->get('flextype.settings.url');
+            } else {
+                $full_url = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
+            }
+
+            $result[$file['basename']]['full_url'] = $full_url . '/project/uploads/' . $folder . '/' . $file['basename'];
+        }
+
+        return $result;
+    }
+
+    /**
+     * List contents of a folder.
+     *
+     * @param string $directory The directory to list.
+     *
+     * @return array A list of file metadata.
+     */
+    public function fetchFileSingle(string $id) : array
+    {
+        $result = [];
+
+        if (Filesystem::has($this->getFileMetaLocation($id))) {
+            $result = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
+            $result['url'] = 'project/uploads/' . $id;
+
+            if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') != '') {
+                $full_url = $this->flextype['registry']->get('flextype.settings.url');
+            } else {
+                $full_url = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
+            }
+
+            $result['full_url'] = $full_url . '/project/uploads/' . $id;
         }
 
         return $result;
