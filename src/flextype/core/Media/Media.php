@@ -211,9 +211,9 @@ class Media
     }
 
     /**
-     * List contents of a folder.
+     * Fetch files collection
      *
-     * @param string $directory The directory to list.
+     * @param string $folder The directory to list.
      *
      * @return array A list of file metadata.
      */
@@ -238,13 +238,13 @@ class Media
     }
 
     /**
-     * List contents of a folder.
+     * Fetch single file
      *
      * @param string $directory The directory to list.
      *
      * @return array A list of file metadata.
      */
-    public function fetchFileSingle(string $id) : array
+    public function fetchFilesSingle(string $id) : array
     {
         $result = [];
 
@@ -267,7 +267,7 @@ class Media
     /**
      * Create folder
      *
-     * @param string $id     Unique identifier of the file.
+     * @param string $id Unique identifier of the folder.
      *
      * @return bool True on success, false on failure.
      *
@@ -319,7 +319,8 @@ class Media
      * Update file meta information
      *
      * @param string $id    Unique identifier of the file.
-     * @param string $value Value for title field
+     * @param string $field Field name
+     * @param string $value Field value
      *
      * @return bool True on success, false on failure.
      *
@@ -341,7 +342,8 @@ class Media
      * Add file meta information
      *
      * @param string $id    Unique identifier of the file.
-     * @param string $value Value for title field
+     * @param string $field Field name
+     * @param string $value Field value
      *
      * @return bool True on success, false on failure.
      *
@@ -363,7 +365,7 @@ class Media
      * Delete file meta information
      *
      * @param string $id    Unique identifier of the file.
-     * @param string $value Value for title field
+     * @param string $field Field name
      *
      * @return bool True on success, false on failure.
      *
@@ -384,8 +386,8 @@ class Media
     /**
      * Rename folder
      *
-     * @param string $id     Unique identifier of the file.
-     * @param string $new_id New Unique identifier of the file.
+     * @param string $id     Unique identifier of the folder.
+     * @param string $new_id New Unique identifier of the folder.
      *
      * @return bool True on success, false on failure.
      *
@@ -437,7 +439,7 @@ class Media
     /**
      * Get file location
      *
-     * @param string $id Unique identifier of the entry(entries).
+     * @param string $id Unique identifier of the file.
      *
      * @return string entry file location
      *
@@ -451,7 +453,7 @@ class Media
     /**
      * Get file meta location
      *
-     * @param string $id Unique identifier of the entry(entries).
+     * @param string $id Unique identifier of the file.
      *
      * @return string entry file location
      *
@@ -465,7 +467,7 @@ class Media
     /**
      * Get files directory location
      *
-     * @param string $id Unique identifier of the entry(entries).
+     * @param string $id Unique identifier of the folder.
      *
      * @return string entry directory location
      *
@@ -479,7 +481,7 @@ class Media
     /**
      * Get files directory meta location
      *
-     * @param string $id Unique identifier of the entry(entries).
+     * @param string $id Unique identifier of the folder.
      *
      * @return string entry directory location
      *
