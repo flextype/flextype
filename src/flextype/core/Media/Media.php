@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
+use Flextype\Component\Arr\Arr;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class Media
@@ -206,6 +207,23 @@ class Media
         return false;
     }
 
+    /**
+     * List contents of a folder.
+     *
+     * @param string $directory The directory to list.
+     *
+     * @return array A list of file metadata.
+     */
+    public function listContents(string $folder) : array
+    {
+        $result = [];
+
+        foreach (Filesystem::listContents($this->getDirMetaLocation($folder)) as $file) {
+            $result[$file['basename']] = $this->flextype['serializer']->decode(Filesystem::read($file['path']), 'yaml');
+        }
+
+        return $result;
+    }
 
     /**
      * Create folder
@@ -243,6 +261,12 @@ class Media
     {
         if (!Filesystem::has($this->getFileLocation($new_id)) && !Filesystem::has($this->getFileMetaLocation($new_id))) {
             if (rename($this->getFileLocation($id), $this->getFileLocation($new_id)) && rename($this->getFileMetaLocation($id), $this->getFileMetaLocation($new_id))) {
+
+                // Update meta file
+                $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($new_id)), 'yaml');
+                $file_data['filename'] = basename($new_id);
+                Filesystem::write($this->getFileMetaLocation($new_id), $this->flextype['serializer']->encode($file_data, 'yaml'));
+
                 return true;
             } else {
                 return false;
@@ -250,6 +274,50 @@ class Media
         } else {
             return false;
         }
+    }
+
+    /**
+     * Update file meta information
+     *
+     * @param string $id    Unique identifier of the file.
+     * @param string $value Value for title field
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function updateFileMeta(string $id, string $field, string $value) : bool
+    {
+        $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
+
+        if (Arr::has($file_data[$field])) {
+            $file_data[$field] = $value;
+            return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
+        }
+
+        return false;
+    }
+
+    /**
+     * Add file meta information
+     *
+     * @param string $id    Unique identifier of the file.
+     * @param string $value Value for title field
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function addFileMeta(string $id, string $field, string $value) : bool
+    {
+        $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
+
+        if (!Arr::has($file_data[$field])) {
+            $file_data[$field] = $value;
+            return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
+        }
+
+        return false;
     }
 
     /**
@@ -358,6 +426,6 @@ class Media
      */
     public function getDirMetaLocation(string $id) : string
     {
-        return PATH['project'] . '/uploads/.meta/' . $id . '.yaml';
+        return PATH['project'] . '/uploads/.meta/' . $id;
     }
 }
