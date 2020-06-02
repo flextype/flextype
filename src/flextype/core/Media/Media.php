@@ -290,8 +290,8 @@ class Media
     {
         $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
 
-        if (Arr::has($file_data[$field])) {
-            $file_data[$field] = $value;
+        if (Arr::keyExists($file_data, $field)) {
+            Arr::set($file_data, $field, $value);
             return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
         }
 
@@ -312,8 +312,30 @@ class Media
     {
         $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
 
-        if (!Arr::has($file_data[$field])) {
-            $file_data[$field] = $value;
+        if (!Arr::keyExists($file_data, $field)) {
+            Arr::set($file_data, $field, $value);
+            return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
+        }
+
+        return false;
+    }
+
+    /**
+     * Delete file meta information
+     *
+     * @param string $id    Unique identifier of the file.
+     * @param string $value Value for title field
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function deleteFileMeta(string $id, string $field) : bool
+    {
+        $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
+
+        if (Arr::keyExists($file_data, $field)) {
+            Arr::delete($file_data, $field);
             return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
         }
 
