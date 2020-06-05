@@ -15,7 +15,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
 
-class MediaFoldes
+class MediaFolders
 {
     /**
      * Flextype Dependency Container
@@ -46,7 +46,7 @@ class MediaFoldes
     public function create(string $id) : bool
     {
         if (!Filesystem::has($this->getDirLocation($id)) && !Filesystem::has($this->flextype['media_folders_meta']->getDirMetaLocation($id))) {
-            if (Filesystem::createDir($this->getDirLocation($id))) {
+            if (Filesystem::createDir($this->getDirLocation($id)) && Filesystem::createDir($this->flextype['media_folders_meta']->getDirMetaLocation($id))) {
                 return true;
             } else {
                 return false;
