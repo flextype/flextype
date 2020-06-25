@@ -177,7 +177,6 @@ class MediaFiles
                                 // destroy
                                 $img->destroy();
 
-
                                 $headers = exif_read_data($filename);
 
                                 $exif_data = [];
@@ -189,7 +188,6 @@ class MediaFiles
 
                             $metadata = ['title' => substr(basename($filename), 0, strrpos(basename($filename), '.')),
                                          'description' => '',
-                                         'filename' => basename($filename),
                                          'type' => mime_content_type($filename),
                                          'filesize' => Filesystem::getSize($filename),
                                          'uploaded_on' => time(),
@@ -278,12 +276,6 @@ class MediaFiles
     {
         if (!Filesystem::has($this->getFileLocation($new_id)) && !Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($new_id))) {
             if (rename($this->getFileLocation($id), $this->getFileLocation($new_id)) && rename($this->flextype['media_files_meta']->getFileMetaLocation($id), $this->flextype['media_files_meta']->getFileMetaLocation($new_id))) {
-
-                // Update meta file
-                $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->flextype['media_files_meta']->getFileMetaLocation($new_id)), 'yaml');
-                $file_data['filename'] = basename($new_id);
-                Filesystem::write($this->flextype['media_files_meta']->getFileMetaLocation($new_id), $this->flextype['serializer']->encode($file_data, 'yaml'));
-
                 return true;
             } else {
                 return false;
