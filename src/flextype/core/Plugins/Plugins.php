@@ -236,7 +236,7 @@ class Plugins
             foreach ($plugins_list as $plugin) {
                 $default_plugin_settings_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
                 $default_plugin_manifest_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
-                $project_plugin_settings_file    = PATH['config'] . '/project/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $project_plugin_settings_file = PATH['project'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
 
                 $f1 = Filesystem::has($default_plugin_settings_file) ? filemtime($default_plugin_settings_file) : '';
                 $f2 = Filesystem::has($default_plugin_manifest_file) ? filemtime($default_plugin_manifest_file) : '';
