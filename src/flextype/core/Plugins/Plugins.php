@@ -62,7 +62,7 @@ class Plugins
     /**
      * Init Plugins
      *
-     * @access private
+     * @access public
      */
     public function init($flextype, $app) : void
     {
@@ -196,7 +196,7 @@ class Plugins
      *
      * @param  array $plugins_list Plugins list
      *
-     * @access protected
+     * @access private
      */
     private function getPluginsDictionary(array $plugins_list, string $locale) : array
     {
@@ -224,7 +224,7 @@ class Plugins
      *
      * @param  array $plugins_list Plugins list
      *
-     * @access protected
+     * @access private
      */
     private function getPluginsCacheID(array $plugins_list) : string
     {
@@ -258,7 +258,7 @@ class Plugins
      *
      * @param  array $plugins Plugins list
      *
-     * @access protected
+     * @access public
      */
     public function getValidPluginsDependencies($plugins) : array
     {
@@ -375,7 +375,7 @@ class Plugins
     /**
      * Include enabled plugins
      *
-     * @access protected
+     * @access private
      */
     private function includeEnabledPlugins($flextype, $app) : void
     {
