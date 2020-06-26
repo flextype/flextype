@@ -204,6 +204,34 @@ $flextype['entries'] = static function ($container) {
 };
 
 /**
+ * Add media folders service to Flextype container
+ */
+$flextype['media_folders'] = static function ($container) use ($flextype, $app) {
+    return new MediaFolders($flextype, $app);
+};
+
+/**
+ * Add media files service to Flextype container
+ */
+$flextype['media_files'] = static function ($container) use ($flextype, $app) {
+    return new MediaFiles($flextype, $app);
+};
+
+/**
+ * Add media folders meta service to Flextype container
+ */
+$flextype['media_folders_meta'] = static function ($container) use ($flextype, $app) {
+    return new MediaFoldersMeta($flextype, $app);
+};
+
+/**
+ * Add media files meta service to Flextype container
+ */
+$flextype['media_files_meta'] = static function ($container) use ($flextype, $app) {
+    return new MediaFilesMeta($flextype, $app);
+};
+
+/**
  * Add plugins service to Flextype container
  */
 $flextype['plugins'] = static function ($container) use ($flextype, $app) {
