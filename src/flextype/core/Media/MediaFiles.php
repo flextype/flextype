@@ -221,6 +221,12 @@ class MediaFiles
 
         if (Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($id))) {
             $result = $this->flextype['serializer']->decode(Filesystem::read($this->flextype['media_files_meta']->getFileMetaLocation($id)), 'yaml');
+
+            $result['filename']  = pathinfo(str_replace("/.meta", "", $this->flextype['media_files_meta']->getFileMetaLocation($id)))['filename'];
+            $result['basename']  = explode(".", basename($this->flextype['media_files_meta']->getFileMetaLocation($id)))[0];
+            $result['extension'] = ltrim(strstr($id, '.'), '.');
+            $result['dirname']   = pathinfo(str_replace("/.meta", "", $this->flextype['media_files_meta']->getFileMetaLocation($id)))['dirname'];
+
             $result['url'] = 'project/uploads/' . $id;
 
             if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') != '') {
@@ -246,8 +252,14 @@ class MediaFiles
     {
         $result = [];
 
-        foreach (Filesystem::listContents($this->flextype['media_folders_meta']->getFolderMetaLocation($folder)) as $file) {
+        foreach (Filesystem::listContents($this->flextype['media_folders_meta']->getDirMetaLocation($folder)) as $file) {
             $result[$file['basename']] = $this->flextype['serializer']->decode(Filesystem::read($file['path']), 'yaml');
+
+            $result[$file['basename']]['filename']  = pathinfo(str_replace("/.meta", "", $this->flextype['media_files_meta']->getFileMetaLocation($file['basename'])))['filename'];
+            $result[$file['basename']]['basename']  = explode(".", basename($this->flextype['media_files_meta']->getFileMetaLocation($file['basename'])))[0];
+            $result[$file['basename']]['extension'] = ltrim(strstr($file['basename'], '.'), '.');
+            $result[$file['basename']]['dirname']   = pathinfo(str_replace("/.meta", "", $file['path']))['dirname'];
+
             $result[$file['basename']]['url'] = 'project/uploads/' . $folder . '/' . $file['basename'];
 
             if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') != '') {
