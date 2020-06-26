@@ -256,11 +256,10 @@ api:
     registry:
       enabled: true
       default_token:
-<<<<<<< HEAD
     config:
-=======
+      enabled: true
+      default_token:
     files:
->>>>>>> 428-files-api
       enabled: true
       default_token:
   management:

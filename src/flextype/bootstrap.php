@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Flextype\Component\Arr\Arr;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Session\Session;
@@ -132,14 +131,11 @@ include_once 'dependencies.php';
 include_once 'endpoints/access/access.php';
 include_once 'endpoints/delivery/entries.php';
 include_once 'endpoints/delivery/registry.php';
-<<<<<<< HEAD
 include_once 'endpoints/delivery/config.php';
-=======
 include_once 'endpoints/delivery/media/files.php';
-include_once 'endpoints/delivery/media/folders.php';
->>>>>>> 428-files-api
 include_once 'endpoints/management/entries.php';
 include_once 'endpoints/management/config.php';
+include_once 'endpoints/management/media/files.php';
 include_once 'endpoints/images/images.php';
 
 /**
