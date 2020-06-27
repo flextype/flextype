@@ -21,26 +21,26 @@ $api_sys_messages['AccessTokenInvalid'] = ['sys' => ['type' => 'Error', 'id' => 
 $api_sys_messages['NotFound'] = ['sys' => ['type' => 'Error', 'id' => 'NotFound'], 'message' => 'The resource could not be found.'];
 
 /**
- * Validate delivery registry token
+ * Validate registry token
  */
-function validate_delivery_registry_token($token) : bool
+function validate_registry_token($token) : bool
 {
-    return Filesystem::has(PATH['project'] . '/tokens/delivery/registry/' . $token . '/token.yaml');
+    return Filesystem::has(PATH['project'] . '/tokens/registry/' . $token . '/token.yaml');
 }
 
 /**
  * Fetch registry item
  *
- * endpoint: GET /api/delivery/registry
+ * endpoint: GET /api/registry
  *
  * Query:
  * id     - [REQUIRED] - Unique identifier of the registry item.
- * token  - [REQUIRED] - Valid Content Delivery API token for Entries.
+ * token  - [REQUIRED] - Valid Registry token.
  *
  * Returns:
  * An array of registry item objects.
  */
-$app->get('/api/delivery/registry', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->get('/api/registry', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
 
     // Get Query Params
     $query = $request->getQueryParams();
@@ -49,16 +49,16 @@ $app->get('/api/delivery/registry', function (Request $request, Response $respon
     $id    = $query['id'];
     $token = $query['token'];
 
-    if ($flextype['registry']->get('flextype.settings.api.delivery.registry.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.registry.enabled')) {
 
-        // Validate delivery token
-        if (validate_delivery_registry_token($token)) {
-            $delivery_registry_token_file_path = PATH['project'] . '/tokens/delivery/registry/' . $token . '/token.yaml';
+        // Validate  token
+        if (validate_registry_token($token)) {
+            $registry_token_file_path = PATH['project'] . '/tokens/registry/' . $token . '/token.yaml';
 
-            // Set delivery token file
-            if ($delivery_registry_token_file_data = $flextype['serializer']->decode(Filesystem::read($delivery_registry_token_file_path), 'yaml')) {
-                if ($delivery_registry_token_file_data['state'] === 'disabled' ||
-                    ($delivery_registry_token_file_data['limit_calls'] !== 0 && $delivery_registry_token_file_data['calls'] >= $delivery_registry_token_file_data['limit_calls'])) {
+            // Set  token file
+            if ($registry_token_file_data = $flextype['serializer']->decode(Filesystem::read($registry_token_file_path), 'yaml')) {
+                if ($registry_token_file_data['state'] === 'disabled' ||
+                    ($registry_token_file_data['limit_calls'] !== 0 && $registry_token_file_data['calls'] >= $registry_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
@@ -76,7 +76,7 @@ $app->get('/api/delivery/registry', function (Request $request, Response $respon
                 }
 
                 // Update calls counter
-                Filesystem::write($delivery_registry_token_file_path, $flextype['serializer']->encode(array_replace_recursive($delivery_registry_token_file_data, ['calls' => $delivery_registry_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($registry_token_file_path, $flextype['serializer']->encode(array_replace_recursive($registry_token_file_data, ['calls' => $registry_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 

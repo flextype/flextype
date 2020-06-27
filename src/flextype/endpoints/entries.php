@@ -22,27 +22,28 @@ $api_sys_messages['AccessTokenInvalid'] = ['sys' => ['type' => 'Error', 'id' => 
 $api_sys_messages['NotFound'] = ['sys' => ['type' => 'Error', 'id' => 'NotFound'], 'message' => 'The resource could not be found.'];
 
 /**
- * Validate management entries token
+ * Validate entries entries token
  */
-function validate_management_entries_token($token) : bool
+function validate_entries_token($token) : bool
 {
-    return Filesystem::has(PATH['project'] . '/tokens/management/entries/' . $token . '/token.yaml');
+    return Filesystem::has(PATH['project'] . '/tokens/entries/' . $token . '/token.yaml');
 }
 
 /**
  * Fetch entry(entries)
  *
- * endpoint: GET /api/management/entries
+ * endpoint: GET /api/entries
  *
  * Query:
  * id     - [REQUIRED] - Unique identifier of the entry(entries).
- * token  - [REQUIRED] - Valid Content Management API token for Entries.
+ * token  - [REQUIRED] - Valid Entries token.
  * filter - [OPTIONAL] - Select items in collection by given conditions.
  *
  * Returns:
  * An array of entry item objects.
  */
-$app->get('/api/management/entries', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->get('/api/entries', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+
     // Get Query Params
     $query = $request->getQueryParams();
 
@@ -51,15 +52,16 @@ $app->get('/api/management/entries', function (Request $request, Response $respo
     $token  = $query['token'];
     $filter = $query['filter'] ?? null;
 
-    if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
-        // Validate management token
-        if (validate_management_entries_token($token)) {
-            $management_entries_token_file_path = PATH['project'] . '/tokens/management/entries/' . $token. '/token.yaml';
+    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
-            // Set management token file
-            if ($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) {
-                if ($management_entries_token_file_data['state'] === 'disabled' ||
-                    ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
+        // Validate entries token
+        if (validate_entries_token($token)) {
+            $entries_token_file_path = PATH['project'] . '/tokens/' . $token. '/token.yaml';
+
+            // Set entries token file
+            if ($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) {
+                if ($entries_token_file_data['state'] === 'disabled' ||
+                    ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
@@ -70,7 +72,7 @@ $app->get('/api/management/entries', function (Request $request, Response $respo
                 $response_code = count($response_data['data']) > 0 ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 
@@ -96,22 +98,21 @@ $app->get('/api/management/entries', function (Request $request, Response $respo
            ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
 });
 
-
 /**
  * Create entry
  *
- * endpoint: POST /api/management/entries
+ * endpoint: POST /api/entries
  *
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
- * token         - [REQUIRED] - Valid Content Management API token for Entries.
+ * token         - [REQUIRED] - Valid Entries token.
  * access_token  - [REQUIRED] - Valid Access token.
  * data          - [REQUIRED] - Data to store for the entry.
  *
  * Returns:
  * Returns the entry item object for the entry item that was just created.
  */
-$app->post('/api/management/entries', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->post('/api/entries', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
 
     // Get Post Data
     $post_data = $request->getParsedBody();
@@ -122,19 +123,19 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
     $id           = $post_data['id'];
     $data         = $post_data['data'];
 
-    if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
-        // Validate management and access token
-        if (validate_management_entries_token($token) && validate_access_token($access_token)) {
-            $management_entries_token_file_path = PATH['project'] . '/tokens/management/entries/' . $token . '/token.yaml';
+        // Validate entries and access token
+        if (validate_entries_token($token) && validate_access_token($access_token)) {
+            $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set management and access token file
-            if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
+            // Set entries and access token file
+            if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
-                if ($management_entries_token_file_data['state'] === 'disabled' ||
-                    ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
+                if ($entries_token_file_data['state'] === 'disabled' ||
+                    ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
@@ -156,7 +157,7 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
                 $response_code = ($create_entry) ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 
@@ -185,18 +186,18 @@ $app->post('/api/management/entries', function (Request $request, Response $resp
 /**
  * Update entry
  *
- * endpoint: PATCH /api/management/entries
+ * endpoint: PATCH /api/entries
  *
  * Body:
  * id           - [REQUIRED] - Unique identifier of the entry.
- * token        - [REQUIRED] - Valid Content Management API token for Entries.
+ * token        - [REQUIRED] - Valid Entries token.
  * access_token - [REQUIRED] - Valid Authentication token.
  * data         - [REQUIRED] - Data to update for the entry.
  *
  * Returns:
  * Returns the entry item object for the entry item that was just updated.
  */
-$app->patch('/api/management/entries', function (Request $request, Response $response) use ($flextype) {
+$app->patch('/api/entries', function (Request $request, Response $response) use ($flextype) {
 
     // Get Post Data
     $post_data = $request->getParsedBody();
@@ -207,19 +208,19 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
     $id           = $post_data['id'];
     $data         = $post_data['data'];
 
-    if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
-        // Validate management and access token
-        if (validate_management_entries_token($token) && validate_access_token($access_token)) {
-            $management_entries_token_file_path = PATH['project'] . '/tokens/management/entries/' . $token . '/token.yaml';
+        // Validate entries and access token
+        if (validate_entries_token($token) && validate_access_token($access_token)) {
+            $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set management and access token file
-            if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
+            // Set entries and access token file
+            if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
-                if ($management_entries_token_file_data['state'] === 'disabled' ||
-                    ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
+                if ($entries_token_file_data['state'] === 'disabled' ||
+                    ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
@@ -241,7 +242,7 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
                 $response_code = ($update_entry) ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 
@@ -270,18 +271,18 @@ $app->patch('/api/management/entries', function (Request $request, Response $res
 /**
  * Rename entry
  *
- * endpoint: PUT /api/management/entries
+ * endpoint: PUT /api/entries
  *
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
  * new_id        - [REQUIRED] - New Unique identifier of the entry.
- * token         - [REQUIRED] - Valid Content Management API token for Entries.
+ * token         - [REQUIRED] - Valid Entries token.
  * access_token  - [REQUIRED] - Valid Authentication token.
  *
  * Returns:
  * Returns the entry item object for the entry item that was just renamed.
  */
-$app->put('/api/management/entries', function (Request $request, Response $response) use ($flextype) {
+$app->put('/api/entries', function (Request $request, Response $response) use ($flextype) {
 
     // Get Post Data
     $post_data = $request->getParsedBody();
@@ -292,19 +293,19 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
     $id            = $post_data['id'];
     $new_id        = $post_data['new_id'];
 
-    if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
-        // Validate management and access token
-        if (validate_management_entries_token($token) && validate_access_token($access_token)) {
-            $management_entries_token_file_path = PATH['project'] . '/tokens/management/entries/' . $token . '/token.yaml';
+        // Validate entries and access token
+        if (validate_entries_token($token) && validate_access_token($access_token)) {
+            $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set management and access token file
-            if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
+            // Set entries and access token file
+            if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
-                if ($management_entries_token_file_data['state'] === 'disabled' ||
-                    ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
+                if ($entries_token_file_data['state'] === 'disabled' ||
+                    ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
@@ -327,7 +328,7 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
                 $response_code = ($rename_entry) ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 
@@ -356,18 +357,18 @@ $app->put('/api/management/entries', function (Request $request, Response $respo
 /**
  * Copy entry(entries)
  *
- * endpoint: PUT /api/management/entries/copy
+ * endpoint: PUT /api/entries/copy
  *
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
  * new_id        - [REQUIRED] - New Unique identifier of the entry.
- * token         - [REQUIRED] - Valid Content Management API token for Entries.
+ * token         - [REQUIRED] - Valid Entries token.
  * access_token  - [REQUIRED] - Valid Authentication token.
  *
  * Returns:
  * Returns the entry item object for the entry item that was just copied.
  */
-$app->put('/api/management/entries/copy', function (Request $request, Response $response) use ($flextype) {
+$app->put('/api/entries/copy', function (Request $request, Response $response) use ($flextype) {
 
     // Get Post Data
     $post_data = $request->getParsedBody();
@@ -378,19 +379,19 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
     $id            = $post_data['id'];
     $new_id        = $post_data['new_id'];
 
-    if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
-        // Validate management and access token
-        if (validate_management_entries_token($token) && validate_access_token($access_token)) {
-            $management_entries_token_file_path = PATH['project'] . '/tokens/management/entries/' . $token . '/token.yaml';
+        // Validate entries and access token
+        if (validate_entries_token($token) && validate_access_token($access_token)) {
+            $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set management and access token file
-            if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
+            // Set entries and access token file
+            if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
-                if ($management_entries_token_file_data['state'] === 'disabled' ||
-                    ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
+                if ($entries_token_file_data['state'] === 'disabled' ||
+                    ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
@@ -413,7 +414,7 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
                 $response_code = ($copy_entry) ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 
@@ -442,17 +443,17 @@ $app->put('/api/management/entries/copy', function (Request $request, Response $
 /**
  * Delete entry
  *
- * endpoint: DELETE /api/management/entries
+ * endpoint: DELETE /api/entries
  *
  * Body:
  * id           - [REQUIRED] - Unique identifier of the entry.
- * token        - [REQUIRED] - Valid Content Management API token for Entries.
+ * token        - [REQUIRED] - Valid Entries token.
  * access_token - [REQUIRED] - Valid Authentication token.
  *
  * Returns:
  * Returns an empty body with HTTP status 204
  */
-$app->delete('/api/management/entries', function (Request $request, Response $response) use ($flextype) {
+$app->delete('/api/entries', function (Request $request, Response $response) use ($flextype) {
 
     // Get Post Data
     $post_data = $request->getParsedBody();
@@ -462,19 +463,19 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
     $access_token = $post_data['access_token'];
     $id           = $post_data['id'];
 
-    if ($flextype['registry']->get('flextype.settings.api.management.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
 
-        // Validate management and access token
-        if (validate_management_entries_token($token) && validate_access_token($access_token)) {
-            $management_entries_token_file_path = PATH['project'] . '/tokens/management/entries/' . $token . '/token.yaml';
+        // Validate entries and access token
+        if (validate_entries_token($token) && validate_access_token($access_token)) {
+            $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set management and access token file
-            if (($management_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_entries_token_file_path), 'yaml')) &&
+            // Set entries and access token file
+            if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
-                if ($management_entries_token_file_data['state'] === 'disabled' ||
-                    ($management_entries_token_file_data['limit_calls'] !== 0 && $management_entries_token_file_data['calls'] >= $management_entries_token_file_data['limit_calls'])) {
+                if ($entries_token_file_data['state'] === 'disabled' ||
+                    ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
@@ -490,7 +491,7 @@ $app->delete('/api/management/entries', function (Request $request, Response $re
                 $response_code = ($delete_entry) ? 204 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_entries_token_file_data, ['calls' => $management_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 

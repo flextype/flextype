@@ -249,26 +249,18 @@ media:
 
 # Content APIs
 api:
-  delivery:
-    entries:
-      enabled: true
-      default_token:
-    registry:
-      enabled: true
-      default_token:
-    config:
-      enabled: true
-      default_token:
-    files:
-      enabled: true
-      default_token:
-  management:
-    entries:
-      enabled: true
-      default_token:
-    config:
-      enabled: true
-      default_token:
+  entries:
+    enabled: true
+    default_token:
+  registry:
+    enabled: true
+    default_token:
+  config:
+    enabled: true
+    default_token:
+  files:
+    enabled: true
+    default_token:
   images:
     enabled: true
     default_token:

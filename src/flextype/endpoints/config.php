@@ -16,33 +16,27 @@ use function array_replace_recursive;
 use function count;
 
 /**
- * API sys messages
+ * Validate config token
  */
-$api_sys_messages['AccessTokenInvalid'] = ['sys' => ['type' => 'Error', 'id' => 'AccessTokenInvalid'], 'message' => 'The access token you sent could not be found or is invalid.'];
-$api_sys_messages['NotFound'] = ['sys' => ['type' => 'Error', 'id' => 'NotFound'], 'message' => 'The resource could not be found.'];
-
-/**
- * Validate management config token
- */
-function validate_management_config_token($token) : bool
+function validate_config_token($token) : bool
 {
-    return Filesystem::has(PATH['project'] . '/tokens/management/config/' . $token . '/token.yaml');
+    return Filesystem::has(PATH['project'] . '/tokens/config/' . $token . '/token.yaml');
 }
 
 /**
- * Fetch item in the config
+ * Fetch config item
  *
- * endpoint: GET /api/delivery/config
+ * endpoint: GET /api/config
  *
  * Query:
- * key    - [REQUIRED] - Unique identifier of the config item.
- * config - [REQUIRED] - Unique identifier of the config namespace.
- * token  - [REQUIRED] - Valid Content Delivery API token for Config.
+ * key     - [REQUIRED] - Unique identifier of the config item.
+ * config  - [REQUIRED] - Unique identifier of the config namespace.
+ * token   - [REQUIRED] - Valid Config API token.
  *
  * Returns:
  * An array of config item objects.
  */
-$app->get('/api/management/config', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->get('/api/config', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
 
     // Get Query Params
     $query = $request->getQueryParams();
@@ -52,11 +46,11 @@ $app->get('/api/management/config', function (Request $request, Response $respon
     $config   = $query['config'];
     $token    = $query['token'];
 
-    if ($flextype['registry']->get('flextype.settings.api.management.config.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.config.enabled')) {
 
-        // Validate delivery token
-        if (validate_delivery_config_token($token)) {
-            $delivery_config_token_file_path = PATH['project'] . '/tokens/management/config/' . $token . '/token.yaml';
+        // Validate config token
+        if (validate_config_token($token)) {
+            $delivery_config_token_file_path = PATH['project'] . '/tokens/config/' . $token . '/token.yaml';
 
             // Set delivery token file
             if ($delivery_config_token_file_data = $flextype['serializer']->decode(Filesystem::read($delivery_config_token_file_path), 'yaml')) {
@@ -105,21 +99,22 @@ $app->get('/api/management/config', function (Request $request, Response $respon
            ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
 });
 
+
 /**
  * Create new item in the config
  *
- * endpoint: POST /api/management/config
+ * endpoint: POST /api/config
  *
  * Body:
  * config        - [REQUIRED] - Unique identifier of the config namespace.
- * token         - [REQUIRED] - Valid Content Management API token for Config.
+ * token         - [REQUIRED] - Valid Config token.
  * access_token  - [REQUIRED] - Valid Access token.
  * data          - [REQUIRED] - Data to store for the config.
  *
  * Returns:
  * Returns the config item object for the config item that was just created.
  */
-$app->post('/api/management/config', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->post('/api/config', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
 
     // Get Post Data
     $post_data = $request->getParsedBody();
@@ -130,19 +125,19 @@ $app->post('/api/management/config', function (Request $request, Response $respo
     $config       = $post_data['config'];
     $data         = $post_data['data'];
 
-    if ($flextype['registry']->get('flextype.settings.api.management.config.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.config.enabled')) {
 
-        // Validate management and access token
-        if (validate_management_config_token($token) && validate_access_token($access_token)) {
-            $management_config_token_file_path = PATH['project'] . '/tokens/management/config/' . $token . '/token.yaml';
+        // Validate config and access token
+        if (validate_config_token($token) && validate_access_token($access_token)) {
+            $config_token_file_path = PATH['project'] . '/tokens/config/' . $token . '/token.yaml';
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set management and access token file
-            if (($management_config_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_config_token_file_path), 'yaml')) &&
+            // Set config and access token file
+            if (($config_token_file_data = $flextype['serializer']->decode(Filesystem::read($config_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
-                if ($management_config_token_file_data['state'] === 'disabled' ||
-                    ($management_config_token_file_data['limit_calls'] !== 0 && $management_config_token_file_data['calls'] >= $management_config_token_file_data['limit_calls'])) {
+                if ($config_token_file_data['state'] === 'disabled' ||
+                    ($config_token_file_data['limit_calls'] !== 0 && $config_token_file_data['calls'] >= $config_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
@@ -169,7 +164,7 @@ $app->post('/api/management/config', function (Request $request, Response $respo
                 $response_code = ($create_config) ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_config_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_config_token_file_data, ['calls' => $management_config_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($config_token_file_path, $flextype['serializer']->encode(array_replace_recursive($config_token_file_data, ['calls' => $config_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 
@@ -198,18 +193,18 @@ $app->post('/api/management/config', function (Request $request, Response $respo
 /**
  * Update config item
  *
- * endpoint: POST /api/management/config
+ * endpoint: PATCH /api/config
  *
  * Body:
  * config        - [REQUIRED] - Unique identifier of the config namespace.
- * token         - [REQUIRED] - Valid Content Management API token for Config.
+ * token         - [REQUIRED] - Valid Config token.
  * access_token  - [REQUIRED] - Valid Access token.
  * data          - [REQUIRED] - Data to store for the config.
  *
  * Returns:
  * Returns the config item object for the config item that was just created.
  */
-$app->patch('/api/management/config', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->patch('/api/config', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
 
     // Get Post Data
     $post_data = $request->getParsedBody();
@@ -220,20 +215,20 @@ $app->patch('/api/management/config', function (Request $request, Response $resp
     $data         = $post_data['data'];
     $config       = $post_data['config'];
 
-    if ($flextype['registry']->get('flextype.settings.api.management.config.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.config.enabled')) {
 
-        // Validate management and access token
-        if (validate_management_config_token($token) && validate_access_token($access_token)) {
+        // Validate config and access token
+        if (validate_config_token($token) && validate_access_token($access_token)) {
 
-            $management_config_token_file_path = PATH['project'] . '/tokens/management/config/' . $token . '/token.yaml';
+            $config_token_file_path = PATH['project'] . '/tokens/config/' . $token . '/token.yaml';
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set management and access token file
-            if (($management_config_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_config_token_file_path), 'yaml')) &&
+            // Set config and access token file
+            if (($config_token_file_data = $flextype['serializer']->decode(Filesystem::read($config_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
-                if ($management_config_token_file_data['state'] === 'disabled' ||
-                    ($management_config_token_file_data['limit_calls'] !== 0 && $management_config_token_file_data['calls'] >= $management_config_token_file_data['limit_calls'])) {
+                if ($config_token_file_data['state'] === 'disabled' ||
+                    ($config_token_file_data['limit_calls'] !== 0 && $config_token_file_data['calls'] >= $config_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
@@ -260,7 +255,7 @@ $app->patch('/api/management/config', function (Request $request, Response $resp
                 $response_code = ($update_config) ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_config_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_config_token_file_data, ['calls' => $management_config_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($config_token_file_path, $flextype['serializer']->encode(array_replace_recursive($config_token_file_data, ['calls' => $config_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 
@@ -287,22 +282,21 @@ $app->patch('/api/management/config', function (Request $request, Response $resp
            ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
 });
 
-
 /**
  * Delete config item
  *
- * endpoint: DELETE /api/management/config
+ * endpoint: DELETE /api/config
  *
  * Body:
  * config        - [REQUIRED] - Unique identifier of the config namespace.
- * token         - [REQUIRED] - Valid Content Management API token for Config.
+ * token         - [REQUIRED] - Valid Config token.
  * access_token  - [REQUIRED] - Valid Access token.
  * data          - [REQUIRED] - Data to store for the config.
  *
  * Returns:
  * Returns an empty body with HTTP status 204
  */
-$app->delete('/api/management/config', function (Request $request, Response $response) use ($flextype) {
+$app->delete('/api/config', function (Request $request, Response $response) use ($flextype) {
 
     // Get Post Data
     $post_data = $request->getParsedBody();
@@ -313,19 +307,19 @@ $app->delete('/api/management/config', function (Request $request, Response $res
     $data         = $post_data['data'];
     $config       = $post_data['config'];
 
-    if ($flextype['registry']->get('flextype.settings.api.management.config.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.config.enabled')) {
 
-        // Validate management and access token
-        if (validate_management_config_token($token) && validate_access_token($access_token)) {
-            $management_config_token_file_path = PATH['project'] . '/tokens/management/config/' . $token . '/token.yaml';
+        // Validate config and access token
+        if (validate_config_token($token) && validate_access_token($access_token)) {
+            $config_token_file_path = PATH['project'] . '/tokens/config/' . $token . '/token.yaml';
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set management and access token file
-            if (($management_config_token_file_data = $flextype['serializer']->decode(Filesystem::read($management_config_token_file_path), 'yaml')) &&
+            // Set config and access token file
+            if (($config_token_file_data = $flextype['serializer']->decode(Filesystem::read($config_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
-                if ($management_config_token_file_data['state'] === 'disabled' ||
-                    ($management_config_token_file_data['limit_calls'] !== 0 && $management_config_token_file_data['calls'] >= $management_config_token_file_data['limit_calls'])) {
+                if ($config_token_file_data['state'] === 'disabled' ||
+                    ($config_token_file_data['limit_calls'] !== 0 && $config_token_file_data['calls'] >= $config_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
@@ -341,7 +335,7 @@ $app->delete('/api/management/config', function (Request $request, Response $res
                 $response_code = ($delete_config) ? 204 : 404;
 
                 // Update calls counter
-                Filesystem::write($management_config_token_file_path, $flextype['serializer']->encode(array_replace_recursive($management_config_token_file_data, ['calls' => $management_config_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($config_token_file_path, $flextype['serializer']->encode(array_replace_recursive($config_token_file_data, ['calls' => $config_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 

@@ -128,15 +128,12 @@ include_once 'dependencies.php';
 /**
  * Include API ENDPOINTS
  */
-include_once 'endpoints/access/access.php';
-include_once 'endpoints/delivery/entries.php';
-include_once 'endpoints/delivery/registry.php';
-include_once 'endpoints/delivery/config.php';
-include_once 'endpoints/delivery/media/files.php';
-include_once 'endpoints/management/entries.php';
-include_once 'endpoints/management/config.php';
-include_once 'endpoints/management/media/files.php';
-include_once 'endpoints/images/images.php';
+include_once 'endpoints/access.php';
+include_once 'endpoints/entries.php';
+include_once 'endpoints/registry.php';
+include_once 'endpoints/config.php';
+include_once 'endpoints/files.php';
+include_once 'endpoints/images.php';
 
 /**
  * Set internal encoding

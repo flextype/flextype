@@ -13,7 +13,6 @@ use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use function array_replace_recursive;
-use function count;
 
 /**
  * API sys messages
@@ -22,57 +21,65 @@ $api_sys_messages['AccessTokenInvalid'] = ['sys' => ['type' => 'Error', 'id' => 
 $api_sys_messages['NotFound'] = ['sys' => ['type' => 'Error', 'id' => 'NotFound'], 'message' => 'The resource could not be found.'];
 
 /**
- * Validate delivery entries token
+ * Validate files token
  */
-function validate_delivery_entries_token($token) : bool
+function validate_files_token($token) : bool
 {
-    return Filesystem::has(PATH['project'] . '/tokens/delivery/entries/' . $token . '/token.yaml');
+    return Filesystem::has(PATH['project'] . '/tokens/files/' . $token . '/token.yaml');
 }
 
 /**
- * Fetch entry(entries)
+ * Fetch file(s)
  *
- * endpoint: GET /api/delivery/entries
+ * endpoint: GET /api/files
  *
  * Query:
- * id     - [REQUIRED] - Unique identifier of the entry(entries).
- * token  - [REQUIRED] - Valid Content Delivery API token for Entries.
- * filter - [OPTIONAL] - Select items in collection by given conditions.
+ * path   - [REQUIRED] - Unique identifier of the file path.
+ * token  - [REQUIRED] - Valid Files token.
  *
  * Returns:
  * An array of entry item objects.
  */
-$app->get('/api/delivery/entries', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->get('/api/files', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
 
     // Get Query Params
     $query = $request->getQueryParams();
 
     // Set variables
-    $id     = $query['id'];
-    $token  = $query['token'];
-    $filter = $query['filter'] ?? null;
+    $path  = $query['path'];
+    $token = $query['token'];
 
-    if ($flextype['registry']->get('flextype.settings.api.delivery.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
 
         // Validate delivery token
-        if (validate_delivery_entries_token($token)) {
-            $delivery_entries_token_file_path = PATH['project'] . '/tokens/delivery/entries/' . $token. '/token.yaml';
+        if (validate_files_token($token)) {
+            $delivery_files_token_file_path = PATH['project'] . '/tokens/files/' . $token. '/token.yaml';
 
             // Set delivery token file
-            if ($delivery_entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($delivery_entries_token_file_path), 'yaml')) {
-                if ($delivery_entries_token_file_data['state'] === 'disabled' ||
-                    ($delivery_entries_token_file_data['limit_calls'] !== 0 && $delivery_entries_token_file_data['calls'] >= $delivery_entries_token_file_data['limit_calls'])) {
+            if ($delivery_files_token_file_data = $flextype['serializer']->decode(Filesystem::read($delivery_files_token_file_path), 'yaml')) {
+                if ($delivery_files_token_file_data['state'] === 'disabled' ||
+                    ($delivery_files_token_file_data['limit_calls'] !== 0 && $delivery_files_token_file_data['calls'] >= $delivery_files_token_file_data['limit_calls'])) {
                     return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
                 }
 
-                // Fetch entry
-                $response_data['data'] = $flextype['entries']->fetch($id, $filter);
+                // Create files array
+                $files = [];
+
+                // Get list if file or files for specific folder
+                if (is_dir($path)) {
+                    $files = $flextype['media_files']->fetchCollection($path);
+                } else {
+                    $files = $flextype['media_files']->fetchSingle($path);
+                }
+
+                // Write response data
+                $response_data['data'] = $files;
 
                 // Set response code
                 $response_code = count($response_data['data']) > 0 ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($delivery_entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($delivery_entries_token_file_data, ['calls' => $delivery_entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($delivery_files_token_file_path, $flextype['serializer']->encode(array_replace_recursive($delivery_files_token_file_data, ['calls' => $delivery_files_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code == 404) {
 
