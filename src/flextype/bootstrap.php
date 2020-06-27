@@ -43,12 +43,12 @@ $registry = new Registry();
  * 3. Merge settings.
  * 4. Store settings in the flextype registry.
  */
-$flextype_manifest_file_path         = PATH['config'] . '/flextype.yaml';
-$default_flextype_settings_file_path = PATH['config'] . '/settings.yaml';
-$custom_flextype_settings_file_path  = PATH['project'] . '/config/settings.yaml';
+$flextype_manifest_file_path         = ROOT_DIR . '/src/flextype/flextype.yaml';
+$default_flextype_settings_file_path = ROOT_DIR . '/src/flextype/settings.yaml';
+$custom_flextype_settings_file_path  = PATH['project'] . '/config/flextype/settings.yaml';
 
 // Create config dir
-! Filesystem::has(PATH['project'] . '/config/') and Filesystem::createDir(PATH['project'] . '/config/');
+! Filesystem::has(PATH['project'] . '/config/flextype/') and Filesystem::createDir(PATH['project'] . '/config/flextype/');
 
 // Set settings if Flextype Default settings config files exist
 if (! Filesystem::has($default_flextype_settings_file_path)) {
