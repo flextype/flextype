@@ -100,7 +100,7 @@ $app->get('/api/files', function (Request $request, Response $response) use ($fl
 });
 
 /**
- * Create a media file
+ * Upload media file
  *
  * endpoint: POST /api/files
  *
@@ -146,7 +146,7 @@ $app->post('/api/files', function (Request $request, Response $response) use ($f
                 }
 
                 // Create entry
-                $create_file = $flextype['media_files']->create($file, $folder);
+                $create_file = $flextype['media_files']->upload($file, $folder);
 
                 if ($create_file) {
                     $response_data['data'] = $flextype['media_files']->fetch($folder . '/' . basename($create_file));

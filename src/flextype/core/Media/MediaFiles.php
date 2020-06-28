@@ -35,14 +35,14 @@ class MediaFiles
     }
 
     /**
-     * Create a media file
+     * Upload media file
      *
      * @param array  $file   Raw file data (multipart/form-data).
      * @param string $folder The folder you're targetting.
      *
      * @access public
      */
-    public function create(array $file, string $folder)
+    public function upload(array $file, string $folder)
     {
         $upload_folder = PATH['project'] . '/uploads/' . $folder . '/';
         $upload_metadata_folder = PATH['project'] . '/uploads/.meta/' . $folder . '/';
@@ -209,25 +209,44 @@ class MediaFiles
     }
 
     /**
-     * Fetch single file
+     * Fetch file(s)
      *
      * @param string $directory The directory to list.
      *
-     * @return array A list of file metadata.
+     * @return array A list of file(s) metadata.
      */
-    public function fetchsingle(string $id) : array
+    public function fetch(string $path) : array
+    {
+        // Get list if file or files for specific folder
+        if (is_dir($path)) {
+            $files = $this->fetchCollection($path);
+        } else {
+            $files = $this->fetchSingle($path);
+        }
+
+        return $files;
+    }
+
+    /**
+     * Fetch single file
+     *
+     * @param string $path The path to file.
+     *
+     * @return array A file metadata.
+     */
+    public function fetchsingle(string $path) : array
     {
         $result = [];
 
-        if (Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($id))) {
-            $result = $this->flextype['serializer']->decode(Filesystem::read($this->flextype['media_files_meta']->getFileMetaLocation($id)), 'yaml');
+        if (Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($path))) {
+            $result = $this->flextype['serializer']->decode(Filesystem::read($this->flextype['media_files_meta']->getFileMetaLocation($path)), 'yaml');
 
-            $result['filename']  = pathinfo(str_replace("/.meta", "", $this->flextype['media_files_meta']->getFileMetaLocation($id)))['filename'];
-            $result['basename']  = explode(".", basename($this->flextype['media_files_meta']->getFileMetaLocation($id)))[0];
-            $result['extension'] = ltrim(strstr($id, '.'), '.');
-            $result['dirname']   = pathinfo(str_replace("/.meta", "", $this->flextype['media_files_meta']->getFileMetaLocation($id)))['dirname'];
+            $result['filename']  = pathinfo(str_replace("/.meta", "", $this->flextype['media_files_meta']->getFileMetaLocation($path)))['filename'];
+            $result['basename']  = explode(".", basename($this->flextype['media_files_meta']->getFileMetaLocation($path)))[0];
+            $result['extension'] = ltrim(strstr($path, '.'), '.');
+            $result['dirname']   = pathinfo(str_replace("/.meta", "", $this->flextype['media_files_meta']->getFileMetaLocation($path)))['dirname'];
 
-            $result['url'] = 'project/uploads/' . $id;
+            $result['url'] = 'project/uploads/' . $path;
 
             if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') != '') {
                 $full_url = $this->flextype['registry']->get('flextype.settings.url');
@@ -235,7 +254,7 @@ class MediaFiles
                 $full_url = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
             }
 
-            $result['full_url'] = $full_url . '/project/uploads/' . $id;
+            $result['full_url'] = $full_url . '/project/uploads/' . $path;
         }
 
         return $result;
@@ -244,15 +263,15 @@ class MediaFiles
     /**
      * Fetch files collection
      *
-     * @param string $folder The directory to list.
+     * @param string $path The path to files collection.
      *
-     * @return array A list of file metadata.
+     * @return array A list of files metadata.
      */
-    public function fetchCollection(string $folder) : array
+    public function fetchCollection(string $path) : array
     {
         $result = [];
 
-        foreach (Filesystem::listContents($this->flextype['media_folders_meta']->getDirMetaLocation($folder)) as $file) {
+        foreach (Filesystem::listContents($this->flextype['media_folders_meta']->getDirMetaLocation($path)) as $file) {
             $result[$file['basename']] = $this->flextype['serializer']->decode(Filesystem::read($file['path']), 'yaml');
 
             $result[$file['basename']]['filename']  = pathinfo(str_replace("/.meta", "", $this->flextype['media_files_meta']->getFileMetaLocation($file['basename'])))['filename'];
@@ -260,7 +279,7 @@ class MediaFiles
             $result[$file['basename']]['extension'] = ltrim(strstr($file['basename'], '.'), '.');
             $result[$file['basename']]['dirname']   = pathinfo(str_replace("/.meta", "", $file['path']))['dirname'];
 
-            $result[$file['basename']]['url'] = 'project/uploads/' . $folder . '/' . $file['basename'];
+            $result[$file['basename']]['url'] = 'project/uploads/' . $path . '/' . $file['basename'];
 
             if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') != '') {
                 $full_url = $this->flextype['registry']->get('flextype.settings.url');
@@ -268,7 +287,7 @@ class MediaFiles
                 $full_url = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
             }
 
-            $result[$file['basename']]['full_url'] = $full_url . '/project/uploads/' . $folder . '/' . $file['basename'];
+            $result[$file['basename']]['full_url'] = $full_url . '/project/uploads/' . $path . '/' . $file['basename'];
         }
 
         return $result;
