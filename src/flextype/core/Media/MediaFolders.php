@@ -35,6 +35,85 @@ class MediaFolders
     }
 
     /**
+     * Fetch folders(s)
+     *
+     * @param string $path The path of directory to list.
+     * @param string $mode The mode, collection or single
+     *
+     * @return array A list of file(s) metadata.
+     */
+    public function fetch(string $path, string $mode = 'collection') : array
+    {
+        if ($mode == 'collection') {
+            $result = $this->fetchCollection($path);
+        } elseif ($mode == 'single') {
+            $result = $this->fetchSingle($path);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Fetch single folder
+     *
+     * @param string $path The path to file.
+     *
+     * @return array A file metadata.
+     */
+    public function fetchsingle(string $path) : array
+    {
+        $result = [];
+
+        if (Filesystem::has($this->flextype['media_folders_meta']->getDirMetaLocation($path))) {
+
+            $result['path']  = $path;
+            $result['full_path']   = str_replace("/.meta", "", $this->flextype['media_folders_meta']->getDirMetaLocation($path));
+            $result['url'] = 'project/uploads/' . $path;
+
+            if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') != '') {
+                $full_url = $this->flextype['registry']->get('flextype.settings.url');
+            } else {
+                $full_url = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
+            }
+
+            $result['full_url'] = $full_url . '/project/uploads/' . $path;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Fetch folder collection
+     *
+     * @param string $path The path to files collection.
+     *
+     * @return array A list of files metadata.
+     */
+    public function fetchCollection(string $path) : array
+    {
+        $result = [];
+
+        foreach (Filesystem::listContents($this->flextype['media_folders_meta']->getDirMetaLocation($path)) as $folder) {
+            if ($folder['type'] == 'dir') {
+
+                $result[$folder['dirname']]['full_path']   = str_replace("/.meta", "", $this->flextype['media_folders_meta']->getDirMetaLocation($folder['dirname']));
+                $result[$folder['dirname']]['url'] = 'project/uploads/' . $folder['dirname'];
+
+                if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') != '') {
+                    $full_url = $this->flextype['registry']->get('flextype.settings.url');
+                } else {
+                    $full_url = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
+                }
+
+                $result[$folder['dirname']]['full_url'] = $full_url . '/project/uploads/' . $folder['dirname'];
+            }
+        }
+
+        return $result;
+    }
+
+
+    /**
      * Create folder
      *
      * @param string $id Unique identifier of the folder.

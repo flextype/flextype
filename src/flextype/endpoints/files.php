@@ -281,7 +281,7 @@ $app->put('/api/files', function (Request $request, Response $response) use ($fl
 /**
  * Delete file
  *
- * endpoint: DELETE /api/entries
+ * endpoint: DELETE /api/files
  *
  * Body:
  * id           - [REQUIRED] - Unique identifier of the file.
@@ -291,7 +291,7 @@ $app->put('/api/files', function (Request $request, Response $response) use ($fl
  * Returns:
  * Returns an empty body with HTTP status 204
  */
-$app->delete('/api/entries', function (Request $request, Response $response) use ($flextype) {
+$app->delete('/api/files', function (Request $request, Response $response) use ($flextype) {
 
     // Get Post Data
     $post_data = $request->getParsedBody();
@@ -301,14 +301,14 @@ $app->delete('/api/entries', function (Request $request, Response $response) use
     $access_token = $post_data['access_token'];
     $id           = $post_data['id'];
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
 
-        // Validate entries and access token
-        if (validate_entries_token($token) && validate_access_token($access_token)) {
-            $files_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
+        // Validate files and access token
+        if (validate_files_token($token) && validate_access_token($access_token)) {
+            $files_token_file_path = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set entries and access token file
+            // Set files and access token file
             if (($files_token_file_data = $flextype['serializer']->decode(Filesystem::read($files_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
 
@@ -341,6 +341,278 @@ $app->delete('/api/entries', function (Request $request, Response $response) use
                 // Return response
                 return $response
                        ->withJson($delete_file, $response_code);
+            }
+
+            return $response
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+        }
+
+        return $response
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+    }
+
+    return $response
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+});
+
+/**
+ * Update file meta information
+ *
+ * endpoint: PATCH /api/files/meta
+ *
+ * Body:
+ * path          - [REQUIRED] - File path.
+ * field         - [REQUIRED] - Field name.
+ * value         - [REQUIRED] - Field value.
+ * token         - [REQUIRED] - Valid Entries token.
+ * access_token  - [REQUIRED] - Valid Access token.
+ *
+ * Returns:
+ * Returns the file object for the file that was just created.
+ */
+$app->patch('/api/files/meta', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+
+    // Get Post Data
+    $post_data = $request->getParsedBody();
+
+    // Set variables
+    $token        = $post_data['token'];
+    $access_token = $post_data['access_token'];
+    $path         = $post_data['path'];
+    $field        = $post_data['field'];
+    $value        = $post_data['value'];
+
+    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+
+        // Validate files and access token
+        if (validate_files_token($token) && validate_access_token($access_token)) {
+            $files_token_file_path = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
+            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
+
+            // Set files and access token file
+            if (($files_token_file_data = $flextype['serializer']->decode(Filesystem::read($files_token_file_path), 'yaml')) &&
+                ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+
+                if ($files_token_file_data['state'] === 'disabled' ||
+                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                }
+
+                if ($access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                }
+
+                // Update file meta
+                $update_file_meta = $flextype['media_files_meta']->update($path, $field, $value);
+
+                if ($update_file_meta) {
+                    $response_data['data'] = $flextype['media_files']->fetch($path);
+                } else {
+                    $response_data['data'] = [];
+                }
+
+                // Set response code
+                $response_code = ($update_file_meta) ? 200 : 404;
+
+                // Return response
+                return $response
+                       ->withJson($response_data, $response_code);
+
+                // Update calls counter
+                Filesystem::write($files_token_file_path, $flextype['serializer']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1]), 'yaml'));
+
+                if ($response_code == 404) {
+
+                    // Return response
+                    return $response
+                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                }
+
+                // Return response
+                return $response
+                       ->withJson($response_data, $response_code);
+            }
+
+            return $response
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+        }
+
+        return $response
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+    }
+
+    return $response
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+});
+
+/**
+ * Add file meta information
+ *
+ * endpoint: POST /api/files/meta
+ *
+ * Body:
+ * path          - [REQUIRED] - File path.
+ * field         - [REQUIRED] - Field name.
+ * value         - [REQUIRED] - Field value.
+ * token         - [REQUIRED] - Valid Entries token.
+ * access_token  - [REQUIRED] - Valid Access token.
+ *
+ * Returns:
+ * Returns the file object for the file that was just created.
+ */
+$app->post('/api/files/meta', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+
+    // Get Post Data
+    $post_data = $request->getParsedBody();
+
+    // Set variables
+    $token        = $post_data['token'];
+    $access_token = $post_data['access_token'];
+    $path         = $post_data['path'];
+    $field        = $post_data['field'];
+    $value        = $post_data['value'];
+
+    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+
+        // Validate files and access token
+        if (validate_files_token($token) && validate_access_token($access_token)) {
+            $files_token_file_path = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
+            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
+
+            // Set files and access token file
+            if (($files_token_file_data = $flextype['serializer']->decode(Filesystem::read($files_token_file_path), 'yaml')) &&
+                ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+
+                if ($files_token_file_data['state'] === 'disabled' ||
+                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                }
+
+                if ($access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                }
+
+                // Add file meta
+                $add_file_meta = $flextype['media_files_meta']->add($path, $field, $value);
+
+                if ($add_file_meta) {
+                    $response_data['data'] = $flextype['media_files']->fetch($path);
+                } else {
+                    $response_data['data'] = [];
+                }
+
+                // Set response code
+                $response_code = ($add_file_meta) ? 200 : 404;
+
+                // Return response
+                return $response
+                       ->withJson($response_data, $response_code);
+
+                // Update calls counter
+                Filesystem::write($files_token_file_path, $flextype['serializer']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1]), 'yaml'));
+
+                if ($response_code == 404) {
+
+                    // Return response
+                    return $response
+                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                }
+
+                // Return response
+                return $response
+                       ->withJson($response_data, $response_code);
+            }
+
+            return $response
+                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+        }
+
+        return $response
+               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+    }
+
+    return $response
+           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+});
+
+
+/**
+ * Add file meta information
+ *
+ * endpoint: DELETE /api/files/meta
+ *
+ * Body:
+ * path          - [REQUIRED] - File path.
+ * field         - [REQUIRED] - Field name.
+ * token         - [REQUIRED] - Valid Entries token.
+ * access_token  - [REQUIRED] - Valid Access token.
+ *
+ * Returns:
+ * Returns the file object for the file that was just created.
+ */
+$app->delete('/api/files/meta', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+
+    // Get Post Data
+    $post_data = $request->getParsedBody();
+
+    // Set variables
+    $token        = $post_data['token'];
+    $access_token = $post_data['access_token'];
+    $path         = $post_data['path'];
+    $field        = $post_data['field'];
+
+    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+
+        // Validate files and access token
+        if (validate_files_token($token) && validate_access_token($access_token)) {
+            $files_token_file_path = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
+            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
+
+            // Set files and access token file
+            if (($files_token_file_data = $flextype['serializer']->decode(Filesystem::read($files_token_file_path), 'yaml')) &&
+                ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+
+                if ($files_token_file_data['state'] === 'disabled' ||
+                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                }
+
+                if ($access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                }
+
+                // Delete file meta
+                $delete_file_meta = $flextype['media_files_meta']->delete($path, $field);
+
+                if ($delete_file_meta) {
+                    $response_data['data'] = $flextype['media_files']->fetch($path);
+                } else {
+                    $response_data['data'] = [];
+                }
+
+                // Set response code
+                $response_code = ($delete_file_meta) ? 200 : 404;
+
+                // Return response
+                return $response
+                       ->withJson($response_data, $response_code);
+
+                // Update calls counter
+                Filesystem::write($files_token_file_path, $flextype['serializer']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1]), 'yaml'));
+
+                if ($response_code == 404) {
+
+                    // Return response
+                    return $response
+                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                }
+
+                // Return response
+                return $response
+                       ->withJson($response_data, $response_code);
             }
 
             return $response

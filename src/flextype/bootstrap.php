@@ -133,6 +133,7 @@ include_once 'endpoints/entries.php';
 include_once 'endpoints/registry.php';
 include_once 'endpoints/config.php';
 include_once 'endpoints/files.php';
+include_once 'endpoints/folders.php';
 include_once 'endpoints/images.php';
 
 /**

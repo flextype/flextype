@@ -18,6 +18,23 @@ use Slim\Http\Uri;
 class MediaFilesMeta
 {
     /**
+     * Flextype Dependency Container
+     *
+     * @access private
+     */
+    private $flextype;
+
+    /**
+     * Constructor
+     *
+     * @access public
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
+
+    /**
      * Update file meta information
      *
      * @param string $id    Unique identifier of the file.
@@ -28,7 +45,7 @@ class MediaFilesMeta
      *
      * @access public
      */
-    public function updateMeta(string $id, string $field, string $value) : bool
+    public function update(string $id, string $field, string $value) : bool
     {
         $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
 
@@ -51,7 +68,7 @@ class MediaFilesMeta
      *
      * @access public
      */
-    public function addMeta(string $id, string $field, string $value) : bool
+    public function add(string $id, string $field, string $value) : bool
     {
         $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
 
@@ -73,7 +90,7 @@ class MediaFilesMeta
      *
      * @access public
      */
-    public function deleteMeta(string $id, string $field) : bool
+    public function delete(string $id, string $field) : bool
     {
         $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
 

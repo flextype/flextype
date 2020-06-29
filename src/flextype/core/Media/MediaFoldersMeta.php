@@ -12,6 +12,23 @@ namespace Flextype;
 class MediaFoldersMeta
 {
     /**
+     * Flextype Dependency Container
+     *
+     * @access private
+     */
+    private $flextype;
+
+    /**
+     * Constructor
+     *
+     * @access public
+     */
+    public function __construct($flextype)
+    {
+        $this->flextype = $flextype;
+    }
+
+    /**
      * Get files directory meta location
      *
      * @param string $id Unique identifier of the folder.
