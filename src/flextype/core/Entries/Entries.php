@@ -245,21 +245,10 @@ class Entries
                                     foreach ($entry_decoded['parsers'][$parser_name]['fields'] as $field) {
                                         if (! in_array($field, $this->system_fields)) {
                                             if ($parser_name == 'markdown') {
-                                                $entry_decoded[$field] = $this->flextype['parser']->parse($entry_decoded[$field], 'markdown', $cache);
+                                                Arr::set($entry_decoded, $field, $this->flextype['parser']->parse(Arr::get($entry_decoded, $field), 'markdown', $cache));
                                             }
                                             if ($parser_name == 'shortcodes') {
-                                                $entry_decoded[$field] = $this->flextype['parser']->parse($entry_decoded[$field], 'shortcodes', $cache);
-                                            }
-                                        }
-                                    }
-                                } elseif ($entry_decoded['parsers'][$parser_name]['fields'] == "*") {
-                                    foreach ($entry_decoded as $key => $value) {
-                                        if (! in_array($key, $this->system_fields)) {
-                                            if ($parser_name == 'markdown') {
-                                                $entry_decoded[$key] = $this->flextype['parser']->parse($entry_decoded[$key], 'markdown', $cache);
-                                            }
-                                            if ($parser_name == 'shortcodes') {
-                                                $entry_decoded[$key] = $this->flextype['parser']->parse($entry_decoded[$key], 'shortcodes', $cache);
+                                                Arr::set($entry_decoded, $field, $this->flextype['parser']->parse(Arr::get($entry_decoded, $field), 'shortcodes', $cache));
                                             }
                                         }
                                     }
