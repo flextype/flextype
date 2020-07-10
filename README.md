@@ -7,7 +7,7 @@
 
 ## INTRODUCTION
 
-**Flextype** is an open-source self-hosted **Data-First Headless CMS & API**. It is was **founded in March 2018** as lightweight alternative to other heavy Content Management Systems. Many people use complex solutions for simple projects, unnecessarily. Building this Content Management System, we focused on simplicity - even novice webmaster adapt his template and writes his own plugin. To achieve this, we implemented a simple but powerful API's.
+**Flextype** is an open-source Hybrid Content Management System. It is was **founded in March 2018** as lightweight alternative to other heavy Content Management Systems. Many people use complex solutions for simple projects, unnecessarily. Building this Content Management System, we focused on simplicity - even novice webmaster adapt his template and writes his own plugin. To achieve this, we implemented a simple but powerful API's.
 
 With Flextype, you are in complete control. Design your data structure the way you want. Update and share your data with others and teams using version control. Flextype does not require MySQL database, because all the data are collected in a simple files. Perfect portability when changing your hosting provider. Just copy all the files from one server to another.
 
@@ -46,7 +46,7 @@ APC, APCu, XCache, Memcached, or Redis for better performance.
 
 1. [Download the latest version of Flextype](https://flextype.org/en/downloads).
 2. Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, create directory <code>/project</code> and be sure to chmod the following directory to <code>755</code> (or <code>777</code>), so it is readable and writable by Flextype.<br>
-3. Create CDA, CMA and Access tokens for your project using this [webpage](https://flextype.org/en/api-token-generator).
+3. Create Rest API's tokens for your project using this [webpage](https://flextype.org/en/api-token-generator).
 
 [read the documentation](https://github.com/flextype/plugins)
 
