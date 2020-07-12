@@ -90,13 +90,32 @@ class Collections
         $this->flextype = $flextype;
     }
 
-    public function find($array)
+    /**
+     * Find
+     *
+     * @param string $array Array
+     *
+     * @return static self reference
+     *
+     * @access public
+     */
+    public function find(array $array)
     {
+        // Save error_reporting state and turn it off
+        // because PHP Doctrine Collections don't works with collections
+        // if there is no requested fields to search:
+        //      vendor/doctrine/collections/lib/Doctrine/Common/Collections/Expr/ClosureExpressionVisitor.php
+        //      line 40: return $object[$field];
+        //
+        // @todo research this issue and find possible better solution to avoid this in the future
         $oldErrorReporting = error_reporting();
         error_reporting(0);
+        
+        // Flatten a multi-dimensional entries array with dots.
+        $flat_array = Arr::dot($array);
 
         // Create Array Collection from entries array
-        $this->collection = new ArrayCollection($array);
+        $this->collection = new ArrayCollection($flat_array);
 
         // Create Criteria for filtering Selectable collections.
         $this->criteria = new Criteria();
@@ -104,34 +123,90 @@ class Collections
         return $this;
     }
 
-    public function where($key, $expr, $value)
+    /**
+     * Sets the where expression to evaluate when this Criteria is searched for.
+     *
+     * @param string $field The field path using dot notation.
+     * @param string $expr  Expression @see $this->expression
+     * @param mixed  $value Value
+     *
+     * @return static self reference
+     *
+     * @access public
+     */
+    public function where($field, $expr, $value)
     {
-        $this->criteria->where(new Comparison($key, $this->expression[$expr], $value));
+        $this->criteria->where(new Comparison($field, $this->expression[$expr], $value));
 
         return $this;
     }
 
-    public function andWhere($key, $expr, $value)
+    /**
+     * Appends the where expression to evaluate when this Criteria is searched
+     * for using an AND with previous expression.
+     *
+     * @param string $field The field path using dot notation.
+     * @param string $expr  Expression @see $this->expression
+     * @param mixed  $value Value
+     *
+     * @return static self reference
+     *
+     * @access public
+     */
+    public function andWhere(string $field, string $expr, $value)
     {
-        $this->criteria->andWhere(new Comparison($key, $this->expression[$expr], $value));
+        $this->criteria->andWhere(new Comparison($field, $this->expression[$expr], $value));
 
         return $this;
     }
 
-    public function orWhere($key, $expr, $value)
+    /**
+     * Appends the where expression to evaluate when this Criteria is searched
+     * for using an OR with previous expression.
+     *
+     * @param string $field The field path using dot notation.
+     * @param string $expr  Expression @see $this->expression
+     * @param mixed  $value Value
+     *
+     * @return static self reference
+     *
+     * @access public
+     */
+    public function orWhere($field, $expr, $value)
     {
-        $this->criteria->orWhere(new Comparison($key, $this->expression[$expr], $value));
+        $this->criteria->orWhere(new Comparison($field, $this->expression[$expr], $value));
 
         return $this;
     }
 
-    public function orderBy($field, $direction)
+    /**
+     * Sets the ordering of the result of this Criteria.
+     *
+     * Keys are field and values are the order, being either ASC or DESC.
+     *
+     * @param string $field     The field path using dot notation.
+     * @param string $direction Sort direction: asc or desc
+     *
+     * @return static self reference
+     *
+     * @access public
+     */
+    public function orderBy(string $field, string $direction)
     {
         $this->criteria->orderBy([$field => $this->direction[$direction]]);
 
         return $this;
     }
 
+    /**
+     * Set the number of first result that this Criteria should return.
+     *
+     * @param int|null $firstResult The value to set.
+     *
+     * @return static self reference
+     *
+     * @access public
+     */
     public function setFirstResult($firstResult)
     {
         $this->criteria->setFirstResult($firstResult);
@@ -139,6 +214,15 @@ class Collections
         return $this;
     }
 
+    /**
+     * Sets the max results that this Criteria should return.
+     *
+     * @param int|null $limit The value to set.
+     *
+     * @return static self reference
+     *
+     * @access public
+     */
     public function limit($limit)
     {
         $this->criteria->setMaxResults($limit);
@@ -146,27 +230,54 @@ class Collections
         return $this;
     }
 
+    /**
+     * Returns the number of items.
+     *
+     * @return int The number of items.
+     *
+     * @access public
+     */
     public function exists() : bool
     {
-        return count($this->toArray());
+        return ($this->count() > 0) ? true : false ;
     }
 
+    /**
+     * Returns the number of items.
+     *
+     * @return int The number of items.
+     *
+     * @access public
+     */
     public function count() : int
     {
         return count($this->toArray());
     }
 
-    public function toArray()
+    /**
+     * Returns all results as an array.
+     *
+     * @return array The array data.
+     *
+     * @access public
+     */
+    public function asArray() : array
     {
-        // Get entries for matching criterias
+        // Get items for matching criterias
         $collection = $this->collection->matching($this->criteria);
 
         // Gets a native PHP array representation of the collection.
         $array = $collection->toArray();
 
+        // Magic is here... dot and undot for entries array
+        // 1. Flatten a multi-dimensional entries array with dots.
+        // 2. Restore entries array with dots into correct multi-dimensional entries array
+        $results_array = Arr::undot(Arr::dot($array));
+
         // Restore error_reporting
         error_reporting($oldErrorReporting);
 
-        return $array;
+        // Results array
+        return $results_array;
     }
 }
