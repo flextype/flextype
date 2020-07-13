@@ -262,7 +262,7 @@ class Entries
 
             // Create entries array from entries list and ignore current requested entry
             foreach ($entries_list as $current_entry) {
-                if (strpos($current_entry['path'], $bind_id . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension')) !== false) {
+                if (strpos($current_entry['path'], $path . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension')) !== false) {
                     // ignore ...
                 } else {
                     // We are checking...
@@ -275,9 +275,6 @@ class Entries
 
                         // For each founded entry we should create $entries array.
                         $entry = $this->fetch($uid);
-
-                        // Flatten a multi-dimensional entries array with dots.
-                        $entry = Arr::dot($entry);
 
                         // Add entry into the entries
                         $entries[$uid] = $entry;
