@@ -52,53 +52,6 @@ class Entries
     public $entries = [];
 
     /**
-     * Expression
-     *
-     * @var array
-     * @access public
-     */
-    public $expression = [
-        'eq' => Comparison::EQ,
-        '=' => Comparison::EQ,
-
-        '<>' => Comparison::NEQ,
-        '!=' => Comparison::NEQ,
-        'neq' => Comparison::NEQ,
-
-        '<' => Comparison::LT,
-        'lt' => Comparison::LT,
-
-        '<=' => Comparison::LTE,
-        'lte' => Comparison::LTE,
-
-        '>' => Comparison::GT,
-        'gt' => Comparison::GT,
-
-        '>=' => Comparison::GTE,
-        'gte' => Comparison::GTE,
-
-        'is' => Comparison::IS,
-        'in' => Comparison::IN,
-        'nin' => Comparison::NIN,
-        'contains' => Comparison::CONTAINS,
-        'like' => Comparison::CONTAINS,
-        'member_of' => Comparison::MEMBER_OF,
-        'start_with' => Comparison::STARTS_WITH,
-        'ends_with' => Comparison::ENDS_WITH,
-    ];
-
-    /**
-     * Entires Order Direction
-     *
-     * @var array
-     * @access public
-     */
-    public $direction = [
-        'asc' => Criteria::ASC,
-        'desc' => Criteria::DESC,
-    ];
-
-    /**
      * Entries Visibility
      *
      * @var array
@@ -147,36 +100,36 @@ class Entries
     /**
      * Fetch entry(entries)
      *
-     * @param string     $id     Unique identifier of the entry(entries).
+     * @param string     $path     Unique identifier of the entry(entries).
      * @param array|null $filter Select items in collection by given conditions.
      *
      * @return array The entry array data.
      *
      * @access public
      */
-    public function fetch(string $id, ?array $filter = null) : array
+    public function fetch(string $path, ?array $filter = null) : array
     {
         // If filter is array then it is entries collection request
         if (is_array($filter)) {
-            return $this->fetchCollection($id, $filter);
+            return $this->fetchCollection($path, $filter);
         }
 
-        return $this->fetchSingle($id);
+        return $this->fetchSingle($path);
     }
 
     /**
      * Fetch single entry
      *
-     * @param string $id Unique identifier of the entry(entries).
+     * @param string $path Unique identifier of the entry(entries).
      *
      * @return array The entry array data.
      *
      * @access public
      */
-    public function fetchSingle(string $id) : array
+    public function fetchSingle(string $path) : array
     {
         // Get entry file location
-        $entry_file = $this->getFileLocation($id);
+        $entry_file = $this->getFileLocation($path);
 
         // If requested entry file founded then process it
         if (Filesystem::has($entry_file)) {
@@ -218,7 +171,7 @@ class Entries
             $entry_decoded['modified_at'] = (int) Filesystem::getTimestamp($entry_file);
 
             // Entry Slug
-            $entry_decoded['slug'] = isset($entry_decoded['slug']) ? (string) $entry_decoded['slug'] : (string) ltrim(rtrim($id, '/'), '/');
+            $entry_decoded['slug'] = isset($entry_decoded['slug']) ? (string) $entry_decoded['slug'] : (string) ltrim(rtrim($path, '/'), '/');
 
             // Entry Routable
             $entry_decoded['routable'] = isset($entry_decoded['routable']) ? (bool) $entry_decoded['routable'] : true;
@@ -283,14 +236,14 @@ class Entries
     /**
      * Fetch entries collection
      *
-     * @param string $id     Unique identifier of the entry(entries).
-     * @param array  $filter Select items in collection by given conditions.
+     * @param string $path     Unique identifier of the entry(entries).
+     * @param array  $deep
      *
      * @return array The entries array data.
      *
      * @access public
      */
-    public function fetchCollection(string $id, array $filter = []) : array
+    public function fetchCollection(string $path, $recursive = false) : array
     {
         // Init Entries
         $entries = [];
@@ -298,76 +251,14 @@ class Entries
         // Init Entries
         $this->entries = $entries;
 
-        // Set Expression
-        $expression = $this->expression;
-
-        // Set Direction
-        $direction = $this->direction;
-
-        // Bind: Entry ID
-        $bind_id = $id;
-
-        // Bind: recursive
-        $bind_recursive = $filter['recursive'] ?? false;
-
-        // Bind: set first result
-        $bind_set_first_result = $filter['set_first_result'] ?? false;
-
-        // Bind: set max result
-        $bind_set_max_result = $filter['set_max_result'] ?? false;
-
-        // Bind: where
-        $bind_where = [];
-        if (isset($filter['where']['key']) && isset($filter['where']['expr']) && isset($filter['where']['value'])) {
-            $bind_where['where']['key']   = $filter['where']['key'];
-            $bind_where['where']['expr']  = $expression[$filter['where']['expr']];
-            $bind_where['where']['value'] = $filter['where']['value'];
-        }
-
-        // Bind: and where
-        $bind_and_where = [];
-        if (isset($filter['and_where'])) {
-            foreach ($filter['and_where'] as $key => $value) {
-                if (! isset($value['key']) || ! isset($value['expr']) || ! isset($value['value'])) {
-                    continue;
-                }
-
-                $bind_and_where[$key] = $value;
-            }
-        }
-
-        // Bind: or where
-        $bind_or_where = [];
-        if (isset($filter['or_where'])) {
-            foreach ($filter['or_where'] as $key => $value) {
-                if (! isset($value['key']) || ! isset($value['expr']) || ! isset($value['value'])) {
-                    continue;
-                }
-
-                $bind_or_where[$key] = $value;
-            }
-        }
-
-        // Bind: order by
-        $bind_order_by = [];
-        if (isset($filter['order_by']['field']) && isset($filter['order_by']['direction'])) {
-            $bind_order_by['order_by']['field']     = $filter['order_by']['field'];
-            $bind_order_by['order_by']['direction'] = $filter['order_by']['direction'];
-        }
-
         // Get entries path
-        $entries_path = $this->getDirLocation($bind_id);
+        $entries_path = $this->getDirLocation($path);
 
         // Get entries list
-        $entries_list = Filesystem::listContents($entries_path, $bind_recursive);
+        $entries_list = Filesystem::listContents($entries_path, $recursive);
 
         // If entries founded in entries folder
         if (count($entries_list) > 0) {
-            // Entries IDs
-            $entries_ids = '';
-
-            // Entries IDs timestamps
-            $entries_ids_timestamps = '';
 
             // Create entries array from entries list and ignore current requested entry
             foreach ($entries_list as $current_entry) {
@@ -390,106 +281,8 @@ class Entries
 
                         // Add entry into the entries
                         $entries[$uid] = $entry;
-
-                        // Create entries IDs list
-                        $entries_ids .= $uid;
-
-                        // Create entries IDs timestamps
-                        $entries_ids_timestamps .= Filesystem::getTimestamp($current_entry['path'] . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension'));
                     }
                 }
-            }
-
-            // Create unique entries $cache_id
-            $cache_id =  md5(
-                $bind_id .
-                             $entries_ids .
-                             $entries_ids_timestamps .
-                             ($bind_recursive ? 'true' : 'false') .
-                             ($bind_set_max_result ? $bind_set_max_result : '') .
-                             ($bind_set_first_result ? $bind_set_first_result : '') .
-                             json_encode($bind_where) .
-                             json_encode($bind_and_where) .
-                             json_encode($bind_or_where) .
-                             json_encode($bind_order_by)
-            );
-
-            // If requested entries exist with a specific cache_id,
-            // then we take them from the cache otherwise we look for them.
-            if ($this->flextype['cache']->contains($cache_id)) {
-                $entries = $this->flextype['cache']->fetch($cache_id);
-            } else {
-                // Save error_reporting state and turn it off
-                // because PHP Doctrine Collections don't works with collections
-                // if there is no requested fields to search:
-                //      vendor/doctrine/collections/lib/Doctrine/Common/Collections/Expr/ClosureExpressionVisitor.php
-                //      line 40: return $object[$field];
-                //
-                // @todo research this issue and find possible better solution to avoid this in the future
-                $oldErrorReporting = error_reporting();
-                error_reporting(0);
-
-                // Create Array Collection from entries array
-                $collection = new ArrayCollection($entries);
-
-                // Create Criteria for filtering Selectable collections.
-                $criteria = new Criteria();
-
-                // Exec: where
-                if (isset($bind_where['where']['key']) && isset($bind_where['where']['expr']) && isset($bind_where['where']['value'])) {
-                    $expr = new Comparison($bind_where['where']['key'], $bind_where['where']['expr'], $bind_where['where']['value']);
-                    $criteria->where($expr);
-                }
-
-                // Exec: and where
-                if (isset($bind_and_where)) {
-                    $_expr = [];
-                    foreach ($bind_and_where as $key => $value) {
-                        $_expr[$key] = new Comparison($value['key'], $expression[$value['expr']], $value['value']);
-                        $criteria->andWhere($_expr[$key]);
-                    }
-                }
-
-                // Exec: or where
-                if (isset($bind_or_where)) {
-                    $_expr = [];
-                    foreach ($bind_or_where as $key => $value) {
-                        $_expr[$key] = new Comparison($value['key'], $expression[$value['expr']], $value['value']);
-                        $criteria->orWhere($_expr[$key]);
-                    }
-                }
-
-                // Exec: order by
-                if (isset($bind_order_by['order_by']['field']) && isset($bind_order_by['order_by']['direction'])) {
-                    $criteria->orderBy([$bind_order_by['order_by']['field'] => $direction[$bind_order_by['order_by']['direction']]]);
-                }
-
-                // Exec: set max result
-                if ($bind_set_max_result) {
-                    $criteria->setMaxResults($bind_set_max_result);
-                }
-
-                // Exec: set first result
-                if ($bind_set_first_result) {
-                    $criteria->setFirstResult($bind_set_first_result);
-                }
-
-                // Get entries for matching criterias
-                $entries = $collection->matching($criteria);
-
-                // Gets a native PHP array representation of the collection.
-                $entries = $entries->toArray();
-
-                // Magic is here... dot and undot for entries array
-                // 1. Flatten a multi-dimensional entries array with dots.
-                // 2. Restore entries array with dots into correct multi-dimensional entries array
-                $entries = Arr::undot(Arr::dot($entries));
-
-                // Restore error_reporting
-                error_reporting($oldErrorReporting);
-
-                // Save entries into the cache
-                $this->flextype['cache']->save($cache_id, $entries);
             }
 
             // Set entries into the property entries
@@ -497,6 +290,7 @@ class Entries
 
             // Run event onEntriesAfterInitialized
             $this->flextype['emitter']->emit('onEntriesAfterInitialized');
+
         }
 
         // Return entries
@@ -506,17 +300,17 @@ class Entries
     /**
      * Rename entry
      *
-     * @param string $id     Unique identifier of the entry(entries).
+     * @param string $path     Unique identifier of the entry(entries).
      * @param string $new_id New Unique identifier of the entry(entries).
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function rename(string $id, string $new_id) : bool
+    public function rename(string $path, string $new_id) : bool
     {
         if (!Filesystem::has($this->getDirLocation($new_id))) {
-            return rename($this->getDirLocation($id), $this->getDirLocation($new_id));
+            return rename($this->getDirLocation($path), $this->getDirLocation($new_id));
         } else {
             return false;
         }
@@ -525,16 +319,16 @@ class Entries
     /**
      * Update entry
      *
-     * @param string $id   Unique identifier of the entry(entries).
+     * @param string $path   Unique identifier of the entry(entries).
      * @param array  $data Data to update for the entry.
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function update(string $id, array $data) : bool
+    public function update(string $path, array $data) : bool
     {
-        $entry_file = $this->getFileLocation($id);
+        $entry_file = $this->getFileLocation($path);
 
         if (Filesystem::has($entry_file)) {
             $body  = Filesystem::read($entry_file);
@@ -549,16 +343,16 @@ class Entries
     /**
      * Create entry
      *
-     * @param string $id   Unique identifier of the entry(entries).
+     * @param string $path   Unique identifier of the entry(entries).
      * @param array  $data Data to create for the entry.
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function create(string $id, array $data) : bool
+    public function create(string $path, array $data) : bool
     {
-        $entry_dir = $this->getDirLocation($id);
+        $entry_dir = $this->getDirLocation($path);
 
         if (! Filesystem::has($entry_dir)) {
             // Try to create directory for new entry
@@ -596,21 +390,21 @@ class Entries
     /**
      * Delete entry
      *
-     * @param string $id Unique identifier of the entry(entries).
+     * @param string $path Unique identifier of the entry(entries).
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function delete(string $id) : bool
+    public function delete(string $path) : bool
     {
-        return Filesystem::deleteDir($this->getDirLocation($id));
+        return Filesystem::deleteDir($this->getDirLocation($path));
     }
 
     /**
      * Copy entry(s)
      *
-     * @param string $id        Unique identifier of the entry(entries).
+     * @param string $path        Unique identifier of the entry(entries).
      * @param string $new_id    New Unique identifier of the entry(entries).
      * @param bool   $recursive Recursive copy entries.
      *
@@ -618,50 +412,50 @@ class Entries
      *
      * @access public
      */
-    public function copy(string $id, string $new_id, bool $recursive = false) : ?bool
+    public function copy(string $path, string $new_id, bool $recursive = false) : ?bool
     {
-        return Filesystem::copy($this->getDirLocation($id), $this->getDirLocation($new_id), $recursive);
+        return Filesystem::copy($this->getDirLocation($path), $this->getDirLocation($new_id), $recursive);
     }
 
     /**
      * Check whether entry exists
      *
-     * @param string $id Unique identifier of the entry(entries).
+     * @param string $path Unique identifier of the entry(entries).
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function has(string $id) : bool
+    public function has(string $path) : bool
     {
-        return Filesystem::has($this->getFileLocation($id));
+        return Filesystem::has($this->getFileLocation($path));
     }
 
     /**
      * Get entry file location
      *
-     * @param string $id Unique identifier of the entry(entries).
+     * @param string $path Unique identifier of the entry(entries).
      *
      * @return string entry file location
      *
      * @access private
      */
-    public function getFileLocation(string $id) : string
+    public function getFileLocation(string $path) : string
     {
-        return PATH['project'] . '/entries/' . $id . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension');
+        return PATH['project'] . '/entries/' . $path . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension');
     }
 
     /**
      * Get entry directory location
      *
-     * @param string $id Unique identifier of the entry(entries).
+     * @param string $path Unique identifier of the entry(entries).
      *
      * @return string entry directory location
      *
      * @access private
      */
-    public function getDirLocation(string $id) : string
+    public function getDirLocation(string $path) : string
     {
-        return PATH['project'] . '/entries/' . $id;
+        return PATH['project'] . '/entries/' . $path;
     }
 }
