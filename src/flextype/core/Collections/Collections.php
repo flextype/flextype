@@ -236,9 +236,9 @@ class Collections
     }
 
     /**
-     * Returns the number of items.
+     * Returns a value indicating whether the collection contains any item of data.
      *
-     * @return int The number of items.
+     * @return bool Return true or false.
      *
      * @access public
      */
@@ -259,14 +259,28 @@ class Collections
         return count($this->all());
     }
 
+    /**
+     * Returns a last single item of result.
+     *
+     * @return array Item
+     *
+     * @access public
+     */
     public function last()
     {
-        return Arr::undot(Arr::dot($this->matchCollection()->last()));
+        return Arr::undot($this->matchCollection()->last());
     }
 
-    public function one()
+    /**
+     * Returns a single item of result.
+     *
+     * @return array Item
+     *
+     * @access public
+     */
+    public function one() : array
     {
-        return Arr::undot(Arr::dot($this->matchCollection()->first()));
+        return Arr::undot($this->matchCollection()->first());
     }
 
     /**
@@ -281,6 +295,11 @@ class Collections
         return Arr::undot(Arr::dot($this->matchCollection()->toArray()));
     }
 
+    /**
+     * Match collection
+     *
+     * @access protected
+     */
     protected function matchCollection()
     {
         // Match collection
