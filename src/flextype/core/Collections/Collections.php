@@ -99,7 +99,7 @@ class Collections
      *
      * @access public
      */
-    public function find(array $array)
+    public function find($array)
     {
         // Save error_reporting state and turn it off
         // because PHP Doctrine Collections don't works with collections
@@ -110,9 +110,12 @@ class Collections
         // @todo research this issue and find possible better solution to avoid this in the future
         $oldErrorReporting = error_reporting();
         error_reporting(0);
-        
-        // Flatten a multi-dimensional entries array with dots.
-        $flat_array = Arr::dot($array);
+
+        // Flatten a multi-dimensional array with dots.
+        $flat_array = [];
+        foreach ($array as $key => $value) {
+            $flat_array[$key] = Arr::dot($value);
+        }
 
         // Create Array Collection from entries array
         $this->collection = new ArrayCollection($flat_array);
@@ -120,8 +123,10 @@ class Collections
         // Create Criteria for filtering Selectable collections.
         $this->criteria = new Criteria();
 
+        // Return
         return $this;
     }
+
 
     /**
      * Sets the where expression to evaluate when this Criteria is searched for.
@@ -251,7 +256,17 @@ class Collections
      */
     public function count() : int
     {
-        return count($this->toArray());
+        return count($this->all());
+    }
+
+    public function last()
+    {
+        return Arr::undot(Arr::dot($this->matchCollection()->last()));
+    }
+
+    public function one()
+    {
+        return Arr::undot(Arr::dot($this->matchCollection()->first()));
     }
 
     /**
@@ -261,23 +276,20 @@ class Collections
      *
      * @access public
      */
-    public function asArray() : array
+    public function all() : array
     {
-        // Get items for matching criterias
+        return Arr::undot(Arr::dot($this->matchCollection()->toArray()));
+    }
+
+    protected function matchCollection()
+    {
+        // Match collection
         $collection = $this->collection->matching($this->criteria);
-
-        // Gets a native PHP array representation of the collection.
-        $array = $collection->toArray();
-
-        // Magic is here... dot and undot for entries array
-        // 1. Flatten a multi-dimensional entries array with dots.
-        // 2. Restore entries array with dots into correct multi-dimensional entries array
-        $results_array = Arr::undot(Arr::dot($array));
 
         // Restore error_reporting
         error_reporting($oldErrorReporting);
 
-        // Results array
-        return $results_array;
+        // Return collection
+        return $collection;
     }
 }
