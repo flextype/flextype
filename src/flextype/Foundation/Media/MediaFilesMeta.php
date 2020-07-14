@@ -9,11 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Arr\Arr;
-use Intervention\Image\ImageManagerStatic as Image;
-use Slim\Http\Environment;
-use Slim\Http\Uri;
+use Flextype\Component\Filesystem\Filesystem;
 
 class MediaFilesMeta
 {
@@ -51,6 +48,7 @@ class MediaFilesMeta
 
         if (Arr::keyExists($file_data, $field)) {
             Arr::set($file_data, $field, $value);
+
             return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
         }
 
@@ -72,8 +70,9 @@ class MediaFilesMeta
     {
         $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
 
-        if (!Arr::keyExists($file_data, $field)) {
+        if (! Arr::keyExists($file_data, $field)) {
             Arr::set($file_data, $field, $value);
+
             return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
         }
 
@@ -96,6 +95,7 @@ class MediaFilesMeta
 
         if (Arr::keyExists($file_data, $field)) {
             Arr::delete($file_data, $field);
+
             return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
         }
 
