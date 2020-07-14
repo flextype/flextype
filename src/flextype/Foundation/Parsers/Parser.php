@@ -86,21 +86,21 @@ class Parser
                 }
 
                 break;
-                case 'shortcodes':
-                    if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
-                        $key = md5($input);
+            case 'shortcodes':
+                if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
+                    $key = md5($input);
 
-                        if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
-                            return $data_from_cache;
-                        }
-
-                        $data = $this->flextype['shortcodes']->process($input);
-                        $this->flextype['cache']->save($key, $data);
-
-                        return $data;
-                    } else {
-                        return $this->flextype['shortcodes']->process($input);
+                    if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
+                        return $data_from_cache;
                     }
+
+                    $data = $this->flextype['shortcodes']->process($input);
+                    $this->flextype['cache']->save($key, $data);
+
+                    return $data;
+                } else {
+                    return $this->flextype['shortcodes']->process($input);
+                }
 
                 break;
             default:
