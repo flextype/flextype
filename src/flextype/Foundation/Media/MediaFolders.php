@@ -10,10 +10,10 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
-use Flextype\Component\Arr\Arr;
-use Intervention\Image\ImageManagerStatic as Image;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
+use function rename;
+use function str_replace;
 
 class MediaFolders
 {
@@ -44,9 +44,9 @@ class MediaFolders
      */
     public function fetch(string $path, string $mode = 'collection') : array
     {
-        if ($mode == 'collection') {
+        if ($mode === 'collection') {
             $result = $this->fetchCollection($path);
-        } elseif ($mode == 'single') {
+        } elseif ($mode === 'single') {
             $result = $this->fetchSingle($path);
         }
 
@@ -65,12 +65,11 @@ class MediaFolders
         $result = [];
 
         if (Filesystem::has($this->flextype['media_folders_meta']->getDirMetaLocation($path))) {
+            $result['path']      = $path;
+            $result['full_path'] = str_replace('/.meta', '', $this->flextype['media_folders_meta']->getDirMetaLocation($path));
+            $result['url']       = 'project/uploads/' . $path;
 
-            $result['path']  = $path;
-            $result['full_path']   = str_replace("/.meta", "", $this->flextype['media_folders_meta']->getDirMetaLocation($path));
-            $result['url'] = 'project/uploads/' . $path;
-
-            if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') != '') {
+            if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') !== '') {
                 $full_url = $this->flextype['registry']->get('flextype.settings.url');
             } else {
                 $full_url = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
@@ -94,24 +93,24 @@ class MediaFolders
         $result = [];
 
         foreach (Filesystem::listContents($this->flextype['media_folders_meta']->getDirMetaLocation($path)) as $folder) {
-            if ($folder['type'] == 'dir') {
-
-                $result[$folder['dirname']]['full_path']   = str_replace("/.meta", "", $this->flextype['media_folders_meta']->getDirMetaLocation($folder['dirname']));
-                $result[$folder['dirname']]['url'] = 'project/uploads/' . $folder['dirname'];
-
-                if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') != '') {
-                    $full_url = $this->flextype['registry']->get('flextype.settings.url');
-                } else {
-                    $full_url = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
-                }
-
-                $result[$folder['dirname']]['full_url'] = $full_url . '/project/uploads/' . $folder['dirname'];
+            if ($folder['type'] !== 'dir') {
+                continue;
             }
+
+            $result[$folder['dirname']]['full_path'] = str_replace('/.meta', '', $this->flextype['media_folders_meta']->getDirMetaLocation($folder['dirname']));
+            $result[$folder['dirname']]['url']       = 'project/uploads/' . $folder['dirname'];
+
+            if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') !== '') {
+                $full_url = $this->flextype['registry']->get('flextype.settings.url');
+            } else {
+                $full_url = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
+            }
+
+            $result[$folder['dirname']]['full_url'] = $full_url . '/project/uploads/' . $folder['dirname'];
         }
 
         return $result;
     }
-
 
     /**
      * Create folder
@@ -124,15 +123,11 @@ class MediaFolders
      */
     public function create(string $id) : bool
     {
-        if (!Filesystem::has($this->getDirLocation($id)) && !Filesystem::has($this->flextype['media_folders_meta']->getDirMetaLocation($id))) {
-            if (Filesystem::createDir($this->getDirLocation($id)) && Filesystem::createDir($this->flextype['media_folders_meta']->getDirMetaLocation($id))) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+        if (! Filesystem::has($this->getDirLocation($id)) && ! Filesystem::has($this->flextype['media_folders_meta']->getDirMetaLocation($id))) {
+            return Filesystem::createDir($this->getDirLocation($id)) && Filesystem::createDir($this->flextype['media_folders_meta']->getDirMetaLocation($id));
         }
+
+        return false;
     }
 
     /**
@@ -147,15 +142,11 @@ class MediaFolders
      */
     public function rename(string $id, string $new_id) : bool
     {
-        if (!Filesystem::has($this->getDirLocation($new_id)) && !Filesystem::has($this->flextype['media_folders_meta']->getDirMetaLocation($new_id))) {
-            if (rename($this->getDirLocation($id), $this->getDirLocation($new_id)) && rename($this->flextype['media_folders_meta']->getDirMetaLocation($id), $this->flextype['media_folders_meta']->getDirMetaLocation($new_id))) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+        if (! Filesystem::has($this->getDirLocation($new_id)) && ! Filesystem::has($this->flextype['media_folders_meta']->getDirMetaLocation($new_id))) {
+            return rename($this->getDirLocation($id), $this->getDirLocation($new_id)) && rename($this->flextype['media_folders_meta']->getDirMetaLocation($id), $this->flextype['media_folders_meta']->getDirMetaLocation($new_id));
         }
+
+        return false;
     }
 
     /**
@@ -167,7 +158,7 @@ class MediaFolders
      *
      * @access public
      */
-    public function delete(string $id)
+    public function delete(string $id) : bool
     {
         Filesystem::deleteDir($this->getDirLocation($id));
         Filesystem::deleteDir($this->flextype['media_folders_meta']->getDirMetaLocation($id));
