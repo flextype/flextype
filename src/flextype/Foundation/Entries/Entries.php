@@ -9,21 +9,16 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Expr\Comparison;
+use Flextype\Component\Arr\Arr;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
-use Flextype\Component\Arr\Arr;
 use Ramsey\Uuid\Uuid;
 use function array_merge;
 use function count;
 use function date;
-use function error_reporting;
 use function in_array;
 use function is_array;
 use function is_bool;
-use function json_encode;
 use function ltrim;
 use function md5;
 use function rename;
@@ -100,7 +95,7 @@ class Entries
     /**
      * Fetch entry(entries)
      *
-     * @param string     $path     Unique identifier of the entry(entries).
+     * @param string     $path   Unique identifier of the entry(entries).
      * @param array|null $filter Select items in collection by given conditions.
      *
      * @return array The entry array data.
@@ -186,32 +181,48 @@ class Entries
             // Parsers
             if (isset($entry_decoded['parsers'])) {
                 foreach ($entry_decoded['parsers'] as $parser_name => $parser_data) {
-                    if (in_array($parser_name, ['markdown', 'shortcodes'])) {
-                        if (isset($entry_decoded['parsers'][$parser_name]['enabled']) && $entry_decoded['parsers'][$parser_name]['enabled'] === true) {
-                            if (isset($entry_decoded['parsers'][$parser_name]['cache']) && $entry_decoded['parsers'][$parser_name]['cache'] === true) {
-                                $cache = true;
-                            } else {
-                                $cache = false;
-                            }
-                            if (isset($entry_decoded['parsers'][$parser_name]['fields'])) {
-                                if (is_array($entry_decoded['parsers'][$parser_name]['fields'])) {
-                                    foreach ($entry_decoded['parsers'][$parser_name]['fields'] as $field) {
-                                        if (! in_array($field, $this->system_fields)) {
-                                            if ($parser_name == 'markdown') {
-                                                if (Arr::keyExists($entry_decoded, $field)) {
-                                                    Arr::set($entry_decoded, $field, $this->flextype['parser']->parse(Arr::get($entry_decoded, $field), 'markdown', $cache));
-                                                }
-                                            }
-                                            if ($parser_name == 'shortcodes') {
-                                                if (Arr::keyExists($entry_decoded, $field)) {
-                                                    Arr::set($entry_decoded, $field, $this->flextype['parser']->parse(Arr::get($entry_decoded, $field), 'shortcodes', $cache));
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                    if (! in_array($parser_name, ['markdown', 'shortcodes'])) {
+                        continue;
+                    }
+
+                    if (! isset($entry_decoded['parsers'][$parser_name]['enabled']) || $entry_decoded['parsers'][$parser_name]['enabled'] !== true) {
+                        continue;
+                    }
+
+                    if (isset($entry_decoded['parsers'][$parser_name]['cache']) && $entry_decoded['parsers'][$parser_name]['cache'] === true) {
+                        $cache = true;
+                    } else {
+                        $cache = false;
+                    }
+
+                    if (! isset($entry_decoded['parsers'][$parser_name]['fields'])) {
+                        continue;
+                    }
+
+                    if (! is_array($entry_decoded['parsers'][$parser_name]['fields'])) {
+                        continue;
+                    }
+
+                    foreach ($entry_decoded['parsers'][$parser_name]['fields'] as $field) {
+                        if (in_array($field, $this->system_fields)) {
+                            continue;
+                        }
+
+                        if ($parser_name === 'markdown') {
+                            if (Arr::keyExists($entry_decoded, $field)) {
+                                Arr::set($entry_decoded, $field, $this->flextype['parser']->parse(Arr::get($entry_decoded, $field), 'markdown', $cache));
                             }
                         }
+
+                        if ($parser_name !== 'shortcodes') {
+                            continue;
+                        }
+
+                        if (! Arr::keyExists($entry_decoded, $field)) {
+                            continue;
+                        }
+
+                        Arr::set($entry_decoded, $field, $this->flextype['parser']->parse(Arr::get($entry_decoded, $field), 'shortcodes', $cache));
                     }
                 }
             }
@@ -236,7 +247,7 @@ class Entries
     /**
      * Fetch entries collection
      *
-     * @param string $path     Unique identifier of the entry(entries).
+     * @param string $path Unique identifier of the entry(entries).
      * @param array  $deep
      *
      * @return array The entries array data.
@@ -259,7 +270,6 @@ class Entries
 
         // If entries founded in entries folder
         if (count($entries_list) > 0) {
-
             // Create entries array from entries list and ignore current requested entry
             foreach ($entries_list as $current_entry) {
                 if (strpos($current_entry['path'], $path . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension')) !== false) {
@@ -287,7 +297,6 @@ class Entries
 
             // Run event onEntriesAfterInitialized
             $this->flextype['emitter']->emit('onEntriesAfterInitialized');
-
         }
 
         // Return entries
@@ -297,7 +306,7 @@ class Entries
     /**
      * Rename entry
      *
-     * @param string $path     Unique identifier of the entry(entries).
+     * @param string $path   Unique identifier of the entry(entries).
      * @param string $new_id New Unique identifier of the entry(entries).
      *
      * @return bool True on success, false on failure.
@@ -306,17 +315,17 @@ class Entries
      */
     public function rename(string $path, string $new_id) : bool
     {
-        if (!Filesystem::has($this->getDirLocation($new_id))) {
+        if (! Filesystem::has($this->getDirLocation($new_id))) {
             return rename($this->getDirLocation($path), $this->getDirLocation($new_id));
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Update entry
      *
-     * @param string $path   Unique identifier of the entry(entries).
+     * @param string $path Unique identifier of the entry(entries).
      * @param array  $data Data to update for the entry.
      *
      * @return bool True on success, false on failure.
@@ -340,7 +349,7 @@ class Entries
     /**
      * Create entry
      *
-     * @param string $path   Unique identifier of the entry(entries).
+     * @param string $path Unique identifier of the entry(entries).
      * @param array  $data Data to create for the entry.
      *
      * @return bool True on success, false on failure.
@@ -401,7 +410,7 @@ class Entries
     /**
      * Copy entry(s)
      *
-     * @param string $path        Unique identifier of the entry(entries).
+     * @param string $path      Unique identifier of the entry(entries).
      * @param string $new_id    New Unique identifier of the entry(entries).
      * @param bool   $recursive Recursive copy entries.
      *
