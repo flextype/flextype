@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use function count;
+use function implode;
+
 class Cors
 {
     /**
@@ -34,33 +37,34 @@ class Cors
     /**
      * Init CORS
      */
-    public function init()
+    public function init() : void
     {
         $flextype = $this->flextype;
 
-        if ($flextype['registry']->get('flextype.settings.cors.enabled')) {
-
-            $this->app->options('/{routes:.+}', function ($request, $response, $args) {
-                return $response;
-            });
-
-            $this->app->add(function ($req, $res, $next) use ($flextype) {
-                $response = $next($req, $res);
-
-                // Set variables
-                $origin  = $flextype['registry']->get('flextype.settings.cors.origin');
-                $headers = count($flextype['registry']->get('flextype.settings.cors.headers')) ? implode(', ', $flextype['registry']->get('flextype.settings.cors.headers')) : '';
-                $methods = count($flextype['registry']->get('flextype.settings.cors.methods')) ? implode(', ', $flextype['registry']->get('flextype.settings.cors.methods')) : '';
-                $expose  = count($flextype['registry']->get('flextype.settings.cors.expose')) ? implode(', ', $flextype['registry']->get('flextype.settings.cors.expose')) : '';
-                $credentials  = ($flextype['registry']->get('flextype.settings.cors.credentials')) ? true : false;
-
-                return $response
-                        ->withHeader('Access-Control-Allow-Origin', $origin)
-                        ->withHeader('Access-Control-Allow-Headers', $headers)
-                        ->withHeader('Access-Control-Allow-Methods', $methods)
-                        ->withHeader('Access-Control-Allow-Expose', $expose)
-                        ->withHeader('Access-Control-Allow-Credentials', $credentials);
-            });
+        if (! $flextype['registry']->get('flextype.settings.cors.enabled')) {
+            return;
         }
+
+        $this->app->options('/{routes:.+}', function ($request, $response, $args) {
+            return $response;
+        });
+
+        $this->app->add(function ($req, $res, $next) use ($flextype) {
+            $response = $next($req, $res);
+
+            // Set variables
+            $origin      = $flextype['registry']->get('flextype.settings.cors.origin');
+            $headers     = count($flextype['registry']->get('flextype.settings.cors.headers')) ? implode(', ', $flextype['registry']->get('flextype.settings.cors.headers')) : '';
+            $methods     = count($flextype['registry']->get('flextype.settings.cors.methods')) ? implode(', ', $flextype['registry']->get('flextype.settings.cors.methods')) : '';
+            $expose      = count($flextype['registry']->get('flextype.settings.cors.expose')) ? implode(', ', $flextype['registry']->get('flextype.settings.cors.expose')) : '';
+            $credentials = $flextype['registry']->get('flextype.settings.cors.credentials') ? true : false;
+
+            return $response
+                    ->withHeader('Access-Control-Allow-Origin', $origin)
+                    ->withHeader('Access-Control-Allow-Headers', $headers)
+                    ->withHeader('Access-Control-Allow-Methods', $methods)
+                    ->withHeader('Access-Control-Allow-Expose', $expose)
+                    ->withHeader('Access-Control-Allow-Credentials', $credentials);
+        });
     }
 }
