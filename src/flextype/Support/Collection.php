@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\Expr\Comparison;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Arr\Arr;
 
-class Collections
+class Collection
 {
     /**
      * Flextype Dependency Container
