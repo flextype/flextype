@@ -71,14 +71,19 @@ class Collections
         'ends_with' => Comparison::ENDS_WITH,
     ];
 
+    /**
+     * Collection
+     *
+     * @access private
+     */
+    private $collection;
 
     /**
-     * data array
+     * Criteria
      *
-     * @var array
-     * @access public
+     * @access private
      */
-    public $array = [];
+    private $criteria;
 
     /**
      * Constructor
@@ -95,7 +100,7 @@ class Collections
      *
      * @param string $array Array
      *
-     * @return static self reference
+     * @return
      *
      * @access public
      */
@@ -127,6 +132,14 @@ class Collections
         return $this;
     }
 
+    public function merge(...$arrays)
+    {
+        $this->collection = new ArrayCollection(
+            array_merge($this->collection->toArray(), ...$arrays)
+        );
+
+        return $this;
+    }
 
     /**
      * Sets the where expression to evaluate when this Criteria is searched for.
@@ -135,7 +148,7 @@ class Collections
      * @param string $expr  Expression @see $this->expression
      * @param mixed  $value Value
      *
-     * @return static self reference
+     * @return
      *
      * @access public
      */
@@ -154,7 +167,7 @@ class Collections
      * @param string $expr  Expression @see $this->expression
      * @param mixed  $value Value
      *
-     * @return static self reference
+     * @return
      *
      * @access public
      */
@@ -173,7 +186,7 @@ class Collections
      * @param string $expr  Expression @see $this->expression
      * @param mixed  $value Value
      *
-     * @return static self reference
+     * @return
      *
      * @access public
      */
@@ -192,7 +205,7 @@ class Collections
      * @param string $field     The field path using dot notation.
      * @param string $direction Sort direction: asc or desc
      *
-     * @return static self reference
+     * @return
      *
      * @access public
      */
@@ -208,7 +221,7 @@ class Collections
      *
      * @param int|null $firstResult The value to set.
      *
-     * @return static self reference
+     * @return
      *
      * @access public
      */
@@ -224,7 +237,7 @@ class Collections
      *
      * @param int|null $limit The value to set.
      *
-     * @return static self reference
+     * @return
      *
      * @access public
      */
@@ -274,13 +287,73 @@ class Collections
     /**
      * Returns a single item of result.
      *
+     * Moves the internal iterator position to the next element and returns this element.
+     *
      * @return array Item
      *
      * @access public
      */
-    public function one() : array
+    public function next() : array
+    {
+        return Arr::undot($this->matchCollection()->next());
+    }
+
+    /**
+     * Returns a single item of result.
+     *
+     * Moves the internal iterator position to the next element and returns this element.
+     *
+     * @return array Item
+     *
+     * @access public
+     */
+    public function shuffle() : array
+    {
+        return Arr::shuffle(Arr::undot(Arr::dot($this->matchCollection()->toArray())));;
+    }
+
+    /**
+     * Returns a single item of result.
+     *
+     * @return array Item
+     *
+     * @access public
+     */
+    public function first() : array
     {
         return Arr::undot($this->matchCollection()->first());
+    }
+
+    /**
+     * Returns random item from result.
+     *
+     * @return array The array data.
+     *
+     * @access public
+     */
+    public function random() : array
+    {
+        return Arr::random(Arr::undot(Arr::dot($this->matchCollection()->toArray())));
+    }
+
+
+    /**
+     * Extracts a slice of $length elements starting at position $offset from the Collection.
+     *
+     * If $length is null it returns all elements from $offset to the end of the Collection.
+     * Keys have to be preserved by this method. Calling this method will only return
+     * the selected slice and NOT change the elements contained in the collection slice is called on.
+     *
+     * @param int      $offset Slice begin index.
+     * @param int|null $length Length of the slice.
+     *
+     * @return array The array data.
+     *
+     * @access public
+     */
+    public function slice(int $offset = 0, int $limit = null) : array
+    {
+        return Arr::undot(Arr::dot($this->matchCollection()->slice($offset, $limit)));
     }
 
     /**
@@ -300,7 +373,7 @@ class Collections
      *
      * @access protected
      */
-    protected function matchCollection()
+    public function matchCollection()
     {
         // Match collection
         $collection = $this->collection->matching($this->criteria);
