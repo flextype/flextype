@@ -7,25 +7,17 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype;
+namespace Flextype\Support;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
-use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Arr\Arr;
 
 class Collection
 {
     /**
-     * Flextype Dependency Container
-     *
-     * @access private
-     */
-    private $flextype;
-
-    /**
-     * Entires Order Direction
+     * Order Direction
      *
      * @var array
      * @access public
