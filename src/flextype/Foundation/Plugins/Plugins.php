@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use Composer\Semver\Semver;
 use Flextype\Component\Arr\Arr;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\I18n\I18n;
-use Composer\Semver\Comparator;
-use Composer\Semver\Semver;
 use RuntimeException;
+use function array_diff_key;
 use function array_replace_recursive;
 use function count;
 use function filemtime;
@@ -94,19 +94,17 @@ class Plugins
                 $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
                 $this->flextype['cache']->save($locale, $dictionary[$locale]);
             }
-
         } else {
             // Init plugin configs
             $plugins                 = [];
             $plugin_settings         = [];
             $plugin_manifest         = [];
             $default_plugin_settings = [];
-            $project_plugin_settings    = [];
+            $project_plugin_settings = [];
             $default_plugin_manifest = [];
 
             // Go through...
             foreach ($plugins_list as $plugin) {
-
                 // Set plugin settings directory
                 $project_plugin_settings_dir = PATH['project'] . '/config/plugins/' . $plugin['dirname'];
 
@@ -156,7 +154,6 @@ class Plugins
 
                 // Check if is not set plugin priority
                 if (! isset($plugins[$plugin['dirname']]['settings']['priority'])) {
-
                     // Set default plugin priority = 1
                     $plugins[$plugin['dirname']]['settings']['priority'] = 100;
                 }
@@ -183,7 +180,6 @@ class Plugins
             // Save plugins dictionary
             $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
             $this->flextype['cache']->save($locale, $dictionary[$locale]);
-
         }
 
         $this->includeEnabledPlugins($flextype, $app);
@@ -260,9 +256,8 @@ class Plugins
      *
      * @access public
      */
-    public function getValidPluginsDependencies($plugins) : array
+    public function getValidPluginsDependencies(array $plugins) : array
     {
-
         // Set verified plugins array
         $verified_plugins = [];
 
@@ -271,55 +266,55 @@ class Plugins
 
         // Go through plugins list and verify them.
         foreach ($plugins as $plugin_name => &$plugin_data) {
-
             // Set verified true by default
             $verified = true;
 
             // If there is any dependencies for this plugin
             if (isset($plugin_data['manifest']['dependencies'])) {
-
                 // Go through plugin dependencies
                 foreach ($plugin_data['manifest']['dependencies'] as $dependency => $constraints) {
-
                     // Verify flextype version
                     if ($dependency === 'flextype') {
-                        if (!Semver::satisfies($this->flextype['registry']->get('flextype.manifest.version'), $constraints)) {
+                        if (! Semver::satisfies($this->flextype['registry']->get('flextype.manifest.version'), $constraints)) {
                             $verified = false;
 
                             // Remove plugin where it is require this dependency
                             foreach ($plugins as $_plugin_name => $_plugin_data) {
-                                if ($_plugin_data['manifest']['dependencies'][$plugin_name]) {
-                                    unset($plugins[$_plugin_name]);
-                                    unset($verified_plugins[$_plugin_name]);
+                                if (! $_plugin_data['manifest']['dependencies'][$plugin_name]) {
+                                    continue;
                                 }
-                            }
 
+                                unset($plugins[$_plugin_name]);
+                                unset($verified_plugins[$_plugin_name]);
+                            }
                         }
                     } else {
                         // Verify plugin dependencies
-                        if (!isset($plugins[$dependency])) {
+                        if (! isset($plugins[$dependency])) {
                             $verified = false;
 
                             // Remove plugin where it is require this dependency
                             foreach ($plugins as $_plugin_name => $_plugin_data) {
-                                if ($_plugin_data['manifest']['dependencies'][$plugin_name]) {
-                                    unset($plugins[$_plugin_name]);
-                                    unset($verified_plugins[$_plugin_name]);
+                                if (! $_plugin_data['manifest']['dependencies'][$plugin_name]) {
+                                    continue;
                                 }
-                            }
 
+                                unset($plugins[$_plugin_name]);
+                                unset($verified_plugins[$_plugin_name]);
+                            }
                         } else {
                             $version = $plugins[$dependency]['manifest']['version'];
-                            if (!Semver::satisfies($version, $constraints)) {
-
+                            if (! Semver::satisfies($version, $constraints)) {
                                 $verified = false;
 
                                 // Remove plugin where it is require this dependency
                                 foreach ($plugins as $_plugin_name => $_plugin_data) {
-                                    if ($_plugin_data['manifest']['dependencies'][$plugin_name]) {
-                                        unset($plugins[$_plugin_name]);
-                                        unset($verified_plugins[$_plugin_name]);
+                                    if (! $_plugin_data['manifest']['dependencies'][$plugin_name]) {
+                                        continue;
                                     }
+
+                                    unset($plugins[$_plugin_name]);
+                                    unset($verified_plugins[$_plugin_name]);
                                 }
                             }
                         }
@@ -328,9 +323,11 @@ class Plugins
             }
 
             // If plugin is verified than include it
-            if ($verified) {
-                $verified_plugins[$plugin_name] = $plugin_data;
+            if (! $verified) {
+                continue;
             }
+
+            $verified_plugins[$plugin_name] = $plugin_data;
         }
 
         // Show alert if dependencies are not installed properly
@@ -338,11 +335,12 @@ class Plugins
         if (count($diff) > 0) {
             echo '<b>The following dependencies need to be installed properly:</b>';
             echo '<ul>';
-            foreach($diff as $plugin_name => $plugin_data) {
-                echo '<li>'.$plugin_name.'</li>';
+            foreach ($diff as $plugin_name => $plugin_data) {
+                echo '<li>' . $plugin_name . '</li>';
             }
+
             echo '</ul>';
-            die();
+            die;
         }
 
         // Return verified plugins list
