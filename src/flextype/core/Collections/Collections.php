@@ -31,8 +31,8 @@ class Collections
      * @access public
      */
     public $direction = [
-        'asc' => Criteria::ASC,
-        'desc' => Criteria::DESC,
+        'ASC'  => Criteria::ASC,
+        'DESC' => Criteria::DESC,
     ];
 
     /**
@@ -86,50 +86,55 @@ class Collections
     private $criteria;
 
     /**
+     * Error Reporting
+     *
+     * @access private
+     */
+    private $errorReporting;
+
+    /**
      * Constructor
      *
      * @access public
      */
-    public function __construct($flextype)
-    {
-        $this->flextype = $flextype;
-    }
-
-    /**
-     * Find
-     *
-     * @param string $array Array
-     *
-     * @return
-     *
-     * @access public
-     */
-    public function find($array)
+    public function __construct($array)
     {
         // Save error_reporting state and turn it off
         // because PHP Doctrine Collections don't works with collections
-        // if there is no requested fields to search:
+        // if there is no requested fields to search inside item:
         //      vendor/doctrine/collections/lib/Doctrine/Common/Collections/Expr/ClosureExpressionVisitor.php
         //      line 40: return $object[$field];
         //
         // @todo research this issue and find possible better solution to avoid this in the future
-        $oldErrorReporting = error_reporting();
-        error_reporting(0);
+        $this->oldErrorReporting = error_reporting();
+        error_reporting($this->oldErrorReporting & ~E_NOTICE);
 
         // Flatten a multi-dimensional array with dots.
-        $flat_array = [];
-        foreach ($array as $key => $value) {
-            $flat_array[$key] = Arr::dot($value);
+        if (Arr::isAssoc($array)) {
+
+            $flat_array = [];
+
+            foreach ($array as $key => $value) {
+                $flat_array[$key] = Arr::dot($value);
+            }
+
+            $array = $flat_array;
         }
 
         // Create Array Collection from entries array
-        $this->collection = new ArrayCollection($flat_array);
+        $this->collection = new ArrayCollection($array);
 
         // Create Criteria for filtering Selectable collections.
         $this->criteria = new Criteria();
 
         // Return
         return $this;
+
+    }
+
+    public static function collect($array)
+    {
+        return new Collections($array);
     }
 
     public function merge(...$arrays)
@@ -309,7 +314,11 @@ class Collections
      */
     public function shuffle() : array
     {
-        return Arr::shuffle(Arr::undot(Arr::dot($this->matchCollection()->toArray())));;
+        $results = $this->matchCollection()->toArray();
+
+        return Arr::isAssoc($results) ?
+                            Arr::shuffle(Arr::undot(Arr::dot($results))) :
+                            $results;
     }
 
     /**
@@ -321,7 +330,11 @@ class Collections
      */
     public function first() : array
     {
-        return Arr::undot($this->matchCollection()->first());
+        $results = $this->matchCollection()->first();
+
+        return Arr::isAssoc($results) ?
+                            Arr::undot($results) :
+                            $results;
     }
 
     /**
@@ -331,9 +344,13 @@ class Collections
      *
      * @access public
      */
-    public function random() : array
+    public function random()
     {
-        return Arr::random(Arr::undot(Arr::dot($this->matchCollection()->toArray())));
+        $results = $this->matchCollection()->toArray();
+
+        return Arr::isAssoc($results) ?
+                  $results[array_rand(Arr::undot(Arr::dot($results)))] :
+                  $results[array_rand($results)];
     }
 
 
@@ -353,7 +370,11 @@ class Collections
      */
     public function slice(int $offset = 0, int $limit = null) : array
     {
-        return Arr::undot(Arr::dot($this->matchCollection()->slice($offset, $limit)));
+        $results = $this->matchCollection()->slice($offset, $limit);
+
+        return Arr::isAssoc($results) ?
+                  Arr::undot(Arr::dot($results)) :
+                  $results;
     }
 
     /**
@@ -365,7 +386,11 @@ class Collections
      */
     public function all() : array
     {
-        return Arr::undot(Arr::dot($this->matchCollection()->toArray()));
+        $results = $this->matchCollection()->toArray();
+
+        return Arr::isAssoc($results) ?
+                  Arr::undot(Arr::dot($results)) :
+                  $results;
     }
 
     /**
@@ -379,7 +404,7 @@ class Collections
         $collection = $this->collection->matching($this->criteria);
 
         // Restore error_reporting
-        error_reporting($oldErrorReporting);
+        error_reporting($this->oldErrorReporting);
 
         // Return collection
         return $collection;
