@@ -14,10 +14,8 @@ if (! function_exists('collect')) {
      * Create a collection from the given value.
      *
      * @param  array $value Items to collect
-     *
-     * @return \Flextype\Collection
      */
-    function collect($array)
+    function collect($array) : \Flextype\Collection
     {
         return new Collection($array);
     }

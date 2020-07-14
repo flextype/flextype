@@ -13,6 +13,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Flextype\Component\Arr\Arr;
+use function array_merge;
+use function array_rand;
+use function count;
+use function error_reporting;
+use const E_NOTICE;
 
 class Collection
 {
@@ -103,7 +108,6 @@ class Collection
 
         // Flatten a multi-dimensional array with dots.
         if (Arr::isAssoc($array)) {
-
             $flat_array = [];
 
             foreach ($array as $key => $value) {
@@ -121,7 +125,6 @@ class Collection
 
         // Return
         return $this;
-
     }
 
     public static function collect($array)
@@ -149,7 +152,7 @@ class Collection
      *
      * @access public
      */
-    public function where($field, $expr, $value)
+    public function where(string $field, string $expr, $value)
     {
         $this->criteria->where(new Comparison($field, $this->expression[$expr], $value));
 
@@ -187,7 +190,7 @@ class Collection
      *
      * @access public
      */
-    public function orWhere($field, $expr, $value)
+    public function orWhere(string $field, string $expr, $value)
     {
         $this->criteria->orWhere(new Comparison($field, $this->expression[$expr], $value));
 
@@ -222,7 +225,7 @@ class Collection
      *
      * @access public
      */
-    public function setFirstResult($firstResult)
+    public function setFirstResult(?int $firstResult)
     {
         $this->criteria->setFirstResult($firstResult);
 
@@ -238,7 +241,7 @@ class Collection
      *
      * @access public
      */
-    public function limit($limit)
+    public function limit(?int $limit)
     {
         $this->criteria->setMaxResults($limit);
 
@@ -254,7 +257,7 @@ class Collection
      */
     public function exists() : bool
     {
-        return ($this->count() > 0) ? true : false ;
+        return $this->count() > 0;
     }
 
     /**
@@ -276,7 +279,7 @@ class Collection
      *
      * @access public
      */
-    public function last()
+    public function last() : array
     {
         return Arr::undot($this->matchCollection()->last());
     }
@@ -336,7 +339,7 @@ class Collection
      *
      * @access public
      */
-    public function random()
+    public function random() : array
     {
         $results = $this->matchCollection()->toArray();
 
@@ -344,7 +347,6 @@ class Collection
                   $results[array_rand(Arr::undot(Arr::dot($results)))] :
                   $results[array_rand($results)];
     }
-
 
     /**
      * Extracts a slice of $length elements starting at position $offset from the Collection.
@@ -360,7 +362,7 @@ class Collection
      *
      * @access public
      */
-    public function slice(int $offset = 0, int $limit = null) : array
+    public function slice(int $offset = 0, ?int $limit = null) : array
     {
         $results = $this->matchCollection()->slice($offset, $limit);
 
