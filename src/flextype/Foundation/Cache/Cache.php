@@ -160,6 +160,7 @@ class Cache
         if ($lifetime === null) {
             $lifetime = $this->getLifetime();
         }
+
         $this->driver->save($id, $data, $lifetime);
     }
 

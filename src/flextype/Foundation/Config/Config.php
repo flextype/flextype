@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Arr\Arr;
+use Flextype\Component\Filesystem\Filesystem;
 
 class Config
 {
@@ -50,24 +50,22 @@ class Config
     /**
      * Create new config item
      *
-     * @param string $config  Config namespace.
-     * @param string $key     The key of the config item to get.
-     * @param mixed  $value   Value
-     *
-     * @return bool
+     * @param string $config Config namespace.
+     * @param string $key    The key of the config item to get.
+     * @param mixed  $value  Value
      */
     public function create(string $config, string $key, $value) : bool
     {
         $config_file = $this->getFileLocation($config);
 
         if (Filesystem::has($config_file)) {
-
              $config_file_data = $this->flextype->serializer->decode(Filesystem::read($config_file), 'yaml');
 
-             if (!Arr::keyExists($config_file_data, $key)) {
-                 Arr::set($config_file_data, $key, $value);
-                 return Filesystem::write($config_file, $this->flextype->serializer->encode($config_file_data, 'yaml'));
-             }
+            if (! Arr::keyExists($config_file_data, $key)) {
+                Arr::set($config_file_data, $key, $value);
+
+                return Filesystem::write($config_file, $this->flextype->serializer->encode($config_file_data, 'yaml'));
+            }
 
              return false;
         }
@@ -78,24 +76,22 @@ class Config
     /**
      * Update config item
      *
-     * @param string $config  Config namespace.
-     * @param string $key     The key of the config item to get.
-     * @param mixed  $value   Value
-     *
-     * @return bool
+     * @param string $config Config namespace.
+     * @param string $key    The key of the config item to get.
+     * @param mixed  $value  Value
      */
     public function update(string $config, string $key, $value) : bool
     {
         $config_file = $this->getFileLocation($config);
 
         if (Filesystem::has($config_file)) {
-
              $config_file_data = $this->flextype->serializer->decode(Filesystem::read($config_file), 'yaml');
 
-             if (Arr::keyExists($config_file_data, $key)) {
-                 Arr::set($config_file_data, $key, $value);
-                 return Filesystem::write($config_file, $this->flextype->serializer->encode($config_file_data, 'yaml'));
-             }
+            if (Arr::keyExists($config_file_data, $key)) {
+                Arr::set($config_file_data, $key, $value);
+
+                return Filesystem::write($config_file, $this->flextype->serializer->encode($config_file_data, 'yaml'));
+            }
 
              return false;
         }
@@ -106,23 +102,21 @@ class Config
     /**
      * Delete config item
      *
-     * @param string $config  Config namespace.
-     * @param string $key     The key of the config item to get.
-     *
-     * @return bool
+     * @param string $config Config namespace.
+     * @param string $key    The key of the config item to get.
      */
-    public function delete(string $config, $key) : bool
+    public function delete(string $config, string $key) : bool
     {
         $config_file = $this->getFileLocation($config);
 
         if (Filesystem::has($config_file)) {
-
              $config_file_data = $this->flextype->serializer->decode(Filesystem::read($config_file), 'yaml');
 
-             if (Arr::keyExists($config_file_data, $key)) {
-                 Arr::delete($config_file_data, $key);
-                 return Filesystem::write($config_file, $this->flextype->serializer->encode($config_file_data, 'yaml'));
-             }
+            if (Arr::keyExists($config_file_data, $key)) {
+                Arr::delete($config_file_data, $key);
+
+                return Filesystem::write($config_file, $this->flextype->serializer->encode($config_file_data, 'yaml'));
+            }
 
              return false;
         }
@@ -133,22 +127,19 @@ class Config
     /**
      * Checks if an config item with this key name is in the config.
      *
-     * @param string $config  Config namespace.
-     * @param string $key     The key of the config item to get.
-     *
-     * @return bool
+     * @param string $config Config namespace.
+     * @param string $key    The key of the config item to get.
      */
-    public function has(string $config, $key) : bool
+    public function has(string $config, string $key) : bool
     {
         $config_file = $this->getFileLocation($config);
 
         if (Filesystem::has($config_file)) {
-
              $config_file_data = $this->flextype->serializer->decode(Filesystem::read($config_file), 'yaml');
 
-             if (Arr::keyExists($config_file_data, $key)) {
-                 return true;
-             }
+            if (Arr::keyExists($config_file_data, $key)) {
+                return true;
+            }
 
              return false;
         }
@@ -159,7 +150,7 @@ class Config
     /**
      * Get config file location
      *
-     * @param string $config  Config namespace.
+     * @param string $config Config namespace.
      *
      * @return string config file location
      *
@@ -173,7 +164,7 @@ class Config
     /**
      * Get config directory location
      *
-     * @param string $config  Config namespace.
+     * @param string $config Config namespace.
      *
      * @return string config directory location
      *

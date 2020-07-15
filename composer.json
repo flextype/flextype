@@ -73,7 +73,10 @@
     },
     "autoload": {
         "classmap": [
-            "src"
+            "src/flextype"
+        ],
+        "files": [
+            "src/flextype/Support/helpers.php"
         ]
     },
     "require-dev": {

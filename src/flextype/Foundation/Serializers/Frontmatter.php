@@ -10,13 +10,13 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Flextype\Component\Arr\Arr;
-use const PHP_EOL;
 use function array_slice;
 use function count;
 use function implode;
 use function ltrim;
 use function preg_split;
 use function trim;
+use const PHP_EOL;
 
 class Frontmatter
 {

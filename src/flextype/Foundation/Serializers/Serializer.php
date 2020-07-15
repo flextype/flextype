@@ -27,10 +27,12 @@ class Serializer
         'frontmatter' => [
             'name' => 'frontmatter',
             'ext' => 'md',
-        ], 'json' => [
+        ],
+        'json' => [
             'name' => 'json',
             'ext' => 'json',
-        ], 'yaml' => [
+        ],
+        'yaml' => [
             'name' => 'yaml',
             'ext' => 'yaml',
         ],
