@@ -20,6 +20,7 @@ use function array_rand;
 use function array_undot;
 use function count;
 use function error_reporting;
+use function is_array;
 use function is_null;
 use function shuffle;
 use const E_NOTICE;
@@ -308,7 +309,7 @@ class Collection
         $results = $collection->last();
 
         // Return first matching result
-        return is_array ($results) ? array_undot($results) : $results;
+        return is_array($results) ? array_undot($results) : $results;
     }
 
     /**
@@ -332,7 +333,7 @@ class Collection
         $results = $collection->next();
 
         // Return first matching result
-        return is_array ($results) ? array_undot($results) : $results;
+        return is_array($results) ? array_undot($results) : $results;
     }
 
     /**
@@ -385,7 +386,7 @@ class Collection
         $results = $collection->first();
 
         // Return first matching result
-        return is_array ($results) ? array_undot($results) : $results;
+        return is_array($results) ? array_undot($results) : $results;
     }
 
     /**
