@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Flextype\Component\Arr\Arr;
+use Awilum\ArrayDots\ArrayDots;
 use function array_merge;
 use function array_rand;
 use function count;
@@ -111,7 +112,7 @@ class Collection
             $flat_array = [];
 
             foreach ($array as $key => $value) {
-                $flat_array[$key] = Arr::dot($value);
+                $flat_array[$key] = array_dot($value);
             }
 
             $array = $flat_array;
@@ -281,7 +282,7 @@ class Collection
      */
     public function last() : array
     {
-        return Arr::undot($this->matchCollection()->last());
+        return array_undot($this->matchCollection()->last());
     }
 
     /**
@@ -295,7 +296,7 @@ class Collection
      */
     public function next() : array
     {
-        return Arr::undot($this->matchCollection()->next());
+        return array_undot($this->matchCollection()->next());
     }
 
     /**
@@ -312,7 +313,7 @@ class Collection
         $results = $this->matchCollection()->toArray();
 
         return Arr::isAssoc($results) ?
-                            Arr::shuffle(Arr::undot(Arr::dot($results))) :
+                            Arr::shuffle(array_undot(array_dot($results))) :
                             $results;
     }
 
@@ -328,7 +329,7 @@ class Collection
         $results = $this->matchCollection()->first();
 
         return Arr::isAssoc($results) ?
-                            Arr::undot($results) :
+                            array_undot($results) :
                             $results;
     }
 
@@ -344,7 +345,7 @@ class Collection
         $results = $this->matchCollection()->toArray();
 
         return Arr::isAssoc($results) ?
-                  $results[array_rand(Arr::undot(Arr::dot($results)))] :
+                  $results[array_rand(array_undot(array_dot($results)))] :
                   $results[array_rand($results)];
     }
 
@@ -367,7 +368,7 @@ class Collection
         $results = $this->matchCollection()->slice($offset, $limit);
 
         return Arr::isAssoc($results) ?
-                  Arr::undot(Arr::dot($results)) :
+                  array_undot(array_dot($results)) :
                   $results;
     }
 
@@ -383,7 +384,7 @@ class Collection
         $results = $this->matchCollection()->toArray();
 
         return Arr::isAssoc($results) ?
-                  Arr::undot(Arr::dot($results)) :
+                  array_undot(array_dot($results)) :
                   $results;
     }
 
