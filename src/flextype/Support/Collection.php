@@ -326,27 +326,43 @@ class Collection
      */
     public function shuffle() : array
     {
-        $results = $this->matchCollection()->toArray();
+        // Match collection
+        $collection = $this->collection->matching($this->criteria);
 
-        return Arr::isAssoc($results) ?
-                            Arr::shuffle(array_undot(array_dot($results))) :
-                            $results;
+        // Restore error_reporting
+        error_reporting($this->errorReporting);
+
+        // Gets a native PHP array representation of the collection.
+        $results = $collection->toArray();
+
+        if ($this->isAssocArray($results)) {
+            $results = array_undot(array_dot($results));
+            $this->shuffleAssocArray($results);
+        } else {
+            shuffle($results);
+        }
+
+        // Return results
+        return $results;
     }
 
     /**
      * Returns a single item of result.
      *
-     * @return array Item
+     * @return mixed The result data.
      *
      * @access public
      */
-    public function first() : array
+    public function first()
     {
-        $results = $this->matchCollection()->first();
+        // Match collection
+        $collection = $this->collection->matching($this->criteria);
 
-        return Arr::isAssoc($results) ?
-                            array_undot($results) :
-                            $results;
+        // Restore error_reporting
+        error_reporting($this->errorReporting);
+
+        // Return first matching result
+        return $collection->first();
     }
 
     /**
@@ -457,10 +473,31 @@ class Collection
      *
      * @param  array $array Array to check
      *
-     * @access  public
+     * @access  protected
      */
     protected function isAssocArray(array $array) : bool
     {
         return (bool) count(array_filter(array_keys($array), 'is_string'));
+    }
+
+    /**
+     * Shuffle for associative arrays, preserves key=>value pairs.
+     *
+     * @param  array $array Array to shuffle
+     *
+     * @access  protected
+     */
+    protected function shuffleAssocArray(&$array) {
+        $keys = array_keys($array);
+
+        shuffle($keys);
+
+        foreach($keys as $key) {
+            $new[$key] = $array[$key];
+        }
+
+        $array = $new;
+
+        return true;
     }
 }
