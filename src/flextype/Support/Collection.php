@@ -375,13 +375,19 @@ class Collection
      *
      * @access public
      */
-    public function slice(int $offset = 0, ?int $limit = null) : array
+    public function slice(int $offset = 0, ?int $length = null) : array
     {
-        $results = $this->matchCollection()->slice($offset, $limit);
+        // Match collection
+        $collection = $this->collection->matching($this->criteria);
 
-        return Arr::isAssoc($results) ?
-                  array_undot(array_dot($results)) :
-                  $results;
+        // Restore error_reporting
+        error_reporting($this->oldErrorReporting);
+
+        // Gets a native PHP array representation of the collection.
+        $results = $collection->slice($offset, $length);
+
+        // Return results
+        return $this->isAssocArray($results) ? array_undot(array_dot($results)) : $results;
     }
 
     /**
