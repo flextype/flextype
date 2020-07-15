@@ -91,11 +91,12 @@ class Collection
     private $errorReporting;
 
     /**
-     * Constructor
+     * Create a new collection.
      *
-     * @access public
+     * @param  mixed  $items
+     * @return void
      */
-    public function __construct($array)
+    public function __construct($items)
     {
         // Save error_reporting state and turn it off
         // because PHP Doctrine Collections don't works with collections
@@ -108,18 +109,18 @@ class Collection
         error_reporting($this->oldErrorReporting & ~E_NOTICE);
 
         // Flatten a multi-dimensional array with dots.
-        if (Arr::isAssoc($array)) {
+        if (Arr::isAssoc($items)) {
             $flat_array = [];
 
-            foreach ($array as $key => $value) {
+            foreach ($items as $key => $value) {
                 $flat_array[$key] = array_dot($value);
             }
 
-            $array = $flat_array;
+            $items = $flat_array;
         }
 
         // Create Array Collection from entries array
-        $this->collection = new ArrayCollection($array);
+        $this->collection = new ArrayCollection($items);
 
         // Create Criteria for filtering Selectable collections.
         $this->criteria = new Criteria();
@@ -128,15 +129,28 @@ class Collection
         return $this;
     }
 
-    public static function collect($array)
+    /**
+     * Create a collection from the given value.
+     *
+     * @param  mixed  $value
+     * @return \Flextype\Support\Collection
+     */
+    public static function collect($items)
     {
-        return new Collections($array);
+        return new Collections($items);
     }
 
-    public function merge(...$arrays)
+    /**
+     * Merge the collection with the given items.
+     *
+     * @param  mixed  $items
+     *
+     * @return static
+     */
+    public function merge(...$items)
     {
         $this->collection = new ArrayCollection(
-            array_merge($this->collection->toArray(), ...$arrays)
+            array_merge($this->collection->toArray(), ...$items)
         );
 
         return $this;
@@ -149,7 +163,7 @@ class Collection
      * @param string $expr  Expression @see $this->expression
      * @param mixed  $value Value
      *
-     * @return
+     * @return static
      *
      * @access public
      */
@@ -168,7 +182,7 @@ class Collection
      * @param string $expr  Expression @see $this->expression
      * @param mixed  $value Value
      *
-     * @return
+     * @return static
      *
      * @access public
      */
@@ -187,7 +201,7 @@ class Collection
      * @param string $expr  Expression @see $this->expression
      * @param mixed  $value Value
      *
-     * @return
+     * @return static
      *
      * @access public
      */
@@ -206,7 +220,7 @@ class Collection
      * @param string $field     The field path using dot notation.
      * @param string $direction Sort direction: asc or desc
      *
-     * @return
+     * @return static
      *
      * @access public
      */
@@ -222,7 +236,7 @@ class Collection
      *
      * @param int|null $firstResult The value to set.
      *
-     * @return
+     * @return static
      *
      * @access public
      */
