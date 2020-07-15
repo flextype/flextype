@@ -12,7 +12,6 @@ namespace Flextype\Support;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
-use Flextype\Component\Arr\Arr;
 use function array_dot;
 use function array_filter;
 use function array_keys;
@@ -22,6 +21,7 @@ use function array_undot;
 use function count;
 use function error_reporting;
 use function is_null;
+use function shuffle;
 use const E_NOTICE;
 
 class Collection
@@ -487,12 +487,13 @@ class Collection
      *
      * @access  protected
      */
-    protected function shuffleAssocArray(&$array) {
+    protected function shuffleAssocArray(array &$array)
+    {
         $keys = array_keys($array);
 
         shuffle($keys);
 
-        foreach($keys as $key) {
+        foreach ($keys as $key) {
             $new[$key] = $array[$key];
         }
 
