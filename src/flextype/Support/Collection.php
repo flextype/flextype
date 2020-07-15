@@ -105,8 +105,8 @@ class Collection
         //      line 40: return $object[$field];
         //
         // @todo research this issue and find possible better solution to avoid this in the future
-        $this->$errorReporting = error_reporting();
-        error_reporting($this->$errorReporting & ~E_NOTICE);
+        $this->errorReporting = error_reporting();
+        error_reporting($this->errorReporting & ~E_NOTICE);
 
         // Check if array is associative
         // Flatten a multi-dimensional array with dots.
@@ -346,19 +346,57 @@ class Collection
     }
 
     /**
-     * Returns random item from result.
+     * Returns one or a specified number of items randomly from the collection.
+     *
+     * @param  int|null  $number
      *
      * @return array The array data.
      *
      * @access public
      */
-    public function random() : array
+    public function random($number = null)
     {
-        $results = $this->matchCollection()->toArray();
+        // Match collection
+        $collection = $this->collection->matching($this->criteria);
 
-        return Arr::isAssoc($results) ?
-                  $results[array_rand(array_undot(array_dot($results)))] :
-                  $results[array_rand($results)];
+        // Restore error_reporting
+        error_reporting($this->errorReporting);
+
+        // Gets a native PHP array representation of the collection.
+        $array = $collection->toArray();
+
+        // Set $requested
+        $requested = is_null($number) ? 1 : $number;
+
+        // Results array count
+        $count = count($array);
+
+        // If requested items more than items available then return setuped count
+        if ($requested > $count) {
+            $number = $count;
+        }
+
+        if ($this->isAssocArray($array)) {
+            $array = array_undot(array_dot($array));
+        }
+
+        if ((int) $number === 1 || is_null($number)) {
+            return $array[array_rand($array)];
+        }
+
+        if ((int) $number === 0) {
+            return [];
+        }
+
+        $keys = array_rand($array, $number);
+
+        $results = [];
+
+        foreach ((array) $keys as $key) {
+            $results[$key] = $array[$key];
+        }
+
+        return $results;
     }
 
     /**
@@ -381,7 +419,7 @@ class Collection
         $collection = $this->collection->matching($this->criteria);
 
         // Restore error_reporting
-        error_reporting($this->$errorReporting);
+        error_reporting($this->errorReporting);
 
         // Gets a native PHP array representation of the collection.
         $results = $collection->slice($offset, $length);
@@ -403,7 +441,7 @@ class Collection
         $collection = $this->collection->matching($this->criteria);
 
         // Restore error_reporting
-        error_reporting($this->$errorReporting);
+        error_reporting($this->errorReporting);
 
         // Gets a native PHP array representation of the collection.
         $results = $collection->toArray();
