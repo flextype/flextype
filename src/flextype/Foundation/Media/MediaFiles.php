@@ -11,18 +11,27 @@ namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Intervention\Image\ImageManagerStatic as Image;
+use RuntimeException;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
+use function chmod;
+use function exif_read_data;
+use function getimagesize;
 use function in_array;
+use function is_dir;
 use function is_uploaded_file;
+use function is_writable;
 use function mime_content_type;
+use function move_uploaded_file;
 use function pathinfo;
+use function realpath;
 use function strpos;
 use function strtolower;
+use const DIRECTORY_SEPARATOR;
 use const PATHINFO_EXTENSION;
 use const UPLOAD_ERR_INI_SIZE;
 use const UPLOAD_ERR_OK;
-use function getimagesize;
+use function substr;
 
 class MediaFiles
 {
@@ -150,7 +159,7 @@ class MediaFiles
                         }
 
                         if (! is_dir($upload_folder) or ! is_writable(realpath($upload_folder))) {
-                            throw new \RuntimeException("Directory {$upload_folder} must be writable");
+                            throw new RuntimeException("Directory {$upload_folder} must be writable");
                         }
 
                         // Make the filename into a complete path
