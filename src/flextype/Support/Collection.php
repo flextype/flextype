@@ -108,8 +108,9 @@ class Collection
         $this->oldErrorReporting = error_reporting();
         error_reporting($this->oldErrorReporting & ~E_NOTICE);
 
+        // Check if array is associative
         // Flatten a multi-dimensional array with dots.
-        if (Arr::isAssoc($items)) {
+        if (count(array_filter(array_keys($items), 'is_string'))) {
             $flat_array = [];
 
             foreach ($items as $key => $value) {
@@ -119,20 +120,17 @@ class Collection
             $items = $flat_array;
         }
 
-        // Create Array Collection from entries array
+        // Create Array Collection
         $this->collection = new ArrayCollection($items);
 
         // Create Criteria for filtering Selectable collections.
         $this->criteria = new Criteria();
-
-        // Return
-        return $this;
     }
 
     /**
-     * Create a collection from the given value.
+     * Create a collection from the given items.
      *
-     * @param  mixed  $items
+     * @param  mixed $items Items to collect
      * @return \Flextype\Support\Collection
      */
     public static function collect($items)
