@@ -262,7 +262,7 @@ class Collection
     {
         $this->criteria->setMaxResults($limit);
 
-        return $this;
+        return $this->all();
     }
 
     /**
