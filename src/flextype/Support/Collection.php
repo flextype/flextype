@@ -110,7 +110,7 @@ class Collection
 
         // Check if array is associative
         // Flatten a multi-dimensional array with dots.
-        if (count(array_filter(array_keys($items), 'is_string'))) {
+        if ($this->isAssocArray($items)) {
             $flat_array = [];
 
             foreach ($items as $key => $value) {
@@ -393,27 +393,30 @@ class Collection
      */
     public function all() : array
     {
-        $results = $this->matchCollection()->toArray();
-
-        return Arr::isAssoc($results) ?
-                  array_undot(array_dot($results)) :
-                  $results;
-    }
-
-    /**
-     * Match collection
-     *
-     * @access protected
-     */
-    public function matchCollection()
-    {
         // Match collection
         $collection = $this->collection->matching($this->criteria);
 
         // Restore error_reporting
         error_reporting($this->oldErrorReporting);
 
-        // Return collection
-        return $collection;
+        // Gets a native PHP array representation of the collection.
+        $results = $collection->toArray();
+
+        // Return results
+        return $this->isAssocArray($results) ? array_undot(array_dot($results)) : $results;
+    }
+
+    /**
+     * Returns TRUE if the array is associative and FALSE if not.
+     *
+     * @param  array $array Array to check
+     *
+     * @return bool
+     *
+     * @access  public
+     */
+    protected function isAssocArray(array $array) : bool
+    {
+        return (bool) count(array_filter(array_keys($array), 'is_string'));
     }
 }
