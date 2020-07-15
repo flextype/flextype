@@ -14,24 +14,32 @@ use Intervention\Image\ImageManagerStatic as Image;
 use RuntimeException;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
+use function basename;
 use function chmod;
 use function exif_read_data;
+use function explode;
 use function getimagesize;
 use function in_array;
 use function is_dir;
 use function is_uploaded_file;
 use function is_writable;
+use function ltrim;
 use function mime_content_type;
 use function move_uploaded_file;
 use function pathinfo;
 use function realpath;
+use function rename;
+use function str_replace;
 use function strpos;
+use function strrpos;
+use function strstr;
 use function strtolower;
+use function substr;
+use function time;
 use const DIRECTORY_SEPARATOR;
 use const PATHINFO_EXTENSION;
 use const UPLOAD_ERR_INI_SIZE;
 use const UPLOAD_ERR_OK;
-use function substr;
 
 class MediaFiles
 {
