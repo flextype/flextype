@@ -105,8 +105,8 @@ class Collection
         //      line 40: return $object[$field];
         //
         // @todo research this issue and find possible better solution to avoid this in the future
-        $this->oldErrorReporting = error_reporting();
-        error_reporting($this->oldErrorReporting & ~E_NOTICE);
+        $this->$errorReporting = error_reporting();
+        error_reporting($this->$errorReporting & ~E_NOTICE);
 
         // Check if array is associative
         // Flatten a multi-dimensional array with dots.
@@ -381,7 +381,7 @@ class Collection
         $collection = $this->collection->matching($this->criteria);
 
         // Restore error_reporting
-        error_reporting($this->oldErrorReporting);
+        error_reporting($this->$errorReporting);
 
         // Gets a native PHP array representation of the collection.
         $results = $collection->slice($offset, $length);
@@ -403,7 +403,7 @@ class Collection
         $collection = $this->collection->matching($this->criteria);
 
         // Restore error_reporting
-        error_reporting($this->oldErrorReporting);
+        error_reporting($this->$errorReporting);
 
         // Gets a native PHP array representation of the collection.
         $results = $collection->toArray();
