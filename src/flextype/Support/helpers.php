@@ -13,10 +13,9 @@ if (! function_exists('collect')) {
     /**
      * Create a collection from the given value.
      *
-     * @param  mixed  $value
-     * @return \Flextype\Support\Collection
+     * @param  mixed $value
      */
-    function collect($items) : \Flextype\Support\Collection
+    function collect($items) : Collection
     {
         return new Collection($items);
     }

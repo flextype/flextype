@@ -13,11 +13,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Flextype\Component\Arr\Arr;
-use Awilum\ArrayDots\ArrayDots;
+use function array_dot;
+use function array_filter;
+use function array_keys;
 use function array_merge;
 use function array_rand;
+use function array_undot;
 use function count;
 use function error_reporting;
+use function is_null;
 use const E_NOTICE;
 
 class Collection
@@ -93,7 +97,8 @@ class Collection
     /**
      * Create a new collection.
      *
-     * @param  mixed  $items
+     * @param  mixed $items
+     *
      * @return void
      */
     public function __construct($items)
@@ -131,9 +136,8 @@ class Collection
      * Create a collection from the given items.
      *
      * @param  mixed $items Items to collect
-     * @return \Flextype\Support\Collection
      */
-    public static function collect($items)
+    public static function collect($items) : Collection
     {
         return new Collections($items);
     }
@@ -141,7 +145,7 @@ class Collection
     /**
      * Merge the collection with the given items.
      *
-     * @param  mixed  $items
+     * @param  mixed $items
      *
      * @return static
      */
@@ -348,13 +352,11 @@ class Collection
     /**
      * Returns one or a specified number of items randomly from the collection.
      *
-     * @param  int|null  $number
-     *
-     * @return array The array data.
+     * @return mixed The result data.
      *
      * @access public
      */
-    public function random($number = null)
+    public function random(?int $number = null)
     {
         // Match collection
         $collection = $this->collection->matching($this->criteria);
@@ -454,8 +456,6 @@ class Collection
      * Returns TRUE if the array is associative and FALSE if not.
      *
      * @param  array $array Array to check
-     *
-     * @return bool
      *
      * @access  public
      */
