@@ -15,7 +15,7 @@ if (! function_exists('collect')) {
      *
      * @param  array $value Items to collect
      */
-    function collect($array) : \Flextype\Collection
+    function collect($array) : \Flextype\Support\Collection
     {
         return new Collection($array);
     }
