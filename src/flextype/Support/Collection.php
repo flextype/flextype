@@ -517,6 +517,8 @@ class Collection
 
         shuffle($keys);
 
+        $new = [];
+
         foreach ($keys as $key) {
             $new[$key] = $array[$key];
         }
