@@ -132,7 +132,7 @@ class Collection
     /**
      * Create a collection from the given value.
      *
-     * @param  mixed  $value
+     * @param  mixed  $items
      * @return \Flextype\Support\Collection
      */
     public static function collect($items)
