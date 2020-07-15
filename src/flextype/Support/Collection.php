@@ -298,7 +298,17 @@ class Collection
      */
     public function last() : array
     {
-        return array_undot($this->matchCollection()->last());
+        // Match collection
+        $collection = $this->collection->matching($this->criteria);
+
+        // Restore error_reporting
+        error_reporting($this->errorReporting);
+
+        // Gets first matching result
+        $results = $collection->last();
+
+        // Return first matching result
+        return is_array ($results) ? array_undot($results) : $results;
     }
 
     /**
@@ -312,7 +322,17 @@ class Collection
      */
     public function next() : array
     {
-        return array_undot($this->matchCollection()->next());
+        // Match collection
+        $collection = $this->collection->matching($this->criteria);
+
+        // Restore error_reporting
+        error_reporting($this->errorReporting);
+
+        // Gets first matching result
+        $results = $collection->next();
+
+        // Return first matching result
+        return is_array ($results) ? array_undot($results) : $results;
     }
 
     /**
@@ -361,8 +381,11 @@ class Collection
         // Restore error_reporting
         error_reporting($this->errorReporting);
 
+        // Gets first matching result
+        $results = $collection->first();
+
         // Return first matching result
-        return $collection->first();
+        return is_array ($results) ? array_undot($results) : $results;
     }
 
     /**
