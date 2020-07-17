@@ -24,7 +24,6 @@
         "ext-fileinfo": "*",
 
         "doctrine/cache": "~1.10.0",
-        "doctrine/collections": "~1.6.4",
 
         "flextype-components/arr" : "1.2.8",
         "flextype-components/cookie" : "1.2.0",
@@ -56,7 +55,8 @@
 
         "thunderer/shortcode": "~0.7.3",
 
-        "composer/semver": "~2.0.0"
+        "composer/semver": "~2.0.0",
+        "tightenco/collect": "^7.19"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
