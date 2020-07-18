@@ -128,7 +128,6 @@ class Entries
 
         // If requested entry file founded then process it
         if (Filesystem::has($entry_file)) {
-
             // Create unique entry cache_id
             // Entry Cache ID = entry + entry file + entry file time stamp
             if ($timestamp = Filesystem::getTimestamp($entry_file)) {
@@ -145,15 +144,16 @@ class Entries
             if ($this->flextype['cache']->contains($entry_cache_id)) {
                 if ($entry = $this->flextype['cache']->fetch($entry_cache_id)) {
                     $this->flextype['emitter']->emit('onEntryAfterInitialized');
+
                     return $entry;
                 }
+
                 return [];
             }
 
             // Try to get requested entry from the filesystem
             $entry_decoded = $this->flextype['serializer']->decode(Filesystem::read($entry_file), 'frontmatter');
 
-            //
             // Set system entry fields
 
             // Entry Published At
@@ -248,13 +248,12 @@ class Entries
      * Fetch entries collection
      *
      * @param string $path Unique identifier of the entry(entries).
-     * @param array  $recursive
      *
      * @return array The entries array data.
      *
      * @access public
      */
-    public function fetchCollection(string $path, $recursive = false) : array
+    public function fetchCollection(string $path, bool $recursive = false) : array
     {
         // Init Entries
         $entries = [];
