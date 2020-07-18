@@ -128,6 +128,7 @@ class Entries
 
         // If requested entry file founded then process it
         if (Filesystem::has($entry_file)) {
+
             // Create unique entry cache_id
             // Entry Cache ID = entry + entry file + entry file time stamp
             if ($timestamp = Filesystem::getTimestamp($entry_file)) {
@@ -136,26 +137,25 @@ class Entries
                 $entry_cache_id = md5('entry' . $entry_file);
             }
 
-            // Try to get the requested entry from cache
+            // 1. Try to get the requested entry from cache
+            // 2. Try to fetch requested entry from the cache
+            // 3. Run event: onEntryAfterInitialized
+            // 4. Return entry item array
+            // 5. Else return empty array
             if ($this->flextype['cache']->contains($entry_cache_id)) {
-                // Try to fetch requested entry from the cache
                 if ($entry = $this->flextype['cache']->fetch($entry_cache_id)) {
-                    // Run event onEntryAfterInitialized
                     $this->flextype['emitter']->emit('onEntryAfterInitialized');
-
-                    // Return entry
                     return $entry;
                 }
-
-                // Return empty array
                 return [];
-
-                // else Try to get requested entry from the filesystem
             }
 
+            // Try to get requested entry from the filesystem
             $entry_decoded = $this->flextype['serializer']->decode(Filesystem::read($entry_file), 'frontmatter');
 
-            // Add predefined entry items
+            //
+            // Set system entry fields
+
             // Entry Published At
             $entry_decoded['published_at'] = isset($entry_decoded['published_at']) ? (int) strtotime($entry_decoded['published_at']) : (int) Filesystem::getTimestamp($entry_file);
 
@@ -248,7 +248,7 @@ class Entries
      * Fetch entries collection
      *
      * @param string $path Unique identifier of the entry(entries).
-     * @param array  $deep
+     * @param array  $recursive
      *
      * @return array The entries array data.
      *
@@ -283,23 +283,20 @@ class Entries
                         // 2. Remove left and right slashes
                         $uid = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', $current_entry['path']), '/'), '/');
 
-                        // For each founded entry we should create $entries array.
-                        $entry = $this->fetch($uid);
-
-                        // Add entry into the entries
-                        $entries[$uid] = $entry;
+                        // Fetch single entry
+                        $entries[$uid] = $this->fetch($uid);
                     }
                 }
             }
 
-            // Set entries into the property entries
+            // Save entries array into the property entries
             $this->entries = $entries;
 
-            // Run event onEntriesAfterInitialized
+            // Run event: onEntriesAfterInitialized
             $this->flextype['emitter']->emit('onEntriesAfterInitialized');
         }
 
-        // Return entries
+        // Return entries array
         return $this->entries;
     }
 
