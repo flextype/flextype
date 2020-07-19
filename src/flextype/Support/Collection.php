@@ -89,13 +89,6 @@ class Collection
     private $criteria;
 
     /**
-     * Error Reporting
-     *
-     * @access private
-     */
-    private $errorReporting;
-
-    /**
      * Create a new collection.
      *
      * @param  mixed $items
@@ -488,13 +481,13 @@ class Collection
     public function all() : array
     {
         // Mute notices if there is no requested fields to search inside the items.
-        error_reporting($errorReporting = error_reporting() & ~E_NOTICE);
+        //error_reporting($errorReporting = error_reporting() & ~E_NOTICE);
 
         // Match collection
         $collection = $this->collection->matching($this->criteria);
 
         // Restore error_reporting
-        error_reporting($errorReporting);
+        //error_reporting($errorReporting);
 
         // Gets a native PHP array representation of the collection.
         $results = $collection->toArray();
