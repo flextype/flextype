@@ -123,7 +123,7 @@ class Collection
      */
     public static function collect($items) : Collection
     {
-        return new Collections($items);
+        return new Collection($items);
     }
 
     /**
