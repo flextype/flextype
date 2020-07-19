@@ -247,7 +247,8 @@ class Entries
     /**
      * Fetch entries collection
      *
-     * @param string $path Unique identifier of the entry(entries).
+     * @param string $path      Unique identifier of the entry(entries).
+     * @param bool   $recursive Whether to list entries recursively.
      *
      * @return array The entries array data.
      *
@@ -303,16 +304,16 @@ class Entries
      * Rename entry
      *
      * @param string $path   Unique identifier of the entry(entries).
-     * @param string $new_id New Unique identifier of the entry(entries).
+     * @param string $new_path New Unique identifier of the entry(entries).
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function rename(string $path, string $new_id) : bool
+    public function rename(string $path, string $new_path) : bool
     {
-        if (! Filesystem::has($this->getDirLocation($new_id))) {
-            return rename($this->getDirLocation($path), $this->getDirLocation($new_id));
+        if (! Filesystem::has($this->getDirLocation($new_path))) {
+            return rename($this->getDirLocation($path), $this->getDirLocation($new_path));
         }
 
         return false;
@@ -407,16 +408,16 @@ class Entries
      * Copy entry(s)
      *
      * @param string $path      Unique identifier of the entry(entries).
-     * @param string $new_id    New Unique identifier of the entry(entries).
+     * @param string $new_path    New Unique identifier of the entry(entries).
      * @param bool   $recursive Recursive copy entries.
      *
      * @return bool|null True on success, false on failure.
      *
      * @access public
      */
-    public function copy(string $path, string $new_id, bool $recursive = false) : ?bool
+    public function copy(string $path, string $new_path, bool $recursive = false) : ?bool
     {
-        return Filesystem::copy($this->getDirLocation($path), $this->getDirLocation($new_id), $recursive);
+        return Filesystem::copy($this->getDirLocation($path), $this->getDirLocation($new_path), $recursive);
     }
 
     /**
