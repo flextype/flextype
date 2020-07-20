@@ -17,8 +17,8 @@ use Slim\App;
 use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
 use function array_replace_recursive;
 use function date_default_timezone_set;
-use function define;
 use function error_reporting;
+use function file_exists;
 use function function_exists;
 use function mb_internal_encoding;
 use function mb_language;
@@ -170,9 +170,11 @@ $shortcodes_extensions = $flextype['registry']->get('flextype.settings.shortcode
 
 foreach ($shortcodes_extensions as $shortcodes_extension) {
     $shortcodes_extension_file_path = ROOT_DIR . '/src/flextype/Foundation/Parsers/shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';
-    if (file_exists($shortcodes_extension_file_path)) {
-        include_once $shortcodes_extension_file_path;
+    if (! file_exists($shortcodes_extension_file_path)) {
+        continue;
     }
+
+    include_once $shortcodes_extension_file_path;
 }
 
 /**
