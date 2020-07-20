@@ -95,18 +95,18 @@ class Entries
     /**
      * Fetch entry(entries)
      *
-     * @param string     $path   Unique identifier of the entry(entries).
-     * @param array|null $filter Select items in collection by given conditions.
+     * @param string $path       Unique identifier of the entry(entries).
+     * @param bool   $collection Set `true` if collection of entries need to be fetched.
+     * @param bool   $recursive  Whether to list entries recursively.
      *
      * @return array The entry array data.
      *
      * @access public
      */
-    public function fetch(string $path, ?array $filter = null) : array
+    public function fetch(string $path, bool $collection = false, bool $recursive = false) : array
     {
-        // If filter is array then it is entries collection request
-        if (is_array($filter)) {
-            return $this->fetchCollection($path, $filter);
+        if ($collection) {
+            return $this->fetchCollection($collection, $recursive);
         }
 
         return $this->fetchSingle($path);
@@ -303,7 +303,7 @@ class Entries
     /**
      * Rename entry
      *
-     * @param string $path   Unique identifier of the entry(entries).
+     * @param string $path     Unique identifier of the entry(entries).
      * @param string $new_path New Unique identifier of the entry(entries).
      *
      * @return bool True on success, false on failure.
@@ -408,7 +408,7 @@ class Entries
      * Copy entry(s)
      *
      * @param string $path      Unique identifier of the entry(entries).
-     * @param string $new_path    New Unique identifier of the entry(entries).
+     * @param string $new_path  New Unique identifier of the entry(entries).
      * @param bool   $recursive Recursive copy entries.
      *
      * @return bool|null True on success, false on failure.
