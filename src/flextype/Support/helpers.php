@@ -10,25 +10,25 @@ declare(strict_types=1);
 use Flextype\Support\Collection;
 
 
-if (! function_exists('collection')) {
+if (! function_exists('collect')) {
     /**
      * Create a collection from the given value.
      *
      * @param  mixed $value
      */
-    function collection($items) : Collection
+    function collect($items) : Collection
     {
         return new Collection($items);
     }
 }
 
-if (! function_exists('collection_filter')) {
+if (! function_exists('collect_filter')) {
     /**
-     * Create a collection from the given value.
+     * Create a collection from the given value and filter it.
      *
      * @param  mixed $value
      */
-    function collection_filter($items, array $filter) : array
+    function collect_filter($items, array $filter) : array
     {
         $collection = new Collection($items);
 
@@ -37,9 +37,6 @@ if (! function_exists('collection_filter')) {
 
         // Set Direction
         $direction = $collection->direction;
-
-        // Bind: recursive
-        $bind_recursive = $filter['recursive'] ?? false;
 
         // Bind: set first result
         $bind_set_first_result = $filter['set_first_result'] ?? false;
@@ -123,7 +120,7 @@ if (! function_exists('collection_filter')) {
         }
 
         // Gets a native PHP array representation of the collection.
-        $items = $collection->first();
+        $items = $collection->all();
 
         // Return entries
         return $items;
