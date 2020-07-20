@@ -121,7 +121,7 @@ class Collection
      *
      * @param  mixed $items Items to collect
      */
-    public static function collect($items) : Collection
+    public static function collection($items) : Collection
     {
         return new Collection($items);
     }
