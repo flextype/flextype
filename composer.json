@@ -25,6 +25,8 @@
         "ext-fileinfo": "*",
 
         "doctrine/cache": "~1.10.0",
+        "doctrine/collections": "~1.6.6",
+        "Awilum/array_dots": "~1.0.0",
 
         "flextype-components/arr" : "1.2.8",
         "flextype-components/cookie" : "1.2.0",
@@ -54,8 +56,7 @@
 
         "thunderer/shortcode": "~0.7.3",
 
-        "composer/semver": "~2.0.0",
-        "tightenco/collect": "^7.19"
+        "composer/semver": "~2.0.0"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
@@ -73,6 +74,9 @@
     "autoload": {
         "classmap": [
             "src/flextype"
+        ],
+        "files": [
+            "src/flextype/Support/helpers.php"
         ]
     },
     "require-dev": {
