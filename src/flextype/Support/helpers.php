@@ -42,7 +42,13 @@ if (! function_exists('collect_filter')) {
         $bind_set_first_result = $filter['set_first_result'] ?? false;
 
         // Bind: set max result
-        $bind_set_max_result = $filter['set_max_result'] ?? false;
+        $bind_set_max_result = $filter['limit'] ?? false;
+
+        // Bind: return
+        $bind_return = $filter['return'] ?? 'all';
+
+        // Bind: random_value
+        $bind_random_value = $filter['random_value'] ?? 1;
 
         // Bind: where
         $bind_where = [];
@@ -120,7 +126,26 @@ if (! function_exists('collect_filter')) {
         }
 
         // Gets a native PHP array representation of the collection.
-        $items = $collection->all();
+        switch ($bind_return) {
+            case 'first':
+                $items = $collection->first();
+                break;
+            case 'last':
+                $items = $collection->last();
+                break;
+            case 'next':
+                $items = $collection->next();
+                break;
+            case 'random':
+                $items = $collection->random($bind_random_value);
+                break;
+            case 'shuffle':
+                $items = $collection->shuffle();
+                break;
+            default:
+                $items = $collection->all();
+                break;
+        }
 
         // Return entries
         return $items;
