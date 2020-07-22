@@ -82,10 +82,10 @@ class Frontmatter
         if (isset($input['content'])) {
             $content = $input['content'];
             array_delete($input, 'content');
-            $matter = Yaml::encode($input);
+            $matter = $this->flextype['yaml']->encode($input);
         } else {
             $content = '';
-            $matter  = Yaml::encode($input);
+            $matter  = $this->flextype['yaml']->encode($input);
         }
 
         $encoded = '---' . "\n" .
@@ -106,6 +106,6 @@ class Frontmatter
             return ['content' => trim($input)];
         }
 
-        return Yaml::decode(trim($parts[1]), false) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
+        return $this->flextype['yaml']->decode(trim($parts[1]), false) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
     }
 }
