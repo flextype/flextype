@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation;
 
+use Awilum\ArrayDots\ArrayDots;
 use Composer\Semver\Semver;
-use Flextype\Component\Arr\Arr;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\I18n\I18n;
 use RuntimeException;
@@ -163,11 +163,11 @@ class Plugins
             }
 
             // Sort plugins list by priority.
-            $plugins = Arr::sort($plugins, '_priority', 'DESC');
+            $plugins = ArrayDots::sort($plugins, '_priority', 'DESC');
 
             // ... and delete tmp _priority field for sorting
             foreach ($plugins as $plugin_name => $plugin_data) {
-                array_delete($plugins, $plugin_name . '._priority');
+                ArrayDots::delete($plugins, $plugin_name . '._priority');
             }
 
             // Get Valid Plugins Dependencies

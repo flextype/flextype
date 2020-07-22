@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation;
 
-use Flextype\Component\Arr\Arr;
+use Awilum\ArrayDots\ArrayDots;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
 use Ramsey\Uuid\Uuid;
@@ -106,7 +106,7 @@ class Entries
     public function fetch(string $path, bool $collection = false, bool $deep = false) : array
     {
         if ($collection) {
-            return $this->fetchCollection($collection, $deep);
+            return $this->fetchCollection($path, $deep);
         }
 
         return $this->fetchSingle($path);
@@ -209,8 +209,8 @@ class Entries
                         }
 
                         if ($parser_name === 'markdown') {
-                            if (array_has($entry_decoded, $field)) {
-                                array_set($entry_decoded, $field, $this->flextype['parser']->parse(Arr::get($entry_decoded, $field), 'markdown', $cache));
+                            if (ArrayDots::has($entry_decoded, $field)) {
+                                ArrayDots::set($entry_decoded, $field, $this->flextype['parser']->parse(ArrayDots::get($entry_decoded, $field), 'markdown', $cache));
                             }
                         }
 
@@ -218,11 +218,11 @@ class Entries
                             continue;
                         }
 
-                        if (! array_has($entry_decoded, $field)) {
+                        if (! ArrayDots::has($entry_decoded, $field)) {
                             continue;
                         }
 
-                        array_set($entry_decoded, $field, $this->flextype['parser']->parse(Arr::get($entry_decoded, $field), 'shortcodes', $cache));
+                        ArrayDots::set($entry_decoded, $field, $this->flextype['parser']->parse(ArrayDots::get($entry_decoded, $field), 'shortcodes', $cache));
                     }
                 }
             }

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation;
 
-use Flextype\Component\Arr\Arr;
+use Awilum\ArrayDots\ArrayDots;
 use Flextype\Component\Filesystem\Filesystem;
 
 class Config
@@ -30,7 +30,7 @@ class Config
     }
 
     /**
-     * Get itme from the config
+     * Get item from the config
      *
      * @param string $config  Config namespace.
      * @param string $key     The key of the config item to get.
@@ -43,7 +43,7 @@ class Config
         $config_file = $this->getFileLocation($config);
 
         if (Filesystem::has($config_file)) {
-            return Arr::get($this->flextype->yaml->decode(Filesystem::read($config_file)), $key, $default);
+            return ArrayDots::get($this->flextype->yaml->decode(Filesystem::read($config_file)), $key, $default);
         }
     }
 
@@ -61,8 +61,8 @@ class Config
         if (Filesystem::has($config_file)) {
              $config_file_data = $this->flextype->yaml->decode(Filesystem::read($config_file));
 
-            if (! array_has($config_file_data, $key)) {
-                Arr::set($config_file_data, $key, $value);
+            if (! ArrayDots::has($config_file_data, $key)) {
+                ArrayDots::set($config_file_data, $key, $value);
 
                 return Filesystem::write($config_file, $this->flextype->yaml->encode($config_file_data));
             }
@@ -87,8 +87,8 @@ class Config
         if (Filesystem::has($config_file)) {
              $config_file_data = $this->flextype->yaml->decode(Filesystem::read($config_file));
 
-            if (array_has($config_file_data, $key)) {
-                Arr::set($config_file_data, $key, $value);
+            if (ArrayDots::has($config_file_data, $key)) {
+                ArrayDots::set($config_file_data, $key, $value);
 
                 return Filesystem::write($config_file, $this->flextype->yaml->encode($config_file_data));
             }
@@ -112,8 +112,8 @@ class Config
         if (Filesystem::has($config_file)) {
              $config_file_data = $this->flextype->yaml->decode(Filesystem::read($config_file));
 
-            if (array_has($config_file_data, $key)) {
-                array_delete($config_file_data, $key);
+            if (ArrayDots::has($config_file_data, $key)) {
+                ArrayDots::delete($config_file_data, $key);
 
                 return Filesystem::write($config_file, $this->flextype->yaml->encode($config_file_data));
             }
@@ -137,7 +137,7 @@ class Config
         if (Filesystem::has($config_file)) {
              $config_file_data = $this->flextype->yaml->decode(Filesystem::read($config_file));
 
-            if (array_has($config_file_data, $key)) {
+            if (ArrayDots::has($config_file_data, $key)) {
                 return true;
             }
 

@@ -46,7 +46,7 @@ class Yaml
     {
         $this->flextype = $flextype;
     }
-    
+
     /**
      * Native
      *

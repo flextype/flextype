@@ -9,15 +9,14 @@ declare(strict_types=1);
 
 namespace Flextype\Support;
 
+use Awilum\ArrayDots\ArrayDots;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
-use function array_dot;
 use function array_filter;
 use function array_keys;
 use function array_merge;
 use function array_rand;
-use function array_undot;
 use function count;
 use function error_reporting;
 use function is_array;
@@ -103,7 +102,7 @@ class Collection
             $flat_array = [];
 
             foreach ($items as $key => $value) {
-                $flat_array[$key] = array_dot($value);
+                $flat_array[$key] = ArrayDots::dot($value);
             }
 
             $items = $flat_array;
@@ -230,7 +229,7 @@ class Collection
     {
         $this->criteria->setFirstResult($firstResult);
 
-        return $this;
+        return $this->all();
     }
 
     /**
@@ -295,7 +294,7 @@ class Collection
         $results = $collection->last();
 
         // Return first matching result
-        return is_array($results) ? array_undot($results) : $results;
+        return is_array($results) ? ArrayDots::undot($results) : $results;
     }
 
     /**
@@ -322,7 +321,7 @@ class Collection
         $results = $collection->next();
 
         // Return first matching result
-        return is_array($results) ? array_undot($results) : $results;
+        return is_array($results) ? ArrayDots::undot($results) : $results;
     }
 
     /**
@@ -349,7 +348,7 @@ class Collection
         $results = $collection->toArray();
 
         if ($this->_isAssocArray($results)) {
-            $results = array_undot(array_dot($results));
+            $results = ArrayDots::undot(ArrayDots::dot($results));
             $this->_shuffleAssocArray($results);
         } else {
             shuffle($results);
@@ -381,7 +380,7 @@ class Collection
         $results = $collection->first();
 
         // Return first matching result
-        return is_array($results) ? array_undot($results) : $results;
+        return is_array($results) ? ArrayDots::undot($results) : $results;
     }
 
     /**
@@ -417,7 +416,7 @@ class Collection
         }
 
         if ($this->_isAssocArray($array)) {
-            $array = array_undot(array_dot($array));
+            $array = ArrayDots::undot(ArrayDots::dot($array));
         }
 
         if ((int) $number === 1 || is_null($number)) {
@@ -468,7 +467,7 @@ class Collection
         $results = $collection->slice($offset, $length);
 
         // Return results
-        return $this->_isAssocArray($results) ? array_undot(array_dot($results)) : $results;
+        return $this->_isAssocArray($results) ? ArrayDots::undot(ArrayDots::dot($results)) : $results;
     }
 
     /**
@@ -493,7 +492,7 @@ class Collection
         $results = $collection->toArray();
 
         // Return results
-        return $this->_isAssocArray($results) ? array_undot(array_dot($results)) : $results;
+        return $this->_isAssocArray($results) ? ArrayDots::undot(ArrayDots::dot($results)) : $results;
     }
 
     /**
