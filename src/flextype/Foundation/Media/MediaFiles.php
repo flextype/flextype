@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype;
+namespace Flextype\Foundation\Media;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -182,17 +182,17 @@ class MediaFiles
 
                                 // now you are able to resize the instance
                                 if ($this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_width') > 0 && $this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_height') > 0) {
-                                    $img->resize($this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_width'), $this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_height'), static function ($constraint) : void {
+                                    $img->resize($this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_width'), $this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_height'), function ($constraint) : void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
                                 } elseif ($this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_width') > 0) {
-                                    $img->resize($this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_width'), null, static function ($constraint) : void {
+                                    $img->resize($this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_width'), null, function ($constraint) : void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
                                 } elseif ($this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_height') > 0) {
-                                    $img->resize(null, $this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_height'), static function ($constraint) : void {
+                                    $img->resize(null, $this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_height'), function ($constraint) : void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
@@ -224,7 +224,7 @@ class MediaFiles
 
                             Filesystem::write(
                                 $upload_metadata_folder . basename($filename) . '.yaml',
-                                $this->flextype['serializer']->encode($metadata, 'yaml')
+                                $this->flextype['yaml']->encode($metadata)
                             );
 
                             // Return new file path
@@ -269,7 +269,7 @@ class MediaFiles
         $result = [];
 
         if (Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($path))) {
-            $result = $this->flextype['serializer']->decode(Filesystem::read($this->flextype['media_files_meta']->getFileMetaLocation($path)), 'yaml');
+            $result = $this->flextype['yaml']->decode(Filesystem::read($this->flextype['media_files_meta']->getFileMetaLocation($path)));
 
             $result['filename']  = pathinfo(str_replace('/.meta', '', $this->flextype['media_files_meta']->getFileMetaLocation($path)))['filename'];
             $result['basename']  = explode('.', basename($this->flextype['media_files_meta']->getFileMetaLocation($path)))[0];
@@ -302,7 +302,7 @@ class MediaFiles
         $result = [];
 
         foreach (Filesystem::listContents($this->flextype['media_folders_meta']->getDirMetaLocation($path)) as $file) {
-            $result[$file['basename']] = $this->flextype['serializer']->decode(Filesystem::read($file['path']), 'yaml');
+            $result[$file['basename']] = $this->flextype['yaml']->decode(Filesystem::read($file['path']));
 
             $result[$file['basename']]['filename']  = pathinfo(str_replace('/.meta', '', $this->flextype['media_files_meta']->getFileMetaLocation($file['basename'])))['filename'];
             $result[$file['basename']]['basename']  = explode('.', basename($this->flextype['media_files_meta']->getFileMetaLocation($file['basename'])))[0];

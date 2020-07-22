@@ -44,12 +44,12 @@ class MediaFilesMeta
      */
     public function update(string $id, string $field, string $value) : bool
     {
-        $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
+        $file_data = $this->flextype['yaml']->decode(Filesystem::read($this->getFileMetaLocation($id)));
 
-        if (Arr::keyExists($file_data, $field)) {
-            Arr::set($file_data, $field, $value);
+        if (array_has($file_data, $field)) {
+            array_set($file_data, $field, $value);
 
-            return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
+            return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['yaml']->encode($file_data));
         }
 
         return false;
@@ -68,12 +68,12 @@ class MediaFilesMeta
      */
     public function add(string $id, string $field, string $value) : bool
     {
-        $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
+        $file_data = $this->flextype['yaml']->decode(Filesystem::read($this->getFileMetaLocation($id)));
 
-        if (! Arr::keyExists($file_data, $field)) {
-            Arr::set($file_data, $field, $value);
+        if (! array_has($file_data, $field)) {
+            array_set($file_data, $field, $value);
 
-            return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
+            return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['yaml']->encode($file_data));
         }
 
         return false;
@@ -91,12 +91,12 @@ class MediaFilesMeta
      */
     public function delete(string $id, string $field) : bool
     {
-        $file_data = $this->flextype['serializer']->decode(Filesystem::read($this->getFileMetaLocation($id)), 'yaml');
+        $file_data = $this->flextype['yaml']->decode(Filesystem::read($this->getFileMetaLocation($id)));
 
-        if (Arr::keyExists($file_data, $field)) {
-            Arr::delete($file_data, $field);
+        if (array_has($file_data, $field)) {
+            array_delete($file_data, $field);
 
-            return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['serializer']->encode($file_data, 'yaml'));
+            return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['yaml']->encode($file_data));
         }
 
         return false;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flextype\Cache;
+namespace Flextype\Foundation\Cache;
 
 use Doctrine\Common\Cache\MemcachedCache;
 use Memecached;

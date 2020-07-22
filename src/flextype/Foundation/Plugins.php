@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype;
+namespace Flextype\Foundation;
 
 use Composer\Semver\Semver;
 use Flextype\Component\Arr\Arr;
@@ -44,7 +44,7 @@ class Plugins
     public function __construct($flextype, $app)
     {
         $this->flextype = $flextype;
-        $this->locales  = $this->flextype['serializer']->decode(Filesystem::read(ROOT_DIR . '/src/flextype/locales.yaml'), 'yaml');
+        $this->locales  = $this->flextype['yaml']->decode(Filesystem::read(ROOT_DIR . '/src/flextype/locales.yaml'));
     }
 
     /**
@@ -125,7 +125,7 @@ class Plugins
 
                 // Get default plugin settings content
                 $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
-                $default_plugin_settings              = $this->flextype['serializer']->decode($default_plugin_settings_file_content, 'yaml');
+                $default_plugin_settings              = $this->flextype['yaml']->decode($default_plugin_settings_file_content);
 
                 // Create project plugin settings file
                 ! Filesystem::has($project_plugin_settings_file) and Filesystem::write($project_plugin_settings_file, $default_plugin_settings_file_content);
@@ -136,7 +136,7 @@ class Plugins
                 if (trim($project_plugin_settings_file_content) === '') {
                     $project_plugin_settings = [];
                 } else {
-                    $project_plugin_settings = $this->flextype['serializer']->decode($project_plugin_settings_file_content, 'yaml');
+                    $project_plugin_settings = $this->flextype['yaml']->decode($project_plugin_settings_file_content);
                 }
 
                 // Check if default plugin manifest file exists
@@ -146,7 +146,7 @@ class Plugins
 
                 // Get default plugin manifest content
                 $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
-                $default_plugin_manifest              = $this->flextype['serializer']->decode($default_plugin_manifest_file_content, 'yaml');
+                $default_plugin_manifest              = $this->flextype['yaml']->decode($default_plugin_manifest_file_content);
 
                 // Merge plugin settings and manifest data
                 $plugins[$plugin['dirname']]['manifest'] = $default_plugin_manifest;
@@ -167,7 +167,7 @@ class Plugins
 
             // ... and delete tmp _priority field for sorting
             foreach ($plugins as $plugin_name => $plugin_data) {
-                Arr::delete($plugins, $plugin_name . '._priority');
+                array_delete($plugins, $plugin_name . '._priority');
             }
 
             // Get Valid Plugins Dependencies
@@ -207,7 +207,7 @@ class Plugins
                 throw new RuntimeException('Load file: ' . $language_file . ' - failed!');
             }
 
-            $translates = $this->flextype['serializer']->decode($content, 'yaml');
+            $translates = $this->flextype['yaml']->decode($content);
 
             I18n::add($translates, $locale);
         }
@@ -386,7 +386,7 @@ class Plugins
                 continue;
             }
 
-            include_once PATH['project'] . '/plugins/' . $plugin_name . '/bootstrap.php';
+            //include_once PATH['project'] . '/plugins/' . $plugin_name . '/bootstrap.php';
         }
     }
 }

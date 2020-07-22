@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype;
+namespace Flextype\Foundation;
 
 use function count;
 use function implode;
@@ -66,5 +66,6 @@ class Cors
                     ->withHeader('Access-Control-Allow-Expose', $expose)
                     ->withHeader('Access-Control-Allow-Credentials', $credentials);
         });
+
     }
 }

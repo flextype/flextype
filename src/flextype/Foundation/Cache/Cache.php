@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype;
+namespace Flextype\Foundation\Cache;
 
 use Flextype\Component\Filesystem\Filesystem;
 use function clearstatcache;

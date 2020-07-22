@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flextype\Cache;
+namespace Flextype\Foundation\Cache;
 
 use Doctrine\Common\Cache\ZendDataCache;
 use Psr\Container\ContainerInterface;

@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype;
+namespace Flextype\Foundation;
 
 use Flextype\Component\Arr\Arr;
 use Flextype\Component\Filesystem\Filesystem;
@@ -152,7 +152,7 @@ class Entries
             }
 
             // Try to get requested entry from the filesystem
-            $entry_decoded = $this->flextype['serializer']->decode(Filesystem::read($entry_file), 'frontmatter');
+            $entry_decoded = $this->flextype['frontmatter']->decode(Filesystem::read($entry_file));
 
             // Set system entry fields
 
@@ -209,8 +209,8 @@ class Entries
                         }
 
                         if ($parser_name === 'markdown') {
-                            if (Arr::keyExists($entry_decoded, $field)) {
-                                Arr::set($entry_decoded, $field, $this->flextype['parser']->parse(Arr::get($entry_decoded, $field), 'markdown', $cache));
+                            if (array_has($entry_decoded, $field)) {
+                                array_set($entry_decoded, $field, $this->flextype['parser']->parse(Arr::get($entry_decoded, $field), 'markdown', $cache));
                             }
                         }
 
@@ -218,11 +218,11 @@ class Entries
                             continue;
                         }
 
-                        if (! Arr::keyExists($entry_decoded, $field)) {
+                        if (! array_has($entry_decoded, $field)) {
                             continue;
                         }
 
-                        Arr::set($entry_decoded, $field, $this->flextype['parser']->parse(Arr::get($entry_decoded, $field), 'shortcodes', $cache));
+                        array_set($entry_decoded, $field, $this->flextype['parser']->parse(Arr::get($entry_decoded, $field), 'shortcodes', $cache));
                     }
                 }
             }
@@ -335,9 +335,9 @@ class Entries
 
         if (Filesystem::has($entry_file)) {
             $body  = Filesystem::read($entry_file);
-            $entry = $this->flextype['serializer']->decode($body, 'frontmatter');
+            $entry = $this->flextype['frontmatter']->decode($body);
 
-            return Filesystem::write($entry_file, $this->flextype['serializer']->encode(array_merge($entry, $data), 'frontmatter'));
+            return Filesystem::write($entry_file, $this->flextype['frontmatter']->encode(array_merge($entry, $data)));
         }
 
         return false;
@@ -380,7 +380,7 @@ class Entries
                         $data['visibility'] = 'visible';
                     }
 
-                    return Filesystem::write($entry_file, $this->flextype['serializer']->encode($data, 'frontmatter'));
+                    return Filesystem::write($entry_file, $this->flextype['frontmatter']->encode($data));
                 }
 
                 return false;

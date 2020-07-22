@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype;
+namespace Flextype\Foundation;
 
 use Flextype\Component\Arr\Arr;
 use Flextype\Component\Filesystem\Filesystem;
@@ -43,7 +43,7 @@ class Config
         $config_file = $this->getFileLocation($config);
 
         if (Filesystem::has($config_file)) {
-            return Arr::get($this->flextype->serializer->decode(Filesystem::read($config_file), 'yaml'), $key, $default);
+            return Arr::get($this->flextype->yaml->decode(Filesystem::read($config_file)), $key, $default);
         }
     }
 
@@ -59,12 +59,12 @@ class Config
         $config_file = $this->getFileLocation($config);
 
         if (Filesystem::has($config_file)) {
-             $config_file_data = $this->flextype->serializer->decode(Filesystem::read($config_file), 'yaml');
+             $config_file_data = $this->flextype->yaml->decode(Filesystem::read($config_file));
 
-            if (! Arr::keyExists($config_file_data, $key)) {
+            if (! array_has($config_file_data, $key)) {
                 Arr::set($config_file_data, $key, $value);
 
-                return Filesystem::write($config_file, $this->flextype->serializer->encode($config_file_data, 'yaml'));
+                return Filesystem::write($config_file, $this->flextype->yaml->encode($config_file_data));
             }
 
              return false;
@@ -85,12 +85,12 @@ class Config
         $config_file = $this->getFileLocation($config);
 
         if (Filesystem::has($config_file)) {
-             $config_file_data = $this->flextype->serializer->decode(Filesystem::read($config_file), 'yaml');
+             $config_file_data = $this->flextype->yaml->decode(Filesystem::read($config_file));
 
-            if (Arr::keyExists($config_file_data, $key)) {
+            if (array_has($config_file_data, $key)) {
                 Arr::set($config_file_data, $key, $value);
 
-                return Filesystem::write($config_file, $this->flextype->serializer->encode($config_file_data, 'yaml'));
+                return Filesystem::write($config_file, $this->flextype->yaml->encode($config_file_data));
             }
 
              return false;
@@ -110,12 +110,12 @@ class Config
         $config_file = $this->getFileLocation($config);
 
         if (Filesystem::has($config_file)) {
-             $config_file_data = $this->flextype->serializer->decode(Filesystem::read($config_file), 'yaml');
+             $config_file_data = $this->flextype->yaml->decode(Filesystem::read($config_file));
 
-            if (Arr::keyExists($config_file_data, $key)) {
-                Arr::delete($config_file_data, $key);
+            if (array_has($config_file_data, $key)) {
+                array_delete($config_file_data, $key);
 
-                return Filesystem::write($config_file, $this->flextype->serializer->encode($config_file_data, 'yaml'));
+                return Filesystem::write($config_file, $this->flextype->yaml->encode($config_file_data));
             }
 
              return false;
@@ -135,9 +135,9 @@ class Config
         $config_file = $this->getFileLocation($config);
 
         if (Filesystem::has($config_file)) {
-             $config_file_data = $this->flextype->serializer->decode(Filesystem::read($config_file), 'yaml');
+             $config_file_data = $this->flextype->yaml->decode(Filesystem::read($config_file));
 
-            if (Arr::keyExists($config_file_data, $key)) {
+            if (array_has($config_file_data, $key)) {
                 return true;
             }
 
