@@ -386,7 +386,7 @@ class Plugins
                 continue;
             }
 
-            //include_once PATH['project'] . '/plugins/' . $plugin_name . '/bootstrap.php';
+            include_once PATH['project'] . '/plugins/' . $plugin_name . '/bootstrap.php';
         }
     }
 }
