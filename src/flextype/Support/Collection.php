@@ -99,7 +99,7 @@ class Collection
     {
         // Check if array is associative then
         // make flatten a multi-dimensional array with dots.
-        if ($this->isAssocArray($items)) {
+        if ($this->_isAssocArray($items)) {
             $flat_array = [];
 
             foreach ($items as $key => $value) {
@@ -121,7 +121,7 @@ class Collection
      *
      * @param  mixed $items Items to collect
      */
-    public static function collection($items) : Collection
+    public static function collect($items) : Collection
     {
         return new Collection($items);
     }
@@ -348,9 +348,9 @@ class Collection
         // Gets a native PHP array representation of the collection.
         $results = $collection->toArray();
 
-        if ($this->isAssocArray($results)) {
+        if ($this->_isAssocArray($results)) {
             $results = array_undot(array_dot($results));
-            $this->shuffleAssocArray($results);
+            $this->_shuffleAssocArray($results);
         } else {
             shuffle($results);
         }
@@ -416,7 +416,7 @@ class Collection
             $number = $count;
         }
 
-        if ($this->isAssocArray($array)) {
+        if ($this->_isAssocArray($array)) {
             $array = array_undot(array_dot($array));
         }
 
@@ -468,7 +468,7 @@ class Collection
         $results = $collection->slice($offset, $length);
 
         // Return results
-        return $this->isAssocArray($results) ? array_undot(array_dot($results)) : $results;
+        return $this->_isAssocArray($results) ? array_undot(array_dot($results)) : $results;
     }
 
     /**
@@ -493,7 +493,7 @@ class Collection
         $results = $collection->toArray();
 
         // Return results
-        return $this->isAssocArray($results) ? array_undot(array_dot($results)) : $results;
+        return $this->_isAssocArray($results) ? array_undot(array_dot($results)) : $results;
     }
 
     /**
@@ -503,7 +503,7 @@ class Collection
      *
      * @access  protected
      */
-    protected function isAssocArray(array $array) : bool
+    protected function _isAssocArray(array $array) : bool
     {
         return (bool) count(array_filter(array_keys($array), 'is_string'));
     }
@@ -515,7 +515,7 @@ class Collection
      *
      * @access  protected
      */
-    protected function shuffleAssocArray(array &$array)
+    protected function _shuffleAssocArray(array &$array)
     {
         $keys = array_keys($array);
 
