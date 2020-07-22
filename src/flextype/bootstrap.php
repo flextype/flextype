@@ -9,11 +9,23 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Session\Session;
+use Flextype\Foundation\Cache\Cache;
+use Flextype\Foundation\Entries;
+use Flextype\Foundation\Plugins;
+use Flextype\Foundation\Cors;
+use Flextype\Foundation\Config;
+use Flextype\Support\Parsers\Markdown;
+use Flextype\Support\Parsers\Shortcode;
+use Flextype\Support\Serializers\Yaml;
+use Flextype\Support\Serializers\Json;
+use Flextype\Support\Serializers\Frontmatter;
 use RuntimeException;
 use Slim\App;
+use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
 use function array_replace_recursive;
 use function date_default_timezone_set;
@@ -61,7 +73,7 @@ if (($default_flextype_settings_content = Filesystem::read($default_flextype_set
     if (trim($default_flextype_settings_content) === '') {
         $default_flextype_settings['settings'] = [];
     } else {
-        $default_flextype_settings['settings'] = Yaml::decode($default_flextype_settings_content);
+        $default_flextype_settings['settings'] = SymfonyYaml::parse($default_flextype_settings_content);
     }
 }
 
@@ -74,7 +86,7 @@ if (($custom_flextype_settings_content = Filesystem::read($custom_flextype_setti
     if (trim($custom_flextype_settings_content) === '') {
         $custom_flextype_settings['settings'] = [];
     } else {
-        $custom_flextype_settings['settings'] = Yaml::decode($custom_flextype_settings_content);
+        $custom_flextype_settings['settings'] = SymfonyYaml::parse($custom_flextype_settings_content);
     }
 }
 
@@ -84,7 +96,7 @@ if (($flextype_manifest_content = Filesystem::read($flextype_manifest_file_path)
     if (trim($flextype_manifest_content) === '') {
         $flextype_manifest['manifest'] = [];
     } else {
-        $flextype_manifest['manifest'] = Yaml::decode($flextype_manifest_content);
+        $flextype_manifest['manifest'] = SymfonyYaml::parse($flextype_manifest_content);
     }
 }
 
@@ -128,13 +140,14 @@ include_once 'dependencies.php';
 /**
  * Include API ENDPOINTS
  */
-include_once 'endpoints/access.php';
-include_once 'endpoints/entries.php';
-include_once 'endpoints/registry.php';
-include_once 'endpoints/config.php';
-include_once 'endpoints/files.php';
-include_once 'endpoints/folders.php';
-include_once 'endpoints/images.php';
+include_once 'Endpoints/Utils/errors.php';
+include_once 'Endpoints/Utils/access.php';
+include_once 'Endpoints/entries.php';
+include_once 'Endpoints/registry.php';
+include_once 'Endpoints/config.php';
+include_once 'Endpoints/files.php';
+include_once 'Endpoints/folders.php';
+include_once 'Endpoints/images.php';
 
 /**
  * Set internal encoding
@@ -164,12 +177,12 @@ date_default_timezone_set($flextype['registry']->get('flextype.settings.timezone
 /**
  * Init shortocodes
  *
- * Load Flextype Shortcodes extensions from directory /flextype/shortcodes/ based on settings.shortcodes.extensions array
+ * Load Flextype Shortcodes extensions from directory /flextype/Support/Parsers/Shortcodes/ based on settings.shortcodes.extensions array
  */
 $shortcodes_extensions = $flextype['registry']->get('flextype.settings.shortcodes.extensions');
 
 foreach ($shortcodes_extensions as $shortcodes_extension) {
-    $shortcodes_extension_file_path = ROOT_DIR . '/src/flextype/Foundation/Parsers/shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';
+    $shortcodes_extension_file_path = ROOT_DIR . '/src/flextype/Foundation/Parsers/Shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';
     if (! file_exists($shortcodes_extension_file_path)) {
         continue;
     }
