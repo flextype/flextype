@@ -97,16 +97,16 @@ class Entries
      *
      * @param string $path       Unique identifier of the entry(entries).
      * @param bool   $collection Set `true` if collection of entries need to be fetched.
-     * @param bool   $recursive  Whether to list entries recursively.
+     * @param bool   $deep  Whether to list entries recursively.
      *
      * @return array The entry array data.
      *
      * @access public
      */
-    public function fetch(string $path, bool $collection = false, bool $recursive = false) : array
+    public function fetch(string $path, bool $collection = false, bool $deep = false) : array
     {
         if ($collection) {
-            return $this->fetchCollection($collection, $recursive);
+            return $this->fetchCollection($collection, $deep);
         }
 
         return $this->fetchSingle($path);
@@ -248,13 +248,13 @@ class Entries
      * Fetch entries collection
      *
      * @param string $path      Unique identifier of the entry(entries).
-     * @param bool   $recursive Whether to list entries recursively.
+     * @param bool   $deep Whether to list entries recursively.
      *
      * @return array The entries array data.
      *
      * @access public
      */
-    public function fetchCollection(string $path, bool $recursive = false) : array
+    public function fetchCollection(string $path, bool $deep = false) : array
     {
         // Init Entries
         $entries = [];
@@ -266,7 +266,7 @@ class Entries
         $entries_path = $this->getDirLocation($path);
 
         // Get entries list
-        $entries_list = Filesystem::listContents($entries_path, $recursive);
+        $entries_list = Filesystem::listContents($entries_path, $deep);
 
         // If entries founded in entries folder
         if (count($entries_list) > 0) {
@@ -409,15 +409,15 @@ class Entries
      *
      * @param string $path      Unique identifier of the entry(entries).
      * @param string $new_path  New Unique identifier of the entry(entries).
-     * @param bool   $recursive Recursive copy entries.
+     * @param bool   $deep Recursive copy entries.
      *
      * @return bool|null True on success, false on failure.
      *
      * @access public
      */
-    public function copy(string $path, string $new_path, bool $recursive = false) : ?bool
+    public function copy(string $path, string $new_path, bool $deep = false) : ?bool
     {
-        return Filesystem::copy($this->getDirLocation($path), $this->getDirLocation($new_path), $recursive);
+        return Filesystem::copy($this->getDirLocation($path), $this->getDirLocation($new_path), $deep);
     }
 
     /**
