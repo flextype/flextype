@@ -1,3 +1,40 @@
+<a name="0.9.9"></a>
+# [0.9.9](https://github.com/flextype/flextype/compare/v0.9.8...v0.9.9) (2020-08-XX)
+
+### Features
+* **config:** New Config API to work with configs.
+
+    Methods for Config API:
+
+    | Method | Description |
+    | --- | --- |
+    | get() | Fetch config item |
+    | create() | Create new item in the config |
+    | update() | Update config item |
+    | delete() | Delete config item |
+    | has() | Checks if an config item with this key name is in the config. |
+    | getFileLocation() | Get config file location |
+    | getDirLocation() | Get config directory location |
+
+    See: http://docs.flextype.org/en/core/config
+
+    Endpoints for Config API:
+
+    | Method | Endpoint | Description |
+    | --- | --- | --- |
+    | GET | /api/config | Fetch config item |
+    | POST | /api/config | Create new item in the config |
+    | PATCH | /api/config | Update config item |
+    | DELETE | /api/config | Delete config item |
+
+    See: http://docs.flextype.org/en/rest-api/config
+
+### Bug Fixes
+
+* **entries:** fix method rename() in Entries API #433
+
+### BREAKING CHANGES
+
 <a name="0.9.8"></a>
 # [0.9.8](https://github.com/flextype/flextype/compare/v0.9.7...v0.9.8) (2020-05-14)
 
