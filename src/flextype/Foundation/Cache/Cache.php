@@ -107,7 +107,7 @@ class Cache
     }
 
     /**
-     * Fetches an entry from the cache.
+     * Fetches an item from the cache.
      *
      * @param string $id The id of the cache entry to fetch.
      *
