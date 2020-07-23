@@ -26,9 +26,8 @@
 
         "doctrine/cache": "~1.10.0",
         "doctrine/collections": "~1.6.6",
-        "Awilum/array_dots": "~1.0.0",
+        "Awilum/array_dots": "~1.1.0",
 
-        "flextype-components/arr" : "1.2.8",
         "flextype-components/cookie" : "1.2.0",
         "flextype-components/filesystem" : "2.0.6",
         "flextype-components/i18n" : "1.3.0",
