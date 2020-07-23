@@ -32,8 +32,16 @@
     $flextype['frontmatter']->encode($input) : string
     ```
 
-
 * **entries** New simplified logic for entries methods: fetch() fetchSingle() and fetchCollection()
+
+    We are stop doing unneeded things for fetching entries collections that slowdowns this process.
+    Everything that need to be collected need to be done with a new collections functionality.
+
+    From now this methods just doing their own simple job:
+
+    fetch() - Fetch single entry or collections of entries.
+    fetchSingle() - Fetch single entry.
+    fetchCollection() - Fetch entries collection.
 
     See: http://docs.flextype.org/en/core/entries#methods
 
