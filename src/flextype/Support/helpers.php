@@ -13,7 +13,7 @@ if (! function_exists('collect')) {
     /**
      * Create a collection from the given value.
      *
-     * @param  mixed $value
+     * @param  mixed $items  Items
      */
     function collect($items) : Collection
     {
@@ -25,7 +25,8 @@ if (! function_exists('collect_filter')) {
     /**
      * Create a collection from the given value and filter it.
      *
-     * @param  mixed $value
+     * @param  mixed $items  Items
+     * @param  array $filter Filters array
      */
     function collect_filter($items, array $filter) : array
     {
