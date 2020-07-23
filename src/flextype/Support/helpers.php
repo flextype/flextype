@@ -95,7 +95,6 @@ if (! function_exists('collect_filter')) {
 
         // Exec: and where
         if (isset($bind_and_where)) {
-            $_expr = [];
             foreach ($bind_and_where as $key => $value) {
                 $collection->andWhere($value['where']['key'], $value['where']['expr'], $value['where']['value']);
             }
@@ -103,7 +102,6 @@ if (! function_exists('collect_filter')) {
 
         // Exec: or where
         if (isset($bind_or_where)) {
-            $_expr = [];
             foreach ($bind_or_where as $key => $value) {
                 $collection->orWhere($value['where']['key'], $value['where']['expr'], $value['where']['value']);
             }
