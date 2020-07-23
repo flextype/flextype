@@ -17,19 +17,19 @@
     New methods:
 
     ```
-    $flextype['markdown']->parse(string $input)
+    $flextype->markdown->parse(string $input)
 
-    $flextype['shortcode']->add(string $name, $handler)
-    $flextype['shortcode']->parse(string $input, bool $cache = true)
+    $flextype->shortcode->add(string $name, $handler)
+    $flextype->shortcode->parse(string $input, bool $cache = true)
 
-    $flextype['json']->decode(string $input, bool $cache = true, bool $assoc = true, int $depth = 512, int $flags = 0)
-    $flextype['json']->encode($input, int $options = 0, int $depth = 512) : string
+    $flextype->json->decode(string $input, bool $cache = true, bool $assoc = true, int $depth = 512, int $flags = 0)
+    $flextype->json->encode($input, int $options = 0, int $depth = 512) : string
 
-    $flextype['yaml']->decode(string $input, bool $cache = true, int $flags = 0) : array
-    $flextype['yaml']->encode($input, int $inline = 2, int $indent = 4, int $flags = 0) : string
+    $flextype->yaml->decode(string $input, bool $cache = true, int $flags = 0) : array
+    $flextype->yaml->encode($input, int $inline = 2, int $indent = 4, int $flags = 0) : string
 
-    $flextype['frontmatter']->decode(string $input, bool $cache = true)
-    $flextype['frontmatter']->encode($input) : string
+    $flextype->frontmatter->decode(string $input, bool $cache = true)
+    $flextype->frontmatter->encode($input) : string
     ```
 
 * **entries** New simplified logic for entries methods: fetch() fetchSingle() and fetchCollection()
