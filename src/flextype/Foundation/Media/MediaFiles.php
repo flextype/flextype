@@ -181,25 +181,25 @@ class MediaFiles
                                 $img = Image::make($filename);
 
                                 // now you are able to resize the instance
-                                if ($this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_width') > 0 && $this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_height') > 0) {
-                                    $img->resize($this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_width'), $this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_height'), function ($constraint) : void {
+                                if ($this->flextype['registry']->get('flextype.settings.media.image_width') > 0 && $this->flextype['registry']->get('flextype.settings.media.image_height') > 0) {
+                                    $img->resize($this->flextype['registry']->get('flextype.settings.media.image_width'), $this->flextype['registry']->get('flextype.settings.media.image_height'), function ($constraint) : void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
-                                } elseif ($this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_width') > 0) {
-                                    $img->resize($this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_width'), null, function ($constraint) : void {
+                                } elseif ($this->flextype['registry']->get('flextype.settings.media.image_width') > 0) {
+                                    $img->resize($this->flextype['registry']->get('flextype.settings.media.image_width'), null, function ($constraint) : void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
-                                } elseif ($this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_height') > 0) {
-                                    $img->resize(null, $this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_height'), function ($constraint) : void {
+                                } elseif ($this->flextype['registry']->get('flextype.settings.media.image_height') > 0) {
+                                    $img->resize(null, $this->flextype['registry']->get('flextype.settings.media.image_height'), function ($constraint) : void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
                                 }
 
                                 // finally we save the image as a new file
-                                $img->save($filename, $this->flextype['registry']->get('plugins.admin.settings.entries.media.upload_images_quality'));
+                                $img->save($filename, $this->flextype['registry']->get('flextype.settings.media.image_quality'));
 
                                 // destroy
                                 $img->destroy();
