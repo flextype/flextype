@@ -38,16 +38,16 @@ if (! function_exists('collect_filter')) {
         $direction = $collection->direction;
 
         // Bind: set first result
-        $bind_set_first_result = $filter['set_first_result'] ?? false;
+        $bind_set_first_result_value = $filter['set_first_result'] ?? 0;
 
         // Bind: set max result
-        $bind_set_max_result = $filter['limit'] ?? false;
+        $bind_set_max_result_value = $filter['limit'] ?? 0;
 
         // Bind: return
         $bind_return = $filter['return'] ?? 'all';
 
-        // Bind: random_value
-        $bind_random_value = $filter['random_value'] ?? 1;
+        // Bind: random
+        $bind_random_value = $filter['random'] ?? 1;
 
         // Bind: where
         $bind_where = [];
@@ -137,6 +137,12 @@ if (! function_exists('collect_filter')) {
                 break;
             case 'random':
                 $items = $collection->random($bind_random_value);
+                break;
+            case 'limit':
+                $items = $collection->limit($bind_set_max_result_value);
+                break;
+            case 'set_first_result':
+                $items = $collection->setFirstResult($bind_set_first_result_value);
                 break;
             case 'shuffle':
                 $items = $collection->shuffle();
