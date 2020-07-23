@@ -39,9 +39,9 @@
 
     From now this methods just doing their own simple job:
 
-    fetch() - Fetch single entry or collections of entries.
-    fetchSingle() - Fetch single entry.
-    fetchCollection() - Fetch entries collection.
+    * fetch() - Fetch single entry or collections of entries.
+    * fetchSingle() - Fetch single entry.
+    * fetchCollection() - Fetch entries collection.
 
     See: http://docs.flextype.org/en/core/entries#methods
 
