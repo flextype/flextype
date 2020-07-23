@@ -37,26 +37,27 @@ function validate_images_token($token) : bool
  * Returns:
  * Image file
  */
-$app->get('/api/images/{path:.+}', function (Request $request, Response $response, $args) use ($flextype, $api_sys_messages) {
-
+$app->get('/api/images/{path:.+}', function (Request $request, Response $response, $args) use ($flextype) {
     // Get Query Params
     $query = $request->getQueryParams();
+
+    if (! isset($query['token'])) {
+        return $response->withJson($api_errors['0400'], $api_errors['0400']['http_status_code']);
+    }
 
     // Set variables
     $token = $query['token'];
 
     if ($flextype['registry']->get('flextype.settings.api.images.enabled')) {
-
         // Validate delivery image token
         if (validate_images_token($token)) {
             $delivery_images_token_file_path = PATH['project'] . '/tokens/images/' . $token . '/token.yaml';
 
             // Set delivery token file
             if ($delivery_images_token_file_data = $flextype['serializer']->decode(Filesystem::read($delivery_images_token_file_path), 'yaml')) {
-
                 if ($delivery_images_token_file_data['state'] === 'disabled' ||
                     ($delivery_images_token_file_data['limit_calls'] !== 0 && $delivery_images_token_file_data['calls'] >= $delivery_images_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
                 // Update calls counter
@@ -69,17 +70,17 @@ $app->get('/api/images/{path:.+}', function (Request $request, Response $respons
                 }
 
                 return $response
-                    ->withJson($api_sys_messages['NotFound'], 404);
+                    ->withJson($api_errors['0402'], $api_errors['0402']['http_status_code']);
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });

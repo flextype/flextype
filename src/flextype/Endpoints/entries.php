@@ -13,6 +13,7 @@ use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use function array_replace_recursive;
+use function collect_filter;
 use function count;
 
 /**
@@ -36,10 +37,13 @@ function validate_entries_token($token) : bool
  * Returns:
  * An array of entry item objects.
  */
-$app->get('/api/entries', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
-
+$app->get('/api/entries', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Query Params
     $query = $request->getQueryParams();
+
+    if (! isset($query['id']) || ! isset($query['token'])) {
+        return $response->withJson($api_errors['0100'], $api_errors['0100']['http_status_code']);
+    }
 
     // Set variables
     $id     = $query['id'];
@@ -47,20 +51,24 @@ $app->get('/api/entries', function (Request $request, Response $response) use ($
     $filter = $query['filter'] ?? null;
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
-
         // Validate entries token
         if (validate_entries_token($token)) {
-            $entries_token_file_path = PATH['project'] . '/tokens/' . $token. '/token.yaml';
+            $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
 
             // Set entries token file
             if ($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) {
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
-                // Fetch entry
-                $response_data['data'] = $flextype['entries']->fetch($id, $filter);
+                // Fetch entries collection
+                if ($filter !== null) {
+                    $response_data['data'] = collect_filter($flextype['entries']->fetch($id, true), $filter);
+                }
+
+                // Fetch single entry
+                $response_data['data'] = $flextype['entries']->fetch($id);
 
                 // Set response code
                 $response_code = count($response_data['data']) > 0 ? 200 : 404;
@@ -68,28 +76,22 @@ $app->get('/api/entries', function (Request $request, Response $response) use ($
                 // Update calls counter
                 Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
 
-                if ($response_code == 404) {
-
+                if ($response_code === 404) {
                     // Return response
-                    return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                    return $response->withJson($api_errors['0102'], $api_errors['0102']['http_status_code']);
                 }
 
                 // Return response
-                return $response
-                       ->withJson($response_data, $response_code);
+                return $response->withJson($response_data, $response_code);
             }
 
-            return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+            return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
-        return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+        return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
-    return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 /**
@@ -106,10 +108,13 @@ $app->get('/api/entries', function (Request $request, Response $response) use ($
  * Returns:
  * Returns the entry item object for the entry item that was just created.
  */
-$app->post('/api/entries', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
-
+$app->post('/api/entries', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
+
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['data'])) {
+        return $response->withJson($api_errors['0101'], $api_errors['0101']['http_status_code']);
+    }
 
     // Set variables
     $token        = $post_data['token'];
@@ -118,24 +123,22 @@ $app->post('/api/entries', function (Request $request, Response $response) use (
     $data         = $post_data['data'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
-
         // Validate entries and access token
         if (validate_entries_token($token) && validate_access_token($access_token)) {
             $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
-            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
+            $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
             if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
-
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
                 if ($access_token_file_data['state'] === 'disabled' ||
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
                 // Create entry
@@ -148,16 +151,15 @@ $app->post('/api/entries', function (Request $request, Response $response) use (
                 }
 
                 // Set response code
-                $response_code = ($create_entry) ? 200 : 404;
+                $response_code = $create_entry ? 200 : 404;
 
                 // Update calls counter
                 Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
 
-                if ($response_code == 404) {
-
+                if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                           ->withJson($api_errors['0102'], $api_errors['0102']['http_status_code']);
                 }
 
                 // Return response
@@ -166,15 +168,15 @@ $app->post('/api/entries', function (Request $request, Response $response) use (
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 /**
@@ -191,10 +193,13 @@ $app->post('/api/entries', function (Request $request, Response $response) use (
  * Returns:
  * Returns the entry item object for the entry item that was just updated.
  */
-$app->patch('/api/entries', function (Request $request, Response $response) use ($flextype) {
-
+$app->patch('/api/entries', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
+
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['data'])) {
+        return $response->withJson($api_errors['0101'], $api_errors['0101']['http_status_code']);
+    }
 
     // Set variables
     $token        = $post_data['token'];
@@ -203,24 +208,22 @@ $app->patch('/api/entries', function (Request $request, Response $response) use 
     $data         = $post_data['data'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
-
         // Validate entries and access token
         if (validate_entries_token($token) && validate_access_token($access_token)) {
             $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
-            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
+            $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
             if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
-
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
                 if ($access_token_file_data['state'] === 'disabled' ||
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
                 // Update entry
@@ -233,16 +236,15 @@ $app->patch('/api/entries', function (Request $request, Response $response) use 
                 }
 
                 // Set response code
-                $response_code = ($update_entry) ? 200 : 404;
+                $response_code = $update_entry ? 200 : 404;
 
                 // Update calls counter
                 Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
 
-                if ($response_code == 404) {
-
+                if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                           ->withJson($api_errors['0102'], $api_errors['0102']['http_status_code']);
                 }
 
                 // Return response
@@ -251,15 +253,15 @@ $app->patch('/api/entries', function (Request $request, Response $response) use 
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 /**
@@ -276,36 +278,37 @@ $app->patch('/api/entries', function (Request $request, Response $response) use 
  * Returns:
  * Returns the entry item object for the entry item that was just renamed.
  */
-$app->put('/api/entries', function (Request $request, Response $response) use ($flextype) {
-
+$app->put('/api/entries', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
+        return $response->withJson($api_errors['0101'], $api_errors['0101']['http_status_code']);
+    }
+
     // Set variables
-    $token         = $post_data['token'];
-    $access_token  = $post_data['access_token'];
-    $id            = $post_data['id'];
-    $new_id        = $post_data['new_id'];
+    $token        = $post_data['token'];
+    $access_token = $post_data['access_token'];
+    $id           = $post_data['id'];
+    $new_id       = $post_data['new_id'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
-
         // Validate entries and access token
         if (validate_entries_token($token) && validate_access_token($access_token)) {
             $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
-            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
+            $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
             if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
-
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
                 if ($access_token_file_data['state'] === 'disabled' ||
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
                 // Rename entry
@@ -319,16 +322,15 @@ $app->put('/api/entries', function (Request $request, Response $response) use ($
                 }
 
                 // Set response code
-                $response_code = ($rename_entry) ? 200 : 404;
+                $response_code = $rename_entry ? 200 : 404;
 
                 // Update calls counter
                 Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
 
-                if ($response_code == 404) {
-
+                if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                           ->withJson($api_errors['0102'], $api_errors['0102']['http_status_code']);
                 }
 
                 // Return response
@@ -337,15 +339,15 @@ $app->put('/api/entries', function (Request $request, Response $response) use ($
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 /**
@@ -362,36 +364,37 @@ $app->put('/api/entries', function (Request $request, Response $response) use ($
  * Returns:
  * Returns the entry item object for the entry item that was just copied.
  */
-$app->put('/api/entries/copy', function (Request $request, Response $response) use ($flextype) {
-
+$app->put('/api/entries/copy', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
+        return $response->withJson($api_errors['0101'], $api_errors['0101']['http_status_code']);
+    }
+
     // Set variables
-    $token         = $post_data['token'];
-    $access_token  = $post_data['access_token'];
-    $id            = $post_data['id'];
-    $new_id        = $post_data['new_id'];
+    $token        = $post_data['token'];
+    $access_token = $post_data['access_token'];
+    $id           = $post_data['id'];
+    $new_id       = $post_data['new_id'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
-
         // Validate entries and access token
         if (validate_entries_token($token) && validate_access_token($access_token)) {
             $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
-            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
+            $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
             if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
-
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
                 if ($access_token_file_data['state'] === 'disabled' ||
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
                 // Copy entry
@@ -405,16 +408,15 @@ $app->put('/api/entries/copy', function (Request $request, Response $response) u
                 }
 
                 // Set response code
-                $response_code = ($copy_entry) ? 200 : 404;
+                $response_code = $copy_entry ? 200 : 404;
 
                 // Update calls counter
                 Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
 
-                if ($response_code == 404) {
-
+                if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                           ->withJson($api_errors['0102'], $api_errors['0102']['http_status_code']);
                 }
 
                 // Return response
@@ -423,15 +425,15 @@ $app->put('/api/entries/copy', function (Request $request, Response $response) u
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 /**
@@ -447,10 +449,13 @@ $app->put('/api/entries/copy', function (Request $request, Response $response) u
  * Returns:
  * Returns an empty body with HTTP status 204
  */
-$app->delete('/api/entries', function (Request $request, Response $response) use ($flextype) {
-
+$app->delete('/api/entries', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
+
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id'])) {
+        return $response->withJson($api_errors['0101'], $api_errors['0101']['http_status_code']);
+    }
 
     // Set variables
     $token        = $post_data['token'];
@@ -458,40 +463,37 @@ $app->delete('/api/entries', function (Request $request, Response $response) use
     $id           = $post_data['id'];
 
     if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
-
         // Validate entries and access token
         if (validate_entries_token($token) && validate_access_token($access_token)) {
             $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
-            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
+            $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
             if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
                 ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
-
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
                 if ($access_token_file_data['state'] === 'disabled' ||
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
                 // Delete entry
                 $delete_entry = $flextype['entries']->delete($id);
 
                 // Set response code
-                $response_code = ($delete_entry) ? 204 : 404;
+                $response_code = $delete_entry ? 204 : 404;
 
                 // Update calls counter
                 Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
 
-                if ($response_code == 404) {
-
+                if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                           ->withJson($api_errors['0102'], $api_errors['0102']['http_status_code']);
                 }
 
                 // Return response
@@ -500,13 +502,13 @@ $app->delete('/api/entries', function (Request $request, Response $response) use
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });

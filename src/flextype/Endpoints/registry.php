@@ -34,17 +34,19 @@ function validate_registry_token($token) : bool
  * Returns:
  * An array of registry item objects.
  */
-$app->get('/api/registry', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
-
+$app->get('/api/registry', function (Request $request, Response $response) use ($flextype) {
     // Get Query Params
     $query = $request->getQueryParams();
+
+    if (! isset($query['id']) || ! isset($query['token'])) {
+        return $response->withJson($api_errors['0300'], $api_errors['0300']['http_status_code']);
+    }
 
     // Set variables
     $id    = $query['id'];
     $token = $query['token'];
 
     if ($flextype['registry']->get('flextype.settings.api.registry.enabled')) {
-
         // Validate  token
         if (validate_registry_token($token)) {
             $registry_token_file_path = PATH['project'] . '/tokens/registry/' . $token . '/token.yaml';
@@ -53,7 +55,7 @@ $app->get('/api/registry', function (Request $request, Response $response) use (
             if ($registry_token_file_data = $flextype['serializer']->decode(Filesystem::read($registry_token_file_path), 'yaml')) {
                 if ($registry_token_file_data['state'] === 'disabled' ||
                     ($registry_token_file_data['limit_calls'] !== 0 && $registry_token_file_data['calls'] >= $registry_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
                 // Fetch registry
@@ -63,7 +65,6 @@ $app->get('/api/registry', function (Request $request, Response $response) use (
 
                     // Set response code
                     $response_code = 200;
-
                 } else {
                     $response_data = [];
                     $response_code = 404;
@@ -72,11 +73,10 @@ $app->get('/api/registry', function (Request $request, Response $response) use (
                 // Update calls counter
                 Filesystem::write($registry_token_file_path, $flextype['serializer']->encode(array_replace_recursive($registry_token_file_data, ['calls' => $registry_token_file_data['calls'] + 1]), 'yaml'));
 
-                if ($response_code == 404) {
-
+                if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                           ->withJson($api_errors['0302'], $api_errors['0302']['http_status_code']);
                 }
 
                 // Return response
@@ -85,13 +85,13 @@ $app->get('/api/registry', function (Request $request, Response $response) use (
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
