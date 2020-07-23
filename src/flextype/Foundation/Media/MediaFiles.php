@@ -269,7 +269,7 @@ class MediaFiles
         $result = [];
 
         if (Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($path))) {
-            dump('00');
+
             $result = $this->flextype['yaml']->decode(Filesystem::read($this->flextype['media_files_meta']->getFileMetaLocation($path)));
 
             $result['filename']  = pathinfo(str_replace('/.meta', '', $this->flextype['media_files_meta']->getFileMetaLocation($path)))['filename'];
