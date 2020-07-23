@@ -109,7 +109,7 @@ if (! function_exists('collect_filter')) {
 
         // Exec: order by
         if (isset($bind_order_by['order_by']['field']) && isset($bind_order_by['order_by']['direction'])) {
-            $collection->orderBy([$bind_order_by['order_by']['field'] => $direction[$bind_order_by['order_by']['direction']]]);
+            $collection->orderBy($bind_order_by['order_by']['field'], $direction[$bind_order_by['order_by']['direction']]);
         }
 
         // Exec: set max result
