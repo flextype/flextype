@@ -97,7 +97,7 @@ class Entries
      *
      * @param string $path       Unique identifier of the entry(entries).
      * @param bool   $collection Set `true` if collection of entries need to be fetched.
-     * @param bool   $deep  Whether to list entries recursively.
+     * @param bool   $deep       Whether to list entries recursively.
      *
      * @return array The entry array data.
      *
@@ -247,7 +247,7 @@ class Entries
     /**
      * Fetch entries collection
      *
-     * @param string $path      Unique identifier of the entry(entries).
+     * @param string $path Unique identifier of the entry(entries).
      * @param bool   $deep Whether to list entries recursively.
      *
      * @return array The entries array data.
@@ -407,9 +407,9 @@ class Entries
     /**
      * Copy entry(s)
      *
-     * @param string $path      Unique identifier of the entry(entries).
-     * @param string $new_path  New Unique identifier of the entry(entries).
-     * @param bool   $deep Recursive copy entries.
+     * @param string $path     Unique identifier of the entry(entries).
+     * @param string $new_path New Unique identifier of the entry(entries).
+     * @param bool   $deep     Recursive copy entries.
      *
      * @return bool|null True on success, false on failure.
      *
