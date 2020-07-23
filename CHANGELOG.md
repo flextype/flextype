@@ -2,6 +2,48 @@
 # [0.9.9](https://github.com/flextype/flextype/compare/v0.9.8...v0.9.9) (2020-08-XX)
 
 ### Features
+* **core** New simplified parsers and serializers #438
+
+    New objects:
+
+    ```
+    $flextype['markdown']
+    $flextype['shortcode']
+    $flextype['json']
+    $flextype['yaml']
+    $flextype['frontmatter']
+    ```
+
+    New methods:
+
+    ```
+    $flextype['markdown']->parse(string $input)
+
+    $flextype['shortcode']->add(string $name, $handler)
+    $flextype['shortcode']->parse(string $input, bool $cache = true)
+
+    $flextype['json']->decode(string $input, bool $cache = true, bool $assoc = true, int $depth = 512, int $flags = 0)
+    $flextype['json']->encode($input, int $options = 0, int $depth = 512) : string
+
+    $flextype['yaml']->decode(string $input, bool $cache = true, int $flags = 0) : array
+    $flextype['yaml']->encode($input, int $inline = 2, int $indent = 4, int $flags = 0) : string
+
+    $flextype['frontmatter']->decode(string $input, bool $cache = true)
+    $flextype['frontmatter']->encode($input) : string
+    ```
+
+
+* **entries** New simplified logic for entries methods: fetch() fetchSingle() and fetchCollection()
+
+    See: http://docs.flextype.org/en/core/entries#methods
+
+* **collections** New Collections functionality on top of Doctrine Collections.
+
+    We are able to use collections for any type of items, not just for entries.
+    New Collections are simple and powerful!
+
+    See: http://docs.flextype.org/en/core/collections
+
 * **config:** New Config API to work with configs.
 
     Methods for Config API:
@@ -29,9 +71,12 @@
 
     See: http://docs.flextype.org/en/rest-api/config
 
+* **vendors:** New ArrayDots library for Accessing PHP Arrays via DOT notation.
+
 ### Bug Fixes
 
 * **entries:** fix method rename() in Entries API #433
+* **core** fix all namespaces #437
 
 ### BREAKING CHANGES
 
