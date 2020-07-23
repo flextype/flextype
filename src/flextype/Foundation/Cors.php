@@ -19,7 +19,6 @@ class Cors
      */
     private $flextype;
 
-
     /**
      * Flextype app
      */
