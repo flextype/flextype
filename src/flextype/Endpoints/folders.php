@@ -36,7 +36,7 @@ function validate_folders_token($token) : bool
  * Returns:
  * An array of folder(s) item objects.
  */
-$app->get('/api/folders', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->get('/api/folders', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Query Params
     $query = $request->getQueryParams();
 

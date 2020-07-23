@@ -117,7 +117,7 @@ $app->get('/api/files', function (Request $request, Response $response) use ($fl
  * Returns:
  * Returns the file object for the file that was just created.
  */
-$app->post('/api/files', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->post('/api/files', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
