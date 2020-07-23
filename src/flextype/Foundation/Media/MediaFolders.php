@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype;
+namespace Flextype\Foundation\Media;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Slim\Http\Environment;
@@ -38,19 +38,17 @@ class MediaFolders
      * Fetch folders(s)
      *
      * @param string $path The path of directory to list.
-     * @param string $mode The mode, collection or single
+     * @param bool   $collection Set `true` if collection of folders need to be fetched.
      *
      * @return array A list of file(s) metadata.
      */
-    public function fetch(string $path, string $mode = 'collection') : array
+    public function fetch(string $path, bool $collection = false) : array
     {
-        if ($mode === 'collection') {
-            $result = $this->fetchCollection($path);
-        } elseif ($mode === 'single') {
-            $result = $this->fetchSingle($path);
+        if ($collection) {
+            return $this->fetchCollection($path);
         }
 
-        return $result;
+        return $this->fetchSingle($path);
     }
 
     /**
@@ -97,16 +95,7 @@ class MediaFolders
                 continue;
             }
 
-            $result[$folder['dirname']]['full_path'] = str_replace('/.meta', '', $this->flextype['media_folders_meta']->getDirMetaLocation($folder['dirname']));
-            $result[$folder['dirname']]['url']       = 'project/uploads/' . $folder['dirname'];
-
-            if ($this->flextype['registry']->has('flextype.settings.url') && $this->flextype['registry']->get('flextype.settings.url') !== '') {
-                $full_url = $this->flextype['registry']->get('flextype.settings.url');
-            } else {
-                $full_url = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
-            }
-
-            $result[$folder['dirname']]['full_url'] = $full_url . '/project/uploads/' . $folder['dirname'];
+            $result[$folder['dirname']] = $this->fetchSingle($path . '/' . $folder['dirname']);
         }
 
         return $result;
@@ -160,8 +149,12 @@ class MediaFolders
      */
     public function delete(string $id) : bool
     {
-        Filesystem::deleteDir($this->getDirLocation($id));
-        Filesystem::deleteDir($this->flextype['media_folders_meta']->getDirMetaLocation($id));
+        if (Filesystem::deleteDir($this->getDirLocation($id)) &&
+            Filesystem::deleteDir($this->flextype['media_folders_meta']->getDirMetaLocation($id))) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

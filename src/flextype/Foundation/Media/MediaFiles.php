@@ -264,11 +264,12 @@ class MediaFiles
      *
      * @return array A file metadata.
      */
-    public function fetchsingle(string $path) : array
+    public function fetchSingle(string $path) : array
     {
         $result = [];
 
         if (Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($path))) {
+            dump('00');
             $result = $this->flextype['yaml']->decode(Filesystem::read($this->flextype['media_files_meta']->getFileMetaLocation($path)));
 
             $result['filename']  = pathinfo(str_replace('/.meta', '', $this->flextype['media_files_meta']->getFileMetaLocation($path)))['filename'];
@@ -353,8 +354,31 @@ class MediaFiles
      */
     public function delete(string $id) : bool
     {
-        Filesystem::delete($this->getFileLocation($id));
-        Filesystem::delete($this->flextype['media_files_meta']->getFileMetaLocation($id));
+        if (Filesystem::delete($this->getFileLocation($id)) &&
+            Filesystem::delete($this->flextype['media_files_meta']->getFileMetaLocation($id))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check whether a file exists.
+     *
+     * @param string $id Unique identifier of the file.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function has(string $id) : bool
+    {
+        if (Filesystem::has($this->getFileLocation($id)) &&
+            Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($id))) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
