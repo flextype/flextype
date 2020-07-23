@@ -261,6 +261,9 @@ api:
   files:
     enabled: true
     default_token:
+  folders:
+    enabled: true
+    default_token:
   images:
     enabled: true
     default_token:
