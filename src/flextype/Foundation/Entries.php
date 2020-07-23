@@ -194,12 +194,12 @@ class Entries
                                      foreach ($entry_decoded['parsers'][$parser_name]['fields'] as $field) {
                                          if (! in_array($field, $this->system_fields)) {
                                              if ($parser_name == 'markdown') {
-                                                 if (ArrayDots::keyExists($entry_decoded, $field)) {
+                                                 if (ArrayDots::has($entry_decoded, $field)) {
                                                      ArrayDots::set($entry_decoded, $field, $this->flextype->markdown->parse(ArrayDots::get($entry_decoded, $field), $cache));
                                                  }
                                              }
                                              if ($parser_name == 'shortcodes') {
-                                                 if (ArrayDots::keyExists($entry_decoded, $field)) {
+                                                 if (ArrayDots::has($entry_decoded, $field)) {
                                                      ArrayDots::set($entry_decoded, $field, $this->flextype->shortcode->parse(ArrayDots::get($entry_decoded, $field), $cache));
                                                  }
                                              }
