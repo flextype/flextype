@@ -245,7 +245,7 @@ class Entries
         // Init Entries
         $entries = [];
 
-        // Init Entries
+        // Init Entries object
         $this->entries = $entries;
 
         // Get entries path
@@ -262,7 +262,7 @@ class Entries
                     // ignore ...
                 } else {
                     // We are checking...
-                    // Whether the requested entry is a director and whether the file entry is in this directory.
+                    // Whether the requested entry is a directory and whether the file entry is in this directory.
                     if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension'))) {
                         // Get entry uid
                         // 1. Remove entries path
