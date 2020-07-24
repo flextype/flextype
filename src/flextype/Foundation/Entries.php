@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation;
 
-use Awilum\ArrayDots\ArrayDots;
+use Flextype\Component\Arrays\Arrays;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
 use Ramsey\Uuid\Uuid;
@@ -171,7 +171,6 @@ class Entries
             // Entry Routable
             $entry_decoded['routable'] = isset($entry_decoded['routable']) ? (bool) $entry_decoded['routable'] : true;
 
-
             // Entry Visibility
             if (isset($entry_decoded['visibility']) && in_array($entry_decoded['visibility'], $this->visibility)) {
                 $entry_decoded['visibility'] = (string) $this->visibility[$entry_decoded['visibility']];
@@ -194,13 +193,13 @@ class Entries
                                      foreach ($entry_decoded['parsers'][$parser_name]['fields'] as $field) {
                                          if (! in_array($field, $this->system_fields)) {
                                              if ($parser_name == 'markdown') {
-                                                 if (ArrayDots::has($entry_decoded, $field)) {
-                                                     ArrayDots::set($entry_decoded, $field, $this->flextype->markdown->parse(ArrayDots::get($entry_decoded, $field), $cache));
+                                                 if (Arrays::has($entry_decoded, $field)) {
+                                                     Arrays::set($entry_decoded, $field, $this->flextype->markdown->parse(Arrays::get($entry_decoded, $field), $cache));
                                                  }
                                              }
                                              if ($parser_name == 'shortcodes') {
-                                                 if (ArrayDots::has($entry_decoded, $field)) {
-                                                     ArrayDots::set($entry_decoded, $field, $this->flextype->shortcode->parse(ArrayDots::get($entry_decoded, $field), $cache));
+                                                 if (Arrays::has($entry_decoded, $field)) {
+                                                     Arrays::set($entry_decoded, $field, $this->flextype->shortcode->parse(Arrays::get($entry_decoded, $field), $cache));
                                                  }
                                              }
                                          }
@@ -226,7 +225,7 @@ class Entries
             return $this->entry;
         }
 
-        // Return empty array
+        // Return empty array if entry is not founded
         return [];
     }
 
@@ -348,11 +347,36 @@ class Entries
             if (Filesystem::createDir($entry_dir)) {
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file = $entry_dir . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension'))) {
-                    $data['uuid']         = Uuid::uuid4()->toString();
-                    $data['published_at'] = date($this->flextype->registry->get('flextype.settings.date_format'), time());
-                    $data['created_at']   = date($this->flextype->registry->get('flextype.settings.date_format'), time());
-                    $data['published_by'] = (Session::exists('uuid') ? Session::get('uuid') : '');
-                    $data['created_by']   = (Session::exists('uuid') ? Session::get('uuid') : '');
+
+                    if (isset($data['uuid'])) {
+                        $data['uuid'] = $data['uuid'];
+                    } else {
+                        $data['uuid'] = Uuid::uuid4()->toString();
+                    }
+
+                    if (isset($data['published_at'])) {
+                        $data['published_at'] = $data['published_at'];
+                    } else {
+                        $data['published_at'] = date($this->flextype->registry->get('flextype.settings.date_format'), time());
+                    }
+
+                    if (isset($data['created_at'])) {
+                        $data['created_at'] = $data['created_at'];
+                    } else {
+                        $data['created_at'] = date($this->flextype->registry->get('flextype.settings.date_format'), time());
+                    }
+
+                    if (isset($data['published_by'])) {
+                        $data['published_by'] = $data['published_by'];
+                    } else {
+                        $data['published_by'] = '';
+                    }
+
+                    if (isset($data['created_by'])) {
+                        $data['created_by'] = $data['created_by'];
+                    } else {
+                        $data['created_by'] = '';
+                    }
 
                     if (isset($data['routable']) && is_bool($data['routable'])) {
                         $data['routable'] = $data['routable'];
