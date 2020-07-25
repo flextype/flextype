@@ -10,7 +10,7 @@ declare(strict_types=1);
 use Flextype\Component\Filesystem\Filesystem;
 use Ramsey\Uuid\Uuid;
 
-$flextype->emitter->addListener('onEntryCreate', function() use ($flextype) {
+$flextype->emitter->addListener('onEntryCreate', function () use ($flextype) {
     if (isset($flextype->entries->entry_create_data['uuid'])) {
         $flextype->entries->entry_create_data['uuid'] = $flextype->entries->entry_create_data['uuid'];
     } else {

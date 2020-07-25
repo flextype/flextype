@@ -10,7 +10,7 @@ declare(strict_types=1);
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Arrays\Arrays;
 
-$flextype->emitter->addListener('onEntryAfterInitialized', function() use ($flextype) {
+$flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) {
     processParsersField($flextype);
 });
 

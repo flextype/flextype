@@ -15,7 +15,7 @@ $visibility = [
     'visible' => 'visible',
 ];
 
-$flextype->emitter->addListener('onEntryAfterInitialized', function() use ($flextype, $visibility) {
+$flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype, $visibility) {
     if (isset($flextype->entries->entry['visibility']) && in_array($flextype->entries->entry['visibility'], $visibility)) {
         $flextype->entries->entry['visibility'] = (string) $visibility[$flextype->entries->entry['visibility']];
     } else {
@@ -23,7 +23,7 @@ $flextype->emitter->addListener('onEntryAfterInitialized', function() use ($flex
     }
 });
 
-$flextype->emitter->addListener('onEntryCreate', function() use ($flextype, $visibility) {
+$flextype->emitter->addListener('onEntryCreate', function () use ($flextype, $visibility) {
     if (isset($flextype->entries->entry_create_data['visibility']) && in_array($flextype->entries->entry_create_data['visibility'], $visibility)) {
         $flextype->entries->entry_create_data['visibility'] = $flextype->entries->entry_create_data['visibility'];
     } else {

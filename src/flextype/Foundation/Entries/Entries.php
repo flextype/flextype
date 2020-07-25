@@ -9,24 +9,15 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Entries;
 
-use Flextype\Component\Arrays\Arrays;
 use Flextype\Component\Filesystem\Filesystem;
-use Flextype\Component\Session\Session;
-use Ramsey\Uuid\Uuid;
 use function array_merge;
 use function count;
-use function date;
-use function in_array;
-use function is_array;
-use function is_bool;
 use function ltrim;
 use function md5;
 use function rename;
 use function rtrim;
 use function str_replace;
 use function strpos;
-use function strtotime;
-use function time;
 
 class Entries
 {
@@ -138,13 +129,14 @@ class Entries
 
         // Try to get current requested entry from filesystem
         if ($this->has($this->entry_path)) {
-
             // Get entry file location
             $entry_file = $this->getFileLocation($this->entry_path);
 
             // Try to get requested entry from the filesystem
             $entry_file_content = Filesystem::read($entry_file);
-            if ($entry_file_content === false) return [];
+            if ($entry_file_content === false) {
+                return [];
+            }
 
             // Decode entry file content
             $this->entry = $this->flextype['frontmatter']->decode($entry_file_content);
@@ -153,8 +145,7 @@ class Entries
             $this->flextype['emitter']->emit('onEntryAfterInitialized');
 
             // Set cache state
-            $cache = isset($this->flextype['entries']->entry['cache']['enabled']) ?
-                                $this->flextype['entries']->entry['cache']['enabled'] :
+            $cache = $this->flextype['entries']->entry['cache']['enabled'] ??
                                 $this->flextype['registry']->get('flextype.settings.cache.enabled');
 
             // Save entry data to cache
@@ -239,7 +230,6 @@ class Entries
     public function rename(string $path, string $new_path) : bool
     {
         if (! Filesystem::has($this->getDirLocation($new_path))) {
-
             // Run event: onEntryRename
             $this->flextype['emitter']->emit('onEntryRename');
 
@@ -298,7 +288,6 @@ class Entries
             if (Filesystem::createDir($entry_dir)) {
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file = $entry_dir . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension'))) {
-
                     // Store data in the entry_create_data
                     $this->entry_create_data = $data;
 
@@ -403,7 +392,7 @@ class Entries
      *
      * @access public
      */
-    public function getCacheID($path) : string
+    public function getCacheID(string $path) : string
     {
         if ($this->flextype['registry']->get('flextype.settings.cache.enabled') === false) {
             return '';
