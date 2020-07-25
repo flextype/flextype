@@ -48,6 +48,22 @@ class Entries
     public $entry = [];
 
     /**
+     * Current entry create data array
+     *
+     * @var array
+     * @access public
+     */
+    public $entry_create_data = [];
+
+    /**
+     * Current entry create data array
+     *
+     * @var array
+     * @access public
+     */
+    public $entry_update_data = [];
+
+    /**
      * Current entries data array
      *
      * @var array
