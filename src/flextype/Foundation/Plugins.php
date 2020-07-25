@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation;
 
-use Awilum\ArrayDots\ArrayDots;
+use Flextype\Component\Arrays\Arrays;
 use Composer\Semver\Semver;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\I18n\I18n;
@@ -163,11 +163,11 @@ class Plugins
             }
 
             // Sort plugins list by priority.
-            $plugins = ArrayDots::sort($plugins, '_priority', 'DESC');
+            $plugins = Arrays::sort($plugins, '_priority', 'DESC');
 
             // ... and delete tmp _priority field for sorting
             foreach ($plugins as $plugin_name => $plugin_data) {
-                ArrayDots::delete($plugins, $plugin_name . '._priority');
+                Arrays::delete($plugins, $plugin_name . '._priority');
             }
 
             // Get Valid Plugins Dependencies
@@ -333,7 +333,7 @@ class Plugins
         // Show alert if dependencies are not installed properly
         $diff = array_diff_key($non_verified_plugins, $verified_plugins);
         if (count($diff) > 0) {
-            echo '<b>The following dependencies need to be installed properly:</b>';
+            echo '<b>Dependencies need to be installed properly for this plugins:</b>';
             echo '<ul>';
             foreach ($diff as $plugin_name => $plugin_data) {
                 echo '<li>' . $plugin_name . '</li>';

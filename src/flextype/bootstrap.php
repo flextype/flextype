@@ -176,7 +176,7 @@ date_default_timezone_set($flextype['registry']->get('flextype.settings.timezone
 /**
  * Init shortocodes
  *
- * Load Flextype Shortcodes extensions from directory /flextype/Support/Parsers/Shortcodes/ based on settings.shortcodes.extensions array
+ * Load Flextype Shortcodes extensions from directory /flextype/Support/Parsers/Shortcodes/ based on flextype.settings.shortcodes.extensions array
  */
 $shortcodes_extensions = $flextype['registry']->get('flextype.settings.shortcodes.extensions');
 

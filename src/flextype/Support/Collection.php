@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Support;
 
-use Awilum\ArrayDots\ArrayDots;
+use Flextype\Component\Arrays\Arrays;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
@@ -102,7 +102,7 @@ class Collection
             $flat_array = [];
 
             foreach ($items as $key => $value) {
-                $flat_array[$key] = ArrayDots::dot($value);
+                $flat_array[$key] = Arrays::dot($value);
             }
 
             $items = $flat_array;
@@ -294,7 +294,7 @@ class Collection
         $results = $collection->last();
 
         // Return first matching result
-        return is_array($results) ? ArrayDots::undot($results) : $results;
+        return is_array($results) ? Arrays::undot($results) : $results;
     }
 
     /**
@@ -321,7 +321,7 @@ class Collection
         $results = $collection->next();
 
         // Return first matching result
-        return is_array($results) ? ArrayDots::undot($results) : $results;
+        return is_array($results) ? Arrays::undot($results) : $results;
     }
 
     /**
@@ -348,7 +348,7 @@ class Collection
         $results = $collection->toArray();
 
         if ($this->_isAssocArray($results)) {
-            $results = ArrayDots::undot(ArrayDots::dot($results));
+            $results = Arrays::undot(Arrays::dot($results));
             $this->_shuffleAssocArray($results);
         } else {
             shuffle($results);
@@ -380,7 +380,7 @@ class Collection
         $results = $collection->first();
 
         // Return first matching result
-        return is_array($results) ? ArrayDots::undot($results) : $results;
+        return is_array($results) ? Arrays::undot($results) : $results;
     }
 
     /**
@@ -416,7 +416,7 @@ class Collection
         }
 
         if ($this->_isAssocArray($array)) {
-            $array = ArrayDots::undot(ArrayDots::dot($array));
+            $array = Arrays::undot(Arrays::dot($array));
         }
 
         if ((int) $number === 1 || is_null($number)) {
@@ -467,7 +467,7 @@ class Collection
         $results = $collection->slice($offset, $length);
 
         // Return results
-        return $this->_isAssocArray($results) ? ArrayDots::undot(ArrayDots::dot($results)) : $results;
+        return $this->_isAssocArray($results) ? Arrays::undot(Arrays::dot($results)) : $results;
     }
 
     /**
@@ -492,7 +492,7 @@ class Collection
         $results = $collection->toArray();
 
         // Return results
-        return $this->_isAssocArray($results) ? ArrayDots::undot(ArrayDots::dot($results)) : $results;
+        return $this->_isAssocArray($results) ? Arrays::undot(Arrays::dot($results)) : $results;
     }
 
     /**

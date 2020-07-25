@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Media;
 
-use Awilum\ArrayDots\ArrayDots;
+use Flextype\Component\Arrays\Arrays;
 use Flextype\Component\Filesystem\Filesystem;
 
 class MediaFilesMeta
@@ -46,8 +46,8 @@ class MediaFilesMeta
     {
         $file_data = $this->flextype['yaml']->decode(Filesystem::read($this->getFileMetaLocation($id)));
 
-        if (ArrayDots::has($file_data, $field)) {
-            ArrayDots::set($file_data, $field, $value);
+        if (Arrays::has($file_data, $field)) {
+            Arrays::set($file_data, $field, $value);
 
             return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['yaml']->encode($file_data));
         }
@@ -70,8 +70,8 @@ class MediaFilesMeta
     {
         $file_data = $this->flextype['yaml']->decode(Filesystem::read($this->getFileMetaLocation($id)));
 
-        if (! ArrayDots::has($file_data, $field)) {
-            ArrayDots::set($file_data, $field, $value);
+        if (! Arrays::has($file_data, $field)) {
+            Arrays::set($file_data, $field, $value);
 
             return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['yaml']->encode($file_data));
         }
@@ -93,8 +93,8 @@ class MediaFilesMeta
     {
         $file_data = $this->flextype['yaml']->decode(Filesystem::read($this->getFileMetaLocation($id)));
 
-        if (ArrayDots::has($file_data, $field)) {
-            ArrayDots::delete($file_data, $field);
+        if (Arrays::has($file_data, $field)) {
+            Arrays::delete($file_data, $field);
 
             return Filesystem::write($this->getFileMetaLocation($id), $this->flextype['yaml']->encode($file_data));
         }

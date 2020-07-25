@@ -30,7 +30,6 @@ use function time;
 
 class Entries
 {
-
     /**
      * Current entry path
      *

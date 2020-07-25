@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Serializers;
 
-use Awilum\ArrayDots\ArrayDots;
+use Flextype\Component\Arrays\Arrays;
 use function array_slice;
 use function count;
 use function implode;
@@ -81,7 +81,7 @@ class Frontmatter
     {
         if (isset($input['content'])) {
             $content = $input['content'];
-            ArrayDots::delete($input, 'content');
+            Arrays::delete($input, 'content');
             $matter = $this->flextype['yaml']->encode($input);
         } else {
             $content = '';
