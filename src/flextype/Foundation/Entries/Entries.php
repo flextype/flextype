@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\Foundation;
+namespace Flextype\Foundation\Entries;
 
 use Flextype\Component\Arrays\Arrays;
 use Flextype\Component\Filesystem\Filesystem;
@@ -30,6 +30,15 @@ use function time;
 
 class Entries
 {
+
+    /**
+     * Current entry path
+     *
+     * @var string
+     * @access public
+     */
+    public $entry_path = null;
+
     /**
      * Current entry data array
      *
@@ -45,35 +54,6 @@ class Entries
      * @access public
      */
     public $entries = [];
-
-    /**
-     * Entries Visibility
-     *
-     * @var array
-     * @access public
-     */
-    public $visibility = [
-        'draft' => 'draft',
-        'hidden' => 'hidden',
-        'visible' => 'visible',
-    ];
-
-    /**
-     * Entries system fields
-     *
-     * @var array
-     * @access public
-     */
-    public $system_fields = [
-        'published_at' => 'published_at',
-        'published_by' => 'published_by',
-        'created_at' => 'created_at',
-        'modified_at' => 'modified_at',
-        'slug' => 'slug',
-        'routable' => 'routable',
-        'parsers' => 'parsers',
-        'visibility' => 'visibility',
-    ];
 
     /**
      * Flextype Dependency Container
@@ -123,105 +103,51 @@ class Entries
      */
     public function fetchSingle(string $path) : array
     {
-        // Get entry file location
-        $entry_file = $this->getFileLocation($path);
+        // Store current requested entry path
+        $this->entry_path = $path;
 
-        // If requested entry file founded then process it
-        if (Filesystem::has($entry_file)) {
-            // Create unique entry cache_id
-            // Entry Cache ID = entry + entry file + entry file time stamp
-            if ($timestamp = Filesystem::getTimestamp($entry_file)) {
-                $entry_cache_id = md5('entry' . $entry_file . $timestamp);
-            } else {
-                $entry_cache_id = md5('entry' . $entry_file);
-            }
+        // Get Cache ID for current requested entry
+        $entry_cache_id = $this->getCacheID($this->entry_path);
 
-            // 1. Try to get the requested entry from cache
-            // 2. Try to fetch requested entry from the cache
-            // 3. Run event: onEntryAfterInitialized
-            // 4. Return entry item array
-            // 5. Else return empty array
-            if ($this->flextype['cache']->contains($entry_cache_id)) {
-                if ($entry = $this->flextype['cache']->fetch($entry_cache_id)) {
-                    $this->flextype['emitter']->emit('onEntryAfterInitialized');
+        // Try to get current requested entry from cache
+        if ($this->flextype['cache']->contains($entry_cache_id)) {
+            // Fetch entry from cache
+            $this->entry = $this->flextype['cache']->fetch($entry_cache_id);
 
-                    return $entry;
-                }
+            // Run event: onEntryAfterCacheInitialized
+            $this->flextype['emitter']->emit('onEntryAfterCacheInitialized');
 
-                return [];
-            }
+            // Return entry from cache
+            return $this->entry;
+        }
+
+        // Try to get current requested entry from filesystem
+        if ($this->has($this->entry_path)) {
+
+            // Get entry file location
+            $entry_file = $this->getFileLocation($this->entry_path);
 
             // Try to get requested entry from the filesystem
-            $entry_decoded = $this->flextype['frontmatter']->decode(Filesystem::read($entry_file));
+            $entry_file_content = Filesystem::read($entry_file);
+            if ($entry_file_content === false) return [];
 
-            // Set system entry fields
+            // Decode entry file content
+            $this->entry = $this->flextype['frontmatter']->decode($entry_file_content);
 
-            // Entry Published At
-            $entry_decoded['published_at'] = isset($entry_decoded['published_at']) ? (int) strtotime($entry_decoded['published_at']) : (int) Filesystem::getTimestamp($entry_file);
-
-            // Entry Created At
-            $entry_decoded['created_at'] = isset($entry_decoded['created_at']) ? (int) strtotime($entry_decoded['created_at']) : (int) Filesystem::getTimestamp($entry_file);
-
-            // Entry Modified
-            $entry_decoded['modified_at'] = (int) Filesystem::getTimestamp($entry_file);
-
-            // Entry Slug
-            $entry_decoded['slug'] = isset($entry_decoded['slug']) ? (string) $entry_decoded['slug'] : (string) ltrim(rtrim($path, '/'), '/');
-
-            // Entry Routable
-            $entry_decoded['routable'] = isset($entry_decoded['routable']) ? (bool) $entry_decoded['routable'] : true;
-
-            // Entry Visibility
-            if (isset($entry_decoded['visibility']) && in_array($entry_decoded['visibility'], $this->visibility)) {
-                $entry_decoded['visibility'] = (string) $this->visibility[$entry_decoded['visibility']];
-            } else {
-                $entry_decoded['visibility'] = (string) $this->visibility['visible'];
-            }
-
-            // Parsers
-             if (isset($entry_decoded['parsers'])) {
-                 foreach ($entry_decoded['parsers'] as $parser_name => $parser_data) {
-                     if (in_array($parser_name, ['markdown', 'shortcodes'])) {
-                         if (isset($entry_decoded['parsers'][$parser_name]['enabled']) && $entry_decoded['parsers'][$parser_name]['enabled'] === true) {
-                             if (isset($entry_decoded['parsers'][$parser_name]['cache']) && $entry_decoded['parsers'][$parser_name]['cache'] === true) {
-                                 $cache = true;
-                             } else {
-                                 $cache = false;
-                             }
-                             if (isset($entry_decoded['parsers'][$parser_name]['fields'])) {
-                                 if (is_array($entry_decoded['parsers'][$parser_name]['fields'])) {
-                                     foreach ($entry_decoded['parsers'][$parser_name]['fields'] as $field) {
-                                         if (! in_array($field, $this->system_fields)) {
-                                             if ($parser_name == 'markdown') {
-                                                 if (Arrays::has($entry_decoded, $field)) {
-                                                     Arrays::set($entry_decoded, $field, $this->flextype->markdown->parse(Arrays::get($entry_decoded, $field), $cache));
-                                                 }
-                                             }
-                                             if ($parser_name == 'shortcodes') {
-                                                 if (Arrays::has($entry_decoded, $field)) {
-                                                     Arrays::set($entry_decoded, $field, $this->flextype->shortcode->parse(Arrays::get($entry_decoded, $field), $cache));
-                                                 }
-                                             }
-                                         }
-                                     }
-                                 }
-                             }
-                         }
-                     }
-                 }
-             }
-
-
-            // Save decoded entry content into the cache
-            $this->flextype['cache']->save($entry_cache_id, $entry_decoded);
-
-            // Set entry to the Entry class property $entry
-            $this->entry = $entry_decoded;
-
-            // Run event onEntryAfterInitialized
+            // Run event: onEntryAfterInitialized
             $this->flextype['emitter']->emit('onEntryAfterInitialized');
 
-            // Return entry from the Entry class property $entry
+            // Set cache state
+            $cache = isset($this->flextype['entries']->entry['cache']['enabled']) ?
+                                $this->flextype['entries']->entry['cache']['enabled'] :
+                                $this->flextype['registry']->get('flextype.settings.cache.enabled');
+
+            // Save entry data to cache
+            if ($cache) {
+                $this->flextype['cache']->save($entry_cache_id, $this->entry);
+            }
+
+            // Return entry data
             return $this->entry;
         }
 
@@ -298,6 +224,10 @@ class Entries
     public function rename(string $path, string $new_path) : bool
     {
         if (! Filesystem::has($this->getDirLocation($new_path))) {
+
+            // Run event: onEntryRename
+            $this->flextype['emitter']->emit('onEntryRename');
+
             return rename($this->getDirLocation($path), $this->getDirLocation($new_path));
         }
 
@@ -322,7 +252,13 @@ class Entries
             $body  = Filesystem::read($entry_file);
             $entry = $this->flextype['frontmatter']->decode($body);
 
-            return Filesystem::write($entry_file, $this->flextype['frontmatter']->encode(array_merge($entry, $data)));
+            // Store data in the entry_update_data
+            $this->entry_update_data = $data;
+
+            // Run event: onEntryUpdate
+            $this->flextype['emitter']->emit('onEntryUpdate');
+
+            return Filesystem::write($entry_file, $this->flextype['frontmatter']->encode(array_merge($entry, $this->entry_update_data)));
         }
 
         return false;
@@ -348,49 +284,14 @@ class Entries
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file = $entry_dir . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension'))) {
 
-                    if (isset($data['uuid'])) {
-                        $data['uuid'] = $data['uuid'];
-                    } else {
-                        $data['uuid'] = Uuid::uuid4()->toString();
-                    }
+                    // Store data in the entry_create_data
+                    $this->entry_create_data = $data;
 
-                    if (isset($data['published_at'])) {
-                        $data['published_at'] = $data['published_at'];
-                    } else {
-                        $data['published_at'] = date($this->flextype->registry->get('flextype.settings.date_format'), time());
-                    }
+                    // Run event: onEntryCreate
+                    $this->flextype['emitter']->emit('onEntryCreate');
 
-                    if (isset($data['created_at'])) {
-                        $data['created_at'] = $data['created_at'];
-                    } else {
-                        $data['created_at'] = date($this->flextype->registry->get('flextype.settings.date_format'), time());
-                    }
-
-                    if (isset($data['published_by'])) {
-                        $data['published_by'] = $data['published_by'];
-                    } else {
-                        $data['published_by'] = '';
-                    }
-
-                    if (isset($data['created_by'])) {
-                        $data['created_by'] = $data['created_by'];
-                    } else {
-                        $data['created_by'] = '';
-                    }
-
-                    if (isset($data['routable']) && is_bool($data['routable'])) {
-                        $data['routable'] = $data['routable'];
-                    } else {
-                        $data['routable'] = true;
-                    }
-
-                    if (isset($data['visibility']) && in_array($data['visibility'], $this->visibility)) {
-                        $data['visibility'] = $data['visibility'];
-                    } else {
-                        $data['visibility'] = 'visible';
-                    }
-
-                    return Filesystem::write($entry_file, $this->flextype['frontmatter']->encode($data));
+                    // Create a new entry!
+                    return Filesystem::write($entry_file, $this->flextype['frontmatter']->encode($this->entry_create_data));
                 }
 
                 return false;
@@ -411,6 +312,9 @@ class Entries
      */
     public function delete(string $path) : bool
     {
+        // Run event: onEntryDelete
+        $this->flextype['emitter']->emit('onEntryDelete');
+
         return Filesystem::deleteDir($this->getDirLocation($path));
     }
 
@@ -427,6 +331,9 @@ class Entries
      */
     public function copy(string $path, string $new_path, bool $deep = false) : ?bool
     {
+        // Run event: onEntryRename
+        $this->flextype['emitter']->emit('onEntryCopy');
+
         return Filesystem::copy($this->getDirLocation($path), $this->getDirLocation($new_path), $deep);
     }
 
@@ -451,7 +358,7 @@ class Entries
      *
      * @return string entry file location
      *
-     * @access private
+     * @access public
      */
     public function getFileLocation(string $path) : string
     {
@@ -465,10 +372,34 @@ class Entries
      *
      * @return string entry directory location
      *
-     * @access private
+     * @access public
      */
     public function getDirLocation(string $path) : string
     {
         return PATH['project'] . '/entries/' . $path;
+    }
+
+    /**
+     * Get Cache ID for entry
+     *
+     * @param  string $path Unique identifier of the entry(entries).
+     *
+     * @return string Cache ID
+     *
+     * @access public
+     */
+    public function getCacheID($path) : string
+    {
+        if ($this->flextype['registry']->get('flextype.settings.cache.enabled') === false) {
+            return '';
+        }
+
+        $entry_file = $this->getFileLocation($path);
+
+        if (Filesystem::has($entry_file)) {
+            return md5($entry_file . Filesystem::getTimestamp($entry_file));
+        }
+
+        return $cache_id = md5($entry_file);
     }
 }

@@ -58,6 +58,7 @@ errors:
 # - extension: Set entries file extension
 entries:
   extension: md
+  fields: ['PublishedAt', 'PublishedBy', 'ModifiedAt', 'CreatedAt', 'CreatedBy', 'Slug', 'Routable', 'Visibility', 'Parsers', 'Uuid']
 
 # Cache
 #

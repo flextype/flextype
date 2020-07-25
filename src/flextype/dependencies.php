@@ -16,7 +16,7 @@ use Flextype\Foundation\Media\MediaFiles;
 use Flextype\Foundation\Media\MediaFilesMeta;
 use Flextype\Foundation\Media\MediaFolders;
 use Flextype\Foundation\Media\MediaFoldersMeta;
-use Flextype\Foundation\Entries;
+use Flextype\Foundation\Entries\Entries;
 use Flextype\Foundation\Plugins;
 use Flextype\Foundation\Cors;
 use Flextype\Foundation\Config;

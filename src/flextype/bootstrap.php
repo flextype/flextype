@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Session\Session;
@@ -182,12 +181,28 @@ date_default_timezone_set($flextype['registry']->get('flextype.settings.timezone
 $shortcodes_extensions = $flextype['registry']->get('flextype.settings.shortcodes.extensions');
 
 foreach ($shortcodes_extensions as $shortcodes_extension) {
-    $shortcodes_extension_file_path = ROOT_DIR . '/src/flextype/Foundation/Parsers/Shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';
+    $shortcodes_extension_file_path = ROOT_DIR . '/src/flextype/Support/Parsers/Shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';
     if (! file_exists($shortcodes_extension_file_path)) {
         continue;
     }
 
     include_once $shortcodes_extension_file_path;
+}
+
+/**
+ * Init entries fields
+ *
+ * Load Flextype Entries fields from directory /flextype/Foundation/Entries/Fields/ based on flextype.settings.entries.fields array
+ */
+$entry_fields = $flextype['registry']->get('flextype.settings.entries.fields');
+
+foreach ($entry_fields as $field) {
+    $entry_field_file_path = ROOT_DIR . '/src/flextype/Foundation/Entries/Fields/' . $field . 'Field.php';
+    if (! file_exists($entry_field_file_path)) {
+        continue;
+    }
+
+    include_once $entry_field_file_path;
 }
 
 /**
