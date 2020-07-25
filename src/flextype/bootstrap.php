@@ -12,16 +12,16 @@ namespace Flextype;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Session\Session;
-use Flextype\Foundation\Cache\Cache;
-use Flextype\Foundation\Entries;
-use Flextype\Foundation\Plugins;
-use Flextype\Foundation\Cors;
-use Flextype\Foundation\Config;
-use Flextype\Support\Parsers\Markdown;
-use Flextype\Support\Parsers\Shortcode;
-use Flextype\Support\Serializers\Yaml;
-use Flextype\Support\Serializers\Json;
-use Flextype\Support\Serializers\Frontmatter;
+use Flextype\App\Foundation\Cache\Cache;
+use Flextype\App\Foundation\Entries;
+use Flextype\App\Foundation\Plugins;
+use Flextype\App\Foundation\Cors;
+use Flextype\App\Foundation\Config;
+use Flextype\App\Support\Parsers\Markdown;
+use Flextype\App\Support\Parsers\Shortcode;
+use Flextype\App\Support\Serializers\Yaml;
+use Flextype\App\Support\Serializers\Json;
+use Flextype\App\Support\Serializers\Frontmatter;
 use RuntimeException;
 use Slim\App;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
@@ -139,14 +139,14 @@ include_once 'dependencies.php';
 /**
  * Include API ENDPOINTS
  */
-include_once 'Endpoints/Utils/errors.php';
-include_once 'Endpoints/Utils/access.php';
-include_once 'Endpoints/entries.php';
-include_once 'Endpoints/registry.php';
-include_once 'Endpoints/config.php';
-include_once 'Endpoints/files.php';
-include_once 'Endpoints/folders.php';
-include_once 'Endpoints/images.php';
+include_once 'app/Endpoints/Utils/errors.php';
+include_once 'app/Endpoints/Utils/access.php';
+include_once 'app/Endpoints/entries.php';
+include_once 'app/Endpoints/registry.php';
+include_once 'app/Endpoints/config.php';
+include_once 'app/Endpoints/files.php';
+include_once 'app/Endpoints/folders.php';
+include_once 'app/Endpoints/images.php';
 
 /**
  * Set internal encoding
@@ -176,12 +176,12 @@ date_default_timezone_set($flextype['registry']->get('flextype.settings.timezone
 /**
  * Init shortocodes
  *
- * Load Flextype Shortcodes extensions from directory /flextype/Support/Parsers/Shortcodes/ based on flextype.settings.shortcodes.extensions array
+ * Load Flextype Shortcodes extensions from directory /flextype/app/Support/Parsers/Shortcodes/ based on flextype.settings.shortcodes.extensions array
  */
 $shortcodes_extensions = $flextype['registry']->get('flextype.settings.shortcodes.extensions');
 
 foreach ($shortcodes_extensions as $shortcodes_extension) {
-    $shortcodes_extension_file_path = ROOT_DIR . '/src/flextype/Support/Parsers/Shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';
+    $shortcodes_extension_file_path = ROOT_DIR . '/src/flextype/app/Support/Parsers/Shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';
     if (! file_exists($shortcodes_extension_file_path)) {
         continue;
     }
@@ -192,12 +192,12 @@ foreach ($shortcodes_extensions as $shortcodes_extension) {
 /**
  * Init entries fields
  *
- * Load Flextype Entries fields from directory /flextype/Foundation/Entries/Fields/ based on flextype.settings.entries.fields array
+ * Load Flextype Entries fields from directory /flextype/app/Foundation/Entries/Fields/ based on flextype.settings.entries.fields array
  */
 $entry_fields = $flextype['registry']->get('flextype.settings.entries.fields');
 
 foreach ($entry_fields as $field) {
-    $entry_field_file_path = ROOT_DIR . '/src/flextype/Foundation/Entries/Fields/' . $field . 'Field.php';
+    $entry_field_file_path = ROOT_DIR . '/src/flextype/app/Foundation/Entries/Fields/' . $field . 'Field.php';
     if (! file_exists($entry_field_file_path)) {
         continue;
     }

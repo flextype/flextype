@@ -11,20 +11,20 @@ namespace Flextype;
 
 use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
-use Flextype\Foundation\Cache\Cache;
-use Flextype\Foundation\Media\MediaFiles;
-use Flextype\Foundation\Media\MediaFilesMeta;
-use Flextype\Foundation\Media\MediaFolders;
-use Flextype\Foundation\Media\MediaFoldersMeta;
-use Flextype\Foundation\Entries\Entries;
-use Flextype\Foundation\Plugins;
-use Flextype\Foundation\Cors;
-use Flextype\Foundation\Config;
-use Flextype\Support\Parsers\Markdown;
-use Flextype\Support\Parsers\Shortcode;
-use Flextype\Support\Serializers\Yaml;
-use Flextype\Support\Serializers\Json;
-use Flextype\Support\Serializers\Frontmatter;
+use Flextype\App\Foundation\Cache\Cache;
+use Flextype\App\Foundation\Media\MediaFiles;
+use Flextype\App\Foundation\Media\MediaFilesMeta;
+use Flextype\App\Foundation\Media\MediaFolders;
+use Flextype\App\Foundation\Media\MediaFoldersMeta;
+use Flextype\App\Foundation\Entries\Entries;
+use Flextype\App\Foundation\Plugins;
+use Flextype\App\Foundation\Cors;
+use Flextype\App\Foundation\Config;
+use Flextype\App\Support\Parsers\Markdown;
+use Flextype\App\Support\Parsers\Shortcode;
+use Flextype\App\Support\Serializers\Yaml;
+use Flextype\App\Support\Serializers\Json;
+use Flextype\App\Support\Serializers\Frontmatter;
 use Intervention\Image\ImageManager;
 use League\Event\Emitter;
 use League\Flysystem\Adapter\Local;
@@ -117,7 +117,7 @@ $flextype['cache_adapter'] = function ($container) use ($flextype) {
     }
 
     $class   = ucfirst($driver_name);
-    $adapter = "Flextype\\Foundation\\Cache\\{$class}Adapter";
+    $adapter = "Flextype\\App\\Foundation\\Cache\\{$class}Adapter";
 
     return new $adapter($flextype);
 };
