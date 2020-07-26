@@ -112,7 +112,7 @@ $flextype['cache_adapter'] = function ($container) use ($flextype) {
         } elseif (extension_loaded('wincache')) {
             $driver_name = 'wincache';
         } else {
-            $driver_name = 'filesystem';
+            $driver_name = 'PhpFile';
         }
     }
 
