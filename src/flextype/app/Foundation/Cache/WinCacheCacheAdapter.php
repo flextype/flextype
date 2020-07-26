@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Flextype\App\Foundation\Cache;
 
-use Doctrine\Cache\Common\AcpuCache;
+use Doctrine\Common\Cache\WinCacheCache;
 use Psr\Container\ContainerInterface;
 
-class AcpuAdapter implements CacheAdapterInterface
+class WinCacheCacheAdapter implements CacheAdapterInterface
 {
     public function __construct(ContainerInterface $flextype)
     {
@@ -16,6 +16,6 @@ class AcpuAdapter implements CacheAdapterInterface
 
     public function getDriver() : object
     {
-        return new AcpuCache();
+        return new WinCacheCache();
     }
 }

@@ -9,7 +9,7 @@ use Psr\Container\ContainerInterface;
 use Redis;
 use RedisException;
 
-class RedisAdapter implements CacheAdapterInterface
+class RedisCacheAdapter implements CacheAdapterInterface
 {
     public function __construct(ContainerInterface $flextype)
     {

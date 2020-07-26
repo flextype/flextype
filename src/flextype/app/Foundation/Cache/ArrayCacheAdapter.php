@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Flextype\App\Foundation\Cache;
 
-use Doctrine\Common\Cache\ZendDataCache;
+use Doctrine\Common\Cache\ArrayCache;
 use Psr\Container\ContainerInterface;
 
-class ZendDataCacheAdapter implements CacheAdapterInterface
+class ArrayCacheAdapter implements CacheAdapterInterface
 {
     public function __construct(ContainerInterface $flextype)
     {
@@ -16,6 +16,6 @@ class ZendDataCacheAdapter implements CacheAdapterInterface
 
     public function getDriver() : object
     {
-        return new ZendDataCache();
+        return new ArrayCache();
     }
 }

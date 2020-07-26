@@ -108,16 +108,15 @@ $flextype['cache_adapter'] = function ($container) use ($flextype) {
 
     if (! $driver_name || $driver_name === 'auto') {
         if (extension_loaded('apcu')) {
-            $driver_name = 'apcu';
+            $driver_name = 'Apcu';
         } elseif (extension_loaded('wincache')) {
-            $driver_name = 'wincache';
+            $driver_name = 'WinCache';
         } else {
             $driver_name = 'PhpFile';
         }
     }
 
-    $class   = ucfirst($driver_name);
-    $adapter = "Flextype\\App\\Foundation\\Cache\\{$class}Adapter";
+    $adapter = "Flextype\\App\\Foundation\\Cache\\{$driver_name}CacheAdapter";
 
     return new $adapter($flextype);
 };

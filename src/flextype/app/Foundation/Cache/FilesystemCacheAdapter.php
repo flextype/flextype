@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Flextype\App\Foundation\Cache;
 
-use Doctrine\Common\Cache\SQLite3Cache;
+use Doctrine\Common\Cache\FilesystemCache;
 use Flextype\Component\Filesystem\Filesystem;
 use Psr\Container\ContainerInterface;
-use SQLite3;
 
-class SQLite3Adapter implements CacheAdapterInterface
+class FilesystemCacheAdapter implements CacheAdapterInterface
 {
     public function __construct(ContainerInterface $flextype)
     {
@@ -24,8 +23,6 @@ class SQLite3Adapter implements CacheAdapterInterface
             Filesystem::createDir($cache_directory);
         }
 
-        $db = new SQLite3($cache_directory . $this->flextype['registry']->get('flextype.settings.cache.sqlite3.database', 'flextype') . '.db');
-
-        return new SQLite3Cache($db, $this->flextype['registry']->get('flextype.settings.cache.sqlite3.table', 'flextype'));
+        return new FilesystemCache($cache_directory);
     }
 }

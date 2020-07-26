@@ -8,7 +8,7 @@ use Doctrine\Common\Cache\MemcachedCache;
 use Memecached;
 use Psr\Container\ContainerInterface;
 
-class MemcachedAdapter implements CacheAdapterInterface
+class MemcachedCacheAdapter implements CacheAdapterInterface
 {
     public function __construct(ContainerInterface $flextype)
     {
