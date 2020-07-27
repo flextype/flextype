@@ -1,32 +1,9 @@
 <?php
 
+declare(strict_types=1);
 
 use Flextype\Component\Filesystem\Filesystem;
-use Flextype\Component\Registry\Registry;
-use Flextype\Component\Session\Session;
-use Flextype\App\Foundation\Cache\Cache;
-use Flextype\App\Foundation\Entries;
-use Flextype\App\Foundation\Plugins;
-use Flextype\App\Foundation\Cors;
-use Flextype\App\Foundation\Config;
-use Flextype\App\Support\Parsers\Markdown;
-use Flextype\App\Support\Parsers\Shortcode;
-use Flextype\App\Support\Serializers\Yaml;
-use Flextype\App\Support\Serializers\Json;
-use Flextype\App\Support\Serializers\Frontmatter;
-use RuntimeException;
-use Slim\App;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
-use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
-use function array_replace_recursive;
-use function date_default_timezone_set;
-use function error_reporting;
-use function file_exists;
-use function function_exists;
-use function mb_internal_encoding;
-use function mb_language;
-use function mb_regex_encoding;
-use function trim;
 
 $flextype_manifest_file_path         = ROOT_DIR . '/src/flextype/flextype.yaml';
 $default_flextype_settings_file_path = ROOT_DIR . '/src/flextype/settings.yaml';
@@ -45,7 +22,6 @@ $cache_id = md5($flextype_manifest_file_path . $default_flextype_settings_file_p
 if (Filesystem::has($preflight_flextype_path . '/' . $cache_id . '.php')) {
     $flextype_data = require $preflight_flextype_path . '/' . $cache_id . '.php';
 } else {
-
     // Drop the flextype preflight dir and create new one.
     Filesystem::deleteDir($preflight_flextype_path) and Filesystem::createDir($preflight_flextype_path);
 
@@ -90,7 +66,7 @@ if (Filesystem::has($preflight_flextype_path . '/' . $cache_id . '.php')) {
     // Merge flextype default settings with custom project settings.
     $flextype_data = array_replace_recursive($default_flextype_settings, $custom_flextype_settings, $flextype_manifest);
 
-    Filesystem::write($preflight_flextype_path . $cache_id . '.php',  sprintf('<?php return %s;', var_export($flextype_data, true)));
+    Filesystem::write($preflight_flextype_path . $cache_id . '.php', sprintf('<?php return %s;', var_export($flextype_data, true)));
 }
 
 // Store flextype merged data in the flextype registry.
