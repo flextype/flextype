@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Flextype\App\Foundation\Cache;
 
 use Doctrine\Common\Cache\PhpFileCache;
-use Psr\Container\ContainerInterface;
 use Flextype\Component\Filesystem\Filesystem;
+use Psr\Container\ContainerInterface;
 
 class PhpFileCacheAdapter implements CacheAdapterInterface
 {
@@ -25,5 +25,4 @@ class PhpFileCacheAdapter implements CacheAdapterInterface
 
         return new PhpFileCache($cache_directory);
     }
-
 }

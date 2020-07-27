@@ -1,13 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Flextype\App\Foundation\Cache;
 
 use Doctrine\Common\Cache\FileCache;
-
-use function is_object;
-use function method_exists;
 use function restore_error_handler;
-use function serialize;
 use function set_error_handler;
 use function sprintf;
 use function time;
@@ -34,7 +32,7 @@ class PhpArrayFileCache extends FileCache
     {
         parent::__construct($directory, $extension, $umask);
 
-        self::$emptyErrorHandler = static function () {
+        self::$emptyErrorHandler = static function () : void {
         };
     }
 

@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Flextype\App\Foundation\Cache;
 
-use Flextype\App\Foundation\Cache\PhpArrayFileCache;
-use Psr\Container\ContainerInterface;
 use Flextype\Component\Filesystem\Filesystem;
+use Psr\Container\ContainerInterface;
 
 class PhpArrayFileCacheAdapter implements CacheAdapterInterface
 {
@@ -25,5 +24,4 @@ class PhpArrayFileCacheAdapter implements CacheAdapterInterface
 
         return new PhpArrayFileCache($cache_directory);
     }
-
 }
