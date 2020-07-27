@@ -9,24 +9,10 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Session\Session;
-use Flextype\App\Foundation\Cache\Cache;
-use Flextype\App\Foundation\Entries;
-use Flextype\App\Foundation\Plugins;
-use Flextype\App\Foundation\Cors;
-use Flextype\App\Foundation\Config;
-use Flextype\App\Support\Parsers\Markdown;
-use Flextype\App\Support\Parsers\Shortcode;
-use Flextype\App\Support\Serializers\Yaml;
-use Flextype\App\Support\Serializers\Json;
-use Flextype\App\Support\Serializers\Frontmatter;
-use RuntimeException;
 use Slim\App;
-use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
-use function array_replace_recursive;
 use function date_default_timezone_set;
 use function error_reporting;
 use function file_exists;
@@ -34,7 +20,6 @@ use function function_exists;
 use function mb_internal_encoding;
 use function mb_language;
 use function mb_regex_encoding;
-use function trim;
 
 /**
  * Start the session
