@@ -12,6 +12,7 @@ namespace Flextype;
 use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
 use Flextype\App\Foundation\Cache\Cache;
+use Flextype\App\Foundation\Config;
 use Flextype\App\Foundation\Cors;
 use Flextype\App\Foundation\Entries\Entries;
 use Flextype\App\Foundation\Media\MediaFiles;
@@ -138,6 +139,13 @@ $flextype['cache_adapter'] = function ($container) use ($flextype) {
  */
 $flextype['cache'] = function ($container) use ($flextype) {
     return new Cache($flextype);
+};
+
+/**
+ * Add options service to Flextype container
+ */
+$flextype['config'] = function ($container) use ($flextype) {
+    return new Config($flextype);
 };
 
 /**
