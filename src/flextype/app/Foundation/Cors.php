@@ -65,6 +65,5 @@ class Cors
                     ->withHeader('Access-Control-Allow-Expose', $expose)
                     ->withHeader('Access-Control-Allow-Credentials', $credentials);
         });
-
     }
 }
