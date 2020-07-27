@@ -37,7 +37,7 @@ class MediaFolders
     /**
      * Fetch folders(s)
      *
-     * @param string $path The path of directory to list.
+     * @param string $path       The path of directory to list.
      * @param bool   $collection Set `true` if collection of folders need to be fetched.
      *
      * @return array A list of file(s) metadata.
@@ -149,12 +149,8 @@ class MediaFolders
      */
     public function delete(string $id) : bool
     {
-        if (Filesystem::deleteDir($this->getDirLocation($id)) &&
-            Filesystem::deleteDir($this->flextype['media_folders_meta']->getDirMetaLocation($id))) {
-            return true;
-        }
-
-        return false;
+        return Filesystem::deleteDir($this->getDirLocation($id)) &&
+            Filesystem::deleteDir($this->flextype['media_folders_meta']->getDirMetaLocation($id));
     }
 
     /**

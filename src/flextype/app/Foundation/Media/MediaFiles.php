@@ -269,7 +269,6 @@ class MediaFiles
         $result = [];
 
         if (Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($path))) {
-
             $result = $this->flextype['yaml']->decode(Filesystem::read($this->flextype['media_files_meta']->getFileMetaLocation($path)));
 
             $result['filename']  = pathinfo(str_replace('/.meta', '', $this->flextype['media_files_meta']->getFileMetaLocation($path)))['filename'];
@@ -354,12 +353,8 @@ class MediaFiles
      */
     public function delete(string $id) : bool
     {
-        if (Filesystem::delete($this->getFileLocation($id)) &&
-            Filesystem::delete($this->flextype['media_files_meta']->getFileMetaLocation($id))) {
-            return true;
-        }
-
-        return false;
+        return Filesystem::delete($this->getFileLocation($id)) &&
+            Filesystem::delete($this->flextype['media_files_meta']->getFileMetaLocation($id));
     }
 
     /**
@@ -373,12 +368,8 @@ class MediaFiles
      */
     public function has(string $id) : bool
     {
-        if (Filesystem::has($this->getFileLocation($id)) &&
-            Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($id))) {
-            return true;
-        }
-
-        return false;
+        return Filesystem::has($this->getFileLocation($id)) &&
+            Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($id));
     }
 
     /**
