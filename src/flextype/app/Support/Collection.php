@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace Flextype\App\Support;
 
-use Flextype\Component\Arrays\Arrays;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
+use Flextype\Component\Arrays\Arrays;
 use function array_filter;
 use function array_keys;
 use function array_merge;
