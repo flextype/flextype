@@ -7,15 +7,14 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-use Flextype\Component\Filesystem\Filesystem;
 
-$flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) {
+$flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
     $flextype->entries->entry['routable'] = isset($flextype->entries->entry['routable']) ?
                                                     (bool) $flextype->entries->entry['routable'] :
                                                     true;
 });
 
-$flextype->emitter->addListener('onEntryCreate', function () use ($flextype) {
+$flextype->emitter->addListener('onEntryCreate', function () use ($flextype) : void {
     if (isset($flextype->entries->entry_create_data['routable']) && is_bool($flextype->entries->entry_create_data['routable'])) {
         $flextype->entries->entry_create_data['routable'] = $flextype->entries->entry_create_data['routable'];
     } else {

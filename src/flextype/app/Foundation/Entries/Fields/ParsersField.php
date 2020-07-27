@@ -7,14 +7,13 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Arrays\Arrays;
 
-$flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) {
+$flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
     processParsersField($flextype);
 });
 
-function processParsersField($flextype)
+function processParsersField($flextype) : void
 {
     $cache = isset($flextype->entries->entry['cache']['enabled']) ?
                         $flextype->entries->entry['cache']['enabled'] :

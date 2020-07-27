@@ -7,7 +7,6 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-use Flextype\Component\Filesystem\Filesystem;
 
 $visibility = [
     'draft' => 'draft',
@@ -15,7 +14,7 @@ $visibility = [
     'visible' => 'visible',
 ];
 
-$flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype, $visibility) {
+$flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype, $visibility) : void {
     if (isset($flextype->entries->entry['visibility']) && in_array($flextype->entries->entry['visibility'], $visibility)) {
         $flextype->entries->entry['visibility'] = (string) $visibility[$flextype->entries->entry['visibility']];
     } else {
@@ -23,7 +22,7 @@ $flextype->emitter->addListener('onEntryAfterInitialized', function () use ($fle
     }
 });
 
-$flextype->emitter->addListener('onEntryCreate', function () use ($flextype, $visibility) {
+$flextype->emitter->addListener('onEntryCreate', function () use ($flextype, $visibility) : void {
     if (isset($flextype->entries->entry_create_data['visibility']) && in_array($flextype->entries->entry_create_data['visibility'], $visibility)) {
         $flextype->entries->entry_create_data['visibility'] = $flextype->entries->entry_create_data['visibility'];
     } else {
