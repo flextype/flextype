@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype\App\Foundation;
 
-use Flextype\Component\Arrays\Arrays;
 use Composer\Semver\Semver;
+use Flextype\Component\Arrays\Arrays;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\I18n\I18n;
 use RuntimeException;
