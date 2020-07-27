@@ -13,7 +13,7 @@ if (! function_exists('collect')) {
     /**
      * Create a collection from the given value.
      *
-     * @param  mixed $items  Items
+     * @param  mixed $items Items
      */
     function collect($items) : Collection
     {
