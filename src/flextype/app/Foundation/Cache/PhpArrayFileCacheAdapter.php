@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Flextype\App\Foundation\Cache;
 
-use Doctrine\Common\Cache\PhpFileCache;
+use Flextype\App\Foundation\Cache\PhpArrayFileCache;
 use Psr\Container\ContainerInterface;
 use Flextype\Component\Filesystem\Filesystem;
 
-class PhpFileCacheAdapter implements CacheAdapterInterface
+class PhpArrayFileCacheAdapter implements CacheAdapterInterface
 {
     public function __construct(ContainerInterface $flextype)
     {
@@ -23,7 +23,7 @@ class PhpFileCacheAdapter implements CacheAdapterInterface
             Filesystem::createDir($cache_directory);
         }
 
-        return new PhpFileCache($cache_directory);
+        return new PhpArrayFileCache($cache_directory);
     }
 
 }

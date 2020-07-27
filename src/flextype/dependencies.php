@@ -112,7 +112,7 @@ $flextype['cache_adapter'] = function ($container) use ($flextype) {
         } elseif (extension_loaded('wincache')) {
             $driver_name = 'wincache';
         } else {
-            $driver_name = 'phpfile';
+            $driver_name = 'phparrayfile';
         }
     }
 
@@ -120,6 +120,7 @@ $flextype['cache_adapter'] = function ($container) use ($flextype) {
                             'apcu' => 'Apcu',
                             'wincache' => 'WinCache',
                             'phpfile' => 'PhpFile',
+                            'phparrayfile' => 'PhpArrayFile',
                             'array' => 'Array',
                             'filesystem' => 'Filesystem',
                             'memcached' => 'Memcached',
