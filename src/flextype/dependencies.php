@@ -12,19 +12,19 @@ namespace Flextype;
 use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
 use Flextype\App\Foundation\Cache\Cache;
+use Flextype\App\Foundation\Config;
+use Flextype\App\Foundation\Cors;
+use Flextype\App\Foundation\Entries\Entries;
 use Flextype\App\Foundation\Media\MediaFiles;
 use Flextype\App\Foundation\Media\MediaFilesMeta;
 use Flextype\App\Foundation\Media\MediaFolders;
 use Flextype\App\Foundation\Media\MediaFoldersMeta;
-use Flextype\App\Foundation\Entries\Entries;
 use Flextype\App\Foundation\Plugins;
-use Flextype\App\Foundation\Cors;
-use Flextype\App\Foundation\Config;
 use Flextype\App\Support\Parsers\Markdown;
 use Flextype\App\Support\Parsers\Shortcode;
-use Flextype\App\Support\Serializers\Yaml;
-use Flextype\App\Support\Serializers\Json;
 use Flextype\App\Support\Serializers\Frontmatter;
+use Flextype\App\Support\Serializers\Json;
+use Flextype\App\Support\Serializers\Yaml;
 use Intervention\Image\ImageManager;
 use League\Event\Emitter;
 use League\Flysystem\Adapter\Local;
@@ -51,9 +51,7 @@ use Monolog\Logger;
 use ParsedownExtra;
 use Thunder\Shortcode\ShortcodeFacade;
 use function date;
-use function dump;
 use function extension_loaded;
-use function ucfirst;
 
 /**
  * Supply a custom callable resolver, which resolves PSR-15 middlewares.
@@ -117,17 +115,17 @@ $flextype['cache_adapter'] = function ($container) use ($flextype) {
     }
 
     $drivers_classes = [
-                            'apcu' => 'Apcu',
-                            'wincache' => 'WinCache',
-                            'phpfile' => 'PhpFile',
-                            'phparrayfile' => 'PhpArrayFile',
-                            'array' => 'Array',
-                            'filesystem' => 'Filesystem',
-                            'memcached' => 'Memcached',
-                            'redis' => 'Redis',
-                            'sqlite3' => 'SQLite3',
-                            'zenddatacache' => 'ZendDataCache'
-                        ];
+        'apcu' => 'Apcu',
+        'wincache' => 'WinCache',
+        'phpfile' => 'PhpFile',
+        'phparrayfile' => 'PhpArrayFile',
+        'array' => 'Array',
+        'filesystem' => 'Filesystem',
+        'memcached' => 'Memcached',
+        'redis' => 'Redis',
+        'sqlite3' => 'SQLite3',
+        'zenddatacache' => 'ZendDataCache',
+    ];
 
     $class_name = $drivers_classes[$driver_name];
 
