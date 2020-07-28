@@ -120,15 +120,24 @@
 
     See: http://docs.flextype.org/en/core/collections
 
-* **vendors:** New Arrays library for Accessing PHP Arrays via DOT notation.
+* **vendors** New Arrays library for Accessing PHP Arrays via DOT notation.
 
 ### Bug Fixes
 
-* **entries:** fix method rename() in Entries API #433
+* **entries** fix method `rename()` in Entries API #433
 * **core** fix all namespaces #437
-* **serializers** Fix YAML native parser.
+* **core** fix flextype config loading.
+* **serializers** fix YAML native parser.
+* **plugins** fix method `getPluginsCacheID()` for Plugins API
 
 ### BREAKING CHANGES
+
+* **entries** Wildcard * removed from parsers field.
+* **entries** Cache setup removed from parsers field.
+* **settings** `/project/config/settings.yaml` move to `/project/config/flextype/settings.yaml`
+* **constants** remove constant `PATH['config']`, use - `PATH['project'] . '/config/'`
+* **core:** remove Date Component from the system.
+* **core:** remove Text Component from the system.
 
 ### Vendor Updates
 
