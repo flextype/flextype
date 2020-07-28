@@ -35,8 +35,7 @@
     $flextype->frontmatter->encode($input) : string
     ```
 
-* **settings** Set max_file_size 8mb for upload.
-* **serializers** Fix YAML native parser.
+* **settings** Set max_file_size 8mb for uploads.
 * **entries** New simplified logic for entries methods: `fetch()` `fetchSingle()` and `fetchCollection()`
 
     We are stop doing unneeded things for fetching entries collections that's slowdowns this process.
@@ -50,7 +49,7 @@
 
     See: http://docs.flextype.org/en/core/entries#methods
 
-    New events added:
+* **entries** New events added for entries.
 
     ```
     onEntryUpdate
@@ -64,6 +63,8 @@
     onEntriesAfterInitialized
     ```
 
+* **entries** New decoupled fields for entries instead of hardcoded.
+
     Entry fields decoupled into: `/flextype/Foundation/Entries/Fields/`
 
     Entry fields added into `flextype.settings.entries.fields`
@@ -72,7 +73,7 @@
     ['PublishedAt', 'PublishedBy', 'ModifiedAt', 'CreatedAt', 'CreatedBy', 'Slug', 'Routable', 'Visibility', 'Parsers', 'Uuid']
     ```
 
-    Added ability to control specific entry individual cache by adding
+* **entries** Add ability to set individual cache control for specific entries.
 
     ```
     cache:
@@ -84,7 +85,7 @@
       enabled: false
     ```
 
-    New Entries API class properties added:
+* **entries** Add new Entries API class properties.
 
     ```
     /**
@@ -125,6 +126,7 @@
 
 * **entries:** fix method rename() in Entries API #433
 * **core** fix all namespaces #437
+* **serializers** Fix YAML native parser.
 
 ### BREAKING CHANGES
 
