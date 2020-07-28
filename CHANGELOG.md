@@ -2,6 +2,9 @@
 # [0.9.9](https://github.com/flextype/flextype/compare/v0.9.8...v0.9.9) (2020-08-XX)
 
 ### Features
+* **core** Add PhpArrayFileAdapter and set PhpArrayFile Cache as a default fallback cache driver instead of Filesystem Cache driver.
+* **core** Add preflight to Flextype basic checks and performance boost.
+* **core** Update all namespaces #437
 * **core** New simplified parsers and serializers #438
 
     New objects:
@@ -32,54 +35,91 @@
     $flextype->frontmatter->encode($input) : string
     ```
 
-* **entries** New simplified logic for entries methods: fetch() fetchSingle() and fetchCollection()
+* **settings** Set max_file_size 8mb for upload.
+* **serializers** Fix YAML native parser.
+* **entries** New simplified logic for entries methods: `fetch()` `fetchSingle()` and `fetchCollection()`
 
-    We are stop doing unneeded things for fetching entries collections that slowdowns this process.
-    Everything that need to be collected need to be done with a new collections functionality.
+    We are stop doing unneeded things for fetching entries collections that's slowdowns this process.
+    Everything that need to be collected need to be done with a new Collection functionality.
 
     From now this methods just doing their own simple job:
 
-    * fetch() - Fetch single entry or collections of entries.
-    * fetchSingle() - Fetch single entry.
-    * fetchCollection() - Fetch entries collection.
+    * `fetch()` - Fetch single entry or collections of entries.
+    * `fetchSingle()` - Fetch single entry.
+    * `fetchCollection()` - Fetch entries collection.
 
     See: http://docs.flextype.org/en/core/entries#methods
 
-* **collections** New Collections functionality on top of Doctrine Collections.
+    New events added:
+
+    ```
+    onEntryUpdate
+    onEntryCreate
+    onEntryCopy
+    onEntryRename
+    onEntryDelete
+    onEntryUpdate
+    onEntryAfterCacheInitialized
+    onEntryAfterInitialized
+    onEntriesAfterInitialized
+    ```
+
+    Entry fields decoupled into: `/flextype/Foundation/Entries/Fields/`
+
+    Entry fields added into `flextype.settings.entries.fields`
+
+    ```
+    ['PublishedAt', 'PublishedBy', 'ModifiedAt', 'CreatedAt', 'CreatedBy', 'Slug', 'Routable', 'Visibility', 'Parsers', 'Uuid']
+    ```
+
+    Added ability to control specific entry individual cache by adding
+
+    ```
+    cache:
+      enabled: true
+
+    or
+
+    cache:
+      enabled: false
+    ```
+
+    New Entries API class properties added:
+
+    ```
+    /**
+     * Current entry path
+     *
+     * @var string
+     * @access public
+     */
+    public $entry_path = null;
+
+    /**
+     * Current entry create data array
+     *
+     * @var array
+     * @access public
+     */
+    public $entry_create_data = [];
+
+    /**
+     * Current entry create data array
+     *
+     * @var array
+     * @access public
+     */
+    public $entry_update_data = [];
+    ```
+
+* **collections** New Collection functionality on top of Doctrine Collections.
 
     We are able to use collections for any type of items, not just for entries.
-    New Collections are simple and powerful!
+    New Collection are simple and powerful!
 
     See: http://docs.flextype.org/en/core/collections
 
-* **config:** New Config API to work with configs.
-
-    Methods for Config API:
-
-    | Method | Description |
-    | --- | --- |
-    | get() | Fetch config item |
-    | create() | Create new item in the config |
-    | update() | Update config item |
-    | delete() | Delete config item |
-    | has() | Checks if an config item with this key name is in the config. |
-    | getFileLocation() | Get config file location |
-    | getDirLocation() | Get config directory location |
-
-    See: http://docs.flextype.org/en/core/config
-
-    Endpoints for Config API:
-
-    | Method | Endpoint | Description |
-    | --- | --- | --- |
-    | GET | /api/config | Fetch config item |
-    | POST | /api/config | Create new item in the config |
-    | PATCH | /api/config | Update config item |
-    | DELETE | /api/config | Delete config item |
-
-    See: http://docs.flextype.org/en/rest-api/config
-
-* **vendors:** New ArrayDots library for Accessing PHP Arrays via DOT notation.
+* **vendors:** New Arrays library for Accessing PHP Arrays via DOT notation.
 
 ### Bug Fixes
 
@@ -87,6 +127,17 @@
 * **core** fix all namespaces #437
 
 ### BREAKING CHANGES
+
+### Vendor Updates
+
+* **core:** Update vendor league/glide 1.6.0
+* **core:** Update vendor doctrine/cache 1.10.2
+* **core:** Update vendor doctrine/collections 1.6.6
+* **core:** Update vendor respect/validation 2.0.16
+* **core:** Update vendor monolog/monolog 2.1.1
+* **core:** Update vendor thunderer/shortcode 0.7.4
+* **core:** Update vendor flextype-components/filesystem 2.0.7
+* **core:** Update vendor flextype-components/registry 3.0.0
 
 <a name="0.9.8"></a>
 # [0.9.8](https://github.com/flextype/flextype/compare/v0.9.7...v0.9.8) (2020-05-14)
