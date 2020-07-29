@@ -101,7 +101,15 @@ class Frontmatter
      */
     protected function _decode(string $input)
     {
+        // Remove UTF-8 BOM if it exists.
+        $input = ltrim($input, "\xef\xbb\xbf");
+
+        // Normalize line endings to Unix style.
+        $input = (string) preg_replace("/(\r\n|\r)/", "\n", $input);
+
+        // Parse Frontmatter and Body
         $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . ltrim($input));
+
         if (count($parts) < 3) {
             return ['content' => trim($input)];
         }
