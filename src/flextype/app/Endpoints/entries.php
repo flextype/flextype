@@ -56,7 +56,7 @@ $app->get('/api/entries', function (Request $request, Response $response) use ($
             $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
 
             // Set entries token file
-            if ($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) {
+            if ($entries_token_file_data = $flextype['yaml']->decode(Filesystem::read($entries_token_file_path))) {
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
@@ -74,7 +74,7 @@ $app->get('/api/entries', function (Request $request, Response $response) use ($
                 $response_code = count($response_data['data']) > 0 ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($entries_token_file_path, $flextype['yaml']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -299,8 +299,8 @@ $app->put('/api/entries', function (Request $request, Response $response) use ($
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
-            if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
-                ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+            if (($entries_token_file_data = $flextype['yaml']->decode(Filesystem::read($entries_token_file_path))) &&
+                ($access_token_file_data = $flextype['yaml']->decode(Filesystem::read($access_token_file_path)))) {
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
@@ -325,7 +325,7 @@ $app->put('/api/entries', function (Request $request, Response $response) use ($
                 $response_code = $rename_entry ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($entries_token_file_path, $flextype['yaml']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -385,8 +385,8 @@ $app->put('/api/entries/copy', function (Request $request, Response $response) u
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
-            if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
-                ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+            if (($entries_token_file_data = $flextype['yaml']->decode(Filesystem::read($entries_token_file_path))) &&
+                ($access_token_file_data = $flextype['yaml']->decode(Filesystem::read($access_token_file_path)))) {
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
@@ -411,7 +411,7 @@ $app->put('/api/entries/copy', function (Request $request, Response $response) u
                 $response_code = $copy_entry ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($entries_token_file_path, $flextype['yaml']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -469,8 +469,8 @@ $app->delete('/api/entries', function (Request $request, Response $response) use
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
-            if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
-                ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+            if (($entries_token_file_data = $flextype['yaml']->decode(Filesystem::read($entries_token_file_path))) &&
+                ($access_token_file_data = $flextype['yaml']->decode(Filesystem::read($access_token_file_path)))) {
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
@@ -488,7 +488,7 @@ $app->delete('/api/entries', function (Request $request, Response $response) use
                 $response_code = $delete_entry ? 204 : 404;
 
                 // Update calls counter
-                Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($entries_token_file_path, $flextype['yaml']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
