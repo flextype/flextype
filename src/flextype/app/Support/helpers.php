@@ -27,8 +27,10 @@ if (! function_exists('collect_filter')) {
      *
      * @param  mixed $items  Items
      * @param  array $filter Filters array
+     *
+     * @return array|bool|int
      */
-    function collect_filter($items, array $filter) : array
+    function collect_filter($items, array $filter)
     {
         $collection = new Collection($items);
 
@@ -38,17 +40,8 @@ if (! function_exists('collect_filter')) {
         // Set Direction
         $direction = $collection->direction;
 
-        // Bind: set first result
-        $bind_set_first_result_value = $filter['set_first_result'] ?? 0;
-
-        // Bind: set max result
-        $bind_set_max_result_value = $filter['limit'] ?? 0;
-
         // Bind: return
-        $bind_return = $filter['return'] ?? 'all';
-
-        // Bind: random
-        $bind_random_value = $filter['random'] ?? 1;
+        $bind_return = isset($filter['return']) ? $filter['return'] : 'all';
 
         // Bind: where
         $bind_where = [];
@@ -97,14 +90,14 @@ if (! function_exists('collect_filter')) {
         // Exec: and where
         if (isset($bind_and_where)) {
             foreach ($bind_and_where as $key => $value) {
-                $collection->andWhere($value['where']['key'], $value['where']['expr'], $value['where']['value']);
+                $collection->andWhere($value['key'], $value['expr'], $value['value']);
             }
         }
 
         // Exec: or where
         if (isset($bind_or_where)) {
             foreach ($bind_or_where as $key => $value) {
-                $collection->orWhere($value['where']['key'], $value['where']['expr'], $value['where']['value']);
+                $collection->orWhere($value['key'], $value['expr'], $value['value']);
             }
         }
 
@@ -113,14 +106,9 @@ if (! function_exists('collect_filter')) {
             $collection->orderBy($bind_order_by['order_by']['field'], $direction[$bind_order_by['order_by']['direction']]);
         }
 
-        // Exec: set max result
-        if ($bind_set_max_result) {
-            $collection->limit($bind_set_max_result);
-        }
-
         // Exec: set first result
-        if ($bind_set_first_result) {
-            $collection->setFirstResult($bind_set_first_result);
+        if ($bind_set_first_result_value) {
+            $collection->setFirstResult($bind_set_first_result_value);
         }
 
         // Gets a native PHP array representation of the collection.
@@ -135,16 +123,33 @@ if (! function_exists('collect_filter')) {
                 $items = $collection->next();
                 break;
             case 'random':
+                $bind_random_value = isset($filter['random_value']) ? $filter['random_value'] : null;
                 $items = $collection->random($bind_random_value);
                 break;
             case 'limit':
+                $bind_set_max_result_value = isset($filter['limit_value']) ? $filter['limit_value'] : 0;
                 $items = $collection->limit($bind_set_max_result_value);
                 break;
             case 'set_first_result':
+                $bind_set_first_result_value = isset($filter['set_first_result_value']) ? $filter['set_first_result_value'] : 0;
                 $items = $collection->setFirstResult($bind_set_first_result_value);
+                break;
+            case 'slice':
+                $bind_slice_offset_value = isset($filter['slice_offset_value']) ? $filter['slice_offset_value'] : 0;
+                $bind_slice_limit_value = isset($filter['slice_limit_value']) ? $filter['slice_limit_value'] : 0;
+                $items = $collection->slice($bind_slice_offset_value, $bind_slice_limit_value);
+                break;
+            case 'exists':
+                $items = $collection->exists();
+                break;
+            case 'count':
+                $items = $collection->count();
                 break;
             case 'shuffle':
                 $items = $collection->shuffle();
+                break;
+            case 'all':
+                $items = $collection->all();
                 break;
             default:
                 $items = $collection->all();
