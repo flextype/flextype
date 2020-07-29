@@ -74,7 +74,6 @@ include_once 'app/Endpoints/Utils/errors.php';
 include_once 'app/Endpoints/Utils/access.php';
 include_once 'app/Endpoints/entries.php';
 include_once 'app/Endpoints/registry.php';
-include_once 'app/Endpoints/config.php';
 include_once 'app/Endpoints/files.php';
 include_once 'app/Endpoints/folders.php';
 include_once 'app/Endpoints/images.php';
