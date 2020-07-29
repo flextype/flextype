@@ -62,16 +62,18 @@ $app->get('/api/entries', function (Request $request, Response $response) use ($
                     return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
-                // Fetch entries collection
-                if ($filter !== null) {
-                    $response_data['data'] = collect_filter($flextype['entries']->fetch($id, true), $filter);
+                if ($filter === null) {
+                    $response_data['data'] = $flextype['entries']->fetchSingle($id);
+                } else {
+                    $response_data['data'] = collect_filter($flextype['entries']->fetchCollection($id), $filter);
                 }
 
-                // Fetch single entry
-                $response_data['data'] = $flextype['entries']->fetch($id);
-
                 // Set response code
-                $response_code = count($response_data['data']) > 0 ? 200 : 404;
+                if (is_array($response_data['data'])) {
+                    $response_code = count($response_data['data']) > 0 ? 200 : 404;
+                } else {
+                    $response_code = $response_data['data'] > 0 ? 200 : 404;
+                }
 
                 // Update calls counter
                 Filesystem::write($entries_token_file_path, $flextype['yaml']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
