@@ -106,11 +106,6 @@ if (! function_exists('collect_filter')) {
             $collection->orderBy($bind_order_by['order_by']['field'], $direction[$bind_order_by['order_by']['direction']]);
         }
 
-        // Exec: set first result
-        if ($bind_set_first_result_value) {
-            $collection->setFirstResult($bind_set_first_result_value);
-        }
-
         // Gets a native PHP array representation of the collection.
         switch ($bind_return) {
             case 'first':
