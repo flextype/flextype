@@ -120,11 +120,11 @@ $app->get('/api/folders', function (Request $request, Response $response) use ($
  *
  * Body:
  * path          - [REQUIRED] - New folder path.
- * token         - [REQUIRED] - Valid Entries token.
+ * token         - [REQUIRED] - Valid Folders token.
  * access_token  - [REQUIRED] - Valid Access token.
  *
  * Returns:
- * Returns the file object for the file that was just created.
+ * Returns the folder object for the folder that was just created.
  */
 $app->post('/api/folders', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
@@ -139,7 +139,7 @@ $app->post('/api/folders', function (Request $request, Response $response) use (
     $access_token = $post_data['access_token'];
     $path         = $post_data['path'];
 
-    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.folders.enabled')) {
         // Validate files and access token
         if (validate_folders_token($token) && validate_access_token($access_token)) {
             $folders_token_file_path  = PATH['project'] . '/tokens/folders/' . $token . '/token.yaml';
@@ -201,18 +201,107 @@ $app->post('/api/folders', function (Request $request, Response $response) use (
 });
 
 /**
+ * Copy folder
+ *
+ * endpoint: PUT /api/folders/copy
+ *
+ * Body:
+ * path            - [REQUIRED] - Unique identifier of the folder.
+ * new_path        - [REQUIRED] - New Unique identifier of the folder.
+ * token           - [REQUIRED] - Valid Folder token.
+ * access_token    - [REQUIRED] - Valid Access token.
+ *
+ * Returns:
+ * Returns the folders object for the folders that was just copied.
+ */
+$app->put('/api/folders/copy', function (Request $request, Response $response) use ($flextype, $api_errors) {
+    // Get Post Data
+    $post_data = $request->getParsedBody();
+
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['new_path'])) {
+        return $response->withJson($api_errors['0601'], $api_errors['0601']['http_status_code']);
+    }
+
+    // Set variables
+    $token        = $post_data['token'];
+    $access_token = $post_data['access_token'];
+    $path         = $post_data['path'];
+    $new_path     = $post_data['new_path'];
+
+    if ($flextype['registry']->get('flextype.settings.api.folders.enabled')) {
+        // Validate files and access token
+        if (validate_folders_token($token) && validate_access_token($access_token)) {
+            $folders_token_file_path  = PATH['project'] . '/tokens/folders/' . $token . '/token.yaml';
+            $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
+
+            // Set files and access token file
+            if (($folders_token_file_data = $flextype['yaml']->decode(Filesystem::read($folders_token_file_path))) &&
+              ($access_token_file_data = $flextype['yaml']->decode(Filesystem::read($access_token_file_path)))) {
+                if ($folders_token_file_data['state'] === 'disabled' ||
+                  ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])) {
+                    return $response->withJson($api_errors['0601'], $api_errors['0601']['http_status_code']);
+                }
+
+                if ($access_token_file_data['state'] === 'disabled' ||
+                  ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                    return $response->withJson($api_errors['0601'], $api_errors['0601']['http_status_code']);
+                }
+
+                // Copy folder
+                $copy_folder = $flextype['media_folders']->copy($path, $new_path);
+
+                if ($copy_folder) {
+                    $response_data['data'] = $flextype['media_folders']->fetch($new_path);
+                } else {
+                    $response_data['data'] = $copy_folder;
+                }
+
+                // Set response code
+                $response_code = $copy_folder ? 200 : 404;
+
+                // Return response
+                return $response
+                     ->withJson($response_data, $response_code);
+
+                // Update calls counter
+                Filesystem::write($folders_token_file_path, $flextype['yaml']->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
+
+                if ($response_code === 404) {
+                    // Return response
+                    return $response
+                         ->withJson($api_errors['0602'], $api_errors['0602']['http_status_code']);
+                }
+
+                // Return response
+                return $response
+                     ->withJson($response_data, $response_code);
+            }
+
+            return $response
+                 ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
+        }
+
+        return $response
+             ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
+    }
+
+    return $response
+         ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
+});
+
+/**
  * Rename folder
  *
  * endpoint: PUT /api/folders
  *
  * Body:
- * id            - [REQUIRED] - Unique identifier of the file.
- * new_id        - [REQUIRED] - New Unique identifier of the file.
- * token         - [REQUIRED] - Valid Entries token.
- * access_token  - [REQUIRED] - Valid Access token.
+ * path            - [REQUIRED] - Unique identifier of the folder.
+ * new_pah         - [REQUIRED] - New Unique identifier of the folder.
+ * token           - [REQUIRED] - Valid Folder token.
+ * access_token    - [REQUIRED] - Valid Access token.
  *
  * Returns:
- * Returns the file object for the file that was just created.
+ * Returns the folders object for the folders that was just renamed.
  */
 $app->put('/api/folders', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
@@ -228,7 +317,7 @@ $app->put('/api/folders', function (Request $request, Response $response) use ($
     $path         = $post_data['path'];
     $new_path     = $post_data['new_path'];
 
-    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.folders.enabled')) {
         // Validate files and access token
         if (validate_folders_token($token) && validate_access_token($access_token)) {
             $folders_token_file_path  = PATH['project'] . '/tokens/folders/' . $token . '/token.yaml';
@@ -290,13 +379,13 @@ $app->put('/api/folders', function (Request $request, Response $response) use ($
 });
 
 /**
-* Delete file
+* Delete folder
 *
-* endpoint: DELETE /api/files
+* endpoint: DELETE /api/folders
 *
 * Body:
-* id           - [REQUIRED] - Unique identifier of the file.
-* token        - [REQUIRED] - Valid Entries token.
+* id           - [REQUIRED] - Unique identifier of the folder.
+* token        - [REQUIRED] - Valid Folders token.
 * access_token - [REQUIRED] - Valid Authentication token.
 *
 * Returns:
@@ -315,7 +404,7 @@ $app->delete('/api/folders', function (Request $request, Response $response) use
     $access_token = $post_data['access_token'];
     $path         = $post_data['path'];
 
-    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+    if ($flextype['registry']->get('flextype.settings.api.folders.enabled')) {
         // Validate files and access token
         if (validate_folders_token($token) && validate_access_token($access_token)) {
             $folders_token_file_path  = PATH['project'] . '/tokens/folders/' . $token . '/token.yaml';
