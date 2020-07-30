@@ -211,13 +211,13 @@ $app->put('/api/files', function (Request $request, Response $response) use ($fl
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['path']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['new_path'])) {
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['new_path'])) {
         return $response->withJson($api_errors['0501'], $api_errors['0501']['http_status_code']);
     }
 
     // Set variables
-    $token        = $post_data['token'];
-    $access_token = $post_data['access_token'];
+    $token          = $post_data['token'];
+    $access_token   = $post_data['access_token'];
     $path           = $post_data['path'];
     $new_path       = $post_data['new_path'];
 
@@ -244,13 +244,13 @@ $app->put('/api/files', function (Request $request, Response $response) use ($fl
                 $rename_file = $flextype['media_files']->rename($path, $new_path);
 
                 if ($rename_file) {
-                    $response_data['data'] = $flextype['media_files']->fetch($folder . '/' . basename($rename_file));
+                    $response_data['data'] = $flextype['media_files']->fetch($new_path);
                 } else {
                     $response_data['data'] = [];
                 }
 
                 // Set response code
-                $response_code = Filesystem::has($rename_file) ? 200 : 404;
+                $response_code = ($rename_file === true) ? 200 : 404;
 
                 // Return response
                 return $response
