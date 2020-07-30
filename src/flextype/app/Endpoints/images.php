@@ -54,18 +54,16 @@ $app->get('/api/images/{path:.+}', function (Request $request, Response $respons
             $delivery_images_token_file_path = PATH['project'] . '/tokens/images/' . $token . '/token.yaml';
 
             // Set delivery token file
-            if ($delivery_images_token_file_data = $flextype['serializer']->decode(Filesystem::read($delivery_images_token_file_path), 'yaml')) {
+            if ($delivery_images_token_file_data = $flextype['yaml']->decode(Filesystem::read($delivery_images_token_file_path))) {
                 if ($delivery_images_token_file_data['state'] === 'disabled' ||
                     ($delivery_images_token_file_data['limit_calls'] !== 0 && $delivery_images_token_file_data['calls'] >= $delivery_images_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
                 }
 
                 // Update calls counter
-                Filesystem::write($delivery_images_token_file_path, $flextype['serializer']->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($delivery_images_token_file_path, $flextype['yaml']->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1])));
 
                 if (Filesystem::has(PATH['project'] . '/uploads/entries/' . $args['path'])) {
-                    header('Access-Control-Allow-Origin: *');
-
                     return $flextype['images']->getImageResponse($args['path'], $_GET);
                 }
 
