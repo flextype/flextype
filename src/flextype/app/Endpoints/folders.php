@@ -29,9 +29,9 @@ function validate_folders_token($token) : bool
  * endpoint: GET /api/folders
  *
  * Query:
- * path   - [REQUIRED] - Folder path.
- * mode   - [REQUIRED] - Mode.
- * token  - [REQUIRED] - Valid Files token.
+ * path       - [REQUIRED] - Folder path.
+ * collection - [OPTIONAL] - Colleciton or single.
+ * token      - [REQUIRED] - Valid Folders token.
  *
  * Returns:
  * An array of folder(s) item objects.
@@ -40,10 +40,23 @@ $app->get('/api/folders', function (Request $request, Response $response) use ($
     // Get Query Params
     $query = $request->getQueryParams();
 
+    if (! isset($query['path']) || ! isset($query['token'])) {
+        return $response->withJson($api_errors['0600'], $api_errors['0600']['http_status_code']);
+    }
+
     // Set variables
-    $path  = $query['path'];
-    $mode  = $query['mode'];
-    $token = $query['token'];
+    $path        = $query['path'];
+    $token       = $query['token'];
+
+    if (isset($query['collection'])) {
+        if ($query['collection'] == 'true') {
+            $collection = true;
+        } else {
+            $collection = false;
+        }
+    } else {
+        $collection = false;
+    }
 
     if ($flextype['registry']->get('flextype.settings.api.folders.enabled')) {
         // Validate delivery token
@@ -51,7 +64,7 @@ $app->get('/api/folders', function (Request $request, Response $response) use ($
             $folders_token_file_path = PATH['project'] . '/tokens/folders/' . $token . '/token.yaml';
 
             // Set delivery token file
-            if ($folders_token_file_data = $flextype['serializer']->decode(Filesystem::read($folders_token_file_path), 'yaml')) {
+            if ($folders_token_file_data = $flextype['yaml']->decode(Filesystem::read($folders_token_file_path))) {
                 if ($folders_token_file_data['state'] === 'disabled' ||
                     ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0501'], $api_errors['0501']['http_status_code']);
@@ -61,9 +74,9 @@ $app->get('/api/folders', function (Request $request, Response $response) use ($
                 $folders = [];
 
                 // Get list if folder or fodlers for specific folder
-                if ($mode === 'collection') {
+                if ($collection) {
                     $folders = $flextype['media_folders']->fetchCollection($path);
-                } elseif ($mode === 'single') {
+                } else {
                     $folders = $flextype['media_folders']->fetchSingle($path);
                 }
 
@@ -74,12 +87,12 @@ $app->get('/api/folders', function (Request $request, Response $response) use ($
                 $response_code = count($response_data['data']) > 0 ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($folders_token_file_path, $flextype['serializer']->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($folders_token_file_path, $flextype['yaml']->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                           ->withJson($api_errors['0602'], $api_errors['0602']['http_status_code']);
                 }
 
                 // Return response
@@ -88,15 +101,15 @@ $app->get('/api/folders', function (Request $request, Response $response) use ($
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 
@@ -129,8 +142,8 @@ $app->post('/api/folders', function (Request $request, Response $response) use (
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($files_token_file_data = $flextype['serializer']->decode(Filesystem::read($files_token_file_path), 'yaml')) &&
-              ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+            if (($files_token_file_data = $flextype['yaml']->decode(Filesystem::read($files_token_file_path))) &&
+              ($access_token_file_data = $flextype['yaml']->decode(Filesystem::read($access_token_file_path)))) {
                 if ($files_token_file_data['state'] === 'disabled' ||
                   ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0501'], $api_errors['0501']['http_status_code']);
@@ -158,12 +171,12 @@ $app->post('/api/folders', function (Request $request, Response $response) use (
                      ->withJson($response_data, $response_code);
 
                 // Update calls counter
-                Filesystem::write($files_token_file_path, $flextype['serializer']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($files_token_file_path, $flextype['yaml']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                         ->withJson($api_sys_messages['NotFound'], $response_code);
+                         ->withJson($api_errors['0602'], $api_errors['0602']['http_status_code']);
                 }
 
                 // Return response
@@ -172,15 +185,15 @@ $app->post('/api/folders', function (Request $request, Response $response) use (
             }
 
             return $response
-                 ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                 ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-             ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+             ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-         ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+         ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 /**
@@ -214,8 +227,8 @@ $app->put('/api/folders', function (Request $request, Response $response) use ($
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($files_token_file_data = $flextype['serializer']->decode(Filesystem::read($files_token_file_path), 'yaml')) &&
-              ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+            if (($files_token_file_data = $flextype['yaml']->decode(Filesystem::read($files_token_file_path))) &&
+              ($access_token_file_data = $flextype['yaml']->decode(Filesystem::read($access_token_file_path)))) {
                 if ($files_token_file_data['state'] === 'disabled' ||
                   ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0501'], $api_errors['0501']['http_status_code']);
@@ -243,12 +256,12 @@ $app->put('/api/folders', function (Request $request, Response $response) use ($
                      ->withJson($response_data, $response_code);
 
                 // Update calls counter
-                Filesystem::write($files_token_file_path, $flextype['serializer']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($files_token_file_path, $flextype['yaml']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                         ->withJson($api_sys_messages['NotFound'], $response_code);
+                         ->withJson($api_errors['0602'], $api_errors['0602']['http_status_code']);
                 }
 
                 // Return response
@@ -257,15 +270,15 @@ $app->put('/api/folders', function (Request $request, Response $response) use ($
             }
 
             return $response
-                 ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                 ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-             ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+             ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-         ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+         ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 /**
@@ -297,8 +310,8 @@ $app->delete('/api/folders', function (Request $request, Response $response) use
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($files_token_file_data = $flextype['serializer']->decode(Filesystem::read($files_token_file_path), 'yaml')) &&
-              ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+            if (($files_token_file_data = $flextype['yaml']->decode(Filesystem::read($files_token_file_path))) &&
+              ($access_token_file_data = $flextype['yaml']->decode(Filesystem::read($access_token_file_path)))) {
                 if ($files_token_file_data['state'] === 'disabled' ||
                   ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0501'], $api_errors['0501']['http_status_code']);
@@ -316,12 +329,12 @@ $app->delete('/api/folders', function (Request $request, Response $response) use
                 $response_code = $delete_folder ? 204 : 404;
 
                 // Update calls counter
-                Filesystem::write($files_token_file_path, $flextype['serializer']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($files_token_file_path, $flextype['yaml']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                         ->withJson($api_sys_messages['NotFound'], $response_code);
+                         ->withJson($api_errors['0602'], $api_errors['0602']['http_status_code']);
                 }
 
                 // Return response
@@ -330,13 +343,13 @@ $app->delete('/api/folders', function (Request $request, Response $response) use
             }
 
             return $response
-                 ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                 ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-             ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+             ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-         ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+         ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
