@@ -139,6 +139,30 @@ class MediaFolders
     }
 
     /**
+     * Copy folder
+     *
+     * @param string $id     Unique identifier of the folder.
+     * @param string $new_id New Unique identifier of the folder.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function copy(string $id, string $new_id) : bool
+    {
+        if (! Filesystem::has($this->getDirLocation($new_id)) && ! Filesystem::has($this->flextype['media_folders_meta']->getDirMetaLocation($new_id))) {
+            Filesystem::copy($this->getDirLocation($id),
+                                      $this->getDirLocation($new_id), true);
+            Filesystem::copy($this->flextype['media_folders_meta']->getDirMetaLocation($id),
+                                      $this->flextype['media_folders_meta']->getDirMetaLocation($new_id), true);
+                                      
+            return (Filesystem::has($this->getDirLocation($new_id)) && Filesystem::has($this->flextype['media_folders_meta']->getDirMetaLocation($new_id)) === true) ? true : false;
+        }
+
+        return false;
+    }
+
+    /**
      * Delete dir
      *
      * @param string $id Unique identifier of the file.
