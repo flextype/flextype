@@ -7,7 +7,7 @@ namespace Flextype\App\Foundation\Cache;
 use Psr\Container\ContainerInterface;
 
 interface CacheAdapterInterface
-{
+{    
     /**
      * Injects the dependency container
      *

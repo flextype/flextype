@@ -10,6 +10,13 @@ use Psr\Container\ContainerInterface;
 
 class MemcachedCacheAdapter implements CacheAdapterInterface
 {
+    /**
+     * Flextype Dependency Container
+     *
+     * @access private
+     */
+    private $flextype;
+    
     public function __construct(ContainerInterface $flextype)
     {
         $this->flextype = $flextype;
