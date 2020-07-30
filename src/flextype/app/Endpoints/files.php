@@ -162,10 +162,6 @@ $app->post('/api/files', function (Request $request, Response $response) use ($f
                 // Set response code
                 $response_code = Filesystem::has($create_file) ? 200 : 404;
 
-                // Return response
-                return $response
-                       ->withJson($response_data, $response_code);
-
                 // Update calls counter
                 Filesystem::write($files_token_file_path, $flextype['yaml']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
@@ -251,10 +247,6 @@ $app->put('/api/files', function (Request $request, Response $response) use ($fl
 
                 // Set response code
                 $response_code = ($rename_file === true) ? 200 : 404;
-
-                // Return response
-                return $response
-                       ->withJson($response_data, $response_code);
 
                 // Update calls counter
                 Filesystem::write($files_token_file_path, $flextype['yaml']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
