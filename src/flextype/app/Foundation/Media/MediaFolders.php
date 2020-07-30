@@ -155,7 +155,7 @@ class MediaFolders
                                       $this->getDirLocation($new_id), true);
             Filesystem::copy($this->flextype['media_folders_meta']->getDirMetaLocation($id),
                                       $this->flextype['media_folders_meta']->getDirMetaLocation($new_id), true);
-                                      
+
             return (Filesystem::has($this->getDirLocation($new_id)) && Filesystem::has($this->flextype['media_folders_meta']->getDirMetaLocation($new_id)) === true) ? true : false;
         }
 

@@ -461,7 +461,7 @@ $app->delete('/api/files', function (Request $request, Response $response) use (
  * access_token  - [REQUIRED] - Valid Access token.
  *
  * Returns:
- * Returns the file object for the file that was just created.
+ * Returns the file object for the file that was just updated.
  */
 $app->patch('/api/files/meta', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
