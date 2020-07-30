@@ -2,10 +2,10 @@
 # [0.9.9](https://github.com/flextype/flextype/compare/v0.9.8...v0.9.9) (2020-08-XX)
 
 ### Features
-* **core** Add PhpArrayFileAdapter and set PhpArrayFile Cache as a default fallback cache driver instead of Filesystem Cache driver.
+* **core** Add PhpArrayFileAdapter and set PhpArrayFile Cache as a default fallback cache driver instead of Filesystem Cache driver. This new feature give us performance boost up to 25%
 * **core** Add preflight to Flextype basic checks and performance boost.
 * **core** Update all namespaces #437
-* **core** New simplified parsers and serializers #438
+* **core** New simplified parsers and serializers functionality #438
 
     New objects:
 
@@ -35,7 +35,6 @@
     $flextype->frontmatter->encode($input) : string
     ```
 
-* **settings** Set max_file_size 8mb for uploads.
 * **entries** New simplified logic for entries methods: `fetch()` `fetchSingle()` and `fetchCollection()`
 
     We are stop doing unneeded things for fetching entries collections that's slowdowns this process.
@@ -52,7 +51,6 @@
 * **entries** New events added for entries.
 
     ```
-    onEntryUpdate
     onEntryCreate
     onEntryCopy
     onEntryRename
@@ -120,7 +118,31 @@
 
     See: http://docs.flextype.org/en/core/collections
 
+* **settings** Set max_file_size 8mb for uploads.
+
 * **vendors** New Arrays library for Accessing PHP Arrays via DOT notation.
+
+* **rest-api** New Files Rest API.
+
+    | Method | Endpoint | Description |
+    | --- | --- | --- |
+    | GET | /api/files | Fetch file(files) |
+    | POST | /api/files | Upload file |
+    | PUT | /api/files | Rename file |
+    | DELETE | /api/files | Delete file |
+    | PATCH | /api/files/meta | Updates file meta information |
+    | POST | /api/files/meta | Updates file meta information |
+    | DELETE | /api/files/meta | Delete file meta information |
+
+* **rest-api** New Folders Rest API.
+
+    | Method | Endpoint | Description |
+    | --- | --- | --- |
+    | GET | /api/folders | Fetch folder(folders) |
+    | POST | /api/folders | Create folder |
+    | PUT | /api/folders | Rename folder |
+    | PUT | /api/folders/copy | Copy folder |
+    | DELETE | /api/folders | Delete folder |
 
 ### Bug Fixes
 
