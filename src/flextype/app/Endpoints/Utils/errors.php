@@ -77,8 +77,7 @@ $api_errors = [
         'http_status_code' => 404,
         'message' => 'Image not found',
     ],
-
-    '0501' => [
+    '0500' => [
         'http_status_code' => 400,
         'message' => 'Wrong query params or not defined',
     ],
@@ -90,8 +89,7 @@ $api_errors = [
         'http_status_code' => 404,
         'message' => 'File not found',
     ],
-
-    '0601' => [
+    '0600' => [
         'http_status_code' => 400,
         'message' => 'Wrong query params or not defined',
     ],
