@@ -65,7 +65,7 @@ $app->get('/api/files', function (Request $request, Response $response) use ($fl
                 $files = [];
 
                 // Get list if file or files for specific folder
-                if (is_dir($path)) {
+                if (is_dir(PATH['project'] . '/uploads/' . $path)) {
                     $files = $flextype['media_files']->fetchCollection($path);
                 } else {
                     $files = $flextype['media_files']->fetchSingle($path);
