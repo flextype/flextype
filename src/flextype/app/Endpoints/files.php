@@ -509,10 +509,6 @@ $app->patch('/api/files/meta', function (Request $request, Response $response) u
                 // Set response code
                 $response_code = $update_file_meta ? 200 : 404;
 
-                // Return response
-                return $response
-                       ->withJson($response_data, $response_code);
-
                 // Update calls counter
                 Filesystem::write($files_token_file_path, $flextype['yaml']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
@@ -600,10 +596,6 @@ $app->post('/api/files/meta', function (Request $request, Response $response) us
                 // Set response code
                 $response_code = $add_file_meta ? 200 : 404;
 
-                // Return response
-                return $response
-                       ->withJson($response_data, $response_code);
-
                 // Update calls counter
                 Filesystem::write($files_token_file_path, $flextype['yaml']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
@@ -689,10 +681,6 @@ $app->delete('/api/files/meta', function (Request $request, Response $response) 
 
                 // Set response code
                 $response_code = $delete_file_meta ? 200 : 404;
-
-                // Return response
-                return $response
-                       ->withJson($response_data, $response_code);
 
                 // Update calls counter
                 Filesystem::write($files_token_file_path, $flextype['yaml']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
