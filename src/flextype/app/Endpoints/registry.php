@@ -52,7 +52,7 @@ $app->get('/api/registry', function (Request $request, Response $response) use (
             $registry_token_file_path = PATH['project'] . '/tokens/registry/' . $token . '/token.yaml';
 
             // Set  token file
-            if ($registry_token_file_data = $flextype['serializer']->decode(Filesystem::read($registry_token_file_path), 'yaml')) {
+            if ($registry_token_file_data = $flextype['yaml']->decode(Filesystem::read($registry_token_file_path))) {
                 if ($registry_token_file_data['state'] === 'disabled' ||
                     ($registry_token_file_data['limit_calls'] !== 0 && $registry_token_file_data['calls'] >= $registry_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
@@ -71,7 +71,7 @@ $app->get('/api/registry', function (Request $request, Response $response) use (
                 }
 
                 // Update calls counter
-                Filesystem::write($registry_token_file_path, $flextype['serializer']->encode(array_replace_recursive($registry_token_file_data, ['calls' => $registry_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($registry_token_file_path, $flextype['yaml']->encode(array_replace_recursive($registry_token_file_data, ['calls' => $registry_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
