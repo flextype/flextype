@@ -170,10 +170,6 @@ $app->post('/api/folders', function (Request $request, Response $response) use (
                 // Set response code
                 $response_code = $create_folder ? 200 : 404;
 
-                // Return response
-                return $response
-                     ->withJson($response_data, $response_code);
-
                 // Update calls counter
                 Filesystem::write($folders_token_file_path, $flextype['yaml']->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
 
@@ -259,10 +255,6 @@ $app->put('/api/folders/copy', function (Request $request, Response $response) u
                 // Set response code
                 $response_code = $copy_folder ? 200 : 404;
 
-                // Return response
-                return $response
-                     ->withJson($response_data, $response_code);
-
                 // Update calls counter
                 Filesystem::write($folders_token_file_path, $flextype['yaml']->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
 
@@ -347,10 +339,6 @@ $app->put('/api/folders', function (Request $request, Response $response) use ($
 
                 // Set response code
                 $response_code = $rename_folder ? 200 : 404;
-
-                // Return response
-                return $response
-                     ->withJson($response_data, $response_code);
 
                 // Update calls counter
                 Filesystem::write($folders_token_file_path, $flextype['yaml']->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
