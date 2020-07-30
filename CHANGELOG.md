@@ -124,6 +124,8 @@
 
 ### Bug Fixes
 
+* **frontmatter** remove UTF-8 BOM if it exists.
+* **frontmatter** fix line endings to Unix style.
 * **entries** fix method `rename()` in Entries API #433
 * **core** fix all namespaces #437
 * **core** fix flextype config loading.
