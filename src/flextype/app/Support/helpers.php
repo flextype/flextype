@@ -118,20 +118,20 @@ if (! function_exists('collect_filter')) {
                 $items = $collection->next();
                 break;
             case 'random':
-                $bind_random_value = isset($filter['random_value']) ? $filter['random_value'] : null;
+                $bind_random_value = isset($filter['random_value']) ? (int) $filter['random_value'] : null;
                 $items = $collection->random($bind_random_value);
                 break;
             case 'limit':
-                $bind_set_max_result_value = isset($filter['limit_value']) ? $filter['limit_value'] : 0;
+                $bind_set_max_result_value = isset($filter['limit_value']) ? (int) $filter['limit_value'] : 0;
                 $items = $collection->limit($bind_set_max_result_value);
                 break;
             case 'set_first_result':
-                $bind_set_first_result_value = isset($filter['set_first_result_value']) ? $filter['set_first_result_value'] : 0;
+                $bind_set_first_result_value = isset($filter['set_first_result_value']) ? (int) $filter['set_first_result_value'] : 0;
                 $items = $collection->setFirstResult($bind_set_first_result_value);
                 break;
             case 'slice':
-                $bind_slice_offset_value = isset($filter['slice_offset_value']) ? $filter['slice_offset_value'] : 0;
-                $bind_slice_limit_value = isset($filter['slice_limit_value']) ? $filter['slice_limit_value'] : 0;
+                $bind_slice_offset_value = isset($filter['slice_offset_value']) ? (int) $filter['slice_offset_value'] : 0;
+                $bind_slice_limit_value = isset($filter['slice_limit_value']) ? (int) $filter['slice_limit_value'] : 0;
                 $items = $collection->slice($bind_slice_offset_value, $bind_slice_limit_value);
                 break;
             case 'exists':
