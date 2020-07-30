@@ -110,18 +110,18 @@ $app->get('/api/files', function (Request $request, Response $response) use ($fl
  *
  * Body:
  * folder        - [REQUIRED] - The folder you're targetting.
- * token         - [REQUIRED] - Valid Entries token.
+ * token         - [REQUIRED] - Valid Files token.
  * access_token  - [REQUIRED] - Valid Access token.
  * file          - [REQUIRED] - Raw file data (multipart/form-data).
  *
  * Returns:
- * Returns the file object for the file that was just created.
+ * Returns the file object for the file that was just uploaded.
  */
 $app->post('/api/files', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['path']) || ! isset($post_data['access_token']) || ! isset($post_data['folder']) || !isset($_FILES['file'])) {
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['folder']) || !isset($_FILES['file'])) {
         return $response->withJson($api_errors['0501'], $api_errors['0501']['http_status_code']);
     }
 
