@@ -153,6 +153,8 @@ $app->post('/api/files', function (Request $request, Response $response) use ($f
                 // Create file
                 $create_file = $flextype['media_files']->upload($file, $folder);
 
+                $response_data['data'] = [];
+
                 if ($create_file) {
                     $response_data['data'] = $flextype['media_files']->fetch($folder . '/' . basename($create_file));
                 } else {
@@ -243,10 +245,10 @@ $app->put('/api/files', function (Request $request, Response $response) use ($fl
                 // Rename file
                 $rename_file = $flextype['media_files']->rename($path, $new_path);
 
+                $response_data['data'] = [];
+
                 if ($rename_file) {
                     $response_data['data'] = $flextype['media_files']->fetch($new_path);
-                } else {
-                    $response_data['data'] = [];
                 }
 
                 // Set response code
@@ -332,10 +334,10 @@ $app->put('/api/files/copy', function (Request $request, Response $response) use
                 // Copy file
                 $copy_file = $flextype['media_files']->copy($path, $new_path);
 
+                $response_data['data'] = [];
+
                 if ($copy_file) {
                     $response_data['data'] = $flextype['media_files']->fetch($new_path);
-                } else {
-                    $response_data['data'] = [];
                 }
 
                 // Set response code
@@ -500,10 +502,10 @@ $app->patch('/api/files/meta', function (Request $request, Response $response) u
                 // Update file meta
                 $update_file_meta = $flextype['media_files_meta']->update($path, $field, $value);
 
+                $response_data['data'] = [];
+
                 if ($update_file_meta) {
                     $response_data['data'] = $flextype['media_files']->fetch($path);
-                } else {
-                    $response_data['data'] = [];
                 }
 
                 // Set response code
@@ -587,10 +589,10 @@ $app->post('/api/files/meta', function (Request $request, Response $response) us
                 // Add file meta
                 $add_file_meta = $flextype['media_files_meta']->add($path, $field, $value);
 
+                $response_data['data'] = [];
+
                 if ($add_file_meta) {
                     $response_data['data'] = $flextype['media_files']->fetch($path);
-                } else {
-                    $response_data['data'] = [];
                 }
 
                 // Set response code
