@@ -157,8 +157,6 @@ $app->post('/api/files', function (Request $request, Response $response) use ($f
 
                 if ($create_file) {
                     $response_data['data'] = $flextype['media_files']->fetch($folder . '/' . basename($create_file));
-                } else {
-                    $response_data['data'] = [];
                 }
 
                 // Set response code
@@ -675,10 +673,10 @@ $app->delete('/api/files/meta', function (Request $request, Response $response) 
                 // Delete file meta
                 $delete_file_meta = $flextype['media_files_meta']->delete($path, $field);
 
+                $response_data['data'] = [];
+
                 if ($delete_file_meta) {
                     $response_data['data'] = $flextype['media_files']->fetch($path);
-                } else {
-                    $response_data['data'] = [];
                 }
 
                 // Set response code
