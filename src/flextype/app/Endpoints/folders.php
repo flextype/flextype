@@ -30,7 +30,7 @@ function validate_folders_token($token) : bool
  *
  * Query:
  * path       - [REQUIRED] - Folder path.
- * collection - [OPTIONAL] - Colleciton or single.
+ * collection - [OPTIONAL] - Collection or single.
  * token      - [REQUIRED] - Valid Folders token.
  *
  * Returns:
@@ -126,26 +126,30 @@ $app->get('/api/folders', function (Request $request, Response $response) use ($
  * Returns:
  * Returns the file object for the file that was just created.
  */
-$app->post('/api/folders', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
-  // Get Post Data
+$app->post('/api/folders', function (Request $request, Response $response) use ($flextype, $api_errors) {
+    // Get Post Data
     $post_data = $request->getParsedBody();
 
-  // Set variables
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path'])) {
+        return $response->withJson($api_errors['0601'], $api_errors['0601']['http_status_code']);
+    }
+
+    // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
     $path         = $post_data['path'];
 
     if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
         // Validate files and access token
-        if (validate_files_token($token) && validate_access_token($access_token)) {
-            $files_token_file_path  = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
+        if (validate_folders_token($token) && validate_access_token($access_token)) {
+            $folders_token_file_path  = PATH['project'] . '/tokens/folders/' . $token . '/token.yaml';
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($files_token_file_data = $flextype['yaml']->decode(Filesystem::read($files_token_file_path))) &&
+            if (($folders_token_file_data = $flextype['yaml']->decode(Filesystem::read($folders_token_file_path))) &&
               ($access_token_file_data = $flextype['yaml']->decode(Filesystem::read($access_token_file_path)))) {
-                if ($files_token_file_data['state'] === 'disabled' ||
-                  ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+                if ($folders_token_file_data['state'] === 'disabled' ||
+                  ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0501'], $api_errors['0501']['http_status_code']);
                 }
 
@@ -171,7 +175,7 @@ $app->post('/api/folders', function (Request $request, Response $response) use (
                      ->withJson($response_data, $response_code);
 
                 // Update calls counter
-                Filesystem::write($files_token_file_path, $flextype['yaml']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
+                Filesystem::write($folders_token_file_path, $flextype['yaml']->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -210,27 +214,31 @@ $app->post('/api/folders', function (Request $request, Response $response) use (
  * Returns:
  * Returns the file object for the file that was just created.
  */
-$app->put('/api/folders', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
-  // Get Post Data
+$app->put('/api/folders', function (Request $request, Response $response) use ($flextype, $api_errors) {
+    // Get Post Data
     $post_data = $request->getParsedBody();
 
-  // Set variables
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['new_path'])) {
+        return $response->withJson($api_errors['0601'], $api_errors['0601']['http_status_code']);
+    }
+
+    // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id           = $post_data['id'];
-    $new_id       = $post_data['new_id'];
+    $path         = $post_data['path'];
+    $new_path     = $post_data['new_path'];
 
     if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
         // Validate files and access token
-        if (validate_files_token($token) && validate_access_token($access_token)) {
-            $files_token_file_path  = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
+        if (validate_folders_token($token) && validate_access_token($access_token)) {
+            $folders_token_file_path  = PATH['project'] . '/tokens/folders/' . $token . '/token.yaml';
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($files_token_file_data = $flextype['yaml']->decode(Filesystem::read($files_token_file_path))) &&
+            if (($folders_token_file_data = $flextype['yaml']->decode(Filesystem::read($folders_token_file_path))) &&
               ($access_token_file_data = $flextype['yaml']->decode(Filesystem::read($access_token_file_path)))) {
-                if ($files_token_file_data['state'] === 'disabled' ||
-                  ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+                if ($folders_token_file_data['state'] === 'disabled' ||
+                  ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0501'], $api_errors['0501']['http_status_code']);
                 }
 
@@ -240,10 +248,10 @@ $app->put('/api/folders', function (Request $request, Response $response) use ($
                 }
 
                 // Rename folder
-                $rename_folder = $flextype['media_folders']->rename($id, $new_id);
+                $rename_folder = $flextype['media_folders']->rename($path, $new_path);
 
                 if ($rename_folder) {
-                    $response_data['data'] = $flextype['media_folders']->fetch($new_id);
+                    $response_data['data'] = $flextype['media_folders']->fetch($new_path);
                 } else {
                     $response_data['data'] = [];
                 }
@@ -256,7 +264,7 @@ $app->put('/api/folders', function (Request $request, Response $response) use ($
                      ->withJson($response_data, $response_code);
 
                 // Update calls counter
-                Filesystem::write($files_token_file_path, $flextype['yaml']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
+                Filesystem::write($folders_token_file_path, $flextype['yaml']->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -294,26 +302,30 @@ $app->put('/api/folders', function (Request $request, Response $response) use ($
 * Returns:
 * Returns an empty body with HTTP status 204
 */
-$app->delete('/api/folders', function (Request $request, Response $response) use ($flextype) {
-  // Get Post Data
+$app->delete('/api/folders', function (Request $request, Response $response) use ($flextype, $api_errors) {
+    // Get Post Data
     $post_data = $request->getParsedBody();
 
-  // Set variables
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path'])) {
+        return $response->withJson($api_errors['0601'], $api_errors['0601']['http_status_code']);
+    }
+
+    // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id           = $post_data['id'];
+    $path         = $post_data['path'];
 
     if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
         // Validate files and access token
-        if (validate_files_token($token) && validate_access_token($access_token)) {
-            $files_token_file_path  = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
+        if (validate_folders_token($token) && validate_access_token($access_token)) {
+            $folders_token_file_path  = PATH['project'] . '/tokens/folders/' . $token . '/token.yaml';
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($files_token_file_data = $flextype['yaml']->decode(Filesystem::read($files_token_file_path))) &&
+            if (($folders_token_file_data = $flextype['yaml']->decode(Filesystem::read($folders_token_file_path))) &&
               ($access_token_file_data = $flextype['yaml']->decode(Filesystem::read($access_token_file_path)))) {
-                if ($files_token_file_data['state'] === 'disabled' ||
-                  ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+                if ($folders_token_file_data['state'] === 'disabled' ||
+                  ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0501'], $api_errors['0501']['http_status_code']);
                 }
 
@@ -323,13 +335,13 @@ $app->delete('/api/folders', function (Request $request, Response $response) use
                 }
 
                 // Delete folder
-                $delete_folder = $flextype['media_folders']->delete($id);
+                $delete_folder = $flextype['media_folders']->delete($path);
 
                 // Set response code
                 $response_code = $delete_folder ? 204 : 404;
 
                 // Update calls counter
-                Filesystem::write($files_token_file_path, $flextype['yaml']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
+                Filesystem::write($folders_token_file_path, $flextype['yaml']->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -339,7 +351,7 @@ $app->delete('/api/folders', function (Request $request, Response $response) use
 
                 // Return response
                 return $response
-                     ->withJson($delete_file, $response_code);
+                     ->withJson($delete_folder, $response_code);
             }
 
             return $response
