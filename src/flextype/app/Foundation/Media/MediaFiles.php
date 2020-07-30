@@ -373,6 +373,30 @@ class MediaFiles
     }
 
     /**
+     * Copy file
+     *
+     * @param string $id     Unique identifier of the file.
+     * @param string $new_id New Unique identifier of the file.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function copy(string $id, string $new_id) : bool
+    {
+        if (! Filesystem::has($this->getFileLocation($new_id)) && ! Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($new_id))) {
+            Filesystem::copy($this->getFileLocation($id),
+                             $this->getFileLocation($new_id), false);
+            Filesystem::copy($this->flextype['media_files_meta']->getFileMetaLocation($id),
+                             $this->flextype['media_files_meta']->getFileMetaLocation($new_id), false);
+
+            return (Filesystem::has($this->getFileLocation($new_id)) && Filesystem::has($this->flextype['media_files_meta']->getFileMetaLocation($new_id)) === true) ? true : false;
+        }
+
+        return false;
+    }
+
+    /**
      * Get file location
      *
      * @param string $id Unique identifier of the file.
