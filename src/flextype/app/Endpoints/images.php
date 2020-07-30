@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
-use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Http\Response as Response;
 use function array_replace_recursive;
 use function header;
 
