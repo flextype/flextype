@@ -37,7 +37,7 @@ function validate_files_token($token) : bool
  * Returns:
  * An array of file item objects.
  */
-$app->get('/api/files', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->get('/api/files', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Query Params
     $query = $request->getQueryParams();
 
@@ -52,10 +52,10 @@ $app->get('/api/files', function (Request $request, Response $response) use ($fl
     if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
         // Validate delivery token
         if (validate_files_token($token)) {
-            $delivery_files_token_file_path = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
+            $files_token_file_path = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
 
             // Set delivery token file
-            if ($delivery_files_token_file_data = $flextype['serializer']->decode(Filesystem::read($delivery_files_token_file_path), 'yaml')) {
+            if ($delivery_files_token_file_data = $flextype['serializer']->decode(Filesystem::read($files_token_file_path), 'yaml')) {
                 if ($delivery_files_token_file_data['state'] === 'disabled' ||
                     ($delivery_files_token_file_data['limit_calls'] !== 0 && $delivery_files_token_file_data['calls'] >= $delivery_files_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
@@ -78,12 +78,12 @@ $app->get('/api/files', function (Request $request, Response $response) use ($fl
                 $response_code = count($response_data['data']) > 0 ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($delivery_files_token_file_path, $flextype['serializer']->encode(array_replace_recursive($delivery_files_token_file_data, ['calls' => $delivery_files_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($files_token_file_path, $flextype['serializer']->encode(array_replace_recursive($delivery_files_token_file_data, ['calls' => $delivery_files_token_file_data['calls'] + 1]), 'yaml'));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                            ->withJson($api_errors['0502'], $api_errors['0502']['http_status_code']);
                 }
 
                 // Return response
@@ -92,15 +92,15 @@ $app->get('/api/files', function (Request $request, Response $response) use ($fl
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 /**
@@ -172,7 +172,7 @@ $app->post('/api/files', function (Request $request, Response $response) use ($f
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                            ->withJson($api_errors['0502'], $api_errors['0502']['http_status_code']);
                 }
 
                 // Return response
@@ -181,15 +181,15 @@ $app->post('/api/files', function (Request $request, Response $response) use ($f
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 
@@ -207,19 +207,19 @@ $app->post('/api/files', function (Request $request, Response $response) use ($f
  * Returns:
  * Returns the file object for the file that was just created.
  */
-$app->put('/api/files', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->put('/api/files', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['path']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
+    if (! isset($post_data['path']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['new_path'])) {
         return $response->withJson($api_errors['0501'], $api_errors['0501']['http_status_code']);
     }
 
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id           = $post_data['id'];
-    $new_id       = $post_data['new_id'];
+    $path           = $post_data['path'];
+    $new_path       = $post_data['new_path'];
 
     if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
         // Validate files and access token
@@ -241,7 +241,7 @@ $app->put('/api/files', function (Request $request, Response $response) use ($fl
                 }
 
                 // Rename file
-                $rename_file = $flextype['media_files']->rename($id, $new_id);
+                $rename_file = $flextype['media_files']->rename($path, $new_path);
 
                 if ($rename_file) {
                     $response_data['data'] = $flextype['media_files']->fetch($folder . '/' . basename($rename_file));
@@ -262,7 +262,7 @@ $app->put('/api/files', function (Request $request, Response $response) use ($fl
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                            ->withJson($api_errors['0502'], $api_errors['0502']['http_status_code']);
                 }
 
                 // Return response
@@ -271,15 +271,15 @@ $app->put('/api/files', function (Request $request, Response $response) use ($fl
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 /**
@@ -295,18 +295,18 @@ $app->put('/api/files', function (Request $request, Response $response) use ($fl
  * Returns:
  * Returns an empty body with HTTP status 204
  */
-$app->delete('/api/files', function (Request $request, Response $response) use ($flextype) {
+$app->delete('/api/files', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['path']) || ! isset($post_data['access_token']) || ! isset($post_data['id'])) {
+    if (! isset($post_data['path']) || ! isset($post_data['access_token']) || ! isset($post_data['path'])) {
         return $response->withJson($api_errors['0501'], $api_errors['0501']['http_status_code']);
     }
 
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id           = $post_data['id'];
+    $path           = $post_data['path'];
 
     if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
         // Validate files and access token
@@ -328,7 +328,7 @@ $app->delete('/api/files', function (Request $request, Response $response) use (
                 }
 
                 // Delete file
-                $delete_file = $flextype['media_files']->delete($id);
+                $delete_file = $flextype['media_files']->delete($path);
 
                 // Set response code
                 $response_code = $delete_file ? 204 : 404;
@@ -339,7 +339,7 @@ $app->delete('/api/files', function (Request $request, Response $response) use (
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                            ->withJson($api_errors['0502'], $api_errors['0502']['http_status_code']);
                 }
 
                 // Return response
@@ -348,15 +348,15 @@ $app->delete('/api/files', function (Request $request, Response $response) use (
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 /**
@@ -374,7 +374,7 @@ $app->delete('/api/files', function (Request $request, Response $response) use (
  * Returns:
  * Returns the file object for the file that was just created.
  */
-$app->patch('/api/files/meta', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->patch('/api/files/meta', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -430,7 +430,7 @@ $app->patch('/api/files/meta', function (Request $request, Response $response) u
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                            ->withJson($api_errors['0502'], $api_errors['0502']['http_status_code']);
                 }
 
                 // Return response
@@ -439,15 +439,15 @@ $app->patch('/api/files/meta', function (Request $request, Response $response) u
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 /**
@@ -465,7 +465,7 @@ $app->patch('/api/files/meta', function (Request $request, Response $response) u
  * Returns:
  * Returns the file object for the file that was just created.
  */
-$app->post('/api/files/meta', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->post('/api/files/meta', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -521,7 +521,7 @@ $app->post('/api/files/meta', function (Request $request, Response $response) us
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                            ->withJson($api_errors['0502'], $api_errors['0502']['http_status_code']);
                 }
 
                 // Return response
@@ -530,20 +530,20 @@ $app->post('/api/files/meta', function (Request $request, Response $response) us
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
 
 
 /**
- * Add file meta information
+ * Delete file meta information
  *
  * endpoint: DELETE /api/files/meta
  *
@@ -556,7 +556,7 @@ $app->post('/api/files/meta', function (Request $request, Response $response) us
  * Returns:
  * Returns the file object for the file that was just created.
  */
-$app->delete('/api/files/meta', function (Request $request, Response $response) use ($flextype, $api_sys_messages) {
+$app->delete('/api/files/meta', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -611,7 +611,7 @@ $app->delete('/api/files/meta', function (Request $request, Response $response) 
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_sys_messages['NotFound'], $response_code);
+                            ->withJson($api_errors['0502'], $api_errors['0502']['http_status_code']);
                 }
 
                 // Return response
@@ -620,13 +620,13 @@ $app->delete('/api/files/meta', function (Request $request, Response $response) 
             }
 
             return $response
-                   ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
         }
 
         return $response
-               ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
     }
 
     return $response
-           ->withJson($api_sys_messages['AccessTokenInvalid'], 401);
+           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
 });
