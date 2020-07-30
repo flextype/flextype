@@ -131,8 +131,8 @@ $app->post('/api/entries', function (Request $request, Response $response) use (
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
-            if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
-                ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+            if (($entries_token_file_data = $flextype['yaml']->decode(Filesystem::read($entries_token_file_path))) &&
+                ($access_token_file_data = $flextype['yaml']->decode(Filesystem::read($access_token_file_path)))) {
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
@@ -156,7 +156,7 @@ $app->post('/api/entries', function (Request $request, Response $response) use (
                 $response_code = $create_entry ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($entries_token_file_path, $flextype['yaml']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -216,8 +216,8 @@ $app->patch('/api/entries', function (Request $request, Response $response) use 
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
-            if (($entries_token_file_data = $flextype['serializer']->decode(Filesystem::read($entries_token_file_path), 'yaml')) &&
-                ($access_token_file_data = $flextype['serializer']->decode(Filesystem::read($access_token_file_path), 'yaml'))) {
+            if (($entries_token_file_data = $flextype['yaml']->decode(Filesystem::read($entries_token_file_path))) &&
+                ($access_token_file_data = $flextype['yaml']->decode(Filesystem::read($access_token_file_path)))) {
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
@@ -241,7 +241,7 @@ $app->patch('/api/entries', function (Request $request, Response $response) use 
                 $response_code = $update_entry ? 200 : 404;
 
                 // Update calls counter
-                Filesystem::write($entries_token_file_path, $flextype['serializer']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1]), 'yaml'));
+                Filesystem::write($entries_token_file_path, $flextype['yaml']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -410,7 +410,7 @@ $app->put('/api/entries/copy', function (Request $request, Response $response) u
                 }
 
                 // Set response code
-                $response_code = $copy_entry ? 200 : 404;
+                $response_code = ($copy_entry === null) ? 200 : 404;
 
                 // Update calls counter
                 Filesystem::write($entries_token_file_path, $flextype['yaml']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
