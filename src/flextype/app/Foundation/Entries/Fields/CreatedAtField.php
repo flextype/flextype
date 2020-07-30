@@ -19,6 +19,6 @@ $flextype->emitter->addListener('onEntryCreate', function () use ($flextype) : v
     if (isset($flextype->entries->entry_create_data['created_at'])) {
         $flextype->entries->entry_create_data['created_at'] = $flextype->entries->entry_create_data['created_at'];
     } else {
-        $flextype->entries->entry_create_data['created_at'] = date($this->flextype->registry->get('flextype.settings.date_format'), time());
+        $flextype->entries->entry_create_data['created_at'] = date($flextype->registry->get('flextype.settings.date_format'), time());
     }
 });
