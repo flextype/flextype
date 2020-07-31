@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 
 use Flextype\App\Support\Collection;
+use Symfony\Component\Finder\Finder;
 
 if (! function_exists('collect')) {
     /**
@@ -153,5 +154,15 @@ if (! function_exists('collect_filter')) {
 
         // Return entries
         return $items;
+    }
+}
+
+if (! function_exists('find')) {
+    /**
+     * Create a Finder instance.
+     */
+    function find() : Finder
+    {
+        return new Finder();
     }
 }
