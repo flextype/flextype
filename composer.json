@@ -56,7 +56,7 @@
 
         "thunderer/shortcode": "~0.7.4",
 
-        "composer/semver": "~2.0.0"
+        "composer/semver": "~3.0.0"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
