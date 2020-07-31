@@ -21,7 +21,7 @@ use const PHP_VERSION;
 /**
  * Define the application minimum supported PHP version.
  */
-define('FLEXTYPE_MINIMUM_PHP', '7.2.0');
+define('FLEXTYPE_MINIMUM_PHP', '7.2.5');
 
 /**
  * Define the PATH to the root directory (without trailing slash).
