@@ -62,6 +62,14 @@ class Entries
     public $entries = [];
 
     /**
+     * Current entries path
+     *
+     * @var string
+     * @access public
+     */
+    public $entries_path = null;
+
+    /**
      * Flextype Dependency Container
      *
      * @access private
@@ -83,13 +91,13 @@ class Entries
      *
      * @param string $path       Unique identifier of the entry(entries).
      * @param bool   $collection Set `true` if collection of entries need to be fetched.
-     * @param bool   $deep       Whether to list entries recursively.
+     * @param array  $filter     Select items in collection by given conditions.
      *
      * @return array The entry array data.
      *
      * @access public
      */
-    public function fetch(string $path, bool $collection = false, bool $deep = false) : array
+    public function fetch(string $path, bool $collection = false, $filter = []) : array
     {
         if ($collection) {
             return $this->fetchCollection($path, $deep);
@@ -164,50 +172,53 @@ class Entries
     /**
      * Fetch entries collection
      *
-     * @param string $path Unique identifier of the entry(entries).
-     * @param bool   $deep Whether to list entries recursively.
+     * @param string $path   Unique identifier of the entry(entries).
+     * @param array  $filter Select items in collection by given conditions.
      *
      * @return array The entries array data.
      *
      * @access public
      */
-    public function fetchCollection(string $path, bool $deep = false) : array
+    public function fetchCollection(string $path, $filter = []) : array
     {
-        // Init Entries
-        $entries = [];
-
         // Init Entries object
-        $this->entries = $entries;
+        $this->entries = [];
 
-        // Get entries path
-        $entries_path = $this->getDirLocation($path);
+        // Store current requested entries path
+        $this->entries_path = $this->getDirLocation($path);
 
-        // Get entries list
-        $entries_list = Filesystem::listContents($entries_path, $deep);
+        // Find entries collection
+        $find = find()->in($this->entries_path);
 
-        // If entries founded in entries folder
+        isset($filter['depth'])         and $find->depth($filter['depth']) or $find->depth(1);
+        isset($filter['date'])          and $find->date($filter['date']);
+        isset($filter['size'])          and $find->size($filter['size']);
+        isset($filter['exclude'])       and $find->exclude($filter['exclude']);
+        isset($filter['contains'])      and $find->contains($filter['contains']);
+        isset($filter['not_contains'])  and $find->notContains($filter['not_contains']);
+        isset($filter['filter'])        and $find->filter($filter['filter']);
+        isset($filter['sort'])          and $find->sort($filter['sort']);
+        isset($filter['path'])          and $find->path($filter['path']);
+        isset($filter['sort_by']) && $filter['sort_by'] == 'atime' and $find->sortByAccessedTime();
+        isset($filter['sort_by']) && $filter['sort_by'] == 'mtime' and $find->sortByModifiedTime();
+        isset($filter['sort_by']) && $filter['sort_by'] == 'ctime' and $find->sortByChangedTime();
+
+        $entries_list = $find->files();
+
+        // If entries founded in the entries folder
+        // We are checking... Whether the requested entry is an a true entry.
+        // Get entry uid. Remove entries path and remove left and right slashes.
+        // Fetch single entry.
         if (count($entries_list) > 0) {
-            // Create entries array from entries list and ignore current requested entry
             foreach ($entries_list as $current_entry) {
-                if (strpos($current_entry['path'], $path . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension')) !== false) {
-                    // ignore ...
-                } else {
-                    // We are checking...
-                    // Whether the requested entry is a directory and whether the file entry is in this directory.
-                    if ($current_entry['type'] === 'dir' && Filesystem::has($current_entry['path'] . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension'))) {
-                        // Get entry uid
-                        // 1. Remove entries path
-                        // 2. Remove left and right slashes
-                        $uid = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', $current_entry['path']), '/'), '/');
-
-                        // Fetch single entry
-                        $entries[$uid] = $this->fetch($uid);
-                    }
+                if ($current_entry->getType() === 'file' && $current_entry->getFilename() === 'entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension')) {
+                    $uid = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', $current_entry->getPath()), '/'), '/');
+                    $this->entries[$uid] = $this->fetchSingle($uid);
                 }
             }
 
-            // Save entries array into the property entries
-            $this->entries = $entries;
+            // Apply collection filter
+            $this->entries = collect_filter($this->entries, $filter);
 
             // Run event: onEntriesAfterInitialized
             $this->flextype['emitter']->emit('onEntriesAfterInitialized');
