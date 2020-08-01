@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 
-if ($flextype->registry->get('entries.fields.routable.settings.enabled')) {
+if ($flextype->registry->get('flextype.settings.entries.fields.routable.enabled')) {
     $flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
         $flextype->entries->entry['routable'] = isset($flextype->entries->entry['routable']) ?
                                                         (bool) $flextype->entries->entry['routable'] :

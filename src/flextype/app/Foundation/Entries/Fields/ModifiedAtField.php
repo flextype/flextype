@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 use Flextype\Component\Filesystem\Filesystem;
 
-if ($flextype->registry->get('entries.fields.modified_at.settings.enabled')) {
+if ($flextype->registry->get('flextype.settings.entries.fields.modified_at.enabled')) {
     $flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
         $flextype->entries->entry['modified_at'] = (int) Filesystem::getTimestamp($flextype->entries->getFileLocation($flextype->entries->entry_path));
     });

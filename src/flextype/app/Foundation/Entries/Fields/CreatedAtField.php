@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 use Flextype\Component\Filesystem\Filesystem;
 
-if ($flextype->registry->get('entries.fields.created_at.settings.enabled')) {
+if ($flextype->registry->get('flextype.settings.entries.fields.created_at.enabled')) {
     $flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
         $flextype->entries->entry['created_at'] = isset($flextype->entries->entry['created_at']) ?
                                         (int) strtotime($flextype->entries->entry['created_at']) :

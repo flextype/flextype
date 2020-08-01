@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-if ($flextype->registry->get('entries.fields.visibility.settings.enabled')) {
+if ($flextype->registry->get('flextype.settings.entries.fields.visibility.enabled')) {
     $visibility = [
         'draft' => 'draft',
         'hidden' => 'hidden',
