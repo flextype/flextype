@@ -11,10 +11,11 @@ namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Http\Response as Response;
+use Slim\Http\Response;
 use function array_replace_recursive;
 use function collect_filter;
 use function count;
+use function is_array;
 
 /**
  * Validate entries entries token
@@ -37,14 +38,14 @@ function validate_entries_token($token) : bool
  * Returns:
  * An array of entry item objects.
  */
-$app->get('/api/entries', function (Request $request, Response $response) use ($app, $flextype, $api_errors) {
+$app->get('/api/entries', function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Query Params
     $query = $request->getQueryParams();
 
     if (! isset($query['id']) || ! isset($query['token'])) {
         return $response
                     ->withStatus($api_errors['0100']['http_status_code'])
-                    ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                     ->write($flextype->json->encode($api_errors['0100']));
     }
 
@@ -64,7 +65,7 @@ $app->get('/api/entries', function (Request $request, Response $response) use ($
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
-                                ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                                 ->write($flextype->json->encode($api_errors['0003']));
                 }
 
@@ -86,31 +87,34 @@ $app->get('/api/entries', function (Request $request, Response $response) use ($
 
                 if ($response_code === 404) {
                     // Return response
-                    return $response->withJson($api_errors['0102'], $api_errors['0102']['http_status_code']);
+                    return $response
+                                ->withStatus($api_errors['0102'])
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                                ->write($flextype->json->encode($api_errors['0102']['http_status_code']));
                 }
 
                 return $response
                             ->withStatus($response_code)
-                            ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                             ->write($flextype->json->encode($response_data));
             }
 
             return $response
                         ->withStatus($api_errors['0003']['http_status_code'])
-                        ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                        ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                         ->write($flextype->json->encode($api_errors['0003']));
         }
 
         return $response
                     ->withStatus($api_errors['0003']['http_status_code'])
-                    ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                     ->write($flextype->json->encode($api_errors['0003']));
     }
 
     return $response
-              ->withStatus($api_errors['0003']['http_status_code'])
-              ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
-              ->write($flextype->json->encode($api_errors['0003']));
+                ->withStatus($api_errors['0003']['http_status_code'])
+                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                ->write($flextype->json->encode($api_errors['0003']));
 });
 
 /**
@@ -132,7 +136,10 @@ $app->post('/api/entries', function (Request $request, Response $response) use (
     $post_data = $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['data'])) {
-        return $response->withJson($api_errors['0101'], $api_errors['0101']['http_status_code']);
+        return $response
+                    ->withStatus($api_errors['0101'])
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                    ->write($flextype->json->encode($api_errors['0101']['http_status_code']));
     }
 
     // Set variables
@@ -153,16 +160,16 @@ $app->post('/api/entries', function (Request $request, Response $response) use (
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response
-                        ->withStatus($api_errors['0003']['http_status_code'])
-                        ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
-                        ->write($flextype->json->encode($api_errors['0003']));
+                                ->withStatus($api_errors['0003']['http_status_code'])
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                                ->write($flextype->json->encode($api_errors['0003']));
                 }
 
                 if ($access_token_file_data['state'] === 'disabled' ||
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
-                                ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                                 ->write($flextype->json->encode($api_errors['0003']));
                 }
 
@@ -184,30 +191,34 @@ $app->post('/api/entries', function (Request $request, Response $response) use (
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_errors['0102'], $api_errors['0102']['http_status_code']);
+                                ->withStatus($api_errors['0102'])
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                                ->write($flextype->json->encode($api_errors['0102']['http_status_code']));
                 }
 
                 // Return response
                 return $response
-                       ->withJson($response_data, $response_code);
+                       ->withStatus($response_code)
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                    ->write($flextype->json->encode($response_data));
             }
 
             return $response
-                   ->withStatus($api_errors['0003']['http_status_code'])
-->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
-->write($flextype->json->encode($api_errors['0003']));
+                        ->withStatus($api_errors['0003']['http_status_code'])
+                        ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                        ->write($flextype->json->encode($api_errors['0003']));
         }
 
         return $response
-               ->withStatus($api_errors['0003']['http_status_code'])
-->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
-->write($flextype->json->encode($api_errors['0003']));
+                    ->withStatus($api_errors['0003']['http_status_code'])
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                    ->write($flextype->json->encode($api_errors['0003']));
     }
 
     return $response
-           ->withStatus($api_errors['0003']['http_status_code'])
-->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
-->write($flextype->json->encode($api_errors['0003']));
+                ->withStatus($api_errors['0003']['http_status_code'])
+                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                ->write($flextype->json->encode($api_errors['0003']));
 });
 
 /**
@@ -229,7 +240,10 @@ $app->patch('/api/entries', function (Request $request, Response $response) use 
     $post_data = $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['data'])) {
-        return $response->withJson($api_errors['0101'], $api_errors['0101']['http_status_code']);
+        return $response
+                    ->withStatus($api_errors['0101'])
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                    ->write($flextype->json->encode($api_errors['0101']['http_status_code']));
     }
 
     // Set variables
@@ -251,7 +265,7 @@ $app->patch('/api/entries', function (Request $request, Response $response) use 
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
-                                ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                                 ->write($flextype->json->encode($api_errors['0003']));
                 }
 
@@ -259,7 +273,7 @@ $app->patch('/api/entries', function (Request $request, Response $response) use 
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
-                                ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                                 ->write($flextype->json->encode($api_errors['0003']));
                 }
 
@@ -281,30 +295,34 @@ $app->patch('/api/entries', function (Request $request, Response $response) use 
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_errors['0102'], $api_errors['0102']['http_status_code']);
+                                ->withStatus($api_errors['0102'])
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                                ->write($flextype->json->encode($api_errors['0102']['http_status_code']));
                 }
 
                 // Return response
                 return $response
-                       ->withJson($response_data, $response_code);
+                            ->withStatus($response_code)
+                            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                            ->write($flextype->json->encode($response_data));
             }
 
             return $response
-                   ->withStatus($api_errors['0003']['http_status_code'])
-->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
-->write($flextype->json->encode($api_errors['0003']));
+                        ->withStatus($api_errors['0003']['http_status_code'])
+                        ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                        ->write($flextype->json->encode($api_errors['0003']));
         }
 
         return $response
-               ->withStatus($api_errors['0003']['http_status_code'])
-->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
-->write($flextype->json->encode($api_errors['0003']));
+                    ->withStatus($api_errors['0003']['http_status_code'])
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                    ->write($flextype->json->encode($api_errors['0003']));
     }
 
     return $response
-           ->withStatus($api_errors['0003']['http_status_code'])
-->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
-->write($flextype->json->encode($api_errors['0003']));
+                ->withStatus($api_errors['0003']['http_status_code'])
+                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                ->write($flextype->json->encode($api_errors['0003']));
 });
 
 /**
@@ -326,7 +344,10 @@ $app->put('/api/entries', function (Request $request, Response $response) use ($
     $post_data = $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
-        return $response->withJson($api_errors['0101'], $api_errors['0101']['http_status_code']);
+        return $response
+                    ->withStatus($api_errors['0101'])
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                    ->write($flextype->json->encode($api_errors['0101']['http_status_code']));
     }
 
     // Set variables
@@ -348,7 +369,7 @@ $app->put('/api/entries', function (Request $request, Response $response) use ($
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
-                                ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                                 ->write($flextype->json->encode($api_errors['0003']));
                 }
 
@@ -356,7 +377,7 @@ $app->put('/api/entries', function (Request $request, Response $response) use ($
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
-                                ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                                 ->write($flextype->json->encode($api_errors['0003']));
                 }
 
@@ -379,30 +400,34 @@ $app->put('/api/entries', function (Request $request, Response $response) use ($
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_errors['0102'], $api_errors['0102']['http_status_code']);
+                                ->withStatus($api_errors['0102'])
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                                ->write($flextype->json->encode($api_errors['0102']['http_status_code']));
                 }
 
                 // Return response
                 return $response
-                       ->withJson($response_data, $response_code);
+                            ->withStatus($response_code)
+                            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                            ->write($flextype->json->encode($response_data));
             }
 
             return $response
                         ->withStatus($api_errors['0003']['http_status_code'])
-                        ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                        ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                         ->write($flextype->json->encode($api_errors['0003']));
         }
 
         return $response
-               ->withStatus($api_errors['0003']['http_status_code'])
-->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
-->write($flextype->json->encode($api_errors['0003']));
+                    ->withStatus($api_errors['0003']['http_status_code'])
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                    ->write($flextype->json->encode($api_errors['0003']));
     }
 
     return $response
-           ->withStatus($api_errors['0003']['http_status_code'])
-->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
-->write($flextype->json->encode($api_errors['0003']));
+                ->withStatus($api_errors['0003']['http_status_code'])
+                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                ->write($flextype->json->encode($api_errors['0003']));
 });
 
 /**
@@ -424,7 +449,10 @@ $app->put('/api/entries/copy', function (Request $request, Response $response) u
     $post_data = $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
-        return $response->withJson($api_errors['0101'], $api_errors['0101']['http_status_code']);
+        return $response
+                    ->withStatus($api_errors['0101'])
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                    ->write($flextype->json->encode($api_errors['0101']['http_status_code']));
     }
 
     // Set variables
@@ -446,7 +474,7 @@ $app->put('/api/entries/copy', function (Request $request, Response $response) u
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
-                                ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                                 ->write($flextype->json->encode($api_errors['0003']));
                 }
 
@@ -454,7 +482,7 @@ $app->put('/api/entries/copy', function (Request $request, Response $response) u
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
-                                ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                                 ->write($flextype->json->encode($api_errors['0003']));
                 }
 
@@ -469,7 +497,7 @@ $app->put('/api/entries/copy', function (Request $request, Response $response) u
                 }
 
                 // Set response code
-                $response_code = ($copy_entry === null) ? 200 : 404;
+                $response_code = $copy_entry === null ? 200 : 404;
 
                 // Update calls counter
                 Filesystem::write($entries_token_file_path, $flextype['yaml']->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
@@ -477,29 +505,33 @@ $app->put('/api/entries/copy', function (Request $request, Response $response) u
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_errors['0102'], $api_errors['0102']['http_status_code']);
+                                ->withStatus($api_errors['0102'])
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                                ->write($flextype->json->encode($api_errors['0102']['http_status_code']));
                 }
 
                 // Return response
                 return $response
-                       ->withJson($response_data, $response_code);
+                            ->withStatus($response_code)
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                    ->write($flextype->json->encode($response_data));
             }
 
             return $response
                         ->withStatus($api_errors['0003']['http_status_code'])
-                        ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                        ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                         ->write($flextype->json->encode($api_errors['0003']));
         }
 
         return $response
                     ->withStatus($api_errors['0003']['http_status_code'])
-                    ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                     ->write($flextype->json->encode($api_errors['0003']));
     }
 
     return $response
                 ->withStatus($api_errors['0003']['http_status_code'])
-                ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                 ->write($flextype->json->encode($api_errors['0003']));
 });
 
@@ -521,7 +553,10 @@ $app->delete('/api/entries', function (Request $request, Response $response) use
     $post_data = $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id'])) {
-        return $response->withJson($api_errors['0101'], $api_errors['0101']['http_status_code']);
+        return $response
+                    ->withStatus($api_errors['0101'])
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                    ->write($flextype->json->encode($api_errors['0101']['http_status_code']));
     }
 
     // Set variables
@@ -542,7 +577,7 @@ $app->delete('/api/entries', function (Request $request, Response $response) use
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
-                                ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                                 ->write($flextype->json->encode($api_errors['0003']));
                 }
 
@@ -550,7 +585,7 @@ $app->delete('/api/entries', function (Request $request, Response $response) use
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
-                                ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                                 ->write($flextype->json->encode($api_errors['0003']));
                 }
 
@@ -566,28 +601,32 @@ $app->delete('/api/entries', function (Request $request, Response $response) use
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_errors['0102'], $api_errors['0102']['http_status_code']);
+                                ->withStatus($api_errors['0102'])
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                                ->write($flextype->json->encode($api_errors['0102']['http_status_code']));
                 }
 
                 // Return response
                 return $response
-                       ->withJson($delete_entry, $response_code);
+                            ->withStatus($response_code)
+                            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                            ->write($flextype->json->encode($delete_entry));
             }
 
             return $response
                         ->withStatus($api_errors['0003']['http_status_code'])
-                        ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                        ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                         ->write($flextype->json->encode($api_errors['0003']));
         }
 
         return $response
                     ->withStatus($api_errors['0003']['http_status_code'])
-                    ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                    ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                     ->write($flextype->json->encode($api_errors['0003']));
     }
 
     return $response
                 ->withStatus($api_errors['0003']['http_status_code'])
-                ->withHeader("Content-Type", "application/json;charset=" . $flextype->registry->get('flextype.settings.charset'))
+                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
                 ->write($flextype->json->encode($api_errors['0003']));
 });
