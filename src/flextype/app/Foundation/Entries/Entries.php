@@ -100,7 +100,7 @@ class Entries
     public function fetch(string $path, bool $collection = false, $filter = []) : array
     {
         if ($collection) {
-            return $this->fetchCollection($path, $deep);
+            return $this->fetchCollection($path, $filter);
         }
 
         return $this->fetchSingle($path);
