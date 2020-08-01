@@ -9,16 +9,18 @@ declare(strict_types=1);
 
 use Flextype\Component\Filesystem\Filesystem;
 
-$flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
-    $flextype->entries->entry['published_at'] = isset($flextype->entries->entry['published_at']) ?
-                                    (int) strtotime($flextype->entries->entry['published_at']) :
-                                    (int) Filesystem::getTimestamp($flextype->entries->getFileLocation($flextype->entries->entry_path));
-});
+if ($flextype->registry->get('entries.fields.published_at.settings.enabled')) {
+    $flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
+        $flextype->entries->entry['published_at'] = isset($flextype->entries->entry['published_at']) ?
+                                        (int) strtotime($flextype->entries->entry['published_at']) :
+                                        (int) Filesystem::getTimestamp($flextype->entries->getFileLocation($flextype->entries->entry_path));
+    });
 
-$flextype->emitter->addListener('onEntryCreate', function () use ($flextype) : void {
-    if (isset($flextype->entries->entry_create_data['published_at'])) {
-        $flextype->entries->entry_create_data['published_at'] = $flextype->entries->entry_create_data['published_at'];
-    } else {
-        $flextype->entries->entry_create_data['published_at'] = date($flextype->registry->get('flextype.settings.date_format'), time());
-    }
-});
+    $flextype->emitter->addListener('onEntryCreate', function () use ($flextype) : void {
+        if (isset($flextype->entries->entry_create_data['published_at'])) {
+            $flextype->entries->entry_create_data['published_at'] = $flextype->entries->entry_create_data['published_at'];
+        } else {
+            $flextype->entries->entry_create_data['published_at'] = date($flextype->registry->get('flextype.settings.date_format'), time());
+        }
+    });
+}

@@ -8,16 +8,18 @@ declare(strict_types=1);
  */
 
 
-$flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
-    $flextype->entries->entry['routable'] = isset($flextype->entries->entry['routable']) ?
-                                                    (bool) $flextype->entries->entry['routable'] :
-                                                    true;
-});
+if ($flextype->registry->get('entries.fields.routable.settings.enabled')) {
+    $flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
+        $flextype->entries->entry['routable'] = isset($flextype->entries->entry['routable']) ?
+                                                        (bool) $flextype->entries->entry['routable'] :
+                                                        true;
+    });
 
-$flextype->emitter->addListener('onEntryCreate', function () use ($flextype) : void {
-    if (isset($flextype->entries->entry_create_data['routable']) && is_bool($flextype->entries->entry_create_data['routable'])) {
-        $flextype->entries->entry_create_data['routable'] = $flextype->entries->entry_create_data['routable'];
-    } else {
-        $flextype->entries->entry_create_data['routable'] = true;
-    }
-});
+    $flextype->emitter->addListener('onEntryCreate', function () use ($flextype) : void {
+        if (isset($flextype->entries->entry_create_data['routable']) && is_bool($flextype->entries->entry_create_data['routable'])) {
+            $flextype->entries->entry_create_data['routable'] = $flextype->entries->entry_create_data['routable'];
+        } else {
+            $flextype->entries->entry_create_data['routable'] = true;
+        }
+    });
+}

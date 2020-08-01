@@ -7,10 +7,12 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-$flextype->emitter->addListener('onEntryCreate', function () use ($flextype) : void {
-    if (isset($flextype->entries->entry_create_data['created_by'])) {
-        $flextype->entries->entry_create_data['created_by'] = $flextype->entries->entry_create_data['created_by'];
-    } else {
-        $flextype->entries->entry_create_data['created_by'] = '';
-    }
-});
+if ($flextype->registry->get('entries.fields.created_by.settings.enabled')) {
+    $flextype->emitter->addListener('onEntryCreate', function () use ($flextype) : void {
+        if (isset($flextype->entries->entry_create_data['created_by'])) {
+            $flextype->entries->entry_create_data['created_by'] = $flextype->entries->entry_create_data['created_by'];
+        } else {
+            $flextype->entries->entry_create_data['created_by'] = '';
+        }
+    });
+}

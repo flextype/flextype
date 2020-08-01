@@ -9,10 +9,12 @@ declare(strict_types=1);
 
 use Ramsey\Uuid\Uuid;
 
-$flextype->emitter->addListener('onEntryCreate', function () use ($flextype) : void {
-    if (isset($flextype->entries->entry_create_data['uuid'])) {
-        $flextype->entries->entry_create_data['uuid'] = $flextype->entries->entry_create_data['uuid'];
-    } else {
-        $flextype->entries->entry_create_data['uuid'] = Uuid::uuid4()->toString();
-    }
-});
+if ($flextype->registry->get('entries.fields.uuid.settings.enabled')) {
+    $flextype->emitter->addListener('onEntryCreate', function () use ($flextype) : void {
+        if (isset($flextype->entries->entry_create_data['uuid'])) {
+            $flextype->entries->entry_create_data['uuid'] = $flextype->entries->entry_create_data['uuid'];
+        } else {
+            $flextype->entries->entry_create_data['uuid'] = Uuid::uuid4()->toString();
+        }
+    });
+}

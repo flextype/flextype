@@ -9,9 +9,11 @@ declare(strict_types=1);
 
 use Flextype\Component\Arrays\Arrays;
 
-$flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
-    processParsersField($flextype);
-});
+if ($flextype->registry->get('entries.fields.parsers.settings.enabled')) {
+    $flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
+        processParsersField($flextype);
+    });
+}
 
 function processParsersField($flextype) : void
 {

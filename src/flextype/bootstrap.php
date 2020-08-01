@@ -126,8 +126,8 @@ foreach ($shortcodes_extensions as $shortcodes_extension) {
  */
 $entry_fields = $flextype['registry']->get('flextype.settings.entries.fields');
 
-foreach ($entry_fields as $field) {
-    $entry_field_file_path = ROOT_DIR . '/src/flextype/app/Foundation/Entries/Fields/' . $field . 'Field.php';
+foreach ($entry_fields as $field_name => $field) {
+    $entry_field_file_path = ROOT_DIR . '/src/flextype/app/Foundation/Entries/Fields/' . str_replace("_", '', ucwords($field_name, "_")) . 'Field.php';
     if (! file_exists($entry_field_file_path)) {
         continue;
     }
