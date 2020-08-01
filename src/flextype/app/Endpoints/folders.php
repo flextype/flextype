@@ -96,12 +96,16 @@ $app->get('/api/folders', static function (Request $request, Response $response)
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_errors['0602'], $api_errors['0602']['http_status_code']);
+                           ->withStatus($api_errors['0602']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0602']));
                 }
 
                 // Return response
                 return $response
-                       ->withJson($response_data, $response_code);
+                       ->withStatus($response_code)
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode(response_data));
             }
 
             return $response
@@ -141,7 +145,9 @@ $app->post('/api/folders', static function (Request $request, Response $response
     $post_data = $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path'])) {
-        return $response->withJson($api_errors['0601'], $api_errors['0601']['http_status_code']);
+        return $response->withStatus($api_errors['0601']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0601']));
     }
 
     // Set variables
@@ -190,12 +196,16 @@ $app->post('/api/folders', static function (Request $request, Response $response
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                         ->withJson($api_errors['0602'], $api_errors['0602']['http_status_code']);
+                         ->withStatus($api_errors['0602']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0602']));
                 }
 
                 // Return response
                 return $response
-                     ->withJson($response_data, $response_code);
+                     ->withStatus($response_code)
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode(response_data));
             }
 
             return $response
@@ -235,7 +245,9 @@ $app->put('/api/folders/copy', static function (Request $request, Response $resp
     $post_data = $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['new_path'])) {
-        return $response->withJson($api_errors['0601'], $api_errors['0601']['http_status_code']);
+        return $response->withStatus($api_errors['0601']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0601']));
     }
 
     // Set variables
@@ -255,12 +267,16 @@ $app->put('/api/folders/copy', static function (Request $request, Response $resp
               ($access_token_file_data = $flextype['yaml']->decode(Filesystem::read($access_token_file_path)))) {
                 if ($folders_token_file_data['state'] === 'disabled' ||
                   ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_errors['0601'], $api_errors['0601']['http_status_code']);
+                    return $response->withStatus($api_errors['0601']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0601']));
                 }
 
                 if ($access_token_file_data['state'] === 'disabled' ||
                   ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_errors['0601'], $api_errors['0601']['http_status_code']);
+                    return $response->withStatus($api_errors['0601']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0601']));
                 }
 
                 // Copy folder
@@ -281,12 +297,16 @@ $app->put('/api/folders/copy', static function (Request $request, Response $resp
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                         ->withJson($api_errors['0602'], $api_errors['0602']['http_status_code']);
+                                ->withStatus($api_errors['0602']['http_status_code'])
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                                ->write($flextype->json->encode($api_errors['0602']));
                 }
 
                 // Return response
                 return $response
-                     ->withJson($response_data, $response_code);
+                     ->withStatus($response_code)
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode(response_data));
             }
 
             return $response
@@ -326,7 +346,9 @@ $app->put('/api/folders', static function (Request $request, Response $response)
     $post_data = $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['new_path'])) {
-        return $response->withJson($api_errors['0601'], $api_errors['0601']['http_status_code']);
+        return $response->withStatus($api_errors['0601']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0601']));
     }
 
     // Set variables
@@ -376,12 +398,16 @@ $app->put('/api/folders', static function (Request $request, Response $response)
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                                ->withJson($api_errors['0602'], $api_errors['0602']['http_status_code']);
+                                ->withStatus($api_errors['0602']['http_status_code'])
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                                ->write($flextype->json->encode($api_errors['0602']));
                 }
 
                 // Return response
                 return $response
-                     ->withJson($response_data, $response_code);
+                     ->withStatus($response_code)
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode(response_data));
             }
 
             return $response
@@ -420,7 +446,9 @@ $app->delete('/api/folders', static function (Request $request, Response $respon
     $post_data = $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path'])) {
-        return $response->withJson($api_errors['0601'], $api_errors['0601']['http_status_code']);
+        return $response->withStatus($api_errors['0601']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0601']));
     }
 
     // Set variables
@@ -463,12 +491,16 @@ $app->delete('/api/folders', static function (Request $request, Response $respon
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                         ->withJson($api_errors['0602'], $api_errors['0602']['http_status_code']);
+                                ->withStatus($api_errors['0602']['http_status_code'])
+                                ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                                ->write($flextype->json->encode($api_errors['0602']));
                 }
 
                 // Return response
                 return $response
-                     ->withJson($delete_folder, $response_code);
+                     ->withStatus($response_code)
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode(delete_folder));
             }
 
             return $response
