@@ -92,12 +92,12 @@ class Json
      */
     public function _encode($input, $options = 0, int $depth = 512) : string
     {
-        $options = ($options & $this->ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE)
+        $options = ($options & self::ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE)
             | JSON_UNESCAPED_SLASHES
-            | ($options & $this->PRETTY ? JSON_PRETTY_PRINT : 0)
+            | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)
             | (defined('JSON_PRESERVE_ZERO_FRACTION') ? JSON_PRESERVE_ZERO_FRACTION : 0);
 
-        $json = json_encode($value, $options, $depth);
+        $json = json_encode($input, $options, $depth);
 
         if ($error = json_last_error()) {
             throw new RuntimeException(json_last_error_msg(), $error);
@@ -111,7 +111,7 @@ class Json
      */
     protected function _decode(string $input, bool $assoc = true, int $depth = 512, int $flags = 0)
     {
-        $value = json_decode($json, $assoc, $depth, $flags);
+        $value = json_decode($input, $assoc, $depth, $flags);
 
         if ($error = json_last_error()) {
             throw new RuntimeException(json_last_error_msg(), $error);
