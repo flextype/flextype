@@ -9,8 +9,10 @@ $flextype_manifest_file_path         = ROOT_DIR . '/src/flextype/flextype.yaml';
 $default_flextype_settings_file_path = ROOT_DIR . '/src/flextype/settings.yaml';
 $custom_flextype_settings_file_path  = PATH['project'] . '/config/flextype/settings.yaml';
 $preflight_flextype_path             = PATH['cache'] . '/preflight/flextype/';
+$custom_flextype_settings_path       = PATH['project'] . '/config/flextype/';
 
 ! Filesystem::has($preflight_flextype_path) and Filesystem::createDir($preflight_flextype_path);
+! Filesystem::has($custom_flextype_settings_path) and Filesystem::createDir($custom_flextype_settings_path);
 
 $f1 = file_exists($flextype_manifest_file_path) ? filemtime($flextype_manifest_file_path) : '';
 $f2 = file_exists($default_flextype_settings_file_path) ? filemtime($default_flextype_settings_file_path) : '';
