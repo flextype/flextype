@@ -11,9 +11,8 @@ namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Http\Response as Response;
+use Slim\Http\Response;
 use function array_replace_recursive;
-use function header;
 
 /**
  * Validate images token
@@ -37,12 +36,14 @@ function validate_images_token($token) : bool
  * Returns:
  * Image file
  */
-$app->get('/api/images/{path:.+}', function (Request $request, Response $response, $args) use ($flextype, $api_errors) {
+$app->get('/api/images/{path:.+}', static function (Request $request, Response $response, $args) use ($flextype, $api_errors) {
     // Get Query Params
     $query = $request->getQueryParams();
 
     if (! isset($query['token'])) {
-        return $response->withJson($api_errors['0400'], $api_errors['0400']['http_status_code']);
+        return $response->withStatus($api_errors['0400']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0400']));
     }
 
     // Set variables
@@ -57,7 +58,9 @@ $app->get('/api/images/{path:.+}', function (Request $request, Response $respons
             if ($delivery_images_token_file_data = $flextype['yaml']->decode(Filesystem::read($delivery_images_token_file_path))) {
                 if ($delivery_images_token_file_data['state'] === 'disabled' ||
                     ($delivery_images_token_file_data['limit_calls'] !== 0 && $delivery_images_token_file_data['calls'] >= $delivery_images_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
+                    return $response->withStatus($api_errors['0003']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0003']));
                 }
 
                 // Update calls counter
@@ -68,17 +71,25 @@ $app->get('/api/images/{path:.+}', function (Request $request, Response $respons
                 }
 
                 return $response
-                    ->withJson($api_errors['0402'], $api_errors['0402']['http_status_code']);
+                    ->withStatus($api_errors['0402']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0402']));
             }
 
             return $response
-                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
+                   ->withStatus($api_errors['0003']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0003']));
         }
 
         return $response
-               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
+               ->withStatus($api_errors['0003']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0003']));
     }
 
     return $response
-           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
+           ->withStatus($api_errors['0003']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0003']));
 });

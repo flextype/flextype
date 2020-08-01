@@ -11,7 +11,7 @@ namespace Flextype;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Http\Response as Response;
+use Slim\Http\Response;
 use function array_replace_recursive;
 
 /**
@@ -34,12 +34,14 @@ function validate_registry_token($token) : bool
  * Returns:
  * An array of registry item objects.
  */
-$app->get('/api/registry', function (Request $request, Response $response) use ($flextype, $api_errors) {
+$app->get('/api/registry', static function (Request $request, Response $response) use ($flextype, $api_errors) {
     // Get Query Params
     $query = $request->getQueryParams();
 
     if (! isset($query['id']) || ! isset($query['token'])) {
-        return $response->withJson($api_errors['0300'], $api_errors['0300']['http_status_code']);
+        return $response->withStatus($api_errors['0300']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0300']));
     }
 
     // Set variables
@@ -55,7 +57,9 @@ $app->get('/api/registry', function (Request $request, Response $response) use (
             if ($registry_token_file_data = $flextype['yaml']->decode(Filesystem::read($registry_token_file_path))) {
                 if ($registry_token_file_data['state'] === 'disabled' ||
                     ($registry_token_file_data['limit_calls'] !== 0 && $registry_token_file_data['calls'] >= $registry_token_file_data['limit_calls'])) {
-                    return $response->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
+                    return $response->withStatus($api_errors['0003']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0003']));
                 }
 
                 // Fetch registry
@@ -76,7 +80,9 @@ $app->get('/api/registry', function (Request $request, Response $response) use (
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                           ->withJson($api_errors['0302'], $api_errors['0302']['http_status_code']);
+                           ->withStatus($api_errors['0302']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0302']));
                 }
 
                 // Return response
@@ -85,13 +91,19 @@ $app->get('/api/registry', function (Request $request, Response $response) use (
             }
 
             return $response
-                   ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
+                   ->withStatus($api_errors['0003']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0003']));
         }
 
         return $response
-               ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
+               ->withStatus($api_errors['0003']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0003']));
     }
 
     return $response
-           ->withJson($api_errors['0003'], $api_errors['0003']['http_status_code']);
+           ->withStatus($api_errors['0003']['http_status_code'])
+            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+            ->write($flextype->json->encode($api_errors['0003']));
 });
