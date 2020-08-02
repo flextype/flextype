@@ -6,6 +6,7 @@
 * **core** Add PhpArrayFileAdapter and set PhpArrayFile Cache as a default fallback cache driver instead of Filesystem Cache driver. This new feature give us performance boost up to 25%
 * **core** Add preflight to Flextype basic checks and performance boost.
 * **core** Update all namespaces and core infrastructure. #437
+* **core** Add Symfony Finder Component and `find_filter()` helper.
 * **core** New simplified parsers and serializers functionality #438
 
     New objects:
@@ -53,7 +54,7 @@
 
     See: http://docs.flextype.org/en/core/entries#methods
 
-* **entries** New events added for entries.
+* **entries** New events added for Entries API.
 
     ```
     onEntryCreate
