@@ -43,9 +43,12 @@
 
     From now there is a possible to path a much more rules for collections filtering inside the `fetchCollection()` and with using a standalone helper functions like `collect_filter()` and `find_filter()`
 
-    * `public function fetch(string $path, bool $collection = false, $filter = []) : array` - Fetch single entry or collections of entries.
-    * `public function fetchSingle(string $path) : array` - Fetch single entry.
-    * `public function fetchCollection(string $path, $filter = []) : array` - Fetch entries collection.
+    * `public function fetch(string $path, bool $collection = false, $filter = []) : array`
+       Fetch single entry or collections of entries.
+    * `public function fetchSingle(string $path) : array`
+       Fetch single entry.
+    * `public function fetchCollection(string $path, $filter = []) : array`
+       Fetch entries collection.
 
     See: http://docs.flextype.org/en/core/entries#methods
 
