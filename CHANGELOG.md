@@ -193,14 +193,18 @@
 
 ### Vendor Updates
 
-* **core:** Update vendor league/glide 1.6.0
-* **core:** Update vendor doctrine/cache 1.10.2
-* **core:** Update vendor doctrine/collections 1.6.6
-* **core:** Update vendor respect/validation 2.0.16
-* **core:** Update vendor monolog/monolog 2.1.1
-* **core:** Update vendor thunderer/shortcode 0.7.4
-* **core:** Update vendor flextype-components/filesystem 2.0.7
-* **core:** Update vendor flextype-components/registry 3.0.0
+* **core:** Update vendor league/glide to 1.6.0
+* **core:** Update vendor doctrine/cache to 1.10.2
+* **core:** Update vendor doctrine/collections to 1.6.6
+* **core:** Update vendor respect/validation to 2.0.16
+* **core:** Update vendor monolog/monolog to 2.1.1
+* **core:** Update vendor thunderer/shortcode to 0.7.4
+* **core:** Update vendor flextype-components/filesystem to 2.0.7
+* **core:** Update vendor flextype-components/registry to 3.0.0
+* **core:** Update vendor flextype-components/number to 1.1.1
+* **core:** Update vendor composer/semver to 3.0.0
+* **core:** Update vendor symfony/yaml to 5.1.3
+* **core:** Update vendor ramsey/uuid to 4.1.0
 
 <a name="0.9.8"></a>
 # [0.9.8](https://github.com/flextype/flextype/compare/v0.9.7...v0.9.8) (2020-05-14)
