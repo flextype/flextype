@@ -47,7 +47,7 @@ class Cache
     /**
      * Cache Driver
      *
-     * @var DoctrineCache
+     * @var object
      */
     private $driver;
 
