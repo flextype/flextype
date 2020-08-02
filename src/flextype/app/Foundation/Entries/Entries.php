@@ -400,6 +400,6 @@ class Entries
             return md5($entry_file . Filesystem::getTimestamp($entry_file));
         }
 
-        return $cache_id = md5($entry_file);
+        return md5($entry_file);
     }
 }
