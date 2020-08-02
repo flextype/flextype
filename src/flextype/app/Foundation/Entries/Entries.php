@@ -175,11 +175,11 @@ class Entries
      * @param string $path   Unique identifier of the entry(entries).
      * @param array  $filter Select items in collection by given conditions.
      *
-     * @return array The entries array data.
+     * @return array|bool|int
      *
      * @access public
      */
-    public function fetchCollection(string $path, $filter = []) : array
+    public function fetchCollection(string $path, $filter = [])
     {
         // Init Entries object
         $this->entries = [];
