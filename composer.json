@@ -31,7 +31,7 @@
         "flextype-components/cookie" : "1.2.0",
         "flextype-components/filesystem" : "2.0.7",
         "flextype-components/i18n" : "1.3.0",
-        "flextype-components/number" : "1.1.0",
+        "flextype-components/number" : "1.1.1",
         "flextype-components/registry" : "3.0.0",
         "flextype-components/session" : "1.1.1",
 
