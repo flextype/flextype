@@ -37,14 +37,15 @@
 
 * **entries** New simplified logic for entries methods: `fetch()` `fetchSingle()` and `fetchCollection()`
 
-    We are stop doing unneeded things for fetching entries collections that's slowdowns this process.
-    Everything that need to be collected need to be done with a new Collection functionality.
+    We are stop doing unneeded things like extra scanning folders and files updates and etc... for fetching entries collections that's slowdowns the fetching process.
 
-    From now this methods just doing their own simple job:
+    We have improved filtering abilities for entries collections.
 
-    * `fetch()` - Fetch single entry or collections of entries.
-    * `fetchSingle()` - Fetch single entry.
-    * `fetchCollection()` - Fetch entries collection.
+    From now there is a possible to path a much more rules for collections filtering inside the `fetchCollection()` and with using a standalone helper functions like `collect_filter()` and `find_filter()`
+
+    * `public function fetch(string $path, bool $collection = false, $filter = []) : array` - Fetch single entry or collections of entries.
+    * `public function fetchSingle(string $path) : array` - Fetch single entry.
+    * `public function fetchCollection(string $path, $filter = []) : array` - Fetch entries collection.
 
     See: http://docs.flextype.org/en/core/entries#methods
 
