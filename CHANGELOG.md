@@ -4,7 +4,7 @@
 ### Features
 * **core** Add PhpArrayFileAdapter and set PhpArrayFile Cache as a default fallback cache driver instead of Filesystem Cache driver. This new feature give us performance boost up to 25%
 * **core** Add preflight to Flextype basic checks and performance boost.
-* **core** Update all namespaces #437
+* **core** Update all namespaces and core infrastructure. #437
 * **core** New simplified parsers and serializers functionality #438
 
     New objects:
@@ -61,14 +61,34 @@
     onEntriesAfterInitialized
     ```
 
-* **entries** New decoupled fields for entries instead of hardcoded.
+* **entries** New decoupled and configurable fields added for entries instead of hardcoded.
 
     Entry fields decoupled into: `/flextype/Foundation/Entries/Fields/`
 
     Entry fields added into `flextype.settings.entries.fields`
 
     ```
-    ['PublishedAt', 'PublishedBy', 'ModifiedAt', 'CreatedAt', 'CreatedBy', 'Slug', 'Routable', 'Visibility', 'Parsers', 'Uuid']
+    fields:
+      slug:
+        enabled: true
+      published_at:
+        enabled: true
+      published_by:
+        enabled: true
+      modified_at:
+        enabled: true
+      created_at:
+        enabled: true
+      created_by:
+        enabled: true
+      routable:
+        enabled: true
+      parsers:
+        enabled: true
+      visibility:
+        enabled: true
+      uuid:
+        enabled: true
     ```
 
 * **entries** Add ability to set individual cache control for specific entries.
@@ -129,6 +149,7 @@
     | GET | /api/files | Fetch file(files) |
     | POST | /api/files | Upload file |
     | PUT | /api/files | Rename file |
+    | PUT | /api/files/copy | Copy file |
     | DELETE | /api/files | Delete file |
     | PATCH | /api/files/meta | Updates file meta information |
     | POST | /api/files/meta | Updates file meta information |
