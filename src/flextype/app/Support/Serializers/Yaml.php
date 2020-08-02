@@ -69,7 +69,7 @@ class Yaml
      *
      * @return string A YAML string representing the original PHP value
      */
-    public function encode($input, int $inline = 2, int $indent = 4, int $flags = 0) : string
+    public function encode($input, int $inline = 5, int $indent = 2, int $flags = 0) : string
     {
         return $this->_encode($input, $inline, $indent, $flags);
     }
@@ -106,7 +106,7 @@ class Yaml
     /**
      * @see encode()
      */
-    protected function _encode($input, int $inline = 2, int $indent = 4, int $flags = 0) : string
+    protected function _encode($input, int $inline = 5, int $indent = 2, int $flags = 0) : string
     {
         try {
             return SymfonyYaml::dump(
