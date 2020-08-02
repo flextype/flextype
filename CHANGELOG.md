@@ -2,6 +2,7 @@
 # [0.9.9](https://github.com/flextype/flextype/compare/v0.9.8...v0.9.9) (2020-08-XX)
 
 ### Features
+* **core** Moving to PHP 7.2.5 #444
 * **core** Add PhpArrayFileAdapter and set PhpArrayFile Cache as a default fallback cache driver instead of Filesystem Cache driver. This new feature give us performance boost up to 25%
 * **core** Add preflight to Flextype basic checks and performance boost.
 * **core** Update all namespaces and core infrastructure. #437
@@ -174,6 +175,8 @@
 * **frontmatter** remove UTF-8 BOM if it exists.
 * **frontmatter** fix line endings to Unix style.
 * **entries** fix method `rename()` in Entries API #433
+* **entries** fix issue with parsing content on entry fetch #441
+* **rest-api** fix Rest API JSON Response #445
 * **core** fix all namespaces #437
 * **core** fix flextype config loading.
 * **serializers** fix YAML native parser.
