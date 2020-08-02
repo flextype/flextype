@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 
 use Flextype\App\Support\Collection;
-use Symfony\Component\Finder\Finder;
 
 if (! function_exists('collect')) {
     /**
@@ -35,12 +34,6 @@ if (! function_exists('collect_filter')) {
     {
         $collection = new Collection($items);
 
-        // Set Expression
-        $expression = $collection->expression;
-
-        // Set Direction
-        $direction = $collection->direction;
-
         // Bind: return
         $bind_return = isset($filter['return']) ? $filter['return'] : 'all';
 
@@ -48,7 +41,7 @@ if (! function_exists('collect_filter')) {
         $bind_where = [];
         if (isset($filter['where']['key']) && isset($filter['where']['expr']) && isset($filter['where']['value'])) {
             $bind_where['where']['key']   = $filter['where']['key'];
-            $bind_where['where']['expr']  = $expression[$filter['where']['expr']];
+            $bind_where['where']['expr']  = $filter['where']['expr'];
             $bind_where['where']['value'] = $filter['where']['value'];
         }
 
@@ -104,7 +97,7 @@ if (! function_exists('collect_filter')) {
 
         // Exec: order by
         if (isset($bind_order_by['order_by']['field']) && isset($bind_order_by['order_by']['direction'])) {
-            $collection->orderBy($bind_order_by['order_by']['field'], $direction[$bind_order_by['order_by']['direction']]);
+            $collection->orderBy($bind_order_by['order_by']['field'], $bind_order_by['order_by']['direction']);
         }
 
         // Gets a native PHP array representation of the collection.
@@ -154,40 +147,5 @@ if (! function_exists('collect_filter')) {
 
         // Return entries
         return $items;
-    }
-}
-
-if (! function_exists('find')) {
-    /**
-     * Create a Finder instance.
-     */
-    function find() : Finder
-    {
-        return new Finder();
-    }
-}
-
-if (! function_exists('find_filter')) {
-    /**
-     * Create a Finder filter instance.
-     */
-    function find_filter(string $path, array $filter = [], $search_in = 'files')
-    {
-        $find = find()->in($path);
-
-        isset($filter['depth'])         and $find->depth($filter['depth']) or $find->depth(1);
-        isset($filter['date'])          and $find->date($filter['date']);
-        isset($filter['size'])          and $find->size($filter['size']);
-        isset($filter['exclude'])       and $find->exclude($filter['exclude']);
-        isset($filter['contains'])      and $find->contains($filter['contains']);
-        isset($filter['not_contains'])  and $find->notContains($filter['not_contains']);
-        isset($filter['filter'])        and $find->filter($filter['filter']);
-        isset($filter['sort'])          and $find->sort($filter['sort']);
-        isset($filter['path'])          and $find->path($filter['path']);
-        isset($filter['sort_by']) && $filter['sort_by'] == 'atime' and $find->sortByAccessedTime();
-        isset($filter['sort_by']) && $filter['sort_by'] == 'mtime' and $find->sortByModifiedTime();
-        isset($filter['sort_by']) && $filter['sort_by'] == 'ctime' and $find->sortByChangedTime();
-
-        return ($search_in == 'files') ? $find->files() : $find->directories();
     }
 }
