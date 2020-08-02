@@ -78,7 +78,7 @@ class Json
                 return $data_from_cache;
             }
 
-            $data = $this->_decode($input);
+            $data = $this->_decode($input, $assoc, $depth, $flags);
             $this->flextype['cache']->save($key, $data);
 
             return $data;
