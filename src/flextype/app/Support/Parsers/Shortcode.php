@@ -37,8 +37,8 @@ class Shortcode
     /**
      * Add shortcode handler
      *
-     * @param string          $name Shortcode name
-     * @param        $handler Handler
+     * @param string   $name    Shortcode name
+     * @param callable $handler Handler
      */
     public function add(string $name, $handler)
     {
