@@ -65,4 +65,4 @@ $flextype_loader = require_once $flextype_autoload;
  * will load up this application so that we can run it and send
  * the responses back to the browser and delight our users.
  */
-include 'src/flextype/bootstrap.php';
+include __DIR__.'/src/flextype/bootstrap.php';
