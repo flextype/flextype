@@ -142,8 +142,6 @@ class MediaFiles
                                     // Check if size is within maximum dimensions
                                     return $width <= $max_image_width and $height <= $max_image_height;
                                 }
-
-                                return false;
                             }
 
                             if (validateImage($file, $max_image_width, $max_image_height, $exact) === false) {
