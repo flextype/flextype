@@ -395,12 +395,6 @@ $app->put('/api/files/copy', function (Request $request, Response $response) use
                 // Update calls counter
                 Filesystem::write($files_token_file_path, $flextype['yaml']->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
-                // Return response
-                return $response
-                            ->withStatus($response_code)
-                            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
-                            ->write($flextype->json->encode($response_data));
-
                 if ($response_code === 404) {
                     // Return response
                     return $response
