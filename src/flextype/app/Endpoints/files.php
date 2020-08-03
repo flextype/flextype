@@ -77,6 +77,7 @@ $app->get('/api/files', function (Request $request, Response $response) use ($fl
                 }
 
                 // Write response data
+                $response_data = [];
                 $response_data['data'] = $files;
 
                 // Set response code
