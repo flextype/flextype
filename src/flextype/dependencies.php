@@ -62,14 +62,14 @@ $flextype['callableResolver'] = function ($flextype) {
 /**
  * Add registry service to Flextype container
  */
-$flextype['registry'] = function ($flextype) use ($registry) {
+$flextype['registry'] = function () use ($registry) {
     return $registry;
 };
 
 /**
  * Add logger service to Flextype container
  */
-$flextype['logger'] = function ($flextype) {
+$flextype['logger'] = function () {
     $logger = new Logger('flextype');
     $logger->pushHandler(new StreamHandler(PATH['logs'] . '/' . date('Y-m-d') . '.log'));
 
@@ -79,7 +79,7 @@ $flextype['logger'] = function ($flextype) {
 /**
  * Add emitter service to Flextype container
  */
-$flextype['emitter'] = function ($flextype) {
+$flextype['emitter'] = function () {
     return new Emitter();
 };
 
