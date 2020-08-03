@@ -59,7 +59,7 @@ class Frontmatter
     public function decode(string $input, bool $cache = true)
     {
         if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
-            $key = md5($input);
+            $key = $this->getCacheID($input);
 
             if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
                 return $data_from_cache;
@@ -115,5 +115,10 @@ class Frontmatter
         }
 
         return $this->flextype['yaml']->decode(trim($parts[1]), false) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
+    }
+
+    protected function getCacheID($input)
+    {
+        return md5('frontmatter' . $input);
     }
 }

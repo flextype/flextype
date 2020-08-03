@@ -88,7 +88,7 @@ class Yaml
     public function decode(string $input, bool $cache = true, int $flags = 0) : array
     {
         if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
-            $key = md5($input);
+            $key = $this->getCacheID($input);
 
             if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
                 return $data_from_cache;
@@ -151,5 +151,10 @@ class Yaml
         } catch (SymfonyYamlParseException $e) {
             throw new RuntimeException('Decoding YAML failed: ' . $e->getMessage(), 0, $e);
         }
+    }
+
+    protected function getCacheID($input)
+    {
+        return md5('yaml' . $input);
     }
 }

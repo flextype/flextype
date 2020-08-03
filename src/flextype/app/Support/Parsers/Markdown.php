@@ -45,7 +45,7 @@ class Markdown
     public function parse(string $input, bool $cache = true) : string
     {
         if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
-            $key = md5($input);
+            $key = $this->getCacheID($input);
 
             if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
                 return $data_from_cache;
@@ -66,5 +66,10 @@ class Markdown
     protected function _parse(string $input) : string
     {
         return $this->markdown->text($input);
+    }
+
+    protected function getCacheID($input)
+    {
+        return md5('markdown' . $input);
     }
 }

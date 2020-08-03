@@ -397,9 +397,9 @@ class Entries
         $entry_file = $this->getFileLocation($path);
 
         if (Filesystem::has($entry_file)) {
-            return md5($entry_file . Filesystem::getTimestamp($entry_file));
+            return md5('entry' . $entry_file . Filesystem::getTimestamp($entry_file));
         }
 
-        return md5($entry_file);
+        return md5('entry' . $entry_file);
     }
 }

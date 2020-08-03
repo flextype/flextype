@@ -72,7 +72,7 @@ class Json
     public function decode(string $input, bool $cache = true, bool $assoc = true, int $depth = 512, int $flags = 0)
     {
         if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
-            $key = md5($input);
+            $key = $this->getCacheID($input);
 
             if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
                 return $data_from_cache;
@@ -118,5 +118,10 @@ class Json
         }
 
         return $value;
+    }
+
+    protected function getCacheID($input)
+    {
+        return md5('json' . $input);
     }
 }
