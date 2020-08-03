@@ -146,6 +146,8 @@
 
 * **settings** Set max_file_size 8mb for uploads.
 
+* **yaml** YAML set default inline = 5 and indent = 2
+
 * **vendors** New Arrays library for Accessing PHP Arrays via DOT notation.
 
 * **rest-api** New Files Rest API.
@@ -191,6 +193,14 @@
 * **constants** remove constant `PATH['config']`, use - `PATH['project'] . '/config/'`
 * **core:** remove Date Component from the system.
 * **core:** remove Text Component from the system.
+
+### Refactoring
+* **pimple** remove unused $flextype variable and cleanup dependencies.
+* **yaml** save and mute error_reporting for native YAML parser.
+* **cors** remove unused parameter $args
+* **plugins**  remove dead variables.
+* **shortcode** update return type for shortcode add() method.
+* **cache** update $driver type for DoctrineCache.
 
 ### Vendor Updates
 
