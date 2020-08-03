@@ -128,10 +128,18 @@ class Yaml
         // Try native PECL YAML PHP extension first if available.
         if (function_exists('yaml_parse') && $this->native) {
             // Safely decode YAML.
-            $saved = @ini_get('yaml.decode_php');
-            @ini_set('yaml.decode_php', '0');
-            $decoded = @yaml_parse($input);
-            @ini_set('yaml.decode_php', $saved);
+
+            // Save and Mute error_reporting
+            $errorReporting = error_reporting();
+            error_reporting(0);
+
+            $saved = ini_get('yaml.decode_php');
+            ini_set('yaml.decode_php', '0');
+            $decoded = yaml_parse($input);
+            ini_set('yaml.decode_php', $saved);
+
+            // Restore error_reporting
+            error_reporting($errorReporting);
 
             if ($decoded !== false) {
                 return $decoded;
