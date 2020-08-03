@@ -503,7 +503,7 @@ $app->delete('/api/folders', function (Request $request, Response $response) use
                 return $response
                      ->withStatus($response_code)
             ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
-            ->write($flextype->json->encode(delete_folder));
+            ->write($flextype->json->encode($delete_folder));
             }
 
             return $response
