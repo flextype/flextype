@@ -181,11 +181,18 @@ class Cache
      */
     public function clear(string $id) : void
     {
+        // Save and Mute error_reporting
+        $errorReporting = error_reporting();
+        error_reporting(0);
+
         // Clear stat cache
-        @clearstatcache();
+        clearstatcache();
 
         // Clear opcache
-        function_exists('opcache_reset') and @opcache_reset();
+        function_exists('opcache_reset') and opcache_reset();
+
+        // Restore error_reporting
+        error_reporting($errorReporting);
 
         // Remove cache dirs
         Filesystem::deleteDir(PATH['cache'] . '/' . $id);
@@ -196,11 +203,18 @@ class Cache
      */
     public function clearAll() : void
     {
+        // Save and Mute error_reporting
+        $errorReporting = error_reporting();
+        error_reporting(0);
+        
         // Clear stat cache
-        @clearstatcache();
+        clearstatcache();
 
         // Clear opcache
-        function_exists('opcache_reset') and @opcache_reset();
+        function_exists('opcache_reset') and opcache_reset();
+
+        // Restore error_reporting
+        error_reporting($errorReporting);
 
         // Remove cache directory
         Filesystem::deleteDir(PATH['cache']);
