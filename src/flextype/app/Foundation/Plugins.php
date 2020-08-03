@@ -375,6 +375,9 @@ class Plugins
      */
     private function includeEnabledPlugins($flextype, $app) : void
     {
+        $app = $app;
+        $flextype = $flextype;
+
         if (! is_array($this->flextype['registry']->get('plugins')) || count($this->flextype['registry']->get('plugins')) <= 0) {
             return;
         }
