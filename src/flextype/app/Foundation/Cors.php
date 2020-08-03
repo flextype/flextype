@@ -44,7 +44,7 @@ class Cors
             return;
         }
 
-        $this->app->options('/{routes:.+}', function ($request, $response, $args) {
+        $this->app->options('/{routes:.+}', function ($request, $response) {
             return $response;
         });
 
