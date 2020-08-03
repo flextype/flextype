@@ -85,6 +85,7 @@ $app->get('/api/folders', function (Request $request, Response $response) use ($
                 }
 
                 // Write response data
+                $response_data = [];
                 $response_data['data'] = $folders;
 
                 // Set response code
@@ -97,8 +98,8 @@ $app->get('/api/folders', function (Request $request, Response $response) use ($
                     // Return response
                     return $response
                            ->withStatus($api_errors['0602']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
-            ->write($flextype->json->encode($api_errors['0602']));
+                           ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                           ->write($flextype->json->encode($api_errors['0602']));
                 }
 
                 // Return response
@@ -181,10 +182,10 @@ $app->post('/api/folders', function (Request $request, Response $response) use (
                 // Create folder
                 $create_folder = $flextype['media_folders']->create($path);
 
+                $response_data = [];
+
                 if ($create_folder) {
                     $response_data['data'] = $flextype['media_folders']->fetch($path);
-                } else {
-                    $response_data['data'] = [];
                 }
 
                 // Set response code
@@ -281,6 +282,8 @@ $app->put('/api/folders/copy', function (Request $request, Response $response) u
 
                 // Copy folder
                 $copy_folder = $flextype['media_folders']->copy($path, $new_path);
+
+                $response_data = [];
 
                 if ($copy_folder) {
                     $response_data['data'] = $flextype['media_folders']->fetch($new_path);
@@ -383,10 +386,10 @@ $app->put('/api/folders', function (Request $request, Response $response) use ($
                 // Rename folder
                 $rename_folder = $flextype['media_folders']->rename($path, $new_path);
 
+                $response_data = [];
+
                 if ($rename_folder) {
                     $response_data['data'] = $flextype['media_folders']->fetch($new_path);
-                } else {
-                    $response_data['data'] = [];
                 }
 
                 // Set response code
