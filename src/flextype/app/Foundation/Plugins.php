@@ -97,8 +97,6 @@ class Plugins
         } else {
             // Init plugin configs
             $plugins                 = [];
-            $plugin_settings         = [];
-            $plugin_manifest         = [];
             $default_plugin_settings = [];
             $project_plugin_settings = [];
             $default_plugin_manifest = [];
