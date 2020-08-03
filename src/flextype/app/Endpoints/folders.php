@@ -105,8 +105,8 @@ $app->get('/api/folders', function (Request $request, Response $response) use ($
                 // Return response
                 return $response
                        ->withStatus($response_code)
-            ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
-            ->write($flextype->json->encode(response_data));
+                       ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
+                       ->write($flextype->json->encode($response_data));
             }
 
             return $response
@@ -206,7 +206,7 @@ $app->post('/api/folders', function (Request $request, Response $response) use (
                 return $response
                      ->withStatus($response_code)
             ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
-            ->write($flextype->json->encode(response_data));
+            ->write($flextype->json->encode($response_data));
             }
 
             return $response
@@ -309,7 +309,7 @@ $app->put('/api/folders/copy', function (Request $request, Response $response) u
                 return $response
                      ->withStatus($response_code)
             ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
-            ->write($flextype->json->encode(response_data));
+            ->write($flextype->json->encode($response_data));
             }
 
             return $response
@@ -410,7 +410,7 @@ $app->put('/api/folders', function (Request $request, Response $response) use ($
                 return $response
                      ->withStatus($response_code)
             ->withHeader('Content-Type', 'application/json;charset=' . $flextype->registry->get('flextype.settings.charset'))
-            ->write($flextype->json->encode(response_data));
+            ->write($flextype->json->encode($response_data));
             }
 
             return $response
