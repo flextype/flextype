@@ -54,12 +54,12 @@ class Entries
     public $entry_update_data = [];
 
     /**
-     * Current entries data array
+     * Current entries data
      *
-     * @var array
+     * @var array|bool|int
      * @access public
      */
-    public $entries = [];
+    public $entries;
 
     /**
      * Current entries path
