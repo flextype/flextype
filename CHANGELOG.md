@@ -185,15 +185,6 @@
 * **serializers** fix YAML native parser.
 * **plugins** fix method `getPluginsCacheID()` for Plugins API
 
-### BREAKING CHANGES
-
-* **entries** Wildcard * removed from parsers field.
-* **entries** Cache setup removed from parsers field.
-* **settings** `/project/config/settings.yaml` move to `/project/config/flextype/settings.yaml`
-* **constants** remove constant `PATH['config']`, use - `PATH['project'] . '/config/'`
-* **core:** remove Date Component from the system.
-* **core:** remove Text Component from the system.
-
 ### Refactoring
 * **pimple** remove unused $flextype variable and cleanup dependencies.
 * **yaml** save and mute error_reporting for native YAML parser.
@@ -216,6 +207,15 @@
 * **core:** Update vendor composer/semver to 3.0.0
 * **core:** Update vendor symfony/yaml to 5.1.3
 * **core:** Update vendor ramsey/uuid to 4.1.0
+
+### BREAKING CHANGES
+
+* **entries** Wildcard * removed from parsers field.
+* **entries** Cache setup removed from parsers field.
+* **settings** `/project/config/settings.yaml` move to `/project/config/flextype/settings.yaml`
+* **constants** remove constant `PATH['config']`, use - `PATH['project'] . '/config/'`
+* **core:** remove Date Component from the system.
+* **core:** remove Text Component from the system.
 
 <a name="0.9.8"></a>
 # [0.9.8](https://github.com/flextype/flextype/compare/v0.9.7...v0.9.8) (2020-05-14)
