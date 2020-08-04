@@ -7,6 +7,19 @@
 * **core** Add preflight to Flextype basic checks and performance boost.
 * **core** Update all namespaces and core infrastructure. #437
 * **core** Add Symfony Finder Component and `find_filter()` helper.
+* **core** New Media API for work with media uploads.
+
+    New objects:
+
+    ```
+    $flextype['media_files_meta']
+    $flextype['media_folders_meta']
+    $flextype['media_files']
+    $flextype['media_folders']
+    ```
+
+    See: http://docs.flextype.org/en/core/media
+
 * **core** New simplified parsers and serializers functionality #438
 
     New objects:
