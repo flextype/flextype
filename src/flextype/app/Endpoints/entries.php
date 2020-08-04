@@ -72,7 +72,7 @@ $app->get('/api/entries', function (Request $request, Response $response) use ($
                 if ($filter === null) {
                     $response_data['data'] = $flextype['entries']->fetchSingle($id);
                 } else {
-                    $response_data['data'] = collect_filter($flextype['entries']->fetchCollection($id), $filter);
+                    $response_data['data'] = $flextype['entries']->fetchCollection($id, $filter);
                 }
 
                 // Set response code
