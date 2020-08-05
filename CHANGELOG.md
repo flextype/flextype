@@ -7,6 +7,18 @@
 * **core** Add preflight to Flextype basic checks and performance boost.
 * **core** Update all namespaces and core infrastructure. #437
 * **core** Add Symfony Finder Component and `find_filter()` helper.
+* **cache** Cache API improvements
+
+    * Cache ID generation enhancements
+    * add new public function `fetchMultiple(array $keys)`
+    * add new public function `saveMultiple(array $keysAndValues, $lifetime = 0)`
+    * add new public function `deleteMultiple(array $keys)`
+    * add new public function `deleteAll()`
+    * add new public function `flushAll()`
+    * add new public function `purge(string $directory)`
+    * add new public function `purgeAll()`
+    * change return type for methods `save()`, `delete()` from void too bool.
+
 * **core** New Media API for work with media uploads.
 
     New objects:
@@ -229,6 +241,7 @@
 * **constants** remove constant `PATH['config']`, use - `PATH['project'] . '/config/'`
 * **core:** remove Date Component from the system.
 * **core:** remove Text Component from the system.
+* **cache:** removed methods clear() and clearAll(), use purge() and purgeAll() instead.
 
 <a name="0.9.8"></a>
 # [0.9.8](https://github.com/flextype/flextype/compare/v0.9.7...v0.9.8) (2020-05-14)
