@@ -8,8 +8,17 @@ However, the amount of effort needed to maintain and develop new features for th
 * [One-time donation via PayPal, QIWI, Sberbank, Yandex](http://flextype.org/en/one-time-donation)
 * [Visit our Sponsors & Backers page](https://flextype.org/en/sponsors)
 
+### Gold Sponsor
+
+### Silver Sponsor
+
 ### Bronze Sponsor
 * Jeremy Monroe
+
+### Generous Backer
+* Theodore Zhvania
+
+### Backers
 
 ### Coffee Supporter
 * Arseni Khramenkin
