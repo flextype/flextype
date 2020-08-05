@@ -17,6 +17,7 @@
     * add new public function `flushAll()`
     * add new public function `purge(string $directory)`
     * add new public function `purgeAll()`
+    * add new public function `getStats()`
     * add new events `onCacheBeforePurgeAll`, `onCacheAfterPurgeAll`, `onCacheBeforePurge`, `onCacheAfterPurge`
 
 * **core** New Media API for work with media uploads.
