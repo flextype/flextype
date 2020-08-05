@@ -1,5 +1,5 @@
 <a name="0.9.9"></a>
-# [0.9.9](https://github.com/flextype/flextype/compare/v0.9.8...v0.9.9) (2020-08-XX)
+# [0.9.9](https://github.com/flextype/flextype/compare/v0.9.8...v0.9.9) (2020-08-05)
 
 ### Features
 * **core** Moving to PHP 7.2.5 #444
