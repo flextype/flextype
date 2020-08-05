@@ -324,8 +324,8 @@ class Cache
      */
     public function purge(string $directory) : void
     {
-        // Run event: onCacheBeforeClear
-        $this->flextype['emitter']->emit('onCacheBeforeClear');
+        // Run event: onCacheBeforePurge
+        $this->flextype['emitter']->emit('onCacheBeforePurge');
 
         // Remove specific cache directory
         Filesystem::deleteDir(PATH['cache'] . '/' . $id);
@@ -343,8 +343,8 @@ class Cache
         // Restore error_reporting
         error_reporting($errorReporting);
 
-        // Run event: onCacheAfterClear
-        $this->flextype['emitter']->emit('onCacheAfterClear');
+        // Run event: onCacheAfterPurge
+        $this->flextype['emitter']->emit('onCacheAfterPurge');
     }
 
     /**
@@ -356,8 +356,8 @@ class Cache
      */
     public function purgeAll() : void
     {
-        // Run event: onCacheBeforeClear
-        $this->flextype['emitter']->emit('onCacheAfterClearAll');
+        // Run event: onCacheAfterPurgeAll
+        $this->flextype['emitter']->emit('onCacheAfterPurgeAll');
 
         // Remove cache directory
         Filesystem::deleteDir(PATH['cache']);
@@ -375,7 +375,7 @@ class Cache
         // Restore error_reporting
         error_reporting($errorReporting);
 
-        // Run event: onCacheAfterClear
-        $this->flextype['emitter']->emit('onCacheAfterClearAll');
+        // Run event: onCacheAfterPurgeAll
+        $this->flextype['emitter']->emit('onCacheAfterPurgeAll');
     }
 }
