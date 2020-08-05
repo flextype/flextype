@@ -127,7 +127,7 @@ class Cache
     }
 
     /**
-     * Fetches multiplay entries from the cache.
+     * Fetches multiplay items from the cache.
      *
      * @param array $keys Array of keys to retrieve from cache
      *
@@ -164,7 +164,7 @@ class Cache
      * @param mixed  $data     The cache entry/data.
      * @param int    $lifetime The lifetime in number of seconds for this cache entry.
      *                         If zero (the default), the entry never expires (although it may be deleted from the cache
-     *                         to make place for other entries).
+     *                         to make place for other items).
      *
      * @access public
      *
@@ -184,11 +184,11 @@ class Cache
     }
 
     /**
-     * Default implementation of doSaveMultiple. Each driver that supports multi-put should override it.
+     * Puts multiple data into the cache.
      *
      * @param array $keysAndValues Array of keys and values to save in cache
      * @param int   $lifetime      The lifetime. If != 0, sets a specific lifetime for these
-     *                             cache entries (0 => infinite lifeTime).
+     *                             cache items (0 => infinite lifeTime).
      *
      * @return bool TRUE if the operation was successful, FALSE if it wasn't.
      */
@@ -218,7 +218,7 @@ class Cache
     }
 
     /**
-     * Default implementation of doDeleteMultiple. Each driver that supports multi-delete should override it.
+     * Delete multiple item from the cache.
      *
      * @param array $keys Array of keys to delete from cache
      *
@@ -262,9 +262,9 @@ class Cache
     }
 
     /**
-     * Flushes all cache entries.
+     * Flushes all cache items.
      *
-     * @return bool TRUE if the cache entries were successfully flushed, FALSE otherwise.
+     * @return bool TRUE if the cache items were successfully flushed, FALSE otherwise.
      */
     public function flushAll()
     {
