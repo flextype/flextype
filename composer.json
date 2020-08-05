@@ -1,62 +1,62 @@
 {
     "name": "flextype/flextype",
     "type": "project",
-    "description": "Self-hosted Data-First Headless CMS & API",
+    "description": "Hybrid Content Management System",
     "keywords": ["flextype", "php", "cms", "flat-file cms", "flat cms", "flatfile cms", "headless", "API", "html"],
     "homepage": "https://flextype.org",
     "license": "MIT",
     "authors": [
         {
             "name": "Sergey Romanenko",
-            "email": "support@flextype.org",
+            "email": "sergey.romaneko@flextype.org",
             "homepage": "https://flextype.org"
         }
     ],
     "support": {
-      "issues": "https://github.com/flextype/flextype/issues"
+        "source": "https://github.com/flextype/flextype",
+        "issues": "https://github.com/flextype/flextype/issues"
     },
     "require": {
-        "php": ">=7.2.0",
+        "php": ">=7.2.5",
         "ext-json": "*",
         "ext-dom": "*",
         "ext-spl": "*",
         "ext-mbstring": "*",
         "ext-fileinfo": "*",
 
-        "doctrine/cache": "~1.10.0",
-        "doctrine/collections": "~1.6.4",
+        "doctrine/cache": "~1.10.2",
+        "doctrine/collections": "~1.6.7",
 
-        "flextype-components/arr" : "1.2.5",
+        "flextype-components/arrays" : "3.0.1",
         "flextype-components/cookie" : "1.2.0",
-        "flextype-components/date" : "1.1.0",
-        "flextype-components/filesystem" : "2.0.6",
+        "flextype-components/filesystem" : "2.0.7",
         "flextype-components/i18n" : "1.3.0",
-        "flextype-components/number" : "1.1.0",
-        "flextype-components/registry" : "2.0.0",
+        "flextype-components/number" : "1.1.1",
+        "flextype-components/registry" : "3.0.0",
         "flextype-components/session" : "1.1.1",
-        "flextype-components/text" : "1.1.2",
 
         "slim/slim": "~3.12.3",
         "zeuxisoo/slim-whoops": "~0.6.5",
 
         "league/glide-slim": "~1.0.0",
         "league/event": "~2.2.0",
-        "league/glide": "~1.5.0",
+        "league/glide": "~1.6.0",
 
-        "respect/validation": "~2.0.1",
-        "monolog/monolog": "~2.0.2",
+        "respect/validation": "~2.0.16",
+        "monolog/monolog": "~2.1.1",
         "cocur/slugify": "~4.0.0",
-        "ramsey/uuid": "~4.0.1",
-        "symfony/yaml": "~4.4.4",
+        "ramsey/uuid": "~4.1.0",
+        "symfony/yaml": "~5.1.3",
+        "symfony/finder": "5.1.3",
 
         "bnf/slim3-psr15": "~1.1.1",
 
         "erusev/parsedown": "~1.7.3",
         "erusev/parsedown-extra": "~0.7.1",
 
-        "thunderer/shortcode": "~0.7.3",
+        "thunderer/shortcode": "~0.7.4",
 
-        "composer/semver": "~2.0.0"
+        "composer/semver": "~3.0.0"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
@@ -68,18 +68,22 @@
         "apcu-autoloader": true,
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.2.0"
+            "php": "7.2.5"
         }
     },
     "autoload": {
         "classmap": [
-            "src"
+            "src/flextype"
+        ],
+        "files": [
+            "src/flextype/app/Support/Helpers/FinderHelper.php",
+            "src/flextype/app/Support/Helpers/CollectionHelper.php"
         ]
     },
     "require-dev": {
-        "doctrine/coding-standard": "~6.0.0",
-        "victorjonsson/markdowndocs": "dev-master",
-        "phpstan/phpstan": "^0.11.19",
+        "doctrine/coding-standard": "7.0.2",
+        "victorjonsson/markdowndocs": "^1.3",
+        "phpstan/phpstan": "^0.12.34",
         "symfony/var-dumper": "^4.4"
     }
 }

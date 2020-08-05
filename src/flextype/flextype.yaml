@@ -1,0 +1,10 @@
+name: Flextype
+version: 0.9.9
+description: Hybrid Content Management System
+author:
+  name: Sergey Romanenko
+  email: sergey.romaneko@flextype.org
+  url: https://flextype.org
+homepage: https://github.com/flextype
+bugs: https://github.com/flextype/issues
+license: MIT

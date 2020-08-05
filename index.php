@@ -21,7 +21,7 @@ use const PHP_VERSION;
 /**
  * Define the application minimum supported PHP version.
  */
-define('FLEXTYPE_MINIMUM_PHP', '7.2.0');
+define('FLEXTYPE_MINIMUM_PHP', '7.2.5');
 
 /**
  * Define the PATH to the root directory (without trailing slash).
@@ -33,7 +33,6 @@ define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
  */
 define('PATH', [
     'project'   => ROOT_DIR . '/project',
-    'config'    => ROOT_DIR . '/src/flextype/config',
     'cache'     => ROOT_DIR . '/var/cache',
     'logs'      => ROOT_DIR . '/var/logs',
 ]);
@@ -66,4 +65,4 @@ $flextype_loader = require_once $flextype_autoload;
  * will load up this application so that we can run it and send
  * the responses back to the browser and delight our users.
  */
-include 'src/flextype/bootstrap.php';
+include __DIR__ . '/src/flextype/bootstrap.php';

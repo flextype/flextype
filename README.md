@@ -1,6 +1,4 @@
-<h1 align="center">SELF-HOSTED DATA-FIRST HEADLESS CMS & API.</h1>
-
-![preview](https://flextype.org/site/uploads/entries/en/press-kit/flextype-banner-invert.jpg?v1)
+<img src="https://images2.imgbox.com/49/8d/4ipHqUcj_o.jpg" alt="Flextype" align="center">
 
 <p align="center">
 <a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version&color=black"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?color=black" alt="Total downloads"></a> <a href="https://scrutinizer-ci.com/g/flextype/flextype?branch=master"><img src="https://img.shields.io/scrutinizer/g/flextype/flextype.svg?branch=master&color=black" alt="Quality Score"></a> <a href="https://flextype.org/en/discord"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat" alt="Discord"></a>
@@ -9,7 +7,7 @@
 
 ## INTRODUCTION
 
-**Flextype** is an open-source self-hosted **Data-First Headless CMS & API**. It is was **founded in March 2018** as lightweight alternative to other heavy Content Management Systems. Many people use complex solutions for simple projects, unnecessarily. Building this Content Management System, we focused on simplicity - even novice webmaster adapt his template and writes his own plugin. To achieve this, we implemented a simple but powerful API's.
+**Flextype** is an open-source **Hybrid Content Management System** with the freedom of a headless CMS and with the full functionality of a traditional CMS. Building this Content Management System, we focused on simplicity. To achieve this, we implemented a simple but powerful API's.
 
 With Flextype, you are in complete control. Design your data structure the way you want. Update and share your data with others and teams using version control. Flextype does not require MySQL database, because all the data are collected in a simple files. Perfect portability when changing your hosting provider. Just copy all the files from one server to another.
 
@@ -29,7 +27,7 @@ The underlying architecture of Flextype is built using well established and best
 Make sure your server meets the following requirements.
 
 * Webserver (Apache with Mod Rewrite)
-* PHP 7.2.0 or higher
+* PHP 7.2.5 or higher
 
 #### PHP EXTENSIONS
 Flextype needs the following PHP extensions to be enabled:
@@ -48,7 +46,7 @@ APC, APCu, XCache, Memcached, or Redis for better performance.
 
 1. [Download the latest version of Flextype](https://flextype.org/en/downloads).
 2. Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, create directory <code>/project</code> and be sure to chmod the following directory to <code>755</code> (or <code>777</code>), so it is readable and writable by Flextype.<br>
-3. Create CDA, CMA and Access tokens for your project using this [webpage](https://flextype.org/en/api-token-generator).
+3. Create Rest API's tokens for your project using this [webpage](https://flextype.org/en/api-token-generator).
 
 [read the documentation](https://github.com/flextype/plugins)
 

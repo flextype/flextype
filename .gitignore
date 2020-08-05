@@ -7,9 +7,7 @@ node_modules/
 dist/
 
 # Flextype Site Specific
-site/cache/
-site/accounts/
-site/watermarks/
+var/
 
 # OS Generated
 .DS_Store*

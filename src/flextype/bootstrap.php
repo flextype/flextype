@@ -9,21 +9,17 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Session\Session;
-use RuntimeException;
 use Slim\App;
 use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
-use function array_replace_recursive;
 use function date_default_timezone_set;
-use function define;
 use function error_reporting;
+use function file_exists;
 use function function_exists;
 use function mb_internal_encoding;
 use function mb_language;
 use function mb_regex_encoding;
-use function trim;
 
 /**
  * Start the session
@@ -36,63 +32,9 @@ Session::start();
 $registry = new Registry();
 
 /**
- * Load flextype settings
- *
- * 1. Set settings files paths.
- * 2. Load flextype default and flextype custom project settings files.
- * 3. Merge settings.
- * 4. Store settings in the flextype registry.
+ * Preflight the Flextype
  */
-$flextype_manifest_file_path         = PATH['config'] . '/flextype.yaml';
-$default_flextype_settings_file_path = PATH['config'] . '/settings.yaml';
-$custom_flextype_settings_file_path  = PATH['project'] . '/config/settings.yaml';
-
-// Create config dir
-! Filesystem::has(PATH['project'] . '/config/') and Filesystem::createDir(PATH['project'] . '/config/');
-
-// Set settings if Flextype Default settings config files exist
-if (! Filesystem::has($default_flextype_settings_file_path)) {
-    throw new RuntimeException('Flextype Default settings config file does not exist.');
-}
-
-if (($default_flextype_settings_content = Filesystem::read($default_flextype_settings_file_path)) === false) {
-    throw new RuntimeException('Load file: ' . $default_flextype_settings_file_path . ' - failed!');
-} else {
-    if (trim($default_flextype_settings_content) === '') {
-        $default_flextype_settings['settings'] = [];
-    } else {
-        $default_flextype_settings['settings'] = Yaml::decode($default_flextype_settings_content);
-    }
-}
-
-// Create flextype custom settings file
-! Filesystem::has($custom_flextype_settings_file_path) and Filesystem::write($custom_flextype_settings_file_path, $default_flextype_settings_content);
-
-if (($custom_flextype_settings_content = Filesystem::read($custom_flextype_settings_file_path)) === false) {
-    throw new RuntimeException('Load file: ' . $custom_flextype_settings_file_path . ' - failed!');
-} else {
-    if (trim($custom_flextype_settings_content) === '') {
-        $custom_flextype_settings['settings'] = [];
-    } else {
-        $custom_flextype_settings['settings'] = Yaml::decode($custom_flextype_settings_content);
-    }
-}
-
-if (($flextype_manifest_content = Filesystem::read($flextype_manifest_file_path)) === false) {
-    throw new RuntimeException('Load file: ' . $flextype_manifest_file_path . ' - failed!');
-} else {
-    if (trim($flextype_manifest_content) === '') {
-        $flextype_manifest['manifest'] = [];
-    } else {
-        $flextype_manifest['manifest'] = Yaml::decode($flextype_manifest_content);
-    }
-}
-
-// Merge flextype default settings with custom project settings.
-$flextype_settings = array_replace_recursive($default_flextype_settings, $custom_flextype_settings, $flextype_manifest);
-
-// Store flextype merged settings in the flextype registry.
-$registry->set('flextype', $flextype_settings);
+include_once 'preflight.php';
 
 /**
  * Create new application
@@ -128,10 +70,13 @@ include_once 'dependencies.php';
 /**
  * Include API ENDPOINTS
  */
-include_once 'endpoints/delivery/entries.php';
-include_once 'endpoints/delivery/registry.php';
-include_once 'endpoints/management/entries.php';
-include_once 'endpoints/images/images.php';
+include_once 'app/Endpoints/Utils/errors.php';
+include_once 'app/Endpoints/Utils/access.php';
+include_once 'app/Endpoints/entries.php';
+include_once 'app/Endpoints/registry.php';
+include_once 'app/Endpoints/files.php';
+include_once 'app/Endpoints/folders.php';
+include_once 'app/Endpoints/images.php';
 
 /**
  * Set internal encoding
@@ -161,15 +106,33 @@ date_default_timezone_set($flextype['registry']->get('flextype.settings.timezone
 /**
  * Init shortocodes
  *
- * Load Flextype Shortcodes extensions from directory /flextype/shortcodes/ based on settings.shortcodes.extensions array
+ * Load Flextype Shortcodes extensions from directory /flextype/app/Support/Parsers/Shortcodes/ based on flextype.settings.shortcodes.extensions array
  */
 $shortcodes_extensions = $flextype['registry']->get('flextype.settings.shortcodes.extensions');
 
 foreach ($shortcodes_extensions as $shortcodes_extension) {
-    $shortcodes_extension_file_path = ROOT_DIR . '/src/flextype/core/Parsers/shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';
-    if (file_exists($shortcodes_extension_file_path)) {
-        include_once $shortcodes_extension_file_path;
+    $shortcodes_extension_file_path = ROOT_DIR . '/src/flextype/app/Support/Parsers/Shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';
+    if (! file_exists($shortcodes_extension_file_path)) {
+        continue;
     }
+
+    include_once $shortcodes_extension_file_path;
+}
+
+/**
+ * Init entries fields
+ *
+ * Load Flextype Entries fields from directory /flextype/app/Foundation/Entries/Fields/ based on flextype.settings.entries.fields array
+ */
+$entry_fields = $flextype['registry']->get('flextype.settings.entries.fields');
+
+foreach ($entry_fields as $field_name => $field) {
+    $entry_field_file_path = ROOT_DIR . '/src/flextype/app/Foundation/Entries/Fields/' . str_replace("_", '', ucwords($field_name, "_")) . 'Field.php';
+    if (! file_exists($entry_field_file_path)) {
+        continue;
+    }
+
+    include_once $entry_field_file_path;
 }
 
 /**

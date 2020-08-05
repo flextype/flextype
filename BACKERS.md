@@ -6,8 +6,16 @@ However, the amount of effort needed to maintain and develop new features for th
 
 * [Become a backer or sponsor on Patreon](https://www.patreon.com/awilum).
 * [One-time donation via PayPal, QIWI, Sberbank, Yandex](http://flextype.org/en/one-time-donation)
-* [Visit our Sponsors & Backers page](http://flextype.org/en/sponsors)
+* [Visit our Sponsors & Backers page](https://flextype.org/en/sponsors)
 
+### Bronze Sponsor
+* Jeremy Monroe
 
-### Backers
+### Coffee Supporter
 * Arseni Khramenkin
+* Roman
+* Viktoriya Kozyr
+
+### One-time donations
+* Alexander Greca
+* Izabela Sokołowska
