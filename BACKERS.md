@@ -19,9 +19,9 @@ However, the amount of effort needed to maintain and develop new features for th
 * Theodore Zhvania
 
 ### Backers
+* Arseni Khramenkin
 
 ### Coffee Supporter
-* Arseni Khramenkin
 * Roman
 * Viktoriya Kozyr
 
