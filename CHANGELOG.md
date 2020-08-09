@@ -1,3 +1,10 @@
+<a name="0.9.10"></a>
+# [0.9.10](https://github.com/flextype/flextype/compare/v0.9.9...v0.9.10) (2020-08-xx)
+
+### Bug Fixes
+
+* **cache** fix issue with purge() method. #451
+
 <a name="0.9.9"></a>
 # [0.9.9](https://github.com/flextype/flextype/compare/v0.9.8...v0.9.9) (2020-08-05)
 
