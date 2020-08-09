@@ -328,7 +328,7 @@ class Cache
         $this->flextype['emitter']->emit('onCacheBeforePurge');
 
         // Remove specific cache directory
-        Filesystem::deleteDir(PATH['cache'] . '/' . $id);
+        Filesystem::deleteDir(PATH['cache'] . '/' . $directory);
 
         // Save and Mute error_reporting
         $errorReporting = error_reporting();
