@@ -22,7 +22,7 @@ use function strpos;
 class Entries
 {
     /**
-     * Current entry path
+     * Current entry id
      *
      * @var string
      * @access public
@@ -62,7 +62,7 @@ class Entries
     public $entries;
 
     /**
-     * Current entries path
+     * Current entries id
      *
      * @var string
      * @access public
@@ -117,7 +117,7 @@ class Entries
      */
     public function fetchSingle(string $id) : array
     {
-        // Store current requested entry path
+        // Store current requested entry id
         $this->entry_id = $id;
 
         // Get Cache ID for current requested entry
@@ -184,7 +184,7 @@ class Entries
         // Init Entries object
         $this->entries = [];
 
-        // Store current requested entries path
+        // Store current requested entries id
         $this->entries_id = $this->getDirLocation($id);
 
         // Find entries
