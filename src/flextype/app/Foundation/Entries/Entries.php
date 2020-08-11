@@ -46,7 +46,7 @@ class Entries
     public $entry_create_data = [];
 
     /**
-     * Current entry create data array
+     * Current entry update data array
      *
      * @var array
      * @access public
@@ -192,13 +192,13 @@ class Entries
 
         // If entries founded in the entries folder
         // We are checking... Whether the requested entry is an a true entry.
-        // Get entry uid. Remove entries path and remove left and right slashes.
+        // Get entry $_id. Remove entries path and remove left and right slashes.
         // Fetch single entry.
         if (count($entries_list) > 0) {
             foreach ($entries_list as $current_entry) {
                 if ($current_entry->getType() === 'file' && $current_entry->getFilename() === 'entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension')) {
-                    $uid = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', $current_entry->getPath()), '/'), '/');
-                    $this->entries[$uid] = $this->fetchSingle($uid);
+                    $_id = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', $current_entry->getPath()), '/'), '/');
+                    $this->entries[$_id] = $this->fetchSingle($_id);
                 }
             }
 
