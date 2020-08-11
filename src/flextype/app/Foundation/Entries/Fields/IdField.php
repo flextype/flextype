@@ -9,6 +9,6 @@ declare(strict_types=1);
 
 if ($flextype->registry->get('flextype.settings.entries.fields.id.enabled')) {
     $flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
-        $flextype->entries->entry['id'] = isset($flextype->entries->entry['id']) ? (string) $flextype->entries->entry['id'] : (string) ltrim(rtrim($flextype->entries->entry_path, '/'), '/');
+        $flextype->entries->entry['id'] = isset($flextype->entries->entry['id']) ? (string) $flextype->entries->entry['id'] : (string) ltrim(rtrim($flextype->entries->entry_id, '/'), '/');
     });
 }
