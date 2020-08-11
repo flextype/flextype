@@ -89,7 +89,7 @@ class Entries
     /**
      * Fetch entry(entries)
      *
-     * @param string $path       Unique identifier of the entry(entries).
+     * @param string $id         Unique identifier of the entry(entries).
      * @param bool   $collection Set `true` if collection of entries need to be fetched.
      * @param array  $filter     Select items in collection by given conditions.
      *
@@ -97,28 +97,28 @@ class Entries
      *
      * @access public
      */
-    public function fetch(string $path, bool $collection = false, $filter = []) : array
+    public function fetch(string $id, bool $collection = false, $filter = []) : array
     {
         if ($collection) {
-            return $this->fetchCollection($path, $filter);
+            return $this->fetchCollection($id, $filter);
         }
 
-        return $this->fetchSingle($path);
+        return $this->fetchSingle($id);
     }
 
     /**
      * Fetch single entry
      *
-     * @param string $path Unique identifier of the entry(entries).
+     * @param string $id Unique identifier of the entry(entries).
      *
      * @return array The entry array data.
      *
      * @access public
      */
-    public function fetchSingle(string $path) : array
+    public function fetchSingle(string $id) : array
     {
         // Store current requested entry path
-        $this->entry_path = $path;
+        $this->entry_path = $id;
 
         // Get Cache ID for current requested entry
         $entry_cache_id = $this->getCacheID($this->entry_path);
@@ -172,20 +172,20 @@ class Entries
     /**
      * Fetch entries collection
      *
-     * @param string $path   Unique identifier of the entry(entries).
+     * @param string $id     Unique identifier of the entry(entries).
      * @param array  $filter Select items in collection by given conditions.
      *
      * @return array|bool|int
      *
      * @access public
      */
-    public function fetchCollection(string $path, $filter = [])
+    public function fetchCollection(string $id, $filter = [])
     {
         // Init Entries object
         $this->entries = [];
 
         // Store current requested entries path
-        $this->entries_path = $this->getDirLocation($path);
+        $this->entries_path = $this->getDirLocation($id);
 
         // Find entries
         $entries_list = find_filter($this->entries_path, $filter);
@@ -216,20 +216,20 @@ class Entries
     /**
      * Rename entry
      *
-     * @param string $path     Unique identifier of the entry(entries).
-     * @param string $new_path New Unique identifier of the entry(entries).
+     * @param string $id     Unique identifier of the entry(entries).
+     * @param string $new_id New Unique identifier of the entry(entries).
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function rename(string $path, string $new_path) : bool
+    public function rename(string $id, string $new_id) : bool
     {
-        if (! Filesystem::has($this->getDirLocation($new_path))) {
+        if (! Filesystem::has($this->getDirLocation($new_id))) {
             // Run event: onEntryRename
             $this->flextype['emitter']->emit('onEntryRename');
 
-            return rename($this->getDirLocation($path), $this->getDirLocation($new_path));
+            return rename($this->getDirLocation($id), $this->getDirLocation($new_id));
         }
 
         return false;
@@ -238,16 +238,16 @@ class Entries
     /**
      * Update entry
      *
-     * @param string $path Unique identifier of the entry(entries).
+     * @param string $id   Unique identifier of the entry(entries).
      * @param array  $data Data to update for the entry.
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function update(string $path, array $data) : bool
+    public function update(string $id, array $data) : bool
     {
-        $entry_file = $this->getFileLocation($path);
+        $entry_file = $this->getFileLocation($id);
 
         if (Filesystem::has($entry_file)) {
             $body  = Filesystem::read($entry_file);
@@ -268,16 +268,16 @@ class Entries
     /**
      * Create entry
      *
-     * @param string $path Unique identifier of the entry(entries).
+     * @param string $id   Unique identifier of the entry(entries).
      * @param array  $data Data to create for the entry.
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function create(string $path, array $data) : bool
+    public function create(string $id, array $data) : bool
     {
-        $entry_dir = $this->getDirLocation($path);
+        $entry_dir = $this->getDirLocation($id);
 
         if (! Filesystem::has($entry_dir)) {
             // Try to create directory for new entry
@@ -304,97 +304,97 @@ class Entries
     /**
      * Delete entry
      *
-     * @param string $path Unique identifier of the entry(entries).
+     * @param string $id Unique identifier of the entry(entries).
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function delete(string $path) : bool
+    public function delete(string $id) : bool
     {
         // Run event: onEntryDelete
         $this->flextype['emitter']->emit('onEntryDelete');
 
-        return Filesystem::deleteDir($this->getDirLocation($path));
+        return Filesystem::deleteDir($this->getDirLocation($id));
     }
 
     /**
      * Copy entry(s)
      *
-     * @param string $path     Unique identifier of the entry(entries).
-     * @param string $new_path New Unique identifier of the entry(entries).
-     * @param bool   $deep     Recursive copy entries.
+     * @param string $id     Unique identifier of the entry(entries).
+     * @param string $new_id New Unique identifier of the entry(entries).
+     * @param bool   $deep   Recursive copy entries.
      *
      * @return bool|null True on success, false on failure.
      *
      * @access public
      */
-    public function copy(string $path, string $new_path, bool $deep = false) : ?bool
+    public function copy(string $id, string $new_id, bool $deep = false) : ?bool
     {
         // Run event: onEntryRename
         $this->flextype['emitter']->emit('onEntryCopy');
 
-        return Filesystem::copy($this->getDirLocation($path), $this->getDirLocation($new_path), $deep);
+        return Filesystem::copy($this->getDirLocation($id), $this->getDirLocation($new_id), $deep);
     }
 
     /**
      * Check whether entry exists
      *
-     * @param string $path Unique identifier of the entry(entries).
+     * @param string $id Unique identifier of the entry(entries).
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function has(string $path) : bool
+    public function has(string $id) : bool
     {
-        return Filesystem::has($this->getFileLocation($path));
+        return Filesystem::has($this->getFileLocation($id));
     }
 
     /**
      * Get entry file location
      *
-     * @param string $path Unique identifier of the entry(entries).
+     * @param string $id Unique identifier of the entry(entries).
      *
      * @return string entry file location
      *
      * @access public
      */
-    public function getFileLocation(string $path) : string
+    public function getFileLocation(string $id) : string
     {
-        return PATH['project'] . '/entries/' . $path . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension');
+        return PATH['project'] . '/entries/' . $id . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension');
     }
 
     /**
      * Get entry directory location
      *
-     * @param string $path Unique identifier of the entry(entries).
+     * @param string $id Unique identifier of the entry(entries).
      *
      * @return string entry directory location
      *
      * @access public
      */
-    public function getDirLocation(string $path) : string
+    public function getDirLocation(string $id) : string
     {
-        return PATH['project'] . '/entries/' . $path;
+        return PATH['project'] . '/entries/' . $id;
     }
 
     /**
      * Get Cache ID for entry
      *
-     * @param  string $path Unique identifier of the entry(entries).
+     * @param  string $id Unique identifier of the entry(entries).
      *
      * @return string Cache ID
      *
      * @access public
      */
-    public function getCacheID(string $path) : string
+    public function getCacheID(string $id) : string
     {
         if ($this->flextype['registry']->get('flextype.settings.cache.enabled') === false) {
             return '';
         }
 
-        $entry_file = $this->getFileLocation($path);
+        $entry_file = $this->getFileLocation($id);
 
         if (Filesystem::has($entry_file)) {
             return md5('entry' . $entry_file . Filesystem::getTimestamp($entry_file));
