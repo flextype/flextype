@@ -27,7 +27,7 @@ class Entries
      * @var string
      * @access public
      */
-    public $entry_path = null;
+    public $entry_id = null;
 
     /**
      * Current entry data array
@@ -67,7 +67,7 @@ class Entries
      * @var string
      * @access public
      */
-    public $entries_path = null;
+    public $entries_id = null;
 
     /**
      * Flextype Dependency Container
@@ -118,10 +118,10 @@ class Entries
     public function fetchSingle(string $id) : array
     {
         // Store current requested entry path
-        $this->entry_path = $id;
+        $this->entry_id = $id;
 
         // Get Cache ID for current requested entry
-        $entry_cache_id = $this->getCacheID($this->entry_path);
+        $entry_cache_id = $this->getCacheID($this->entry_id);
 
         // Try to get current requested entry from cache
         if ($this->flextype['cache']->contains($entry_cache_id)) {
@@ -136,9 +136,9 @@ class Entries
         }
 
         // Try to get current requested entry from filesystem
-        if ($this->has($this->entry_path)) {
+        if ($this->has($this->entry_id)) {
             // Get entry file location
-            $entry_file = $this->getFileLocation($this->entry_path);
+            $entry_file = $this->getFileLocation($this->entry_id);
 
             // Try to get requested entry from the filesystem
             $entry_file_content = Filesystem::read($entry_file);
@@ -185,10 +185,10 @@ class Entries
         $this->entries = [];
 
         // Store current requested entries path
-        $this->entries_path = $this->getDirLocation($id);
+        $this->entries_id = $this->getDirLocation($id);
 
         // Find entries
-        $entries_list = find_filter($this->entries_path, $filter);
+        $entries_list = find_filter($this->entries_id, $filter);
 
         // If entries founded in the entries folder
         // We are checking... Whether the requested entry is an a true entry.
