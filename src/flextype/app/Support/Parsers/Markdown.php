@@ -16,12 +16,12 @@ class Markdown
     /**
      * Flextype Dependency Container
      */
-    private $flextype;
+    protected $flextype;
 
     /**
      * Markdown
      */
-    private $markdown;
+    protected $markdown;
 
     /**
      * Constructor

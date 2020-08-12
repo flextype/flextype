@@ -16,12 +16,12 @@ class Shortcode
     /**
      * Flextype Dependency Container
      */
-    private $flextype;
+    protected $flextype;
 
     /**
      * Shortcode Fasade
      */
-    private $shortcode;
+    protected $shortcode;
 
     /**
      * Constructor
@@ -35,7 +35,7 @@ class Shortcode
     }
 
     /**
-     * Shortcode instance
+     * Get Shortcode instance
      *
      * @access public
      */
