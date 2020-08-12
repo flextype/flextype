@@ -1,9 +1,56 @@
 <a name="0.9.10"></a>
 # [0.9.10](https://github.com/flextype/flextype/compare/v0.9.9...v0.9.10) (2020-08-xx)
 
+### Features
+
+* **entries** Rename path to id in Entries API #453
+
+    New implementation
+    ```
+    // Entry properties
+    $entry_id
+    $entries_id
+
+    // Arguments
+    $id
+    $new_id
+    ```
+
 ### Bug Fixes
 
 * **cache** fix issue with purge() method. #451
+* **entries** fix wrong Implementation of Slug Field for Entries #452
+* **entries** add new entry field `id` #452
+
+### BREAKING CHANGES
+
+* **entries** Rename path to id in Entries API #453
+
+    Old Entry properties
+    ```
+    $entry_path
+    $entries_path
+    ```
+
+    New Entry properties
+    ```
+    $entry_id
+    $entries_id
+    ```
+
+* **entries** fix wrong Implementation of Slug Field for Entries #452
+
+    From now we have entry fields:
+    `slug` with current entry slug.
+        Example:
+        ```
+        flextype-0.9.10
+        ```
+    `id` with current entry full path as it is was for slug field.
+        Example:
+        ```
+        blog/flextype-0.9.10
+        ```
 
 <a name="0.9.9"></a>
 # [0.9.9](https://github.com/flextype/flextype/compare/v0.9.8...v0.9.9) (2020-08-05)
