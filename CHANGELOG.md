@@ -42,15 +42,18 @@
 
     From now we have entry fields:
     `slug` with current entry slug.
-        Example:
-        ```
-        flextype-0.9.10
-        ```
+
+    Example:
+    ```
+    flextype-0.9.10
+    ```
+
     `id` with current entry full path as it is was for slug field.
-        Example:
-        ```
-        blog/flextype-0.9.10
-        ```
+
+    Example:
+    ```
+    blog/flextype-0.9.10
+    ```
 
 <a name="0.9.9"></a>
 # [0.9.9](https://github.com/flextype/flextype/compare/v0.9.8...v0.9.9) (2020-08-05)
