@@ -41,6 +41,7 @@
 * **entries** fix wrong Implementation of Slug Field for Entries #452
 
     From now we have entry fields:
+    
     `slug` with current entry slug.
 
     Example:
