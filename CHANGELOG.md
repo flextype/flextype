@@ -3,7 +3,7 @@
 
 ### Features
 
-* **entries** Rename path to id in Entries API #453
+* **entries** Rename path to id in Entries API ([#453](https://github.com/flextype/flextype/issues/453))
 
     New implementation
     ```
@@ -18,13 +18,13 @@
 
 ### Bug Fixes
 
-* **cache** fix issue with purge() method. #451
-* **entries** fix wrong Implementation of Slug Field for Entries #452
-* **entries** add new entry field `id` #452
+* **cache** fix issue with purge() method. ([#451](https://github.com/flextype/flextype/issues/451))
+* **entries** fix wrong Implementation of Slug Field for Entries ([#452](https://github.com/flextype/flextype/issues/452))
+* **entries** add new entry field `id` ([#452](https://github.com/flextype/flextype/issues/452))
 
 ### BREAKING CHANGES
 
-* **entries** Rename path to id in Entries API #453
+* **entries** Rename path to id in Entries API ([#453](https://github.com/flextype/flextype/issues/453))
 
     Old Entry properties
     ```
@@ -38,10 +38,10 @@
     $entries_id
     ```
 
-* **entries** fix wrong Implementation of Slug Field for Entries #452
+* **entries** fix wrong Implementation of Slug Field for Entries ([#452](https://github.com/flextype/flextype/issues/452))
 
     From now we have entry fields:
-    
+
     `slug` with current entry slug.
 
     Example:
