@@ -106,17 +106,17 @@ date_default_timezone_set($flextype['registry']->get('flextype.settings.timezone
 /**
  * Init shortocodes
  *
- * Load Flextype Shortcodes extensions from directory /flextype/app/Support/Parsers/Shortcodes/ based on flextype.settings.shortcodes.extensions array
+ * Load Flextype Shortcodes from directory /flextype/app/Support/Parsers/Shortcodes/ based on flextype.settings.shortcode.shortcodes array
  */
-$shortcodes_extensions = $flextype['registry']->get('flextype.settings.shortcodes.extensions');
+$shortcodes = $flextype['registry']->get('flextype.settings.shortcode.shortcodes');
 
-foreach ($shortcodes_extensions as $shortcodes_extension) {
-    $shortcodes_extension_file_path = ROOT_DIR . '/src/flextype/app/Support/Parsers/Shortcodes/' . $shortcodes_extension . 'ShortcodeExtension.php';
-    if (! file_exists($shortcodes_extension_file_path)) {
+foreach ($shortcodes as $shortcode_name => $shortcode) {
+    $shortcode_file_path = ROOT_DIR . '/src/flextype/app/Support/Parsers/Shortcodes/' . str_replace("_", '', ucwords($shortcode_name, "_")) . 'Shortcode.php';
+    if (! file_exists($shortcode_file_path)) {
         continue;
     }
 
-    include_once $shortcodes_extension_file_path;
+    include_once $shortcode_file_path;
 }
 
 /**
