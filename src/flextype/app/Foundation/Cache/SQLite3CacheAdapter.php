@@ -12,15 +12,15 @@ use SQLite3;
 class SQLite3CacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Flextype Dependency Container
+     * Dependency Container
      *
      * @access private
      */
-    private $flextype;
+    private $container;
     
-    public function __construct(ContainerInterface $flextype)
+    public function __construct(ContainerInterface $container)
     {
-        $this->flextype = $flextype;
+        $this->container = $container;
     }
 
     public function getDriver() : object
@@ -31,8 +31,8 @@ class SQLite3CacheAdapter implements CacheAdapterInterface
             Filesystem::createDir($cache_directory);
         }
 
-        $db = new SQLite3($cache_directory . $this->flextype['registry']->get('flextype.settings.cache.sqlite3.database', 'flextype') . '.db');
+        $db = new SQLite3($cache_directory . $this->container['registry']->get('flextype.settings.cache.sqlite3.database', 'flextype') . '.db');
 
-        return new SQLite3Cache($db, $this->flextype['registry']->get('flextype.settings.cache.sqlite3.table', 'flextype'));
+        return new SQLite3Cache($db, $this->container['registry']->get('flextype.settings.cache.sqlite3.table', 'flextype'));
     }
 }

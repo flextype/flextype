@@ -9,18 +9,18 @@ declare(strict_types=1);
 
 use Flextype\Component\Filesystem\Filesystem;
 
-if ($flextype->registry->get('flextype.settings.entries.fields.created_at.enabled')) {
-    $flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
-        $flextype->entries->entry['created_at'] = isset($flextype->entries->entry['created_at']) ?
-                                        (int) strtotime($flextype->entries->entry['created_at']) :
-                                        (int) Filesystem::getTimestamp($flextype->entries->getFileLocation($flextype->entries->entry_id));
+if ($container->registry->get('flextype.settings.entries.fields.created_at.enabled')) {
+    $container->emitter->addListener('onEntryAfterInitialized', function () use ($container) : void {
+        $container->entries->entry['created_at'] = isset($container->entries->entry['created_at']) ?
+                                        (int) strtotime($container->entries->entry['created_at']) :
+                                        (int) Filesystem::getTimestamp($container->entries->getFileLocation($container->entries->entry_id));
     });
 
-    $flextype->emitter->addListener('onEntryCreate', function () use ($flextype) : void {
-        if (isset($flextype->entries->entry_create_data['created_at'])) {
-            $flextype->entries->entry_create_data['created_at'] = $flextype->entries->entry_create_data['created_at'];
+    $container->emitter->addListener('onEntryCreate', function () use ($container) : void {
+        if (isset($container->entries->entry_create_data['created_at'])) {
+            $container->entries->entry_create_data['created_at'] = $container->entries->entry_create_data['created_at'];
         } else {
-            $flextype->entries->entry_create_data['created_at'] = date($flextype->registry->get('flextype.settings.date_format'), time());
+            $container->entries->entry_create_data['created_at'] = date($container->registry->get('flextype.settings.date_format'), time());
         }
     });
 }

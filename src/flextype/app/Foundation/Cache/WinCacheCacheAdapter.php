@@ -10,15 +10,15 @@ use Psr\Container\ContainerInterface;
 class WinCacheCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Flextype Dependency Container
+     * Dependency Container
      *
      * @access private
      */
-    private $flextype;
+    private $container;
     
-    public function __construct(ContainerInterface $flextype)
+    public function __construct(ContainerInterface $container)
     {
-        $this->flextype = $flextype;
+        $this->container = $container;
     }
 
     public function getDriver() : object

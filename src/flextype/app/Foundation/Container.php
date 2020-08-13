@@ -12,7 +12,7 @@ namespace Flextype\App\Foundation;
 class Container
 {
     /**
-     * Flextype Dependency Container
+     * Dependency Container
      */
     protected $container;
 

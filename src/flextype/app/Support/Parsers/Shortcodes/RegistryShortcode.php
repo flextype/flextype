@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
-if ($flextype->registry->get('flextype.settings.shortcode.shortcodes.registry.enabled')) {
+if ($container->registry->get('flextype.settings.shortcode.shortcodes.registry.enabled')) {
 
     // Shortcode: [registry_get name="item-name" default="default-value"]
-    $flextype['shortcode']->addHandler('registry_get', function (ShortcodeInterface $s) use ($flextype) {
-        return $flextype['registry']->get($s->getParameter('name'), $s->getParameter('default'));
+    $container['shortcode']->addHandler('registry_get', function (ShortcodeInterface $s) use ($container) {
+        return $container['registry']->get($s->getParameter('name'), $s->getParameter('default'));
     });
 }

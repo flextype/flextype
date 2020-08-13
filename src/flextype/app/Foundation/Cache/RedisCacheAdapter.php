@@ -12,29 +12,29 @@ use RedisException;
 class RedisCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Flextype Dependency Container
+     * Dependency Container
      *
      * @access private
      */
-    private $flextype;
+    private $container;
     
-    public function __construct(ContainerInterface $flextype)
+    public function __construct(ContainerInterface $container)
     {
-        $this->flextype = $flextype;
+        $this->container = $container;
     }
 
     public function getDriver() : object
     {
         $redis    = new Redis();
-        $socket   = $this->flextype['registry']->get('flextype.settings.cache.redis.socket', false);
-        $password = $this->flextype['registry']->get('flextype.settings.cache.redis.password', false);
+        $socket   = $this->container['registry']->get('flextype.settings.cache.redis.socket', false);
+        $password = $this->container['registry']->get('flextype.settings.cache.redis.password', false);
 
         if ($socket) {
             $redis->connect($socket);
         } else {
             $redis->connect(
-                $this->flextype['registry']->get('flextype.settings.cache.redis.server', 'localhost'),
-                $this->flextype['registry']->get('flextype.settings.cache.redis.port', 6379)
+                $this->container['registry']->get('flextype.settings.cache.redis.server', 'localhost'),
+                $this->container['registry']->get('flextype.settings.cache.redis.port', 6379)
             );
         }
 

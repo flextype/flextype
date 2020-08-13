@@ -34,7 +34,7 @@ $registry = new Registry();
 /**
  * Preflight the Flextype
  */
-include_once 'preflight.php';
+include_once ROOT_DIR . '/src/flextype/preflight.php';
 
 /**
  * Create new application
@@ -51,16 +51,13 @@ $app = new App([
         'outputBuffering' => $registry->get('flextype.settings.output_buffering'),
         'responseChunkSize' => $registry->get('flextype.settings.response_chunk_size'),
         'httpVersion' => $registry->get('flextype.settings.http_version'),
-        'images' => [
-            'driver' => $registry->get('flextype.settings.image.driver'),
-        ],
     ],
 ]);
 
 /**
- * Set Flextype Dependency Injection Container
+ * Get Dependency Injection Container
  */
-$flextype = $app->getContainer();
+$container = $app->getContainer();
 
 /**
  * Include Dependencies
@@ -70,25 +67,25 @@ include_once 'dependencies.php';
 /**
  * Include API ENDPOINTS
  */
-include_once 'app/Endpoints/Utils/errors.php';
-include_once 'app/Endpoints/Utils/access.php';
-include_once 'app/Endpoints/entries.php';
-include_once 'app/Endpoints/registry.php';
-include_once 'app/Endpoints/files.php';
-include_once 'app/Endpoints/folders.php';
-include_once 'app/Endpoints/images.php';
+include_once ROOT_DIR . '/src/flextype/app/Endpoints/Utils/errors.php';
+include_once ROOT_DIR . '/src/flextype/app/Endpoints/Utils/access.php';
+include_once ROOT_DIR . '/src/flextype/app/Endpoints/entries.php';
+include_once ROOT_DIR . '/src/flextype/app/Endpoints/registry.php';
+include_once ROOT_DIR . '/src/flextype/app/Endpoints/files.php';
+include_once ROOT_DIR . '/src/flextype/app/Endpoints/folders.php';
+include_once ROOT_DIR . '/src/flextype/app/Endpoints/images.php';
 
 /**
  * Set internal encoding
  */
 function_exists('mb_language') and mb_language('uni');
-function_exists('mb_regex_encoding') and mb_regex_encoding($flextype['registry']->get('flextype.settings.charset'));
-function_exists('mb_internal_encoding') and mb_internal_encoding($flextype['registry']->get('flextype.settings.charset'));
+function_exists('mb_regex_encoding') and mb_regex_encoding($container['registry']->get('flextype.settings.charset'));
+function_exists('mb_internal_encoding') and mb_internal_encoding($container['registry']->get('flextype.settings.charset'));
 
 /**
  * Display Errors
  */
-if ($flextype['registry']->get('flextype.settings.errors.display')) {
+if ($container['registry']->get('flextype.settings.errors.display')) {
 
     /**
      * Add WhoopsMiddleware
@@ -101,14 +98,14 @@ if ($flextype['registry']->get('flextype.settings.errors.display')) {
 /**
  * Set default timezone
  */
-date_default_timezone_set($flextype['registry']->get('flextype.settings.timezone'));
+date_default_timezone_set($container['registry']->get('flextype.settings.timezone'));
 
 /**
  * Init shortocodes
  *
  * Load Flextype Shortcodes from directory /flextype/app/Support/Parsers/Shortcodes/ based on flextype.settings.shortcode.shortcodes array
  */
-$shortcodes = $flextype['registry']->get('flextype.settings.shortcode.shortcodes');
+$shortcodes = $container['registry']->get('flextype.settings.shortcode.shortcodes');
 
 foreach ($shortcodes as $shortcode_name => $shortcode) {
     $shortcode_file_path = ROOT_DIR . '/src/flextype/app/Support/Parsers/Shortcodes/' . str_replace("_", '', ucwords($shortcode_name, "_")) . 'Shortcode.php';
@@ -124,7 +121,7 @@ foreach ($shortcodes as $shortcode_name => $shortcode) {
  *
  * Load Flextype Entries fields from directory /flextype/app/Foundation/Entries/Fields/ based on flextype.settings.entries.fields array
  */
-$entry_fields = $flextype['registry']->get('flextype.settings.entries.fields');
+$entry_fields = $container['registry']->get('flextype.settings.entries.fields');
 
 foreach ($entry_fields as $field_name => $field) {
     $entry_field_file_path = ROOT_DIR . '/src/flextype/app/Foundation/Entries/Fields/' . str_replace("_", '', ucwords($field_name, "_")) . 'Field.php';
@@ -138,7 +135,7 @@ foreach ($entry_fields as $field_name => $field) {
 /**
  * Init plugins
  */
-$flextype['plugins']->init($flextype, $app);
+$container['plugins']->init($container, $app);
 
 /**
  * Enable lazy CORS
@@ -147,7 +144,7 @@ $flextype['plugins']->init($flextype, $app);
  * This is important for third party web apps using Flextype, as without CORS, a JavaScript app hosted on example.com
  * couldn't access our APIs because they're hosted on another.com which is a different domain.
  */
-$flextype['cors']->init();
+$container['cors']->init();
 
 /**
  * Run application

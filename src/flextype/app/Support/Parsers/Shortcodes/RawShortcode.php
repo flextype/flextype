@@ -11,12 +11,12 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use Thunder\Shortcode\EventHandler\FilterRawEventHandler;
 use Thunder\Shortcode\Events;
 
-if ($flextype->registry->get('flextype.settings.shortcode.shortcodes.raw.enabled')) {
+if ($container->registry->get('flextype.settings.shortcode.shortcodes.raw.enabled')) {
 
     // Shortcode: [raw]
-    $flextype['shortcode']->addHandler('raw', function (ShortcodeInterface $s) use ($flextype) {
+    $container['shortcode']->addHandler('raw', function (ShortcodeInterface $s) use ($container) {
         return $s->getContent();
     });
 
-    $flextype['shortcode']->addEventHandler(Events::FILTER_SHORTCODES, new FilterRawEventHandler(['raw']));
+    $container['shortcode']->addEventHandler(Events::FILTER_SHORTCODES, new FilterRawEventHandler(['raw']));
 }

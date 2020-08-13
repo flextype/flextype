@@ -11,23 +11,23 @@ use Psr\Container\ContainerInterface;
 class MemcachedCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Flextype Dependency Container
+     * Dependency Container
      *
      * @access private
      */
-    private $flextype;
+    private $container;
     
-    public function __construct(ContainerInterface $flextype)
+    public function __construct(ContainerInterface $container)
     {
-        $this->flextype = $flextype;
+        $this->container = $container;
     }
 
     public function getDriver() : object
     {
         $memcached = new Memecached();
         $memcached->addServer(
-            $this->flextype['registry']->get('flextype.settings.cache.memcached.server', 'localhost'),
-            $this->flextype['registry']->get('flextype.settings.cache.memcache.port', 11211)
+            $this->container['registry']->get('flextype.settings.cache.memcached.server', 'localhost'),
+            $this->container['registry']->get('flextype.settings.cache.memcache.port', 11211)
         );
 
         $driver = new MemcachedCache();

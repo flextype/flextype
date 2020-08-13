@@ -14,9 +14,14 @@ use function md5;
 class Markdown
 {
     /**
-     * Flextype Dependency Container
+     * Application
      */
-    protected $flextype;
+    protected $app;
+
+    /**
+     * Dependency Container
+     */
+    protected $container;
 
     /**
      * Markdown
@@ -28,10 +33,11 @@ class Markdown
      *
      * @access public
      */
-    public function __construct($flextype, $markdown)
+    public function __construct($app, $markdown)
     {
-        $this->flextype = $flextype;
-        $this->markdown = $markdown;
+        $this->app       = $app;
+        $this->container = $app->getContainer();
+        $this->markdown  = $markdown;
     }
 
     /**
@@ -44,15 +50,15 @@ class Markdown
      */
     public function parse(string $input, bool $cache = true) : string
     {
-        if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
+        if ($cache === true && $this->container['registry']->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
+            if ($data_from_cache = $this->container['cache']->fetch($key)) {
                 return $data_from_cache;
             }
 
             $data = $this->_parse($input);
-            $this->flextype['cache']->save($key, $data);
+            $this->container['cache']->save($key, $data);
 
             return $data;
         }

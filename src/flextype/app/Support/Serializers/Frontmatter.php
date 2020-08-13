@@ -22,18 +22,24 @@ use const PHP_EOL;
 class Frontmatter
 {
     /**
-     * Flextype Dependency Container
+     * Application
      */
-    private $flextype;
+    protected $app;
+
+    /**
+     * Dependency Container
+     */
+    protected $container;
 
     /**
      * Constructor
      *
      * @access public
      */
-    public function __construct($flextype)
+    public function __construct($app)
     {
-        $this->flextype = $flextype;
+        $this->app       = $app;
+        $this->container = $app->getContainer();
     }
 
     /**
@@ -58,15 +64,15 @@ class Frontmatter
      */
     public function decode(string $input, bool $cache = true)
     {
-        if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
+        if ($cache === true && $this->container['registry']->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
+            if ($data_from_cache = $this->container['cache']->fetch($key)) {
                 return $data_from_cache;
             }
 
             $data = $this->_decode($input);
-            $this->flextype['cache']->save($key, $data);
+            $this->container['cache']->save($key, $data);
 
             return $data;
         }
@@ -82,10 +88,10 @@ class Frontmatter
         if (isset($input['content'])) {
             $content = $input['content'];
             Arrays::delete($input, 'content');
-            $matter = $this->flextype['yaml']->encode($input);
+            $matter = $this->container['yaml']->encode($input);
         } else {
             $content = '';
-            $matter  = $this->flextype['yaml']->encode($input);
+            $matter  = $this->container['yaml']->encode($input);
         }
 
         $encoded = '---' . "\n" .
@@ -114,7 +120,7 @@ class Frontmatter
             return ['content' => trim($input)];
         }
 
-        return $this->flextype['yaml']->decode(trim($parts[1]), false) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
+        return $this->container['yaml']->decode(trim($parts[1]), false) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
     }
 
     protected function getCacheID($input)

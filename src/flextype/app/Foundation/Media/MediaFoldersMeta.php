@@ -12,20 +12,24 @@ namespace Flextype\App\Foundation\Media;
 class MediaFoldersMeta
 {
     /**
-     * Flextype Dependency Container
-     *
-     * @access private
+     * Application
      */
-    private $flextype;
+    protected $app;
+
+    /**
+     * Dependency Container
+     */
+    protected $container;
 
     /**
      * Constructor
      *
      * @access public
      */
-    public function __construct($flextype)
+    public function __construct($app)
     {
-        $this->flextype = $flextype;
+        $this->app       = $app;
+        $this->container = $app->getContainer();
     }
 
     /**
