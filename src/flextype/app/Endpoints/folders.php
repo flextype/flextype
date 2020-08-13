@@ -36,7 +36,7 @@ function validate_folders_token($token) : bool
  * Returns:
  * An array of folder(s) item objects.
  */
-$app->get('/api/folders', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->get('/api/folders', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Query Params
     $query = $request->getQueryParams();
 
@@ -141,7 +141,7 @@ $app->get('/api/folders', function (Request $request, Response $response) use ($
  * Returns:
  * Returns the folder object for the folder that was just created.
  */
-$app->post('/api/folders', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->post('/api/folders', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -241,7 +241,7 @@ $app->post('/api/folders', function (Request $request, Response $response) use (
  * Returns:
  * Returns the folders object for the folders that was just copied.
  */
-$app->put('/api/folders/copy', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->put('/api/folders/copy', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -344,7 +344,7 @@ $app->put('/api/folders/copy', function (Request $request, Response $response) u
  * Returns:
  * Returns the folders object for the folders that was just renamed.
  */
-$app->put('/api/folders', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->put('/api/folders', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -444,7 +444,7 @@ $app->put('/api/folders', function (Request $request, Response $response) use ($
 * Returns:
 * Returns an empty body with HTTP status 204
 */
-$app->delete('/api/folders', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->delete('/api/folders', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 

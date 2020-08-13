@@ -34,7 +34,7 @@ function validate_registry_token($token) : bool
  * Returns:
  * An array of registry item objects.
  */
-$app->get('/api/registry', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->get('/api/registry', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Query Params
     $query = $request->getQueryParams();
 

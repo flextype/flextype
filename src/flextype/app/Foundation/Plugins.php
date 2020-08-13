@@ -27,7 +27,7 @@ class Plugins
     /**
      * Application
      */
-    protected $app;
+    protected $flextype;
 
     /**
      * Dependency Container
@@ -46,10 +46,10 @@ class Plugins
      *
      * @access public
      */
-    public function __construct($app)
+    public function __construct($flextype)
     {
-        $this->app       = $app;
-        $this->container = $app->getContainer();
+        $this->app       = $flextype;
+        $this->container = $flextype->getContainer();
         $this->locales   = $this->container['yaml']->decode(Filesystem::read(ROOT_DIR . '/src/flextype/locales.yaml'));
     }
 
@@ -70,7 +70,7 @@ class Plugins
      *
      * @access public
      */
-    public function init($container, $app) : void
+    public function init($container, $flextype) : void
     {
         // Set empty plugins item
         $this->container['registry']->set('plugins', []);
@@ -186,7 +186,7 @@ class Plugins
             $this->container['cache']->save($locale, $dictionary[$locale]);
         }
 
-        $this->includeEnabledPlugins($container, $app);
+        $this->includeEnabledPlugins($container, $flextype);
 
         $this->container['emitter']->emit('onPluginsInitialized');
     }
@@ -379,7 +379,7 @@ class Plugins
      *
      * @access private
      */
-    private function includeEnabledPlugins($container, $app) : void
+    private function includeEnabledPlugins($container, $flextype) : void
     {
         if (! is_array($this->container['registry']->get('plugins')) || count($this->container['registry']->get('plugins')) <= 0) {
             return;

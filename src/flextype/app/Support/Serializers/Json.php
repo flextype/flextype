@@ -30,7 +30,7 @@ class Json
     /**
      * Application
      */
-    protected $app;
+    protected $flextype;
 
     /**
      * Dependency Container
@@ -42,10 +42,10 @@ class Json
      *
      * @access public
      */
-    public function __construct($app)
+    public function __construct($flextype)
     {
-        $this->app       = $app;
-        $this->container = $app->getContainer();
+        $this->app       = $flextype;
+        $this->container = $flextype->getContainer();
     }
 
     /**

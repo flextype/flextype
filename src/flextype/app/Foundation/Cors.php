@@ -22,15 +22,15 @@ class Cors
     /**
      * Flextype app
      */
-    private $app;
+    private $flextype;
 
     /**
      * __construct
      */
-    public function __construct($app)
+    public function __construct($flextype)
     {
-        $this->app       = $app;
-        $this->container = $app->getContainer();
+        $this->app       = $flextype;
+        $this->container = $flextype->getContainer();
     }
 
     /**

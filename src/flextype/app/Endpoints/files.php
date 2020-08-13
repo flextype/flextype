@@ -37,7 +37,7 @@ function validate_files_token($token) : bool
  * Returns:
  * An array of file item objects.
  */
-$app->get('/api/files', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->get('/api/files', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Query Params
     $query = $request->getQueryParams();
 
@@ -133,7 +133,7 @@ $app->get('/api/files', function (Request $request, Response $response) use ($co
  * Returns:
  * Returns the file object for the file that was just uploaded.
  */
-$app->post('/api/files', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->post('/api/files', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -237,7 +237,7 @@ $app->post('/api/files', function (Request $request, Response $response) use ($c
  * Returns:
  * Returns the file object for the file that was just created.
  */
-$app->put('/api/files', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->put('/api/files', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -340,7 +340,7 @@ $app->put('/api/files', function (Request $request, Response $response) use ($co
  * Returns:
  * Returns the file object for the file that was just created.
  */
-$app->put('/api/files/copy', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->put('/api/files/copy', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -442,7 +442,7 @@ $app->put('/api/files/copy', function (Request $request, Response $response) use
  * Returns:
  * Returns an empty body with HTTP status 204
  */
-$app->delete('/api/files', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->delete('/api/files', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -539,7 +539,7 @@ $app->delete('/api/files', function (Request $request, Response $response) use (
  * Returns:
  * Returns the file object for the file that was just updated.
  */
-$app->patch('/api/files/meta', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->patch('/api/files/meta', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -644,7 +644,7 @@ $app->patch('/api/files/meta', function (Request $request, Response $response) u
  * Returns:
  * Returns the file object for the file that was just created.
  */
-$app->post('/api/files/meta', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->post('/api/files/meta', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -749,7 +749,7 @@ $app->post('/api/files/meta', function (Request $request, Response $response) us
  * Returns:
  * Returns the file object for the file that was just created.
  */
-$app->delete('/api/files/meta', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->delete('/api/files/meta', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 

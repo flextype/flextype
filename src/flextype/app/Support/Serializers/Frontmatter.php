@@ -24,7 +24,7 @@ class Frontmatter
     /**
      * Application
      */
-    protected $app;
+    protected $flextype;
 
     /**
      * Dependency Container
@@ -36,10 +36,10 @@ class Frontmatter
      *
      * @access public
      */
-    public function __construct($app)
+    public function __construct($flextype)
     {
-        $this->app       = $app;
-        $this->container = $app->getContainer();
+        $this->app       = $flextype;
+        $this->container = $flextype->getContainer();
     }
 
     /**

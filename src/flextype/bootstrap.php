@@ -11,7 +11,7 @@ namespace Flextype;
 
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Session\Session;
-use Slim\App;
+use Slim\App as Flextype;
 use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
 use function date_default_timezone_set;
 use function error_reporting;
@@ -39,7 +39,7 @@ include_once ROOT_DIR . '/src/flextype/preflight.php';
 /**
  * Create new application
  */
-$app = new App([
+$flextype = new Flextype([
     'settings' => [
         'debug' => $registry->get('flextype.settings.errors.display'),
         'whoops.editor' => $registry->get('flextype.settings.whoops.editor'),
@@ -57,7 +57,7 @@ $app = new App([
 /**
  * Get Dependency Injection Container
  */
-$container = $app->getContainer();
+$container = $flextype->getContainer();
 
 /**
  * Include Dependencies
@@ -90,7 +90,7 @@ if ($container['registry']->get('flextype.settings.errors.display')) {
     /**
      * Add WhoopsMiddleware
      */
-    $app->add(new WhoopsMiddleware($app));
+    $flextype->add(new WhoopsMiddleware($flextype));
 } else {
     error_reporting(0);
 }
@@ -135,7 +135,7 @@ foreach ($entry_fields as $field_name => $field) {
 /**
  * Init plugins
  */
-$container['plugins']->init($container, $app);
+$container['plugins']->init($container, $flextype);
 
 /**
  * Enable lazy CORS
@@ -149,4 +149,4 @@ $container['cors']->init();
 /**
  * Run application
  */
-$app->run();
+$flextype->run();

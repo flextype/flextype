@@ -38,7 +38,7 @@ function validate_entries_token($token) : bool
  * Returns:
  * An array of entry item objects.
  */
-$app->get('/api/entries', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->get('/api/entries', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Query Params
     $query = $request->getQueryParams();
 
@@ -131,7 +131,7 @@ $app->get('/api/entries', function (Request $request, Response $response) use ($
  * Returns:
  * Returns the entry item object for the entry item that was just created.
  */
-$app->post('/api/entries', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->post('/api/entries', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -235,7 +235,7 @@ $app->post('/api/entries', function (Request $request, Response $response) use (
  * Returns:
  * Returns the entry item object for the entry item that was just updated.
  */
-$app->patch('/api/entries', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->patch('/api/entries', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -339,7 +339,7 @@ $app->patch('/api/entries', function (Request $request, Response $response) use 
  * Returns:
  * Returns the entry item object for the entry item that was just renamed.
  */
-$app->put('/api/entries', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->put('/api/entries', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -444,7 +444,7 @@ $app->put('/api/entries', function (Request $request, Response $response) use ($
  * Returns:
  * Returns the entry item object for the entry item that was just copied.
  */
-$app->put('/api/entries/copy', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->put('/api/entries/copy', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 
@@ -548,7 +548,7 @@ $app->put('/api/entries/copy', function (Request $request, Response $response) u
  * Returns:
  * Returns an empty body with HTTP status 204
  */
-$app->delete('/api/entries', function (Request $request, Response $response) use ($container, $api_errors) {
+$flextype->delete('/api/entries', function (Request $request, Response $response) use ($container, $api_errors) {
     // Get Post Data
     $post_data = $request->getParsedBody();
 

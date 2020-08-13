@@ -16,7 +16,7 @@ class Shortcode
     /**
      * Application
      */
-    protected $app;
+    protected $flextype;
 
     /**
      * Dependency Container
@@ -33,10 +33,10 @@ class Shortcode
      *
      * @access public
      */
-    public function __construct($app, $shortcode)
+    public function __construct($flextype, $shortcode)
     {
-        $this->app       = $app;
-        $this->container = $app->getContainer();
+        $this->app       = $flextype;
+        $this->container = $flextype->getContainer();
         $this->shortcode = $shortcode;
     }
 

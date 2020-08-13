@@ -16,7 +16,7 @@ class Markdown
     /**
      * Application
      */
-    protected $app;
+    protected $flextype;
 
     /**
      * Dependency Container
@@ -33,10 +33,10 @@ class Markdown
      *
      * @access public
      */
-    public function __construct($app, $markdown)
+    public function __construct($flextype, $markdown)
     {
-        $this->app       = $app;
-        $this->container = $app->getContainer();
+        $this->app       = $flextype;
+        $this->container = $flextype->getContainer();
         $this->markdown  = $markdown;
     }
 
