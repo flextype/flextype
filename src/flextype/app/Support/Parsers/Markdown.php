@@ -35,7 +35,7 @@ class Markdown
      */
     public function __construct($flextype, $markdown)
     {
-        $this->app       = $flextype;
+        $this->flextype       = $flextype;
         $this->container = $flextype->getContainer();
         $this->markdown  = $markdown;
     }

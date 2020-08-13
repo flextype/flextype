@@ -86,7 +86,7 @@ class Entries
      */
     public function __construct($flextype)
     {
-        $this->app       = $flextype;
+        $this->flextype       = $flextype;
         $this->container = $flextype->getContainer();
     }
 

@@ -35,7 +35,7 @@ class Shortcode
      */
     public function __construct($flextype, $shortcode)
     {
-        $this->app       = $flextype;
+        $this->flextype       = $flextype;
         $this->container = $flextype->getContainer();
         $this->shortcode = $shortcode;
     }

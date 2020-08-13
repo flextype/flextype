@@ -29,7 +29,7 @@ class Cors
      */
     public function __construct($flextype)
     {
-        $this->app       = $flextype;
+        $this->flextype       = $flextype;
         $this->container = $flextype->getContainer();
     }
 
@@ -44,11 +44,11 @@ class Cors
             return;
         }
 
-        $this->app->options('/{routes:.+}', function ($request, $response) {
+        $this->flextype->options('/{routes:.+}', function ($request, $response) {
             return $response;
         });
 
-        $this->app->add(function ($req, $res, $next) use ($container) {
+        $this->flextype->add(function ($req, $res, $next) use ($container) {
             $response = $next($req, $res);
 
             // Set variables

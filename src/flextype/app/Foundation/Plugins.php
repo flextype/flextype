@@ -48,7 +48,7 @@ class Plugins
      */
     public function __construct($flextype)
     {
-        $this->app       = $flextype;
+        $this->flextype       = $flextype;
         $this->container = $flextype->getContainer();
         $this->locales   = $this->container['yaml']->decode(Filesystem::read(ROOT_DIR . '/src/flextype/locales.yaml'));
     }
