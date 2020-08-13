@@ -29,7 +29,7 @@ class Cors
      */
     public function __construct($flextype)
     {
-        $this->flextype       = $flextype;
+        $this->flextype  = $flextype;
         $this->container = $flextype->getContainer();
     }
 
