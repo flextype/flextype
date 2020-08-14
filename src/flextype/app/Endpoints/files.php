@@ -51,7 +51,7 @@ $flextype->get('/api/files', function (Request $request, Response $response) use
     $path  = $query['path'];
     $token = $query['token'];
 
-    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.files.enabled')) {
         // Validate delivery token
         if (validate_files_token($token)) {
             $files_token_file_path = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
@@ -149,7 +149,7 @@ $flextype->post('/api/files', function (Request $request, Response $response) us
     $folder       = $post_data['folder'];
     $file         = $_FILES['file'];
 
-    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.files.enabled')) {
         // Validate files and access token
         if (validate_files_token($token) && validate_access_token($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
@@ -253,7 +253,7 @@ $flextype->put('/api/files', function (Request $request, Response $response) use
     $path         = $post_data['path'];
     $new_path     = $post_data['new_path'];
 
-    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.files.enabled')) {
         // Validate files and access token
         if (validate_files_token($token) && validate_access_token($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
@@ -356,7 +356,7 @@ $flextype->put('/api/files/copy', function (Request $request, Response $response
     $path         = $post_data['path'];
     $new_path     = $post_data['new_path'];
 
-    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.files.enabled')) {
         // Validate files and access token
         if (validate_files_token($token) && validate_access_token($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
@@ -457,7 +457,7 @@ $flextype->delete('/api/files', function (Request $request, Response $response) 
     $access_token = $post_data['access_token'];
     $path         = $post_data['path'];
 
-    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.files.enabled')) {
         // Validate files and access token
         if (validate_files_token($token) && validate_access_token($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
@@ -556,7 +556,7 @@ $flextype->patch('/api/files/meta', function (Request $request, Response $respon
     $field        = $post_data['field'];
     $value        = $post_data['value'];
 
-    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.files.enabled')) {
         // Validate files and access token
         if (validate_files_token($token) && validate_access_token($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
@@ -661,7 +661,7 @@ $flextype->post('/api/files/meta', function (Request $request, Response $respons
     $field        = $post_data['field'];
     $value        = $post_data['value'];
 
-    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.files.enabled')) {
         // Validate files and access token
         if (validate_files_token($token) && validate_access_token($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';
@@ -765,7 +765,7 @@ $flextype->delete('/api/files/meta', function (Request $request, Response $respo
     $path         = $post_data['path'];
     $field        = $post_data['field'];
 
-    if ($flextype['registry']->get('flextype.settings.api.files.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.files.enabled')) {
         // Validate files and access token
         if (validate_files_token($token) && validate_access_token($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/files/' . $token . '/token.yaml';

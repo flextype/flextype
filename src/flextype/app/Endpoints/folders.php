@@ -60,7 +60,7 @@ $flextype->get('/api/folders', function (Request $request, Response $response) u
         $collection = false;
     }
 
-    if ($flextype['registry']->get('flextype.settings.api.folders.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.folders.enabled')) {
         // Validate delivery token
         if (validate_folders_token($token)) {
             $folders_token_file_path = PATH['project'] . '/tokens/folders/' . $token . '/token.yaml';
@@ -156,7 +156,7 @@ $flextype->post('/api/folders', function (Request $request, Response $response) 
     $access_token = $post_data['access_token'];
     $path         = $post_data['path'];
 
-    if ($flextype['registry']->get('flextype.settings.api.folders.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.folders.enabled')) {
         // Validate files and access token
         if (validate_folders_token($token) && validate_access_token($access_token)) {
             $folders_token_file_path = PATH['project'] . '/tokens/folders/' . $token . '/token.yaml';
@@ -257,7 +257,7 @@ $flextype->put('/api/folders/copy', function (Request $request, Response $respon
     $path         = $post_data['path'];
     $new_path     = $post_data['new_path'];
 
-    if ($flextype['registry']->get('flextype.settings.api.folders.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.folders.enabled')) {
         // Validate files and access token
         if (validate_folders_token($token) && validate_access_token($access_token)) {
             $folders_token_file_path = PATH['project'] . '/tokens/folders/' . $token . '/token.yaml';
@@ -360,7 +360,7 @@ $flextype->put('/api/folders', function (Request $request, Response $response) u
     $path         = $post_data['path'];
     $new_path     = $post_data['new_path'];
 
-    if ($flextype['registry']->get('flextype.settings.api.folders.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.folders.enabled')) {
         // Validate files and access token
         if (validate_folders_token($token) && validate_access_token($access_token)) {
             $folders_token_file_path = PATH['project'] . '/tokens/folders/' . $token . '/token.yaml';
@@ -459,7 +459,7 @@ $flextype->delete('/api/folders', function (Request $request, Response $response
     $access_token = $post_data['access_token'];
     $path         = $post_data['path'];
 
-    if ($flextype['registry']->get('flextype.settings.api.folders.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.folders.enabled')) {
         // Validate files and access token
         if (validate_folders_token($token) && validate_access_token($access_token)) {
             $folders_token_file_path = PATH['project'] . '/tokens/folders/' . $token . '/token.yaml';

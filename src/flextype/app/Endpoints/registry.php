@@ -48,7 +48,7 @@ $flextype->get('/api/registry', function (Request $request, Response $response) 
     $id    = $query['id'];
     $token = $query['token'];
 
-    if ($flextype['registry']->get('flextype.settings.api.registry.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.registry.enabled')) {
         // Validate  token
         if (validate_registry_token($token)) {
             $registry_token_file_path = PATH['project'] . '/tokens/registry/' . $token . '/token.yaml';
@@ -63,9 +63,9 @@ $flextype->get('/api/registry', function (Request $request, Response $response) 
                 }
 
                 // Fetch registry
-                if ($flextype['registry']->has($id)) {
+                if ($flextype->container('registry')->has($id)) {
                     $response_data['data']['key']   = $id;
-                    $response_data['data']['value'] = $flextype['registry']->get($id);
+                    $response_data['data']['value'] = $flextype->container('registry')->get($id);
 
                     // Set response code
                     $response_code = 200;

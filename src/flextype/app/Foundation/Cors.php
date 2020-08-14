@@ -32,15 +32,18 @@ class Cors
      */
     public function init() : void
     {
-        if (! $this->flextype->container('registry')->get('flextype.settings.cors.enabled')) {
+
+        $flextype = $this->flextype;
+
+        if (! $flextype->container('registry')->get('flextype.settings.cors.enabled')) {
             return;
         }
 
-        $this->flextype->options('/{routes:.+}', function ($request, $response) {
+        $flextype->options('/{routes:.+}', function ($request, $response) {
             return $response;
         });
 
-        $this->flextype->add(function ($req, $res, $next) use ($flextype) {
+        $flextype->add(function ($req, $res, $next) use ($flextype) {
             $response = $next($req, $res);
 
             // Set variables

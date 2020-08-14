@@ -14,8 +14,8 @@ if ($flextype->container('registry')->get('flextype.settings.shortcode.shortcode
 
     // Shortcode: [url]
     $flextype->container('shortcode')->addHandler('url', function () use ($flextype) {
-        if ($flextype['registry']->has('flextype.settings.url') && $flextype['registry']->get('flextype.settings.url') !== '') {
-            return $flextype['registry']->get('flextype.settings.url');
+        if ($flextype->container('registry')->has('flextype.settings.url') && $flextype->container('registry')->get('flextype.settings.url') !== '') {
+            return $flextype->container('registry')->get('flextype.settings.url');
         }
 
         return Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();

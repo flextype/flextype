@@ -28,7 +28,7 @@ function processParsersField($flextype) : void
                     if (isset($flextype->container('entries')->entry['parsers'][$parser_name]['fields'])) {
                         if (is_array($flextype->container('entries')->entry['parsers'][$parser_name]['fields'])) {
                             foreach ($flextype->container('entries')->entry['parsers'][$parser_name]['fields'] as $field) {
-                                if (! in_array($field, $flextype['registry']->get('flextype.settings.entries.fields'))) {
+                                if (! in_array($field, $flextype->container('registry')->get('flextype.settings.entries.fields'))) {
                                     if ($parser_name == 'markdown') {
                                         if (Arrays::has($flextype->container('entries')->entry, $field)) {
                                             Arrays::set($flextype->container('entries')->entry, $field, $flextype->markdown->parse(Arrays::get($flextype->container('entries')->entry, $field), $cache));

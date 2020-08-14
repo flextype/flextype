@@ -49,7 +49,7 @@ $flextype->get('/api/images/{path:.+}', function (Request $request, Response $re
     // Set variables
     $token = $query['token'];
 
-    if ($flextype['registry']->get('flextype.settings.api.images.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.images.enabled')) {
         // Validate delivery image token
         if (validate_images_token($token)) {
             $delivery_images_token_file_path = PATH['project'] . '/tokens/images/' . $token . '/token.yaml';

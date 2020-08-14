@@ -54,7 +54,7 @@ $flextype->get('/api/entries', function (Request $request, Response $response) u
     $token  = $query['token'];
     $filter = $query['filter'] ?? null;
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.entries.enabled')) {
         // Validate entries token
         if (validate_entries_token($token)) {
             $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
@@ -148,7 +148,7 @@ $flextype->post('/api/entries', function (Request $request, Response $response) 
     $id           = $post_data['id'];
     $data         = $post_data['data'];
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.entries.enabled')) {
         // Validate entries and access token
         if (validate_entries_token($token) && validate_access_token($access_token)) {
             $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
@@ -252,7 +252,7 @@ $flextype->patch('/api/entries', function (Request $request, Response $response)
     $id           = $post_data['id'];
     $data         = $post_data['data'];
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.entries.enabled')) {
         // Validate entries and access token
         if (validate_entries_token($token) && validate_access_token($access_token)) {
             $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
@@ -356,7 +356,7 @@ $flextype->put('/api/entries', function (Request $request, Response $response) u
     $id           = $post_data['id'];
     $new_id       = $post_data['new_id'];
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.entries.enabled')) {
         // Validate entries and access token
         if (validate_entries_token($token) && validate_access_token($access_token)) {
             $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
@@ -461,7 +461,7 @@ $flextype->put('/api/entries/copy', function (Request $request, Response $respon
     $id           = $post_data['id'];
     $new_id       = $post_data['new_id'];
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.entries.enabled')) {
         // Validate entries and access token
         if (validate_entries_token($token) && validate_access_token($access_token)) {
             $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
@@ -564,7 +564,7 @@ $flextype->delete('/api/entries', function (Request $request, Response $response
     $access_token = $post_data['access_token'];
     $id           = $post_data['id'];
 
-    if ($flextype['registry']->get('flextype.settings.api.entries.enabled')) {
+    if ($flextype->container('registry')->get('flextype.settings.api.entries.enabled')) {
         // Validate entries and access token
         if (validate_entries_token($token) && validate_access_token($access_token)) {
             $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
