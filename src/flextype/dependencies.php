@@ -263,7 +263,7 @@ $flextype->container()['media_folders_meta'] = function () use ($flextype) {
 /**
  * Add media files meta service to Flextype container
  */
-$flextype->container()['media_files_meta'] = function ($flextype) {
+$flextype->container()['media_files_meta'] = function () use ($flextype) {
     return new MediaFilesMeta($flextype);
 };
 
