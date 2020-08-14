@@ -373,7 +373,7 @@ class Plugins
      *
      * @access private
      */
-    private function includeEnabledPlugins($flextype, $flextype) : void
+    private function includeEnabledPlugins($flextype) : void
     {
         if (! is_array($this->flextype->container('registry')->get('plugins')) || count($this->flextype->container('registry')->get('plugins')) <= 0) {
             return;

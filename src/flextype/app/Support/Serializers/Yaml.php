@@ -38,11 +38,6 @@ class Yaml
     protected $flextype;
 
     /**
-     * Application
-     */
-    protected $flextype;
-
-    /**
      * Constructor
      *
      * @access public
@@ -50,7 +45,6 @@ class Yaml
     public function __construct($flextype)
     {
         $this->flextype       = $flextype;
-        $this->container = $flextype->getContainer();
     }
 
     /**

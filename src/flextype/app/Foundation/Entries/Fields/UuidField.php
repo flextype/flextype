@@ -10,7 +10,7 @@ declare(strict_types=1);
 use Ramsey\Uuid\Uuid;
 
 if ($flextype->container('registry')->get('flextype.settings.entries.fields.uuid.enabled')) {
-    $flextype->emitter->addListener('onEntryCreate', function () use ($flextype) : void {
+    $flextype->container('emitter')->addListener('onEntryCreate', function () use ($flextype) : void {
         if (isset($flextype->entries->entry_create_data['uuid'])) {
             $flextype->entries->entry_create_data['uuid'] = $flextype->entries->entry_create_data['uuid'];
         } else {

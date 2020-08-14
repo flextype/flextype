@@ -33,19 +33,13 @@ class Json
     protected $flextype;
 
     /**
-     * Application
-     */
-    protected $flextype;
-
-    /**
      * Constructor
      *
      * @access public
      */
     public function __construct($flextype)
     {
-        $this->flextype       = $flextype;
-        $this->container = $flextype->getContainer();
+        $this->flextype = $flextype;
     }
 
     /**

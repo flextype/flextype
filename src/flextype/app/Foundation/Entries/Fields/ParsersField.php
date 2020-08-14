@@ -10,7 +10,7 @@ declare(strict_types=1);
 use Flextype\Component\Arrays\Arrays;
 
 if ($flextype->container('registry')->get('flextype.settings.entries.fields.parsers.enabled')) {
-    $flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
+    $flextype->container('emitter')->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
         processParsersField($flextype);
     });
 }

@@ -19,11 +19,6 @@ class Shortcode
     protected $flextype;
 
     /**
-     * Application
-     */
-    protected $flextype;
-
-    /**
      * Shortcode Fasade
      */
     protected $shortcode;
@@ -35,8 +30,7 @@ class Shortcode
      */
     public function __construct($flextype, $shortcode)
     {
-        $this->flextype       = $flextype;
-        $this->container = $flextype->getContainer();
+        $this->flextype  = $flextype;
         $this->shortcode = $shortcode;
     }
 

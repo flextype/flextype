@@ -13,7 +13,7 @@ use Flextype\Component\Arrays\Arrays;
 if ($flextype->container('registry')->get('flextype.settings.shortcode.shortcodes.entries.enabled')) {
 
     // Shortcode: [entries_fetch id="entry-id" field="field-name" default="default-value"]
-    $flextype['shortcode']->addHandler('entries_fetch', function (ShortcodeInterface $s) use ($flextype) {
+    $flextype->container('shortcode')->addHandler('entries_fetch', function (ShortcodeInterface $s) use ($flextype) {
         return Arrays::get($flextype['entries']->fetch($s->getParameter('id')), $s->getParameter('field'), $s->getParameter('default'));
     });
 }

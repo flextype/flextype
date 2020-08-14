@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 if ($flextype->container('registry')->get('flextype.settings.entries.fields.slug.enabled')) {
-    $flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
+    $flextype->container('emitter')->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
         $parts = explode('/', ltrim(rtrim($flextype->entries->entry_id, '/'), '/'));
         $flextype->entries->entry['slug'] = isset($flextype->entries->entry['slug']) ? (string) $flextype->entries->entry['slug'] : (string) end($parts);
     });

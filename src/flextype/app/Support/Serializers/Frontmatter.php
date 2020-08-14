@@ -27,19 +27,13 @@ class Frontmatter
     protected $flextype;
 
     /**
-     * Application
-     */
-    protected $flextype;
-
-    /**
      * Constructor
      *
      * @access public
      */
     public function __construct($flextype)
     {
-        $this->flextype       = $flextype;
-        $this->container = $flextype->getContainer();
+        $this->flextype = $flextype;
     }
 
     /**
@@ -88,10 +82,10 @@ class Frontmatter
         if (isset($input['content'])) {
             $content = $input['content'];
             Arrays::delete($input, 'content');
-            $matter = $this->container['yaml']->encode($input);
+            $matter = $this->flextype->container('yaml')->encode($input);
         } else {
             $content = '';
-            $matter  = $this->container['yaml']->encode($input);
+            $matter  = $this->flextype->container('yaml')->encode($input);
         }
 
         $encoded = '---' . "\n" .
@@ -120,7 +114,7 @@ class Frontmatter
             return ['content' => trim($input)];
         }
 
-        return $this->container['yaml']->decode(trim($parts[1]), false) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
+        return $this->flextype->container('yaml')->decode(trim($parts[1]), false) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
     }
 
     protected function getCacheID($input)
