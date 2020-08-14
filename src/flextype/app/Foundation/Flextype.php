@@ -18,30 +18,56 @@ class Flextype extends App
      *
      * @var string
      */
-    const FLEXTYPE_VERSION = '0.9.0';
+    protected static $version = '0.9.10';
 
-    private $instance;
+    protected static $instance = null;
 
-    private $flextype;
+    protected static $container = null;
 
+    /**
+     * Flextype constructor.
+     */
     public function __construct($flextype = [])
     {
         parent::__construct($flextype);
-        $this->instance  = $this;
-        $this->container = $this->instance->getContainer();
+
+        // Store instance
+        self::$instance  = $this;
+
+        // Store instance container
+        self::$container = self::$instance->getContainer();
+
     }
 
+    /**
+     * Container
+     *
+     */
     public function container($key = null)
     {
         if ($key != null) {
-            return $this->container[$key];
+            return self::$container[$key];
         }
 
-        return $this->container;
+        return self::$container;
     }
 
-    public function getInstance()
+    /**
+     * Returns Flextype Instance
+     *
+     */
+    public static function getInstance()
     {
-        return $this->instance;
+        return self::$instance;
+    }
+
+    /**
+    * This method will returns the current Flextype version
+    *
+    * @return string
+    */
+    public static function getVersion() : string
+    {
+        return self::$version;
     }
 }
