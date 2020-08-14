@@ -13,6 +13,7 @@ use RuntimeException;
 use Symfony\Component\Yaml\Exception\DumpException as SymfonyYamlDumpException;
 use Symfony\Component\Yaml\Exception\ParseException as SymfonyYamlParseException;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
+use function error_reporting;
 use function function_exists;
 use function ini_get;
 use function ini_set;
@@ -44,7 +45,7 @@ class Yaml
      */
     public function __construct($flextype)
     {
-        $this->flextype       = $flextype;
+        $this->flextype = $flextype;
     }
 
     /**

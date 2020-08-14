@@ -52,7 +52,7 @@ class Shortcode
      *
      * @access public
      */
-    public function addHandler(string $name, $handler)
+    public function addHandler(string $name, callable $handler)
     {
         return $this->shortcode->addHandler($name, $handler);
     }
@@ -65,7 +65,8 @@ class Shortcode
      *
      * @access public
      */
-    public function addEventHandler($name, $handler) {
+    public function addEventHandler(string $name, callable $handler)
+    {
         return $this->shortcode->addEventHandler($name, $handler);
     }
 

@@ -15,6 +15,7 @@ use function count;
 use function implode;
 use function ltrim;
 use function md5;
+use function preg_replace;
 use function preg_split;
 use function trim;
 use const PHP_EOL;
@@ -88,12 +89,10 @@ class Frontmatter
             $matter  = $this->flextype->container('yaml')->encode($input);
         }
 
-        $encoded = '---' . "\n" .
+        return '---' . "\n" .
                    $matter .
                    '---' . "\n" .
                    $content;
-
-        return $encoded;
     }
 
     /**
