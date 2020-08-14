@@ -14,7 +14,7 @@ use function md5;
 class Shortcode
 {
     /**
-     * Flextype Dependency Container
+     * Flextype Application
      */
     protected $flextype;
 
@@ -52,7 +52,7 @@ class Shortcode
      *
      * @access public
      */
-    public function addHandler(string $name, $handler)
+    public function addHandler(string $name, callable $handler)
     {
         return $this->shortcode->addHandler($name, $handler);
     }
@@ -65,7 +65,8 @@ class Shortcode
      *
      * @access public
      */
-    public function addEventHandler($name, $handler) {
+    public function addEventHandler(string $name, callable $handler)
+    {
         return $this->shortcode->addEventHandler($name, $handler);
     }
 
@@ -91,15 +92,15 @@ class Shortcode
      */
     public function process(string $input, bool $cache = true)
     {
-        if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
+        if ($cache === true && $this->flextype->container('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
+            if ($data_from_cache = $this->flextype->container('cache')->fetch($key)) {
                 return $data_from_cache;
             }
 
             $data = $this->shortcode->process($input);
-            $this->flextype['cache']->save($key, $data);
+            $this->flextype->container('cache')->save($key, $data);
 
             return $data;
         }

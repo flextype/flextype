@@ -13,6 +13,7 @@ use RuntimeException;
 use Symfony\Component\Yaml\Exception\DumpException as SymfonyYamlDumpException;
 use Symfony\Component\Yaml\Exception\ParseException as SymfonyYamlParseException;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
+use function error_reporting;
 use function function_exists;
 use function ini_get;
 use function ini_set;
@@ -33,9 +34,9 @@ class Yaml
     public const DUMP_EMPTY_ARRAY_AS_SEQUENCE    = 1024;
 
     /**
-     * Flextype Dependency Container
+     * Flextype Application
      */
-    private $flextype;
+    protected $flextype;
 
     /**
      * Constructor
@@ -87,15 +88,15 @@ class Yaml
      */
     public function decode(string $input, bool $cache = true, int $flags = 0) : array
     {
-        if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
+        if ($cache === true && $this->flextype->container('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
+            if ($data_from_cache = $this->flextype->container('cache')->fetch($key)) {
                 return $data_from_cache;
             }
 
             $data = $this->_decode($input, $flags);
-            $this->flextype['cache']->save($key, $data);
+            $this->flextype->container('cache')->save($key, $data);
 
             return $data;
         }

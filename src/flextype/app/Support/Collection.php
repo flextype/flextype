@@ -221,7 +221,7 @@ class Collection
      *
      * @param int|null $firstResult The value to set.
      *
-     * @return 
+     * @return
      *
      * @access public
      */

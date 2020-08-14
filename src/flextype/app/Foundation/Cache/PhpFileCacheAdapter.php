@@ -6,18 +6,17 @@ namespace Flextype\App\Foundation\Cache;
 
 use Doctrine\Common\Cache\PhpFileCache;
 use Flextype\Component\Filesystem\Filesystem;
-use Psr\Container\ContainerInterface;
 
 class PhpFileCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Flextype Dependency Container
+     * Flextype Application
      *
      * @access private
      */
-    private $flextype;
-    
-    public function __construct(ContainerInterface $flextype)
+    protected $flextype;
+
+    public function __construct($flextype)
     {
         $this->flextype = $flextype;
     }

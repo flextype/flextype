@@ -6,19 +6,18 @@ namespace Flextype\App\Foundation\Cache;
 
 use Doctrine\Common\Cache\SQLite3Cache;
 use Flextype\Component\Filesystem\Filesystem;
-use Psr\Container\ContainerInterface;
 use SQLite3;
 
 class SQLite3CacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Flextype Dependency Container
+     * Flextype Application
      *
      * @access private
      */
-    private $flextype;
-    
-    public function __construct(ContainerInterface $flextype)
+    protected $flextype;
+
+    public function __construct($flextype)
     {
         $this->flextype = $flextype;
     }
@@ -31,8 +30,8 @@ class SQLite3CacheAdapter implements CacheAdapterInterface
             Filesystem::createDir($cache_directory);
         }
 
-        $db = new SQLite3($cache_directory . $this->flextype['registry']->get('flextype.settings.cache.sqlite3.database', 'flextype') . '.db');
+        $db = new SQLite3($cache_directory . $this->flextype->container('registry')->get('flextype.settings.cache.sqlite3.database', 'flextype') . '.db');
 
-        return new SQLite3Cache($db, $this->flextype['registry']->get('flextype.settings.cache.sqlite3.table', 'flextype'));
+        return new SQLite3Cache($db, $this->flextype->container('registry')->get('flextype.settings.cache.sqlite3.table', 'flextype'));
     }
 }

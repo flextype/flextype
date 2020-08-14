@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Flextype\App\Foundation\Cache;
 
-use Psr\Container\ContainerInterface;
-
 interface CacheAdapterInterface
-{    
+{
     /**
      * Injects the dependency container
      *
      * @return void
      */
-    public function __construct(ContainerInterface $container);
+    public function __construct($flextype);
 
     /**
      * Returns the cache driver object

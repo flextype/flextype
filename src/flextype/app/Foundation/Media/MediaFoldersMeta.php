@@ -12,11 +12,9 @@ namespace Flextype\App\Foundation\Media;
 class MediaFoldersMeta
 {
     /**
-     * Flextype Dependency Container
-     *
-     * @access private
+     * Flextype Application
      */
-    private $flextype;
+    protected $flextype;
 
     /**
      * Constructor
