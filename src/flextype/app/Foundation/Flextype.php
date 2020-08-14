@@ -36,14 +36,14 @@ class Flextype extends App
 
         // Store instance container
         self::$container = self::$instance->getContainer();
-
     }
 
     /**
-     * Container
+     * Get Dependency Injection Container.
      *
+     * @param string $key DI Container key.
      */
-    public function container($key = null)
+    public function container(string $key = null)
     {
         if ($key != null) {
             return self::$container[$key];
@@ -54,7 +54,6 @@ class Flextype extends App
 
     /**
      * Returns Flextype Instance
-     *
      */
     public static function getInstance()
     {
