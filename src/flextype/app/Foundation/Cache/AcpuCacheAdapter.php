@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Flextype\App\Foundation\Cache;
 
 use Doctrine\Common\Cache\AcpuCache;
-use Psr\Container\ContainerInterface;
 
 class AcpuCacheAdapter implements CacheAdapterInterface
 {
@@ -16,7 +15,7 @@ class AcpuCacheAdapter implements CacheAdapterInterface
      */
     private $flextype;
 
-    public function __construct(ContainerInterface $flextype)
+    public function __construct($flextype)
     {
         $this->flextype = $flextype;
     }

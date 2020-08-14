@@ -17,26 +17,26 @@ if ($flextype->container('registry')->get('flextype.settings.entries.fields.pars
 
 function processParsersField($flextype) : void
 {
-    $cache = isset($flextype->entries->entry['cache']['enabled']) ?
-                        $flextype->entries->entry['cache']['enabled'] :
+    $cache = isset($flextype->container('entries')->entry['cache']['enabled']) ?
+                        $flextype->container('entries')->entry['cache']['enabled'] :
                         $flextype->container('registry')->get('flextype.settings.cache.enabled');
 
-    if (isset($flextype->entries->entry['parsers'])) {
-        foreach ($flextype->entries->entry['parsers'] as $parser_name => $parser_data) {
+    if (isset($flextype->container('entries')->entry['parsers'])) {
+        foreach ($flextype->container('entries')->entry['parsers'] as $parser_name => $parser_data) {
             if (in_array($parser_name, ['markdown', 'shortcode'])) {
-                if (isset($flextype->entries->entry['parsers'][$parser_name]['enabled']) && $flextype->entries->entry['parsers'][$parser_name]['enabled'] === true) {
-                    if (isset($flextype->entries->entry['parsers'][$parser_name]['fields'])) {
-                        if (is_array($flextype->entries->entry['parsers'][$parser_name]['fields'])) {
-                            foreach ($flextype->entries->entry['parsers'][$parser_name]['fields'] as $field) {
+                if (isset($flextype->container('entries')->entry['parsers'][$parser_name]['enabled']) && $flextype->container('entries')->entry['parsers'][$parser_name]['enabled'] === true) {
+                    if (isset($flextype->container('entries')->entry['parsers'][$parser_name]['fields'])) {
+                        if (is_array($flextype->container('entries')->entry['parsers'][$parser_name]['fields'])) {
+                            foreach ($flextype->container('entries')->entry['parsers'][$parser_name]['fields'] as $field) {
                                 if (! in_array($field, $flextype['registry']->get('flextype.settings.entries.fields'))) {
                                     if ($parser_name == 'markdown') {
-                                        if (Arrays::has($flextype->entries->entry, $field)) {
-                                            Arrays::set($flextype->entries->entry, $field, $flextype->markdown->parse(Arrays::get($flextype->entries->entry, $field), $cache));
+                                        if (Arrays::has($flextype->container('entries')->entry, $field)) {
+                                            Arrays::set($flextype->container('entries')->entry, $field, $flextype->markdown->parse(Arrays::get($flextype->container('entries')->entry, $field), $cache));
                                         }
                                     }
                                     if ($parser_name == 'shortcode') {
-                                        if (Arrays::has($flextype->entries->entry, $field)) {
-                                            Arrays::set($flextype->entries->entry, $field, $flextype->shortcode->parse(Arrays::get($flextype->entries->entry, $field), $cache));
+                                        if (Arrays::has($flextype->container('entries')->entry, $field)) {
+                                            Arrays::set($flextype->container('entries')->entry, $field, $flextype->shortcode->parse(Arrays::get($flextype->container('entries')->entry, $field), $cache));
                                         }
                                     }
                                 }

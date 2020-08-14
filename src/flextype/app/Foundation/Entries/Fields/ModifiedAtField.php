@@ -11,6 +11,6 @@ use Flextype\Component\Filesystem\Filesystem;
 
 if ($flextype->container('registry')->get('flextype.settings.entries.fields.modified_at.enabled')) {
     $flextype->container('emitter')->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
-        $flextype->entries->entry['modified_at'] = (int) Filesystem::getTimestamp($flextype->entries->getFileLocation($flextype->entries->entry_id));
+        $flextype->container('entries')->entry['modified_at'] = (int) Filesystem::getTimestamp($flextype->container('entries')->getFileLocation($flextype->container('entries')->entry_id));
     });
 }

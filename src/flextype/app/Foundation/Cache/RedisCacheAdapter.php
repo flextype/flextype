@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Flextype\App\Foundation\Cache;
 
 use Doctrine\Common\Cache\RedisCache;
-use Psr\Container\ContainerInterface;
 use Redis;
 use RedisException;
 
@@ -17,8 +16,8 @@ class RedisCacheAdapter implements CacheAdapterInterface
      * @access private
      */
     private $flextype;
-    
-    public function __construct(ContainerInterface $flextype)
+
+    public function __construct($flextype)
     {
         $this->flextype = $flextype;
     }

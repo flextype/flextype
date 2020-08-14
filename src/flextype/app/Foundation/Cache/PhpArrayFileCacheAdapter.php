@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Flextype\App\Foundation\Cache;
 
 use Flextype\Component\Filesystem\Filesystem;
-use Psr\Container\ContainerInterface;
 
 class PhpArrayFileCacheAdapter implements CacheAdapterInterface
 {
@@ -16,7 +15,7 @@ class PhpArrayFileCacheAdapter implements CacheAdapterInterface
      */
     private $flextype;
 
-    public function __construct(ContainerInterface $flextype)
+    public function __construct($flextype)
     {
         $this->flextype = $flextype;
     }

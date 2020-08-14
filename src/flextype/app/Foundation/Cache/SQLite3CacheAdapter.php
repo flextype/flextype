@@ -6,7 +6,6 @@ namespace Flextype\App\Foundation\Cache;
 
 use Doctrine\Common\Cache\SQLite3Cache;
 use Flextype\Component\Filesystem\Filesystem;
-use Psr\Container\ContainerInterface;
 use SQLite3;
 
 class SQLite3CacheAdapter implements CacheAdapterInterface
@@ -17,8 +16,8 @@ class SQLite3CacheAdapter implements CacheAdapterInterface
      * @access private
      */
     private $flextype;
-    
-    public function __construct(ContainerInterface $flextype)
+
+    public function __construct($flextype)
     {
         $this->flextype = $flextype;
     }

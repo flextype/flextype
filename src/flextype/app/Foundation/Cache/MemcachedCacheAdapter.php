@@ -6,7 +6,6 @@ namespace Flextype\App\Foundation\Cache;
 
 use Doctrine\Common\Cache\MemcachedCache;
 use Memecached;
-use Psr\Container\ContainerInterface;
 
 class MemcachedCacheAdapter implements CacheAdapterInterface
 {
@@ -16,8 +15,8 @@ class MemcachedCacheAdapter implements CacheAdapterInterface
      * @access private
      */
     private $flextype;
-    
-    public function __construct(ContainerInterface $flextype)
+
+    public function __construct($flextype)
     {
         $this->flextype = $flextype;
     }

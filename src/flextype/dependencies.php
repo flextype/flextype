@@ -88,12 +88,12 @@ $flextype->container()['emitter'] = function () {
  */
 $flextype->container()['slugify'] = function () use ($flextype) {
     return new Slugify([
-        'separator' => $flextype->container->registry->get('flextype.settings.slugify.separator'),
-        'lowercase' => $flextype->container->registry->get('flextype.settings.slugify.lowercase'),
-        'trim' => $flextype->container->registry->get('flextype.settings.slugify.trim'),
-        'regexp' => $flextype->container->registry->get('flextype.settings.slugify.regexp'),
-        'lowercase_after_regexp' => $flextype->container->registry->get('flextype.settings.slugify.lowercase_after_regexp'),
-        'strip_tags' => $flextype->container->registry->get('flextype.settings.slugify.strip_tags'),
+        'separator' => $flextype->container('registry')->get('flextype.settings.slugify.separator'),
+        'lowercase' => $flextype->container('registry')->get('flextype.settings.slugify.lowercase'),
+        'trim' => $flextype->container('registry')->get('flextype.settings.slugify.trim'),
+        'regexp' => $flextype->container('registry')->get('flextype.settings.slugify.regexp'),
+        'lowercase_after_regexp' => $flextype->container('registry')->get('flextype.settings.slugify.lowercase_after_regexp'),
+        'strip_tags' => $flextype->container('registry')->get('flextype.settings.slugify.strip_tags'),
     ]);
 };
 
@@ -102,7 +102,7 @@ $flextype->container()['slugify'] = function () use ($flextype) {
  */
 $flextype->container()['cache_adapter'] = function () use ($flextype) {
 
-    $driver_name = $flextype->container->registry->get('flextype.settings.cache.driver');
+    $driver_name = $flextype->container('registry')->get('flextype.settings.cache.driver');
 
     if (! $driver_name || $driver_name === 'auto') {
         if (extension_loaded('apcu')) {
@@ -131,14 +131,14 @@ $flextype->container()['cache_adapter'] = function () use ($flextype) {
 
     $adapter = "Flextype\\App\\Foundation\\Cache\\{$class_name}CacheAdapter";
 
-    return new $adapter($flextype->container);
+    return new $adapter($flextype);
 };
 
 /**
  * Add cache service to Flextype container
  */
 $flextype->container()['cache'] = function () use ($flextype) {
-    return new Cache($flextype->container);
+    return new Cache($flextype);
 };
 
 /**

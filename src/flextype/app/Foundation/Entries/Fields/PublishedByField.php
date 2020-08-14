@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 if ($flextype->container('registry')->get('flextype.settings.entries.fields.published_by.enabled')) {
     $flextype->container('emitter')->addListener('onEntryCreate', function () use ($flextype) : void {
-        if (isset($flextype->entries->entry_create_data['published_by'])) {
-            $flextype->entries->entry_create_data['published_by'] = $flextype->entries->entry_create_data['published_by'];
+        if (isset($flextype->container('entries')->entry_create_data['published_by'])) {
+            $flextype->container('entries')->entry_create_data['published_by'] = $flextype->container('entries')->entry_create_data['published_by'];
         } else {
-            $flextype->entries->entry_create_data['published_by'] = '';
+            $flextype->container('entries')->entry_create_data['published_by'] = '';
         }
     });
 }
