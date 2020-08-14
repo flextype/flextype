@@ -19,11 +19,6 @@ class Markdown
     protected $flextype;
 
     /**
-     * Application
-     */
-    protected $flextype;
-
-    /**
      * Markdown
      */
     protected $markdown;
@@ -35,9 +30,8 @@ class Markdown
      */
     public function __construct($flextype, $markdown)
     {
-        $this->flextype       = $flextype;
-        $this->container = $flextype->getContainer();
-        $this->markdown  = $markdown;
+        $this->flextype = $flextype;
+        $this->markdown = $markdown;
     }
 
     /**

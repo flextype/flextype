@@ -18,7 +18,7 @@ class AcpuCacheAdapter implements CacheAdapterInterface
 
     public function __construct(ContainerInterface $flextype)
     {
-        $this->container = $flextype;
+        $this->flextype = $flextype;
     }
 
     public function getDriver() : object

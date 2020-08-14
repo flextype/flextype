@@ -58,7 +58,7 @@ class Cache
      */
     public function __construct($flextype)
     {
-        $this->container = $flextype;
+        $this->flextype = $flextype;
 
         // Create Cache Directory
         ! Filesystem::has(PATH['cache']) and Filesystem::createDir(PATH['cache']);
@@ -85,7 +85,7 @@ class Cache
      */
     public function getCacheDriver() : object
     {
-        return $this->container['cache_adapter']->getDriver();
+        return $this->flextype->container('cache_adapter')->getDriver();
     }
 
     /**
@@ -325,7 +325,7 @@ class Cache
     public function purge(string $directory) : void
     {
         // Run event: onCacheBeforePurge
-        $this->container['emitter']->emit('onCacheBeforePurge');
+        $this->flextype['emitter']->emit('onCacheBeforePurge');
 
         // Remove specific cache directory
         Filesystem::deleteDir(PATH['cache'] . '/' . $directory);
@@ -344,7 +344,7 @@ class Cache
         error_reporting($errorReporting);
 
         // Run event: onCacheAfterPurge
-        $this->container['emitter']->emit('onCacheAfterPurge');
+        $this->flextype['emitter']->emit('onCacheAfterPurge');
     }
 
     /**
@@ -357,7 +357,7 @@ class Cache
     public function purgeAll() : void
     {
         // Run event: onCacheAfterPurgeAll
-        $this->container['emitter']->emit('onCacheAfterPurgeAll');
+        $this->flextype['emitter']->emit('onCacheAfterPurgeAll');
 
         // Remove cache directory
         Filesystem::deleteDir(PATH['cache']);
@@ -376,6 +376,6 @@ class Cache
         error_reporting($errorReporting);
 
         // Run event: onCacheAfterPurgeAll
-        $this->container['emitter']->emit('onCacheAfterPurgeAll');
+        $this->flextype['emitter']->emit('onCacheAfterPurgeAll');
     }
 }

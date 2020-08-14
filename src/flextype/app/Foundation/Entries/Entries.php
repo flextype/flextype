@@ -194,7 +194,7 @@ class Entries
         // Fetch single entry.
         if (count($entries_list) > 0) {
             foreach ($entries_list as $current_entry) {
-                if ($current_entry->getType() === 'file' && $current_entry->getFilename() === 'entry' . '.' . $this->container->registry->get('flextype.settings.entries.extension')) {
+                if ($current_entry->getType() === 'file' && $current_entry->getFilename() === 'entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension')) {
                     $_id = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', $current_entry->getPath()), '/'), '/');
                     $this->entries[$_id] = $this->fetchSingle($_id);
                 }
@@ -281,7 +281,7 @@ class Entries
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
                 // Check if new entry file exists
-                if (! Filesystem::has($entry_file = $entry_dir . '/entry' . '.' . $this->container->registry->get('flextype.settings.entries.extension'))) {
+                if (! Filesystem::has($entry_file = $entry_dir . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension'))) {
                     // Store data in the entry_create_data
                     $this->entry_create_data = $data;
 
@@ -360,7 +360,7 @@ class Entries
      */
     public function getFileLocation(string $id) : string
     {
-        return PATH['project'] . '/entries/' . $id . '/entry' . '.' . $this->container->registry->get('flextype.settings.entries.extension');
+        return PATH['project'] . '/entries/' . $id . '/entry' . '.' . $this->flextype->registry->get('flextype.settings.entries.extension');
     }
 
     /**
