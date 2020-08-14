@@ -11,7 +11,7 @@ namespace Flextype;
 
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Session\Session;
-use Slim\App;
+use Flextype\App\Foundation\Flextype;
 use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
 use function date_default_timezone_set;
 use function error_reporting;
@@ -35,40 +35,6 @@ $registry = new Registry();
  * Preflight the Flextype
  */
 include_once ROOT_DIR . '/src/flextype/preflight.php';
-
-class Flextype extends App
-{
-    /**
-     * Flextype version
-     *
-     * @var string
-     */
-    const FLEXTYPE_VERSION = '0.9.0';
-
-    public $instance;
-    public $flextype;
-
-    public function __construct($flextype = [])
-    {
-        parent::__construct($flextype);
-        $this->instance  = $this;
-        $this->container = $this->instance->getContainer();
-    }
-
-    public function container($key = null)
-    {
-        if ($key != null) {
-            return $this->container[$key];
-        }
-
-        return $this->container;
-    }
-
-    public function getInstance()
-    {
-        return $this->instance;
-    }
-}
 
 /**
  * Create new application
