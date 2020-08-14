@@ -55,7 +55,7 @@ class MediaFiles
      */
     public function __construct($flextype)
     {
-        $this->flextype       = $flextype;
+        $this->flextype = $flextype;
     }
 
     /**
@@ -136,10 +136,10 @@ class MediaFiles
                                 if ($exact) {
                                     // Check if dimensions match exactly
                                     return $width === $max_image_width and $height === $max_image_height;
-                                } else {
-                                    // Check if size is within maximum dimensions
-                                    return $width <= $max_image_width and $height <= $max_image_height;
                                 }
+
+                                // Check if size is within maximum dimensions
+                                return $width <= $max_image_width and $height <= $max_image_height;
                             }
 
                             if (validateImage($file, $max_image_width, $max_image_height, $exact) === false) {
@@ -178,17 +178,17 @@ class MediaFiles
 
                                 // now you are able to resize the instance
                                 if ($this->flextype->container('registry')->get('flextype.settings.media.image_width') > 0 && $this->flextype->container('registry')->get('flextype.settings.media.image_height') > 0) {
-                                    $img->resize($this->flextype->container('registry')->get('flextype.settings.media.image_width'), $this->flextype->container('registry')->get('flextype.settings.media.image_height'), function ($constraint) : void {
+                                    $img->resize($this->flextype->container('registry')->get('flextype.settings.media.image_width'), $this->flextype->container('registry')->get('flextype.settings.media.image_height'), static function ($constraint) : void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
                                 } elseif ($this->flextype->container('registry')->get('flextype.settings.media.image_width') > 0) {
-                                    $img->resize($this->flextype->container('registry')->get('flextype.settings.media.image_width'), null, function ($constraint) : void {
+                                    $img->resize($this->flextype->container('registry')->get('flextype.settings.media.image_width'), null, static function ($constraint) : void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
                                 } elseif ($this->flextype->container('registry')->get('flextype.settings.media.image_height') > 0) {
-                                    $img->resize(null, $this->flextype->container('registry')->get('flextype.settings.media.image_height'), function ($constraint) : void {
+                                    $img->resize(null, $this->flextype->container('registry')->get('flextype.settings.media.image_height'), static function ($constraint) : void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
@@ -381,12 +381,18 @@ class MediaFiles
     public function copy(string $id, string $new_id) : bool
     {
         if (! Filesystem::has($this->getFileLocation($new_id)) && ! Filesystem::has($this->flextype->container('media_files_meta')->getFileMetaLocation($new_id))) {
-            Filesystem::copy($this->getFileLocation($id),
-                             $this->getFileLocation($new_id), false);
-            Filesystem::copy($this->flextype->container('media_files_meta')->getFileMetaLocation($id),
-                             $this->flextype->container('media_files_meta')->getFileMetaLocation($new_id), false);
+            Filesystem::copy(
+                $this->getFileLocation($id),
+                $this->getFileLocation($new_id),
+                false
+            );
+            Filesystem::copy(
+                $this->flextype->container('media_files_meta')->getFileMetaLocation($id),
+                $this->flextype->container('media_files_meta')->getFileMetaLocation($new_id),
+                false
+            );
 
-            return (Filesystem::has($this->getFileLocation($new_id)) && Filesystem::has($this->flextype->container('media_files_meta')->getFileMetaLocation($new_id)) === true) ? true : false;
+            return Filesystem::has($this->getFileLocation($new_id)) && Filesystem::has($this->flextype->container('media_files_meta')->getFileMetaLocation($new_id)) === true;
         }
 
         return false;
