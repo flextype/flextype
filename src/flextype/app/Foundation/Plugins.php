@@ -182,7 +182,7 @@ class Plugins
 
         $this->includeEnabledPlugins($flextype, $flextype);
 
-        $this->container['emitter']->emit('onPluginsInitialized');
+        $this->flextype->container('emitter')->emit('onPluginsInitialized');
     }
 
     /**
