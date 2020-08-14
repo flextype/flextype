@@ -43,8 +43,8 @@ class Plugins
      */
     public function __construct($flextype)
     {
-        $this->flextype  = $flextype;
-        $this->locales   = $this->flextype->container('yaml')->decode(Filesystem::read(ROOT_DIR . '/src/flextype/locales.yaml'));
+        $this->flextype = $flextype;
+        $this->locales  = $this->flextype->container('yaml')->decode(Filesystem::read(ROOT_DIR . '/src/flextype/locales.yaml'));
     }
 
     /**
@@ -241,10 +241,7 @@ class Plugins
         }
 
         // Create Unique Cache ID for Plugins
-        $plugins_cache_id = md5('plugins' . PATH['project'] . '/plugins/' . $_plugins_cache_id);
-
-        // Return plugin cache id
-        return $plugins_cache_id;
+        return md5('plugins' . PATH['project'] . '/plugins/' . $_plugins_cache_id);
     }
 
     /**

@@ -24,15 +24,12 @@ class Flextype extends App
 
     protected static $container = null;
 
-    /**
-     * Flextype constructor.
-     */
     public function __construct($flextype = [])
     {
         parent::__construct($flextype);
 
         // Store instance
-        self::$instance  = $this;
+        self::$instance = $this;
 
         // Store instance container
         self::$container = self::$instance->getContainer();
@@ -43,9 +40,9 @@ class Flextype extends App
      *
      * @param string $key DI Container key.
      */
-    public function container(string $key = null)
+    public function container(?string $key = null)
     {
-        if ($key != null) {
+        if ($key !== null) {
             return self::$container[$key];
         }
 
@@ -61,10 +58,8 @@ class Flextype extends App
     }
 
     /**
-    * This method will returns the current Flextype version
-    *
-    * @return string
-    */
+     * This method will returns the current Flextype version
+     */
     public static function getVersion() : string
     {
         return self::$version;

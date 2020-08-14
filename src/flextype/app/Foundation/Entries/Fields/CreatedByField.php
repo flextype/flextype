@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 if ($flextype->container('registry')->get('flextype.settings.entries.fields.created_by.enabled')) {
-    $flextype->container('emitter')->addListener('onEntryCreate', function () use ($flextype) : void {
+    $flextype->container('emitter')->addListener('onEntryCreate', static function () use ($flextype) : void {
         if (isset($flextype->container('entries')->entry_create_data['created_by'])) {
             $flextype->container('entries')->entry_create_data['created_by'] = $flextype->container('entries')->entry_create_data['created_by'];
         } else {

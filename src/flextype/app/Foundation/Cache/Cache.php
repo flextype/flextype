@@ -11,6 +11,7 @@ namespace Flextype\App\Foundation\Cache;
 
 use Flextype\Component\Filesystem\Filesystem;
 use function clearstatcache;
+use function error_reporting;
 use function function_exists;
 use function md5;
 use function opcache_reset;
@@ -67,9 +68,9 @@ class Cache
         $this->now = time();
 
         // Create cache key to allow invalidate all cache on configuration changes.
-        $cache_prefix = ($this->flextype->container('registry')->get('flextype.settings.cache.prefix') ?? 'flextype');
+        $cache_prefix        = ($this->flextype->container('registry')->get('flextype.settings.cache.prefix') ?? 'flextype');
         $cache_unique_string = md5(PATH['project'] . $this->flextype->container('registry')->get('flextype.manifest.version'));
-        $this->key = $cache_prefix . $cache_unique_string;
+        $this->key           = $cache_prefix . $cache_unique_string;
 
         // Get Cache Driver
         $this->driver = $this->getCacheDriver();
@@ -133,7 +134,8 @@ class Cache
      *
      * @return array Array of values retrieved for the given keys.
      */
-    public function fetchMultiple(array $keys) {
+    public function fetchMultiple(array $keys) : array
+    {
         if ($this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
             return $this->driver->fetchMultiple($keys);
         }
@@ -166,9 +168,9 @@ class Cache
      *                         If zero (the default), the entry never expires (although it may be deleted from the cache
      *                         to make place for other items).
      *
-     * @access public
-     *
      * @return bool TRUE if the operation was successful, FALSE if it wasn't.
+     *
+     * @access public
      */
     public function save(string $id, $data, ?int $lifetime = null) : bool
     {
@@ -192,14 +194,14 @@ class Cache
      *
      * @return bool TRUE if the operation was successful, FALSE if it wasn't.
      */
-     public function saveMultiple(array $keysAndValues, $lifetime = 0) : bool
-     {
-         if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
-             return false;
-         }
+    public function saveMultiple(array $keysAndValues, int $lifetime = 0) : bool
+    {
+        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
+            return false;
+        }
 
-         return $this->saveMultiple($keysAndValues, $lifetime);
-     }
+        return $this->saveMultiple($keysAndValues, $lifetime);
+    }
 
     /**
      * Delete item from the cache
@@ -238,7 +240,7 @@ class Cache
      *
      * @return array|null An associative array with server's statistics if available, NULL otherwise.
      */
-    public function getStats()
+    public function getStats() : ?array
     {
         if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
             return false;
@@ -249,10 +251,8 @@ class Cache
 
     /**
      * Deletes all cache
-     *
-     * @return bool
      */
-    public function deleteAll()
+    public function deleteAll() : bool
     {
         if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
             return false;
@@ -266,7 +266,7 @@ class Cache
      *
      * @return bool TRUE if the cache items were successfully flushed, FALSE otherwise.
      */
-    public function flushAll()
+    public function flushAll() : bool
     {
         if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
             return false;
@@ -318,8 +318,6 @@ class Cache
      *
      * @param $directory Directory to purge
      *
-     * @return void
-     *
      * @access public
      */
     public function purge(string $directory) : void
@@ -349,8 +347,6 @@ class Cache
 
     /**
      * Purge ALL Cache directories
-     *
-     * @return void
      *
      * @access public
      */

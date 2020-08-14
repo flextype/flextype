@@ -14,7 +14,7 @@ if ($flextype->container('registry')->get('flextype.settings.entries.fields.visi
         'visible' => 'visible',
     ];
 
-    $flextype->container('emitter')->addListener('onEntryAfterInitialized', function () use ($flextype, $visibility) : void {
+    $flextype->container('emitter')->addListener('onEntryAfterInitialized', static function () use ($flextype, $visibility) : void {
         if (isset($flextype->container('entries')->entry['visibility']) && in_array($flextype->container('entries')->entry['visibility'], $visibility)) {
             $flextype->container('entries')->entry['visibility'] = (string) $visibility[$flextype->container('entries')->entry['visibility']];
         } else {
@@ -22,7 +22,7 @@ if ($flextype->container('registry')->get('flextype.settings.entries.fields.visi
         }
     });
 
-    $flextype->container('emitter')->addListener('onEntryCreate', function () use ($flextype, $visibility) : void {
+    $flextype->container('emitter')->addListener('onEntryCreate', static function () use ($flextype, $visibility) : void {
         if (isset($flextype->container('entries')->entry_create_data['visibility']) && in_array($flextype->container('entries')->entry_create_data['visibility'], $visibility)) {
             $flextype->container('entries')->entry_create_data['visibility'] = $flextype->container('entries')->entry_create_data['visibility'];
         } else {

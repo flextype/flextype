@@ -11,13 +11,14 @@ namespace Flextype\App\Foundation\Entries;
 
 use Flextype\Component\Filesystem\Filesystem;
 use function array_merge;
+use function collect_filter;
 use function count;
+use function find_filter;
 use function ltrim;
 use function md5;
 use function rename;
 use function rtrim;
 use function str_replace;
-use function strpos;
 
 class Entries
 {
@@ -95,7 +96,7 @@ class Entries
      *
      * @access public
      */
-    public function fetch(string $id, bool $collection = false, $filter = []) : array
+    public function fetch(string $id, bool $collection = false, array $filter = []) : array
     {
         if ($collection) {
             return $this->fetchCollection($id, $filter);
@@ -177,7 +178,7 @@ class Entries
      *
      * @access public
      */
-    public function fetchCollection(string $id, $filter = [])
+    public function fetchCollection(string $id, array $filter = [])
     {
         // Init Entries object
         $this->entries = [];
@@ -194,10 +195,12 @@ class Entries
         // Fetch single entry.
         if (count($entries_list) > 0) {
             foreach ($entries_list as $current_entry) {
-                if ($current_entry->getType() === 'file' && $current_entry->getFilename() === 'entry' . '.' . $this->flextype->container('registry')->get('flextype.settings.entries.extension')) {
-                    $_id = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', $current_entry->getPath()), '/'), '/');
-                    $this->entries[$_id] = $this->fetchSingle($_id);
+                if ($current_entry->getType() !== 'file' || $current_entry->getFilename() !== 'entry' . '.' . $this->flextype->container('registry')->get('flextype.settings.entries.extension')) {
+                    continue;
                 }
+
+                $_id                 = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', $current_entry->getPath()), '/'), '/');
+                $this->entries[$_id] = $this->fetchSingle($_id);
             }
 
             // Apply collection filter
