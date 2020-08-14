@@ -28,7 +28,7 @@ class Json
     public const ESCAPE_UNICODE = 0b0100;
 
     /**
-     * Application
+     * Flextype Application
      */
     protected $flextype;
 

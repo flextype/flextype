@@ -25,7 +25,7 @@ use function trim;
 class Plugins
 {
     /**
-     * Application
+     * Flextype Application
      */
     protected $flextype;
 

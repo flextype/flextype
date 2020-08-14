@@ -23,7 +23,7 @@ use const PHP_EOL;
 class Frontmatter
 {
     /**
-     * Application
+     * Flextype Application
      */
     protected $flextype;
 

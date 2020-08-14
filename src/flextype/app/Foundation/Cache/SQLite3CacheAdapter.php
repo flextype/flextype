@@ -11,11 +11,11 @@ use SQLite3;
 class SQLite3CacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Application
+     * Flextype Application
      *
      * @access private
      */
-    private $flextype;
+    protected $flextype;
 
     public function __construct($flextype)
     {

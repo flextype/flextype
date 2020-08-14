@@ -14,7 +14,7 @@ use function md5;
 class Shortcode
 {
     /**
-     * Application
+     * Flextype Application
      */
     protected $flextype;
 

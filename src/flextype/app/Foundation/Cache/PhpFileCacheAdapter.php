@@ -10,11 +10,11 @@ use Flextype\Component\Filesystem\Filesystem;
 class PhpFileCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Application
+     * Flextype Application
      *
      * @access private
      */
-    private $flextype;
+    protected $flextype;
 
     public function __construct($flextype)
     {

@@ -10,11 +10,11 @@ use Memecached;
 class MemcachedCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Application
+     * Flextype Application
      *
      * @access private
      */
-    private $flextype;
+    protected $flextype;
 
     public function __construct($flextype)
     {

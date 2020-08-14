@@ -15,9 +15,9 @@ use function implode;
 class Cors
 {
     /**
-     * Application
+     * Flextype Application
      */
-    private $flextype;
+    protected $flextype;
 
     /**
      * __construct

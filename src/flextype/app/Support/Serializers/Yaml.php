@@ -34,7 +34,7 @@ class Yaml
     public const DUMP_EMPTY_ARRAY_AS_SEQUENCE    = 1024;
 
     /**
-     * Application
+     * Flextype Application
      */
     protected $flextype;
 

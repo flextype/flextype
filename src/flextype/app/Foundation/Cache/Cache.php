@@ -20,9 +20,9 @@ use function time;
 class Cache
 {
     /**
-     * Application
+     * Flextype Application
      */
-    private $flextype;
+    protected $flextype;
 
     /**
      * Unique cache key

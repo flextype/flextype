@@ -9,11 +9,11 @@ use Doctrine\Common\Cache\ArrayCache;
 class ArrayCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Application
+     * Flextype Application
      *
      * @access private
      */
-    private $flextype;
+    protected $flextype;
 
     public function __construct($flextype)
     {

@@ -15,7 +15,7 @@ use Flextype\Component\Filesystem\Filesystem;
 class MediaFilesMeta
 {
     /**
-     * Application
+     * Flextype Application
      */
     protected $flextype;
 

@@ -18,7 +18,7 @@ use function str_replace;
 class MediaFolders
 {
     /**
-     * Application
+     * Flextype Application
      */
     protected $flextype;
 

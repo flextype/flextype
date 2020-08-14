@@ -9,11 +9,11 @@ use Flextype\Component\Filesystem\Filesystem;
 class PhpArrayFileCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Application
+     * Flextype Application
      *
      * @access private
      */
-    private $flextype;
+    protected $flextype;
 
     public function __construct($flextype)
     {

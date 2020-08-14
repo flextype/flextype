@@ -12,7 +12,7 @@ namespace Flextype\App\Foundation\Media;
 class MediaFoldersMeta
 {
     /**
-     * Application
+     * Flextype Application
      */
     protected $flextype;
 

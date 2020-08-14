@@ -9,11 +9,11 @@ use Doctrine\Common\Cache\AcpuCache;
 class AcpuCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Application
+     * Flextype Application
      *
      * @access private
      */
-    private $flextype;
+    protected $flextype;
 
     public function __construct($flextype)
     {

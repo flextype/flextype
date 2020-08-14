@@ -71,7 +71,7 @@ class Entries
     public $entries_id = null;
 
     /**
-     * Application
+     * Flextype Application
      */
     protected $flextype;
 

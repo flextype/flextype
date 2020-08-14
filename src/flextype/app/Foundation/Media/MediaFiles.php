@@ -44,7 +44,7 @@ use const UPLOAD_ERR_OK;
 class MediaFiles
 {
     /**
-     * Application
+     * Flextype Application
      */
     protected $flextype;
 
