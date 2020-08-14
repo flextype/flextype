@@ -30,11 +30,6 @@ class Plugins
     protected $flextype;
 
     /**
-     * Dependency Container
-     */
-    protected $container;
-
-    /**
      * Locales array
      *
      * @var array
@@ -48,9 +43,8 @@ class Plugins
      */
     public function __construct($flextype)
     {
-        $this->flextype       = $flextype;
-        $this->container = $flextype->getContainer();
-        $this->locales   = $this->container['yaml']->decode(Filesystem::read(ROOT_DIR . '/src/flextype/locales.yaml'));
+        $this->flextype  = $flextype;
+        $this->locales   = $this->flextype->container('yaml')->decode(Filesystem::read(ROOT_DIR . '/src/flextype/locales.yaml'));
     }
 
     /**
@@ -70,13 +64,13 @@ class Plugins
      *
      * @access public
      */
-    public function init($container, $flextype) : void
+    public function init($flextype) : void
     {
         // Set empty plugins item
-        $this->container['registry']->set('plugins', []);
+        $this->flextype->container('registry')->set('plugins', []);
 
         // Set locale
-        $locale = $this->container['registry']->get('flextype.settings.locale');
+        $locale = $this->flextype->container('registry')->get('flextype.settings.locale');
 
         // Get plugins list
         $plugins_list = $this->getPluginsList();
@@ -90,15 +84,15 @@ class Plugins
         }
 
         // Get plugins from cache or scan plugins folder and create new plugins cache item
-        if ($this->container['cache']->contains($plugins_cache_id)) {
-            $this->container['registry']->set('plugins', $this->container['cache']->fetch($plugins_cache_id));
+        if ($this->flextype->container('cache')->contains($plugins_cache_id)) {
+            $this->flextype->container('registry')->set('plugins', $this->flextype->container('cache')->fetch($plugins_cache_id));
 
-            if ($this->container['cache']->contains($locale)) {
-                I18n::add($this->container['cache']->fetch($locale), $locale);
+            if ($this->flextype->container('cache')->contains($locale)) {
+                I18n::add($this->flextype->container('cache')->fetch($locale), $locale);
             } else {
                 // Save plugins dictionary
                 $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
-                $this->container['cache']->save($locale, $dictionary[$locale]);
+                $this->flextype->container('cache')->save($locale, $dictionary[$locale]);
             }
         } else {
             // Init plugin configs
@@ -129,7 +123,7 @@ class Plugins
 
                 // Get default plugin settings content
                 $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
-                $default_plugin_settings              = $this->container['yaml']->decode($default_plugin_settings_file_content);
+                $default_plugin_settings              = $this->flextype->container('yaml')->decode($default_plugin_settings_file_content);
 
                 // Create project plugin settings file
                 ! Filesystem::has($project_plugin_settings_file) and Filesystem::write($project_plugin_settings_file, $default_plugin_settings_file_content);
@@ -140,7 +134,7 @@ class Plugins
                 if (trim($project_plugin_settings_file_content) === '') {
                     $project_plugin_settings = [];
                 } else {
-                    $project_plugin_settings = $this->container['yaml']->decode($project_plugin_settings_file_content);
+                    $project_plugin_settings = $this->flextype->container('yaml')->decode($project_plugin_settings_file_content);
                 }
 
                 // Check if default plugin manifest file exists
@@ -150,7 +144,7 @@ class Plugins
 
                 // Get default plugin manifest content
                 $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
-                $default_plugin_manifest              = $this->container['yaml']->decode($default_plugin_manifest_file_content);
+                $default_plugin_manifest              = $this->flextype->container('yaml')->decode($default_plugin_manifest_file_content);
 
                 // Merge plugin settings and manifest data
                 $plugins[$plugin['dirname']]['manifest'] = $default_plugin_manifest;
@@ -178,15 +172,15 @@ class Plugins
             $plugins = $this->getValidPluginsDependencies($plugins);
 
             // Save plugins list
-            $this->container['registry']->set('plugins', $plugins);
-            $this->container['cache']->save($plugins_cache_id, $plugins);
+            $this->flextype->container('registry')->set('plugins', $plugins);
+            $this->flextype->container('cache')->save($plugins_cache_id, $plugins);
 
             // Save plugins dictionary
             $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
-            $this->container['cache']->save($locale, $dictionary[$locale]);
+            $this->flextype->container('cache')->save($locale, $dictionary[$locale]);
         }
 
-        $this->includeEnabledPlugins($container, $flextype);
+        $this->includeEnabledPlugins($flextype, $flextype);
 
         $this->container['emitter']->emit('onPluginsInitialized');
     }
@@ -211,7 +205,7 @@ class Plugins
                 throw new RuntimeException('Load file: ' . $language_file . ' - failed!');
             }
 
-            $translates = $this->container['yaml']->decode($content);
+            $translates = $this->flextype->container('yaml')->decode($content);
 
             I18n::add($translates, $locale);
         }
@@ -279,7 +273,7 @@ class Plugins
                 foreach ($plugin_data['manifest']['dependencies'] as $dependency => $constraints) {
                     // Verify flextype version
                     if ($dependency === 'flextype') {
-                        if (! Semver::satisfies($this->container['registry']->get('flextype.manifest.version'), $constraints)) {
+                        if (! Semver::satisfies($this->flextype->container('registry')->get('flextype.manifest.version'), $constraints)) {
                             $verified = false;
 
                             // Remove plugin where it is require this dependency
@@ -379,14 +373,14 @@ class Plugins
      *
      * @access private
      */
-    private function includeEnabledPlugins($container, $flextype) : void
+    private function includeEnabledPlugins($flextype, $flextype) : void
     {
-        if (! is_array($this->container['registry']->get('plugins')) || count($this->container['registry']->get('plugins')) <= 0) {
+        if (! is_array($this->flextype->container('registry')->get('plugins')) || count($this->flextype->container('registry')->get('plugins')) <= 0) {
             return;
         }
 
-        foreach ($this->container['registry']->get('plugins') as $plugin_name => $plugin) {
-            if (! $this->container['registry']->get('plugins.' . $plugin_name . '.settings.enabled')) {
+        foreach ($this->flextype->container('registry')->get('plugins') as $plugin_name => $plugin) {
+            if (! $this->flextype->container('registry')->get('plugins.' . $plugin_name . '.settings.enabled')) {
                 continue;
             }
 

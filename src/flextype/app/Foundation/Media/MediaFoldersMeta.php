@@ -16,10 +16,6 @@ class MediaFoldersMeta
      */
     protected $flextype;
 
-    /**
-     * Dependency Container
-     */
-    protected $container;
 
     /**
      * Constructor
@@ -28,8 +24,7 @@ class MediaFoldersMeta
      */
     public function __construct($flextype)
     {
-        $this->flextype       = $flextype;
-        $this->container = $flextype->getContainer();
+        $this->flextype = $flextype;
     }
 
     /**

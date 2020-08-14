@@ -15,12 +15,7 @@ use function implode;
 class Cors
 {
     /**
-     * Dependency Container
-     */
-    private $container;
-
-    /**
-     * Flextype app
+     * Application
      */
     private $flextype;
 
@@ -29,8 +24,7 @@ class Cors
      */
     public function __construct($flextype)
     {
-        $this->flextype  = $flextype;
-        $this->container = $flextype->getContainer();
+        $this->flextype = $flextype;
     }
 
     /**
@@ -38,9 +32,7 @@ class Cors
      */
     public function init() : void
     {
-        $container = $this->container;
-
-        if (! $container['registry']->get('flextype.settings.cors.enabled')) {
+        if (! $this->flextype->container('registry')->get('flextype.settings.cors.enabled')) {
             return;
         }
 
@@ -48,15 +40,15 @@ class Cors
             return $response;
         });
 
-        $this->flextype->add(function ($req, $res, $next) use ($container) {
+        $this->flextype->add(function ($req, $res, $next) use ($flextype) {
             $response = $next($req, $res);
 
             // Set variables
-            $origin      = $container['registry']->get('flextype.settings.cors.origin');
-            $headers     = count($container['registry']->get('flextype.settings.cors.headers')) ? implode(', ', $container['registry']->get('flextype.settings.cors.headers')) : '';
-            $methods     = count($container['registry']->get('flextype.settings.cors.methods')) ? implode(', ', $container['registry']->get('flextype.settings.cors.methods')) : '';
-            $expose      = count($container['registry']->get('flextype.settings.cors.expose')) ? implode(', ', $container['registry']->get('flextype.settings.cors.expose')) : '';
-            $credentials = $container['registry']->get('flextype.settings.cors.credentials') ? true : false;
+            $origin      = $flextype->container('registry')->get('flextype.settings.cors.origin');
+            $headers     = count($flextype->container('registry')->get('flextype.settings.cors.headers')) ? implode(', ', $flextype->container('registry')->get('flextype.settings.cors.headers')) : '';
+            $methods     = count($flextype->container('registry')->get('flextype.settings.cors.methods')) ? implode(', ', $flextype->container('registry')->get('flextype.settings.cors.methods')) : '';
+            $expose      = count($flextype->container('registry')->get('flextype.settings.cors.expose')) ? implode(', ', $flextype->container('registry')->get('flextype.settings.cors.expose')) : '';
+            $credentials = $flextype->container('registry')->get('flextype.settings.cors.credentials') ? true : false;
 
             return $response
                     ->withHeader('Access-Control-Allow-Origin', $origin)

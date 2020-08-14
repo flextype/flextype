@@ -19,9 +19,9 @@ use function time;
 class Cache
 {
     /**
-     * Dependency Container
+     * Application
      */
-    private $container;
+    private $flextype;
 
     /**
      * Unique cache key
@@ -56,9 +56,9 @@ class Cache
      *
      * @access public
      */
-    public function __construct($container)
+    public function __construct($flextype)
     {
-        $this->container = $container;
+        $this->container = $flextype;
 
         // Create Cache Directory
         ! Filesystem::has(PATH['cache']) and Filesystem::createDir(PATH['cache']);
@@ -67,8 +67,8 @@ class Cache
         $this->now = time();
 
         // Create cache key to allow invalidate all cache on configuration changes.
-        $cache_prefix = ($this->container['registry']->get('flextype.settings.cache.prefix') ?? 'flextype');
-        $cache_unique_string = md5(PATH['project'] . $this->container['registry']->get('flextype.manifest.version'));
+        $cache_prefix = ($this->flextype->container('registry')->get('flextype.settings.cache.prefix') ?? 'flextype');
+        $cache_unique_string = md5(PATH['project'] . $this->flextype->container('registry')->get('flextype.manifest.version'));
         $this->key = $cache_prefix . $cache_unique_string;
 
         // Get Cache Driver
@@ -119,7 +119,7 @@ class Cache
      */
     public function fetch(string $id)
     {
-        if ($this->container['registry']->get('flextype.settings.cache.enabled')) {
+        if ($this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
             return $this->driver->fetch($id);
         }
 
@@ -134,7 +134,7 @@ class Cache
      * @return array Array of values retrieved for the given keys.
      */
     public function fetchMultiple(array $keys) {
-        if ($this->container['registry']->get('flextype.settings.cache.enabled')) {
+        if ($this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
             return $this->driver->fetchMultiple($keys);
         }
 
@@ -150,7 +150,7 @@ class Cache
      */
     public function contains(string $id) : bool
     {
-        if ($this->container['registry']->get('flextype.settings.cache.enabled')) {
+        if ($this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
             return $this->driver->contains($id);
         }
 
@@ -172,7 +172,7 @@ class Cache
      */
     public function save(string $id, $data, ?int $lifetime = null) : bool
     {
-        if (! $this->container['registry']->get('flextype.settings.cache.enabled')) {
+        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
             return false;
         }
 
@@ -194,7 +194,7 @@ class Cache
      */
      public function saveMultiple(array $keysAndValues, $lifetime = 0) : bool
      {
-         if (! $this->container['registry']->get('flextype.settings.cache.enabled')) {
+         if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
              return false;
          }
 
@@ -210,7 +210,7 @@ class Cache
      */
     public function delete(string $id) : bool
     {
-        if (! $this->container['registry']->get('flextype.settings.cache.enabled')) {
+        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
             return false;
         }
 
@@ -226,7 +226,7 @@ class Cache
      */
     public function deleteMultiple(array $keys) : bool
     {
-        if (! $this->container['registry']->get('flextype.settings.cache.enabled')) {
+        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
             return false;
         }
 
@@ -240,7 +240,7 @@ class Cache
      */
     public function getStats()
     {
-        if (! $this->container['registry']->get('flextype.settings.cache.enabled')) {
+        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
             return false;
         }
 
@@ -254,7 +254,7 @@ class Cache
      */
     public function deleteAll()
     {
-        if (! $this->container['registry']->get('flextype.settings.cache.enabled')) {
+        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
             return false;
         }
 
@@ -268,7 +268,7 @@ class Cache
      */
     public function flushAll()
     {
-        if (! $this->container['registry']->get('flextype.settings.cache.enabled')) {
+        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
             return false;
         }
 
@@ -307,7 +307,7 @@ class Cache
     public function getLifetime()
     {
         if ($this->lifetime === null) {
-            $this->lifetime = $this->container['registry']->get('flextype.settings.cache.lifetime') ?: 604800;
+            $this->lifetime = $this->flextype->container('registry')->get('flextype.settings.cache.lifetime') ?: 604800;
         }
 
         return $this->lifetime;

@@ -7,9 +7,9 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-if ($container->registry->get('flextype.settings.entries.fields.slug.enabled')) {
-    $container->emitter->addListener('onEntryAfterInitialized', function () use ($container) : void {
-        $parts = explode('/', ltrim(rtrim($container->entries->entry_id, '/'), '/'));
-        $container->entries->entry['slug'] = isset($container->entries->entry['slug']) ? (string) $container->entries->entry['slug'] : (string) end($parts);
+if ($flextype->container('registry')->get('flextype.settings.entries.fields.slug.enabled')) {
+    $flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype) : void {
+        $parts = explode('/', ltrim(rtrim($flextype->entries->entry_id, '/'), '/'));
+        $flextype->entries->entry['slug'] = isset($flextype->entries->entry['slug']) ? (string) $flextype->entries->entry['slug'] : (string) end($parts);
     });
 }

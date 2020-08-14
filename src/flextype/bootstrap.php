@@ -11,7 +11,7 @@ namespace Flextype;
 
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Session\Session;
-use Slim\App as Flextype;
+use Slim\App;
 use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
 use function date_default_timezone_set;
 use function error_reporting;
@@ -36,6 +36,40 @@ $registry = new Registry();
  */
 include_once ROOT_DIR . '/src/flextype/preflight.php';
 
+class Flextype extends App
+{
+    /**
+     * Flextype version
+     *
+     * @var string
+     */
+    const FLEXTYPE_VERSION = '0.9.0';
+
+    public $instance;
+    public $flextype;
+
+    public function __construct($flextype = [])
+    {
+        parent::__construct($flextype);
+        $this->instance  = $this;
+        $this->container = $this->instance->getContainer();
+    }
+
+    public function container($key = null)
+    {
+        if ($key != null) {
+            return $this->container[$key];
+        }
+
+        return $this->container;
+    }
+
+    public function getInstance()
+    {
+        return $this->instance;
+    }
+}
+
 /**
  * Create new application
  */
@@ -53,11 +87,6 @@ $flextype = new Flextype([
         'httpVersion' => $registry->get('flextype.settings.http_version'),
     ],
 ]);
-
-/**
- * Get Dependency Injection Container
- */
-$container = $flextype->getContainer();
 
 /**
  * Include Dependencies
@@ -79,13 +108,13 @@ include_once ROOT_DIR . '/src/flextype/app/Endpoints/images.php';
  * Set internal encoding
  */
 function_exists('mb_language') and mb_language('uni');
-function_exists('mb_regex_encoding') and mb_regex_encoding($container['registry']->get('flextype.settings.charset'));
-function_exists('mb_internal_encoding') and mb_internal_encoding($container['registry']->get('flextype.settings.charset'));
+function_exists('mb_regex_encoding') and mb_regex_encoding($flextype->container('registry')->get('flextype.settings.charset'));
+function_exists('mb_internal_encoding') and mb_internal_encoding($flextype->container('registry')->get('flextype.settings.charset'));
 
 /**
  * Display Errors
  */
-if ($container['registry']->get('flextype.settings.errors.display')) {
+if ($flextype->container('registry')->get('flextype.settings.errors.display')) {
 
     /**
      * Add WhoopsMiddleware
@@ -98,14 +127,14 @@ if ($container['registry']->get('flextype.settings.errors.display')) {
 /**
  * Set default timezone
  */
-date_default_timezone_set($container['registry']->get('flextype.settings.timezone'));
+date_default_timezone_set($flextype->container('registry')->get('flextype.settings.timezone'));
 
 /**
  * Init shortocodes
  *
  * Load Flextype Shortcodes from directory /flextype/app/Support/Parsers/Shortcodes/ based on flextype.settings.shortcode.shortcodes array
  */
-$shortcodes = $container['registry']->get('flextype.settings.shortcode.shortcodes');
+$shortcodes = $flextype->container('registry')->get('flextype.settings.shortcode.shortcodes');
 
 foreach ($shortcodes as $shortcode_name => $shortcode) {
     $shortcode_file_path = ROOT_DIR . '/src/flextype/app/Support/Parsers/Shortcodes/' . str_replace("_", '', ucwords($shortcode_name, "_")) . 'Shortcode.php';
@@ -121,7 +150,7 @@ foreach ($shortcodes as $shortcode_name => $shortcode) {
  *
  * Load Flextype Entries fields from directory /flextype/app/Foundation/Entries/Fields/ based on flextype.settings.entries.fields array
  */
-$entry_fields = $container['registry']->get('flextype.settings.entries.fields');
+$entry_fields = $flextype->container('registry')->get('flextype.settings.entries.fields');
 
 foreach ($entry_fields as $field_name => $field) {
     $entry_field_file_path = ROOT_DIR . '/src/flextype/app/Foundation/Entries/Fields/' . str_replace("_", '', ucwords($field_name, "_")) . 'Field.php';
@@ -135,7 +164,7 @@ foreach ($entry_fields as $field_name => $field) {
 /**
  * Init plugins
  */
-$container['plugins']->init($container, $flextype);
+$flextype->container('plugins')->init($flextype);
 
 /**
  * Enable lazy CORS
@@ -144,7 +173,7 @@ $container['plugins']->init($container, $flextype);
  * This is important for third party web apps using Flextype, as without CORS, a JavaScript app hosted on example.com
  * couldn't access our APIs because they're hosted on another.com which is a different domain.
  */
-$container['cors']->init();
+$flextype->container('cors')->init();
 
 /**
  * Run application

@@ -75,19 +75,13 @@ class Entries
     protected $flextype;
 
     /**
-     * Dependency Container
-     */
-    protected $container;
-
-    /**
      * Constructor
      *
      * @access public
      */
     public function __construct($flextype)
     {
-        $this->flextype       = $flextype;
-        $this->container = $flextype->getContainer();
+        $this->flextype = $flextype;
     }
 
     /**
@@ -128,12 +122,12 @@ class Entries
         $entry_cache_id = $this->getCacheID($this->entry_id);
 
         // Try to get current requested entry from cache
-        if ($this->container['cache']->contains($entry_cache_id)) {
+        if ($this->flextype->container('cache')->contains($entry_cache_id)) {
             // Fetch entry from cache
-            $this->entry = $this->container['cache']->fetch($entry_cache_id);
+            $this->entry = $this->flextype->container('cache')->fetch($entry_cache_id);
 
             // Run event: onEntryAfterCacheInitialized
-            $this->container['emitter']->emit('onEntryAfterCacheInitialized');
+            $this->flextype->container('emitter')->emit('onEntryAfterCacheInitialized');
 
             // Return entry from cache
             return $this->entry;
@@ -151,18 +145,18 @@ class Entries
             }
 
             // Decode entry file content
-            $this->entry = $this->container['frontmatter']->decode($entry_file_content);
+            $this->entry = $this->flextype->container('frontmatter')->decode($entry_file_content);
 
             // Run event: onEntryAfterInitialized
-            $this->container['emitter']->emit('onEntryAfterInitialized');
+            $this->flextype->container('emitter')->emit('onEntryAfterInitialized');
 
             // Set cache state
-            $cache = $this->container['entries']->entry['cache']['enabled'] ??
-                                $this->container['registry']->get('flextype.settings.cache.enabled');
+            $cache = $this->flextype->container('entries')->entry['cache']['enabled'] ??
+                                $this->flextype->container('registry')->get('flextype.settings.cache.enabled');
 
             // Save entry data to cache
             if ($cache) {
-                $this->container['cache']->save($entry_cache_id, $this->entry);
+                $this->flextype->container('cache')->save($entry_cache_id, $this->entry);
             }
 
             // Return entry data
@@ -210,7 +204,7 @@ class Entries
             $this->entries = collect_filter($this->entries, $filter);
 
             // Run event: onEntriesAfterInitialized
-            $this->container['emitter']->emit('onEntriesAfterInitialized');
+            $this->flextype->container('emitter')->emit('onEntriesAfterInitialized');
         }
 
         // Return entries array
@@ -231,7 +225,7 @@ class Entries
     {
         if (! Filesystem::has($this->getDirLocation($new_id))) {
             // Run event: onEntryRename
-            $this->container['emitter']->emit('onEntryRename');
+            $this->flextype->container('emitter')->emit('onEntryRename');
 
             return rename($this->getDirLocation($id), $this->getDirLocation($new_id));
         }
@@ -255,15 +249,15 @@ class Entries
 
         if (Filesystem::has($entry_file)) {
             $body  = Filesystem::read($entry_file);
-            $entry = $this->container['frontmatter']->decode($body);
+            $entry = $this->flextype->container('frontmatter')->decode($body);
 
             // Store data in the entry_update_data
             $this->entry_update_data = $data;
 
             // Run event: onEntryUpdate
-            $this->container['emitter']->emit('onEntryUpdate');
+            $this->flextype->container('emitter')->emit('onEntryUpdate');
 
-            return Filesystem::write($entry_file, $this->container['frontmatter']->encode(array_merge($entry, $this->entry_update_data)));
+            return Filesystem::write($entry_file, $this->flextype->container('frontmatter')->encode(array_merge($entry, $this->entry_update_data)));
         }
 
         return false;
@@ -292,10 +286,10 @@ class Entries
                     $this->entry_create_data = $data;
 
                     // Run event: onEntryCreate
-                    $this->container['emitter']->emit('onEntryCreate');
+                    $this->flextype->container('emitter')->emit('onEntryCreate');
 
                     // Create a new entry!
-                    return Filesystem::write($entry_file, $this->container['frontmatter']->encode($this->entry_create_data));
+                    return Filesystem::write($entry_file, $this->flextype->container('frontmatter')->encode($this->entry_create_data));
                 }
 
                 return false;
@@ -317,7 +311,7 @@ class Entries
     public function delete(string $id) : bool
     {
         // Run event: onEntryDelete
-        $this->container['emitter']->emit('onEntryDelete');
+        $this->flextype->container('emitter')->emit('onEntryDelete');
 
         return Filesystem::deleteDir($this->getDirLocation($id));
     }
@@ -336,7 +330,7 @@ class Entries
     public function copy(string $id, string $new_id, bool $deep = false) : ?bool
     {
         // Run event: onEntryRename
-        $this->container['emitter']->emit('onEntryCopy');
+        $this->flextype->container('emitter')->emit('onEntryCopy');
 
         return Filesystem::copy($this->getDirLocation($id), $this->getDirLocation($new_id), $deep);
     }
@@ -394,7 +388,7 @@ class Entries
      */
     public function getCacheID(string $id) : string
     {
-        if ($this->container['registry']->get('flextype.settings.cache.enabled') === false) {
+        if ($this->flextype->container('registry')->get('flextype.settings.cache.enabled') === false) {
             return '';
         }
 

@@ -12,16 +12,16 @@ namespace Flextype\App\Foundation;
 class Container
 {
     /**
-     * Dependency Container
+     * Application
      */
-    protected $container;
+    protected $flextype;
 
     /**
      * __construct
      */
-    public function __construct($container)
+    public function __construct($flextype)
     {
-        $this->container = $container;
+        $this->container = $flextype;
     }
 
     /**

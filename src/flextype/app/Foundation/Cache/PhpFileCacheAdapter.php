@@ -11,15 +11,15 @@ use Psr\Container\ContainerInterface;
 class PhpFileCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Dependency Container
+     * Application
      *
      * @access private
      */
-    private $container;
+    private $flextype;
     
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $flextype)
     {
-        $this->container = $container;
+        $this->container = $flextype;
     }
 
     public function getDriver() : object
