@@ -180,7 +180,7 @@ class Plugins
             $this->flextype->container('cache')->save($locale, $dictionary[$locale]);
         }
 
-        $this->includeEnabledPlugins($flextype, $flextype);
+        $this->includeEnabledPlugins($flextype);
 
         $this->flextype->container('emitter')->emit('onPluginsInitialized');
     }
