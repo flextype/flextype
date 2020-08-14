@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use Flextype\App\Foundation\Flextype;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Session\Session;
-use Flextype\App\Foundation\Flextype;
 use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
 use function date_default_timezone_set;
 use function error_reporting;
@@ -20,6 +20,8 @@ use function function_exists;
 use function mb_internal_encoding;
 use function mb_language;
 use function mb_regex_encoding;
+use function str_replace;
+use function ucwords;
 
 /**
  * Start the session
@@ -103,7 +105,7 @@ date_default_timezone_set($flextype->container('registry')->get('flextype.settin
 $shortcodes = $flextype->container('registry')->get('flextype.settings.shortcode.shortcodes');
 
 foreach ($shortcodes as $shortcode_name => $shortcode) {
-    $shortcode_file_path = ROOT_DIR . '/src/flextype/app/Support/Parsers/Shortcodes/' . str_replace("_", '', ucwords($shortcode_name, "_")) . 'Shortcode.php';
+    $shortcode_file_path = ROOT_DIR . '/src/flextype/app/Support/Parsers/Shortcodes/' . str_replace('_', '', ucwords($shortcode_name, '_')) . 'Shortcode.php';
     if (! file_exists($shortcode_file_path)) {
         continue;
     }
@@ -119,7 +121,7 @@ foreach ($shortcodes as $shortcode_name => $shortcode) {
 $entry_fields = $flextype->container('registry')->get('flextype.settings.entries.fields');
 
 foreach ($entry_fields as $field_name => $field) {
-    $entry_field_file_path = ROOT_DIR . '/src/flextype/app/Foundation/Entries/Fields/' . str_replace("_", '', ucwords($field_name, "_")) . 'Field.php';
+    $entry_field_file_path = ROOT_DIR . '/src/flextype/app/Foundation/Entries/Fields/' . str_replace('_', '', ucwords($field_name, '_')) . 'Field.php';
     if (! file_exists($entry_field_file_path)) {
         continue;
     }
