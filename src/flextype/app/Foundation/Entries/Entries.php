@@ -199,7 +199,7 @@ class Entries
                     continue;
                 }
 
-                $_id                 = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', $current_entry->getPath()), '/'), '/');
+                $_id                 = $uid = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', str_replace('\\', '/', $current_entry->getPath())), '/'), '/');
                 $this->entries[$_id] = $this->fetchSingle($_id);
             }
 
