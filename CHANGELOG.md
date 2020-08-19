@@ -151,7 +151,7 @@
     $flextype->container('registry')->get(....)
     ```
 
-* class `Container` removed! ([#458](https://github.com/flextype/flextype/issues/458))
+* **core** class `Container` removed! ([#458](https://github.com/flextype/flextype/issues/458))
 
     We should use `$flextype` object to access all Flextype features inside Service Controllers and Models.
 
