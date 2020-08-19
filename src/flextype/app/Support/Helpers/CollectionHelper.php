@@ -100,6 +100,11 @@ if (! function_exists('collect_filter')) {
             $collection->orderBy($bind_order_by['order_by']['field'], $bind_order_by['order_by']['direction']);
         }
 
+        // Exec: only
+        if (isset($filter['only'])) {
+            $collection->only($filter['only']);
+        }
+
         // Gets a native PHP array representation of the collection.
         switch ($bind_return) {
             case 'first':
