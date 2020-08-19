@@ -6,18 +6,17 @@ namespace Flextype\App\Foundation\Cache;
 
 use Doctrine\Common\Cache\MemcachedCache;
 use Memecached;
-use Psr\Container\ContainerInterface;
 
 class MemcachedCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Flextype Dependency Container
+     * Flextype Application
      *
      * @access private
      */
-    private $flextype;
-    
-    public function __construct(ContainerInterface $flextype)
+    protected $flextype;
+
+    public function __construct($flextype)
     {
         $this->flextype = $flextype;
     }
@@ -26,8 +25,8 @@ class MemcachedCacheAdapter implements CacheAdapterInterface
     {
         $memcached = new Memecached();
         $memcached->addServer(
-            $this->flextype['registry']->get('flextype.settings.cache.memcached.server', 'localhost'),
-            $this->flextype['registry']->get('flextype.settings.cache.memcache.port', 11211)
+            $this->flextype->container('registry')->get('flextype.settings.cache.memcached.server', 'localhost'),
+            $this->flextype->container('registry')->get('flextype.settings.cache.memcache.port', 11211)
         );
 
         $driver = new MemcachedCache();

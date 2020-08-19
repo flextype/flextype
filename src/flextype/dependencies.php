@@ -55,21 +55,21 @@ use function extension_loaded;
 /**
  * Supply a custom callable resolver, which resolves PSR-15 middlewares.
  */
-$flextype['callableResolver'] = function ($flextype) {
-    return new CallableResolver($flextype);
+$flextype->container()['callableResolver'] = static function () use ($flextype) {
+    return new CallableResolver($flextype->container());
 };
 
 /**
  * Add registry service to Flextype container
  */
-$flextype['registry'] = function () use ($registry) {
+$flextype->container()['registry'] = static function () use ($registry) {
     return $registry;
 };
 
 /**
  * Add logger service to Flextype container
  */
-$flextype['logger'] = function () {
+$flextype->container()['logger'] = static function () {
     $logger = new Logger('flextype');
     $logger->pushHandler(new StreamHandler(PATH['logs'] . '/' . date('Y-m-d') . '.log'));
 
@@ -79,29 +79,29 @@ $flextype['logger'] = function () {
 /**
  * Add emitter service to Flextype container
  */
-$flextype['emitter'] = function () {
+$flextype->container()['emitter'] = static function () {
     return new Emitter();
 };
 
 /**
  * Add slugify service to Flextype container
  */
-$flextype['slugify'] = function ($flextype) {
+$flextype->container()['slugify'] = static function () use ($flextype) {
     return new Slugify([
-        'separator' => $flextype['registry']->get('flextype.settings.slugify.separator'),
-        'lowercase' => $flextype['registry']->get('flextype.settings.slugify.lowercase'),
-        'trim' => $flextype['registry']->get('flextype.settings.slugify.trim'),
-        'regexp' => $flextype['registry']->get('flextype.settings.slugify.regexp'),
-        'lowercase_after_regexp' => $flextype['registry']->get('flextype.settings.slugify.lowercase_after_regexp'),
-        'strip_tags' => $flextype['registry']->get('flextype.settings.slugify.strip_tags'),
+        'separator' => $flextype->container('registry')->get('flextype.settings.slugify.separator'),
+        'lowercase' => $flextype->container('registry')->get('flextype.settings.slugify.lowercase'),
+        'trim' => $flextype->container('registry')->get('flextype.settings.slugify.trim'),
+        'regexp' => $flextype->container('registry')->get('flextype.settings.slugify.regexp'),
+        'lowercase_after_regexp' => $flextype->container('registry')->get('flextype.settings.slugify.lowercase_after_regexp'),
+        'strip_tags' => $flextype->container('registry')->get('flextype.settings.slugify.strip_tags'),
     ]);
 };
 
 /**
  * Adds the cache adapter to the Flextype container
  */
-$flextype['cache_adapter'] = function ($flextype) {
-    $driver_name = $flextype['registry']->get('flextype.settings.cache.driver');
+$flextype->container()['cache_adapter'] = static function () use ($flextype) {
+    $driver_name = $flextype->container('registry')->get('flextype.settings.cache.driver');
 
     if (! $driver_name || $driver_name === 'auto') {
         if (extension_loaded('apcu')) {
@@ -136,51 +136,51 @@ $flextype['cache_adapter'] = function ($flextype) {
 /**
  * Add cache service to Flextype container
  */
-$flextype['cache'] = function ($flextype) {
+$flextype->container()['cache'] = static function () use ($flextype) {
     return new Cache($flextype);
 };
 
 /**
  * Add shortcode parser service to Flextype container
  */
-$flextype['shortcode'] = function ($flextype) {
+$flextype->container()['shortcode'] = static function () use ($flextype) {
     return new Shortcode($flextype, new ShortcodeFacade());
 };
 
 /**
  * Add markdown parser service to Flextype container
  */
-$flextype['markdown'] = function ($flextype) {
+$flextype->container()['markdown'] = static function () use ($flextype) {
     return new Markdown($flextype, new ParsedownExtra());
 };
 
 /**
  * Add json serializer service to Flextype container
  */
-$flextype['json'] = function ($flextype) {
+$flextype->container()['json'] = static function () use ($flextype) {
     return new Json($flextype);
 };
 
 /**
  * Add yaml serializer service to Flextype container
  */
-$flextype['yaml'] = function ($flextype) {
+$flextype->container()['yaml'] = static function () use ($flextype) {
     return new Yaml($flextype);
 };
 
 /**
  * Add frontmatter serializer service to Flextype container
  */
-$flextype['frontmatter'] = function ($flextype) {
+$flextype->container()['frontmatter'] = static function () use ($flextype) {
     return new Frontmatter($flextype);
 };
 
 /**
  * Add images service to Flextype container
  */
-$flextype['images'] = function ($flextype) {
+$flextype->container()['images'] = static function () use ($flextype) {
     // Get images settings
-    $imagesSettings = $flextype->get('settings')['images'];
+    $imagesSettings = ['driver' => $flextype->container->get('flextype.settings.image.driver')];
 
     // Set source filesystem
     $source = new Filesystem(
@@ -233,48 +233,48 @@ $flextype['images'] = function ($flextype) {
 /**
  * Add entries service to Flextype container
  */
-$flextype['entries'] = function ($flextype) {
+$flextype->container()['entries'] = static function () use ($flextype) {
     return new Entries($flextype);
 };
 
 /**
  * Add media folders service to Flextype container
  */
-$flextype['media_folders'] = function ($flextype) {
+$flextype->container()['media_folders'] = static function () use ($flextype) {
     return new MediaFolders($flextype);
 };
 
 /**
  * Add media files service to Flextype container
  */
-$flextype['media_files'] = function ($flextype) {
+$flextype->container()['media_files'] = static function () use ($flextype) {
     return new MediaFiles($flextype);
 };
 
 /**
  * Add media folders meta service to Flextype container
  */
-$flextype['media_folders_meta'] = function ($flextype) {
+$flextype->container()['media_folders_meta'] = static function () use ($flextype) {
     return new MediaFoldersMeta($flextype);
 };
 
 /**
  * Add media files meta service to Flextype container
  */
-$flextype['media_files_meta'] = function ($flextype) {
+$flextype->container()['media_files_meta'] = static function () use ($flextype) {
     return new MediaFilesMeta($flextype);
 };
 
 /**
  * Add plugins service to Flextype container
  */
-$flextype['plugins'] = function ($flextype) use ($app) {
-    return new Plugins($flextype, $app);
+$flextype->container()['plugins'] = static function () use ($flextype) {
+    return new Plugins($flextype);
 };
 
 /**
  * Add cors service to Flextype container
  */
-$flextype['cors'] = function ($flextype) use ($app) {
-    return new Cors($flextype, $app);
+$flextype->container()['cors'] = static function () use ($flextype) {
+    return new Cors($flextype);
 };

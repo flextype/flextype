@@ -14,14 +14,14 @@ use function md5;
 class Markdown
 {
     /**
-     * Flextype Dependency Container
+     * Flextype Application
      */
-    private $flextype;
+    protected $flextype;
 
     /**
      * Markdown
      */
-    private $markdown;
+    protected $markdown;
 
     /**
      * Constructor
@@ -44,15 +44,15 @@ class Markdown
      */
     public function parse(string $input, bool $cache = true) : string
     {
-        if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
+        if ($cache === true && $this->flextype->container('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
+            if ($data_from_cache = $this->flextype->container('cache')->fetch($key)) {
                 return $data_from_cache;
             }
 
             $data = $this->_parse($input);
-            $this->flextype['cache']->save($key, $data);
+            $this->flextype->container('cache')->save($key, $data);
 
             return $data;
         }

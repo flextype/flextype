@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace Flextype\App\Foundation\Cache;
 
 use Doctrine\Common\Cache\ZendDataCache;
-use Psr\Container\ContainerInterface;
 
 class ZendDataCacheCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Flextype Dependency Container
+     * Flextype Application
      *
      * @access private
      */
-    private $flextype;
-    
-    public function __construct(ContainerInterface $flextype)
+    protected $flextype;
+
+    public function __construct($flextype)
     {
         $this->flextype = $flextype;
     }

@@ -27,7 +27,7 @@ The underlying architecture of Flextype is built using well established and best
 Make sure your server meets the following requirements.
 
 * Webserver (Apache with Mod Rewrite)
-* PHP 7.2.5 or higher
+* PHP 7.3.0 or higher
 
 #### PHP EXTENSIONS
 Flextype needs the following PHP extensions to be enabled:
@@ -109,6 +109,31 @@ If you need help with Git or our workflow, please ask in our community chat. We 
 #### DOCS
 
 You may help us to create amazing knowledge base for Flextype. Fix spelling, add code examples, help organize, write new articles, and etc...
+
+
+## SPONSORS
+
+### Gold Sponsor
+
+### Silver Sponsor
+
+### Bronze Sponsor
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+          <a href="https://web-easy.org">
+              <img src="https://flextype.org/api/images/en/sponsors/webeasy.png?dpr=2&w=80&q=70&token=3b29b31ae05c89c2009f6e3f96e3d703" alt="" class="inline">
+          </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="#">
+         Jeremy Monroe
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)

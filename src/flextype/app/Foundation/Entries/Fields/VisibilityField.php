@@ -7,26 +7,26 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-if ($flextype->registry->get('flextype.settings.entries.fields.visibility.enabled')) {
+if ($flextype->container('registry')->get('flextype.settings.entries.fields.visibility.enabled')) {
     $visibility = [
         'draft' => 'draft',
         'hidden' => 'hidden',
         'visible' => 'visible',
     ];
 
-    $flextype->emitter->addListener('onEntryAfterInitialized', function () use ($flextype, $visibility) : void {
-        if (isset($flextype->entries->entry['visibility']) && in_array($flextype->entries->entry['visibility'], $visibility)) {
-            $flextype->entries->entry['visibility'] = (string) $visibility[$flextype->entries->entry['visibility']];
+    $flextype->container('emitter')->addListener('onEntryAfterInitialized', static function () use ($flextype, $visibility) : void {
+        if (isset($flextype->container('entries')->entry['visibility']) && in_array($flextype->container('entries')->entry['visibility'], $visibility)) {
+            $flextype->container('entries')->entry['visibility'] = (string) $visibility[$flextype->container('entries')->entry['visibility']];
         } else {
-            $flextype->entries->entry['visibility'] = (string) $visibility['visible'];
+            $flextype->container('entries')->entry['visibility'] = (string) $visibility['visible'];
         }
     });
 
-    $flextype->emitter->addListener('onEntryCreate', function () use ($flextype, $visibility) : void {
-        if (isset($flextype->entries->entry_create_data['visibility']) && in_array($flextype->entries->entry_create_data['visibility'], $visibility)) {
-            $flextype->entries->entry_create_data['visibility'] = $flextype->entries->entry_create_data['visibility'];
+    $flextype->container('emitter')->addListener('onEntryCreate', static function () use ($flextype, $visibility) : void {
+        if (isset($flextype->container('entries')->entry_create_data['visibility']) && in_array($flextype->container('entries')->entry_create_data['visibility'], $visibility)) {
+            $flextype->container('entries')->entry_create_data['visibility'] = $flextype->container('entries')->entry_create_data['visibility'];
         } else {
-            $flextype->entries->entry_create_data['visibility'] = 'visible';
+            $flextype->container('entries')->entry_create_data['visibility'] = 'visible';
         }
     });
 }

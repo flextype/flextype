@@ -142,6 +142,26 @@ class Collection
     }
 
     /**
+     * Get a subset of the items from the given collection.
+     *
+     * @param  array  $array
+     * @param  array|string  $keys
+     * @return static
+     */
+    public function only($keys)
+    {
+        $result = [];
+
+        foreach ($this->collection->toArray() as $key => $value) {
+            $result[$key] = array_intersect_key($value, array_flip((array) $keys));
+        }
+
+        $this->collection = new ArrayCollection($result);
+
+        return $this;
+    }
+
+    /**
      * Sets the where expression to evaluate when this Criteria is searched for.
      *
      * @param string $field The field path using dot notation.
@@ -221,7 +241,7 @@ class Collection
      *
      * @param int|null $firstResult The value to set.
      *
-     * @return 
+     * @return
      *
      * @access public
      */

@@ -35,7 +35,7 @@ if (! function_exists('collect_filter')) {
         $collection = new Collection($items);
 
         // Bind: return
-        $bind_return = isset($filter['return']) ? $filter['return'] : 'all';
+        $bind_return = $filter['return'] ?? 'all';
 
         // Bind: where
         $bind_where = [];
@@ -100,6 +100,11 @@ if (! function_exists('collect_filter')) {
             $collection->orderBy($bind_order_by['order_by']['field'], $bind_order_by['order_by']['direction']);
         }
 
+        // Exec: only
+        if (isset($filter['only'])) {
+            $collection->only($filter['only']);
+        }
+
         // Gets a native PHP array representation of the collection.
         switch ($bind_return) {
             case 'first':
@@ -113,20 +118,20 @@ if (! function_exists('collect_filter')) {
                 break;
             case 'random':
                 $bind_random_value = isset($filter['random_value']) ? (int) $filter['random_value'] : null;
-                $items = $collection->random($bind_random_value);
+                $items             = $collection->random($bind_random_value);
                 break;
             case 'limit':
                 $bind_set_max_result_value = isset($filter['limit_value']) ? (int) $filter['limit_value'] : 0;
-                $items = $collection->limit($bind_set_max_result_value);
+                $items                     = $collection->limit($bind_set_max_result_value);
                 break;
             case 'set_first_result':
                 $bind_set_first_result_value = isset($filter['set_first_result_value']) ? (int) $filter['set_first_result_value'] : 0;
-                $items = $collection->setFirstResult($bind_set_first_result_value);
+                $items                       = $collection->setFirstResult($bind_set_first_result_value);
                 break;
             case 'slice':
                 $bind_slice_offset_value = isset($filter['slice_offset_value']) ? (int) $filter['slice_offset_value'] : 0;
-                $bind_slice_limit_value = isset($filter['slice_limit_value']) ? (int) $filter['slice_limit_value'] : 0;
-                $items = $collection->slice($bind_slice_offset_value, $bind_slice_limit_value);
+                $bind_slice_limit_value  = isset($filter['slice_limit_value']) ? (int) $filter['slice_limit_value'] : 0;
+                $items                   = $collection->slice($bind_slice_offset_value, $bind_slice_limit_value);
                 break;
             case 'exists':
                 $items = $collection->exists();

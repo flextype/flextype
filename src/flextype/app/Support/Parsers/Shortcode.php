@@ -14,14 +14,14 @@ use function md5;
 class Shortcode
 {
     /**
-     * Flextype Dependency Container
+     * Flextype Application
      */
-    private $flextype;
+    protected $flextype;
 
     /**
      * Shortcode Fasade
      */
-    private $shortcode;
+    protected $shortcode;
 
     /**
      * Constructor
@@ -35,51 +35,89 @@ class Shortcode
     }
 
     /**
-     * Add shortcode handler
+     * Get Shortcode instance
      *
-     * @param string   $name    Shortcode name
-     * @param callable $handler Handler
+     * @access public
      */
-    public function add(string $name, $handler)
+    public function getInstance()
+    {
+        return $this->shortcode;
+    }
+
+    /**
+     * Add shortcode handler.
+     *
+     * @param string   $name    Shortcode
+     * @param callable $handler Handler
+     *
+     * @access public
+     */
+    public function addHandler(string $name, callable $handler)
     {
         return $this->shortcode->addHandler($name, $handler);
     }
 
     /**
-     * Takes a SHORTCODE encoded string and converts it into a PHP variable.
+     * Add event handler.
      *
-     * @param string $input A string containing SHORTCODE
+     * @param string   $name    Event
+     * @param callable $handler Handler
+     *
+     * @access public
+     */
+    public function addEventHandler(string $name, callable $handler)
+    {
+        return $this->shortcode->addEventHandler($name, $handler);
+    }
+
+    /**
+     * Parses text into shortcodes.
+     *
+     * @param string $input A text containing SHORTCODE
+     *
+     * @access public
+     */
+    public function parse(string $input)
+    {
+        return $this->shortcode->parse($input);
+    }
+
+    /**
+     * Processes text and replaces shortcodes.
+     *
+     * @param string $input A text containing SHORTCODE
      * @param bool   $cache Cache result data or no. Default is true
      *
-     * @return mixed The SHORTCODE converted to a PHP value
+     * @access public
      */
-    public function parse(string $input, bool $cache = true) : string
+    public function process(string $input, bool $cache = true)
     {
-        if ($cache === true && $this->flextype['registry']->get('flextype.settings.cache.enabled') === true) {
+        if ($cache === true && $this->flextype->container('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($data_from_cache = $this->flextype['cache']->fetch($key)) {
+            if ($data_from_cache = $this->flextype->container('cache')->fetch($key)) {
                 return $data_from_cache;
             }
 
-            $data = $this->_parse($input);
-            $this->flextype['cache']->save($key, $data);
+            $data = $this->shortcode->process($input);
+            $this->flextype->container('cache')->save($key, $data);
 
             return $data;
         }
 
-        return $this->_parse($input);
-    }
-
-    /**
-     * @see parse()
-     */
-    protected function _parse(string $input) : string
-    {
         return $this->shortcode->process($input);
     }
 
-    protected function getCacheID($input)
+    /**
+     * Get Cache ID for shortcode
+     *
+     * @param  string $input Input
+     *
+     * @return string Cache ID
+     *
+     * @access public
+     */
+    public function getCacheID(string $input) : string
     {
         return md5('shortcode' . $input);
     }
