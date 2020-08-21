@@ -132,7 +132,7 @@ foreach ($entry_fields as $field_name => $field) {
 /**
  * Init plugins
  */
-$flextype->container('plugins')->init($flextype);
+$flextype->container('plugins')->init();
 
 /**
  * Enable lazy CORS

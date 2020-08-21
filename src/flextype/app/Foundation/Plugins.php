@@ -64,7 +64,7 @@ class Plugins
      *
      * @access public
      */
-    public function init($flextype) : void
+    public function init() : void
     {
         // Set empty plugins item
         $this->flextype->container('registry')->set('plugins', []);
@@ -180,7 +180,7 @@ class Plugins
             $this->flextype->container('cache')->save($locale, $dictionary[$locale]);
         }
 
-        $this->includeEnabledPlugins($flextype);
+        $this->includeEnabledPlugins($this->flextype);
 
         $this->flextype->container('emitter')->emit('onPluginsInitialized');
     }
