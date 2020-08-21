@@ -70,9 +70,9 @@ $flextype->get('/api/entries', function (Request $request, Response $response) u
                 }
 
                 if ($filter === null) {
-                    $response_data['data'] = $flextype['entries']->fetchSingle($id);
+                    $response_data['data'] = $flextype->container('entries')->fetchSingle($id);
                 } else {
-                    $response_data['data'] = $flextype['entries']->fetchCollection($id, $filter);
+                    $response_data['data'] = $flextype->container('entries')->fetchCollection($id, $filter);
                 }
 
                 // Set response code
@@ -174,10 +174,10 @@ $flextype->post('/api/entries', function (Request $request, Response $response) 
                 }
 
                 // Create entry
-                $create_entry = $flextype['entries']->create($id, $data);
+                $create_entry = $flextype->container('entries')->create($id, $data);
 
                 if ($create_entry) {
-                    $response_data['data'] = $flextype['entries']->fetch($id);
+                    $response_data['data'] = $flextype->container('entries')->fetch($id);
                 } else {
                     $response_data['data'] = [];
                 }
@@ -278,10 +278,10 @@ $flextype->patch('/api/entries', function (Request $request, Response $response)
                 }
 
                 // Update entry
-                $update_entry = $flextype['entries']->update($id, $data);
+                $update_entry = $flextype->container('entries')->update($id, $data);
 
                 if ($update_entry) {
-                    $response_data['data'] = $flextype['entries']->fetch($id);
+                    $response_data['data'] = $flextype->container('entries')->fetch($id);
                 } else {
                     $response_data['data'] = [];
                 }
@@ -382,11 +382,11 @@ $flextype->put('/api/entries', function (Request $request, Response $response) u
                 }
 
                 // Rename entry
-                $rename_entry = $flextype['entries']->rename($id, $new_id);
+                $rename_entry = $flextype->container('entries')->rename($id, $new_id);
 
                 // Get entry data
                 if ($rename_entry) {
-                    $response_data['data'] = $flextype['entries']->fetch($new_id);
+                    $response_data['data'] = $flextype->container('entries')->fetch($new_id);
                 } else {
                     $response_data['data'] = [];
                 }
@@ -487,11 +487,11 @@ $flextype->put('/api/entries/copy', function (Request $request, Response $respon
                 }
 
                 // Copy entry
-                $copy_entry = $flextype['entries']->copy($id, $new_id, true);
+                $copy_entry = $flextype->container('entries')->copy($id, $new_id, true);
 
                 // Get entry data
                 if ($copy_entry === null) {
-                    $response_data['data'] = $flextype['entries']->fetch($new_id);
+                    $response_data['data'] = $flextype->container('entries')->fetch($new_id);
                 } else {
                     $response_data['data'] = [];
                 }
@@ -590,7 +590,7 @@ $flextype->delete('/api/entries', function (Request $request, Response $response
                 }
 
                 // Delete entry
-                $delete_entry = $flextype['entries']->delete($id);
+                $delete_entry = $flextype->container('entries')->delete($id);
 
                 // Set response code
                 $response_code = $delete_entry ? 204 : 404;

@@ -79,9 +79,9 @@ $flextype->get('/api/folders', function (Request $request, Response $response) u
 
                 // Get list if folder or fodlers for specific folder
                 if ($collection) {
-                    $folders = $flextype['media_folders']->fetchCollection($path);
+                    $folders = $flextype->container('media_folders')->fetchCollection($path);
                 } else {
-                    $folders = $flextype['media_folders']->fetchSingle($path);
+                    $folders = $flextype->container('media_folders')->fetchSingle($path);
                 }
 
                 // Write response data
@@ -180,12 +180,12 @@ $flextype->post('/api/folders', function (Request $request, Response $response) 
                 }
 
                 // Create folder
-                $create_folder = $flextype['media_folders']->create($path);
+                $create_folder = $flextype->container('media_folders')->create($path);
 
                 $response_data = [];
 
                 if ($create_folder) {
-                    $response_data['data'] = $flextype['media_folders']->fetch($path);
+                    $response_data['data'] = $flextype->container('media_folders')->fetch($path);
                 }
 
                 // Set response code
@@ -281,12 +281,12 @@ $flextype->put('/api/folders/copy', function (Request $request, Response $respon
                 }
 
                 // Copy folder
-                $copy_folder = $flextype['media_folders']->copy($path, $new_path);
+                $copy_folder = $flextype->container('media_folders')->copy($path, $new_path);
 
                 $response_data = [];
 
                 if ($copy_folder) {
-                    $response_data['data'] = $flextype['media_folders']->fetch($new_path);
+                    $response_data['data'] = $flextype->container('media_folders')->fetch($new_path);
                 } else {
                     $response_data['data'] = $copy_folder;
                 }
@@ -384,12 +384,12 @@ $flextype->put('/api/folders', function (Request $request, Response $response) u
                 }
 
                 // Rename folder
-                $rename_folder = $flextype['media_folders']->rename($path, $new_path);
+                $rename_folder = $flextype->container('media_folders')->rename($path, $new_path);
 
                 $response_data = [];
 
                 if ($rename_folder) {
-                    $response_data['data'] = $flextype['media_folders']->fetch($new_path);
+                    $response_data['data'] = $flextype->container('media_folders')->fetch($new_path);
                 }
 
                 // Set response code
@@ -483,7 +483,7 @@ $flextype->delete('/api/folders', function (Request $request, Response $response
                 }
 
                 // Delete folder
-                $delete_folder = $flextype['media_folders']->delete($path);
+                $delete_folder = $flextype->container('media_folders')->delete($path);
 
                 // Set response code
                 $response_code = $delete_folder ? 204 : 404;

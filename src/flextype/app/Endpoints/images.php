@@ -67,7 +67,7 @@ $flextype->get('/api/images/{path:.+}', function (Request $request, Response $re
                 Filesystem::write($delivery_images_token_file_path, $flextype->container('yaml')->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1])));
 
                 if (Filesystem::has(PATH['project'] . '/uploads/entries/' . $args['path'])) {
-                    return $flextype['images']->getImageResponse($args['path'], $_GET);
+                    return $flextype->container('images')->getImageResponse($args['path'], $_GET);
                 }
 
                 return $response
