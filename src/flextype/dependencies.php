@@ -180,7 +180,7 @@ $flextype->container()['frontmatter'] = static function () use ($flextype) {
  */
 $flextype->container()['images'] = static function () use ($flextype) {
     // Get images settings
-    $imagesSettings = ['driver' => $flextype->container->get('flextype.settings.image.driver')];
+    $imagesSettings = ['driver' => $flextype->container('registry')->get('flextype.settings.image.driver')];
 
     // Set source filesystem
     $source = new Filesystem(
