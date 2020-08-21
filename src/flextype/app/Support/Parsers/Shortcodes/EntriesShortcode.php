@@ -13,12 +13,6 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 if ($flextype->container('registry')->get('flextype.settings.shortcode.shortcodes.entries.enabled')) {
     // Shortcode: [entries_fetch id="entry-id" field="field-name" default="default-value"]
     $flextype->container('shortcode')->addHandler('entries_fetch', static function (ShortcodeInterface $s) use ($flextype) {
-        if ($s->getParameter('id') != null &&
-            $s->getParameter('field') != null &&
-            $s->getParameter('default') != null) {
-            return Arrays::get($flextype->container('entries')->fetch($s->getParameter('id')), $s->getParameter('field'), $s->getParameter('default'));
-        }
-
-        return '';
+        return Arrays::get($flextype->container('entries')->fetch($s->getParameter('id')), $s->getParameter('field'), $s->getParameter('default'));
     });
 }
