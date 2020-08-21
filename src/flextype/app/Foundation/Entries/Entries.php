@@ -92,11 +92,11 @@ class Entries
      * @param bool   $collection Set `true` if collection of entries need to be fetched.
      * @param array  $filter     Select items in collection by given conditions.
      *
-     * @return array The entry array data.
+     * @return array|bool|int
      *
      * @access public
      */
-    public function fetch(string $id, bool $collection = false, array $filter = []) : array
+    public function fetch(string $id, bool $collection = false, array $filter = [])
     {
         if ($collection) {
             return $this->fetchCollection($id, $filter);
