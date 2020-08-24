@@ -30,16 +30,16 @@ class Json
     /**
      * Flextype Application
      */
-    protected $flextype;
+
 
     /**
      * Constructor
      *
      * @access public
      */
-    public function __construct($flextype)
+    public function __construct()
     {
-        $this->flextype = $flextype;
+        
     }
 
     /**
@@ -71,15 +71,15 @@ class Json
      */
     public function decode(string $input, bool $cache = true, bool $assoc = true, int $depth = 512, int $flags = 0)
     {
-        if ($cache === true && $this->flextype->container('registry')->get('flextype.settings.cache.enabled') === true) {
+        if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($data_from_cache = $this->flextype->container('cache')->fetch($key)) {
+            if ($data_from_cache = flextype('cache')->fetch($key)) {
                 return $data_from_cache;
             }
 
             $data = $this->_decode($input, $assoc, $depth, $flags);
-            $this->flextype->container('cache')->save($key, $data);
+            flextype('cache')->save($key, $data);
 
             return $data;
         }

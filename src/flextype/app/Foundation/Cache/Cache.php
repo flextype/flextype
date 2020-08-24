@@ -22,7 +22,7 @@ class Cache
     /**
      * Flextype Application
      */
-    protected $flextype;
+
 
     /**
      * Unique cache key
@@ -57,9 +57,9 @@ class Cache
      *
      * @access public
      */
-    public function __construct($flextype)
+    public function __construct()
     {
-        $this->flextype = $flextype;
+        
 
         // Create Cache Directory
         ! Filesystem::has(PATH['cache']) and Filesystem::createDir(PATH['cache']);
@@ -68,8 +68,8 @@ class Cache
         $this->now = time();
 
         // Create cache key to allow invalidate all cache on configuration changes.
-        $cache_prefix        = ($this->flextype->container('registry')->get('flextype.settings.cache.prefix') ?? 'flextype');
-        $cache_unique_string = md5(PATH['project'] . $this->flextype->container('registry')->get('flextype.manifest.version'));
+        $cache_prefix        = (flextype('registry')->get('flextype.settings.cache.prefix') ?? 'flextype');
+        $cache_unique_string = md5(PATH['project'] . flextype('registry')->get('flextype.manifest.version'));
         $this->key           = $cache_prefix . $cache_unique_string;
 
         // Get Cache Driver
@@ -86,7 +86,7 @@ class Cache
      */
     public function getCacheDriver() : object
     {
-        return $this->flextype->container('cache_adapter')->getDriver();
+        return flextype('cache_adapter')->getDriver();
     }
 
     /**
@@ -120,7 +120,7 @@ class Cache
      */
     public function fetch(string $id)
     {
-        if ($this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
+        if (flextype('registry')->get('flextype.settings.cache.enabled')) {
             return $this->driver->fetch($id);
         }
 
@@ -136,7 +136,7 @@ class Cache
      */
     public function fetchMultiple(array $keys) : array
     {
-        if ($this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
+        if (flextype('registry')->get('flextype.settings.cache.enabled')) {
             return $this->driver->fetchMultiple($keys);
         }
 
@@ -152,7 +152,7 @@ class Cache
      */
     public function contains(string $id) : bool
     {
-        if ($this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
+        if (flextype('registry')->get('flextype.settings.cache.enabled')) {
             return $this->driver->contains($id);
         }
 
@@ -174,7 +174,7 @@ class Cache
      */
     public function save(string $id, $data, ?int $lifetime = null) : bool
     {
-        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
+        if (! flextype('registry')->get('flextype.settings.cache.enabled')) {
             return false;
         }
 
@@ -196,7 +196,7 @@ class Cache
      */
     public function saveMultiple(array $keysAndValues, int $lifetime = 0) : bool
     {
-        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
+        if (! flextype('registry')->get('flextype.settings.cache.enabled')) {
             return false;
         }
 
@@ -212,7 +212,7 @@ class Cache
      */
     public function delete(string $id) : bool
     {
-        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
+        if (! flextype('registry')->get('flextype.settings.cache.enabled')) {
             return false;
         }
 
@@ -228,7 +228,7 @@ class Cache
      */
     public function deleteMultiple(array $keys) : bool
     {
-        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
+        if (! flextype('registry')->get('flextype.settings.cache.enabled')) {
             return false;
         }
 
@@ -242,7 +242,7 @@ class Cache
      */
     public function getStats() : ?array
     {
-        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
+        if (! flextype('registry')->get('flextype.settings.cache.enabled')) {
             return false;
         }
 
@@ -254,7 +254,7 @@ class Cache
      */
     public function deleteAll() : bool
     {
-        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
+        if (! flextype('registry')->get('flextype.settings.cache.enabled')) {
             return false;
         }
 
@@ -268,7 +268,7 @@ class Cache
      */
     public function flushAll() : bool
     {
-        if (! $this->flextype->container('registry')->get('flextype.settings.cache.enabled')) {
+        if (! flextype('registry')->get('flextype.settings.cache.enabled')) {
             return false;
         }
 
@@ -307,7 +307,7 @@ class Cache
     public function getLifetime()
     {
         if ($this->lifetime === null) {
-            $this->lifetime = $this->flextype->container('registry')->get('flextype.settings.cache.lifetime') ?: 604800;
+            $this->lifetime = flextype('registry')->get('flextype.settings.cache.lifetime') ?: 604800;
         }
 
         return $this->lifetime;
@@ -323,7 +323,7 @@ class Cache
     public function purge(string $directory) : void
     {
         // Run event: onCacheBeforePurge
-        $this->flextype->container('emitter')->emit('onCacheBeforePurge');
+        flextype('emitter')->emit('onCacheBeforePurge');
 
         // Remove specific cache directory
         Filesystem::deleteDir(PATH['cache'] . '/' . $directory);
@@ -342,7 +342,7 @@ class Cache
         error_reporting($errorReporting);
 
         // Run event: onCacheAfterPurge
-        $this->flextype->container('emitter')->emit('onCacheAfterPurge');
+        flextype('emitter')->emit('onCacheAfterPurge');
     }
 
     /**
@@ -353,7 +353,7 @@ class Cache
     public function purgeAll() : void
     {
         // Run event: onCacheAfterPurgeAll
-        $this->flextype->container('emitter')->emit('onCacheAfterPurgeAll');
+        flextype('emitter')->emit('onCacheAfterPurgeAll');
 
         // Remove cache directory
         Filesystem::deleteDir(PATH['cache']);
@@ -372,6 +372,6 @@ class Cache
         error_reporting($errorReporting);
 
         // Run event: onCacheAfterPurgeAll
-        $this->flextype->container('emitter')->emit('onCacheAfterPurgeAll');
+        flextype('emitter')->emit('onCacheAfterPurgeAll');
     }
 }

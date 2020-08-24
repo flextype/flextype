@@ -11,7 +11,7 @@ interface CacheAdapterInterface
      *
      * @return void
      */
-    public function __construct($flextype);
+    public function __construct();
 
     /**
      * Returns the cache driver object

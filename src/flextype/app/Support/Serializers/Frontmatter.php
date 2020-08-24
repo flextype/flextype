@@ -25,16 +25,16 @@ class Frontmatter
     /**
      * Flextype Application
      */
-    protected $flextype;
+
 
     /**
      * Constructor
      *
      * @access public
      */
-    public function __construct($flextype)
+    public function __construct()
     {
-        $this->flextype = $flextype;
+        
     }
 
     /**
@@ -59,15 +59,15 @@ class Frontmatter
      */
     public function decode(string $input, bool $cache = true)
     {
-        if ($cache === true && $this->flextype->container('registry')->get('flextype.settings.cache.enabled') === true) {
+        if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($data_from_cache = $this->flextype->container('cache')->fetch($key)) {
+            if ($data_from_cache = flextype('cache')->fetch($key)) {
                 return $data_from_cache;
             }
 
             $data = $this->_decode($input);
-            $this->flextype->container('cache')->save($key, $data);
+            flextype('cache')->save($key, $data);
 
             return $data;
         }
@@ -83,10 +83,10 @@ class Frontmatter
         if (isset($input['content'])) {
             $content = $input['content'];
             Arrays::delete($input, 'content');
-            $matter = $this->flextype->container('yaml')->encode($input);
+            $matter = flextype('yaml')->encode($input);
         } else {
             $content = '';
-            $matter  = $this->flextype->container('yaml')->encode($input);
+            $matter  = flextype('yaml')->encode($input);
         }
 
         return '---' . "\n" .
@@ -113,7 +113,7 @@ class Frontmatter
             return ['content' => trim($input)];
         }
 
-        return $this->flextype->container('yaml')->decode(trim($parts[1]), false) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
+        return flextype('yaml')->decode(trim($parts[1]), false) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
     }
 
     protected function getCacheID($input)

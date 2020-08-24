@@ -14,16 +14,16 @@ class MediaFoldersMeta
     /**
      * Flextype Application
      */
-    protected $flextype;
+
 
     /**
      * Constructor
      *
      * @access public
      */
-    public function __construct($flextype)
+    public function __construct()
     {
-        $this->flextype = $flextype;
+        
     }
 
     /**

@@ -39,9 +39,9 @@ $registry = new Registry();
 include_once ROOT_DIR . '/src/flextype/preflight.php';
 
 /**
- * Create new application
+ * Create new Flextype Application
  */
-$flextype = new Flextype([
+$flextype = Flextype::getInstance([
     'settings' => [
         'debug' => $registry->get('flextype.settings.errors.display'),
         'whoops.editor' => $registry->get('flextype.settings.whoops.editor'),
@@ -76,18 +76,18 @@ include_once ROOT_DIR . '/src/flextype/app/Endpoints/images.php';
  * Set internal encoding
  */
 function_exists('mb_language') and mb_language('uni');
-function_exists('mb_regex_encoding') and mb_regex_encoding($flextype->container('registry')->get('flextype.settings.charset'));
-function_exists('mb_internal_encoding') and mb_internal_encoding($flextype->container('registry')->get('flextype.settings.charset'));
+function_exists('mb_regex_encoding') and mb_regex_encoding(flextype('registry')->get('flextype.settings.charset'));
+function_exists('mb_internal_encoding') and mb_internal_encoding(flextype('registry')->get('flextype.settings.charset'));
 
 /**
  * Display Errors
  */
-if ($flextype->container('registry')->get('flextype.settings.errors.display')) {
+if (flextype('registry')->get('flextype.settings.errors.display')) {
 
     /**
      * Add WhoopsMiddleware
      */
-    $flextype->add(new WhoopsMiddleware($flextype));
+    flextype()->add(new WhoopsMiddleware());
 } else {
     error_reporting(0);
 }
@@ -95,14 +95,14 @@ if ($flextype->container('registry')->get('flextype.settings.errors.display')) {
 /**
  * Set default timezone
  */
-date_default_timezone_set($flextype->container('registry')->get('flextype.settings.timezone'));
+date_default_timezone_set(flextype('registry')->get('flextype.settings.timezone'));
 
 /**
  * Init shortocodes
  *
  * Load Flextype Shortcodes from directory /flextype/app/Support/Parsers/Shortcodes/ based on flextype.settings.shortcode.shortcodes array
  */
-$shortcodes = $flextype->container('registry')->get('flextype.settings.shortcode.shortcodes');
+$shortcodes = flextype('registry')->get('flextype.settings.shortcode.shortcodes');
 
 foreach ($shortcodes as $shortcode_name => $shortcode) {
     $shortcode_file_path = ROOT_DIR . '/src/flextype/app/Support/Parsers/Shortcodes/' . str_replace('_', '', ucwords($shortcode_name, '_')) . 'Shortcode.php';
@@ -118,7 +118,7 @@ foreach ($shortcodes as $shortcode_name => $shortcode) {
  *
  * Load Flextype Entries fields from directory /flextype/app/Foundation/Entries/Fields/ based on flextype.settings.entries.fields array
  */
-$entry_fields = $flextype->container('registry')->get('flextype.settings.entries.fields');
+$entry_fields = flextype('registry')->get('flextype.settings.entries.fields');
 
 foreach ($entry_fields as $field_name => $field) {
     $entry_field_file_path = ROOT_DIR . '/src/flextype/app/Foundation/Entries/Fields/' . str_replace('_', '', ucwords($field_name, '_')) . 'Field.php';
@@ -132,7 +132,7 @@ foreach ($entry_fields as $field_name => $field) {
 /**
  * Init plugins
  */
-$flextype->container('plugins')->init();
+flextype('plugins')->init();
 
 /**
  * Enable lazy CORS
@@ -141,9 +141,9 @@ $flextype->container('plugins')->init();
  * This is important for third party web apps using Flextype, as without CORS, a JavaScript app hosted on example.com
  * couldn't access our APIs because they're hosted on another.com which is a different domain.
  */
-$flextype->container('cors')->init();
+flextype('cors')->init();
 
 /**
  * Run application
  */
-$flextype->run();
+flextype()->run();

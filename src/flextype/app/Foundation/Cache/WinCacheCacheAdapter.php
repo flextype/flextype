@@ -13,11 +13,11 @@ class WinCacheCacheAdapter implements CacheAdapterInterface
      *
      * @access private
      */
-    protected $flextype;
 
-    public function __construct($flextype)
+
+    public function __construct()
     {
-        $this->flextype = $flextype;
+        
     }
 
     public function getDriver() : object
