@@ -55,7 +55,7 @@ class MediaFiles
      */
     public function __construct()
     {
-        
+
     }
 
     /**
@@ -200,12 +200,15 @@ class MediaFiles
                                 // destroy
                                 $img->destroy();
 
-                                $headers = exif_read_data($filename);
-
                                 $exif_data = [];
 
-                                foreach ($headers['COMPUTED'] as $header => $value) {
-                                    $exif_data[$header] = $value;
+                                try {
+                                    $headers = exif_read_data($filename);
+                                    foreach ($headers['COMPUTED'] as $header => $value) {
+                                        $exif_data[$header] = $value;
+                                    }
+                                } catch (\Exception $e) {
+
                                 }
                             }
 
