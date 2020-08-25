@@ -1,3 +1,36 @@
+<a name="0.9.11"></a>
+# [0.9.11](https://github.com/flextype/flextype/compare/v0.9.10...v0.9.11) (2020-08-25)
+
+### Features
+
+* New helper function added for access all Flextype features in one place
+
+    ```php
+    flextype($container_name = null, $container = [])
+    ```
+
+    **IMPORTANT**
+
+    Do not use `$flextype` object to access Flextype features, use `flextype()` helper function.
+
+### Bug Fixes
+
+* **core** fix bug - Cannot access protected property Flextype\App\Foundation\Flextype::$container ([#462](https://github.com/flextype/flextype/issues/462))
+* **core** fix bug - Cannot use object of type Flextype\App\Foundation\Flextype as array ([#461](https://github.com/flextype/flextype/issues/461))
+* **media** fix Media exif_read_data warning - File not supported ([#464](https://github.com/flextype/flextype/issues/464))
+
+### Refactoring
+
+* **plugins** remove $flextype variable from plugins init method.
+* **entries** update return type for fetch() method.
+* **entries** add additional check for getTimestamp() method in the getCacheID()
+* **entries** remove dead code from fetchCollection() method.
+
+### Vendor Updates
+
+* **core:** Update vendor flextype-components/filesystem to 2.0.8
+* **core:** Update vendor ramsey/uuid to 4.1.1
+
 <a name="0.9.10"></a>
 # [0.9.10](https://github.com/flextype/flextype/compare/v0.9.9...v0.9.10) (2020-08-19)
 

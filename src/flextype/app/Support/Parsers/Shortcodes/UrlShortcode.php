@@ -10,11 +10,11 @@ declare(strict_types=1);
 use Slim\Http\Environment;
 use Slim\Http\Uri;
 
-if ($flextype->container('registry')->get('flextype.settings.shortcode.shortcodes.url.enabled')) {
+if (flextype('registry')->get('flextype.settings.shortcode.shortcodes.url.enabled')) {
     // Shortcode: [url]
-    $flextype->container('shortcode')->addHandler('url', static function () use ($flextype) {
-        if ($flextype->container('registry')->has('flextype.settings.url') && $flextype->container('registry')->get('flextype.settings.url') !== '') {
-            return $flextype->container('registry')->get('flextype.settings.url');
+    flextype('shortcode')->addHandler('url', static function () {
+        if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
+            return flextype('registry')->get('flextype.settings.url');
         }
 
         return Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();

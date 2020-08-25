@@ -18,50 +18,74 @@ class Flextype extends App
      *
      * @var string
      */
-    protected static $version = '0.9.10';
+    const VERSION = '0.9.11';
 
-    protected static $instance = null;
+    /**
+     * The Flextype's instance is stored in a static field. This field is an
+     * array, because we'll allow our Flextype to have subclasses. Each item in
+     * this array will be an instance of a specific Flextype's subclass.
+     *
+     * @var array
+     */
+    private static $instances = [];
 
-    protected static $container = null;
+    /**
+     * Flextype should not be cloneable.
+     */
+    protected function __clone() { }
 
-    public function __construct($flextype = [])
+    /**
+     * Flextype should not be restorable from strings.
+     */
+    public function __wakeup()
     {
-        parent::__construct($flextype);
-
-        // Store instance
-        self::$instance = $this;
-
-        // Store instance container
-        self::$container = self::$instance->getContainer();
+        throw new \Exception("Cannot unserialize a Flextype.");
     }
 
     /**
-     * Get Dependency Injection Container.
+     * Flextype construct
      *
-     * @param string $key DI Container key.
+     * @param ContainerInterface|array $container
      */
-    public function container(?string $key = null)
+    protected function __construct($container = [])
     {
-        if ($key !== null) {
-            return self::$container[$key];
+        parent::__construct($container);
+    }
+
+    /**
+     * Get/Set Dependency Injection Container.
+     *
+     * @param string|null $name DI Container name.
+     */
+    public function container(?string $name = null)
+    {
+        if (is_null($name)) {
+            return self::getInstance()->getContainer();
         }
 
-        return self::$container;
+        return self::getInstance()->getContainer()[$name];
     }
 
     /**
      * Returns Flextype Instance
+     *
+     * @param ContainerInterface|array $container
      */
-    public static function getInstance()
-    {
-        return self::$instance;
-    }
+     public static function getInstance($container = []) : Flextype
+     {
+         $cls = static::class;
+         if (!isset(self::$instances[$cls])) {
+             self::$instances[$cls] = new static($container);
+         }
+
+         return self::$instances[$cls];
+     }
 
     /**
-     * This method will returns the current Flextype version
+     * Returns the current Flextype version
      */
-    public static function getVersion() : string
+    public function getVersion() : string
     {
-        return self::$version;
+        return static::VERSION;
     }
 }

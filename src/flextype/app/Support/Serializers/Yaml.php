@@ -34,21 +34,6 @@ class Yaml
     public const DUMP_EMPTY_ARRAY_AS_SEQUENCE    = 1024;
 
     /**
-     * Flextype Application
-     */
-    protected $flextype;
-
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct($flextype)
-    {
-        $this->flextype = $flextype;
-    }
-
-    /**
      * Native
      *
      * Use native parser or symfony parser
@@ -88,15 +73,15 @@ class Yaml
      */
     public function decode(string $input, bool $cache = true, int $flags = 0) : array
     {
-        if ($cache === true && $this->flextype->container('registry')->get('flextype.settings.cache.enabled') === true) {
+        if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($data_from_cache = $this->flextype->container('cache')->fetch($key)) {
+            if ($data_from_cache = flextype('cache')->fetch($key)) {
                 return $data_from_cache;
             }
 
             $data = $this->_decode($input, $flags);
-            $this->flextype->container('cache')->save($key, $data);
+            flextype('cache')->save($key, $data);
 
             return $data;
         }

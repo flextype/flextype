@@ -10,23 +10,21 @@ use Memecached;
 class MemcachedCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Flextype Application
+     * Constructor
      *
-     * @access private
+     * @access public
      */
-    protected $flextype;
-
-    public function __construct($flextype)
+    public function __construct()
     {
-        $this->flextype = $flextype;
+
     }
 
     public function getDriver() : object
     {
         $memcached = new Memecached();
         $memcached->addServer(
-            $this->flextype->container('registry')->get('flextype.settings.cache.memcached.server', 'localhost'),
-            $this->flextype->container('registry')->get('flextype.settings.cache.memcache.port', 11211)
+            flextype('registry')->get('flextype.settings.cache.memcached.server', 'localhost'),
+            flextype('registry')->get('flextype.settings.cache.memcache.port', 11211)
         );
 
         $driver = new MemcachedCache();

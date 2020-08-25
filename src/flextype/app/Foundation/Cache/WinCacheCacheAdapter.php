@@ -9,17 +9,15 @@ use Doctrine\Common\Cache\WinCacheCache;
 class WinCacheCacheAdapter implements CacheAdapterInterface
 {
     /**
-     * Flextype Application
+     * Constructor
      *
-     * @access private
+     * @access public
      */
-    protected $flextype;
-
-    public function __construct($flextype)
+    public function __construct()
     {
-        $this->flextype = $flextype;
-    }
 
+    }
+    
     public function getDriver() : object
     {
         return new WinCacheCache();

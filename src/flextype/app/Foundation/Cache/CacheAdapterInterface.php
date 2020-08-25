@@ -7,11 +7,11 @@ namespace Flextype\App\Foundation\Cache;
 interface CacheAdapterInterface
 {
     /**
-     * Injects the dependency container
+     * Constructor
      *
-     * @return void
+     * @access public
      */
-    public function __construct($flextype);
+    public function __construct();
 
     /**
      * Returns the cache driver object

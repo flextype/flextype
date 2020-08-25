@@ -12,21 +12,6 @@ namespace Flextype\App\Foundation\Media;
 class MediaFoldersMeta
 {
     /**
-     * Flextype Application
-     */
-    protected $flextype;
-
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct($flextype)
-    {
-        $this->flextype = $flextype;
-    }
-
-    /**
      * Get files directory meta location
      *
      * @param string $id Unique identifier of the folder.
