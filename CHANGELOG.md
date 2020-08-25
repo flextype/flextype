@@ -1,6 +1,18 @@
 <a name="0.9.11"></a>
 # [0.9.11](https://github.com/flextype/flextype/compare/v0.9.10...v0.9.11) (2020-08-25)
 
+### Features
+
+* New helper function added for access all Flextype features in one place
+
+    ```php
+    flextype($container_name = null, $container = [])
+    ```
+
+    **IMPORTANT**
+
+    Do not use `$flextype` object to access Flextype features, use `flextype()` helper function.
+
 ### Bug Fixes
 
 * **core** fix bug - Cannot access protected property Flextype\App\Foundation\Flextype::$container ([#462](https://github.com/flextype/flextype/issues/462))
