@@ -8,6 +8,11 @@ use Doctrine\Common\Cache\AcpuCache;
 
 class AcpuCacheAdapter implements CacheAdapterInterface
 {
+    /**
+     * Constructor
+     *
+     * @access public
+     */
     public function __construct()
     {
 

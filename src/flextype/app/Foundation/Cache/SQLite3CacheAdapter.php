@@ -10,6 +10,16 @@ use SQLite3;
 
 class SQLite3CacheAdapter implements CacheAdapterInterface
 {
+    /**
+     * Constructor
+     *
+     * @access public
+     */
+    public function __construct()
+    {
+
+    }
+    
     public function getDriver() : object
     {
         $cache_directory = PATH['cache'] . '/doctrine/';

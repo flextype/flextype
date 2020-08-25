@@ -9,6 +9,16 @@ use Memecached;
 
 class MemcachedCacheAdapter implements CacheAdapterInterface
 {
+    /**
+     * Constructor
+     *
+     * @access public
+     */
+    public function __construct()
+    {
+
+    }
+
     public function getDriver() : object
     {
         $memcached = new Memecached();
