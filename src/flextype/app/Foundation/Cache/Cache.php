@@ -20,11 +20,6 @@ use function time;
 class Cache
 {
     /**
-     * Flextype Application
-     */
-
-
-    /**
      * Unique cache key
      *
      * @var string Cache key.
@@ -59,7 +54,7 @@ class Cache
      */
     public function __construct()
     {
-        
+
 
         // Create Cache Directory
         ! Filesystem::has(PATH['cache']) and Filesystem::createDir(PATH['cache']);

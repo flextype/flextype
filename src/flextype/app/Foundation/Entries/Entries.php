@@ -71,21 +71,6 @@ class Entries
     public $entries_id = null;
 
     /**
-     * Flextype Application
-     */
-
-
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
      * Fetch entry(entries)
      *
      * @param string $id         Unique identifier of the entry(entries).

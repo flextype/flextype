@@ -8,18 +8,6 @@ use Doctrine\Common\Cache\ArrayCache;
 
 class ArrayCacheAdapter implements CacheAdapterInterface
 {
-    /**
-     * Flextype Application
-     *
-     * @access private
-     */
-
-
-    public function __construct()
-    {
-        
-    }
-
     public function getDriver() : object
     {
         return new ArrayCache();

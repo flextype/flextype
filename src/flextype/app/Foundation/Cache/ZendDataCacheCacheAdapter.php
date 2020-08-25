@@ -8,18 +8,6 @@ use Doctrine\Common\Cache\ZendDataCache;
 
 class ZendDataCacheCacheAdapter implements CacheAdapterInterface
 {
-    /**
-     * Flextype Application
-     *
-     * @access private
-     */
-
-
-    public function __construct()
-    {
-        
-    }
-
     public function getDriver() : object
     {
         return new ZendDataCache();

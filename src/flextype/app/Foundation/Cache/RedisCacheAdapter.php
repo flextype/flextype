@@ -10,18 +10,6 @@ use RedisException;
 
 class RedisCacheAdapter implements CacheAdapterInterface
 {
-    /**
-     * Flextype Application
-     *
-     * @access private
-     */
-
-
-    public function __construct()
-    {
-        
-    }
-
     public function getDriver() : object
     {
         $redis    = new Redis();

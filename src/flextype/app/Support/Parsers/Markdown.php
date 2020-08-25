@@ -14,11 +14,6 @@ use function md5;
 class Markdown
 {
     /**
-     * Flextype Application
-     */
-
-
-    /**
      * Markdown
      */
     protected $markdown;
@@ -30,7 +25,6 @@ class Markdown
      */
     public function __construct($markdown)
     {
-        
         $this->markdown = $markdown;
     }
 

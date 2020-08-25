@@ -34,21 +34,6 @@ class Yaml
     public const DUMP_EMPTY_ARRAY_AS_SEQUENCE    = 1024;
 
     /**
-     * Flextype Application
-     */
-
-
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-        
-    }
-
-    /**
      * Native
      *
      * Use native parser or symfony parser

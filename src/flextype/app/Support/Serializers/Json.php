@@ -28,21 +28,6 @@ class Json
     public const ESCAPE_UNICODE = 0b0100;
 
     /**
-     * Flextype Application
-     */
-
-
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-        
-    }
-
-    /**
      * Returns the JSON representation of a value
      *
      * @param mixed $input   The PHP value

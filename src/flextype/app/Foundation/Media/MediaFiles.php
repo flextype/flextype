@@ -44,21 +44,6 @@ use const UPLOAD_ERR_OK;
 class MediaFiles
 {
     /**
-     * Flextype Application
-     */
-
-
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
      * Upload media file
      *
      * @param array  $file   Raw file data (multipart/form-data).

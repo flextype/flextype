@@ -15,21 +15,6 @@ use Flextype\Component\Filesystem\Filesystem;
 class MediaFilesMeta
 {
     /**
-     * Flextype Application
-     */
-
-
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-        
-    }
-
-    /**
      * Update file meta information
      *
      * @param string $id    Unique identifier of the file.

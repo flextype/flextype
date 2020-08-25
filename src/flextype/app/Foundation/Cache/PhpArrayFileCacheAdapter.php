@@ -8,18 +8,6 @@ use Flextype\Component\Filesystem\Filesystem;
 
 class PhpArrayFileCacheAdapter implements CacheAdapterInterface
 {
-    /**
-     * Flextype Application
-     *
-     * @access private
-     */
-
-
-    public function __construct()
-    {
-        
-    }
-
     public function getDriver() : object
     {
         $cache_directory = PATH['cache'] . '/doctrine/';

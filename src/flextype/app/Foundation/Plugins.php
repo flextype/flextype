@@ -25,11 +25,6 @@ use function trim;
 class Plugins
 {
     /**
-     * Flextype Application
-     */
-
-
-    /**
      * Locales array
      *
      * @var array
@@ -43,8 +38,7 @@ class Plugins
      */
     public function __construct()
     {
-
-        $this->locales  = flextype('yaml')->decode(Filesystem::read(ROOT_DIR . '/src/flextype/locales.yaml'));
+        $this->locales = flextype('yaml')->decode(Filesystem::read(ROOT_DIR . '/src/flextype/locales.yaml'));
     }
 
     /**

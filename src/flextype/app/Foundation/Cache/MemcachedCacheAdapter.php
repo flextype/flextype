@@ -9,18 +9,6 @@ use Memecached;
 
 class MemcachedCacheAdapter implements CacheAdapterInterface
 {
-    /**
-     * Flextype Application
-     *
-     * @access private
-     */
-
-
-    public function __construct()
-    {
-        
-    }
-
     public function getDriver() : object
     {
         $memcached = new Memecached();

@@ -23,21 +23,6 @@ use const PHP_EOL;
 class Frontmatter
 {
     /**
-     * Flextype Application
-     */
-
-
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-        
-    }
-
-    /**
      * Returns the FRONTMATTER representation of a value
      *
      * @param mixed $input The PHP value

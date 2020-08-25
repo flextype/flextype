@@ -18,21 +18,6 @@ use function str_replace;
 class MediaFolders
 {
     /**
-     * Flextype Application
-     */
-
-
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-        
-    }
-
-    /**
      * Fetch folders(s)
      *
      * @param string $path       The path of directory to list.
