@@ -299,7 +299,7 @@ class Entries
     public function delete(string $id) : bool
     {
         // Run event: onEntryDelete
-        flextype('emmiter')->emit('onEntryDelete');
+        flextype('emitter')->emit('onEntryDelete');
 
         return Filesystem::deleteDir($this->getDirLocation($id));
     }
