@@ -128,84 +128,117 @@ cache:
   enabled: true
   driver: sqlite
   drivers:
-    apc: {  }
-    apcu: {  }
+    apcu: {}
+    cassandra:
+      host: '127.0.0.1'
+      port: 9042
+      timeout: 2
+      username: ''
+      password: ''
+      ssl_enabled: false
+      ssl_verify: false
+      default_ttl: 900
+    cookie:
+      aware_of_untrustable_data: false
+      limited_memory_by_object: 4096
+      default_ttl: 900
     couchbase:
-      host: 127.0.0.1
+      host: '127.0.0.1'
       port: 8091
       username: ''
       password: ''
-      bucket: default
-      bucket_password: ''
-    devnull: {  }
-    devfalse: {  }
-    devtrue: {  }
+      bucket_name: default
+      default_ttl: 900
+    couchdb:
+      database: 'flextype'
+      path: '/'
+      host: '127.0.0.1'
+      port: 8091
+      username: ''
+      password: ''
+      bucket_name: default
+      ssl: false
+      timeout: 10
+      default_ttl: 900
+    devnull: {}
+    devfalse: {}
+    devtrue: {}
     files:
       path: /tmp
-      security_key: auto
+      security_key: 'auto'
       htaccess: true
-      secure_file_manipulation: true
+      secure_file_manipulation: false
       cache_file_extension: txt
+      default_ttl: 900
     leveldb:
       path: /tmp
-      security_key: auto
-       htaccess: true
+      security_key: 'auto'
+      htaccess: true
+      default_ttl: 900
     memcache:
-      host: 127.0.0.1
+      host: '127.0.0.1'
       port: 11211
       sasl_user: ''
       sasl_password: ''
+      path: '/'
+      compress_data: false
+      servers: {}
+      default_ttl: 900
     memcached:
-      host: 127.0.0.1
+      host: '127.0.0.1'
       port: 11211
       sasl_user: ''
       sasl_password: ''
+      path: '/'
+      compress_data: false
+      servers: {}
+      default_ttl: 900
+    memstatic: {}
     mongodb:
-      host: 127.0.0.1
+      host: '127.0.0.1'
       port: 27017
       username: ''
       password: ''
-      timeout: 5
+      timeout: 3
+      servers: {}
+      collection_name: 'Cache'
+      default_ttl: 900
     predis:
-      host: 127.0.0.1
+      host: '127.0.0.1'
       port: 6379
       password: ''
       timeout: 5
       database: 0
+      opt_prefix: ''
+      persistent: false
+      default_ttl: 900
     redis:
-      host: localhost
+      host: '127.0.0.1'
       port: 6379
       password: ''
       timeout: 5
       database: 0
+      opt_prefix: ''
+      default_ttl: 900
+    riak:
+      host: '127.0.0.1'
+      port: 8098
+      prefix: 'riak'
+      default_ttl: 900
     sqlite:
       path: /tmp
       security_key: auto
       htaccess: true
+      default_ttl: 900
     ssdb:
       host: 127.0.0.1
       port: 8888
       password: ''
       timeout: 5
-    wincache: {  }
-    xcache: {  }
-    zenddisk: {  }
-    zendshm: {  }
-    couchdb:
-      host: 127.0.0.1
-      port: 5984
-      ssl: false
-      database: phpfastcache
-      path: /
-      username: ''
-      password: ''
-      timeout: 10
-    riak:
-      host: 127.0.0.1
-      port: 8098
-      prefix: riak
-      bucket_name: phpfastcache
-
+    wincache: {}
+    xcache: {}
+    zenddisk: {}
+    zendshm: {}
 
 # Whoops
 #
