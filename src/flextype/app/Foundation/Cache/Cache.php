@@ -348,7 +348,7 @@ class Cache
     public function purgeAll() : void
     {
         // Run event: onCacheAfterPurgeAll
-        flextype('emitter')->emit('onCacheAfterPurgeAll');
+        flextype('emitter')->emit('onCacheBeforePurgeAll');
 
         // Remove cache directory
         Filesystem::deleteDir(PATH['cache']);

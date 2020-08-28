@@ -11,7 +11,7 @@ namespace Flextype;
 
 use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
-use Flextype\App\Foundation\Cache\Cache;
+//use Flextype\App\Foundation\Cache\Cache;
 use Flextype\App\Foundation\Cors;
 use Flextype\App\Foundation\Entries\Entries;
 use Flextype\App\Foundation\Media\MediaFiles;
@@ -51,6 +51,7 @@ use ParsedownExtra;
 use Thunder\Shortcode\ShortcodeFacade;
 use function date;
 use function extension_loaded;
+use Phpfastcache\Helper\Psr16Adapter as Cache;
 
 
 /**
@@ -97,6 +98,103 @@ flextype()->container()['slugify'] = static function () {
         'strip_tags' => flextype('registry')->get('flextype.settings.slugify.strip_tags'),
     ]);
 };
+
+
+flextype()->container()['cache'] = static function () {
+
+    $drivers = [
+        'apcu' => 'Apcu',
+        'wincache' => 'Wincache',
+        'array' => 'Array',
+        'filesystem' => 'Filesystem',
+        'memcached' => 'Memcached',
+        'redis' => 'Redis',
+        'sqlite3' => 'SQLite3',
+        'zenddatacache' => 'ZendDataCache',
+    ];
+
+    $driver_name = flextype('registry')->get('flextype.settings.cache.driver');
+
+    if (! $driver_name || $driver_name === 'auto') {
+        if (extension_loaded('apcu')) {
+            $driver_name = 'apcu';
+        } elseif (extension_loaded('wincache')) {
+            $driver_name = 'wincache';
+        } else {
+            $driver_name = 'files';
+        }
+    }
+
+    if (flextype('registry')->get('flextype.settings.cache.enabled') === false) {
+        $driver_name = 'Devfalse';
+    }
+
+    switch ($driver_name) {
+        case 'apcu':
+            $config = new \Phpfastcache\Drivers\Apcu\Config([]);
+            break;
+        case 'wincache':
+            $config = new \Phpfastcache\Drivers\Wincache\Config([]);
+            break;
+        case 'files':
+            $config = new \Phpfastcache\Drivers\Files\Config([
+                'path' => flextype('registry')->get('flextype.cache.drivers.files.path') !=='' ? PATH['cache']  . '/' . flextype('registry')->get('flextype.cache.drivers.files.path') : sys_get_temp_dir(),
+                'secureFileManipulation' => flextype('registry')->get('flextype.settings.cache.drivers.files.secure_file_manipulation'),
+                'htaccess' => flextype('registry')->get('flextype.settings.cache.drivers.files.htaccess'),
+                'securityKey' => (string) flextype('registry')->get('flextype.settings.cache.drivers.files.security_key'),
+                'cacheFileExtension' => flextype('registry')->get('flextype.settings.cache.drivers.files.cache_file_extension'),
+                'itemDetailedDate' => flextype('registry')->get('flextype.settings.cache.drivers.files.item_detailed_date'),
+                'autoTmpFallback' => flextype('registry')->get('flextype.settings.cache.drivers.files.auto_tmp_fallback'),
+                'defaultTtl' => flextype('registry')->get('flextype.settings.cache.drivers.files.default_ttl'),
+                'defaultKeyHashFunction' => flextype('registry')->get('flextype.settings.cache.drivers.files.default_key_hash_function'),
+                'defaultFileNameHashFunction' => flextype('registry')->get('flextype.settings.cache.drivers.files.default_file_name_hash_function'),
+                'defaultChmod' => flextype('registry')->get('flextype.settings.cache.drivers.files.default_chmod'),
+                'preventCacheSlams' => flextype('registry')->get('flextype.settings.cache.drivers.files.prevent_cache_slams'),
+                'cacheSlamsTimeout' => flextype('registry')->get('flextype.settings.cache.drivers.files.cache_slams_timeout'),
+            ]);
+            break;
+        case 'sqlite':
+            $config = new \Phpfastcache\Drivers\Sqlite\Config([
+                'path' => flextype('registry')->get('flextype.cache.drivers.files.path') !=='' ? PATH['cache']  . '/' . flextype('registry')->get('flextype.cache.drivers.files.path') : sys_get_temp_dir(),
+                'secureFileManipulation' => flextype('registry')->get('flextype.settings.cache.drivers.files.secure_file_manipulation'),
+                'htaccess' => flextype('registry')->get('flextype.settings.cache.drivers.files.htaccess'),
+                'securityKey' => (string) flextype('registry')->get('flextype.settings.cache.drivers.files.security_key'),
+                'cacheFileExtension' => flextype('registry')->get('flextype.settings.cache.drivers.files.cache_file_extension'),
+                'itemDetailedDate' => flextype('registry')->get('flextype.settings.cache.drivers.files.item_detailed_date'),
+                'autoTmpFallback' => flextype('registry')->get('flextype.settings.cache.drivers.files.auto_tmp_fallback'),
+                'defaultTtl' => flextype('registry')->get('flextype.settings.cache.drivers.files.default_ttl'),
+                'defaultChmod' => flextype('registry')->get('flextype.settings.cache.drivers.files.default_chmod'),
+                'preventCacheSlams' => flextype('registry')->get('flextype.settings.cache.drivers.files.prevent_cache_slams'),
+                'cacheSlamsTimeout' => flextype('registry')->get('flextype.settings.cache.drivers.files.cache_slams_timeout'),
+            ]);
+            break;
+        default:
+            // code...
+            break;
+    }
+
+    return new Cache($driver_name, $config);
+};
+
+
+if(flextype()->container('cache')->has('test-key')){
+    // Setter action
+
+    echo '1';
+
+
+    // Getter action
+    $data = flextype()->container('cache')->get('test-key');
+
+}else{
+    echo '2';
+
+    $data = 'lorem ipsum';
+    flextype()->container('cache')->set('test-key', 'lorem ipsum', 300);// 5 minutes
+
+}
+
+dd($data);
 
 /**
  * Adds the cache adapter to the Flextype container
