@@ -128,42 +128,83 @@ cache:
   enabled: true
   driver: sqlite
   drivers:
-    files:
-      path: 'cache'
-      secure_file_manipulation: false
-      htaccess: true
-      security_key: ''
-      cache_file_extension: 'txt'
-      item_detailed_date: false
-      auto_tmp_fallback: false
-      default_ttl: 900
-      default_key_hash_function: 'md5'
-      default_file_name_hash_function: 'md5'
-      default_chmod: 0777
-      prevent_cache_slams: false
-      cache_slams_timeout: 15
-    sqlite:
-      path: 'sqlite'
-      secure_file_manipulation: false
-      htaccess: true
-      security_key: ''
-      item_detailed_date: false
-      auto_tmp_fallback: false
-      default_ttl: 900
-      default_chmod: 0777
-      prevent_cache_slams: false
-      cache_slams_timeout: 15
-    apcu:
-      -
-    cassandra:
-      host: '127.0.0.1'
-      port: 9042
-      timeout: 2
+    apc: {  }
+    apcu: {  }
+    couchbase:
+      host: 127.0.0.1
+      port: 8091
       username: ''
       password: ''
-      ssl_enabled: false
-      ssl_verify: false
-    cookie:
+      bucket: default
+      bucket_password: ''
+    devnull: {  }
+    devfalse: {  }
+    devtrue: {  }
+    files:
+      path: /tmp
+      security_key: auto
+      htaccess: true
+      secure_file_manipulation: true
+      cache_file_extension: txt
+    leveldb:
+      path: /tmp
+      security_key: auto
+       htaccess: true
+    memcache:
+      host: 127.0.0.1
+      port: 11211
+      sasl_user: ''
+      sasl_password: ''
+    memcached:
+      host: 127.0.0.1
+      port: 11211
+      sasl_user: ''
+      sasl_password: ''
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      username: ''
+      password: ''
+      timeout: 5
+    predis:
+      host: 127.0.0.1
+      port: 6379
+      password: ''
+      timeout: 5
+      database: 0
+    redis:
+      host: localhost
+      port: 6379
+      password: ''
+      timeout: 5
+      database: 0
+    sqlite:
+      path: /tmp
+      security_key: auto
+      htaccess: true
+    ssdb:
+      host: 127.0.0.1
+      port: 8888
+      password: ''
+      timeout: 5
+    wincache: {  }
+    xcache: {  }
+    zenddisk: {  }
+    zendshm: {  }
+    couchdb:
+      host: 127.0.0.1
+      port: 5984
+      ssl: false
+      database: phpfastcache
+      path: /
+      username: ''
+      password: ''
+      timeout: 10
+    riak:
+      host: 127.0.0.1
+      port: 8098
+      prefix: riak
+      bucket_name: phpfastcache
 
 
 # Whoops
