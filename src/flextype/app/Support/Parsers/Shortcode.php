@@ -89,12 +89,12 @@ class Shortcode
         if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($data_from_cache = flextype('cache')->fetch($key)) {
+            if ($data_from_cache = flextype('cache')->get($key)) {
                 return $data_from_cache;
             }
 
             $data = $this->shortcode->process($input);
-            flextype('cache')->save($key, $data);
+            flextype('cache')->set($key, $data);
 
             return $data;
         }

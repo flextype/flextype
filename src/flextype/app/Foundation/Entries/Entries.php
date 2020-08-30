@@ -108,9 +108,9 @@ class Entries
         $entry_cache_id = $this->getCacheID($this->entry_id);
 
         // Try to get current requested entry from cache
-        if (flextype('cache')->contains($entry_cache_id)) {
+        if (flextype('cache')->has($entry_cache_id)) {
             // Fetch entry from cache
-            $this->entry = flextype('cache')->fetch($entry_cache_id);
+            $this->entry = flextype('cache')->get($entry_cache_id);
 
             // Run event: onEntryAfterCacheInitialized
             flextype('emitter')->emit('onEntryAfterCacheInitialized');
@@ -142,7 +142,7 @@ class Entries
 
             // Save entry data to cache
             if ($cache) {
-                flextype('cache')->save($entry_cache_id, $this->entry);
+                flextype('cache')->set($entry_cache_id, $this->entry);
             }
 
             // Return entry data
