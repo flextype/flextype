@@ -91,47 +91,154 @@ entries:
 # - driver:          Available drivers: auto (will get one from installed cache drivers), apcu,
 #                    apc, array, wincache, xcache, memcache, memcached, redis, file.
 #
-# - lifetime:        Lifetime of cached data in seconds
+# - drivers.files.path: The path where the written cache files belong to (system temp directory by default).
 #
-# - redis.socket:    Path to redis unix socket (e.g. /var/run/redis/redis.sock),
-#                    false = use server and port to connect
+# - drivers.files.secure_file_manipulation: This option enforces a strict I/O manipulation policy by adding more integrity checks.
+#                                           This option may slow down the write operations, therefore you must use it with caution.
 #
-# - redis.password   Redis password
+# - drivers.files.htaccess: Option designed to (dis)allow the auto-generation of .htaccess.
 #
-# - redis.server     Redis server
+# - drivers.files.security_key: A security key that define the subdirectory name. 'auto' value will be the HTTP_HOST value.
 #
-# - redis.port       Redis port
+# - drivers.files.cache_file_extension: This allows you to setup a custom (but safe) cache file extension. ('txt|cache|db|pfc')
 #
-# - memcache.server  Memcache server
+# - drivers.files.item_detailed_dates: This option will define if the Items will make use of detailed dates such as Creation/modification date.
+#                                      Trying to access to these date without being explicitly enabled will throw a LogicException
 #
-# - memcache.port    Memcache port
+# - drivers.files.auto_tmp_fallback: Option designed to automatically attempt to fallback to temporary directory if the cache fails to write on the specified directory.
 #
-# - memcached.server Memcached server
+# - drivers.files.default_ttl: This option define a default ttl (time-to-live, in seconds) for item that has no specified expiration date/ttl.
 #
-# - memcached.port   Memcached port
+# - drivers.files.default_key_hash_function: This option will allow you to define a custom hash function for the $item->getEncodedKey() method.
+#                                                  Callable objects are not allowed, but static method such as \Absolute\Namespace\ToStatic::method are allowed.
 #
-# - sqlite3.database SQLite3 Database
+# - drivers.files.default_file_name_hash_function: This option will allow you to define a custom hash function for every I/O method that ends up to write an hashed filename on the disk.
 #
-# - sqlite3.table    SQLite3 Table
+# - drivers.files.default_chmod: This option will define the chmod used to write driver cache files.
+#
+# - drivers.files.limited_memory_by_object:
+#
+# - drivers.files.compress_data:
+#
+# - drivers.files.prevent_cache_slams: This option will allow you to prevent cache slams when making use of heavy cache items.
+#
+# - drivers.files.cache_slams_timeout: This option defines the cache slams timeout in seconds.
+
 cache:
   enabled: true
-  prefix: flextype
-  driver: auto
-  lifetime: 604800
-  memcache:
-    server: localhost
-    port: 11211
-  memcached:
-    server: localhost
-    port: 11211
-  redis:
-    socket: false
-    password: false
-    server: localhost
-    port: 6379
-  sqlite3:
-    database: flextype
-    table: flextype
+  driver: sqlite
+  drivers:
+    apcu: {}
+    cassandra:
+      host: '127.0.0.1'
+      port: 9042
+      timeout: 2
+      username: ''
+      password: ''
+      ssl_enabled: false
+      ssl_verify: false
+      default_ttl: 900
+    cookie:
+      aware_of_untrustable_data: false
+      limited_memory_by_object: 4096
+      default_ttl: 900
+    couchbase:
+      host: '127.0.0.1'
+      port: 8091
+      username: ''
+      password: ''
+      bucket_name: default
+      default_ttl: 900
+    couchdb:
+      database: 'flextype'
+      path: '/'
+      host: '127.0.0.1'
+      port: 8091
+      username: ''
+      password: ''
+      bucket_name: default
+      ssl: false
+      timeout: 10
+      default_ttl: 900
+    devnull: {}
+    devfalse: {}
+    devtrue: {}
+    files:
+      path: /tmp
+      security_key: 'auto'
+      htaccess: true
+      secure_file_manipulation: false
+      cache_file_extension: txt
+      default_ttl: 900
+    leveldb:
+      path: /tmp
+      security_key: 'auto'
+      htaccess: true
+      default_ttl: 900
+    memcache:
+      host: '127.0.0.1'
+      port: 11211
+      sasl_user: ''
+      sasl_password: ''
+      path: '/'
+      compress_data: false
+      servers: {}
+      default_ttl: 900
+    memcached:
+      host: '127.0.0.1'
+      port: 11211
+      sasl_user: ''
+      sasl_password: ''
+      path: '/'
+      compress_data: false
+      servers: {}
+      default_ttl: 900
+    memstatic: {}
+    mongodb:
+      host: '127.0.0.1'
+      port: 27017
+      username: ''
+      password: ''
+      timeout: 3
+      servers: {}
+      collection_name: 'Cache'
+      default_ttl: 900
+    predis:
+      host: '127.0.0.1'
+      port: 6379
+      password: ''
+      timeout: 5
+      database: 0
+      opt_prefix: ''
+      persistent: false
+      default_ttl: 900
+    redis:
+      host: '127.0.0.1'
+      port: 6379
+      password: ''
+      timeout: 5
+      database: 0
+      opt_prefix: ''
+      default_ttl: 900
+    riak:
+      host: '127.0.0.1'
+      port: 8098
+      prefix: 'riak'
+      default_ttl: 900
+    sqlite:
+      path: /tmp
+      security_key: auto
+      htaccess: true
+      default_ttl: 900
+    ssdb:
+      host: 127.0.0.1
+      port: 8888
+      password: ''
+      timeout: 5
+    wincache: {}
+    xcache: {}
+    zenddisk: {}
+    zendshm: {}
 
 # Whoops
 #

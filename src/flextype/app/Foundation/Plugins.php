@@ -78,15 +78,15 @@ class Plugins
         }
 
         // Get plugins from cache or scan plugins folder and create new plugins cache item
-        if (flextype('cache')->contains($plugins_cache_id)) {
-            flextype('registry')->set('plugins', flextype('cache')->fetch($plugins_cache_id));
+        if (flextype('cache')->has($plugins_cache_id)) {
+            flextype('registry')->set('plugins', flextype('cache')->get($plugins_cache_id));
 
-            if (flextype('cache')->contains($locale)) {
-                I18n::add(flextype('cache')->fetch($locale), $locale);
+            if (flextype('cache')->has($locale)) {
+                I18n::add(flextype('cache')->get($locale), $locale);
             } else {
                 // Save plugins dictionary
                 $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
-                flextype('cache')->save($locale, $dictionary[$locale]);
+                flextype('cache')->set($locale, $dictionary[$locale]);
             }
         } else {
             // Init plugin configs
@@ -167,11 +167,11 @@ class Plugins
 
             // Save plugins list
             flextype('registry')->set('plugins', $plugins);
-            flextype('cache')->save($plugins_cache_id, $plugins);
+            flextype('cache')->set($plugins_cache_id, $plugins);
 
             // Save plugins dictionary
             $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
-            flextype('cache')->save($locale, $dictionary[$locale]);
+            flextype('cache')->set($locale, $dictionary[$locale]);
         }
 
         $this->includeEnabledPlugins();
