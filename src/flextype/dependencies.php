@@ -123,7 +123,11 @@ flextype()->container()['cache'] = static function () {
         $config = [];
 
         foreach (flextype('registry')->get('flextype.settings.cache.drivers.'. $driver_name) as $key => $value) {
-            $config[Strings::camel($key)] = $value;
+            if ($key == 'path' && in_array($driver_name, ['files', 'sqlite', 'leveldb'])) {
+                $config['path'] = (!empty($value)) ? PATH['cache'] . $value : sys_get_temp_dir();
+            } else {
+                $config[Strings::camel($key)] = $value;
+            }
         }
 
         return $config;
