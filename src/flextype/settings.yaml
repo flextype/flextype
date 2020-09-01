@@ -126,7 +126,7 @@ entries:
 
 cache:
   enabled: true
-  driver: sqlite
+  driver: auto
   drivers:
     apcu: {}
     cassandra:
@@ -164,14 +164,14 @@ cache:
     devfalse: {}
     devtrue: {}
     files:
-      path: /tmp
+      path: '/data'
       security_key: 'auto'
       htaccess: true
       secure_file_manipulation: false
       cache_file_extension: txt
       default_ttl: 900
     leveldb:
-      path: /tmp
+      path: '/data'
       security_key: 'auto'
       htaccess: true
       default_ttl: 900
@@ -180,7 +180,7 @@ cache:
       port: 11211
       sasl_user: ''
       sasl_password: ''
-      path: '/'
+      path: ''
       compress_data: false
       servers: {}
       default_ttl: 900
@@ -189,7 +189,7 @@ cache:
       port: 11211
       sasl_user: ''
       sasl_password: ''
-      path: '/'
+      path: ''
       compress_data: false
       servers: {}
       default_ttl: 900
@@ -226,7 +226,7 @@ cache:
       prefix: 'riak'
       default_ttl: 900
     sqlite:
-      path: /tmp
+      path: '/data'
       security_key: auto
       htaccess: true
       default_ttl: 900

@@ -11,7 +11,7 @@ namespace Flextype;
 
 use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
-//use Flextype\App\Foundation\Cache\Cache;
+use Flextype\Component\Strings\Strings;
 use Flextype\App\Foundation\Cors;
 use Flextype\App\Foundation\Entries\Entries;
 use Flextype\App\Foundation\Media\MediaFiles;
@@ -102,17 +102,6 @@ flextype()->container()['slugify'] = static function () {
 
 flextype()->container()['cache'] = static function () {
 
-    $drivers = [
-        'apcu' => 'Apcu',
-        'wincache' => 'Wincache',
-        'array' => 'Array',
-        'filesystem' => 'Filesystem',
-        'memcached' => 'Memcached',
-        'redis' => 'Redis',
-        'sqlite3' => 'SQLite3',
-        'zenddatacache' => 'ZendDataCache',
-    ];
-
     $driver_name = flextype('registry')->get('flextype.settings.cache.driver');
 
     if (! $driver_name || $driver_name === 'auto') {
@@ -126,47 +115,90 @@ flextype()->container()['cache'] = static function () {
     }
 
     if (flextype('registry')->get('flextype.settings.cache.enabled') === false) {
-        $driver_name = 'Devfalse';
+        $driver_name = 'devfalse';
+    }
+
+    function getDriverConfig(string $driver_name): array
+    {
+        $config = [];
+
+        foreach (flextype('registry')->get('flextype.settings.cache.drivers.'. $driver_name) as $key => $value) {
+            if ($key == 'path' && in_array($driver_name, ['files', 'sqlite', 'leveldb'])) {
+                $config['path'] = (!empty($value)) ? PATH['cache'] . $value : sys_get_temp_dir();
+            } else {
+                $config[Strings::camel($key)] = $value;
+            }
+        }
+
+        return $config;
     }
 
     switch ($driver_name) {
         case 'apcu':
-            $config = new \Phpfastcache\Drivers\Apcu\Config([]);
+            $config = new \Phpfastcache\Drivers\Apcu\Config(getDriverConfig($driver_name));
             break;
-        case 'wincache':
-            $config = new \Phpfastcache\Drivers\Wincache\Config([]);
+        case 'cassandra':
+            $config = new \Phpfastcache\Drivers\Cassandra\Config(getDriverConfig($driver_name));
+            break;
+        case 'cookie':
+            $config = new \Phpfastcache\Drivers\Cookie\Config(getDriverConfig($driver_name));
+            break;
+        case 'couchbase':
+            $config = new \Phpfastcache\Drivers\Couchbase\Config(getDriverConfig($driver_name));
+            break;
+        case 'couchdb':
+            $config = new \Phpfastcache\Drivers\Couchdb\Config(getDriverConfig($driver_name));
+            break;
+        case 'devfalse':
+            $config = new \Phpfastcache\Drivers\Devfalse\Config(getDriverConfig($driver_name));
+            break;
+        case 'devnull':
+            $config = new \Phpfastcache\Drivers\Devnull\Config(getDriverConfig($driver_name));
+            break;
+        case 'devtrue':
+            $config = new \Phpfastcache\Drivers\Devtrue\Config(getDriverConfig($driver_name));
             break;
         case 'files':
-            $config = new \Phpfastcache\Drivers\Files\Config([
-                'path' => flextype('registry')->get('flextype.cache.drivers.files.path') !=='' ? PATH['cache']  . '/' . flextype('registry')->get('flextype.cache.drivers.files.path') : sys_get_temp_dir(),
-                'secureFileManipulation' => flextype('registry')->get('flextype.settings.cache.drivers.files.secure_file_manipulation'),
-                'htaccess' => flextype('registry')->get('flextype.settings.cache.drivers.files.htaccess'),
-                'securityKey' => (string) flextype('registry')->get('flextype.settings.cache.drivers.files.security_key'),
-                'cacheFileExtension' => flextype('registry')->get('flextype.settings.cache.drivers.files.cache_file_extension'),
-                'itemDetailedDate' => flextype('registry')->get('flextype.settings.cache.drivers.files.item_detailed_date'),
-                'autoTmpFallback' => flextype('registry')->get('flextype.settings.cache.drivers.files.auto_tmp_fallback'),
-                'defaultTtl' => flextype('registry')->get('flextype.settings.cache.drivers.files.default_ttl'),
-                'defaultKeyHashFunction' => flextype('registry')->get('flextype.settings.cache.drivers.files.default_key_hash_function'),
-                'defaultFileNameHashFunction' => flextype('registry')->get('flextype.settings.cache.drivers.files.default_file_name_hash_function'),
-                'defaultChmod' => flextype('registry')->get('flextype.settings.cache.drivers.files.default_chmod'),
-                'preventCacheSlams' => flextype('registry')->get('flextype.settings.cache.drivers.files.prevent_cache_slams'),
-                'cacheSlamsTimeout' => flextype('registry')->get('flextype.settings.cache.drivers.files.cache_slams_timeout'),
-            ]);
+            $config = new \Phpfastcache\Drivers\Files\Config(getDriverConfig($driver_name));
+            break;
+        case 'leveldb':
+            $config = new \Phpfastcache\Drivers\Leveldb\Config(getDriverConfig($driver_name));
+            break;
+        case 'memcache':
+            $config = new \Phpfastcache\Drivers\Memcache\Config(getDriverConfig($driver_name));
+            break;
+        case 'memcached':
+            $config = new \Phpfastcache\Drivers\Memcached\Config(getDriverConfig($driver_name));
+            break;
+        case 'memstatic':
+            $config = new \Phpfastcache\Drivers\Memstatic\Config(getDriverConfig($driver_name));
+            break;
+        case 'mongodb':
+            $config = new \Phpfastcache\Drivers\Mongodb\Config(getDriverConfig($driver_name));
+            break;
+        case 'predis':
+            $config = new \Phpfastcache\Drivers\Predis\Config(getDriverConfig($driver_name));
+            break;
+        case 'redis':
+            $config = new \Phpfastcache\Drivers\Redis\Config(getDriverConfig($driver_name));
+            break;
+        case 'riak':
+            $config = new \Phpfastcache\Drivers\Riak\Config(getDriverConfig($driver_name));
             break;
         case 'sqlite':
-            $config = new \Phpfastcache\Drivers\Sqlite\Config([
-                'path' => flextype('registry')->get('flextype.cache.drivers.files.path') !=='' ? PATH['cache']  . '/' . flextype('registry')->get('flextype.cache.drivers.files.path') : sys_get_temp_dir(),
-                'secureFileManipulation' => flextype('registry')->get('flextype.settings.cache.drivers.files.secure_file_manipulation'),
-                'htaccess' => flextype('registry')->get('flextype.settings.cache.drivers.files.htaccess'),
-                'securityKey' => (string) flextype('registry')->get('flextype.settings.cache.drivers.files.security_key'),
-                'cacheFileExtension' => flextype('registry')->get('flextype.settings.cache.drivers.files.cache_file_extension'),
-                'itemDetailedDate' => flextype('registry')->get('flextype.settings.cache.drivers.files.item_detailed_date'),
-                'autoTmpFallback' => flextype('registry')->get('flextype.settings.cache.drivers.files.auto_tmp_fallback'),
-                'defaultTtl' => flextype('registry')->get('flextype.settings.cache.drivers.files.default_ttl'),
-                'defaultChmod' => flextype('registry')->get('flextype.settings.cache.drivers.files.default_chmod'),
-                'preventCacheSlams' => flextype('registry')->get('flextype.settings.cache.drivers.files.prevent_cache_slams'),
-                'cacheSlamsTimeout' => flextype('registry')->get('flextype.settings.cache.drivers.files.cache_slams_timeout'),
-            ]);
+            $config = new \Phpfastcache\Drivers\Sqlite\Config(getDriverConfig($driver_name));
+            break;
+        case 'ssdb':
+            $config = new \Phpfastcache\Drivers\Ssdb\Config(getDriverConfig($driver_name));
+            break;
+        case 'wincache':
+            $config = new \Phpfastcache\Drivers\Wincache\Config(getDriverConfig($driver_name));
+            break;
+        case 'zenddisk':
+            $config = new \Phpfastcache\Drivers\Zenddisk\Config(getDriverConfig($driver_name));
+            break;
+        case 'zendshm':
+            $config = new \Phpfastcache\Drivers\Zendshm\Config(getDriverConfig($driver_name));
             break;
         default:
             // code...
@@ -174,69 +206,6 @@ flextype()->container()['cache'] = static function () {
     }
 
     return new Cache($driver_name, $config);
-};
-
-
-if(flextype()->container('cache')->has('test-key')){
-    // Setter action
-
-    echo '1';
-
-
-    // Getter action
-    $data = flextype()->container('cache')->get('test-key');
-
-}else{
-    echo '2';
-
-    $data = 'lorem ipsum';
-    flextype()->container('cache')->set('test-key', 'lorem ipsum', 300);// 5 minutes
-
-}
-
-dd($data);
-
-/**
- * Adds the cache adapter to the Flextype container
- */
-flextype()->container()['cache_adapter'] = static function () {
-    $driver_name = flextype('registry')->get('flextype.settings.cache.driver');
-
-    if (! $driver_name || $driver_name === 'auto') {
-        if (extension_loaded('apcu')) {
-            $driver_name = 'apcu';
-        } elseif (extension_loaded('wincache')) {
-            $driver_name = 'wincache';
-        } else {
-            $driver_name = 'phparrayfile';
-        }
-    }
-
-    $drivers_classes = [
-        'apcu' => 'Apcu',
-        'wincache' => 'WinCache',
-        'phpfile' => 'PhpFile',
-        'phparrayfile' => 'PhpArrayFile',
-        'array' => 'Array',
-        'filesystem' => 'Filesystem',
-        'memcached' => 'Memcached',
-        'redis' => 'Redis',
-        'sqlite3' => 'SQLite3',
-        'zenddatacache' => 'ZendDataCache',
-    ];
-
-    $class_name = $drivers_classes[$driver_name];
-
-    $adapter = "Flextype\\App\\Foundation\\Cache\\{$class_name}CacheAdapter";
-
-    return new $adapter();
-};
-
-/**
- * Add cache service to Flextype container
- */
-flextype()->container()['cache'] = static function () {
-    return new Cache();
 };
 
 /**
