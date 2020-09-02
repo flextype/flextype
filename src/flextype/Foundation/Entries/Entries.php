@@ -36,7 +36,7 @@ class Entries
      * @var array
      * @access private
      */
-    public $entry = [];
+    private $entry = [];
 
     /**
      * Current entry create data array
@@ -395,7 +395,7 @@ class Entries
      * @param  string $key Key
      * @return mixed
      */
-    public function __get(string $key)
+    public function &__get(string $key)
     {
         return $this->$key;
     }
