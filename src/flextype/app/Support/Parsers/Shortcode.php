@@ -16,7 +16,7 @@ class Shortcode
     /**
      * Shortcode Fasade
      */
-    protected $shortcode;
+    private $shortcode;
 
     /**
      * Constructor

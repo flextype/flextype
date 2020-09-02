@@ -16,7 +16,7 @@ class Markdown
     /**
      * Markdown
      */
-    protected $markdown;
+    private $markdown;
 
     /**
      * Constructor

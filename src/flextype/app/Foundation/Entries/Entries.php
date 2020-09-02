@@ -26,49 +26,49 @@ class Entries
      * Current entry id
      *
      * @var string
-     * @access public
+     * @access private
      */
-    public $entry_id = null;
+    private $entry_id = null;
 
     /**
      * Current entry data array
      *
      * @var array
-     * @access public
+     * @access private
      */
-    public $entry = [];
+    private $entry = [];
 
     /**
      * Current entry create data array
      *
      * @var array
-     * @access public
+     * @access private
      */
-    public $entry_create_data = [];
+    private $entry_create_data = [];
 
     /**
      * Current entry update data array
      *
      * @var array
-     * @access public
+     * @access private
      */
-    public $entry_update_data = [];
+    private $entry_update_data = [];
 
     /**
      * Current entries data
      *
      * @var array|bool|int
-     * @access public
+     * @access private
      */
-    public $entries;
+    private $entries;
 
     /**
      * Current entries id
      *
      * @var string
-     * @access public
+     * @access private
      */
-    public $entries_id = null;
+    private $entries_id = null;
 
     /**
      * Fetch entry(entries)
@@ -387,5 +387,28 @@ class Entries
         }
 
         return md5('entry' . $entry_file);
+    }
+
+    /**
+     * Dynamically access entries properties.
+     *
+     * @param  string $key Key
+     * @return mixed
+     */
+    public function __get(string $key)
+    {
+        return $this->$key;
+    }
+
+    /**
+     * Dynamically set entries properties.
+     *
+     * @param  string $key   Key
+     * @param  mixed  $value Value
+     * @return void
+     */
+    public function __set(string $key, $value): void
+    {
+        $this->$key = $value;
     }
 }
