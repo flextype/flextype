@@ -29,6 +29,16 @@ class Markdown
     }
 
     /**
+     * Get Markdown instance
+     *
+     * @access public
+     */
+    public function getInstance()
+    {
+        return $this->markdown;
+    }
+
+    /**
      * Takes a MARKDOWN encoded string and converts it into a PHP variable.
      *
      * @param string $input A string containing MARKDOWN
@@ -62,7 +72,7 @@ class Markdown
         return $this->markdown->text($input);
     }
 
-    protected function getCacheID($input)
+    public function getCacheID($input)
     {
         return md5('markdown' . $input);
     }
