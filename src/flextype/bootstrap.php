@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Flextype\App\Foundation\Flextype;
+use Flextype\Foundation\Flextype;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Session\Session;
 use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
@@ -64,13 +64,13 @@ include_once 'dependencies.php';
 /**
  * Include API ENDPOINTS
  */
-include_once ROOT_DIR . '/src/flextype/app/Endpoints/Utils/errors.php';
-include_once ROOT_DIR . '/src/flextype/app/Endpoints/Utils/access.php';
-include_once ROOT_DIR . '/src/flextype/app/Endpoints/entries.php';
-include_once ROOT_DIR . '/src/flextype/app/Endpoints/registry.php';
-include_once ROOT_DIR . '/src/flextype/app/Endpoints/files.php';
-include_once ROOT_DIR . '/src/flextype/app/Endpoints/folders.php';
-include_once ROOT_DIR . '/src/flextype/app/Endpoints/images.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/errors.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/access.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/entries.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/registry.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/files.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/folders.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/images.php';
 
 /**
  * Set internal encoding
@@ -100,12 +100,12 @@ date_default_timezone_set(flextype('registry')->get('flextype.settings.timezone'
 /**
  * Init shortocodes
  *
- * Load Flextype Shortcodes from directory /flextype/app/Support/Parsers/Shortcodes/ based on flextype.settings.shortcode.shortcodes array
+ * Load Flextype Shortcodes from directory /flextype/Support/Parsers/Shortcodes/ based on flextype.settings.shortcode.shortcodes array
  */
 $shortcodes = flextype('registry')->get('flextype.settings.shortcode.shortcodes');
 
 foreach ($shortcodes as $shortcode_name => $shortcode) {
-    $shortcode_file_path = ROOT_DIR . '/src/flextype/app/Support/Parsers/Shortcodes/' . str_replace('_', '', ucwords($shortcode_name, '_')) . 'Shortcode.php';
+    $shortcode_file_path = ROOT_DIR . '/src/flextype/Support/Parsers/Shortcodes/' . str_replace('_', '', ucwords($shortcode_name, '_')) . 'Shortcode.php';
     if (! file_exists($shortcode_file_path)) {
         continue;
     }
@@ -116,16 +116,16 @@ foreach ($shortcodes as $shortcode_name => $shortcode) {
 /**
  * Init entries fields
  *
- * Load Flextype Entries fields from directory /flextype/app/Foundation/Entries/Fields/ based on flextype.settings.entries.fields array
+ * Load Flextype Entries fields from directory /flextype/Foundation/Entries/Fields/ based on flextype.settings.entries.fields array
  */
 $entry_fields = flextype('registry')->get('flextype.settings.entries.fields');
 
 foreach ($entry_fields as $field_name => $field) {
-    $entry_field_file_path = ROOT_DIR . '/src/flextype/app/Foundation/Entries/Fields/' . str_replace('_', '', ucwords($field_name, '_')) . 'Field.php';
+    $entry_field_file_path = ROOT_DIR . '/src/flextype/Foundation/Entries/Fields/' . str_replace('_', '', ucwords($field_name, '_')) . 'Field.php';
     if (! file_exists($entry_field_file_path)) {
         continue;
     }
-
+    
     include_once $entry_field_file_path;
 }
 

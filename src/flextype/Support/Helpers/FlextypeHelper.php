@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-use Flextype\App\Foundation\Flextype;
+use Flextype\Foundation\Flextype;
 
 if (! function_exists('flextype')) {
     /**

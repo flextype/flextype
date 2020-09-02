@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\App\Support\Parsers;
+namespace Flextype\Support\Parsers;
 
 use function md5;
 

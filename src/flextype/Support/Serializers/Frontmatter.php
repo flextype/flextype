@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\App\Support\Serializers;
+namespace Flextype\Support\Serializers;
 
 use Flextype\Component\Arrays\Arrays;
 use function array_slice;

@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\App\Foundation\Entries;
+namespace Flextype\Foundation\Entries;
 
 use Flextype\Component\Filesystem\Filesystem;
 use function array_merge;
@@ -36,7 +36,7 @@ class Entries
      * @var array
      * @access private
      */
-    private $entry = [];
+    public $entry = [];
 
     /**
      * Current entry create data array
