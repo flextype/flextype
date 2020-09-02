@@ -11,8 +11,8 @@ use Thunder\Shortcode\EventHandler\FilterRawEventHandler;
 use Thunder\Shortcode\Events;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
+// Shortcode: [raw]
 if (flextype('registry')->get('flextype.settings.shortcode.shortcodes.raw.enabled')) {
-    // Shortcode: [raw]
     flextype('shortcode')->addHandler('raw', static function (ShortcodeInterface $s) {
         return $s->getContent();
     });
