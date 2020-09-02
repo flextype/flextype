@@ -105,6 +105,11 @@ if (! function_exists('collect_filter')) {
             $collection->only($filter['only']);
         }
 
+        // Exec: group by
+        if (isset($filter['group_by'])) {
+            $collection->groupBy($filter['group_by']);
+        }
+
         // Gets a native PHP array representation of the collection.
         switch ($bind_return) {
             case 'first':

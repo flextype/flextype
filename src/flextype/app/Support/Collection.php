@@ -142,6 +142,28 @@ class Collection
     }
 
     /**
+     * The groupBy method groups the collection's items by a given key
+     *
+     * @param  string $key Key
+     *
+     * @return static
+     */
+    public function groupBy(string $key) {
+
+        $result = [];
+
+        foreach($this->collection->toArray() as $value) {
+            $result[$value[$key]][] = $value;
+        }
+
+        $this->collection = new ArrayCollection(
+            $result
+        );
+
+        return $this;
+    }
+
+    /**
      * Get a subset of the items from the given collection.
      *
      * @param  array  $array
