@@ -79,9 +79,9 @@
             "src/flextype"
         ],
         "files": [
-            "src/flextype/app/Support/Helpers/FinderHelper.php",
-            "src/flextype/app/Support/Helpers/CollectionHelper.php",
-            "src/flextype/app/Support/Helpers/FlextypeHelper.php"
+            "src/flextype/Support/Helpers/FinderHelper.php",
+            "src/flextype/Support/Helpers/CollectionHelper.php",
+            "src/flextype/Support/Helpers/FlextypeHelper.php"
         ]
     },
     "require-dev": {
