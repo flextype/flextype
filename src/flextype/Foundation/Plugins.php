@@ -378,27 +378,4 @@ class Plugins
             include_once PATH['project'] . '/plugins/' . $plugin_name . '/bootstrap.php';
         }
     }
-
-    /**
-     * Dynamically access entries properties.
-     *
-     * @param  string $key Key
-     * @return mixed
-     */
-    public function __get(string $key)
-    {
-        return $this->$key;
-    }
-
-    /**
-     * Dynamically set entries properties.
-     *
-     * @param  string $key   Key
-     * @param  mixed  $value Value
-     * @return void
-     */
-    public function __set(string $key, $value): void
-    {
-        $this->$key = $value;
-    }
 }
