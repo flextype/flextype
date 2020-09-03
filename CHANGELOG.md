@@ -1,3 +1,31 @@
+<a name="0.9.12"></a>
+# [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-09-XX)
+
+### Features
+* **markdown** get ability to access markdown parser instance ([#468](https://github.com/flextype/flextype/issues/468))
+
+    Usage:
+
+    ```php
+    $markdown = flextype('markdown')->getInstance();
+    ```
+
+* **collection** add `groupBy()` method for Collection ([#466](https://github.com/flextype/flextype/issues/466))
+
+    Usage:
+
+    ```php
+    $result = collect($entries)->groupBy('tags')->all();
+    ```
+
+### Bug Fixes
+
+* **entries** fix issue with delete method ([#465](https://github.com/flextype/flextype/issues/465))
+
+### Refactoring
+
+* **entries** remove App from all core namespaces ([#469](https://github.com/flextype/flextype/issues/469))
+
 <a name="0.9.11"></a>
 # [0.9.11](https://github.com/flextype/flextype/compare/v0.9.10...v0.9.11) (2020-08-25)
 
