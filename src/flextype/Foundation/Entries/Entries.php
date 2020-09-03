@@ -23,52 +23,15 @@ use function str_replace;
 class Entries
 {
     /**
-     * Current entry id
+     * Entries Storage
      *
-     * @var string
-     * @access private
-     */
-    private $entry_id = null;
-
-    /**
-     * Current entry data array
+     * Used for storing current requested entry(entries) data
+     * and maybe changed on fly.
      *
      * @var array
-     * @access private
+     * @access public
      */
-    private $entry = [];
-
-    /**
-     * Current entry create data array
-     *
-     * @var array
-     * @access private
-     */
-    private $entry_create_data = [];
-
-    /**
-     * Current entry update data array
-     *
-     * @var array
-     * @access private
-     */
-    private $entry_update_data = [];
-
-    /**
-     * Current entries data
-     *
-     * @var array|bool|int
-     * @access private
-     */
-    private $entries;
-
-    /**
-     * Current entries id
-     *
-     * @var string
-     * @access private
-     */
-    private $entries_id = null;
+    public $storage = [];
 
     /**
      * Fetch entry(entries)
@@ -102,27 +65,27 @@ class Entries
     public function fetchSingle(string $id) : array
     {
         // Store current requested entry id
-        $this->entry_id = $id;
+        $this->storage['fetch_single']['id'] = $id;
 
         // Get Cache ID for current requested entry
-        $entry_cache_id = $this->getCacheID($this->entry_id);
+        $entry_cache_id = $this->getCacheID($this->storage['fetch_single']['id']);
 
         // Try to get current requested entry from cache
         if (flextype('cache')->has($entry_cache_id)) {
             // Fetch entry from cache
-            $this->entry = flextype('cache')->get($entry_cache_id);
+            $this->storage['fetch_single']['data'] = flextype('cache')->get($entry_cache_id);
 
             // Run event: onEntryAfterCacheInitialized
             flextype('emitter')->emit('onEntryAfterCacheInitialized');
 
             // Return entry from cache
-            return $this->entry;
+            return $this->storage['fetch_single']['data'];
         }
 
         // Try to get current requested entry from filesystem
-        if ($this->has($this->entry_id)) {
+        if ($this->has($this->storage['fetch_single']['id'])) {
             // Get entry file location
-            $entry_file = $this->getFileLocation($this->entry_id);
+            $entry_file = $this->getFileLocation($this->storage['fetch_single']['id']);
 
             // Try to get requested entry from the filesystem
             $entry_file_content = Filesystem::read($entry_file);
@@ -131,22 +94,22 @@ class Entries
             }
 
             // Decode entry file content
-            $this->entry = flextype('frontmatter')->decode($entry_file_content);
+            $this->storage['fetch_single']['data'] = flextype('frontmatter')->decode($entry_file_content);
 
             // Run event: onEntryAfterInitialized
             flextype('emitter')->emit('onEntryAfterInitialized');
 
             // Set cache state
-            $cache = flextype('entries')->entry['cache']['enabled'] ??
+            $cache = flextype('entries')->storage['fetch_single']['data']['cache']['enabled'] ??
                                 flextype('registry')->get('flextype.settings.cache.enabled');
 
             // Save entry data to cache
             if ($cache) {
-                flextype('cache')->set($entry_cache_id, $this->entry);
+                flextype('cache')->set($entry_cache_id, $this->storage['fetch_single']['data']);
             }
 
             // Return entry data
-            return $this->entry;
+            return $this->storage['fetch_single']['data'];
         }
 
         // Return empty array if entry is not founded
@@ -166,13 +129,13 @@ class Entries
     public function fetchCollection(string $id, array $filter = [])
     {
         // Init Entries object
-        $this->entries = [];
+        $this->storage['fetch_collection']['data'] = [];
 
         // Store current requested entries id
-        $this->entries_id = $this->getDirLocation($id);
+        $this->storage['entries']['id'] = $this->getDirLocation($id);
 
         // Find entries
-        $entries_list = find_filter($this->entries_id, $filter);
+        $entries_list = find_filter($this->storage['entries']['id'], $filter);
 
         // If entries founded in the entries folder
         // We are checking... Whether the requested entry is an a true entry.
@@ -185,18 +148,18 @@ class Entries
                 }
 
                 $_id                 = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', str_replace('\\', '/', $current_entry->getPath())), '/'), '/');
-                $this->entries[$_id] = $this->fetchSingle($_id);
+                $this->storage['fetch_collection']['data'][$_id] = $this->fetchSingle($_id);
             }
 
             // Apply collection filter
-            $this->entries = collect_filter($this->entries, $filter);
+            $this->storage['fetch_collection']['data'] = collect_filter($this->storage['fetch_collection']['data'], $filter);
 
             // Run event: onEntriesAfterInitialized
             flextype('emitter')->emit('onEntriesAfterInitialized');
         }
 
         // Return entries array
-        return $this->entries;
+        return $this->storage['fetch_collection']['data'];
     }
 
     /**
@@ -211,11 +174,14 @@ class Entries
      */
     public function rename(string $id, string $new_id) : bool
     {
-        if (! Filesystem::has($this->getDirLocation($new_id))) {
-            // Run event: onEntryRename
-            flextype('emitter')->emit('onEntryRename');
+        $this->storage['rename']['id'] = $id;
+        $this->storage['rename']['new_id'] = $new_id;
 
-            return rename($this->getDirLocation($id), $this->getDirLocation($new_id));
+        // Run event: onEntryRename
+        flextype('emitter')->emit('onEntryRename');
+
+        if (! $this->has($this->storage['rename']['new_id'])) {
+            return rename($this->getDirLocation($this->storage['rename']['id']), $this->getDirLocation($this->storage['rename']['new_id']));
         }
 
         return false;
@@ -233,19 +199,20 @@ class Entries
      */
     public function update(string $id, array $data) : bool
     {
-        $entry_file = $this->getFileLocation($id);
+        // Store data
+        $this->storage['update']['id'] = $id;
+        $this->storage['update']['data'] = $data;
+
+        // Run event: onEntryUpdate
+        flextype('emitter')->emit('onEntryUpdate');
+
+        $entry_file = $this->getFileLocation($this->storage['update']['id']);
 
         if (Filesystem::has($entry_file)) {
             $body  = Filesystem::read($entry_file);
             $entry = flextype('frontmatter')->decode($body);
 
-            // Store data in the entry_update_data
-            $this->entry_update_data = $data;
-
-            // Run event: onEntryUpdate
-            flextype('emitter')->emit('onEntryUpdate');
-
-            return Filesystem::write($entry_file, flextype('frontmatter')->encode(array_merge($entry, $this->entry_update_data)));
+            return Filesystem::write($entry_file, flextype('frontmatter')->encode(array_merge($entry, $this->storage['update']['data'])));
         }
 
         return false;
@@ -263,21 +230,23 @@ class Entries
      */
     public function create(string $id, array $data) : bool
     {
-        $entry_dir = $this->getDirLocation($id);
+        // Store data
+        $this->storage['create']['id'] = $id;
+        $this->storage['create']['data'] = $data;
+
+        // Run event: onEntryCreate
+        flextype('emitter')->emit('onEntryCreate');
+
+        $entry_dir = $this->getDirLocation($this->storage['create']['id']);
 
         if (! Filesystem::has($entry_dir)) {
             // Try to create directory for new entry
             if (Filesystem::createDir($entry_dir)) {
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file = $entry_dir . '/entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension'))) {
-                    // Store data in the entry_create_data
-                    $this->entry_create_data = $data;
-
-                    // Run event: onEntryCreate
-                    flextype('emitter')->emit('onEntryCreate');
 
                     // Create a new entry!
-                    return Filesystem::write($entry_file, flextype('frontmatter')->encode($this->entry_create_data));
+                    return Filesystem::write($entry_file, flextype('frontmatter')->encode($this->storage['create']['data']));
                 }
 
                 return false;
@@ -298,10 +267,13 @@ class Entries
      */
     public function delete(string $id) : bool
     {
+        // Store data
+        $this->storage['delete']['id'] = $id;
+
         // Run event: onEntryDelete
         flextype('emitter')->emit('onEntryDelete');
 
-        return Filesystem::deleteDir($this->getDirLocation($id));
+        return Filesystem::deleteDir($this->getDirLocation($this->storage['delete']['id']));
     }
 
     /**
@@ -317,10 +289,15 @@ class Entries
      */
     public function copy(string $id, string $new_id, bool $deep = false) : ?bool
     {
+        // Store data
+        $this->storage['copy']['id'] = $id;
+        $this->storage['copy']['new_id'] = $new_id;
+        $this->storage['copy']['deep'] = $deep;
+
         // Run event: onEntryRename
         flextype('emitter')->emit('onEntryCopy');
 
-        return Filesystem::copy($this->getDirLocation($id), $this->getDirLocation($new_id), $deep);
+        return Filesystem::copy($this->getDirLocation($this->storage['copy']['id']), $this->getDirLocation($this->storage['copy']['new_id']), $this->storage['copy']['deep']);
     }
 
     /**
@@ -334,7 +311,13 @@ class Entries
      */
     public function has(string $id) : bool
     {
-        return Filesystem::has($this->getFileLocation($id));
+        // Store data
+        $this->storage['has']['id'] = $id;
+
+        // Run event: onEntryHas
+        flextype('emitter')->emit('onEntryHas');
+
+        return Filesystem::has($this->getFileLocation($this->storage['has']['id']));
     }
 
     /**
@@ -387,28 +370,5 @@ class Entries
         }
 
         return md5('entry' . $entry_file);
-    }
-
-    /**
-     * Dynamically access entries properties.
-     *
-     * @param  string $key Key
-     * @return mixed
-     */
-    public function &__get(string $key)
-    {
-        return $this->$key;
-    }
-
-    /**
-     * Dynamically set entries properties.
-     *
-     * @param  string $key   Key
-     * @param  mixed  $value Value
-     * @return void
-     */
-    public function __set(string $key, $value): void
-    {
-        $this->$key = $value;
     }
 }

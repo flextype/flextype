@@ -17,38 +17,38 @@ if (flextype('registry')->get('flextype.settings.entries.fields.parsers.enabled'
 
 function processParsersField() : void
 {
-    $cache = flextype('entries')->entry['cache']['enabled'] ??
+    $cache = flextype('entries')->storage['fetch_single']['data']['cache']['enabled'] ??
                         flextype('registry')->get('flextype.settings.cache.enabled');
 
-    if (! isset(flextype('entries')->entry['parsers'])) {
+    if (! isset(flextype('entries')->storage['fetch_single']['data']['parsers'])) {
         return;
     }
 
-    foreach (flextype('entries')->entry['parsers'] as $parser_name => $parser_data) {
+    foreach (flextype('entries')->storage['fetch_single']['data']['parsers'] as $parser_name => $parser_data) {
         if (! in_array($parser_name, ['markdown', 'shortcode'])) {
             continue;
         }
 
-        if (! isset(flextype('entries')->entry['parsers'][$parser_name]['enabled']) || flextype('entries')->entry['parsers'][$parser_name]['enabled'] !== true) {
+        if (! isset(flextype('entries')->storage['fetch_single']['data']['parsers'][$parser_name]['enabled']) || flextype('entries')->storage['fetch_single']['data']['parsers'][$parser_name]['enabled'] !== true) {
             continue;
         }
 
-        if (! isset(flextype('entries')->entry['parsers'][$parser_name]['fields'])) {
+        if (! isset(flextype('entries')->storage['fetch_single']['data']['parsers'][$parser_name]['fields'])) {
             continue;
         }
 
-        if (! is_array(flextype('entries')->entry['parsers'][$parser_name]['fields'])) {
+        if (! is_array(flextype('entries')->storage['fetch_single']['data']['parsers'][$parser_name]['fields'])) {
             continue;
         }
 
-        foreach (flextype('entries')->entry['parsers'][$parser_name]['fields'] as $field) {
+        foreach (flextype('entries')->storage['fetch_single']['data']['parsers'][$parser_name]['fields'] as $field) {
             if (in_array($field, flextype('registry')->get('flextype.settings.entries.fields'))) {
                 continue;
             }
 
             if ($parser_name === 'markdown') {
-                if (Arrays::has(flextype('entries')->entry, $field)) {
-                    Arrays::set(flextype('entries')->entry, $field, flextype('markdown')->parse(Arrays::get(flextype('entries')->entry, $field), $cache));
+                if (Arrays::has(flextype('entries')->storage['fetch_single']['data'], $field)) {
+                    Arrays::set(flextype('entries')->storage['fetch_single']['data'], $field, flextype('markdown')->parse(Arrays::get(flextype('entries')->storage['fetch_single']['data'], $field), $cache));
                 }
             }
 
@@ -56,11 +56,11 @@ function processParsersField() : void
                 continue;
             }
 
-            if (! Arrays::has(flextype('entries')->entry, $field)) {
+            if (! Arrays::has(flextype('entries')->storage['fetch_single']['data'], $field)) {
                 continue;
             }
 
-            Arrays::set(flextype('entries')->entry, $field, flextype('shortcode')->parse(Arrays::get(flextype('entries')->entry, $field), $cache));
+            Arrays::set(flextype('entries')->storage['fetch_single']['data'], $field, flextype('shortcode')->parse(Arrays::get(flextype('entries')->storage['fetch_single']['data'], $field), $cache));
         }
     }
 }

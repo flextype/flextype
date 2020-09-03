@@ -15,18 +15,18 @@ if (flextype('registry')->get('flextype.settings.entries.fields.visibility.enabl
     ];
 
     flextype('emitter')->addListener('onEntryAfterInitialized', static function () use ($visibility) : void {
-        if (isset(flextype('entries')->entry['visibility']) && in_array(flextype('entries')->entry['visibility'], $visibility)) {
-            flextype('entries')->entry['visibility'] = (string) $visibility[flextype('entries')->entry['visibility']];
+        if (isset(flextype('entries')->storage['fetch_single']['data']['visibility']) && in_array(flextype('entries')->storage['fetch_single']['data']['visibility'], $visibility)) {
+            flextype('entries')->storage['fetch_single']['data']['visibility'] = (string) $visibility[flextype('entries')->storage['fetch_single']['data']['visibility']];
         } else {
-            flextype('entries')->entry['visibility'] = (string) $visibility['visible'];
+            flextype('entries')->storage['fetch_single']['data']['visibility'] = (string) $visibility['visible'];
         }
     });
 
     flextype('emitter')->addListener('onEntryCreate', static function () use ($visibility) : void {
-        if (isset(flextype('entries')->entry_create_data['visibility']) && in_array(flextype('entries')->entry_create_data['visibility'], $visibility)) {
-            flextype('entries')->entry_create_data['visibility'] = flextype('entries')->entry_create_data['visibility'];
+        if (isset(flextype('entries')->storage['create']['data']['visibility']) && in_array(flextype('entries')->storage['create']['data']['visibility'], $visibility)) {
+            flextype('entries')->storage['create']['data']['visibility'] = flextype('entries')->storage['create']['data']['visibility'];
         } else {
-            flextype('entries')->entry_create_data['visibility'] = 'visible';
+            flextype('entries')->storage['create']['data']['visibility'] = 'visible';
         }
     });
 }
