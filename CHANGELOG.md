@@ -18,6 +18,60 @@
     $result = collect($entries)->groupBy('tags')->all();
     ```
 
+* **entries** add new public property `$storage` for storing current requested entry(entries) data and all Entries CRUD operations data in memory with ability to change them dynamically on fly. ([#467](https://github.com/flextype/flextype/issues/467))
+
+    Storage structure:
+
+    ```php
+    $storage = [
+        'fetch_single' => [
+          'id' => '',
+          'data' => '',
+        ],
+        'fetch_collection' => [
+          'id' => '',
+          'data' => '',
+        ],
+        'create' => [
+          'id' => '',
+          'data' => '',
+        ],
+        'update' => [
+          'id' => '',
+          'data' => '',
+        ],
+        'delete' => [
+          'id' => '',
+        ],
+        'copy' => [
+          'id' => '',
+          'new_id' => '',
+          'deep' => '',
+        ],
+        'rename' => [
+          'id' => '',
+          'new_id' => '',
+        ],
+        'has' => [
+          'id' => '',
+        ],
+    ];
+    ```
+
+    Accessing storage example:
+
+    ```php
+     flextype('emitter')->addListener('onEntryAfterInitialized', static function () : void {
+       flextype('entries')->storage['fetch_single']['data']['title'] = 'New title';
+     });
+
+     $entry = flextype('entries')->fetchSingle('about');
+
+     echo $entry['title'];
+     ```
+
+* **entries** add new events: `onEntryHas`, `onEntryInitialized`, `onEntriesInitialized` ([#467](https://github.com/flextype/flextype/issues/467))
+
 ### Bug Fixes
 
 * **entries** fix issue with delete method ([#465](https://github.com/flextype/flextype/issues/465))
@@ -25,6 +79,31 @@
 ### Refactoring
 
 * **entries** remove App from all core namespaces ([#469](https://github.com/flextype/flextype/issues/469))
+
+### BREAKING CHANGES
+
+* Removed properties from Entries API ([#467](https://github.com/flextype/flextype/issues/467))
+
+    ```php  
+    $entry_id
+    $entry
+    $entry_create_data
+    $entry_update_data
+    $entries_id
+    $entries
+    ```
+
+    Use dynamic `$storage` property instead.
+
+    Example:
+
+    ```php
+    // old
+    flextype('entries')->entry['title'] = 'New title';
+
+    // new
+    flextype('entries')->storage['fetch_single']['data']['title'] = 'New title';
+    ```
 
 <a name="0.9.11"></a>
 # [0.9.11](https://github.com/flextype/flextype/compare/v0.9.10...v0.9.11) (2020-08-25)
