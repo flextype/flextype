@@ -115,7 +115,7 @@ flextype()->container()['cache'] = static function () {
     }
 
     if (flextype('registry')->get('flextype.settings.cache.enabled') === false) {
-        $driver_name = 'devfalse';
+        $driver_name = 'devnull';
     }
 
     function getDriverConfig(string $driver_name): array
@@ -124,7 +124,7 @@ flextype()->container()['cache'] = static function () {
 
         foreach (flextype('registry')->get('flextype.settings.cache.drivers.'. $driver_name) as $key => $value) {
             if ($key == 'path' && in_array($driver_name, ['files', 'sqlite', 'leveldb'])) {
-                $config['path'] = (!empty($value)) ? PATH['cache'] . $value : sys_get_temp_dir();
+                $config['path'] = (!empty($value)) ? ROOT_DIR . '/var/tmp/' . $value : sys_get_temp_dir();
             } else {
                 $config[Strings::camel($key)] = $value;
             }
@@ -257,7 +257,7 @@ flextype()->container()['images'] = static function () {
 
     // Set cache filesystem
     $cache = new Filesystem(
-        new Local(PATH['cache'] . '/glide')
+        new Local(ROOT_DIR . '/var/tmp/glide')
     );
 
     // Set watermarks filesystem
