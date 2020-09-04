@@ -27,7 +27,7 @@
         "doctrine/collections": "~1.6.7",
 
         "flextype-components/arrays" : "3.0.1",
-        "flextype-components/strings" : "1.0.0",
+        "flextype-components/strings" : "1.0.1",
         "flextype-components/cookie" : "1.2.0",
         "flextype-components/filesystem" : "2.0.8",
         "flextype-components/i18n" : "1.3.0",
@@ -42,14 +42,14 @@
         "league/event": "~2.2.0",
         "league/glide": "~1.6.0",
 
-        "phpfastcache/phpfastcache": "~8.0.1",
+        "phpfastcache/phpfastcache": "~8.0.2",
 
-        "respect/validation": "~2.0.16",
+        "respect/validation": "~2.0.17",
         "monolog/monolog": "~2.1.1",
         "cocur/slugify": "~4.0.0",
         "ramsey/uuid": "~4.1.1",
-        "symfony/yaml": "~5.1.3",
-        "symfony/finder": "5.1.3",
+        "symfony/yaml": "~5.1.5",
+        "symfony/finder": "5.1.5",
 
         "bnf/slim3-psr15": "~1.1.1",
 
@@ -84,9 +84,9 @@
         ]
     },
     "require-dev": {
-        "doctrine/coding-standard": "7.0.2",
-        "victorjonsson/markdowndocs": "^1.3",
-        "phpstan/phpstan": "^0.12.34",
-        "symfony/var-dumper": "^4.4"
+        "doctrine/coding-standard": "8.1.0",
+        "victorjonsson/markdowndocs": "~1.3.8",
+        "phpstan/phpstan": "~0.12.42",
+        "symfony/var-dumper": "~5.1.5"
     }
 }
