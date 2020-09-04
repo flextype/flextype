@@ -61,14 +61,14 @@
     Accessing storage example:
 
     ```php
-     flextype('emitter')->addListener('onEntryAfterInitialized', static function () : void {
-       flextype('entries')->storage['fetch_single']['data']['title'] = 'New title';
-     });
+    flextype('emitter')->addListener('onEntryAfterInitialized', static function () : void {
+        flextype('entries')->storage['fetch_single']['data']['title'] = 'New title';
+    });
 
-     $entry = flextype('entries')->fetchSingle('about');
+    $entry = flextype('entries')->fetchSingle('about');
 
-     echo $entry['title'];
-     ```
+    echo $entry['title'];
+    ```
 
 * **entries** add new events: `onEntryHas`, `onEntryInitialized`, `onEntriesInitialized` ([#467](https://github.com/flextype/flextype/issues/467))
 
