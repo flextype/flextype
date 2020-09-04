@@ -64,8 +64,11 @@ class Entries
      */
     public function fetchSingle(string $id) : array
     {
-        // Store current requested entry id
+        // Store data
         $this->storage['fetch_single']['id'] = $id;
+
+        // Run event: onEntryInitialized
+        flextype('emitter')->emit('onEntryInitialized');
 
         // Get Cache ID for current requested entry
         $entry_cache_id = $this->getCacheID($this->storage['fetch_single']['id']);
@@ -128,14 +131,15 @@ class Entries
      */
     public function fetchCollection(string $id, array $filter = [])
     {
-        // Init Entries object
+        // Store data
+        $this->storage['fetch_collection']['id'] = $this->getDirLocation($id);
         $this->storage['fetch_collection']['data'] = [];
 
-        // Store current requested entries id
-        $this->storage['entries']['id'] = $this->getDirLocation($id);
+        // Run event: onEntriesInitialized
+        flextype('emitter')->emit('onEntriesInitialized');
 
         // Find entries
-        $entries_list = find_filter($this->storage['entries']['id'], $filter);
+        $entries_list = find_filter($this->storage['fetch_collection']['id'], $filter);
 
         // If entries founded in the entries folder
         // We are checking... Whether the requested entry is an a true entry.
@@ -174,6 +178,7 @@ class Entries
      */
     public function rename(string $id, string $new_id) : bool
     {
+        // Store data
         $this->storage['rename']['id'] = $id;
         $this->storage['rename']['new_id'] = $new_id;
 
