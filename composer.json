@@ -24,7 +24,6 @@
         "ext-mbstring": "*",
         "ext-fileinfo": "*",
 
-        "doctrine/cache": "~1.10.2",
         "doctrine/collections": "~1.6.7",
 
         "flextype-components/arrays" : "3.0.1",
