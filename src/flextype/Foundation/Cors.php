@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function count;
-use function flextype;
+use function use Flextype\Support\flextype;
 use function implode;
 
 class Cors
