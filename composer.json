@@ -36,7 +36,7 @@
         "flextype-components/session" : "1.1.1",
 
         "slim/slim": "~3.12.3",
-        "zeuxisoo/slim-whoops": "~0.6.5",
+        "filp/whoops": "~2.7.3",
 
         "league/glide-slim": "~1.0.0",
         "league/event": "~2.2.0",

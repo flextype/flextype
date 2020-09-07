@@ -12,7 +12,11 @@ namespace Flextype;
 use Flextype\Foundation\Flextype;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Session\Session;
-use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
+use Slim\Http\Environment;
+use Slim\Http\Uri;
+use Whoops\Util\Misc;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Handler\JsonResponseHandler;
 use function date_default_timezone_set;
 use function error_reporting;
 use function file_exists;
@@ -44,8 +48,6 @@ include_once ROOT_DIR . '/src/flextype/preflight.php';
 $flextype = Flextype::getInstance([
     'settings' => [
         'debug' => $registry->get('flextype.settings.errors.display'),
-        'whoops.editor' => $registry->get('flextype.settings.whoops.editor'),
-        'whoops.page_title' => $registry->get('flextype.settings.whoops.page_title'),
         'displayErrorDetails' => $registry->get('flextype.settings.display_error_details'),
         'addContentLengthHeader' => $registry->get('flextype.settings.add_content_length_header'),
         'routerCacheFile' => $registry->get('flextype.settings.router_cache_file'),
@@ -55,6 +57,56 @@ $flextype = Flextype::getInstance([
         'httpVersion' => $registry->get('flextype.settings.http_version'),
     ],
 ]);
+
+/**
+ * Display Errors
+ */
+if ($registry->get('flextype.settings.errors.display')) {
+
+    $environment = new Environment($_SERVER);
+    $uri = Uri::createFromEnvironment($environment);
+
+    $prettyPageHandler = new PrettyPageHandler();
+
+    $prettyPageHandler->setEditor($registry->get('flextype.settings.whoops.editor'));
+    $prettyPageHandler->setPageTitle($registry->get('flextype.settings.whoops.page_title'));
+
+    $prettyPageHandler->addDataTable('Flextype Application', [
+        'Application Class' => get_class(flextype()),
+        'Script Name'       => $environment->get('SCRIPT_NAME'),
+        'Request URI'       => $environment->get('PATH_INFO') ?: '<none>',
+    ]);
+
+    $prettyPageHandler->addDataTable('Flextype Application (Request)', array(
+        'Path'            => $uri->getPath(),
+        'URL'             => (string) $uri,
+        'Query String'    => $uri->getQuery() ?: '<none>',
+        'Scheme'          => $uri->getScheme() ?: '<none>',
+        'Port'            => $uri->getPort() ?: '<none>',
+        'Host'            => $uri->getHost() ?: '<none>',
+    ));
+
+    // Set Whoops to default exception handler
+    $whoops = new \Whoops\Run;
+    $whoops->pushHandler($prettyPageHandler);
+
+    // Enable JsonResponseHandler when request is AJAX
+    if (Misc::isAjaxRequest()){
+        $whoops->pushHandler(new JsonResponseHandler());
+    }
+
+    $whoops->register();
+
+    flextype()->container()['phpErrorHandler'] =
+    flextype()->container()['errorHandler'] =
+    function() use ($whoops) {
+        new WhoopsErrorHandler($whoops);
+    };
+
+    flextype()->container()['whoops'] = $whoops;
+} else {
+    error_reporting(0);
+}
 
 /**
  * Include Dependencies
@@ -78,19 +130,6 @@ include_once ROOT_DIR . '/src/flextype/Endpoints/images.php';
 function_exists('mb_language') and mb_language('uni');
 function_exists('mb_regex_encoding') and mb_regex_encoding(flextype('registry')->get('flextype.settings.charset'));
 function_exists('mb_internal_encoding') and mb_internal_encoding(flextype('registry')->get('flextype.settings.charset'));
-
-/**
- * Display Errors
- */
-if (flextype('registry')->get('flextype.settings.errors.display')) {
-
-    /**
-     * Add WhoopsMiddleware
-     */
-    flextype()->add(new WhoopsMiddleware());
-} else {
-    error_reporting(0);
-}
 
 /**
  * Set default timezone
@@ -125,7 +164,7 @@ foreach ($entry_fields as $field_name => $field) {
     if (! file_exists($entry_field_file_path)) {
         continue;
     }
-    
+
     include_once $entry_field_file_path;
 }
 
