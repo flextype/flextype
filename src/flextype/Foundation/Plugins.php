@@ -74,7 +74,7 @@ class Plugins
         $plugins_cache_id = $this->getPluginsCacheID($plugins_list);
 
         // If Plugins List isnt empty then continue
-        if (! is_array($plugins_list) || count($plugins_list) <= 0) {
+        if (count($plugins_list) <= 0) {
             return;
         }
 
