@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation;
 
+use Psr\Container\ContainerInterface;
 use Exception;
 use Slim\App;
 
