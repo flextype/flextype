@@ -9,16 +9,17 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation;
 
+use Exception;
 use Slim\App;
+
+use function is_null;
 
 class Flextype extends App
 {
     /**
      * Flextype version
-     *
-     * @var string
      */
-    const VERSION = '0.9.11';
+    public const VERSION = '0.9.11';
 
     /**
      * The Flextype's instance is stored in a static field. This field is an
@@ -32,14 +33,16 @@ class Flextype extends App
     /**
      * Flextype should not be cloneable.
      */
-    protected function __clone() { }
+    protected function __clone()
+    {
+    }
 
     /**
      * Flextype should not be restorable from strings.
      */
-    public function __wakeup()
+    public function __wakeup(): void
     {
-        throw new \Exception("Cannot unserialize a Flextype.");
+        throw new Exception('Cannot unserialize a Flextype.');
     }
 
     /**
@@ -71,21 +74,21 @@ class Flextype extends App
      *
      * @param ContainerInterface|array $container
      */
-     public static function getInstance($container = []) : Flextype
-     {
-         $cls = static::class;
-         if (!isset(self::$instances[$cls])) {
-             self::$instances[$cls] = new static($container);
-         }
+    public static function getInstance($container = []): Flextype
+    {
+        $cls = static::class;
+        if (! isset(self::$instances[$cls])) {
+            self::$instances[$cls] = new static($container);
+        }
 
-         return self::$instances[$cls];
-     }
+        return self::$instances[$cls];
+    }
 
     /**
      * Returns the current Flextype version
      */
-    public function getVersion() : string
+    public function getVersion(): string
     {
-        return static::VERSION;
+        return self::VERSION;
     }
 }
