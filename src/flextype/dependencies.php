@@ -73,7 +73,7 @@ flextype()->container()['registry'] = static function () use ($registry) {
  */
 flextype()->container()['logger'] = static function () {
     $logger = new Logger('flextype');
-    $logger->pushHandler(new StreamHandler(PATH['logs'] . '/' . date('Y-m-d') . '.log'));
+    $logger->pushHandler(new StreamHandler(PATH['tmp'] . '/logs/' . date('Y-m-d') . '.log'));
 
     return $logger;
 };
