@@ -71,8 +71,8 @@ if ($registry->get('flextype.settings.errors.display')) {
 
     $prettyPageHandler = new PrettyPageHandler();
 
-    $prettyPageHandler->setEditor($registry->get('flextype.settings.whoops.editor'));
-    $prettyPageHandler->setPageTitle($registry->get('flextype.settings.whoops.page_title'));
+    $prettyPageHandler->setEditor((string) $registry->get('flextype.settings.whoops.editor'));
+    $prettyPageHandler->setPageTitle((string) $registry->get('flextype.settings.whoops.page_title'));
 
     $prettyPageHandler->addDataTable('Flextype Application', [
         'Application Class' => get_class(flextype()),
