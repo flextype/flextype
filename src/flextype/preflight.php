@@ -8,7 +8,7 @@ use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 $flextype_manifest_file_path         = ROOT_DIR . '/src/flextype/flextype.yaml';
 $default_flextype_settings_file_path = ROOT_DIR . '/src/flextype/settings.yaml';
 $custom_flextype_settings_file_path  = PATH['project'] . '/config/flextype/settings.yaml';
-$preflight_flextype_path             = PATH['cache'] . '/preflight/flextype/';
+$preflight_flextype_path             = PATH['tmp'] . '/preflight/flextype/';
 $custom_flextype_settings_path       = PATH['project'] . '/config/flextype/';
 
 ! Filesystem::has($preflight_flextype_path) and Filesystem::createDir($preflight_flextype_path);

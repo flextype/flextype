@@ -33,8 +33,7 @@ define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
  */
 define('PATH', [
     'project'   => ROOT_DIR . '/project',
-    'cache'     => ROOT_DIR . '/var/cache',
-    'logs'      => ROOT_DIR . '/var/logs',
+    'tmp'   => ROOT_DIR . '/var/tmp',
 ]);
 
 /**
