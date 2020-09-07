@@ -20,7 +20,6 @@ use function basename;
 use function chmod;
 use function exif_read_data;
 use function explode;
-use function flextype;
 use function getimagesize;
 use function in_array;
 use function is_dir;

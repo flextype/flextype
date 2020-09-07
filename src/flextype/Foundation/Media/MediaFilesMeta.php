@@ -12,8 +12,6 @@ namespace Flextype\Foundation\Media;
 use Flextype\Component\Arrays\Arrays;
 use Flextype\Component\Filesystem\Filesystem;
 
-use function flextype;
-
 class MediaFilesMeta
 {
     /**

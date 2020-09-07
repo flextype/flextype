@@ -19,7 +19,6 @@ use function array_diff_key;
 use function array_replace_recursive;
 use function count;
 use function filemtime;
-use function flextype;
 use function is_array;
 use function md5;
 use function trim;

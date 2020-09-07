@@ -13,7 +13,6 @@ use Flextype\Component\Filesystem\Filesystem;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
 
-use function flextype;
 use function rename;
 use function str_replace;
 

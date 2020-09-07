@@ -15,7 +15,6 @@ use function array_merge;
 use function collect_filter;
 use function count;
 use function find_filter;
-use function flextype;
 use function ltrim;
 use function md5;
 use function rename;

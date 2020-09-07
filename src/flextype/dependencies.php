@@ -54,7 +54,6 @@ use Thunder\Shortcode\ShortcodeFacade;
 
 use function date;
 use function extension_loaded;
-use function flextype;
 use function in_array;
 use function sys_get_temp_dir;
 
