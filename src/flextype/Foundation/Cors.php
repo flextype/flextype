@@ -9,7 +9,11 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
 use function count;
+use function flextype;
 use function implode;
 
 class Cors
@@ -17,18 +21,18 @@ class Cors
     /**
      * Init CORS
      */
-    public function init() : void
+    public function init(): void
     {
         if (! flextype('registry')->get('flextype.settings.cors.enabled')) {
             return;
         }
 
-        flextype()->options('/{routes:.+}', function ($request, $response) {
+        flextype()->options('/{routes:.+}', function (ServerRequestInterface $request, ResponseInterface $response) {
             return $response;
         });
 
-        flextype()->add(function ($req, $res, $next) {
-            $response = $next($req, $res);
+        flextype()->add(function (ServerRequestInterface $request, ResponseInterface $response, callable $next) {
+            $response = $next($request, $response);
 
             // Set variables
             $origin      = flextype('registry')->get('flextype.settings.cors.origin');
