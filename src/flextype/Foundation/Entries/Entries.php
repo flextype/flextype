@@ -10,10 +10,12 @@ declare(strict_types=1);
 namespace Flextype\Foundation\Entries;
 
 use Flextype\Component\Filesystem\Filesystem;
+
 use function array_merge;
 use function collect_filter;
 use function count;
 use function find_filter;
+use function flextype;
 use function ltrim;
 use function md5;
 use function rename;
@@ -62,7 +64,7 @@ class Entries
      *
      * @access public
      */
-    public function fetchSingle(string $id) : array
+    public function fetchSingle(string $id): array
     {
         // Store data
         $this->storage['fetch_single']['id'] = $id;
@@ -132,7 +134,7 @@ class Entries
     public function fetchCollection(string $id, array $filter = [])
     {
         // Store data
-        $this->storage['fetch_collection']['id'] = $this->getDirLocation($id);
+        $this->storage['fetch_collection']['id']   = $this->getDirLocation($id);
         $this->storage['fetch_collection']['data'] = [];
 
         // Run event: onEntriesInitialized
@@ -151,7 +153,7 @@ class Entries
                     continue;
                 }
 
-                $_id                 = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', str_replace('\\', '/', $current_entry->getPath())), '/'), '/');
+                $_id                                             = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', str_replace('\\', '/', $current_entry->getPath())), '/'), '/');
                 $this->storage['fetch_collection']['data'][$_id] = $this->fetchSingle($_id);
             }
 
@@ -176,10 +178,10 @@ class Entries
      *
      * @access public
      */
-    public function rename(string $id, string $new_id) : bool
+    public function rename(string $id, string $new_id): bool
     {
         // Store data
-        $this->storage['rename']['id'] = $id;
+        $this->storage['rename']['id']     = $id;
         $this->storage['rename']['new_id'] = $new_id;
 
         // Run event: onEntryRename
@@ -202,10 +204,10 @@ class Entries
      *
      * @access public
      */
-    public function update(string $id, array $data) : bool
+    public function update(string $id, array $data): bool
     {
         // Store data
-        $this->storage['update']['id'] = $id;
+        $this->storage['update']['id']   = $id;
         $this->storage['update']['data'] = $data;
 
         // Run event: onEntryUpdate
@@ -233,10 +235,10 @@ class Entries
      *
      * @access public
      */
-    public function create(string $id, array $data) : bool
+    public function create(string $id, array $data): bool
     {
         // Store data
-        $this->storage['create']['id'] = $id;
+        $this->storage['create']['id']   = $id;
         $this->storage['create']['data'] = $data;
 
         // Run event: onEntryCreate
@@ -249,7 +251,6 @@ class Entries
             if (Filesystem::createDir($entry_dir)) {
                 // Check if new entry file exists
                 if (! Filesystem::has($entry_file = $entry_dir . '/entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension'))) {
-
                     // Create a new entry!
                     return Filesystem::write($entry_file, flextype('frontmatter')->encode($this->storage['create']['data']));
                 }
@@ -270,7 +271,7 @@ class Entries
      *
      * @access public
      */
-    public function delete(string $id) : bool
+    public function delete(string $id): bool
     {
         // Store data
         $this->storage['delete']['id'] = $id;
@@ -292,12 +293,12 @@ class Entries
      *
      * @access public
      */
-    public function copy(string $id, string $new_id, bool $deep = false) : ?bool
+    public function copy(string $id, string $new_id, bool $deep = false): ?bool
     {
         // Store data
-        $this->storage['copy']['id'] = $id;
+        $this->storage['copy']['id']     = $id;
         $this->storage['copy']['new_id'] = $new_id;
-        $this->storage['copy']['deep'] = $deep;
+        $this->storage['copy']['deep']   = $deep;
 
         // Run event: onEntryRename
         flextype('emitter')->emit('onEntryCopy');
@@ -314,7 +315,7 @@ class Entries
      *
      * @access public
      */
-    public function has(string $id) : bool
+    public function has(string $id): bool
     {
         // Store data
         $this->storage['has']['id'] = $id;
@@ -334,7 +335,7 @@ class Entries
      *
      * @access public
      */
-    public function getFileLocation(string $id) : string
+    public function getFileLocation(string $id): string
     {
         return PATH['project'] . '/entries/' . $id . '/entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension');
     }
@@ -348,7 +349,7 @@ class Entries
      *
      * @access public
      */
-    public function getDirLocation(string $id) : string
+    public function getDirLocation(string $id): string
     {
         return PATH['project'] . '/entries/' . $id;
     }
@@ -362,7 +363,7 @@ class Entries
      *
      * @access public
      */
-    public function getCacheID(string $id) : string
+    public function getCacheID(string $id): string
     {
         if (flextype('registry')->get('flextype.settings.cache.enabled') === false) {
             return '';
