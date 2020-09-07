@@ -9,18 +9,22 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Flextype\Foundation\Flextype;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Session\Session;
+use Flextype\Foundation\Flextype;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
-use Whoops\Util\Misc;
-use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\JsonResponseHandler;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
+use Whoops\Util\Misc;
+
 use function date_default_timezone_set;
 use function error_reporting;
 use function file_exists;
+use function flextype;
 use function function_exists;
+use function get_class;
 use function mb_internal_encoding;
 use function mb_language;
 use function mb_regex_encoding;
@@ -62,9 +66,8 @@ $flextype = Flextype::getInstance([
  * Display Errors
  */
 if ($registry->get('flextype.settings.errors.display')) {
-
     $environment = new Environment($_SERVER);
-    $uri = Uri::createFromEnvironment($environment);
+    $uri         = Uri::createFromEnvironment($environment);
 
     $prettyPageHandler = new PrettyPageHandler();
 
@@ -77,30 +80,30 @@ if ($registry->get('flextype.settings.errors.display')) {
         'Request URI'       => $environment->get('PATH_INFO') ?: '<none>',
     ]);
 
-    $prettyPageHandler->addDataTable('Flextype Application (Request)', array(
+    $prettyPageHandler->addDataTable('Flextype Application (Request)', [
         'Path'            => $uri->getPath(),
         'URL'             => (string) $uri,
         'Query String'    => $uri->getQuery() ?: '<none>',
         'Scheme'          => $uri->getScheme() ?: '<none>',
         'Port'            => $uri->getPort() ?: '<none>',
         'Host'            => $uri->getHost() ?: '<none>',
-    ));
+    ]);
 
     // Set Whoops to default exception handler
-    $whoops = new \Whoops\Run;
+    $whoops = new Run();
     $whoops->pushHandler($prettyPageHandler);
 
     // Enable JsonResponseHandler when request is AJAX
-    if (Misc::isAjaxRequest()){
+    if (Misc::isAjaxRequest()) {
         $whoops->pushHandler(new JsonResponseHandler());
     }
 
     $whoops->register();
 
     flextype()->container()['phpErrorHandler'] =
-    flextype()->container()['errorHandler'] =
-    function() use ($whoops) {
-        new WhoopsErrorHandler($whoops);
+    flextype()->container()['errorHandler']    =
+    static function () use ($whoops) {
+        return new WhoopsErrorHandler($whoops);
     };
 
     flextype()->container()['whoops'] = $whoops;

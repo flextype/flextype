@@ -48,11 +48,15 @@ use League\Glide\ServerFactory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use ParsedownExtra;
+use Phpfastcache\Drivers\Apcu\Config;
+use Phpfastcache\Helper\Psr16Adapter as Cache;
 use Thunder\Shortcode\ShortcodeFacade;
+
 use function date;
 use function extension_loaded;
-use Phpfastcache\Helper\Psr16Adapter as Cache;
-
+use function flextype;
+use function in_array;
+use function sys_get_temp_dir;
 
 /**
  * Supply a custom callable resolver, which resolves PSR-15 middlewares.
@@ -101,7 +105,6 @@ flextype()->container()['slugify'] = static function () {
 
 
 flextype()->container()['cache'] = static function () {
-
     $driver_name = flextype('registry')->get('flextype.settings.cache.driver');
 
     if (! $driver_name || $driver_name === 'auto') {
@@ -122,9 +125,9 @@ flextype()->container()['cache'] = static function () {
     {
         $config = [];
 
-        foreach (flextype('registry')->get('flextype.settings.cache.drivers.'. $driver_name) as $key => $value) {
-            if ($key == 'path' && in_array($driver_name, ['files', 'sqlite', 'leveldb'])) {
-                $config['path'] = (!empty($value)) ? PATH['tmp'] . '/' . $value : sys_get_temp_dir();
+        foreach (flextype('registry')->get('flextype.settings.cache.drivers.' . $driver_name) as $key => $value) {
+            if ($key === 'path' && in_array($driver_name, ['files', 'sqlite', 'leveldb'])) {
+                $config['path'] = ! empty($value) ? PATH['tmp'] . '/' . $value : sys_get_temp_dir();
             } else {
                 $config[Strings::camel($key)] = $value;
             }
@@ -135,7 +138,7 @@ flextype()->container()['cache'] = static function () {
 
     switch ($driver_name) {
         case 'apcu':
-            $config = new \Phpfastcache\Drivers\Apcu\Config(getDriverConfig($driver_name));
+            $config = new Config(getDriverConfig($driver_name));
             break;
         case 'cassandra':
             $config = new \Phpfastcache\Drivers\Cassandra\Config(getDriverConfig($driver_name));
@@ -276,7 +279,7 @@ flextype()->container()['images'] = static function () {
     $manipulators = [
         new Orientation(),
         new Crop(),
-        new Size(2000*2000),
+        new Size(2000 * 2000),
         new Brightness(),
         new Contrast(),
         new Gamma(),
