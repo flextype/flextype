@@ -100,12 +100,6 @@ if ($registry->get('flextype.settings.errors.display')) {
 
     $whoops->register();
 
-    flextype()->container()['phpErrorHandler'] =
-    flextype()->container()['errorHandler']    =
-    static function () use ($whoops) {
-        return new WhoopsErrorHandler($whoops);
-    };
-
     flextype()->container()['whoops'] = $whoops;
 } else {
     error_reporting(0);
