@@ -222,6 +222,10 @@ flextype()->container()['markdown'] = static function () {
     return new Markdown(new ParsedownExtra());
 };
 
+flextype('markdown')->getInstance()->setBreaksEnabled(flextype('registry')->get('flextype.settings.markdown.auto_line_breaks'));
+flextype('markdown')->getInstance()->setUrlsLinked(flextype('registry')->get('flextype.settings.markdown.auto_url_links'));
+flextype('markdown')->getInstance()->setMarkupEscaped(flextype('registry')->get('flextype.settings.markdown.escape_markup'));
+
 /**
  * Add json serializer service to Flextype container
  */
