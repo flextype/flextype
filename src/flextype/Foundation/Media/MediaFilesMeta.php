@@ -12,6 +12,8 @@ namespace Flextype\Foundation\Media;
 use Flextype\Component\Arrays\Arrays;
 use Flextype\Component\Filesystem\Filesystem;
 
+use function flextype;
+
 class MediaFilesMeta
 {
     /**
@@ -25,7 +27,7 @@ class MediaFilesMeta
      *
      * @access public
      */
-    public function update(string $id, string $field, string $value) : bool
+    public function update(string $id, string $field, string $value): bool
     {
         $file_data = flextype('yaml')->decode(Filesystem::read($this->getFileMetaLocation($id)));
 
@@ -49,7 +51,7 @@ class MediaFilesMeta
      *
      * @access public
      */
-    public function add(string $id, string $field, string $value) : bool
+    public function add(string $id, string $field, string $value): bool
     {
         $file_data = flextype('yaml')->decode(Filesystem::read($this->getFileMetaLocation($id)));
 
@@ -72,7 +74,7 @@ class MediaFilesMeta
      *
      * @access public
      */
-    public function delete(string $id, string $field) : bool
+    public function delete(string $id, string $field): bool
     {
         $file_data = flextype('yaml')->decode(Filesystem::read($this->getFileMetaLocation($id)));
 
@@ -94,7 +96,7 @@ class MediaFilesMeta
      *
      * @access public
      */
-    public function getFileMetaLocation(string $id) : string
+    public function getFileMetaLocation(string $id): string
     {
         return PATH['project'] . '/uploads/.meta/' . $id . '.yaml';
     }

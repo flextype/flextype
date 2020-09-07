@@ -20,7 +20,7 @@ class MediaFoldersMeta
      *
      * @access public
      */
-    public function getDirMetaLocation(string $id) : string
+    public function getDirMetaLocation(string $id): string
     {
         return PATH['project'] . '/uploads/.meta/' . $id;
     }

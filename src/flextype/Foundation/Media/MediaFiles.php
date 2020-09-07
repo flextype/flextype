@@ -14,10 +14,13 @@ use Intervention\Image\ImageManagerStatic as Image;
 use RuntimeException;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
+use Throwable;
+
 use function basename;
 use function chmod;
 use function exif_read_data;
 use function explode;
+use function flextype;
 use function getimagesize;
 use function in_array;
 use function is_dir;
@@ -36,6 +39,7 @@ use function strstr;
 use function strtolower;
 use function substr;
 use function time;
+
 use const DIRECTORY_SEPARATOR;
 use const PATHINFO_EXTENSION;
 use const UPLOAD_ERR_INI_SIZE;
@@ -76,22 +80,28 @@ class MediaFiles
         $exif_data = [];
 
         // Tests if a successful upload has been made.
-        if (isset($file['error'])
+        if (
+            isset($file['error'])
             and isset($file['tmp_name'])
             and $file['error'] === UPLOAD_ERR_OK
-            and is_uploaded_file($file['tmp_name'])) {
+            and is_uploaded_file($file['tmp_name'])
+        ) {
             // Tests if upload data is valid, even if no file was uploaded.
-            if (isset($file['error'])
+            if (
+                isset($file['error'])
                     and isset($file['name'])
                     and isset($file['type'])
                     and isset($file['tmp_name'])
-                    and isset($file['size'])) {
+                    and isset($file['size'])
+            ) {
                 // Test if an uploaded file is an allowed file type, by extension.
                 if (strpos($accept_file_types, strtolower(pathinfo($file['name'], PATHINFO_EXTENSION))) !== false) {
                     // Validation rule to test if an uploaded file is allowed by file size.
-                    if (($file['error'] !== UPLOAD_ERR_INI_SIZE)
+                    if (
+                        ($file['error'] !== UPLOAD_ERR_INI_SIZE)
                                   and ($file['error'] === UPLOAD_ERR_OK)
-                                  and ($file['size'] <= $max_file_size)) {
+                                  and ($file['size'] <= $max_file_size)
+                    ) {
                         // Validation rule to test if an upload is an image and, optionally, is the correct size.
                         if (in_array(mime_content_type($file['tmp_name']), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
                             function validateImage($file, $max_image_width, $max_image_height, $exact)
@@ -163,17 +173,17 @@ class MediaFiles
 
                                 // now you are able to resize the instance
                                 if (flextype('registry')->get('flextype.settings.media.image_width') > 0 && flextype('registry')->get('flextype.settings.media.image_height') > 0) {
-                                    $img->resize(flextype('registry')->get('flextype.settings.media.image_width'), flextype('registry')->get('flextype.settings.media.image_height'), static function ($constraint) : void {
+                                    $img->resize(flextype('registry')->get('flextype.settings.media.image_width'), flextype('registry')->get('flextype.settings.media.image_height'), static function ($constraint): void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
                                 } elseif (flextype('registry')->get('flextype.settings.media.image_width') > 0) {
-                                    $img->resize(flextype('registry')->get('flextype.settings.media.image_width'), null, static function ($constraint) : void {
+                                    $img->resize(flextype('registry')->get('flextype.settings.media.image_width'), null, static function ($constraint): void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
                                 } elseif (flextype('registry')->get('flextype.settings.media.image_height') > 0) {
-                                    $img->resize(null, flextype('registry')->get('flextype.settings.media.image_height'), static function ($constraint) : void {
+                                    $img->resize(null, flextype('registry')->get('flextype.settings.media.image_height'), static function ($constraint): void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
@@ -192,8 +202,7 @@ class MediaFiles
                                     foreach ($headers['COMPUTED'] as $header => $value) {
                                         $exif_data[$header] = $value;
                                     }
-                                } catch (\Exception $e) {
-
+                                } catch (Throwable $e) {
                                 }
                             }
 
@@ -229,7 +238,7 @@ class MediaFiles
      *
      * @return array A list of file(s) metadata.
      */
-    public function fetch(string $path) : array
+    public function fetch(string $path): array
     {
         // Get list if file or files for specific folder
         if (is_dir($path)) {
@@ -248,7 +257,7 @@ class MediaFiles
      *
      * @return array A file metadata.
      */
-    public function fetchSingle(string $path) : array
+    public function fetchSingle(string $path): array
     {
         $result = [];
 
@@ -281,7 +290,7 @@ class MediaFiles
      *
      * @return array A list of files metadata.
      */
-    public function fetchCollection(string $path) : array
+    public function fetchCollection(string $path): array
     {
         $result = [];
 
@@ -317,7 +326,7 @@ class MediaFiles
      *
      * @access public
      */
-    public function rename(string $id, string $new_id) : bool
+    public function rename(string $id, string $new_id): bool
     {
         if (! Filesystem::has($this->getFileLocation($new_id)) && ! Filesystem::has(flextype('media_files_meta')->getFileMetaLocation($new_id))) {
             return rename($this->getFileLocation($id), $this->getFileLocation($new_id)) && rename(flextype('media_files_meta')->getFileMetaLocation($id), flextype('media_files_meta')->getFileMetaLocation($new_id));
@@ -335,7 +344,7 @@ class MediaFiles
      *
      * @access public
      */
-    public function delete(string $id) : bool
+    public function delete(string $id): bool
     {
         return Filesystem::delete($this->getFileLocation($id)) &&
             Filesystem::delete(flextype('media_files_meta')->getFileMetaLocation($id));
@@ -350,7 +359,7 @@ class MediaFiles
      *
      * @access public
      */
-    public function has(string $id) : bool
+    public function has(string $id): bool
     {
         return Filesystem::has($this->getFileLocation($id)) &&
             Filesystem::has(flextype('media_files_meta')->getFileMetaLocation($id));
@@ -366,7 +375,7 @@ class MediaFiles
      *
      * @access public
      */
-    public function copy(string $id, string $new_id) : bool
+    public function copy(string $id, string $new_id): bool
     {
         if (! Filesystem::has($this->getFileLocation($new_id)) && ! Filesystem::has(flextype('media_files_meta')->getFileMetaLocation($new_id))) {
             Filesystem::copy(
@@ -395,7 +404,7 @@ class MediaFiles
      *
      * @access public
      */
-    public function getFileLocation(string $id) : string
+    public function getFileLocation(string $id): string
     {
         return PATH['project'] . '/uploads/' . $id;
     }
