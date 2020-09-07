@@ -10,12 +10,12 @@ declare(strict_types=1);
 use Flextype\Component\Arrays\Arrays;
 
 if (flextype('registry')->get('flextype.settings.entries.fields.parsers.enabled')) {
-    flextype('emitter')->addListener('onEntryAfterInitialized', static function () : void {
+    flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {
         processParsersField();
     });
 }
 
-function processParsersField() : void
+function processParsersField(): void
 {
     $cache = flextype('entries')->storage['fetch_single']['data']['cache']['enabled'] ??
                         flextype('registry')->get('flextype.settings.cache.enabled');
