@@ -14,10 +14,12 @@ use Flextype\Component\Arrays\Arrays;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\I18n\I18n;
 use RuntimeException;
+
 use function array_diff_key;
 use function array_replace_recursive;
 use function count;
 use function filemtime;
+use function flextype;
 use function is_array;
 use function md5;
 use function trim;
@@ -48,7 +50,7 @@ class Plugins
      *
      * @access public
      */
-    public function getLocales() : array
+    public function getLocales(): array
     {
         return $this->locales;
     }
@@ -58,7 +60,7 @@ class Plugins
      *
      * @access public
      */
-    public function init() : void
+    public function init(): void
     {
         // Set empty plugins item
         flextype('registry')->set('plugins', []);
@@ -186,7 +188,7 @@ class Plugins
      *
      * @access private
      */
-    private function getPluginsDictionary(array $plugins_list, string $locale) : array
+    private function getPluginsDictionary(array $plugins_list, string $locale): array
     {
         foreach ($plugins_list as $plugin) {
             $language_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
@@ -214,7 +216,7 @@ class Plugins
      *
      * @access private
      */
-    private function getPluginsCacheID(array $plugins_list) : string
+    private function getPluginsCacheID(array $plugins_list): string
     {
         // Plugin cache id
         $_plugins_cache_id = '';
@@ -245,7 +247,7 @@ class Plugins
      *
      * @access public
      */
-    public function getValidPluginsDependencies(array $plugins) : array
+    public function getValidPluginsDependencies(array $plugins): array
     {
         // Set verified plugins array
         $verified_plugins = [];
@@ -343,7 +345,7 @@ class Plugins
      *
      * @access public
      */
-    public function getPluginsList() : array
+    public function getPluginsList(): array
     {
         // Get Plugins List
         $plugins_list = [];
@@ -364,7 +366,7 @@ class Plugins
      *
      * @access private
      */
-    private function includeEnabledPlugins() : void
+    private function includeEnabledPlugins(): void
     {
         if (! is_array(flextype('registry')->get('plugins')) || count(flextype('registry')->get('plugins')) <= 0) {
             return;
