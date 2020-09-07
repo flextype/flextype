@@ -106,19 +106,7 @@ flextype()->container()['slugify'] = static function () {
 flextype()->container()['cache'] = static function () {
     $driver_name = flextype('registry')->get('flextype.settings.cache.driver');
 
-    if (! $driver_name || $driver_name === 'auto') {
-        if (extension_loaded('apcu')) {
-            $driver_name = 'apcu';
-        } elseif (extension_loaded('wincache')) {
-            $driver_name = 'wincache';
-        } else {
-            $driver_name = 'files';
-        }
-    }
-
-    if (flextype('registry')->get('flextype.settings.cache.enabled') === false) {
-        $driver_name = 'devnull';
-    }
+    $config = [];
 
     function getDriverConfig(string $driver_name): array
     {
@@ -133,6 +121,20 @@ flextype()->container()['cache'] = static function () {
         }
 
         return $config;
+    }
+
+    if (! $driver_name || $driver_name === 'auto') {
+        if (extension_loaded('apcu')) {
+            $driver_name = 'apcu';
+        } elseif (extension_loaded('wincache')) {
+            $driver_name = 'wincache';
+        } else {
+            $driver_name = 'files';
+        }
+    }
+
+    if (flextype('registry')->get('flextype.settings.cache.enabled') === false) {
+        $driver_name = 'devnull';
     }
 
     switch ($driver_name) {
