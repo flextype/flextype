@@ -11,14 +11,14 @@ namespace Flextype\Support\Serializers;
 
 use Flextype\Component\Arrays\Arrays;
 use Flextype\Component\Strings\Strings;
+
 use function array_slice;
 use function count;
 use function implode;
 use function ltrim;
-use function md5;
 use function preg_replace;
 use function preg_split;
-use function trim;
+
 use const PHP_EOL;
 
 class Frontmatter
@@ -30,7 +30,7 @@ class Frontmatter
      *
      * @return string A FRONTMATTER string representing the original PHP value
      */
-    public function encode($input) : string
+    public function encode($input): string
     {
         return $this->_encode($input);
     }
@@ -64,7 +64,7 @@ class Frontmatter
     /**
      * @see encode()
      */
-    protected function _encode($input) : string
+    protected function _encode($input): string
     {
         if (isset($input['content'])) {
             $content = $input['content'];
@@ -102,7 +102,7 @@ class Frontmatter
         return flextype('yaml')->decode(Strings::trim($parts[1]), false) + ['content' => Strings::trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
     }
 
-    protected function getCacheID($input)
+    protected function getCacheID($input): string
     {
         return Strings::hash('frontmatter' . $input);
     }
