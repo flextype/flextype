@@ -13,7 +13,7 @@ if (! function_exists('find')) {
     /**
      * Create a Finder instance.
      */
-    function find() : Finder
+    function find(): Finder
     {
         return new Finder();
     }
