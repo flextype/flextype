@@ -15,7 +15,7 @@ if (! function_exists('collect')) {
      *
      * @param  mixed $items Items
      */
-    function collect($items) : Collection
+    function collect($items): Collection
     {
         return new Collection($items);
     }
