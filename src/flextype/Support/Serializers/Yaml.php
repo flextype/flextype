@@ -13,6 +13,7 @@ use RuntimeException;
 use Symfony\Component\Yaml\Exception\DumpException as SymfonyYamlDumpException;
 use Symfony\Component\Yaml\Exception\ParseException as SymfonyYamlParseException;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
+use Flextype\Component\Strings\Strings;
 use function error_reporting;
 use function function_exists;
 use function ini_get;
@@ -141,6 +142,6 @@ class Yaml
 
     protected function getCacheID($input)
     {
-        return md5('yaml' . $input);
+        Strings::hash('yaml' . $input);
     }
 }
