@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Parsers;
 
-use function md5;
 use Flextype\Component\Strings\Strings;
 
 class Shortcode
@@ -112,8 +111,8 @@ class Shortcode
      *
      * @access public
      */
-    public function getCacheID(string $input) : string
+    public function getCacheID(string $input): string
     {
-        Strings::hash('shortcode' . $input);
+        return Strings::hash('shortcode' . $input);
     }
 }
