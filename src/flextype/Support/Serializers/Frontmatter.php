@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Flextype\Support\Serializers;
 
 use Flextype\Component\Arrays\Arrays;
+use Flextype\Component\Strings\Strings;
 use function array_slice;
 use function count;
 use function implode;
@@ -92,17 +93,17 @@ class Frontmatter
         $input = (string) preg_replace("/(\r\n|\r)/", "\n", $input);
 
         // Parse Frontmatter and Body
-        $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . ltrim($input));
+        $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . Strings::trimLeft($input));
 
         if (count($parts) < 3) {
-            return ['content' => trim($input)];
+            return ['content' => Strings::trim($input)];
         }
 
-        return flextype('yaml')->decode(trim($parts[1]), false) + ['content' => trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
+        return flextype('yaml')->decode(Strings::trim($parts[1]), false) + ['content' => Strings::trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
     }
 
     protected function getCacheID($input)
     {
-        return md5('frontmatter' . $input);
+        return Strings::hash('frontmatter' . $input);
     }
 }
