@@ -4,12 +4,12 @@
 ### Features
 * **cache** new cache engine - PHPFastCache ([#457](https://github.com/flextype/flextype/issues/457))
 
-    **New config for PhpFastCache**
-    https://github.com/flextype/flextype/blob/dev/src/flextype/settings.yaml#L127-L241
+    **New config for PhpFastCache**  
+    https://github.com/flextype/flextype/blob/dev/src/flextype/settings.yaml#L127-L241  
 
-    **New methods from PhpFastCache**
-    We are start using PhpFastCache PSR16 adapter
-    https://github.com/PHPSocialNetwork/phpfastcache
+    **New methods from PhpFastCache**  
+    We are start using PhpFastCache PSR16 adapter  
+    https://github.com/PHPSocialNetwork/phpfastcache   
 
 
 * **core** add new tmp constant ([#470](https://github.com/flextype/flextype/issues/470))
