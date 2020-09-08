@@ -2,6 +2,16 @@
 # [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-09-XX)
 
 ### Features
+* **cache** new cache engine - PHPFastCache ([#457](https://github.com/flextype/flextype/issues/457))
+
+    **New config for PhpFastCache**
+    https://github.com/flextype/flextype/blob/dev/src/flextype/settings.yaml#L127-L241
+
+    **New methods from PhpFastCache**
+    We are start using PhpFastCache PSR16 adapter
+    https://github.com/PHPSocialNetwork/phpfastcache
+
+
 * **core** add new tmp constant ([#470](https://github.com/flextype/flextype/issues/470))
 
     Now we have:
@@ -97,7 +107,7 @@
 
 ### BREAKING CHANGES
 
-* Removed properties from Entries API ([#467](https://github.com/flextype/flextype/issues/467))
+* **entries** removed properties from Entries API ([#467](https://github.com/flextype/flextype/issues/467))
 
     ```php  
     $entry_id
@@ -119,7 +129,7 @@
     // new
     flextype('entries')->storage['fetch_single']['data']['title'] = 'New title';
     ```
-* Removed App from all core namespaces ([#469](https://github.com/flextype/flextype/issues/469))
+* **core** Removed App from all core namespaces ([#469](https://github.com/flextype/flextype/issues/469))
 
     **We should have**
 
@@ -134,6 +144,10 @@
     ```
 
 * **core** use new `PATH['tmp']` constant instead of `PATH['cache']` and `PATH['logs']` ([#470](https://github.com/flextype/flextype/issues/470))
+
+* **cache** old cache config removed, use new config for PhpFastCache ([#457](https://github.com/flextype/flextype/issues/457))
+
+* **cache** use methods `has()` `set()` `get()` instead of `contains()` `save()` `fetch()` ([#457](https://github.com/flextype/flextype/issues/457))
 
 <a name="0.9.11"></a>
 # [0.9.11](https://github.com/flextype/flextype/compare/v0.9.10...v0.9.11) (2020-08-25)
