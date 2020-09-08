@@ -13,7 +13,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Flextype\Component\Arrays\Arrays;
+
 use function array_filter;
+use function array_flip;
+use function array_intersect_key;
 use function array_keys;
 use function array_merge;
 use function array_rand;
@@ -22,6 +25,7 @@ use function error_reporting;
 use function is_array;
 use function is_null;
 use function shuffle;
+
 use const E_NOTICE;
 
 class Collection
@@ -120,7 +124,7 @@ class Collection
      *
      * @param  mixed $items Items to collect
      */
-    public static function collect($items) : Collection
+    public static function collect($items): Collection
     {
         return new Collection($items);
     }
@@ -148,11 +152,11 @@ class Collection
      *
      * @return static
      */
-    public function groupBy(string $key) {
-
+    public function groupBy(string $key)
+    {
         $result = [];
 
-        foreach($this->collection->toArray() as $value) {
+        foreach ($this->collection->toArray() as $value) {
             $result[$value[$key]][] = $value;
         }
 
@@ -166,8 +170,8 @@ class Collection
     /**
      * Get a subset of the items from the given collection.
      *
-     * @param  array  $array
-     * @param  array|string  $keys
+     * @param  array|string $keys Keys
+     *
      * @return static
      */
     public function only($keys)
@@ -297,7 +301,7 @@ class Collection
      *
      * @access public
      */
-    public function exists() : bool
+    public function exists(): bool
     {
         return $this->count() > 0;
     }
@@ -309,7 +313,7 @@ class Collection
      *
      * @access public
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->all());
     }
@@ -321,7 +325,7 @@ class Collection
      *
      * @access public
      */
-    public function last() : array
+    public function last(): array
     {
         // Mute notices if there is no requested fields to search inside the items.
         error_reporting($errorReporting = error_reporting() & ~E_NOTICE);
@@ -348,7 +352,7 @@ class Collection
      *
      * @access public
      */
-    public function next() : array
+    public function next(): array
     {
         // Mute notices if there is no requested fields to search inside the items.
         error_reporting($errorReporting = error_reporting() & ~E_NOTICE);
@@ -375,7 +379,7 @@ class Collection
      *
      * @access public
      */
-    public function shuffle() : array
+    public function shuffle(): array
     {
         // Mute notices if there is no requested fields to search inside the items.
         error_reporting($errorReporting = error_reporting() & ~E_NOTICE);
@@ -494,7 +498,7 @@ class Collection
      *
      * @access public
      */
-    public function slice(int $offset = 0, ?int $length = null) : array
+    public function slice(int $offset = 0, ?int $length = null): array
     {
         // Mute notices if there is no requested fields to search inside the items.
         error_reporting($errorReporting = error_reporting() & ~E_NOTICE);
@@ -519,7 +523,7 @@ class Collection
      *
      * @access public
      */
-    public function all() : array
+    public function all(): array
     {
         // Mute notices if there is no requested fields to search inside the items.
         error_reporting($errorReporting = error_reporting() & ~E_NOTICE);
@@ -544,7 +548,7 @@ class Collection
      *
      * @access  protected
      */
-    protected function _isAssocArray(array $array) : bool
+    protected function _isAssocArray(array $array): bool
     {
         return (bool) count(array_filter(array_keys($array), 'is_string'));
     }
