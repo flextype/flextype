@@ -11,12 +11,13 @@ namespace Flextype\Support\Serializers;
 
 use Flextype\Component\Strings\Strings;
 use RuntimeException;
+
 use function defined;
 use function json_decode;
 use function json_encode;
 use function json_last_error;
 use function json_last_error_msg;
-use function md5;
+
 use const JSON_PRESERVE_ZERO_FRACTION;
 use const JSON_PRETTY_PRINT;
 use const JSON_UNESCAPED_SLASHES;
@@ -37,7 +38,7 @@ class Json
      *
      * @return mixed A JSON string representing the original PHP value
      */
-    public function encode($input, int $options = 0, int $depth = 512) : string
+    public function encode($input, int $options = 0, int $depth = 512): string
     {
         return $this->_encode($input, $options, $depth);
     }
@@ -76,7 +77,7 @@ class Json
     /**
      * @see Json::encode()
      */
-    public function _encode($input, $options = 0, int $depth = 512) : string
+    public function _encode($input, $options = 0, int $depth = 512): string
     {
         $options = ($options & self::ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE)
             | JSON_UNESCAPED_SLASHES
@@ -106,8 +107,8 @@ class Json
         return $value;
     }
 
-    protected function getCacheID($input)
+    protected function getCacheID($input): string
     {
-        Strings::hash('json' . $input);
+        return Strings::hash('json' . $input);
     }
 }
