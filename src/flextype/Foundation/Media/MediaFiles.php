@@ -108,7 +108,7 @@ class MediaFiles
                                 try {
                                     // Get the width and height from the uploaded image
                                     [$width, $height] = getimagesize($file['tmp_name']);
-                                } catch (ErrorException $e) {
+                                } catch (\ErrorException $e) {
                                     // Ignore read errors
                                 }
 
