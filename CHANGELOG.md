@@ -2,7 +2,13 @@
 # [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-09-XX)
 
 ### Features
-* **markdown** get ability to access markdown parser instance ([#468](https://github.com/flextype/flextype/issues/468))
+* **core** add new tmp constant ([#470](https://github.com/flextype/flextype/issues/470))
+
+    Now we have:
+
+    `PATH['tmp']` constant instead of `PATH['cache']` and `PATH['logs']`
+
+* **markdown** add ability to access markdown parser instance ([#468](https://github.com/flextype/flextype/issues/468))
 
     Usage:
 
@@ -117,6 +123,8 @@
     ```
     use Flextype\App\Foundation\Entries\Entries;
     ```
+
+* **core** use new `PATH['tmp']` constant instead of `PATH['cache']` and `PATH['logs']` ([#470](https://github.com/flextype/flextype/issues/470))
 
 <a name="0.9.11"></a>
 # [0.9.11](https://github.com/flextype/flextype/compare/v0.9.10...v0.9.11) (2020-08-25)
