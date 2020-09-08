@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Serializers;
 
+use Flextype\Component\Strings\Strings;
 use RuntimeException;
 use function defined;
 use function json_decode;
@@ -107,6 +108,6 @@ class Json
 
     protected function getCacheID($input)
     {
-        return md5('json' . $input);
+        Strings::hash('json' . $input);
     }
 }
