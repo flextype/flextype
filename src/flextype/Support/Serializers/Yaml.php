@@ -9,16 +9,16 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Serializers;
 
+use Flextype\Component\Strings\Strings;
 use RuntimeException;
 use Symfony\Component\Yaml\Exception\DumpException as SymfonyYamlDumpException;
 use Symfony\Component\Yaml\Exception\ParseException as SymfonyYamlParseException;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
-use Flextype\Component\Strings\Strings;
+
 use function error_reporting;
 use function function_exists;
 use function ini_get;
 use function ini_set;
-use function md5;
 
 class Yaml
 {
@@ -56,7 +56,7 @@ class Yaml
      *
      * @return string A YAML string representing the original PHP value
      */
-    public function encode($input, int $inline = 5, int $indent = 2, int $flags = 0) : string
+    public function encode($input, int $inline = 5, int $indent = 2, int $flags = 0): string
     {
         return $this->_encode($input, $inline, $indent, $flags);
     }
@@ -72,7 +72,7 @@ class Yaml
      *
      * @throws ParseException If the YAML is not valid
      */
-    public function decode(string $input, bool $cache = true, int $flags = 0) : array
+    public function decode(string $input, bool $cache = true, int $flags = 0): array
     {
         if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
@@ -93,7 +93,7 @@ class Yaml
     /**
      * @see encode()
      */
-    protected function _encode($input, int $inline = 5, int $indent = 2, int $flags = 0) : string
+    protected function _encode($input, int $inline = 5, int $indent = 2, int $flags = 0): string
     {
         try {
             return SymfonyYaml::dump(
@@ -110,7 +110,7 @@ class Yaml
     /**
      * @see decode()
      */
-    protected function _decode(string $input, int $flags = 0) : array
+    protected function _decode(string $input, int $flags = 0): array
     {
         // Try native PECL YAML PHP extension first if available.
         if (function_exists('yaml_parse') && $this->native) {
@@ -140,8 +140,8 @@ class Yaml
         }
     }
 
-    protected function getCacheID($input)
+    protected function getCacheID($input): string
     {
-        Strings::hash('yaml' . $input);
+        return Strings::hash('yaml' . $input);
     }
 }
