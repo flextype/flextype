@@ -14,7 +14,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use RuntimeException;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
-use Throwable;
+
 
 use function basename;
 use function chmod;
@@ -201,7 +201,7 @@ class MediaFiles
                                     foreach ($headers['COMPUTED'] as $header => $value) {
                                         $exif_data[$header] = $value;
                                     }
-                                } catch (Throwable $e) {
+                                } catch (RuntimeException $e) {
                                     // catch... @todo
                                 }
                             }
