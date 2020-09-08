@@ -104,6 +104,19 @@
     // new
     flextype('entries')->storage['fetch_single']['data']['title'] = 'New title';
     ```
+* Removed App from all core namespaces ([#469](https://github.com/flextype/flextype/issues/469))
+
+    **We should have**
+
+    ```
+    use Flextype\Foundation\Entries\Entries;
+    ```
+
+    **instead of**
+
+    ```
+    use Flextype\App\Foundation\Entries\Entries;
+    ```
 
 <a name="0.9.11"></a>
 # [0.9.11](https://github.com/flextype/flextype/compare/v0.9.10...v0.9.11) (2020-08-25)
