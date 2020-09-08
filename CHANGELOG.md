@@ -8,6 +8,15 @@
 
     `PATH['tmp']` constant instead of `PATH['cache']` and `PATH['logs']`
 
+* **markdown** add markdown basic settings ([#471](https://github.com/flextype/flextype/issues/471))
+
+    ```yaml
+    markdown:
+      auto_line_breaks: false
+      auto_url_links: false
+      escape_markup: false
+    ```
+
 * **markdown** add ability to access markdown parser instance ([#468](https://github.com/flextype/flextype/issues/468))
 
     Usage:
