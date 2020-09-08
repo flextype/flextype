@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Flextype\Support\Parsers;
 
 use function md5;
+use Flextype\Component\Strings\Strings;
 
 class Markdown
 {
@@ -74,6 +75,6 @@ class Markdown
 
     public function getCacheID($input)
     {
-        return md5('markdown' . $input);
+        Strings::hash('markdown' . $input);
     }
 }
