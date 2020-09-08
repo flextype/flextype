@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Parsers;
 
-use function md5;
 use Flextype\Component\Strings\Strings;
 
 class Markdown
@@ -47,7 +46,7 @@ class Markdown
      *
      * @return mixed The MARKDOWN converted to a PHP value
      */
-    public function parse(string $input, bool $cache = true) : string
+    public function parse(string $input, bool $cache = true): string
     {
         if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
@@ -68,13 +67,13 @@ class Markdown
     /**
      * @see parse()
      */
-    protected function _parse(string $input) : string
+    protected function _parse(string $input): string
     {
         return $this->markdown->text($input);
     }
 
-    public function getCacheID($input)
+    public function getCacheID($input): string
     {
-        Strings::hash('markdown' . $input);
+        return Strings::hash('markdown' . $input);
     }
 }
