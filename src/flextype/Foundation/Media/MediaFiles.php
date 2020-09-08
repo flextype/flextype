@@ -202,6 +202,7 @@ class MediaFiles
                                         $exif_data[$header] = $value;
                                     }
                                 } catch (Throwable $e) {
+                                    // catch... @todo
                                 }
                             }
 
