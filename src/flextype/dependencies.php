@@ -12,6 +12,7 @@ namespace Flextype;
 use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
 use Flextype\Component\Strings\Strings;
+use Odan\Session\PhpSession;
 use Flextype\Foundation\Cors;
 use Flextype\Foundation\Entries\Entries;
 use Flextype\Foundation\Media\MediaFiles;
@@ -56,6 +57,13 @@ use function date;
 use function extension_loaded;
 use function in_array;
 use function sys_get_temp_dir;
+
+/**
+ * Create a standard session hanndler
+ */
+flextype()->container()['session'] = static function () {
+    return new PhpSession();
+};
 
 /**
  * Supply a custom callable resolver, which resolves PSR-15 middlewares.

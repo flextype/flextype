@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Flextype\Component\Registry\Registry;
-use Flextype\Component\Session\Session;
 use Flextype\Foundation\Flextype;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
@@ -29,11 +28,6 @@ use function mb_language;
 use function mb_regex_encoding;
 use function str_replace;
 use function ucwords;
-
-/**
- * Start the session
- */
-Session::start();
 
 /**
  * Init Registry
@@ -108,6 +102,18 @@ if ($registry->get('flextype.settings.errors.display')) {
  * Include Dependencies
  */
 include_once 'dependencies.php';
+
+/**
+ * Set session options before you start the session
+ * Standard PHP session configuration options
+ * https://secure.php.net/manual/en/session.configuration.php
+ */
+flextype('session')->setOptions(flextype('registry')->get('flextype.settings.session'));
+
+/**
+ * Start the session
+ */
+flextype('session')->start();
 
 /**
  * Include API ENDPOINTS

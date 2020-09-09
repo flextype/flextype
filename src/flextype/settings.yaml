@@ -398,6 +398,14 @@ media:
   max_image_width: null
   max_image_height: null
 
+# Session
+#
+# Set session options before you start the session
+# Standard PHP session configuration options
+# https://secure.php.net/manual/en/session.configuration.php
+session:
+  name: Flextype
+
 # Content APIs
 api:
   entries:
