@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Flextype\Foundation\Entries;
 
 use Flextype\Component\Filesystem\Filesystem;
+use Flextype\Component\Arrays\Arrays;
 
 use function array_merge;
 use function collect_filter;
@@ -33,6 +34,16 @@ class Entries
      * @access public
      */
     public $storage = [];
+
+    public function getStorage(string $key)
+    {
+        return Arrays::get($this->storage, $key);
+    }
+
+    public function setStorage(string $key, $value)
+    {
+        Arrays::set($this->storage, $key, $value);
+    }
 
     /**
      * Fetch entry(entries)

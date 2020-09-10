@@ -10,16 +10,18 @@ declare(strict_types=1);
 
 if (flextype('registry')->get('flextype.settings.entries.fields.routable.enabled')) {
     flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {
-        flextype('entries')->storage['fetch_single']['data']['routable'] = isset(flextype('entries')->storage['fetch_single']['data']['routable']) ?
-                                                        (bool) flextype('entries')->storage['fetch_single']['data']['routable'] :
-                                                        true;
+        if (flextype('entries')->getStorage('fetch_single.data.routable') == null) {
+            flextype('entries')->setStorage('fetch_single.data.routable', true);
+        } else {
+            flextype('entries')->setStorage('fetch_single.data.routable', (bool) flextype('entries')->getStorage('create.data.routable'));
+        }
     });
 
     flextype('emitter')->addListener('onEntryCreate', static function (): void {
-        if (isset(flextype('entries')->storage['create']['data']['routable']) && is_bool(flextype('entries')->storage['create']['data']['routable'])) {
-            flextype('entries')->storage['create']['data']['routable'] = flextype('entries')->storage['create']['data']['routable'];
+        if (flextype('entries')->getStorage('create.data.routable') != null && is_bool(flextype('entries')->getStorage('create.data.routable'))) {
+            flextype('entries')->setStorage('create.data.routable', (bool) flextype('entries')->getStorage('create.data.routable'));
         } else {
-            flextype('entries')->storage['create']['data']['routable'] = true;
+            flextype('entries')->setStorage('create.data.routable', true);
         }
     });
 }

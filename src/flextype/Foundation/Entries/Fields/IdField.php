@@ -7,8 +7,12 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
+use Flextype\Component\Strings\Strings;
+
 if (flextype('registry')->get('flextype.settings.entries.fields.id.enabled')) {
     flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {
-        flextype('entries')->storage['fetch_single']['data']['id'] = isset(flextype('entries')->storage['fetch_single']['data']['id']) ? (string) flextype('entries')->storage['fetch_single']['data']['id'] : (string) ltrim(rtrim(flextype('entries')->storage['fetch_single']['id'], '/'), '/');
+        if (flextype('entries')->getStorage('fetch_single.data.id') == null) {
+            flextype('entries')->setStorage('fetch_single.data.id', (string) Strings::trimSlashes(flextype('entries')->getStorage('fetch_single.id')));
+        }
     });
 }

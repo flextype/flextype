@@ -11,6 +11,8 @@ use Flextype\Component\Filesystem\Filesystem;
 
 if (flextype('registry')->get('flextype.settings.entries.fields.modified_at.enabled')) {
     flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {
-        flextype('entries')->storage['fetch_single']['data']['modified_at'] = (int) Filesystem::getTimestamp(flextype('entries')->getFileLocation(flextype('entries')->storage['fetch_single']['id']));
+        if (flextype('entries')->getStorage('fetch_single.data.modified_at') == null) {
+            flextype('entries')->setStorage('fetch_single.data.modified_at', (int) Filesystem::getTimestamp(flextype('entries')->getFileLocation(flextype('entries')->getStorage('fetch_single.id'))));
+        }
     });
 }

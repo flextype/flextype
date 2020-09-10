@@ -15,18 +15,18 @@ if (flextype('registry')->get('flextype.settings.entries.fields.visibility.enabl
     ];
 
     flextype('emitter')->addListener('onEntryAfterInitialized', static function () use ($visibility): void {
-        if (isset(flextype('entries')->storage['fetch_single']['data']['visibility']) && in_array(flextype('entries')->storage['fetch_single']['data']['visibility'], $visibility)) {
-            flextype('entries')->storage['fetch_single']['data']['visibility'] = (string) $visibility[flextype('entries')->storage['fetch_single']['data']['visibility']];
+        if (flextype('entries')->getStorage('fetch_single.data.visibility') != null && in_array(flextype('entries')->getStorage('fetch_single.data.visibility'), $visibility)) {
+            flextype('entries')->setStorage('fetch_single.data.visibility', (string) $visibility[flextype('entries')->getStorage('fetch_single.data.visibility')]);
         } else {
-            flextype('entries')->storage['fetch_single']['data']['visibility'] = (string) $visibility['visible'];
+            flextype('entries')->setStorage('fetch_single.data.visibility', (string) $visibility['visible']);
         }
     });
 
     flextype('emitter')->addListener('onEntryCreate', static function () use ($visibility): void {
-        if (isset(flextype('entries')->storage['create']['data']['visibility']) && in_array(flextype('entries')->storage['create']['data']['visibility'], $visibility)) {
-            flextype('entries')->storage['create']['data']['visibility'] = flextype('entries')->storage['create']['data']['visibility'];
+        if (flextype('entries')->getStorage('create.data.visibility') != null && in_array(flextype('entries')->getStorage('create.data.visibility'), $visibility)) {
+            flextype('entries')->setStorage('create.data.visibility', (string) $visibility[flextype('entries')->getStorage('create.data.visibility')]);
         } else {
-            flextype('entries')->storage['create']['data']['visibility'] = 'visible';
+            flextype('entries')->setStorage('create.data.visibility', (string) $visibility['visible']);
         }
     });
 }

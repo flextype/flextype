@@ -9,10 +9,8 @@ declare(strict_types=1);
 
 if (flextype('registry')->get('flextype.settings.entries.fields.published_by.enabled')) {
     flextype('emitter')->addListener('onEntryCreate', static function (): void {
-        if (isset(flextype('entries')->storage['create']['data']['published_by'])) {
-            flextype('entries')->storage['create']['data']['published_by'] = flextype('entries')->storage['create']['data']['published_by'];
-        } else {
-            flextype('entries')->storage['create']['data']['published_by'] = '';
+        if (flextype('entries')->getStorage('create.data.published_by') == null) {
+            flextype('entries')->setStorage('create.data.published_by', '');
         }
     });
 }
