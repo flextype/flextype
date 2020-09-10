@@ -2,6 +2,8 @@
 # [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-09-XX)
 
 ### Features
+* **core** move to Odan Session ([#473](https://github.com/flextype/flextype/issues/473))
+
 * **cache** new cache engine - PHPFastCache ([#457](https://github.com/flextype/flextype/issues/457))
 
     #### New config for PhpFastCache
@@ -148,6 +150,12 @@
 * **cache** old cache config removed, use new config for PhpFastCache ([#457](https://github.com/flextype/flextype/issues/457))
 
 * **cache** use methods `has()` `set()` `get()` instead of `contains()` `save()` `fetch()` ([#457](https://github.com/flextype/flextype/issues/457))
+
+* **core** remove flextype-components/session ([#473](https://github.com/flextype/flextype/issues/473))
+
+* **core** remove flextype-components/cookie ([#473](https://github.com/flextype/flextype/issues/473))
+
+* **core** remove flextype-components/number ([#474](https://github.com/flextype/flextype/issues/474))
 
 <a name="0.9.11"></a>
 # [0.9.11](https://github.com/flextype/flextype/compare/v0.9.10...v0.9.11) (2020-08-25)
