@@ -35,11 +35,22 @@ class Entries
      */
     public $storage = [];
 
+    /**
+     * Get storage
+     *
+     * @param string Key
+     */
     public function getStorage(string $key)
     {
         return Arrays::get($this->storage, $key);
     }
 
+    /**
+     * Set storage
+     *
+     * @param string Key
+     * @param mixed  Value
+     */
     public function setStorage(string $key, $value)
     {
         Arrays::set($this->storage, $key, $value);
