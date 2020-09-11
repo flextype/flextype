@@ -17,50 +17,38 @@ if (flextype('registry')->get('flextype.settings.entries.fields.parsers.enabled'
 
 function processParsersField(): void
 {
-    $cache = flextype('entries')->storage['fetch_single']['data']['cache']['enabled'] ??
-                        flextype('registry')->get('flextype.settings.cache.enabled');
-
-    if (! isset(flextype('entries')->storage['fetch_single']['data']['parsers'])) {
-        return;
+    if (flextype('entries')->getStorage('fetch_single.data.cache.enabled') == null) {
+        $cache = false;
+    } else {
+        $cache = (bool) flextype('entries')->getStorage('fetch_single.data.cache.enabled');
     }
 
-    foreach (flextype('entries')->storage['fetch_single']['data']['parsers'] as $parser_name => $parser_data) {
-        if (! in_array($parser_name, ['markdown', 'shortcode'])) {
-            continue;
-        }
-
-        if (! isset(flextype('entries')->storage['fetch_single']['data']['parsers'][$parser_name]['enabled']) || flextype('entries')->storage['fetch_single']['data']['parsers'][$parser_name]['enabled'] !== true) {
-            continue;
-        }
-
-        if (! isset(flextype('entries')->storage['fetch_single']['data']['parsers'][$parser_name]['fields'])) {
-            continue;
-        }
-
-        if (! is_array(flextype('entries')->storage['fetch_single']['data']['parsers'][$parser_name]['fields'])) {
-            continue;
-        }
-
-        foreach (flextype('entries')->storage['fetch_single']['data']['parsers'][$parser_name]['fields'] as $field) {
-            if (in_array($field, flextype('registry')->get('flextype.settings.entries.fields'))) {
-                continue;
-            }
-
-            if ($parser_name === 'markdown') {
-                if (Arrays::has(flextype('entries')->storage['fetch_single']['data'], $field)) {
-                    Arrays::set(flextype('entries')->storage['fetch_single']['data'], $field, flextype('markdown')->parse(Arrays::get(flextype('entries')->storage['fetch_single']['data'], $field), $cache));
+    if (flextype('entries')->getStorage('fetch_single.data.parsers') != null) {
+        foreach (flextype('entries')->getStorage('fetch_single.data.parsers') as $parser_name => $parser_data) {
+            if (in_array($parser_name, ['markdown', 'shortcode'])) {
+                if (flextype('entries')->getStorage('fetch_single.data.parsers.'.$parser_name.'.enabled') === true) {
+                    if (flextype('entries')->getStorage('fetch_single.data.parsers.'.$parser_name.'.fields') != null) {
+                        if (is_array(flextype('entries')->getStorage('fetch_single.data.parsers.'.$parser_name.'.fields'))) {
+                            foreach (flextype('entries')->getStorage('fetch_single.data.parsers.'.$parser_name.'.fields') as $field) {
+                                if (! in_array($field, flextype('registry')->get('flextype.settings.entries.fields'))) {
+                                    if ($parser_name == 'markdown') {
+                                        if (Arrays::has(flextype('entries')->getStorage('fetch_single.data'), $field)) {
+                                            flextype('entries')->setStorage('fetch_single.data.'.$field,
+                                                                            flextype('markdown')->parse(flextype('entries')->getStorage('fetch_single.data.'.$field), $cache));
+                                        }
+                                    }
+                                    if ($parser_name == 'shortcode') {
+                                        if (Arrays::has(flextype('entries')->getStorage('fetch_single.data'), $field)) {
+                                            flextype('entries')->setStorage('fetch_single.data.'.$field,
+                                                                            flextype('shortcode')->process(flextype('entries')->getStorage('fetch_single.data.'.$field), $cache));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
-
-            if ($parser_name !== 'shortcode') {
-                continue;
-            }
-
-            if (! Arrays::has(flextype('entries')->storage['fetch_single']['data'], $field)) {
-                continue;
-            }
-
-            Arrays::set(flextype('entries')->storage['fetch_single']['data'], $field, flextype('shortcode')->parse(Arrays::get(flextype('entries')->storage['fetch_single']['data'], $field), $cache));
         }
     }
 }
