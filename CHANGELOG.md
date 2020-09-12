@@ -45,7 +45,7 @@
     $result = collect($entries)->groupBy('tags')->all();
     ```
 
-* **entries** add new public property `$storage` for storing current requested entry(entries) data and all Entries CRUD operations data in memory with ability to change them dynamically on fly. ([#467](https://github.com/flextype/flextype/issues/467))
+* **entries** add new private property `$storage` for storing current requested entry(entries) data and all Entries CRUD operations data in memory with ability to change them dynamically on fly. And new public methods `getStorage()` `setStorage()` ([#467](https://github.com/flextype/flextype/issues/467))
 
     Storage structure:
 
@@ -89,7 +89,7 @@
 
     ```php
     flextype('emitter')->addListener('onEntryAfterInitialized', static function () : void {
-        flextype('entries')->storage['fetch_single']['data']['title'] = 'New title';
+        flextype('entries')->setStorage('fetch_single.data.title', 'New title');
     });
 
     $entry = flextype('entries')->fetchSingle('about');
@@ -120,7 +120,7 @@
     $entries
     ```
 
-    Use dynamic `$storage` property instead.
+    Use public methods `getStorage()` `setStorage()` instead.
 
     Example:
 
@@ -129,7 +129,7 @@
     flextype('entries')->entry['title'] = 'New title';
 
     // new
-    flextype('entries')->storage['fetch_single']['data']['title'] = 'New title';
+    flextype('entries')->setStorage('fetch_single.data.title', 'New title');
     ```
 * **core** Removed App from all core namespaces ([#469](https://github.com/flextype/flextype/issues/469))
 
