@@ -33,7 +33,7 @@ class Entries
      * @var array
      * @access public
      */
-    public $storage = [];
+    private $storage = [];
 
     /**
      * Get storage
