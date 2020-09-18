@@ -31,7 +31,6 @@ However, the amount of effort needed to maintain and develop new features for th
 </table>
 
 ### Generous Backer
-* Theodore Zhvania
 
 ### Backers
 * Arseni Khramenkin
