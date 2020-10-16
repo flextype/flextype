@@ -17,7 +17,7 @@
         "issues": "https://github.com/flextype/flextype/issues"
     },
     "require": {
-        "php": ">=7.3.0",
+        "php": "^7.3 || ^8.0",
         "ext-json": "*",
         "ext-dom": "*",
         "ext-spl": "*",
