@@ -103,40 +103,7 @@ class MediaFiles
                     ) {
                         // Validation rule to test if an upload is an image and, optionally, is the correct size.
                         if (in_array(mime_content_type($file['tmp_name']), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
-                            function validateImage($file, $max_image_width, $max_image_height, $exact)
-                            {
-                                try {
-                                    // Get the width and height from the uploaded image
-                                    [$width, $height] = getimagesize($file['tmp_name']);
-                                } catch (\ErrorException $e) {
-                                    // Ignore read errors
-                                }
-
-                                if (empty($width) or empty($height)) {
-                                    // Cannot get image size, cannot validate
-                                    return false;
-                                }
-
-                                if (! $max_image_width) {
-                                    // No limit, use the image width
-                                    $max_image_width = $width;
-                                }
-
-                                if (! $max_image_height) {
-                                    // No limit, use the image height
-                                    $max_image_height = $height;
-                                }
-
-                                if ($exact) {
-                                    // Check if dimensions match exactly
-                                    return $width === $max_image_width and $height === $max_image_height;
-                                }
-
-                                // Check if size is within maximum dimensions
-                                return $width <= $max_image_width and $height <= $max_image_height;
-                            }
-
-                            if (validateImage($file, $max_image_width, $max_image_height, $exact) === false) {
+                            if ($this->validateImage($file, $max_image_width, $max_image_height, $exact) === false) {
                                 return false;
                             }
                         }
@@ -407,5 +374,41 @@ class MediaFiles
     public function getFileLocation(string $id): string
     {
         return PATH['project'] . '/uploads/' . $id;
+    }
+
+    /**
+     * Validate Image
+     */
+    protected function validateImage($file, $max_image_width, $max_image_height, $exact)
+    {
+        try {
+            // Get the width and height from the uploaded image
+            [$width, $height] = getimagesize($file['tmp_name']);
+        } catch (\ErrorException $e) {
+            // Ignore read errors
+        }
+
+        if (empty($width) or empty($height)) {
+            // Cannot get image size, cannot validate
+            return false;
+        }
+
+        if (! $max_image_width) {
+            // No limit, use the image width
+            $max_image_width = $width;
+        }
+
+        if (! $max_image_height) {
+            // No limit, use the image height
+            $max_image_height = $height;
+        }
+
+        if ($exact) {
+            // Check if dimensions match exactly
+            return $width === $max_image_width and $height === $max_image_height;
+        }
+
+        // Check if size is within maximum dimensions
+        return $width <= $max_image_width and $height <= $max_image_height;
     }
 }
