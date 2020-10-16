@@ -7,6 +7,8 @@
 
 ## INTRODUCTION
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2d7159d9372c414a99d62fe564fdea48)](https://app.codacy.com/gh/flextype/flextype?utm_source=github.com&utm_medium=referral&utm_content=flextype/flextype&utm_campaign=Badge_Grade)
+
 **Flextype** is an open-source **Hybrid Content Management System** with the freedom of a headless CMS and with the full functionality of a traditional CMS. Building this Content Management System, we focused on simplicity. To achieve this, we implemented a simple but powerful API's.
 
 With Flextype, you are in complete control. Design your data structure the way you want. Update and share your data with others and teams using version control. Flextype does not require MySQL database, because all the data are collected in a simple files. Perfect portability when changing your hosting provider. Just copy all the files from one server to another.
