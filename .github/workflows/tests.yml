@@ -1,0 +1,40 @@
+name: Tests
+
+on: ['push', 'pull_request']
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        php: ['7.3', '7.4', '8.0']
+        dependency-version: [prefer-lowest, prefer-stable]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions:  fileinfo, spl, json, dom, mbstring
+        tools: composer:v2
+        coverage: none
+
+    - name: Setup Problem Matches
+      run: |
+        echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+        echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+    - name: Install PHP 7 dependencies
+      run: composer update  --dev --${{ matrix.dependency-version }} --no-interaction --no-progress
+      if: "matrix.php < 8"
+
+    - name: Install PHP 8 dependencies
+      run: composer update  --dev --${{ matrix.dependency-version }} --ignore-platform-req=php --no-interaction --no-progress
+      if: "matrix.php >= 8"
+
+    - name: Run Tests
+      run: ./vendor/bin/pest
