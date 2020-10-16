@@ -24,7 +24,7 @@
         "ext-mbstring": "*",
         "ext-fileinfo": "*",
 
-        "doctrine/collections": "~1.6.7",
+        "doctrine/collections": "^1.6.7",
 
         "flextype-components/arrays" : "3.0.1",
         "flextype-components/filesystem" : "2.0.8",
@@ -36,31 +36,31 @@
         "atomastic/registry": "^1.0.0",
         "atomastic/strings": "^1.0.0",
 
-        "slim/slim": "~3.12.3",
+        "slim/slim": "^3.12.3",
 
-        "filp/whoops": "~2.7.3",
+        "filp/whoops": "^2.7.3",
 
-        "league/glide-slim": "~1.0.0",
-        "league/event": "~2.2.0",
-        "league/glide": "~1.6.0",
+        "league/glide-slim": "^1.0.0",
+        "league/event": "^2.2.0",
+        "league/glide": "^1.6.0",
 
-        "phpfastcache/phpfastcache": "~8.0.2",
+        "phpfastcache/phpfastcache": "^8.0.2",
 
-        "respect/validation": "~2.0.17",
-        "monolog/monolog": "~2.1.1",
-        "cocur/slugify": "~4.0.0",
-        "ramsey/uuid": "~4.1.1",
-        "symfony/yaml": "~5.1.5",
-        "symfony/finder": "5.1.5",
+        "respect/validation": "^2.0.17",
+        "monolog/monolog": "^2.1.1",
+        "cocur/slugify": "^4.0.0",
+        "ramsey/uuid": "^4.1.1",
+        "symfony/yaml": "^5.1.5",
+        "symfony/finder": "^5.1.5",
 
-        "bnf/slim3-psr15": "~1.1.1",
+        "bnf/slim3-psr15": "^1.1.1",
 
-        "erusev/parsedown": "~1.7.3",
-        "erusev/parsedown-extra": "~0.7.1",
+        "erusev/parsedown": "^1.7.3",
+        "erusev/parsedown-extra": "^0.7.1",
 
-        "thunderer/shortcode": "~0.7.4",
+        "thunderer/shortcode": "^0.7.4",
 
-        "composer/semver": "~3.0.1",
+        "composer/semver": "^3.0.1",
         "odan/session": "^4.0"
     },
     "suggest": {
@@ -80,10 +80,10 @@
         ]
     },
     "require-dev": {
-        "victorjonsson/markdowndocs": "~1.3.8",
         "doctrine/coding-standard": "8.1.0",
         "pestphp/pest": "^0.3.3",
         "phpstan/phpstan": "^0.12.42",
-        "symfony/var-dumper": "~5.1.5"
+        "symfony/var-dumper": "^5.1.5",
+        "victorjonsson/markdowndocs": "^1.3.8"
     }
 }
