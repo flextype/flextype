@@ -187,4 +187,4 @@ flextype('cors')->init();
 /**
  * Run application
  */
-flextype()->run(true);
+flextype()->run();
