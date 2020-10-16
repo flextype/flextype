@@ -134,7 +134,7 @@ class Plugins
 
                 // Check if default plugin manifest file exists
                 if (! Filesystem::has($default_plugin_manifest_file)) {
-                    RuntimeException('Load ' . $plugin['dirname'] . ' plugin manifest - failed!');
+                    throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin manifest - failed!');
                 }
 
                 // Get default plugin manifest content
