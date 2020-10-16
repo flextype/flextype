@@ -15,7 +15,7 @@ use Slim\App;
 
 use function is_null;
 
-class Flextype extends App
+final class Flextype extends App
 {
     /**
      * Flextype version
