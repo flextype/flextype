@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Flextype\Component\Registry\Registry;
+use Atomastic\Registry\Registry;
 use Flextype\Foundation\Flextype;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
@@ -32,7 +32,7 @@ use function ucwords;
 /**
  * Init Registry
  */
-$registry = new Registry();
+$registry = Registry::getInstance();
 
 /**
  * Preflight the Flextype

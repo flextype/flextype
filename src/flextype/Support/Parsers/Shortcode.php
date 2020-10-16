@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Parsers;
 
-use Flextype\Component\Strings\Strings;
+use Atomastic\Strings\Strings;
 
 class Shortcode
 {
@@ -113,6 +113,6 @@ class Shortcode
      */
     public function getCacheID(string $input): string
     {
-        return Strings::hash('shortcode' . $input);
+        return Strings::create('shortcode' . $input)->hash()->toString();
     }
 }

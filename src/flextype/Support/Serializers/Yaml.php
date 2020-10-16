@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Serializers;
 
-use Flextype\Component\Strings\Strings;
+use Atomastic\Strings\Strings;
 use RuntimeException;
 use Symfony\Component\Yaml\Exception\DumpException as SymfonyYamlDumpException;
 use Symfony\Component\Yaml\Exception\ParseException as SymfonyYamlParseException;
@@ -142,6 +142,6 @@ class Yaml
 
     protected function getCacheID($input): string
     {
-        return Strings::hash('yaml' . $input);
+        return Strings::create('yaml' . $input)->hash()->toString();
     }
 }

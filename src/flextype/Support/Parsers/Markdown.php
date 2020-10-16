@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Parsers;
 
-use Flextype\Component\Strings\Strings;
+use Atomastic\Strings\Strings;
 
 class Markdown
 {
@@ -74,6 +74,6 @@ class Markdown
 
     public function getCacheID($input): string
     {
-        return Strings::hash('markdown' . $input);
+        return Strings::create('markdown' . $input)->hash()->toString();
     }
 }

@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 use Flextype\Component\Filesystem\Filesystem;
-use Flextype\Component\Strings\Strings;
+use Atomastic\Strings\Strings;
 
 if (flextype('registry')->get('flextype.settings.entries.fields.created_at.enabled')) {
     flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {

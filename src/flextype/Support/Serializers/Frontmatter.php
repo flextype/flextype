@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Flextype\Support\Serializers;
 
 use Flextype\Component\Arrays\Arrays;
-use Flextype\Component\Strings\Strings;
+use Atomastic\Strings\Strings;
 
 use function array_slice;
 use function count;
@@ -93,17 +93,17 @@ class Frontmatter
         $input = (string) preg_replace("/(\r\n|\r)/", "\n", $input);
 
         // Parse Frontmatter and Body
-        $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . Strings::trimLeft($input));
+        $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . Strings::create($input)->trimLeft()->toString());
 
         if (count($parts) < 3) {
-            return ['content' => Strings::trim($input)];
+            return ['content' => Strings::create($input)->trim()->toString()];
         }
 
-        return flextype('yaml')->decode(Strings::trim($parts[1]), false) + ['content' => Strings::trim(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))];
+        return flextype('yaml')->decode(Strings::create($parts[1])->trim()->toString(), false) + ['content' => Strings::create(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))->trim()->toString()];
     }
 
     protected function getCacheID($input): string
     {
-        return Strings::hash('frontmatter' . $input);
+        return Strings::create('frontmatter' . $input)->hash()->toString();
     }
 }

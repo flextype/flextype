@@ -11,8 +11,9 @@ namespace Flextype;
 
 use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
-use Flextype\Component\Strings\Strings;
-use Odan\Session\PhpSession;
+use Atomastic\Strings\Strings;
+use Atomastic\Session\Session;
+use Atomastic\Filesystem\Filesystem;
 use Flextype\Foundation\Cors;
 use Flextype\Foundation\Entries\Entries;
 use Flextype\Foundation\Media\MediaFiles;
@@ -28,7 +29,7 @@ use Flextype\Support\Serializers\Yaml;
 use Intervention\Image\ImageManager;
 use League\Event\Emitter;
 use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
+use League\Flysystem\Filesystem as Flysystem;
 use League\Glide\Api\Api;
 use League\Glide\Manipulators\Background;
 use League\Glide\Manipulators\Blur;
@@ -58,11 +59,19 @@ use function extension_loaded;
 use function in_array;
 use function sys_get_temp_dir;
 
+
+/**
+ * Add filesystem service to Flextype container
+ */
+flextype()->container()['filesystem'] = static function () {
+    return new Filesystem();
+};
+
 /**
  * Create a standard session hanndler
  */
 flextype()->container()['session'] = static function () {
-    return new PhpSession();
+    return new Session();
 };
 
 /**
@@ -124,7 +133,7 @@ flextype()->container()['cache'] = static function () {
             if ($key === 'path' && in_array($driver_name, ['files', 'sqlite', 'leveldb'])) {
                 $config['path'] = ! empty($value) ? PATH['tmp'] . '/' . $value : sys_get_temp_dir();
             } else {
-                $config[Strings::camel($key)] = $value;
+                $config[Strings::create($key)->camel()->toString()] = $value;
             }
         }
 
@@ -267,17 +276,17 @@ flextype()->container()['images'] = static function () {
     $imagesSettings = ['driver' => flextype('registry')->get('flextype.settings.image.driver')];
 
     // Set source filesystem
-    $source = new Filesystem(
+    $source = new Flysystem(
         new Local(PATH['project'] . '/uploads/entries/')
     );
 
     // Set cache filesystem
-    $cache = new Filesystem(
+    $cache = new Flysystem(
         new Local(PATH['tmp'] . '/glide')
     );
 
     // Set watermarks filesystem
-    $watermarks = new Filesystem(
+    $watermarks = new Flysystem(
         new Local(PATH['project'] . '/watermarks')
     );
 

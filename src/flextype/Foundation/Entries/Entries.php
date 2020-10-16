@@ -267,13 +267,10 @@ class Entries
 
         $entry_dir = $this->getDirLocation($this->storage['create']['id']);
 
-        if (! Filesystem::has($entry_dir)) {
-            // Try to create directory for new entry
-            if (Filesystem::createDir($entry_dir)) {
-                // Check if new entry file exists
-                if (! Filesystem::has($entry_file = $entry_dir . '/entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension'))) {
-                    // Create a new entry!
-                    return Filesystem::write($entry_file, flextype('frontmatter')->encode($this->storage['create']['data']));
+        if (! flextype('filesystem')->directory($entry_dir)->exists()) {
+            if (flextype('filesystem')->directory($entry_dir)->create()) {
+                if (! flextype('filesystem')->file($entry_file = $entry_dir . '/entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension'))->exists()) {
+                    return (bool) flextype('filesystem')->file($entry_file)->put(flextype('frontmatter')->encode($this->storage['create']['data']));
                 }
 
                 return false;

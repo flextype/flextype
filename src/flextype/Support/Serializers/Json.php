@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Serializers;
 
-use Flextype\Component\Strings\Strings;
+use Atomastic\Strings\Strings;
 use RuntimeException;
 
 use function defined;
@@ -109,6 +109,6 @@ class Json
 
     protected function getCacheID($input): string
     {
-        return Strings::hash('json' . $input);
+        return Strings::create('json' . $input)->hash()->toString();
     }
 }
