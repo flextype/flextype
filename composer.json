@@ -69,13 +69,6 @@
         "ext-memcached": "Needed to support Memcached servers",
         "ext-redis": "Needed to support Redis servers"
     },
-    "config": {
-        "apcu-autoloader": true,
-        "optimize-autoloader": true,
-        "platform": {
-            "php": "7.3.0"
-        }
-    },
     "autoload": {
         "classmap": [
             "src/flextype"
