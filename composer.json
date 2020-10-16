@@ -84,6 +84,7 @@
         "doctrine/coding-standard": "8.1.0",
         "pestphp/pest": "^0.3.3",
         "phpstan/phpstan": "^0.12.42",
-        "symfony/var-dumper": "~5.1.5"
+        "symfony/var-dumper": "~5.1.5",
+        "phpunit/phpunit": "^9.4"
     }
 }
