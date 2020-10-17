@@ -79,3 +79,10 @@ test('test getFileLocation entry', function () {
     $this->assertStringContainsString('/foo/entry.md',
                           flextype('entries')->getFileLocation('foo'));
 });
+
+test('test getDirectoryLocation entry', function () {
+    flextype('entries')->create('foo', []);
+
+    $this->assertStringContainsString('/foo',
+                          flextype('entries')->getDirectoryLocation('foo'));
+});
