@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Entries;
 
-use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Arrays\Arrays;
 
 use function array_merge;
@@ -113,7 +112,7 @@ class Entries
             $entry_file = $this->getFileLocation($this->storage['fetch_single']['id']);
 
             // Try to get requested entry from the filesystem
-            $entry_file_content = Filesystem::read($entry_file);
+            $entry_file_content = flextype('filesystem')->file($entry_file)->get();
             if ($entry_file_content === false) {
                 return [];
             }
@@ -235,11 +234,11 @@ class Entries
 
         $entry_file = $this->getFileLocation($this->storage['update']['id']);
 
-        if (Filesystem::has($entry_file)) {
-            $body  = Filesystem::read($entry_file);
+        if (flextype('filesystem')->file($entry_file)->exists()) {
+            $body  = flextype('filesystem')->file($entry_file)->get();
             $entry = flextype('frontmatter')->decode($body);
 
-            return Filesystem::write($entry_file, flextype('frontmatter')->encode(array_merge($entry, $this->storage['update']['data'])));
+            return (bool) flextype('filesystem')->file($entry_file)->put(flextype('frontmatter')->encode(array_merge($entry, $this->storage['update']['data'])));
         }
 
         return false;
@@ -338,7 +337,7 @@ class Entries
         // Run event: onEntryHas
         flextype('emitter')->emit('onEntryHas');
 
-        return Filesystem::has($this->getFileLocation($this->storage['has']['id']));
+        return flextype('filesystem')->file($this->getFileLocation($this->storage['has']['id']))->exists();
     }
 
     /**
