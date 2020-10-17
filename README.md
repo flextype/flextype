@@ -1,7 +1,7 @@
 <img src="https://images2.imgbox.com/49/8d/4ipHqUcj_o.jpg" alt="Flextype" align="center">
 
 <p align="center">
-<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version&color=black"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?color=black" alt="Total downloads"></a> <a href="https://scrutinizer-ci.com/g/flextype/flextype?branch=master"><img src="https://img.shields.io/scrutinizer/g/flextype/flextype.svg?branch=master&color=black" alt="Quality Score"></a> <img src="https://github.com/atomastic/strings/workflows/Static%20Analysis/badge.svg?branch=dev"> <img src="https://github.com/atomastic/strings/workflows/Tests/badge.svg"> <a href="https://codeclimate.com/github/flextype/flextype/maintainability"><img src="https://api.codeclimate.com/v1/badges/5ba8b0c7dc4fecf738d0/maintainability" /></a>  <a href="https://app.codacy.com/gh/flextype/flextype?utm_source=github.com&utm_medium=referral&utm_content=flextype/flextype&utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/2d7159d9372c414a99d62fe564fdea48"></a> <a href="https://flextype.org/en/discord"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat" alt="Discord"></a>
+<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version&color=black"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?color=black" alt="Total downloads"></a> <img src="https://github.com/atomastic/strings/workflows/Static%20Analysis/badge.svg?branch=dev"> <img src="https://github.com/atomastic/strings/workflows/Tests/badge.svg"> <a href="https://codeclimate.com/github/flextype/flextype/maintainability"><img src="https://api.codeclimate.com/v1/badges/5ba8b0c7dc4fecf738d0/maintainability" /></a>  <a href="https://app.codacy.com/gh/flextype/flextype?utm_source=github.com&utm_medium=referral&utm_content=flextype/flextype&utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/2d7159d9372c414a99d62fe564fdea48"></a> <a href="https://flextype.org/en/discord"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat" alt="Discord"></a>
 </p>
 <br>
 
@@ -109,7 +109,6 @@ If you need help with Git or our workflow, please ask in our community chat. We 
 #### DOCS
 
 You may help us to create amazing knowledge base for Flextype. Fix spelling, add code examples, help organize, write new articles, and etc...
-
 
 ## SPONSORS
 
