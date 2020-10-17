@@ -95,6 +95,7 @@ test('test getDirectoryLocation entry', function () {
 });
 
 test('test getCacheID entry', function () {
+    flextype('registry')->set('flextype.settings.cache.enabled', false);
     flextype('entries')->create('foo', []);
     $this->assertEquals('', flextype('entries')->getCacheID('foo'));
 
