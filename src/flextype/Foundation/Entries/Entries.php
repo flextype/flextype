@@ -297,7 +297,7 @@ class Entries
         // Run event: onEntryDelete
         flextype('emitter')->emit('onEntryDelete');
 
-        return Filesystem::deleteDir($this->getDirLocation($this->storage['delete']['id']));
+        return flextype('filesystem')->directory($this->getDirLocation($this->storage['delete']['id']))->delete();
     }
 
     /**
@@ -305,23 +305,21 @@ class Entries
      *
      * @param string $id     Unique identifier of the entry(entries).
      * @param string $new_id New Unique identifier of the entry(entries).
-     * @param bool   $deep   Recursive copy entries.
      *
      * @return bool|null True on success, false on failure.
      *
      * @access public
      */
-    public function copy(string $id, string $new_id, bool $deep = false): ?bool
+    public function copy(string $id, string $new_id): ?bool
     {
         // Store data
         $this->storage['copy']['id']     = $id;
         $this->storage['copy']['new_id'] = $new_id;
-        $this->storage['copy']['deep']   = $deep;
 
         // Run event: onEntryRename
         flextype('emitter')->emit('onEntryCopy');
 
-        return Filesystem::copy($this->getDirLocation($this->storage['copy']['id']), $this->getDirLocation($this->storage['copy']['new_id']), $this->storage['copy']['deep']);
+        return flextype('filesystem')->directory($this->getDirLocation($this->storage['copy']['id']))->copy($this->getDirLocation($this->storage['copy']['new_id']));
     }
 
     /**
