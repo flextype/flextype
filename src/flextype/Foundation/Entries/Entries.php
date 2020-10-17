@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Entries;
 
-use Flextype\Component\Arrays\Arrays;
+use Atomastic\Arrays\Arrays;
 
 use function array_merge;
 use function collect_filter;
@@ -40,7 +40,7 @@ class Entries
      */
     public function getStorage(string $key)
     {
-        return Arrays::get($this->storage, $key);
+        return arrays($this->storage)->get($key);
     }
 
     /**
@@ -51,7 +51,7 @@ class Entries
      */
     public function setStorage(string $key, $value)
     {
-        Arrays::set($this->storage, $key, $value);
+        $this->storage = arrays($this->storage)->set($key, $value)->toArray();
     }
 
     /**
