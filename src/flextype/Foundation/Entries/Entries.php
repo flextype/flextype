@@ -190,7 +190,7 @@ class Entries
     }
 
     /**
-     * Rename entry
+     * Move entry
      *
      * @param string $id     Unique identifier of the entry(entries).
      * @param string $new_id New Unique identifier of the entry(entries).
@@ -199,17 +199,17 @@ class Entries
      *
      * @access public
      */
-    public function rename(string $id, string $new_id): bool
+    public function move(string $id, string $new_id): bool
     {
         // Store data
-        $this->storage['rename']['id']     = $id;
-        $this->storage['rename']['new_id'] = $new_id;
+        $this->storage['move']['id']     = $id;
+        $this->storage['move']['new_id'] = $new_id;
 
         // Run event: onEntryRename
-        flextype('emitter')->emit('onEntryRename');
+        flextype('emitter')->emit('onEntryMove');
 
-        if (! $this->has($this->storage['rename']['new_id'])) {
-            return rename($this->getDirectoryLocation($this->storage['rename']['id']), $this->getDirectoryLocation($this->storage['rename']['new_id']));
+        if (! $this->has($this->storage['move']['new_id'])) {
+            return flextype('filesystem')->directory($this->getDirectoryLocation($this->storage['move']['id']))->move($this->getDirectoryLocation($this->storage['move']['new_id']));
         }
 
         return false;
