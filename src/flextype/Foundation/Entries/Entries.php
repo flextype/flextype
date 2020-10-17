@@ -18,7 +18,6 @@ use function count;
 use function find_filter;
 use function ltrim;
 use function md5;
-use function rename;
 use function rtrim;
 use function str_replace;
 
@@ -205,7 +204,7 @@ class Entries
         $this->storage['move']['id']     = $id;
         $this->storage['move']['new_id'] = $new_id;
 
-        // Run event: onEntryRename
+        // Run event: onEntryMove
         flextype('emitter')->emit('onEntryMove');
 
         if (! $this->has($this->storage['move']['new_id'])) {
@@ -316,7 +315,7 @@ class Entries
         $this->storage['copy']['id']     = $id;
         $this->storage['copy']['new_id'] = $new_id;
 
-        // Run event: onEntryRename
+        // Run event: onEntryCopy
         flextype('emitter')->emit('onEntryCopy');
 
         return flextype('filesystem')->directory($this->getDirectoryLocation($this->storage['copy']['id']))->copy($this->getDirectoryLocation($this->storage['copy']['new_id']));
