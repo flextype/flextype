@@ -7,8 +7,6 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-use Flextype\Component\Arrays\Arrays;
-
 if (flextype('registry')->get('flextype.settings.entries.fields.parsers.enabled')) {
     flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {
         processParsersField();
@@ -32,13 +30,13 @@ function processParsersField(): void
                             foreach (flextype('entries')->getStorage('fetch_single.data.parsers.'.$parser_name.'.fields') as $field) {
                                 if (! in_array($field, flextype('registry')->get('flextype.settings.entries.fields'))) {
                                     if ($parser_name == 'markdown') {
-                                        if (Arrays::has(flextype('entries')->getStorage('fetch_single.data'), $field)) {
+                                        if (arrays(flextype('entries')->getStorage('fetch_single.data'))->has($field)) {
                                             flextype('entries')->setStorage('fetch_single.data.'.$field,
                                                                             flextype('markdown')->parse(flextype('entries')->getStorage('fetch_single.data.'.$field), $cache));
                                         }
                                     }
                                     if ($parser_name == 'shortcode') {
-                                        if (Arrays::has(flextype('entries')->getStorage('fetch_single.data'), $field)) {
+                                        if (arrays(flextype('entries')->getStorage('fetch_single.data'))->has($field)) {
                                             flextype('entries')->setStorage('fetch_single.data.'.$field,
                                                                             flextype('shortcode')->process(flextype('entries')->getStorage('fetch_single.data.'.$field), $cache));
                                         }
