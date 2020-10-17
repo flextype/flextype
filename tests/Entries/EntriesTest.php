@@ -53,3 +53,25 @@ test('test fetch collection entry', function () {
     $fetch = flextype('entries')->fetchCollection('foo');
     $this->assertTrue(count($fetch) > 0);
 });
+
+test('test copy entry', function () {
+    // 1
+    flextype('entries')->create('foo', []);
+    flextype('entries')->create('foo/bar', []);
+    flextype('entries')->create('foo/baz', []);
+
+    flextype('entries')->create('zed', []);
+    flextype('entries')->copy('foo', 'zed');
+
+    $this->assertTrue(flextype('entries')->has('zed'));
+});
+
+test('test delete entry', function () {
+    // 1
+    flextype('entries')->create('foo', []);
+    flextype('entries')->create('foo/bar', []);
+    flextype('entries')->create('foo/baz', []);
+
+    $this->assertTrue(flextype('entries')->delete('foo'));
+    $this->assertFalse(flextype('entries')->has('foo'));
+});
