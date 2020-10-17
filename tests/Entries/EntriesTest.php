@@ -94,3 +94,14 @@ test('test getDirectoryLocation entry', function () {
     $this->assertStringContainsString('/foo',
                           flextype('entries')->getDirectoryLocation('foo'));
 });
+
+test('test getCacheID entry', function () {
+    flextype('entries')->create('foo', []);
+    $this->assertEquals('', flextype('entries')->getCacheID('foo'));
+
+    flextype('registry')->set('flextype.settings.cache.enabled', true);
+    flextype('entries')->create('bar', []);
+    $cache_id = flextype('entries')->getCacheID('bar');
+    $this->assertEquals(32, strlen($cache_id));
+    flextype('registry')->set('flextype.settings.cache.enabled', false);
+});
