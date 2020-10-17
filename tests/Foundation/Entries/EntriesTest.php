@@ -29,7 +29,7 @@ test('test update single entry', function () {
     $this->assertFalse(flextype('entries')->update('bar', ['title' => 'Test']));
 });
 
-test('test fetch single entry', function () {
+test('test fetch entry', function () {
     // 1
     flextype('entries')->create('foo', []);
     $fetch = flextype('entries')->fetch('foo');
@@ -41,6 +41,28 @@ test('test fetch single entry', function () {
     // 3
     flextype('entries')->create('zed', ['title' => 'Zed']);
     $fetch = flextype('entries')->fetch('zed');
+    $this->assertEquals('Zed', $fetch['title']);
+
+    // 4
+    flextype('entries')->create('foo', []);
+    flextype('entries')->create('foo/bar', []);
+    flextype('entries')->create('foo/baz', []);
+    $fetch = flextype('entries')->fetch('foo', true);
+    $this->assertTrue(count($fetch) > 0);
+});
+
+test('test fetch single entry', function () {
+    // 1
+    flextype('entries')->create('foo', []);
+    $fetch = flextype('entries')->fetchSingle('foo');
+    $this->assertTrue(count($fetch) > 0);
+
+    // 2
+    $this->assertEquals([], flextype('entries')->fetchSingle('bar'));
+
+    // 3
+    flextype('entries')->create('zed', ['title' => 'Zed']);
+    $fetch = flextype('entries')->fetchSingle('zed');
     $this->assertEquals('Zed', $fetch['title']);
 });
 
