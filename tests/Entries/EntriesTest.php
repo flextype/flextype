@@ -105,3 +105,10 @@ test('test getCacheID entry', function () {
     $this->assertEquals(32, strlen($cache_id));
     flextype('registry')->set('flextype.settings.cache.enabled', false);
 });
+
+test('test setStorage and getStorage entry', function () {
+    flextype('entries')->setStorage('foo', ['title' => 'Foo']);
+    flextype('entries')->setStorage('bar', ['title' => 'Bar']);
+    $this->assertEquals('Foo', flextype('entries')->getStorage('foo')['title']);
+    $this->assertEquals('Bar', flextype('entries')->getStorage('bar')['title']);
+});
