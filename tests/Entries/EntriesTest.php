@@ -1,7 +1,6 @@
 <?php
 
 use Flextype\Component\Filesystem\Filesystem;
-use Atomastic\Strings\Strings;
 
 beforeEach(function() {
     filesystem()->directory(PATH['project'] . '/entries')->create();
