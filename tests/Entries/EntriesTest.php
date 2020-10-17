@@ -46,7 +46,6 @@ test('test fetch single entry', function () {
 });
 
 test('test fetch collection entry', function () {
-    // 1
     flextype('entries')->create('foo', []);
     flextype('entries')->create('foo/bar', []);
     flextype('entries')->create('foo/baz', []);
@@ -55,7 +54,6 @@ test('test fetch collection entry', function () {
 });
 
 test('test copy entry', function () {
-    // 1
     flextype('entries')->create('foo', []);
     flextype('entries')->create('foo/bar', []);
     flextype('entries')->create('foo/baz', []);
@@ -67,11 +65,17 @@ test('test copy entry', function () {
 });
 
 test('test delete entry', function () {
-    // 1
     flextype('entries')->create('foo', []);
     flextype('entries')->create('foo/bar', []);
     flextype('entries')->create('foo/baz', []);
 
     $this->assertTrue(flextype('entries')->delete('foo'));
     $this->assertFalse(flextype('entries')->has('foo'));
+});
+
+test('test getFileLocation entry', function () {
+    flextype('entries')->create('foo', []);
+
+    $this->assertStringContainsString('/foo/entry.md',
+                          flextype('entries')->getFileLocation('foo'));
 });
