@@ -73,6 +73,14 @@ test('test delete entry', function () {
     $this->assertFalse(flextype('entries')->has('foo'));
 });
 
+test('test move entry', function () {
+    flextype('entries')->create('foo', []);
+
+    $this->assertTrue(flextype('entries')->move('foo', 'bar'));
+    $this->assertTrue(flextype('entries')->has('bar'));
+    $this->assertFalse(flextype('entries')->has('foo'));
+});
+
 test('test getFileLocation entry', function () {
     flextype('entries')->create('foo', []);
 
