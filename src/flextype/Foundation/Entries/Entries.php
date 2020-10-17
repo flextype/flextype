@@ -155,7 +155,7 @@ class Entries
     public function fetchCollection(string $id, array $filter = [])
     {
         // Store data
-        $this->storage['fetch_collection']['id']   = $this->getDirLocation($id);
+        $this->storage['fetch_collection']['id']   = $this->getDirectoryLocation($id);
         $this->storage['fetch_collection']['data'] = [];
 
         // Run event: onEntriesInitialized
@@ -209,7 +209,7 @@ class Entries
         flextype('emitter')->emit('onEntryRename');
 
         if (! $this->has($this->storage['rename']['new_id'])) {
-            return rename($this->getDirLocation($this->storage['rename']['id']), $this->getDirLocation($this->storage['rename']['new_id']));
+            return rename($this->getDirectoryLocation($this->storage['rename']['id']), $this->getDirectoryLocation($this->storage['rename']['new_id']));
         }
 
         return false;
@@ -265,7 +265,7 @@ class Entries
         // Run event: onEntryCreate
         flextype('emitter')->emit('onEntryCreate');
 
-        $entry_dir = $this->getDirLocation($this->storage['create']['id']);
+        $entry_dir = $this->getDirectoryLocation($this->storage['create']['id']);
 
         if (! flextype('filesystem')->directory($entry_dir)->exists()) {
             if (flextype('filesystem')->directory($entry_dir)->create()) {
@@ -297,7 +297,7 @@ class Entries
         // Run event: onEntryDelete
         flextype('emitter')->emit('onEntryDelete');
 
-        return flextype('filesystem')->directory($this->getDirLocation($this->storage['delete']['id']))->delete();
+        return flextype('filesystem')->directory($this->getDirectoryLocation($this->storage['delete']['id']))->delete();
     }
 
     /**
@@ -319,7 +319,7 @@ class Entries
         // Run event: onEntryRename
         flextype('emitter')->emit('onEntryCopy');
 
-        return flextype('filesystem')->directory($this->getDirLocation($this->storage['copy']['id']))->copy($this->getDirLocation($this->storage['copy']['new_id']));
+        return flextype('filesystem')->directory($this->getDirectoryLocation($this->storage['copy']['id']))->copy($this->getDirectoryLocation($this->storage['copy']['new_id']));
     }
 
     /**
@@ -365,7 +365,7 @@ class Entries
      *
      * @access public
      */
-    public function getDirLocation(string $id): string
+    public function getDirectoryLocation(string $id): string
     {
         return PATH['project'] . '/entries/' . $id;
     }
