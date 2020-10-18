@@ -25,3 +25,9 @@ test('test copy() method', function () {
     $this->assertTrue(flextype('media_folders')->create('foo'));
     $this->assertTrue(flextype('media_folders')->copy('foo', 'bar'));
 });
+
+test('test delete() method', function () {
+    $this->assertTrue(flextype('media_folders')->create('foo'));
+    $this->assertTrue(flextype('media_folders')->delete('foo'));
+    $this->assertFalse(flextype('media_folders')->delete('bar'));
+});
