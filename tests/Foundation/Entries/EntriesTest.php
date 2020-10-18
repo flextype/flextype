@@ -10,26 +10,26 @@ afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
-test('test create single entry', function () {
+test('test create() method', function () {
     $this->assertTrue(flextype('entries')->create('foo', []));
     $this->assertFalse(flextype('entries')->create('foo', []));
 });
 
-test('test has single entry', function () {
+test('test has()', function () {
     flextype('entries')->create('foo', []);
 
     $this->assertTrue(flextype('entries')->has('foo'));
     $this->assertFalse(flextype('entries')->has('bar'));
 });
 
-test('test update single entry', function () {
+test('test update() method', function () {
     flextype('entries')->create('foo', []);
 
     $this->assertTrue(flextype('entries')->update('foo', ['title' => 'Test']));
     $this->assertFalse(flextype('entries')->update('bar', ['title' => 'Test']));
 });
 
-test('test fetch entry', function () {
+test('test fetch() method', function () {
     // 1
     flextype('entries')->create('foo', []);
     $fetch = flextype('entries')->fetch('foo');
@@ -51,7 +51,7 @@ test('test fetch entry', function () {
     $this->assertTrue(count($fetch) > 0);
 });
 
-test('test fetch single entry', function () {
+test('test fetchSingle() method', function () {
     // 1
     flextype('entries')->create('foo', []);
     $fetch = flextype('entries')->fetchSingle('foo');
@@ -66,7 +66,7 @@ test('test fetch single entry', function () {
     $this->assertEquals('Zed', $fetch['title']);
 });
 
-test('test fetch collection entry', function () {
+test('test fetchCollection() method', function () {
     flextype('entries')->create('foo', []);
     flextype('entries')->create('foo/bar', []);
     flextype('entries')->create('foo/baz', []);
@@ -74,7 +74,7 @@ test('test fetch collection entry', function () {
     $this->assertTrue(count($fetch) > 0);
 });
 
-test('test copy entry', function () {
+test('test copy() method', function () {
     flextype('entries')->create('foo', []);
     flextype('entries')->create('foo/bar', []);
     flextype('entries')->create('foo/baz', []);
@@ -85,7 +85,7 @@ test('test copy entry', function () {
     $this->assertTrue(flextype('entries')->has('zed'));
 });
 
-test('test delete entry', function () {
+test('test delete() method', function () {
     flextype('entries')->create('foo', []);
     flextype('entries')->create('foo/bar', []);
     flextype('entries')->create('foo/baz', []);
@@ -94,7 +94,7 @@ test('test delete entry', function () {
     $this->assertFalse(flextype('entries')->has('foo'));
 });
 
-test('test move entry', function () {
+test('test move() method', function () {
     flextype('entries')->create('foo', []);
 
     $this->assertTrue(flextype('entries')->move('foo', 'bar'));
@@ -102,7 +102,7 @@ test('test move entry', function () {
     $this->assertFalse(flextype('entries')->has('foo'));
 });
 
-test('test getFileLocation entry', function () {
+test('test getFileLocation() method', function () {
     flextype('entries')->create('foo', []);
 
     $this->assertStringContainsString('/foo/entry.md',
