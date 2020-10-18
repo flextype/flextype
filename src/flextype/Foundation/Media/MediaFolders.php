@@ -96,8 +96,10 @@ class MediaFolders
      */
     public function create(string $id): bool
     {
-        if (! Filesystem::has($this->getDirLocation($id)) && ! Filesystem::has(flextype('media_folders_meta')->getDirMetaLocation($id))) {
-            return Filesystem::createDir($this->getDirLocation($id)) && Filesystem::createDir(flextype('media_folders_meta')->getDirMetaLocation($id));
+        if (! flextype('filesystem')->directory($this->getDirLocation($id))->exists() &&
+            ! flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($id))->exists()) {
+            return flextype('filesystem')->directory($this->getDirLocation($id))->create() &&
+                   flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($id))->create();
         }
 
         return false;
