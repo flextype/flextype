@@ -10,7 +10,7 @@ afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
-test('test PublishedByField', function () {
+test('test SlugField', function () {
     flextype('entries')->create('foo', []);
     $slug = flextype('entries')->fetch('foo')['slug'];
     $this->assertEquals('foo', $slug);
