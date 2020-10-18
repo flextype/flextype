@@ -10,7 +10,7 @@ afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
-test('test ParsersFieldTest', function () {
+test('test ParsersField', function () {
     flextype('entries')->create('foo', ['content' => '#Foo', 'parsers' => ['markdown' => ['enabled' => true, 'fields' => ['content']]]]);
     $this->assertEquals('<h1>Foo</h1>', flextype('entries')->fetch('foo')['content']);
 

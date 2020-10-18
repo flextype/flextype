@@ -10,7 +10,7 @@ afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
-test('test IdFieldTest', function () {
+test('test IdField', function () {
     flextype('entries')->create('foo', []);
     $id = flextype('entries')->fetch('foo')['id'];
     $this->assertEquals('foo', $id);
