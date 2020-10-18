@@ -254,7 +254,7 @@ class Entries
      *
      * @access public
      */
-    public function create(string $id, array $data): bool
+    public function create(string $id, array $data = []): bool
     {
         // Store data
         $this->storage['create']['id']   = $id;
