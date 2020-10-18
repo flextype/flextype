@@ -32,7 +32,7 @@ test('test delete() method', function () {
     $this->assertFalse(flextype('media_folders')->delete('bar'));
 });
 
-test('test getDirectoryLocation entry', function () {
+test('test getDirectoryLocation() method', function () {
     $this->assertTrue(flextype('media_folders')->create('foo'));
     $this->assertStringContainsString('/foo',
                           flextype('media_folders')->getDirectoryLocation('foo'));
