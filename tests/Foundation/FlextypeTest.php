@@ -15,7 +15,7 @@ afterEach(function (): void {
 });
 
 test('test getVersion() method', function () {
-    $this->assertTrue(!Strings::create(flextype()->getVersion())->isEmpty());
+    $this->assertTrue(!Strings::create(Flextype::getInstance()->getVersion())->isEmpty());
 });
 
 test('test getInstance() method', function () {
