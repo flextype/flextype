@@ -164,8 +164,8 @@ class MediaFolders
      */
     public function delete(string $id): bool
     {
-        return Filesystem::deleteDir($this->getDirLocation($id)) &&
-            Filesystem::deleteDir(flextype('media_folders_meta')->getDirMetaLocation($id));
+        return flextype('filesystem')->directory($this->getDirLocation($id))->delete() &&
+               flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($id))->delete();
     }
 
     /**
