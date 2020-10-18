@@ -138,18 +138,14 @@ class MediaFolders
      */
     public function copy(string $id, string $new_id): bool
     {
-        if (! Filesystem::has($this->getDirLocation($new_id)) && ! Filesystem::has(flextype('media_folders_meta')->getDirMetaLocation($new_id))) {
-            Filesystem::copy(
-                $this->getDirLocation($id),
-                $this->getDirLocation($new_id),
-                true
-            );
-            Filesystem::copy(
-                flextype('media_folders_meta')->getDirMetaLocation($id),
-                flextype('media_folders_meta')->getDirMetaLocation($new_id),
-                true
-            );
-
+        if ((flextype('filesystem')->directory($this->getDirLocation($new_id))->exists() === false &&
+             flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($new_id))->exists() === false)) {
+            flextype('filesystem')
+                ->directory($this->getDirLocation($id))
+                ->copy($this->getDirLocation($new_id));
+            flextype('filesystem')
+                ->directory(flextype('media_folders_meta')->getDirMetaLocation($id))
+                ->copy(flextype('media_folders_meta')->getDirMetaLocation($new_id));
             return Filesystem::has($this->getDirLocation($new_id)) && Filesystem::has(flextype('media_folders_meta')->getDirMetaLocation($new_id)) === true;
         }
 
