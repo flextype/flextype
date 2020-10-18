@@ -106,7 +106,7 @@ class MediaFolders
     }
 
     /**
-     * Rename folder
+     * Move folder
      *
      * @param string $id     Unique identifier of the folder.
      * @param string $new_id New Unique identifier of the folder.
@@ -115,10 +115,12 @@ class MediaFolders
      *
      * @access public
      */
-    public function rename(string $id, string $new_id): bool
+    public function move(string $id, string $new_id): bool
     {
-        if (! Filesystem::has($this->getDirLocation($new_id)) && ! Filesystem::has(flextype('media_folders_meta')->getDirMetaLocation($new_id))) {
-            return rename($this->getDirLocation($id), $this->getDirLocation($new_id)) && rename(flextype('media_folders_meta')->getDirMetaLocation($id), flextype('media_folders_meta')->getDirMetaLocation($new_id));
+        if ((flextype('filesystem')->directory($this->getDirLocation($new_id))->exists() === false &&
+             flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($new_id))->exists() === false)) {
+            return flextype('filesystem')->directory($this->getDirLocation($id))->move($this->getDirLocation($new_id)) &&
+                                                     flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($id))->move(flextype('media_folders_meta')->getDirMetaLocation($new_id));
         }
 
         return false;
