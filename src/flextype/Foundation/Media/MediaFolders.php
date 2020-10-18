@@ -96,9 +96,9 @@ class MediaFolders
      */
     public function create(string $id): bool
     {
-        if (! flextype('filesystem')->directory($this->getDirLocation($id))->exists() &&
+        if (! flextype('filesystem')->directory($this->getDirectoryLocation($id))->exists() &&
             ! flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($id))->exists()) {
-            return flextype('filesystem')->directory($this->getDirLocation($id))->create() &&
+            return flextype('filesystem')->directory($this->getDirectoryLocation($id))->create() &&
                    flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($id))->create();
         }
 
@@ -117,9 +117,9 @@ class MediaFolders
      */
     public function move(string $id, string $new_id): bool
     {
-        if ((flextype('filesystem')->directory($this->getDirLocation($new_id))->exists() === false &&
+        if ((flextype('filesystem')->directory($this->getDirectoryLocation($new_id))->exists() === false &&
              flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($new_id))->exists() === false)) {
-            return flextype('filesystem')->directory($this->getDirLocation($id))->move($this->getDirLocation($new_id)) &&
+            return flextype('filesystem')->directory($this->getDirectoryLocation($id))->move($this->getDirectoryLocation($new_id)) &&
                                                      flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($id))->move(flextype('media_folders_meta')->getDirMetaLocation($new_id));
         }
 
@@ -138,15 +138,15 @@ class MediaFolders
      */
     public function copy(string $id, string $new_id): bool
     {
-        if ((flextype('filesystem')->directory($this->getDirLocation($new_id))->exists() === false &&
+        if ((flextype('filesystem')->directory($this->getDirectoryLocation($new_id))->exists() === false &&
              flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($new_id))->exists() === false)) {
             flextype('filesystem')
-                ->directory($this->getDirLocation($id))
-                ->copy($this->getDirLocation($new_id));
+                ->directory($this->getDirectoryLocation($id))
+                ->copy($this->getDirectoryLocation($new_id));
             flextype('filesystem')
                 ->directory(flextype('media_folders_meta')->getDirMetaLocation($id))
                 ->copy(flextype('media_folders_meta')->getDirMetaLocation($new_id));
-            return flextype('filesystem')->directory($this->getDirLocation($new_id))->exists() &&
+            return flextype('filesystem')->directory($this->getDirectoryLocation($new_id))->exists() &&
                    flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($new_id))->exists();
         }
 
@@ -164,7 +164,7 @@ class MediaFolders
      */
     public function delete(string $id): bool
     {
-        return flextype('filesystem')->directory($this->getDirLocation($id))->delete() &&
+        return flextype('filesystem')->directory($this->getDirectoryLocation($id))->delete() &&
                flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($id))->delete();
     }
 
@@ -177,7 +177,7 @@ class MediaFolders
      *
      * @access public
      */
-    public function getDirLocation(string $id): string
+    public function getDirectoryLocation(string $id): string
     {
         return PATH['project'] . '/uploads/' . $id;
     }
