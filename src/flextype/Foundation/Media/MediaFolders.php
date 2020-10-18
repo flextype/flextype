@@ -146,7 +146,8 @@ class MediaFolders
             flextype('filesystem')
                 ->directory(flextype('media_folders_meta')->getDirMetaLocation($id))
                 ->copy(flextype('media_folders_meta')->getDirMetaLocation($new_id));
-            return Filesystem::has($this->getDirLocation($new_id)) && Filesystem::has(flextype('media_folders_meta')->getDirMetaLocation($new_id)) === true;
+            return flextype('filesystem')->directory($this->getDirLocation($new_id))->exists() &&
+                   flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($new_id))->exists();
         }
 
         return false;
