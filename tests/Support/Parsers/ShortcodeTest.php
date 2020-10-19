@@ -34,3 +34,8 @@ test('test process() method', function () {
     $this->assertEquals('Zed', flextype('shortcode')->process('[zed]'));
     $this->assertEquals('fòôBàřZed', flextype('shortcode')->process('fòôBàř[zed]'));
 });
+
+test('test getCacheID() method', function () {
+    $this->assertNotEquals(flextype('shortcode')->getCacheID('fòôBàř[bar]'),
+                           flextype('shortcode')->getCacheID('fòôBàř[foo]'));
+});
