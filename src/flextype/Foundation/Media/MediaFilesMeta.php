@@ -9,8 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Media;
 
-use Flextype\Component\Arrays\Arrays;
-use Flextype\Component\Filesystem\Filesystem;
+use Atomastic\Arrays\Arrays;
 
 class MediaFilesMeta
 {
@@ -27,12 +26,12 @@ class MediaFilesMeta
      */
     public function update(string $id, string $field, string $value): bool
     {
-        $file_data = flextype('yaml')->decode(Filesystem::read($this->getFileMetaLocation($id)));
+        $file_data = flextype('yaml')->decode(flextype('filesystem')->file($this->getFileMetaLocation($id))->get());
 
-        if (Arrays::has($file_data, $field)) {
-            Arrays::set($file_data, $field, $value);
+        if (arrays($file_data)->has($field)) {
+            $file_data = arrays($file_data)->set($field, $value);
 
-            return Filesystem::write($this->getFileMetaLocation($id), flextype('yaml')->encode($file_data));
+            return (bool) flextype('filesystem')->file($this->getFileMetaLocation($id))->put(flextype('yaml')->encode($file_data->toArray()));
         }
 
         return false;
@@ -51,12 +50,12 @@ class MediaFilesMeta
      */
     public function add(string $id, string $field, string $value): bool
     {
-        $file_data = flextype('yaml')->decode(Filesystem::read($this->getFileMetaLocation($id)));
+        $file_data = flextype('yaml')->decode(flextype('filesystem')->file($this->getFileMetaLocation($id))->get());
 
-        if (! Arrays::has($file_data, $field)) {
-            Arrays::set($file_data, $field, $value);
+        if (! arrays($file_data)->has($field)) {
+            $file_data = arrays($file_data)->set($field, $value);
 
-            return Filesystem::write($this->getFileMetaLocation($id), flextype('yaml')->encode($file_data));
+            return (bool) flextype('filesystem')->file($this->getFileMetaLocation($id))->put(flextype('yaml')->encode($file_data->toArray()));
         }
 
         return false;
@@ -74,12 +73,12 @@ class MediaFilesMeta
      */
     public function delete(string $id, string $field): bool
     {
-        $file_data = flextype('yaml')->decode(Filesystem::read($this->getFileMetaLocation($id)));
+        $file_data = flextype('yaml')->decode(flextype('filesystem')->file($this->getFileMetaLocation($id))->get());
 
-        if (Arrays::has($file_data, $field)) {
-            Arrays::delete($file_data, $field);
+        if (arrays($file_data)->has($field)) {
+            $file_data = arrays($file_data)->delete($field);
 
-            return Filesystem::write($this->getFileMetaLocation($id), flextype('yaml')->encode($file_data));
+            return (bool) flextype('filesystem')->file($this->getFileMetaLocation($id))->put(flextype('yaml')->encode($file_data->toArray()));
         }
 
         return false;
