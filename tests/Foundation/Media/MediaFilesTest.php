@@ -50,3 +50,23 @@ test('test move() method', function () {
     $this->assertTrue(flextype('media_files')->move('bar.txt', 'foo.txt'));
     $this->assertFalse(flextype('media_files')->move('bar.txt', 'foo.txt'));
 });
+
+test('test copy() method', function () {
+    $this->assertTrue(flextype('media_folders')->create('foo'));
+    $this->assertTrue(flextype('media_folders')->create('bar'));
+
+    flextype('filesystem')->file(PATH['project'] . '/uploads/foo/foo.txt')->put('foo');
+    flextype('filesystem')->file(PATH['project'] . '/uploads/.meta/foo/foo.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Foo', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
+
+    $this->assertTrue(flextype('media_files')->copy('foo/foo.txt', 'bar/foo.txt'));
+    $this->assertTrue(flextype('media_files')->copy('foo/foo.txt', 'bar/bar.txt'));
+    $this->assertFalse(flextype('media_files')->copy('foo/foo.txt', 'bar/foo.txt'));
+});
+
+test('test has() method', function () {
+    flextype('filesystem')->file(PATH['project'] . '/uploads/foo.txt')->put('foo');
+    flextype('filesystem')->file(PATH['project'] . '/uploads/.meta/foo.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Foo', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
+
+    $this->assertTrue(flextype('media_files')->has('foo.txt'));
+    $this->assertFalse(flextype('media_files')->has('bar.txt'));
+});
