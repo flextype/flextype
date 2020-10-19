@@ -70,3 +70,9 @@ test('test has() method', function () {
     $this->assertTrue(flextype('media_files')->has('foo.txt'));
     $this->assertFalse(flextype('media_files')->has('bar.txt'));
 });
+
+test('test getFileLocation() method', function () {
+    flextype('filesystem')->file(PATH['project'] . '/uploads/foo.txt')->put('foo');
+    flextype('filesystem')->file(PATH['project'] . '/uploads/.meta/foo.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Foo', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
+    $this->assertStringContainsString('foo.txt', flextype('media_files')->getFileLocation('foo.txt'));
+});
