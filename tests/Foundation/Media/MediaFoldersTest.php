@@ -12,6 +12,26 @@ afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/uploads')->delete();
 });
 
+test('test fetchSingle() method', function () {
+    $this->assertTrue(flextype('media_folders')->create('foo'));
+    $this->assertTrue(count(flextype('media_folders')->fetchSingle('foo')) > 0);
+});
+
+test('test fetchCollection() method', function () {
+    $this->assertTrue(flextype('media_folders')->create('foo'));
+    $this->assertTrue(flextype('media_folders')->create('foo/bar'));
+    $this->assertTrue(flextype('media_folders')->create('foo/zed'));
+    $this->assertTrue(count(flextype('media_folders')->fetchCollection('foo')) == 2);
+});
+
+test('test fetch() method', function () {
+    $this->assertTrue(flextype('media_folders')->create('foo'));
+    $this->assertTrue(flextype('media_folders')->create('foo/bar'));
+    $this->assertTrue(flextype('media_folders')->create('foo/zed'));
+    $this->assertTrue(count(flextype('media_folders')->fetch('foo')) > 0);
+    $this->assertTrue(count(flextype('media_folders')->fetch('foo', true)) == 2);
+});
+
 test('test create() method', function () {
     $this->assertTrue(flextype('media_folders')->create('foo'));
 });
