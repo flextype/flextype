@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Media;
 
-use Flextype\Component\Filesystem\Filesystem;
 use Intervention\Image\ImageManagerStatic as Image;
 use RuntimeException;
 use Slim\Http\Environment;
@@ -59,12 +58,12 @@ class MediaFiles
         $upload_folder          = PATH['project'] . '/uploads/' . $folder . '/';
         $upload_metadata_folder = PATH['project'] . '/uploads/.meta/' . $folder . '/';
 
-        if (! Filesystem::has($upload_folder)) {
-            Filesystem::createDir($upload_folder);
+        if (! flextype('filesystem')->directory($upload_folder)->exists()) {
+            flextype('filesystem')->directory($upload_folder)->create();
         }
 
-        if (! Filesystem::has($upload_metadata_folder)) {
-            Filesystem::createDir($upload_metadata_folder);
+        if (! flextype('filesystem')->directory($upload_metadata_folder)->exists()) {
+            flextype('filesystem')->directory($upload_metadata_folder)->create();
         }
 
         $accept_file_types = flextype('registry')->get('flextype.settings.media.accept_file_types');
@@ -177,15 +176,14 @@ class MediaFiles
                                 'title' => substr(basename($filename), 0, strrpos(basename($filename), '.')),
                                 'description' => '',
                                 'type' => mime_content_type($filename),
-                                'filesize' => Filesystem::getSize($filename),
+                                'filesize' => flextype('filesystem')->file($filename)->size(),
                                 'uploaded_on' => time(),
                                 'exif' => $exif_data,
                             ];
 
-                            Filesystem::write(
-                                $upload_metadata_folder . basename($filename) . '.yaml',
-                                flextype('yaml')->encode($metadata)
-                            );
+                            flextype('filesystem')
+                                ->file($upload_metadata_folder . basename($filename) . '.yaml')
+                                ->put(flextype('yaml')->encode($metadata));
 
                             // Return new file path
                             return $filename;
@@ -228,8 +226,8 @@ class MediaFiles
     {
         $result = [];
 
-        if (Filesystem::has(flextype('media_files_meta')->getFileMetaLocation($path))) {
-            $result = flextype('yaml')->decode(Filesystem::read(flextype('media_files_meta')->getFileMetaLocation($path)));
+        if (flextype('filesystem')->file(flextype('media_files_meta')->getFileMetaLocation($path))->exists()) {
+            $result = flextype('yaml')->decode(flextype('filesystem')->file(flextype('media_files_meta')->getFileMetaLocation($path))->get());
 
             $result['filename']  = pathinfo(str_replace('/.meta', '', flextype('media_files_meta')->getFileMetaLocation($path)))['filename'];
             $result['basename']  = explode('.', basename(flextype('media_files_meta')->getFileMetaLocation($path)))[0];
@@ -261,15 +259,16 @@ class MediaFiles
     {
         $result = [];
 
-        foreach (Filesystem::listContents(flextype('media_folders_meta')->getDirMetaLocation($path)) as $file) {
-            $result[$file['basename']] = flextype('yaml')->decode(Filesystem::read($file['path']));
+        foreach (flextype('filesystem')->find()->files()->in(flextype('media_folders_meta')->getDirectoryMetaLocation($path)) as $file) {
 
-            $result[$file['basename']]['filename']  = pathinfo(str_replace('/.meta', '', flextype('media_files_meta')->getFileMetaLocation($file['basename'])))['filename'];
-            $result[$file['basename']]['basename']  = explode('.', basename(flextype('media_files_meta')->getFileMetaLocation($file['basename'])))[0];
-            $result[$file['basename']]['extension'] = ltrim(strstr($file['basename'], '.'), '.');
-            $result[$file['basename']]['dirname']   = pathinfo(str_replace('/.meta', '', $file['path']))['dirname'];
+            $basename = $file->getBasename('.' . $file->getExtension());
 
-            $result[$file['basename']]['url'] = 'project/uploads/' . $path . '/' . $file['basename'];
+            $result[$basename]              = flextype('yaml')->decode(flextype('filesystem')->file($file->getPathname())->get());
+            $result[$basename]['filename']  = pathinfo(str_replace('/.meta', '', flextype('media_files_meta')->getFileMetaLocation($basename)))['filename'];
+            $result[$basename]['basename']  = explode('.', basename(flextype('media_files_meta')->getFileMetaLocation($basename)))[0];
+            $result[$basename]['extension'] = ltrim(strstr($basename, '.'), '.');
+            $result[$basename]['dirname']   = pathinfo(str_replace('/.meta', '', $file->getPathname()))['dirname'];
+            $result[$basename]['url']       = 'project/uploads/' . $path . '/' . $basename;
 
             if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
                 $full_url = flextype('registry')->get('flextype.settings.url');
@@ -277,14 +276,14 @@ class MediaFiles
                 $full_url = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
             }
 
-            $result[$file['basename']]['full_url'] = $full_url . '/project/uploads/' . $path . '/' . $file['basename'];
+            $result[$basename]['full_url'] = $full_url . '/project/uploads/' . $path . '/' . $basename;
         }
 
         return $result;
     }
 
     /**
-     * Rename file
+     * Move file
      *
      * @param string $id     Unique identifier of the file.
      * @param string $new_id New Unique identifier of the file.
@@ -293,10 +292,11 @@ class MediaFiles
      *
      * @access public
      */
-    public function rename(string $id, string $new_id): bool
+    public function move(string $id, string $new_id): bool
     {
-        if (! Filesystem::has($this->getFileLocation($new_id)) && ! Filesystem::has(flextype('media_files_meta')->getFileMetaLocation($new_id))) {
-            return rename($this->getFileLocation($id), $this->getFileLocation($new_id)) && rename(flextype('media_files_meta')->getFileMetaLocation($id), flextype('media_files_meta')->getFileMetaLocation($new_id));
+        if (! flextype('filesystem')->file($this->getFileLocation($new_id))->exists() && ! flextype('filesystem')->file(flextype('media_files_meta')->getFileMetaLocation($new_id))->exists()) {
+            return flextype('filesystem')->file($this->getFileLocation($id))->move($this->getFileLocation($new_id)) &&
+                   flextype('filesystem')->file(flextype('media_files_meta')->getFileMetaLocation($id))->move(flextype('media_files_meta')->getFileMetaLocation($new_id));
         }
 
         return false;
@@ -313,8 +313,8 @@ class MediaFiles
      */
     public function delete(string $id): bool
     {
-        return Filesystem::delete($this->getFileLocation($id)) &&
-            Filesystem::delete(flextype('media_files_meta')->getFileMetaLocation($id));
+        return flextype('filesystem')->file($this->getFileLocation($id))->delete() &&
+               flextype('filesystem')->file(flextype('media_files_meta')->getFileMetaLocation($id))->delete();
     }
 
     /**
@@ -328,8 +328,8 @@ class MediaFiles
      */
     public function has(string $id): bool
     {
-        return Filesystem::has($this->getFileLocation($id)) &&
-            Filesystem::has(flextype('media_files_meta')->getFileMetaLocation($id));
+        return flextype('filesystem')->file($this->getFileLocation($id))->exists() &&
+               flextype('filesystem')->file(flextype('media_files_meta')->getFileMetaLocation($id))->exists();
     }
 
     /**
@@ -344,19 +344,12 @@ class MediaFiles
      */
     public function copy(string $id, string $new_id): bool
     {
-        if (! Filesystem::has($this->getFileLocation($new_id)) && ! Filesystem::has(flextype('media_files_meta')->getFileMetaLocation($new_id))) {
-            Filesystem::copy(
-                $this->getFileLocation($id),
-                $this->getFileLocation($new_id),
-                false
-            );
-            Filesystem::copy(
-                flextype('media_files_meta')->getFileMetaLocation($id),
-                flextype('media_files_meta')->getFileMetaLocation($new_id),
-                false
-            );
+        if (! flextype('filesystem')->file($this->getFileLocation($new_id))->exists() && ! flextype('filesystem')->file(flextype('media_files_meta')->getFileMetaLocation($new_id))->exists()) {
+            flextype('filesystem')->file($this->getFileLocation($id))->copy($this->getFileLocation($new_id));
+            flextype('filesystem')->file(flextype('media_files_meta')->getFileMetaLocation($id))->copy(flextype('media_files_meta')->getFileMetaLocation($new_id));
 
-            return Filesystem::has($this->getFileLocation($new_id)) && Filesystem::has(flextype('media_files_meta')->getFileMetaLocation($new_id)) === true;
+            return flextype('filesystem')->file($this->getFileLocation($new_id))->exists() &&
+                   flextype('filesystem')->file(flextype('media_files_meta')->getFileMetaLocation($new_id))->exists();
         }
 
         return false;
