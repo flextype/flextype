@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Media;
 
-use Flextype\Component\Filesystem\Filesystem;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
 
@@ -46,7 +45,7 @@ class MediaFolders
     {
         $result = [];
 
-        if (Filesystem::has(flextype('media_folders_meta')->getDirMetaLocation($path))) {
+        if (flextype('filesystem')->directory(flextype('media_folders_meta')->getDirMetaLocation($path))->exists()) {
             $result['path']      = $path;
             $result['full_path'] = str_replace('/.meta', '', flextype('media_folders_meta')->getDirMetaLocation($path));
             $result['url']       = 'project/uploads/' . $path;
@@ -74,12 +73,8 @@ class MediaFolders
     {
         $result = [];
 
-        foreach (Filesystem::listContents(flextype('media_folders_meta')->getDirMetaLocation($path)) as $folder) {
-            if ($folder['type'] !== 'dir') {
-                continue;
-            }
-
-            $result[$folder['dirname']] = $this->fetchSingle($path . '/' . $folder['dirname']);
+        foreach (flextype('filesystem')->find()->directories()->in(flextype('media_folders_meta')->getDirMetaLocation($path)) as $folder) {
+            $result[$folder->getFilename()] = $this->fetchSingle($path . '/' . $folder->getFilename());
         }
 
         return $result;
