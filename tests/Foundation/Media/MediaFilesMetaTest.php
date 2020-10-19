@@ -19,3 +19,11 @@ test('test update() method', function () {
     $this->assertTrue(flextype('media_files_meta')->update('foo.txt', 'description', 'Foo description'));
     $this->assertEquals('Foo description', flextype('yaml')->decode(flextype('filesystem')->file(PATH['project'] . '/uploads/.meta/foo.txt.yaml')->get())['description']);
 });
+
+test('test add() method', function () {
+    flextype('filesystem')->file(PATH['project'] . '/uploads/foo.txt')->put('foo');
+    flextype('filesystem')->file(PATH['project'] . '/uploads/.meta/foo.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Foo', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
+
+    $this->assertTrue(flextype('media_files_meta')->add('foo.txt', 'bar', 'Bar'));
+    $this->assertEquals('Bar', flextype('yaml')->decode(flextype('filesystem')->file(PATH['project'] . '/uploads/.meta/foo.txt.yaml')->get())['bar']);
+});
