@@ -35,3 +35,10 @@ test('test delete() method', function () {
     $this->assertTrue(flextype('media_files_meta')->delete('foo.txt', 'title'));
     $this->assertTrue(empty(flextype('yaml')->decode(flextype('filesystem')->file(PATH['project'] . '/uploads/.meta/foo.txt.yaml')->get())['bar']));
 });
+
+test('test getFileMetaLocation() method', function () {
+    flextype('filesystem')->file(PATH['project'] . '/uploads/foo.txt')->put('foo');
+    flextype('filesystem')->file(PATH['project'] . '/uploads/.meta/foo.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Foo', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
+    $this->assertStringContainsString('foo.txt.yaml',
+                          flextype('media_files_meta')->getFileMetaLocation('foo.txt'));
+});
