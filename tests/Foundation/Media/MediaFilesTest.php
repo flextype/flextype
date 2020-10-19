@@ -41,3 +41,12 @@ test('test fetchCollection() method', function () {
     $this->assertTrue(count(flextype('media_files')->fetchCollection('/')) == 2);
     $this->assertEquals('Foo', flextype('media_files')->fetchCollection('/')['foo.txt']['title']);
 });
+
+test('test move() method', function () {
+    flextype('filesystem')->file(PATH['project'] . '/uploads/foo.txt')->put('foo');
+    flextype('filesystem')->file(PATH['project'] . '/uploads/.meta/foo.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Foo', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
+
+    $this->assertTrue(flextype('media_files')->move('foo.txt', 'bar.txt'));
+    $this->assertTrue(flextype('media_files')->move('bar.txt', 'foo.txt'));
+    $this->assertFalse(flextype('media_files')->move('bar.txt', 'foo.txt'));
+});
