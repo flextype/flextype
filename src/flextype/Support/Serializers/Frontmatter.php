@@ -102,7 +102,7 @@ class Frontmatter
         return flextype('yaml')->decode(Strings::create($parts[1])->trim()->toString(), false) + ['content' => Strings::create(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))->trim()->toString()];
     }
 
-    protected function getCacheID($input): string
+    public function getCacheID($input): string
     {
         return Strings::create('frontmatter' . $input)->hash()->toString();
     }
