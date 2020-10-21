@@ -15,3 +15,11 @@ test('test decode() method', function () {
                         flextype('frontmatter')
                             ->decode("---\ntitle: Foo\n---\nBar"));
 });
+
+test('test getCacheID() method', function () {
+    $string = "---\ntitle: Foo\n---\nBar";
+    $cache_id = flextype('frontmatter')
+                    ->getCacheID($string);
+    $this->assertEquals(32, strlen($cache_id));
+    $this->assertNotEquals($string, $cache_id);
+});
