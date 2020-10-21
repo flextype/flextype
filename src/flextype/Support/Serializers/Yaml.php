@@ -140,7 +140,7 @@ class Yaml
         }
     }
 
-    protected function getCacheID($input): string
+    public function getCacheID($input): string
     {
         return Strings::create('yaml' . $input)->hash()->toString();
     }
