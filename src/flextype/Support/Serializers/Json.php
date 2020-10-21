@@ -107,7 +107,7 @@ class Json
         return $value;
     }
 
-    protected function getCacheID($input): string
+    public function getCacheID($input): string
     {
         return Strings::create('json' . $input)->hash()->toString();
     }
