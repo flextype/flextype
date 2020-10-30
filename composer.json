@@ -34,7 +34,7 @@
         "atomastic/arrays": "^1.0.0",
         "atomastic/filesystem": "^1.0.0",
         "atomastic/registry": "^1.0.0",
-        "atomastic/strings": "^1.0.0",
+        "atomastic/strings": "^2.0.0",
 
         "slim/slim": "^3.12.3",
 
