@@ -10,8 +10,8 @@ $custom_flextype_settings_file_path  = PATH['project'] . '/config/flextype/setti
 $preflight_flextype_path             = PATH['tmp'] . '/preflight/flextype/';
 $custom_flextype_settings_path       = PATH['project'] . '/config/flextype/';
 
-! filesystem()->file($preflight_flextype_path)->exists() and filesystem()->directory($preflight_flextype_path)->create();
-! filesystem()->file($custom_flextype_settings_path)->exists() and filesystem()->directory($custom_flextype_settings_path)->create();
+! filesystem()->file($preflight_flextype_path)->exists() and filesystem()->directory($preflight_flextype_path)->create(0755, true);
+! filesystem()->file($custom_flextype_settings_path)->exists() and filesystem()->directory($custom_flextype_settings_path)->create(0755, true);
 
 $f1 = file_exists($flextype_manifest_file_path) ? filemtime($flextype_manifest_file_path) : '';
 $f2 = file_exists($default_flextype_settings_file_path) ? filemtime($default_flextype_settings_file_path) : '';
