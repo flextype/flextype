@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Flextype\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
 $flextype_manifest_file_path         = ROOT_DIR . '/src/flextype/flextype.yaml';
@@ -11,8 +10,8 @@ $custom_flextype_settings_file_path  = PATH['project'] . '/config/flextype/setti
 $preflight_flextype_path             = PATH['tmp'] . '/preflight/flextype/';
 $custom_flextype_settings_path       = PATH['project'] . '/config/flextype/';
 
-! Filesystem::has($preflight_flextype_path) and Filesystem::createDir($preflight_flextype_path);
-! Filesystem::has($custom_flextype_settings_path) and Filesystem::createDir($custom_flextype_settings_path);
+! filesystem()->file($preflight_flextype_path)->exists() and filesystem()->directory($preflight_flextype_path)->create();
+! filesystem()->file($custom_flextype_settings_path)->exists() and filesystem()->directory($custom_flextype_settings_path)->create();
 
 $f1 = file_exists($flextype_manifest_file_path) ? filemtime($flextype_manifest_file_path) : '';
 $f2 = file_exists($default_flextype_settings_file_path) ? filemtime($default_flextype_settings_file_path) : '';
@@ -21,18 +20,18 @@ $f3 = file_exists($custom_flextype_settings_file_path) ? filemtime($custom_flext
 // Create Unique Cache ID
 $cache_id = md5($flextype_manifest_file_path . $default_flextype_settings_file_path . $custom_flextype_settings_file_path . $f1 . $f2 . $f3);
 
-if (Filesystem::has($preflight_flextype_path . '/' . $cache_id . '.php')) {
+if (filesystem()->file($preflight_flextype_path . '/' . $cache_id . '.php')->exists()) {
     $flextype_data = require $preflight_flextype_path . '/' . $cache_id . '.php';
 } else {
     // Drop the flextype preflight dir and create new one.
-    Filesystem::deleteDir($preflight_flextype_path) and Filesystem::createDir($preflight_flextype_path);
+    filesystem()->directory($preflight_flextype_path)->delete();
 
     // Set settings if Flextype Default settings config files exist
-    if (! Filesystem::has($default_flextype_settings_file_path)) {
+    if (! filesystem()->file($default_flextype_settings_file_path)->exists()) {
         throw new RuntimeException('Flextype Default settings config file does not exist.');
     }
 
-    if (($default_flextype_settings_content = Filesystem::read($default_flextype_settings_file_path)) === false) {
+    if (($default_flextype_settings_content = filesystem()->file($default_flextype_settings_file_path)->get()) === false) {
         throw new RuntimeException('Load file: ' . $default_flextype_settings_file_path . ' - failed!');
     } else {
         if (trim($default_flextype_settings_content) === '') {
@@ -43,9 +42,9 @@ if (Filesystem::has($preflight_flextype_path . '/' . $cache_id . '.php')) {
     }
 
     // Create flextype custom settings file
-    ! Filesystem::has($custom_flextype_settings_file_path) and Filesystem::write($custom_flextype_settings_file_path, $default_flextype_settings_content);
+    ! filesystem()->file($custom_flextype_settings_file_path)->exists() and filesystem()->file($custom_flextype_settings_file_path)->put($default_flextype_settings_content);
 
-    if (($custom_flextype_settings_content = Filesystem::read($custom_flextype_settings_file_path)) === false) {
+    if (($custom_flextype_settings_content = filesystem()->file($custom_flextype_settings_file_path)->get()) === false) {
         throw new RuntimeException('Load file: ' . $custom_flextype_settings_file_path . ' - failed!');
     } else {
         if (trim($custom_flextype_settings_content) === '') {
@@ -55,7 +54,7 @@ if (Filesystem::has($preflight_flextype_path . '/' . $cache_id . '.php')) {
         }
     }
 
-    if (($flextype_manifest_content = Filesystem::read($flextype_manifest_file_path)) === false) {
+    if (($flextype_manifest_content = filesystem()->file($flextype_manifest_file_path)->get()) === false) {
         throw new RuntimeException('Load file: ' . $flextype_manifest_file_path . ' - failed!');
     } else {
         if (trim($flextype_manifest_content) === '') {
@@ -68,7 +67,7 @@ if (Filesystem::has($preflight_flextype_path . '/' . $cache_id . '.php')) {
     // Merge flextype default settings with custom project settings.
     $flextype_data = array_replace_recursive($default_flextype_settings, $custom_flextype_settings, $flextype_manifest);
 
-    Filesystem::write($preflight_flextype_path . $cache_id . '.php', sprintf('<?php return %s;', var_export($flextype_data, true)));
+    filesystem()->file($preflight_flextype_path . $cache_id . '.php')->put(sprintf('<?php return %s;', var_export($flextype_data, true)));
 }
 
 // Store flextype merged data in the flextype registry.
