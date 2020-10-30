@@ -67,7 +67,7 @@ if (filesystem()->file($preflight_flextype_path . '/' . $cache_id . '.php')->exi
     // Merge flextype default settings with custom project settings.
     $flextype_data = array_replace_recursive($default_flextype_settings, $custom_flextype_settings, $flextype_manifest);
 
-    filesystem()->file($preflight_flextype_path . $cache_id . '.php')->put(sprintf('<?php return %s;', var_export($flextype_data, true)));
+    //@todo remove this: filesystem()->file($preflight_flextype_path . $cache_id . '.php')->put(sprintf('<?php return %s;', var_export($flextype_data, true)));
 }
 
 // Store flextype merged data in the flextype registry.
