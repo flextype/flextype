@@ -17,7 +17,7 @@ beforeEach(function() {
 });
 
 afterEach(function (): void {
-    //filesystem()->directory(PATH['project'] . '/plugins/sandbox')->delete();
+    filesystem()->directory(PATH['project'] . '/plugins/sandbox')->delete();
 });
 
 test('test getPluginsList() method', function () {
