@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Serializers;
 
-use Flextype\Component\Arrays\Arrays;
+use Atomastic\Arrays\Arrays;
 use Atomastic\Strings\Strings;
 
 use function array_slice;
@@ -68,7 +68,7 @@ class Frontmatter
     {
         if (isset($input['content'])) {
             $content = $input['content'];
-            Arrays::delete($input, 'content');
+            $input = arrays($input)->delete('content')->toArray();
             $matter = flextype('yaml')->encode($input);
         } else {
             $content = '';
