@@ -98,6 +98,8 @@ class Plugins
 
             // Go through...
             foreach ($plugins_list as $plugin) {
+
+
                 // Set plugin settings directory
                 $project_plugin_settings_dir = PATH['project'] . '/config/plugins/' . $plugin['dirname'];
 
@@ -160,7 +162,7 @@ class Plugins
 
             // ... and delete tmp _priority field for sorting
             foreach ($plugins as $plugin_name => $plugin_data) {
-                $plugins = arrays($plugins)->delete($plugin_name . '._priority');
+                $plugins = arrays($plugins)->delete($plugin_name . '._priority')->toArray();
             }
 
             // Get Valid Plugins Dependencies
@@ -187,7 +189,7 @@ class Plugins
      *
      * @access private
      */
-    private function getPluginsDictionary(array $plugins_list, string $locale): array
+    public function getPluginsDictionary(array $plugins_list, string $locale): array
     {
         foreach ($plugins_list as $plugin) {
             $language_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
@@ -215,7 +217,7 @@ class Plugins
      *
      * @access private
      */
-    private function getPluginsCacheID(array $plugins_list): string
+    public function getPluginsCacheID(array $plugins_list): string
     {
         // Plugin cache id
         $_plugins_cache_id = '';
@@ -348,13 +350,8 @@ class Plugins
     {
         // Get Plugins List
         $plugins_list = [];
-
-        foreach (Filesystem::listContents(PATH['project'] . '/plugins/') as $plugin) {
-            if ($plugin['type'] !== 'dir') {
-                continue;
-            }
-
-            $plugins_list[] = $plugin;
+        foreach (flextype('filesystem')->find()->in(PATH['project'] . '/plugins/')->directories()->depth(0) as $plugin) {
+            $plugins_list[]['dirname'] = $plugin->getBasename();
         }
 
         return $plugins_list;
