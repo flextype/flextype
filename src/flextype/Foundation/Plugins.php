@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Flextype\Foundation;
 
 use Composer\Semver\Semver;
-use Flextype\Component\Arrays\Arrays;
-use Flextype\Component\Filesystem\Filesystem;
+use Atomastic\Arrays\Arrays;
+use Atomastic\Filesystem\Filesystem;
 use Flextype\Component\I18n\I18n;
 use RuntimeException;
 
@@ -39,7 +39,7 @@ class Plugins
      */
     public function __construct()
     {
-        $this->locales = flextype('yaml')->decode(Filesystem::read(ROOT_DIR . '/src/flextype/locales.yaml'));
+        $this->locales = flextype('yaml')->decode(flextype('filesystem')->file(ROOT_DIR . '/src/flextype/locales.yaml')->get());
     }
 
     /**
@@ -109,22 +109,22 @@ class Plugins
                 $project_plugin_settings_file = PATH['project'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
 
                 // Create project plugin settings directory
-                ! Filesystem::has($project_plugin_settings_dir) and Filesystem::createDir($project_plugin_settings_dir);
+                ! flextype('filesystem')->directory($project_plugin_settings_dir)->exists() and flextype('filesystem')->directory($project_plugin_settings_dir)->create(0755, true);
 
                 // Check if default plugin settings file exists
-                if (! Filesystem::has($default_plugin_settings_file)) {
+                if (! flextype('filesystem')->file($default_plugin_settings_file)->exists()) {
                     throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin settings - failed!');
                 }
 
                 // Get default plugin settings content
-                $default_plugin_settings_file_content = Filesystem::read($default_plugin_settings_file);
+                $default_plugin_settings_file_content = flextype('filesystem')->file($default_plugin_settings_file)->get();
                 $default_plugin_settings              = flextype('yaml')->decode($default_plugin_settings_file_content);
 
                 // Create project plugin settings file
-                ! Filesystem::has($project_plugin_settings_file) and Filesystem::write($project_plugin_settings_file, $default_plugin_settings_file_content);
+                ! flextype('filesystem')->file($project_plugin_settings_file)->exists() and flextype('filesystem')->file($project_plugin_settings_file)->put($default_plugin_settings_file_content);
 
                 // Get project plugin settings content
-                $project_plugin_settings_file_content = Filesystem::read($project_plugin_settings_file);
+                $project_plugin_settings_file_content = flextype('filesystem')->file($project_plugin_settings_file)->get();
 
                 if (trim($project_plugin_settings_file_content) === '') {
                     $project_plugin_settings = [];
@@ -133,12 +133,12 @@ class Plugins
                 }
 
                 // Check if default plugin manifest file exists
-                if (! Filesystem::has($default_plugin_manifest_file)) {
+                if (! flextype('filesystem')->file($default_plugin_manifest_file)->exists()) {
                     throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin manifest - failed!');
                 }
 
                 // Get default plugin manifest content
-                $default_plugin_manifest_file_content = Filesystem::read($default_plugin_manifest_file);
+                $default_plugin_manifest_file_content = flextype('filesystem')->file($default_plugin_manifest_file)->get();
                 $default_plugin_manifest              = flextype('yaml')->decode($default_plugin_manifest_file_content);
 
                 // Merge plugin settings and manifest data
@@ -156,11 +156,11 @@ class Plugins
             }
 
             // Sort plugins list by priority.
-            $plugins = Arrays::sort($plugins, '_priority', 'DESC');
+            $plugins = arrays($plugins)->sortBySubKey('_priority', 'DESC')->toArray();
 
             // ... and delete tmp _priority field for sorting
             foreach ($plugins as $plugin_name => $plugin_data) {
-                Arrays::delete($plugins, $plugin_name . '._priority');
+                $plugins = arrays($plugins)->delete($plugin_name . '._priority');
             }
 
             // Get Valid Plugins Dependencies
@@ -192,11 +192,11 @@ class Plugins
         foreach ($plugins_list as $plugin) {
             $language_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
 
-            if (! Filesystem::has($language_file)) {
+            if (! flextype('filesystem')->file($language_file)->exists()) {
                 continue;
             }
 
-            if (($content = Filesystem::read($language_file)) === false) {
+            if (($content = flextype('filesystem')->file($language_file)->get()) === false) {
                 throw new RuntimeException('Load file: ' . $language_file . ' - failed!');
             }
 
@@ -227,9 +227,9 @@ class Plugins
                 $default_plugin_manifest_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
                 $project_plugin_settings_file = PATH['project'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
 
-                $f1 = Filesystem::has($default_plugin_settings_file) ? filemtime($default_plugin_settings_file) : '';
-                $f2 = Filesystem::has($default_plugin_manifest_file) ? filemtime($default_plugin_manifest_file) : '';
-                $f3 = Filesystem::has($project_plugin_settings_file) ? filemtime($project_plugin_settings_file) : '';
+                $f1 = flextype('filesystem')->file($default_plugin_settings_file)->exists() ? filemtime($default_plugin_settings_file) : '';
+                $f2 = flextype('filesystem')->file($default_plugin_manifest_file)->exists() ? filemtime($default_plugin_manifest_file) : '';
+                $f3 = flextype('filesystem')->file($project_plugin_settings_file)->exists() ? filemtime($project_plugin_settings_file) : '';
 
                 $_plugins_cache_id .= $f1 . $f2 . $f3;
             }
