@@ -350,9 +350,12 @@ class Plugins
     {
         // Get Plugins List
         $plugins_list = [];
-        foreach (flextype('filesystem')->find()->in(PATH['project'] . '/plugins/')->directories()->depth(0) as $plugin) {
-            $plugins_list[$plugin->getBasename()]['dirname'] = $plugin->getBasename();
-            $plugins_list[$plugin->getBasename()]['pathname'] = $plugin->getPathname();
+
+        if (flextype('filesystem')->directory(PATH['project'] . '/plugins/')->exists()) {
+            foreach (flextype('filesystem')->find()->in(PATH['project'] . '/plugins/')->directories()->depth(0) as $plugin) {
+                $plugins_list[$plugin->getBasename()]['dirname'] = $plugin->getBasename();
+                $plugins_list[$plugin->getBasename()]['pathname'] = $plugin->getPathname();
+            }
         }
 
         return $plugins_list;
