@@ -5,8 +5,9 @@ declare(strict_types=1);
 use Flextype\Foundation\Flextype;
 use Atomastic\Strings\Strings;
 
-beforeEach(function() {
+/*
 
+beforeEach(function() {
     // Create sandbox plugin
     filesystem()->directory(PATH['project'])->create();
     filesystem()->directory(PATH['project'] . '/plugins')->create();
@@ -41,3 +42,4 @@ test('test getPluginsCacheID() method', function () {
     $md5 = flextype('plugins')->getPluginsCacheID(flextype('plugins')->getPLuginsList());
     $this->assertTrue(strlen($md5) == 32 && ctype_xdigit($md5));
 });
+*/
