@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Flextype\Foundation\Flextype;
 use Atomastic\Strings\Strings;
 
-beforeAll(function() {
+beforeEach(function() {
     // Create sandbox plugin
     filesystem()->directory(PATH['project'])->create(0755, true);
     filesystem()->directory(PATH['project'] . '/plugins')->create(0755, true);
@@ -16,7 +16,7 @@ beforeAll(function() {
     filesystem()->file(PATH['project'] . '/plugins/sandbox/plugin.yaml')->put('name: Sandbox');
 });
 
-afterAll(function (): void {
+afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/plugins/sandbox')->delete();
 });
 
