@@ -1,7 +1,5 @@
 <?php
 
-use Flextype\Component\Filesystem\Filesystem;
-
 beforeEach(function() {
     filesystem()->directory(PATH['project'] . '/entries')->create();
 });

@@ -6,6 +6,7 @@ use Flextype\Foundation\Flextype;
 use Atomastic\Strings\Strings;
 
 beforeEach(function() {
+
     // Create sandbox plugin
     filesystem()->directory(PATH['project'])->create();
     filesystem()->directory(PATH['project'] . '/plugins')->create();
@@ -14,6 +15,7 @@ beforeEach(function() {
     filesystem()->file(PATH['project'] . '/plugins/sandbox/lang/en_US.yaml')->put('sandbox_title: Sandbox');
     filesystem()->file(PATH['project'] . '/plugins/sandbox/settings.yaml')->put('enabled: true');
     filesystem()->file(PATH['project'] . '/plugins/sandbox/plugin.yaml')->put('name: Sandbox');
+
 });
 
 afterEach(function (): void {
