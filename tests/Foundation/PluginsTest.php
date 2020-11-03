@@ -32,3 +32,8 @@ test('test getPluginsDictionary() method', function () {
     $this->assertTrue(is_array(flextype('plugins')->getPluginsDictionary(flextype('plugins')->getPLuginsList(), 'en_US')));
     $this->assertTrue(isset(flextype('plugins')->getPluginsDictionary(flextype('plugins')->getPLuginsList(), 'en_US')['en_US']['sandbox_title']));
 });
+
+test('test getPluginsCacheID() method', function () {
+    $md5 = flextype('plugins')->getPluginsCacheID(flextype('plugins')->getPLuginsList());
+    $this->assertTrue(strlen($md5) == 32 && ctype_xdigit($md5));
+});
