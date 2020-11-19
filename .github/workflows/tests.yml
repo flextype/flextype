@@ -44,7 +44,7 @@ jobs:
         port: 21
         username: cx01224_github
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: /test.flextype.org/public_html
+        server-dir: /test.flextype.org/public_html/
     
     - name: Run Tests
       run: ./vendor/bin/pest
