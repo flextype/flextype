@@ -44,9 +44,10 @@ test('test fetch() method', function () {
     // 4
     flextype('entries')->create('foo', []);
     flextype('entries')->create('foo/bar', []);
-    flextype('entries')->create('foo/baz', []);
+    flextype('entries')->create('foo/baz', ['foo' => ['bar' => 'zed']]);
     $fetch = flextype('entries')->fetch('foo', true);
     $this->assertTrue(count($fetch) > 0);
+
 });
 
 test('test fetchSingle() method', function () {
