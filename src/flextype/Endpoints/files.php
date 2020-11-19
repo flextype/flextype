@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Http\Response;
 use function array_replace_recursive;
@@ -22,7 +21,7 @@ use function is_dir;
  */
 function validate_files_token($token) : bool
 {
-    return Filesystem::has(PATH['project'] . '/tokens/files/' . $token . '/token.yaml');
+    return flextype('filesystem')->exists(PATH['project'] . '/tokens/files/' . $token . '/token.yaml');
 }
 
 /**

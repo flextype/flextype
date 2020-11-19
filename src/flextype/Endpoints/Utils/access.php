@@ -9,12 +9,10 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Flextype\Component\Filesystem\Filesystem;
-
 /**
  * Validate access token
  */
 function validate_access_token($token) : bool
 {
-    return Filesystem::has(PATH['project'] . '/tokens/access/' . $token . '/token.yaml');
+    return flextype('filesystem')->exists(PATH['project'] . '/tokens/access/' . $token . '/token.yaml');
 }
