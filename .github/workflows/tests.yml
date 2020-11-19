@@ -3,7 +3,7 @@ name: Tests
 on: ['push', 'pull_request']
 
 jobs:
-   web-deploy:
+  web-deploy:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
@@ -16,9 +16,9 @@ jobs:
         server: vh100.timeweb.ru
         port: 21
         username: cx01224_github
-        password: ${{ secrets.ftp_password }}  
+        password: ${{ secrets.FTP_PASSWORD }}
   build:
-
+     
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
