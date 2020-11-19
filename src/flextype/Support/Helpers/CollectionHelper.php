@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-use Flextype\Support\Collection;
+use Atomastic\Arrays\Arrays;
 
 if (! function_exists('collect')) {
     /**
@@ -15,9 +15,9 @@ if (! function_exists('collect')) {
      *
      * @param  mixed $items Items
      */
-    function collect($items): Collection
+    function collect($items = []): Arrays
     {
-        return new Collection($items);
+        return new Arrays($items);
     }
 }
 
@@ -25,137 +25,79 @@ if (! function_exists('collect_filter')) {
     /**
      * Create a collection from the given value and filter it.
      *
-     * @param  mixed $items  Items
-     * @param  array $filter Filters array
+     * @param  mixed $items  Items.
+     * @param  array $filter Filters array.
      *
      * @return array|bool|int
      */
-    function collect_filter($items, array $filter)
+    function collect_filter($items = [], array $filter = [])
     {
-        $collection = new Collection($items);
+        $collection = new Arrays($items);
 
-        // Bind: return
-        $bind_return = $filter['return'] ?? 'all';
-
-        // Bind: where
-        $bind_where = [];
-        if (isset($filter['where']['key']) && isset($filter['where']['expr']) && isset($filter['where']['value'])) {
-            $bind_where['where']['key']   = $filter['where']['key'];
-            $bind_where['where']['expr']  = $filter['where']['expr'];
-            $bind_where['where']['value'] = $filter['where']['value'];
-        }
-
-        // Bind: and where
-        $bind_and_where = [];
-        if (isset($filter['and_where'])) {
-            foreach ($filter['and_where'] as $key => $value) {
-                if (! isset($value['key']) || ! isset($value['expr']) || ! isset($value['value'])) {
-                    continue;
+        if (isset($filter['where'])) {
+            if (is_array($filter['where'])) {
+                foreach ($filter['where'] as $key => $value) {
+                    if (isset($value['key']) &&
+                        isset($value['operator']) &&
+                        isset($value['value'])) {
+                        $collection->where($value['key'], $value['operator'], $value['value']);
+                    }
                 }
-
-                $bind_and_where[$key] = $value;
             }
         }
 
-        // Bind: or where
-        $bind_or_where = [];
-        if (isset($filter['or_where'])) {
-            foreach ($filter['or_where'] as $key => $value) {
-                if (! isset($value['key']) || ! isset($value['expr']) || ! isset($value['value'])) {
-                    continue;
-                }
-
-                $bind_or_where[$key] = $value;
-            }
-        }
-
-        // Bind: order by
-        $bind_order_by = [];
-        if (isset($filter['order_by']['field']) && isset($filter['order_by']['direction'])) {
-            $bind_order_by['order_by']['field']     = $filter['order_by']['field'];
-            $bind_order_by['order_by']['direction'] = $filter['order_by']['direction'];
-        }
-
-        // Exec: where
-        if (isset($bind_where['where']['key']) && isset($bind_where['where']['expr']) && isset($bind_where['where']['value'])) {
-            $collection->where($bind_where['where']['key'], $bind_where['where']['expr'], $bind_where['where']['value']);
-        }
-
-        // Exec: and where
-        if (isset($bind_and_where)) {
-            foreach ($bind_and_where as $key => $value) {
-                $collection->andWhere($value['key'], $value['expr'], $value['value']);
-            }
-        }
-
-        // Exec: or where
-        if (isset($bind_or_where)) {
-            foreach ($bind_or_where as $key => $value) {
-                $collection->orWhere($value['key'], $value['expr'], $value['value']);
-            }
-        }
-
-        // Exec: order by
-        if (isset($bind_order_by['order_by']['field']) && isset($bind_order_by['order_by']['direction'])) {
-            $collection->orderBy($bind_order_by['order_by']['field'], $bind_order_by['order_by']['direction']);
-        }
-
-        // Exec: only
-        if (isset($filter['only'])) {
-            $collection->only($filter['only']);
-        }
-
-        // Exec: group by
         if (isset($filter['group_by'])) {
             $collection->groupBy($filter['group_by']);
         }
 
-        // Gets a native PHP array representation of the collection.
-        switch ($bind_return) {
+        if (isset($filter['slice_offset']) && isset($filter['slice_offset'])) {
+            $collection->slice(isset($filter['slice_offset']) ? (int) $filter['slice_offset'] : 0,
+                               isset($filter['slice_limit']) ? (int) $filter['slice_limit'] : 0);
+        }
+
+        if (isset($filter['sort_by'])) {
+            if (isset($filter['sort_by']['key']) && isset($filter['sort_by']['direction'])) {
+                $collection->sortBySubKey($filter['sort_by']['key'], $filter['sort_by']['direction']);
+            }
+        }
+
+        if (isset($filter['offset'])) {
+            $collection->offset(isset($filter['offset']) ? (int) $filter['offset'] : 0);
+        }
+
+        if (isset($filter['limit'])) {
+            $collection->limit(isset($filter['limit']) ? (int) $filter['limit'] : 0);
+        }
+
+        switch ($filter['return']) {
             case 'first':
-                $items = $collection->first();
+                $result = $collection->first();
                 break;
             case 'last':
-                $items = $collection->last();
+                $result = $collection->last();
                 break;
             case 'next':
-                $items = $collection->next();
+                $result = $collection->next();
                 break;
             case 'random':
-                $bind_random_value = isset($filter['random_value']) ? (int) $filter['random_value'] : null;
-                $items             = $collection->random($bind_random_value);
-                break;
-            case 'limit':
-                $bind_set_max_result_value = isset($filter['limit_value']) ? (int) $filter['limit_value'] : 0;
-                $items                     = $collection->limit($bind_set_max_result_value);
-                break;
-            case 'set_first_result':
-                $bind_set_first_result_value = isset($filter['set_first_result_value']) ? (int) $filter['set_first_result_value'] : 0;
-                $items                       = $collection->setFirstResult($bind_set_first_result_value);
-                break;
-            case 'slice':
-                $bind_slice_offset_value = isset($filter['slice_offset_value']) ? (int) $filter['slice_offset_value'] : 0;
-                $bind_slice_limit_value  = isset($filter['slice_limit_value']) ? (int) $filter['slice_limit_value'] : 0;
-                $items                   = $collection->slice($bind_slice_offset_value, $bind_slice_limit_value);
+                $result = $collection->random(isset($filter['random']) ? (int) $filter['random'] : null);
                 break;
             case 'exists':
-                $items = $collection->exists();
+                $result = $collection->count() > 0;
                 break;
             case 'count':
-                $items = $collection->count();
+                $result = $collection->count();
                 break;
             case 'shuffle':
-                $items = $collection->shuffle();
+                $result = $collection->shuffle();
                 break;
             case 'all':
-                $items = $collection->all();
-                break;
             default:
-                $items = $collection->all();
+                $result = $collection->all();
                 break;
         }
 
-        // Return entries
-        return $items;
+        return $result;
+
     }
 }
