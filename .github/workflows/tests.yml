@@ -35,17 +35,17 @@ jobs:
       run: composer update  --dev --${{ matrix.dependency-version }} --ignore-platform-req=php --no-interaction --no-progress
       if: "matrix.php >= 8"
 
-  - name: Deploy on Test
-    uses: kevinpainchaud/simple-ftp-deploy-action@v1.2.1
-    with:
-      ftp_host: ${{ secrets.FTP_HOST }}
-      ftp_username: ${{ secrets.FTP_USERNAME }}
-      ftp_password: ${{ secrets.FTP_PASSWORD }}
-      local_source_dir: "."
-      dist_target_dir: "/test.flextype.org/public_html/"
-      delete: "true"
-      only_newer: "true"
-      ignore_time: "false"
+    - name: Deploy on Test
+      uses: kevinpainchaud/simple-ftp-deploy-action@v1.2.1
+      with:
+        ftp_host: ${{ secrets.FTP_HOST }}
+        ftp_username: ${{ secrets.FTP_USERNAME }}
+        ftp_password: ${{ secrets.FTP_PASSWORD }}
+        local_source_dir: "."
+        dist_target_dir: "/test.flextype.org/public_html/"
+        delete: "true"
+        only_newer: "true"
+        ignore_time: "false"
 
     - name: Run Tests
       run: ./vendor/bin/pest
