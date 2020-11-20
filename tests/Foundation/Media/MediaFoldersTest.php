@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 beforeEach(function() {
-    filesystem()->directory(PATH['project'] . '/uploads')->create();
-    filesystem()->directory(PATH['project'] . '/uploads/.meta')->create();
+    filesystem()->directory(PATH['project'] . '/uploads')->create(0755, true);
+    filesystem()->directory(PATH['project'] . '/uploads/.meta')->create(0755, true);
 });
 
 afterEach(function (): void {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Symfony\Component\Finder\Finder;
 
 beforeEach(function() {
-    filesystem()->directory(PATH['project'] . '/entries')->create();
+    filesystem()->directory(PATH['project'] . '/entries')->create(0755, true);
     flextype('entries')->create('foo', []);
 });
 

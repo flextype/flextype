@@ -1,7 +1,7 @@
 <?php
 
 beforeEach(function() {
-    filesystem()->directory(PATH['project'] . '/entries')->create();
+    filesystem()->directory(PATH['project'] . '/entries')->create(0755, true);
 });
 
 afterEach(function (): void {
