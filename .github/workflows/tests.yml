@@ -3,12 +3,13 @@ on: ['push', 'pull_request']
 jobs:
   build:
 
-    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         php: ['7.3', '7.4', '8.0']
         dependency-version: [prefer-stable]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
     - name: Get latest code
@@ -36,6 +37,7 @@ jobs:
       if: "matrix.php >= 8"
 
     - name: Deploy on Test
+      if: "matrix.os == ubuntu-latest"
       uses: kevinpainchaud/simple-ftp-deploy-action@v1.2.1
       with:
         ftp_host: ${{ secrets.FTP_HOST }}
