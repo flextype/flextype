@@ -18,8 +18,8 @@ test('test find() method', function () {
 });
 
 test('test find_filter() method', function () {
-    $this->assertTrue(find_filter(PATH['project'])->hasResults());
-    $this->assertTrue(find_filter(PATH['project'], [])->hasResults());
-    $this->assertTrue(find_filter(PATH['project'], [], 'files')->hasResults());
+    $this->assertTrue(find_filter(PATH['project'] . '/entries')->hasResults());
+    $this->assertTrue(find_filter(PATH['project'] . '/entries', [])->hasResults());
+    $this->assertTrue(find_filter(PATH['project'] . '/entries', [], 'files')->hasResults());
     $this->assertTrue(find_filter(PATH['project'], [], 'directories')->hasResults());
 });
