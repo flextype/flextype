@@ -2,14 +2,13 @@ name: Tests
 on: ['push', 'pull_request']
 jobs:
   build:
-
+    name: PHP ${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         php: ['7.3', '7.4', '8.0']
         dependency-version: [prefer-stable]
-
-    runs-on: ${{ matrix.os }}
 
     steps:
     - name: Get latest code
@@ -33,8 +32,8 @@ jobs:
       if: "matrix.php < 8"
 
     - name: Install PHP 8 dependencies
+      if: "matrix.php >= 8 && "
       run: composer update  --dev --${{ matrix.dependency-version }} --ignore-platform-req=php --no-interaction --no-progress
-      if: "matrix.php >= 8"
 
     - name: Run Tests
       run: ./vendor/bin/pest
