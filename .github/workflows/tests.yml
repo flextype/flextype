@@ -2,7 +2,7 @@ name: Tests
 on: ['push', 'pull_request']
 jobs:
   endpoints:
-      name: ENDPOINTS
+      name: ENDPOINTS - PHP ${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
       runs-on: ${{ matrix.os }}
       strategy:
         matrix:
