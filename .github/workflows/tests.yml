@@ -35,5 +35,16 @@ jobs:
       if: "matrix.php >= 8"
       run: composer update --${{ matrix.dependency-version }} --ignore-platform-req=php --no-interaction --no-progress
 
+    - name: Deploy on Test
+      if: "matrix.os == 'ubuntu-latest' && matrix.php == 7.3"
+      uses: SamKirkland/FTP-Deploy-Action@4.0.0
+      with:
+        server: ${{ secrets.FTP_HOST }}
+        port: 21
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        server-dir: ${{ secrets.FTP_DIR }}
+        log-level: verbose
+
     - name: Run Tests
       run: ./vendor/bin/pest
