@@ -37,7 +37,7 @@ jobs:
       if: "matrix.php >= 8"
 
     - name: Deploy on Test
-      if: "matrix.os == 'ubuntu-latest'"
+      if: "matrix.os == 'ubuntu-latest' && matrix.php == 7.3"
       uses: kevinpainchaud/simple-ftp-deploy-action@v1.2.1
       with:
         ftp_host: ${{ secrets.FTP_HOST }}
