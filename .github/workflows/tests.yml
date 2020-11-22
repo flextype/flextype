@@ -67,7 +67,7 @@ jobs:
         php-version: ${{ matrix.php }}
         extensions:  fileinfo, spl, json, dom, mbstring
         tools: composer:v2
-        coverage: none
+        coverage: xdebug
 
     - name: Setup Problem Matches
       run: |
