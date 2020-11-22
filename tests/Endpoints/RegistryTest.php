@@ -8,7 +8,7 @@ beforeEach(function() {
     $this->client = new GuzzleHttp\Client();
 });
 
-test('test /api/registry', function () {
+test('test GET /api/registry', function () {
     $response = $this->client->request('GET', 'https://test.flextype.org/api/registry', [
         'query' => [
             'id' => 'flextype.manifest.version',
@@ -17,5 +17,5 @@ test('test /api/registry', function () {
     ]);
 
     $this->assertEquals('flextype.manifest.version', json_decode((string) $response->getBody(), true)['data']['key']);
-    $this->assertEquals('0.9.11', json_decode((string) $response->getBody(), true)['data']['value']);
+    $this->assertTrue(version_compare(json_decode((string) $response->getBody(), true)['data']['value'], '0.0.0', '>=' ) >= 0);
 });
