@@ -31,13 +31,14 @@ jobs:
         run: composer update --${{ matrix.dependency-version }} --no-interaction --no-progress
 
       - name: Deploy on Test
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        uses: sand4rt/ftp-deployer@v1.1
         with:
           server: ${{ secrets.FTP_HOST }}
           port: 21
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_DIR }}
+          remote_folder: ${{ secrets.FTP_DIR }}
+          local_folder: ./
           exclude:
             - .git/**
             - vendor/**
