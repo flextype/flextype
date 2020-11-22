@@ -75,8 +75,7 @@ flextype()->get('/api/registry', function (Request $request, Response $response)
 
                 // Update calls counter
                 flextype('filesystem')->file($registry_token_file_path)
-                                      ->put(flextype('yaml')
-                                      ->encode(array_replace_recursive($registry_token_file_data, ['calls' => $registry_token_file_data['calls'] + 1]));
+                                      ->put(flextype('yaml')->encode(array_replace_recursive($registry_token_file_data, ['calls' => $registry_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
