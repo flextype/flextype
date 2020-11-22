@@ -263,16 +263,17 @@ class Entries
         // Run event: onEntryCreate
         flextype('emitter')->emit('onEntryCreate');
 
+        // Create entry directory first if it is not exists
         $entry_dir = $this->getDirectoryLocation($this->storage['create']['id']);
+        if (! flextype('filesystem')->directory($entry_dir)->exists() &&
+            ! flextype('filesystem')->directory($entry_dir)->create()) {
+            return false;
+        }
 
-        if (! flextype('filesystem')->directory($entry_dir)->exists()) {
-            if (flextype('filesystem')->directory($entry_dir)->create()) {
-                if (! flextype('filesystem')->file($entry_file = $entry_dir . '/entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension'))->exists()) {
-                    return (bool) flextype('filesystem')->file($entry_file)->put(flextype('frontmatter')->encode($this->storage['create']['data']));
-                }
-
-                return false;
-            }
+        // Create entry file
+        $entry_file = $entry_dir . '/entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension');
+        if (! flextype('filesystem')->file($entry_file)->exists()) {
+            return (bool) flextype('filesystem')->file($entry_file)->put(flextype('frontmatter')->encode($this->storage['create']['data']));
         }
 
         return false;
