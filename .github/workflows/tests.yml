@@ -1,53 +1,6 @@
 name: Tests
 on: ['push', 'pull_request']
 jobs:
-  endpoints:
-      name: ENDPOINTS - PHP ${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
-      runs-on: ${{ matrix.os }}
-      strategy:
-        matrix:
-          os: [ubuntu-latest]
-          php: ['7.3']
-          dependency-version: [prefer-stable]
-
-      steps:
-      - name: Get latest code
-        uses: actions/checkout@v2
-        
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions:  fileinfo, spl, json, dom, mbstring, xdebug
-          tools: composer:v2
-          coverage: xdebug
-
-      - name: Setup Problem Matches
-        run: |
-          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
-      - name: Install PHP 7 dependencies
-        run: composer update --${{ matrix.dependency-version }} --no-interaction --no-progress
-
-      - name: Deploy on Test
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          port: 21
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_DIR }}
-          exclude: .git*
-              - .git*/**
-              - vendor/**
-              - var/**
-              - tests/**
-              - .github/**
-
-      - name: Run Tests
-        run: ./vendor/bin/pest --group=endpoints
-
   build:
     name: PHP ${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
     runs-on: ${{ matrix.os }}
@@ -83,4 +36,4 @@ jobs:
       run: composer update --${{ matrix.dependency-version }} --ignore-platform-req=php --no-interaction --no-progress
 
     - name: Run Tests
-      run: ./vendor/bin/pest --coverage --exclude-group=endpoints
+      run: ./vendor/bin/pest --coverage
