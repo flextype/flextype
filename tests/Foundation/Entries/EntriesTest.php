@@ -63,6 +63,10 @@ test('test fetchSingle() method', function () {
     flextype('entries')->create('zed', ['title' => 'Zed']);
     $fetch = flextype('entries')->fetchSingle('zed');
     $this->assertEquals('Zed', $fetch['title']);
+
+    // 4
+    flextype('entries')->setStorage('fetch_single.id', 'wrong-entry');
+    $this->assertEquals([], flextype('entries')->fetchSingle('wrong-entry'));
 });
 
 test('test fetchCollection() method', function () {
@@ -95,10 +99,12 @@ test('test delete() method', function () {
 
 test('test move() method', function () {
     flextype('entries')->create('foo', []);
+    flextype('entries')->create('zed', []);
 
     $this->assertTrue(flextype('entries')->move('foo', 'bar'));
     $this->assertTrue(flextype('entries')->has('bar'));
     $this->assertFalse(flextype('entries')->has('foo'));
+    $this->assertFalse(flextype('entries')->move('zed', 'bar'));
 });
 
 test('test getFileLocation() method', function () {
