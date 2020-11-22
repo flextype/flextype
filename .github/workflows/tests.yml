@@ -1,93 +1,86 @@
 name: Tests
-'on':
-  - push
-  - pull_request
+on: ['push', 'pull_request']
 jobs:
   endpoints:
-    name: >-
-      ENDPOINTS - PHP ${{ matrix.php }} - ${{ matrix.os }} - ${{
-      matrix.dependency-version }}
-    runs-on: '${{ matrix.os }}'
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-        php:
-          - '7.3'
-        dependency-version:
-          - prefer-stable
-    steps:
+      name: ENDPOINTS - PHP ${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
+      runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ubuntu-latest]
+          php: ['7.3']
+          dependency-version: [prefer-stable]
+
+      steps:
       - name: Get latest code
         uses: actions/checkout@v2
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '${{ matrix.php }}'
-          extensions: 'fileinfo, spl, json, dom, mbstring'
-          tools: 'composer:v2'
+          php-version: ${{ matrix.php }}
+          extensions:  fileinfo, spl, json, dom, mbstring
+          tools: composer:v2
           coverage: none
+
       - name: Setup Problem Matches
         run: |
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
       - name: Install PHP 7 dependencies
-        run: >-
-          composer update --${{ matrix.dependency-version }} --no-interaction
-          --no-progress
+        run: composer update --${{ matrix.dependency-version }} --no-interaction --no-progress
+
       - name: Deploy on Test
         uses: sand4rt/ftp-deployer@v1.1
         with:
-          server: '${{ secrets.FTP_HOST }}'
+          server: ${{ secrets.FTP_HOST }}
           port: 21
-          username: '${{ secrets.FTP_USERNAME }}'
-          password: '${{ secrets.FTP_PASSWORD }}'
-          remote_folder: '${{ secrets.FTP_DIR }}'
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          remote_folder: ${{ secrets.FTP_DIR }}
           local_folder: ./
           exclude:
-            - .git/**
-            - vendor/**
-            - var/**
-            - .github/**
+            - '.git/**'
+            - 'vendor/**'
+            - 'var/**'
+            - '.github/**'
+
       - name: Run Tests
         run: ./vendor/bin/pest --group=endpoints
+
   build:
-    name: >-
-      PHP ${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version
-      }}
-    runs-on: '${{ matrix.os }}'
+    name: PHP ${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os:
-          - ubuntu-latest
-        php:
-          - '7.3'
-          - '7.4'
-          - '8.0'
-        dependency-version:
-          - prefer-stable
+        os: [ubuntu-latest]
+        php: ['7.3', '7.4', '8.0']
+        dependency-version: [prefer-stable]
+
     steps:
-      - name: Get latest code
-        uses: actions/checkout@v2
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '${{ matrix.php }}'
-          extensions: 'fileinfo, spl, json, dom, mbstring'
-          tools: 'composer:v2'
-          coverage: none
-      - name: Setup Problem Matches
-        run: |
-          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-      - name: Install PHP 7 dependencies
-        run: >-
-          composer update --${{ matrix.dependency-version }} --no-interaction
-          --no-progress
-        if: matrix.php < 8
-      - name: Install PHP 8 dependencies
-        if: matrix.php >= 8
-        run: >-
-          composer update --${{ matrix.dependency-version }}
-          --ignore-platform-req=php --no-interaction --no-progress
-      - name: Run Tests
-        run: ./vendor/bin/pest --exclude-group=endpoints
+    - name: Get latest code
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions:  fileinfo, spl, json, dom, mbstring
+        tools: composer:v2
+        coverage: none
+
+    - name: Setup Problem Matches
+      run: |
+        echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+        echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+    - name: Install PHP 7 dependencies
+      run: composer update --${{ matrix.dependency-version }} --no-interaction --no-progress
+      if: "matrix.php < 8"
+
+    - name: Install PHP 8 dependencies
+      if: "matrix.php >= 8"
+      run: composer update --${{ matrix.dependency-version }} --ignore-platform-req=php --no-interaction --no-progress
+
+    - name: Run Tests
+      run: ./vendor/bin/pest --exclude-group=endpoints
