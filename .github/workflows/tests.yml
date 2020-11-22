@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: ${{ secrets.FTP_DIR }}
-          exclude: 'vendor/**,var/**,.git/**,.github/**'
+          exclude: [".git*", ".git*/**", "vendor*/**", "var*/**", ".github*/**"]
 
       - name: Run Tests
         run: ./vendor/bin/pest --group=endpoints
