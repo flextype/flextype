@@ -18,7 +18,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions:  fileinfo, spl, json, dom, mbstring
+          extensions:  fileinfo, spl, json, dom, mbstring, xdebug
           tools: composer:v2
           coverage: none
 
@@ -83,4 +83,4 @@ jobs:
       run: composer update --${{ matrix.dependency-version }} --ignore-platform-req=php --no-interaction --no-progress
 
     - name: Run Tests
-      run: ./vendor/bin/pest --exclude-group=endpoints
+      run: ./vendor/bin/pest --coverage --exclude-group=endpoints
