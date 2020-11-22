@@ -13,9 +13,6 @@ jobs:
       steps:
       - name: Get latest code
         uses: actions/checkout@v2
-
-      - name: Setup Xdebug
-        uses: MilesChou/docker-xdebug@v1.0.0
         
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -23,7 +20,7 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions:  fileinfo, spl, json, dom, mbstring, xdebug
           tools: composer:v2
-          coverage: none
+          coverage: xdebug
 
       - name: Setup Problem Matches
         run: |
