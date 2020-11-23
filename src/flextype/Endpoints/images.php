@@ -18,7 +18,7 @@ use function array_replace_recursive;
  */
 function validate_images_token($token) : bool
 {
-    return flextype('filesystem')->exists(PATH['project'] . '/tokens/images/' . $token . '/token.yaml');
+    return flextype('filesystem')->file(PATH['project'] . '/tokens/images/' . $token . '/token.yaml')->exists();
 }
 
 /**
@@ -54,7 +54,7 @@ flextype()->get('/api/images/{path:.+}', function (Request $request, Response $r
             $delivery_images_token_file_path = PATH['project'] . '/tokens/images/' . $token . '/token.yaml';
 
             // Set delivery token file
-            if ($delivery_images_token_file_data = flextype('yaml')->decode(Filesystem::read($delivery_images_token_file_path))) {
+            if ($delivery_images_token_file_data = flextype('yaml')->decode(flextype('filesystem')->file($delivery_images_token_file_path)->get())) {
                 if ($delivery_images_token_file_data['state'] === 'disabled' ||
                     ($delivery_images_token_file_data['limit_calls'] !== 0 && $delivery_images_token_file_data['calls'] >= $delivery_images_token_file_data['limit_calls'])) {
                     return $response->withStatus($api_errors['0003']['http_status_code'])
@@ -63,9 +63,9 @@ flextype()->get('/api/images/{path:.+}', function (Request $request, Response $r
                 }
 
                 // Update calls counter
-                Filesystem::write($delivery_images_token_file_path, flextype('yaml')->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1])));
+                flextype('filesytem')->file($delivery_images_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1])));
 
-                if (Filesystem::has(PATH['project'] . '/uploads/entries/' . $args['path'])) {
+                if (flextype('filesystem')->file(PATH['project'] . '/uploads/entries/' . $args['path'])->exists()) {
                     return flextype('images')->getImageResponse($args['path'], $_GET);
                 }
 
