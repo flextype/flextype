@@ -39,7 +39,7 @@ class Plugins
      */
     public function __construct()
     {
-        $this->locales = flextype('yaml')->decode(flextype('filesystem')->file(ROOT_DIR . '/src/flextype/locales.yaml')->get());
+        $this->locales = flextype('yaml')->decode(filesystem()->file(ROOT_DIR . '/src/flextype/locales.yaml')->get());
     }
 
     /**
@@ -111,22 +111,22 @@ class Plugins
                 $project_plugin_settings_file = PATH['project'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
 
                 // Create project plugin settings directory
-                ! flextype('filesystem')->directory($project_plugin_settings_dir)->exists() and flextype('filesystem')->directory($project_plugin_settings_dir)->create(0755, true);
+                ! filesystem()->directory($project_plugin_settings_dir)->exists() and filesystem()->directory($project_plugin_settings_dir)->create(0755, true);
 
                 // Check if default plugin settings file exists
-                if (! flextype('filesystem')->file($default_plugin_settings_file)->exists()) {
+                if (! filesystem()->file($default_plugin_settings_file)->exists()) {
                     throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin settings - failed!');
                 }
 
                 // Get default plugin settings content
-                $default_plugin_settings_file_content = flextype('filesystem')->file($default_plugin_settings_file)->get();
+                $default_plugin_settings_file_content = filesystem()->file($default_plugin_settings_file)->get();
                 $default_plugin_settings              = flextype('yaml')->decode($default_plugin_settings_file_content);
 
                 // Create project plugin settings file
-                ! flextype('filesystem')->file($project_plugin_settings_file)->exists() and flextype('filesystem')->file($project_plugin_settings_file)->put($default_plugin_settings_file_content);
+                ! filesystem()->file($project_plugin_settings_file)->exists() and filesystem()->file($project_plugin_settings_file)->put($default_plugin_settings_file_content);
 
                 // Get project plugin settings content
-                $project_plugin_settings_file_content = flextype('filesystem')->file($project_plugin_settings_file)->get();
+                $project_plugin_settings_file_content = filesystem()->file($project_plugin_settings_file)->get();
 
                 if (trim($project_plugin_settings_file_content) === '') {
                     $project_plugin_settings = [];
@@ -135,12 +135,12 @@ class Plugins
                 }
 
                 // Check if default plugin manifest file exists
-                if (! flextype('filesystem')->file($default_plugin_manifest_file)->exists()) {
+                if (! filesystem()->file($default_plugin_manifest_file)->exists()) {
                     throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin manifest - failed!');
                 }
 
                 // Get default plugin manifest content
-                $default_plugin_manifest_file_content = flextype('filesystem')->file($default_plugin_manifest_file)->get();
+                $default_plugin_manifest_file_content = filesystem()->file($default_plugin_manifest_file)->get();
                 $default_plugin_manifest              = flextype('yaml')->decode($default_plugin_manifest_file_content);
 
                 // Merge plugin settings and manifest data
@@ -194,11 +194,11 @@ class Plugins
         foreach ($plugins_list as $plugin) {
             $language_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
 
-            if (! flextype('filesystem')->file($language_file)->exists()) {
+            if (! filesystem()->file($language_file)->exists()) {
                 continue;
             }
 
-            if (($content = flextype('filesystem')->file($language_file)->get()) === false) {
+            if (($content = filesystem()->file($language_file)->get()) === false) {
                 throw new RuntimeException('Load file: ' . $language_file . ' - failed!');
             }
 
@@ -229,9 +229,9 @@ class Plugins
                 $default_plugin_manifest_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
                 $project_plugin_settings_file = PATH['project'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
 
-                $f1 = flextype('filesystem')->file($default_plugin_settings_file)->exists() ? filemtime($default_plugin_settings_file) : '';
-                $f2 = flextype('filesystem')->file($default_plugin_manifest_file)->exists() ? filemtime($default_plugin_manifest_file) : '';
-                $f3 = flextype('filesystem')->file($project_plugin_settings_file)->exists() ? filemtime($project_plugin_settings_file) : '';
+                $f1 = filesystem()->file($default_plugin_settings_file)->exists() ? filemtime($default_plugin_settings_file) : '';
+                $f2 = filesystem()->file($default_plugin_manifest_file)->exists() ? filemtime($default_plugin_manifest_file) : '';
+                $f3 = filesystem()->file($project_plugin_settings_file)->exists() ? filemtime($project_plugin_settings_file) : '';
 
                 $_plugins_cache_id .= $f1 . $f2 . $f3;
             }
@@ -351,8 +351,8 @@ class Plugins
         // Get Plugins List
         $plugins_list = [];
 
-        if (flextype('filesystem')->directory(PATH['project'] . '/plugins/')->exists()) {
-            foreach (flextype('filesystem')->find()->in(PATH['project'] . '/plugins/')->directories()->depth(0) as $plugin) {
+        if (filesystem()->directory(PATH['project'] . '/plugins/')->exists()) {
+            foreach (filesystem()->find()->in(PATH['project'] . '/plugins/')->directories()->depth(0) as $plugin) {
                 $plugins_list[$plugin->getBasename()]['dirname'] = $plugin->getBasename();
                 $plugins_list[$plugin->getBasename()]['pathname'] = $plugin->getPathname();
             }

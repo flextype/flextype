@@ -12,7 +12,7 @@ use Atomastic\Strings\Strings;
 if (flextype('registry')->get('flextype.settings.entries.fields.created_at.enabled')) {
     flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {
         if (flextype('entries')->getStorage('fetch_single.data.created_at') === null) {
-            flextype('entries')->setStorage('fetch_single.data.created_at', (int) flextype('filesystem')->file(flextype('entries')->getFileLocation(flextype('entries')->getStorage('fetch_single.id')))->lastModified());
+            flextype('entries')->setStorage('fetch_single.data.created_at', (int) filesystem()->file(flextype('entries')->getFileLocation(flextype('entries')->getStorage('fetch_single.id')))->lastModified());
         } else {
             flextype('entries')->setStorage('fetch_single.data.created_at', (int) strtotime((string) flextype('entries')->getStorage('fetch_single.data.created_at')));
         }

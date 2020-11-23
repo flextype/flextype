@@ -21,7 +21,7 @@ use function is_array;
  */
 function validate_entries_token($token) : bool
 {
-    return flextype('filesystem')->file(PATH['project'] . '/tokens/entries/' . $token . '/token.yaml')->exists();
+    return filesystem()->file(PATH['project'] . '/tokens/entries/' . $token . '/token.yaml')->exists();
 }
 
 /**
@@ -59,7 +59,7 @@ flextype()->get('/api/entries', function (Request $request, Response $response) 
             $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
 
             // Set entries token file
-            if ($entries_token_file_data = flextype('yaml')->decode(flextype('filesystem')->file($entries_token_file_path)->get())) {
+            if ($entries_token_file_data = flextype('yaml')->decode(filesystem()->file($entries_token_file_path)->get())) {
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response
@@ -154,8 +154,8 @@ flextype()->post('/api/entries', function (Request $request, Response $response)
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
-            if (($entries_token_file_data = flextype('yaml')->decode(flextype('filesystem')->file($entries_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('yaml')->decode(flextype('filesystem')->file($access_token_file_path)->get()))) {
+            if (($entries_token_file_data = flextype('yaml')->decode(filesystem()->file($entries_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response
@@ -258,8 +258,8 @@ flextype()->patch('/api/entries', function (Request $request, Response $response
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
-            if (($entries_token_file_data = flextype('yaml')->decode(flextype('filesystem')->file($entries_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('yaml')->decode(flextype('filesystem')->file($access_token_file_path)->get()))) {
+            if (($entries_token_file_data = flextype('yaml')->decode(filesystem()->file($entries_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response
@@ -289,7 +289,7 @@ flextype()->patch('/api/entries', function (Request $request, Response $response
                 $response_code = $update_entry ? 200 : 404;
 
                 // Update calls counter
-                flextype('filesystem')->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
+                filesystem()->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -362,8 +362,8 @@ flextype()->put('/api/entries', function (Request $request, Response $response) 
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
-            if (($entries_token_file_data = flextype('yaml')->decode(flextype('filesystem')->file($entries_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('yaml')->decode(flextype('filesystem')->file($access_token_file_path)->get()))) {
+            if (($entries_token_file_data = flextype('yaml')->decode(filesystem()->file($entries_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response
@@ -394,7 +394,7 @@ flextype()->put('/api/entries', function (Request $request, Response $response) 
                 $response_code = $rename_entry ? 200 : 404;
 
                 // Update calls counter
-                flextype('filesystem')->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
+                filesystem()->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -467,8 +467,8 @@ flextype()->put('/api/entries/copy', function (Request $request, Response $respo
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
-            if (($entries_token_file_data = flextype('yaml')->decode(flextype('filesystem')->file($entries_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('yaml')->decode(flextype('filesystem')->file($access_token_file_path)->get()))) {
+            if (($entries_token_file_data = flextype('yaml')->decode(filesystem()->file($entries_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response
@@ -499,7 +499,7 @@ flextype()->put('/api/entries/copy', function (Request $request, Response $respo
                 $response_code = $copy_entry === null ? 200 : 404;
 
                 // Update calls counter
-                flextype('filesystem')->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
+                filesystem()->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -570,8 +570,8 @@ flextype()->delete('/api/entries', function (Request $request, Response $respons
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set entries and access token file
-            if (($entries_token_file_data = flextype('yaml')->decode(flextype('filesystem')->file($entries_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('yaml')->decode(flextype('filesystem')->file($access_token_file_path)->get()))) {
+            if (($entries_token_file_data = flextype('yaml')->decode(filesystem()->file($entries_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
                 if ($entries_token_file_data['state'] === 'disabled' ||
                     ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])) {
                     return $response
@@ -595,7 +595,7 @@ flextype()->delete('/api/entries', function (Request $request, Response $respons
                 $response_code = $delete_entry ? 204 : 404;
 
                 // Update calls counter
-                flextype('filesystem')->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
+                filesystem()->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response

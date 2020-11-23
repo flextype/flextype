@@ -14,5 +14,5 @@ namespace Flextype;
  */
 function validate_access_token($token) : bool
 {
-    return flextype('filesystem')->file(PATH['project'] . '/tokens/access/' . $token . '/token.yaml')->exists();
+    return filesystem()->file(PATH['project'] . '/tokens/access/' . $token . '/token.yaml')->exists();
 }

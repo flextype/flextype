@@ -18,7 +18,7 @@ use function array_replace_recursive;
  */
 function validate_registry_token($token) : bool
 {
-    return flextype('filesystem')->file(PATH['project'] . '/tokens/registry/' . $token . '/token.yaml')->exists();
+    return filesystem()->file(PATH['project'] . '/tokens/registry/' . $token . '/token.yaml')->exists();
 }
 
 /**
@@ -53,7 +53,7 @@ flextype()->get('/api/registry', function (Request $request, Response $response)
             $registry_token_file_path = PATH['project'] . '/tokens/registry/' . $token . '/token.yaml';
 
             // Set  token file
-            if ($registry_token_file_data = flextype('yaml')->decode(flextype('filesystem')->file($registry_token_file_path)->get())) {
+            if ($registry_token_file_data = flextype('yaml')->decode(filesystem()->file($registry_token_file_path)->get())) {
                 if ($registry_token_file_data['state'] === 'disabled' ||
                     ($registry_token_file_data['limit_calls'] !== 0 && $registry_token_file_data['calls'] >= $registry_token_file_data['limit_calls'])) {
                     return $response->withStatus($api_errors['0003']['http_status_code'])
@@ -74,7 +74,7 @@ flextype()->get('/api/registry', function (Request $request, Response $response)
                 }
 
                 // Update calls counter
-                flextype('filesystem')->file($registry_token_file_path)
+                filesystem()->file($registry_token_file_path)
                                       ->put(flextype('yaml')->encode(array_replace_recursive($registry_token_file_data, ['calls' => $registry_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {

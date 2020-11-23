@@ -13,7 +13,6 @@ use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
 use Atomastic\Strings\Strings;
 use Atomastic\Session\Session;
-use Atomastic\Filesystem\Filesystem;
 use Flextype\Foundation\Cors;
 use Flextype\Foundation\Entries\Entries;
 use Flextype\Foundation\Media\MediaFiles;
@@ -59,13 +58,6 @@ use function extension_loaded;
 use function in_array;
 use function sys_get_temp_dir;
 
-
-/**
- * Add filesystem service to Flextype container
- */
-flextype()->container()['filesystem'] = static function () {
-    return new Filesystem();
-};
 
 /**
  * Create a standard session hanndler

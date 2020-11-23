@@ -112,7 +112,7 @@ class Entries
             $entry_file = $this->getFileLocation($this->storage['fetch_single']['id']);
 
             // Try to get requested entry from the filesystem
-            $entry_file_content = flextype('filesystem')->file($entry_file)->get();
+            $entry_file_content = filesystem()->file($entry_file)->get();
             if ($entry_file_content === false) {
                 return [];
             }
@@ -207,7 +207,7 @@ class Entries
         flextype('emitter')->emit('onEntryMove');
 
         if (! $this->has($this->storage['move']['new_id'])) {
-            return flextype('filesystem')->directory($this->getDirectoryLocation($this->storage['move']['id']))->move($this->getDirectoryLocation($this->storage['move']['new_id']));
+            return filesystem()->directory($this->getDirectoryLocation($this->storage['move']['id']))->move($this->getDirectoryLocation($this->storage['move']['new_id']));
         }
 
         return false;
@@ -234,11 +234,11 @@ class Entries
 
         $entry_file = $this->getFileLocation($this->storage['update']['id']);
 
-        if (flextype('filesystem')->file($entry_file)->exists()) {
-            $body  = flextype('filesystem')->file($entry_file)->get();
+        if (filesystem()->file($entry_file)->exists()) {
+            $body  = filesystem()->file($entry_file)->get();
             $entry = flextype('frontmatter')->decode($body);
 
-            return (bool) flextype('filesystem')->file($entry_file)->put(flextype('frontmatter')->encode(array_merge($entry, $this->storage['update']['data'])));
+            return (bool) filesystem()->file($entry_file)->put(flextype('frontmatter')->encode(array_merge($entry, $this->storage['update']['data'])));
         }
 
         return false;
@@ -265,15 +265,15 @@ class Entries
 
         // Create entry directory first if it is not exists
         $entry_dir = $this->getDirectoryLocation($this->storage['create']['id']);
-        if (! flextype('filesystem')->directory($entry_dir)->exists() &&
-            ! flextype('filesystem')->directory($entry_dir)->create()) {
+        if (! filesystem()->directory($entry_dir)->exists() &&
+            ! filesystem()->directory($entry_dir)->create()) {
             return false;
         }
 
         // Create entry file
         $entry_file = $entry_dir . '/entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension');
-        if (! flextype('filesystem')->file($entry_file)->exists()) {
-            return (bool) flextype('filesystem')->file($entry_file)->put(flextype('frontmatter')->encode($this->storage['create']['data']));
+        if (! filesystem()->file($entry_file)->exists()) {
+            return (bool) filesystem()->file($entry_file)->put(flextype('frontmatter')->encode($this->storage['create']['data']));
         }
 
         return false;
@@ -296,7 +296,7 @@ class Entries
         // Run event: onEntryDelete
         flextype('emitter')->emit('onEntryDelete');
 
-        return flextype('filesystem')->directory($this->getDirectoryLocation($this->storage['delete']['id']))->delete();
+        return filesystem()->directory($this->getDirectoryLocation($this->storage['delete']['id']))->delete();
     }
 
     /**
@@ -318,7 +318,7 @@ class Entries
         // Run event: onEntryCopy
         flextype('emitter')->emit('onEntryCopy');
 
-        return flextype('filesystem')->directory($this->getDirectoryLocation($this->storage['copy']['id']))->copy($this->getDirectoryLocation($this->storage['copy']['new_id']));
+        return filesystem()->directory($this->getDirectoryLocation($this->storage['copy']['id']))->copy($this->getDirectoryLocation($this->storage['copy']['new_id']));
     }
 
     /**
@@ -338,7 +338,7 @@ class Entries
         // Run event: onEntryHas
         flextype('emitter')->emit('onEntryHas');
 
-        return flextype('filesystem')->file($this->getFileLocation($this->storage['has']['id']))->exists();
+        return filesystem()->file($this->getFileLocation($this->storage['has']['id']))->exists();
     }
 
     /**
@@ -386,8 +386,8 @@ class Entries
 
         $entry_file = $this->getFileLocation($id);
 
-        if (flextype('filesystem')->file($entry_file)->exists()) {
-            return md5('entry' . $entry_file . (flextype('filesystem')->file($entry_file)->lastModified() ?: ''));
+        if (filesystem()->file($entry_file)->exists()) {
+            return md5('entry' . $entry_file . (filesystem()->file($entry_file)->lastModified() ?: ''));
         }
 
         return md5('entry' . $entry_file);
