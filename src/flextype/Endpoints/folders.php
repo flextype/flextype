@@ -395,7 +395,7 @@ flextype()->put('/api/folders', function (Request $request, Response $response) 
                 $response_code = $rename_folder ? 200 : 404;
 
                 // Update calls counter
-                flextype('filesytem')->file($folders_token_file_path)->put(lextype('yaml')->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
+                flextype('filesytem')->file($folders_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
