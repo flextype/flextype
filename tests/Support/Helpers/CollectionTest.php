@@ -46,6 +46,15 @@ test('test collect_filter() method', function () {
     $this->assertContains(collect_filter($random, ['return' => 'first']), $data);
     $this->assertContains(collect_filter($random, ['return' => 'last']), $data);
 
+    // return: exists
+    $this->assertTrue(collect_filter($data, ['return' => 'exists']));
+
+    // return: shuffle
+    $this->assertNotEquals(
+        collect_filter($data, ['return' => 'shuffle']),
+        collect_filter($data, ['return' => 'shuffle'])
+    );
+
     // return: count
     $this->assertEquals(3, collect_filter($data, ['return' => 'count']));
 
