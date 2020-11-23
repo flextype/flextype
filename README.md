@@ -14,7 +14,7 @@ With Flextype, you are in complete control. Design your data structure the way y
 The underlying architecture of Flextype is built using well established and best-in-class technologies. This is to ensure that Flextype is simple to use and easy to extend. Some of these key technologies include:
 
 * [Slim PHP](http://www.slimframework.com): Framework for powerful web applications and APIs.
-* [Doctrine Project](https://www.doctrine-project.org): A set of decoupled and reusable PHP libraries for powerful web applications.
+* [Atomastic](https://atomastic.com): A set of decoupled and reusable PHP building blocks for kickass Web Applications.
 * [The PHP League](https://thephpleague.com): The League of Extraordinary PHP Packages well tested and using modern coding standards.
 * [Respect Validation](https://respect-validation.readthedocs.io/): The most awesome validation engine ever created for PHP.
 * [Thunderer Shortcode](https://github.com/thunderer/Shortcode): Advanced shortcode (BBCode) parser and engine for PHP.
