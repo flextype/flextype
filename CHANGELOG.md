@@ -45,9 +45,9 @@
     $result = collect($entries)->groupBy('tags')->all();
     ```
 
-* **entries** add new private property `$storage` for storing current requested entry(entries) data and all Entries CRUD operations data in memory with ability to change them dynamically on fly. And new public methods `getStorage()` `setStorage()` ([#467](https://github.com/flextype/flextype/issues/467))
+* **entries** add new Flextype Entries Memory Storage (Flextype EMS). New private property `$storage` for storing current requested entry(or entries) data and all Entries CRUD operations data in memory with ability to change them dynamically on fly. New public methods `getStorage()` `setStorage()` ([#467](https://github.com/flextype/flextype/issues/467))
 
-    Structure (Entries Memory Storage):
+    Structure (Flextype EMS):
 
     ```php
     $storage = [
