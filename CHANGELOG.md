@@ -1,5 +1,5 @@
 <a name="0.9.12"></a>
-# [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-09-XX)
+# [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-12-XX)
 
 ### Features
 * **core** move to Odan Session ([#473](https://github.com/flextype/flextype/issues/473))
@@ -47,7 +47,7 @@
 
 * **entries** add new private property `$storage` for storing current requested entry(entries) data and all Entries CRUD operations data in memory with ability to change them dynamically on fly. And new public methods `getStorage()` `setStorage()` ([#467](https://github.com/flextype/flextype/issues/467))
 
-    Storage structure:
+    Structure (Entries Memory Storage):
 
     ```php
     $storage = [
