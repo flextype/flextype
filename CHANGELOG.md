@@ -2,9 +2,16 @@
 # [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-12-XX)
 
 ### Features
-* **core** move to Odan Session ([#473](https://github.com/flextype/flextype/issues/473))
+* **core** add Atomastic Components instead of Flextype Components #478 ([https://github.com/flextype/flextype/issues/478])
 
-* **cache** new cache engine - PHPFastCache ([#457](https://github.com/flextype/flextype/issues/457))
+    added:
+    - atomastic/session
+    - atomastic/arrays
+    - atomastic/filesystem
+    - atomastic/registry
+    - atomastic/strings
+
+* **cache** add new cache engine - PHPFastCache ([#457](https://github.com/flextype/flextype/issues/457))
 
     #### New config for PhpFastCache
     https://github.com/flextype/flextype/blob/dev/src/flextype/settings.yaml#L127-L241  
@@ -35,14 +42,6 @@
 
     ```php
     $markdown = flextype('markdown')->getInstance();
-    ```
-
-* **collection** add `groupBy()` method for Collection ([#466](https://github.com/flextype/flextype/issues/466))
-
-    Usage:
-
-    ```php
-    $result = collect($entries)->groupBy('tags')->all();
     ```
 
 * **entries** add new Flextype Entries Memory Storage (Flextype EMS). New private property `$storage` for storing current requested entry(or entries) data and all Entries CRUD operations data in memory with ability to change them dynamically on fly. New public methods `getStorage()` `setStorage()` ([#467](https://github.com/flextype/flextype/issues/467))
@@ -156,6 +155,8 @@
 * **core** remove flextype-components/cookie ([#473](https://github.com/flextype/flextype/issues/473))
 
 * **core** remove flextype-components/number ([#474](https://github.com/flextype/flextype/issues/474))
+
+* **core** remove flextype-components/filesystem ([#474](https://github.com/flextype/flextype/issues/474))
 
 <a name="0.9.11"></a>
 # [0.9.11](https://github.com/flextype/flextype/compare/v0.9.10...v0.9.11) (2020-08-25)
