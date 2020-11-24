@@ -4,7 +4,7 @@
 ### Features
 * **core** add Atomastic Components instead of Flextype Components #478 ([https://github.com/flextype/flextype/issues/478])
 
-    added:
+    Added:
     - atomastic/session
     - atomastic/arrays
     - atomastic/filesystem
@@ -72,7 +72,6 @@
         'copy' => [
           'id' => '',
           'new_id' => '',
-          'deep' => '',
         ],
         'move' => [
           'id' => '',
