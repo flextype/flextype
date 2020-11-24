@@ -13,10 +13,6 @@ afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
-test('test find() method', function () {
-    $this->assertInstanceOf(Finder::class, find());
-});
-
 test('test find_filter() method', function () {
     $this->assertTrue(find_filter(PATH['project'] . '/entries')->hasResults());
     $this->assertTrue(find_filter(PATH['project'] . '/entries', [])->hasResults());
