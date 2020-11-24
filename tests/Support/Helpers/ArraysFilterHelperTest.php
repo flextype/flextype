@@ -46,9 +46,9 @@ test('test arrays_filter() method', function () {
     $this->assertTrue(arrays_filter($data, ['return' => 'exists']));
 
     // return: shuffle
-    $this->assertContains(
-        arrays_filter($data, ['return' => 'shuffle']),
-        arrays_filter($data, ['return' => 'shuffle'])
+    $this->assertTrue(
+        is_array(arrays_filter($data, ['return' => 'shuffle'])) &&
+        is_array(arrays_filter($data, ['return' => 'shuffle']))
     );
 
     // return: count
