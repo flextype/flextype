@@ -159,7 +159,7 @@ class Entries
         // Run event: onEntriesInitialized
         flextype('emitter')->emit('onEntriesInitialized');
 
-        // Find entries
+        // Apply find_filter
         $entries_list = find_filter($this->storage['fetch_collection']['id'], $filter);
 
         // If entries founded in the entries folder
@@ -176,7 +176,7 @@ class Entries
                 $this->storage['fetch_collection']['data'][$_id] = $this->fetchSingle($_id);
             }
 
-            // Apply collection filter
+            // Apply arrays_filter
             $this->storage['fetch_collection']['data'] = arrays_filter($this->storage['fetch_collection']['data'], $filter);
 
             // Run event: onEntriesAfterInitialized
