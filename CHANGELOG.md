@@ -11,7 +11,7 @@
     - atomastic/registry
     - atomastic/strings
 
-* **cache** add new cache engine - PHPFastCache ([#457](https://github.com/flextype/flextype/issues/457))
+* **cache** add new cache engine - PHPFastCache insteed of Doctrine Cache ([#457](https://github.com/flextype/flextype/issues/457))
 
     #### New config for PhpFastCache
     https://github.com/flextype/flextype/blob/dev/src/flextype/settings.yaml#L127-L241  
@@ -21,7 +21,7 @@
     https://github.com/PHPSocialNetwork/phpfastcache   
 
 
-* **core** add new tmp constant ([#470](https://github.com/flextype/flextype/issues/470))
+* **core** add new `PATH['tmp']` constant ([#470](https://github.com/flextype/flextype/issues/470))
 
     Now we have:
 
@@ -99,7 +99,7 @@
 
 ### Bug Fixes
 
-* **entries** fix issue with delete method ([#465](https://github.com/flextype/flextype/issues/465))
+* **entries** fix issue with delete() method ([#465](https://github.com/flextype/flextype/issues/465))
 
 ### Refactoring
 
@@ -156,6 +156,9 @@
 * **core** remove flextype-components/number ([#474](https://github.com/flextype/flextype/issues/474))
 
 * **core** remove flextype-components/filesystem ([#474](https://github.com/flextype/flextype/issues/474))
+
+* **core** remove flextype-components/arrays ([#474](https://github.com/flextype/flextype/issues/474))
+
 
 <a name="0.9.11"></a>
 # [0.9.11](https://github.com/flextype/flextype/compare/v0.9.10...v0.9.11) (2020-08-25)
