@@ -29,27 +29,28 @@ class Entries
      * and maybe changed on fly.
      *
      * @var array
-     * @access public
+     * @access private
      */
     private $storage = [];
 
     /**
      * Get storage
      *
-     * @param string Key
+     * @param  string|int|null $key     Key
+     * @param  mixed           $default Default value
      */
-    public function getStorage(string $key)
+    public function getStorage($key, $default = null)
     {
-        return arrays($this->storage)->get($key);
+        return arrays($this->storage)->get($key, $default);
     }
 
     /**
      * Set storage
      *
-     * @param string Key
-     * @param mixed  Value
+     * @param  string|null $key   Key
+     * @param  mixed       $value Value
      */
-    public function setStorage(string $key, $value)
+    public function setStorage(?string $key, $value)
     {
         $this->storage = arrays($this->storage)->set($key, $value)->toArray();
     }
