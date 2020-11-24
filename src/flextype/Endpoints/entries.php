@@ -12,7 +12,7 @@ namespace Flextype;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Http\Response;
 use function array_replace_recursive;
-use function collect_filter;
+use function arrays_filter;
 use function count;
 use function is_array;
 

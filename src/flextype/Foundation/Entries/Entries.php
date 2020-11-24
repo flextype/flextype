@@ -12,7 +12,7 @@ namespace Flextype\Foundation\Entries;
 use Atomastic\Arrays\Arrays;
 
 use function array_merge;
-use function collect_filter;
+use function arrays_filter;
 use function count;
 use function find_filter;
 use function ltrim;
@@ -177,7 +177,7 @@ class Entries
             }
 
             // Apply collection filter
-            $this->storage['fetch_collection']['data'] = collect_filter($this->storage['fetch_collection']['data'], $filter);
+            $this->storage['fetch_collection']['data'] = arrays_filter($this->storage['fetch_collection']['data'], $filter);
 
             // Run event: onEntriesAfterInitialized
             flextype('emitter')->emit('onEntriesAfterInitialized');

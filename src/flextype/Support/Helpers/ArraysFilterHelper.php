@@ -9,19 +9,7 @@ declare(strict_types=1);
 
 use Atomastic\Arrays\Arrays;
 
-if (! function_exists('collect')) {
-    /**
-     * Create a collection from the given value.
-     *
-     * @param  mixed $items Items
-     */
-    function collect($items = []): Arrays
-    {
-        return new Arrays($items);
-    }
-}
-
-if (! function_exists('collect_filter')) {
+if (! function_exists('arrays_filter')) {
     /**
      * Create a collection from the given value and filter it.
      *
@@ -30,9 +18,9 @@ if (! function_exists('collect_filter')) {
      *
      * @return array|bool|int
      */
-    function collect_filter($items = [], array $filter = [])
+    function arrays_filter($items = [], array $filter = [])
     {
-        $collection = new Arrays($items);
+        $collection = arrays($items);
 
         if (isset($filter['where'])) {
             if (is_array($filter['where'])) {

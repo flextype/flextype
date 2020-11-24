@@ -73,7 +73,8 @@
         ],
         "files": [
             "src/flextype/Support/Helpers/FinderHelper.php",
-            "src/flextype/Support/Helpers/CollectionHelper.php",
+            "src/flextype/Support/Helpers/FinderFilterHelper.php",
+            "src/flextype/Support/Helpers/ArraysFilterHelper.php",
             "src/flextype/Foundation/Helpers/FlextypeHelper.php"
         ]
     },
