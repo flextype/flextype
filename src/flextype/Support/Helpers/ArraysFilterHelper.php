@@ -77,7 +77,7 @@ if (! function_exists('arrays_filter')) {
                 $result = $collection->count();
                 break;
             case 'shuffle':
-                $result = $collection->shuffle();
+                $result = $collection->shuffle()->toArray();
                 break;
             case 'all':
             default:
