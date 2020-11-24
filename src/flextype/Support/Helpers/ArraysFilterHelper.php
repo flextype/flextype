@@ -22,6 +22,8 @@ if (! function_exists('arrays_filter')) {
     {
         $collection = arrays($items);
 
+        ! isset($filter['return']) AND $filter['return'] = 'all';
+
         if (isset($filter['where'])) {
             if (is_array($filter['where'])) {
                 foreach ($filter['where'] as $key => $value) {
