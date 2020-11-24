@@ -82,7 +82,7 @@ flextype()->get('/api/entries', function (Request $request, Response $response) 
                 }
 
                 // Update calls counter
-                flextype('filesytem')->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
+                filesystem()->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -185,7 +185,7 @@ flextype()->post('/api/entries', function (Request $request, Response $response)
                 $response_code = $create_entry ? 200 : 404;
 
                 // Update calls counter
-                flextype('filesytem')->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
+                filesystem()->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response

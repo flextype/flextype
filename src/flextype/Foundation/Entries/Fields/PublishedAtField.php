@@ -10,7 +10,7 @@ declare(strict_types=1);
 if (flextype('registry')->get('flextype.settings.entries.fields.published_at.enabled')) {
     flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {
         if (flextype('entries')->getStorage('fetch_single.data.published_at') === null) {
-            flextype('entries')->setStorage('fetch_single.data.published_at', (int) flextype('filesytem')->file(flextype('entries')->getFileLocation(flextype('entries')->getStorage('fetch_single.id')))->lastModified());
+            flextype('entries')->setStorage('fetch_single.data.published_at', (int) filesystem()->file(flextype('entries')->getFileLocation(flextype('entries')->getStorage('fetch_single.id')))->lastModified());
         } else {
             flextype('entries')->setStorage('fetch_single.data.published_at', (int) strtotime((string) flextype('entries')->getStorage('fetch_single.data.published_at')));
         }
