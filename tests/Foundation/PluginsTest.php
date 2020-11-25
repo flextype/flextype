@@ -7,8 +7,8 @@ use Atomastic\Strings\Strings;
 
 beforeEach(function() {
     // Create sandbox plugin
-    filesystem()->directory(PATH['project'])->create();
-    filesystem()->directory(PATH['project'] . '/plugins')->create();
+    @filesystem()->directory(PATH['project'])->create();
+    @filesystem()->directory(PATH['project'] . '/plugins')->create();
     filesystem()->directory(PATH['project'] . '/plugins/sandbox')->create(0755, true);
     filesystem()->directory(PATH['project'] . '/plugins/sandbox/lang/')->create(0755, true);
     filesystem()->file(PATH['project'] . '/plugins/sandbox/lang/en_US.yaml')->put('sandbox_title: Sandbox');
