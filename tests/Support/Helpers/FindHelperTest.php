@@ -14,5 +14,8 @@ afterEach(function (): void {
 });
 
 test('test find() method', function () {
-    $this->assertInstanceOf(Finder::class, find());
+    $this->assertTrue(find(PATH['project'] . '/entries')->hasResults());
+    $this->assertTrue(find(PATH['project'] . '/entries', [])->hasResults());
+    $this->assertTrue(find(PATH['project'] . '/entries', [], 'files')->hasResults());
+    $this->assertTrue(find(PATH['project'], [], 'directories')->hasResults());
 });

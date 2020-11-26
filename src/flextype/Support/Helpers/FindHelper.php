@@ -9,13 +9,19 @@ declare(strict_types=1);
 
 use Symfony\Component\Finder\Finder;
 
-if (! function_exists('find_filter')) {
-    /**
-     * Create a Finder filter instance.
-     */
-    function find_filter(string $path, array $filter = [], $search_in = 'files')
+if (! function_exists('find')) {
+     /**
+      * Create a Finder instance with predefined filter params or without them.
+      *
+      * @param  string $path      Path.
+      * @param  array  $filter    Filters params array.
+      * @param  string $search_in Search in 'files' or 'directories'. Default is 'files'.
+      *
+      * @return Symfony\Component\Finder<Finder>
+      */
+    function find(string $path = '', array $filter = [], string $search_in = 'files'): Finder
     {
-        $find = find()->in($path);
+        $find = filesystem()->find()->in($path);
 
         isset($filter['depth']) and $find->depth($filter['depth']) or $find->depth(1);
         isset($filter['date']) and $find->date($filter['date']);
@@ -30,6 +36,6 @@ if (! function_exists('find_filter')) {
         isset($filter['sort_by']) && $filter['sort_by'] === 'mtime' and $find->sortByModifiedTime();
         isset($filter['sort_by']) && $filter['sort_by'] === 'ctime' and $find->sortByChangedTime();
 
-        return $search_in === 'files' ? $find->files() : $find->directories();
+        return $search_in === 'directories' ? $find->directories() : $find->files();
     }
 }

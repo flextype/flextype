@@ -7,18 +7,16 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-use Atomastic\Arrays\Arrays;
-
-if (! function_exists('arrays_filter')) {
+if (! function_exists('filter')) {
     /**
      * Create a collection from the given value and filter it.
      *
      * @param  mixed $items  Items.
-     * @param  array $filter Filters array.
+     * @param  array $filter Filters params array.
      *
      * @return array|bool|int
      */
-    function arrays_filter($items = [], array $filter = [])
+    function filter($items = [], array $filter = [])
     {
         $collection = arrays($items);
 
