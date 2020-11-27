@@ -12,7 +12,7 @@ namespace Flextype\Foundation\Entries;
 use Atomastic\Arrays\Arrays;
 
 use function array_merge;
-use function arrays_filter;
+use function filter;
 use function count;
 use function find_filter;
 use function ltrim;
@@ -62,11 +62,11 @@ class Entries
      * @param bool   $collection Set `true` if collection of entries need to be fetched.
      * @param array  $filter     Select items in collection by given conditions.
      *
-     * @return array|bool|int
+     * @return Arrays
      *
      * @access public
      */
-    public function fetch(string $id, bool $collection = false, array $filter = [])
+    public function fetch(string $id, bool $collection = false, array $filter = []): Arrays
     {
         if ($collection) {
             return $this->fetchCollection($id, $filter);
@@ -80,11 +80,11 @@ class Entries
      *
      * @param string $id Unique identifier of the entry(entries).
      *
-     * @return array The entry array data.
+     * @return Arrays
      *
      * @access public
      */
-    public function fetchSingle(string $id): array
+    public function fetchSingle(string $id): Arrays
     {
         // Store data
         $this->storage['fetch_single']['id'] = $id;
@@ -104,7 +104,7 @@ class Entries
             flextype('emitter')->emit('onEntryAfterCacheInitialized');
 
             // Return entry from cache
-            return $this->storage['fetch_single']['data'];
+            return arrays($this->storage['fetch_single']['data']);
         }
 
         // Try to get current requested entry from filesystem
@@ -115,7 +115,7 @@ class Entries
             // Try to get requested entry from the filesystem
             $entry_file_content = filesystem()->file($entry_file)->get();
             if ($entry_file_content === false) {
-                return [];
+                return arrays([]);
             }
 
             // Decode entry file content
@@ -134,11 +134,11 @@ class Entries
             }
 
             // Return entry data
-            return $this->storage['fetch_single']['data'];
+            return arrays($this->storage['fetch_single']['data']);
         }
 
         // Return empty array if entry is not founded
-        return [];
+        return arrays([]);
     }
 
     /**
@@ -147,11 +147,11 @@ class Entries
      * @param string $id     Unique identifier of the entry(entries).
      * @param array  $filter Select items in collection by given conditions.
      *
-     * @return array|bool|int
+     * @return Arrays
      *
      * @access public
      */
-    public function fetchCollection(string $id, array $filter = [])
+    public function fetchCollection(string $id, array $filter = []): Arrays
     {
         // Store data
         $this->storage['fetch_collection']['id']   = $this->getDirectoryLocation($id);
@@ -161,7 +161,7 @@ class Entries
         flextype('emitter')->emit('onEntriesInitialized');
 
         // Apply find_filter
-        $entries_list = find_filter($this->storage['fetch_collection']['id'], $filter);
+        $entries_list = find($this->storage['fetch_collection']['id'], $filter);
 
         // If entries founded in the entries folder
         // We are checking... Whether the requested entry is an a true entry.
@@ -177,15 +177,15 @@ class Entries
                 $this->storage['fetch_collection']['data'][$_id] = $this->fetchSingle($_id);
             }
 
-            // Apply arrays_filter
-            $this->storage['fetch_collection']['data'] = arrays_filter($this->storage['fetch_collection']['data'], $filter);
+            // Apply filter
+            $this->storage['fetch_collection']['data'] = filter($this->storage['fetch_collection']['data'], $filter);
 
             // Run event: onEntriesAfterInitialized
             flextype('emitter')->emit('onEntriesAfterInitialized');
         }
 
         // Return entries array
-        return $this->storage['fetch_collection']['data'];
+        return arrays($this->storage['fetch_collection']['data']);
     }
 
     /**

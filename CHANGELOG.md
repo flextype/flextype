@@ -97,6 +97,10 @@
 
 * **entries** add new events: `onEntryHas`, `onEntryInitialized`, `onEntriesInitialized` ([#467](https://github.com/flextype/flextype/issues/467))
 
+* **helpers** add new helper `find()` for files and directories searching instead of `find_filter()`
+
+* **helpers** add new helper `filter()` for data collection filtering instead of `arrays_filter()`
+
 ### Bug Fixes
 
 * **entries** fix issue with delete() method ([#465](https://github.com/flextype/flextype/issues/465))
