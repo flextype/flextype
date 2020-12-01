@@ -9,10 +9,12 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use function filesystem;
+
 /**
  * Validate access token
  */
-function validate_access_token($token) : bool
+function validate_access_token($token): bool
 {
     return filesystem()->file(PATH['project'] . '/tokens/access/' . $token . '/token.yaml')->exists();
 }

@@ -11,12 +11,15 @@ namespace Flextype;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Http\Response;
+
 use function array_replace_recursive;
+use function filesystem;
+use function flextype;
 
 /**
  * Validate registry token
  */
-function validate_registry_token($token) : bool
+function validate_registry_token($token): bool
 {
     return filesystem()->file(PATH['project'] . '/tokens/registry/' . $token . '/token.yaml')->exists();
 }
@@ -54,8 +57,10 @@ flextype()->get('/api/registry', function (Request $request, Response $response)
 
             // Set  token file
             if ($registry_token_file_data = flextype('yaml')->decode(filesystem()->file($registry_token_file_path)->get())) {
-                if ($registry_token_file_data['state'] === 'disabled' ||
-                    ($registry_token_file_data['limit_calls'] !== 0 && $registry_token_file_data['calls'] >= $registry_token_file_data['limit_calls'])) {
+                if (
+                    $registry_token_file_data['state'] === 'disabled' ||
+                    ($registry_token_file_data['limit_calls'] !== 0 && $registry_token_file_data['calls'] >= $registry_token_file_data['limit_calls'])
+                ) {
                     return $response->withStatus($api_errors['0003']['http_status_code'])
                                     ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                     ->write(flextype('json')->encode($api_errors['0003']));

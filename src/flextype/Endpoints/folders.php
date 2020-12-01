@@ -11,13 +11,16 @@ namespace Flextype;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Http\Response;
+
 use function array_replace_recursive;
 use function count;
+use function filesystem;
+use function flextype;
 
 /**
  * Validate folders token
  */
-function validate_folders_token($token) : bool
+function validate_folders_token($token): bool
 {
     return filesystem()->file(PATH['project'] . '/tokens/folders/' . $token . '/token.yaml')->exists();
 }
@@ -66,8 +69,10 @@ flextype()->get('/api/folders', function (Request $request, Response $response) 
 
             // Set delivery token file
             if ($folders_token_file_data = flextype('yaml')->decode(filesystem()->file($folders_token_file_path)->get())) {
-                if ($folders_token_file_data['state'] === 'disabled' ||
-                    ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])) {
+                if (
+                    $folders_token_file_data['state'] === 'disabled' ||
+                    ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])
+                ) {
                     return $response->withStatus($api_errors['0501']['http_status_code'])
                                     ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                     ->write(flextype('json')->encode($api_errors['0501']));
@@ -84,7 +89,7 @@ flextype()->get('/api/folders', function (Request $request, Response $response) 
                 }
 
                 // Write response data
-                $response_data = [];
+                $response_data         = [];
                 $response_data['data'] = $folders;
 
                 // Set response code
@@ -162,17 +167,23 @@ flextype()->post('/api/folders', function (Request $request, Response $response)
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($folders_token_file_data = flextype('yaml')->decode(filesystem()->file($folders_token_file_path)->get())) &&
-              ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
-                if ($folders_token_file_data['state'] === 'disabled' ||
-                  ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])) {
+            if (
+                ($folders_token_file_data = flextype('yaml')->decode(filesystem()->file($folders_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))
+            ) {
+                if (
+                    $folders_token_file_data['state'] === 'disabled' ||
+                    ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])
+                ) {
                     return $response->withStatus($api_errors['0501']['http_status_code'])
                                     ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                     ->write(flextype('json')->encode($api_errors['0501']));
                 }
 
-                if ($access_token_file_data['state'] === 'disabled' ||
-                  ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                if (
+                    $access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
+                ) {
                     return $response->withStatus($api_errors['0501']['http_status_code'])
                                     ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                     ->write(flextype('json')->encode($api_errors['0501']));
@@ -263,20 +274,26 @@ flextype()->put('/api/folders/copy', function (Request $request, Response $respo
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($folders_token_file_data = flextype('yaml')->decode(filesystem()->file($folders_token_file_path)->get())) &&
-              ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
-                if ($folders_token_file_data['state'] === 'disabled' ||
-                  ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])) {
+            if (
+                ($folders_token_file_data = flextype('yaml')->decode(filesystem()->file($folders_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))
+            ) {
+                if (
+                    $folders_token_file_data['state'] === 'disabled' ||
+                    ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])
+                ) {
                     return $response->withStatus($api_errors['0601']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('json')->encode($api_errors['0601']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
+                    ->write(flextype('json')->encode($api_errors['0601']));
                 }
 
-                if ($access_token_file_data['state'] === 'disabled' ||
-                  ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                if (
+                    $access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
+                ) {
                     return $response->withStatus($api_errors['0601']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('json')->encode($api_errors['0601']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
+                    ->write(flextype('json')->encode($api_errors['0601']));
                 }
 
                 // Copy folder
@@ -307,8 +324,8 @@ flextype()->put('/api/folders/copy', function (Request $request, Response $respo
                 // Return response
                 return $response
                      ->withStatus($response_code)
-            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('json')->encode($response_data));
+                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
+                ->write(flextype('json')->encode($response_data));
             }
 
             return $response
@@ -366,17 +383,23 @@ flextype()->put('/api/folders', function (Request $request, Response $response) 
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($folders_token_file_data = flextype('yaml')->decode(filesystem()->file($folders_token_file_path)->get())) &&
-              ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
-                if ($folders_token_file_data['state'] === 'disabled' ||
-                  ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])) {
+            if (
+                ($folders_token_file_data = flextype('yaml')->decode(filesystem()->file($folders_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))
+            ) {
+                if (
+                    $folders_token_file_data['state'] === 'disabled' ||
+                    ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])
+                ) {
                     return $response->withStatus($api_errors['0501']['http_status_code'])
                                     ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                     ->write(flextype('json')->encode($api_errors['0501']));
                 }
 
-                if ($access_token_file_data['state'] === 'disabled' ||
-                  ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                if (
+                    $access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
+                ) {
                     return $response->withStatus($api_errors['0501']['http_status_code'])
                                     ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                     ->write(flextype('json')->encode($api_errors['0501']));
@@ -408,8 +431,8 @@ flextype()->put('/api/folders', function (Request $request, Response $response) 
                 // Return response
                 return $response
                      ->withStatus($response_code)
-            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('json')->encode($response_data));
+                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
+                ->write(flextype('json')->encode($response_data));
             }
 
             return $response
@@ -465,17 +488,23 @@ flextype()->delete('/api/folders', function (Request $request, Response $respons
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($folders_token_file_data = flextype('yaml')->decode(filesystem()->file($folders_token_file_path)->get())) &&
-              ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
-                if ($folders_token_file_data['state'] === 'disabled' ||
-                  ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])) {
+            if (
+                ($folders_token_file_data = flextype('yaml')->decode(filesystem()->file($folders_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))
+            ) {
+                if (
+                    $folders_token_file_data['state'] === 'disabled' ||
+                    ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])
+                ) {
                     return $response->withStatus($api_errors['0501']['http_status_code'])
                                     ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                     ->write(flextype('json')->encode($api_errors['0501']));
                 }
 
-                if ($access_token_file_data['state'] === 'disabled' ||
-                  ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                if (
+                    $access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
+                ) {
                     return $response->withStatus($api_errors['0501']['http_status_code'])
                                     ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                     ->write(flextype('json')->encode($api_errors['0501']));
@@ -501,8 +530,8 @@ flextype()->delete('/api/folders', function (Request $request, Response $respons
                 // Return response
                 return $response
                      ->withStatus($response_code)
-            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('json')->encode($delete_folder));
+                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
+                ->write(flextype('json')->encode($delete_folder));
             }
 
             return $response

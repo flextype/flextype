@@ -11,15 +11,18 @@ namespace Flextype;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Http\Response;
+
 use function array_replace_recursive;
 use function basename;
 use function count;
+use function filesystem;
+use function flextype;
 use function is_dir;
 
 /**
  * Validate files token
  */
-function validate_files_token($token) : bool
+function validate_files_token($token): bool
 {
     return filesystem()->file(PATH['project'] . '/tokens/files/' . $token . '/token.yaml')->exists();
 }
@@ -57,8 +60,10 @@ flextype()->get('/api/files', function (Request $request, Response $response) us
 
             // Set delivery token file
             if ($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) {
-                if ($files_token_file_data['state'] === 'disabled' ||
-                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+                if (
+                    $files_token_file_data['state'] === 'disabled' ||
+                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
@@ -76,7 +81,7 @@ flextype()->get('/api/files', function (Request $request, Response $response) us
                 }
 
                 // Write response data
-                $response_data = [];
+                $response_data         = [];
                 $response_data['data'] = $files;
 
                 // Set response code
@@ -155,18 +160,24 @@ flextype()->post('/api/files', function (Request $request, Response $response) u
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
-                if ($files_token_file_data['state'] === 'disabled' ||
-                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+            if (
+                ($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))
+            ) {
+                if (
+                    $files_token_file_data['state'] === 'disabled' ||
+                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                 ->write(flextype('json')->encode($api_errors['0003']));
                 }
 
-                if ($access_token_file_data['state'] === 'disabled' ||
-                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                if (
+                    $access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
@@ -259,18 +270,24 @@ flextype()->put('/api/files', function (Request $request, Response $response) us
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
-                if ($files_token_file_data['state'] === 'disabled' ||
-                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+            if (
+                ($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))
+            ) {
+                if (
+                    $files_token_file_data['state'] === 'disabled' ||
+                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                 ->write(flextype('json')->encode($api_errors['0003']));
                 }
 
-                if ($access_token_file_data['state'] === 'disabled' ||
-                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                if (
+                    $access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
@@ -362,18 +379,24 @@ flextype()->put('/api/files/copy', function (Request $request, Response $respons
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
-                if ($files_token_file_data['state'] === 'disabled' ||
-                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+            if (
+                ($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))
+            ) {
+                if (
+                    $files_token_file_data['state'] === 'disabled' ||
+                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                 ->write(flextype('json')->encode($api_errors['0003']));
                 }
 
-                if ($access_token_file_data['state'] === 'disabled' ||
-                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                if (
+                    $access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
@@ -463,18 +486,24 @@ flextype()->delete('/api/files', function (Request $request, Response $response)
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
-                if ($files_token_file_data['state'] === 'disabled' ||
-                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+            if (
+                ($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))
+            ) {
+                if (
+                    $files_token_file_data['state'] === 'disabled' ||
+                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                 ->write(flextype('json')->encode($api_errors['0003']));
                 }
 
-                if ($access_token_file_data['state'] === 'disabled' ||
-                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                if (
+                    $access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
@@ -562,18 +591,24 @@ flextype()->patch('/api/files/meta', function (Request $request, Response $respo
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get($access_token_file_path)))) {
-                if ($files_token_file_data['state'] === 'disabled' ||
-                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+            if (
+                ($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get($access_token_file_path)))
+            ) {
+                if (
+                    $files_token_file_data['state'] === 'disabled' ||
+                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                 ->write(flextype('json')->encode($api_errors['0003']));
                 }
 
-                if ($access_token_file_data['state'] === 'disabled' ||
-                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                if (
+                    $access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
@@ -667,18 +702,24 @@ flextype()->post('/api/files/meta', function (Request $request, Response $respon
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
-                if ($files_token_file_data['state'] === 'disabled' ||
-                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+            if (
+                ($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))
+            ) {
+                if (
+                    $files_token_file_data['state'] === 'disabled' ||
+                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                 ->write(flextype('json')->encode($api_errors['0003']));
                 }
 
-                if ($access_token_file_data['state'] === 'disabled' ||
-                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                if (
+                    $access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
@@ -771,18 +812,24 @@ flextype()->delete('/api/files/meta', function (Request $request, Response $resp
             $access_token_file_path = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
             // Set files and access token file
-            if (($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))) {
-                if ($files_token_file_data['state'] === 'disabled' ||
-                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])) {
+            if (
+                ($files_token_file_data = flextype('yaml')->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = flextype('yaml')->decode(filesystem()->file($access_token_file_path)->get()))
+            ) {
+                if (
+                    $files_token_file_data['state'] === 'disabled' ||
+                    ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                                 ->write(flextype('json')->encode($api_errors['0003']));
                 }
 
-                if ($access_token_file_data['state'] === 'disabled' ||
-                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])) {
+                if (
+                    $access_token_file_data['state'] === 'disabled' ||
+                    ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
+                ) {
                     return $response
                                 ->withStatus($api_errors['0003']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
