@@ -12,13 +12,12 @@ namespace Flextype\Foundation\Entries;
 use Atomastic\Arrays\Arrays;
 
 use function array_merge;
+use function arrays;
+use function filesystem;
 use function filter;
-use function count;
-use function find_filter;
-use function ltrim;
-use function md5;
-use function rtrim;
-use function str_replace;
+use function find;
+use function flextype;
+use function strings;
 
 class Entries
 {
@@ -36,8 +35,8 @@ class Entries
     /**
      * Get storage
      *
-     * @param  string|int|null $key     Key
-     * @param  mixed           $default Default value
+     * @param  string|int|null $key     Key.
+     * @param  mixed           $default Default value.
      */
     public function getStorage($key, $default = null)
     {
@@ -47,10 +46,10 @@ class Entries
     /**
      * Set storage
      *
-     * @param  string|null $key   Key
-     * @param  mixed       $value Value
+     * @param  string|null $key   Key.
+     * @param  mixed       $value Value.
      */
-    public function setStorage(?string $key, $value)
+    public function setStorage(?string $key, $value): void
     {
         $this->storage = arrays($this->storage)->set($key, $value)->toArray();
     }
@@ -59,156 +58,155 @@ class Entries
      * Fetch entry(entries)
      *
      * @param string $id         Unique identifier of the entry(entries).
-     * @param bool   $collection Set `true` if collection of entries need to be fetched.
-     * @param array  $filter     Select items in collection by given conditions.
-     *
-     * @return Arrays
+     * @param bool   $collection Set TRUE if collection of entries need to be returned.
+     * @param array  $params     Params array.
      *
      * @access public
      */
-    public function fetch(string $id, bool $collection = false, array $filter = []): Arrays
+    public function fetch(string $id, bool $collection = false, array $params = []): Arrays
     {
         if ($collection) {
-            return $this->fetchCollection($id, $filter);
+            return $this->fetchCollection($id, $params);
         }
 
         return $this->fetchSingle($id);
     }
 
     /**
-     * Fetch single entry
+     * Fetch single entry.
      *
-     * @param string $id Unique identifier of the entry(entries).
-     *
-     * @return Arrays
+     * @param string $id Unique identifier of the entry.
      *
      * @access public
      */
     public function fetchSingle(string $id): Arrays
     {
         // Store data
-        $this->storage['fetch_single']['id'] = $id;
+        $this->storage['fetch']['id']   = $id;
+        $this->storage['fetch']['data'] = [];
 
         // Run event: onEntryInitialized
         flextype('emitter')->emit('onEntryInitialized');
 
         // Get Cache ID for current requested entry
-        $entry_cache_id = $this->getCacheID($this->storage['fetch_single']['id']);
+        $entryCacheID = $this->getCacheID($this->storage['fetch']['id']);
 
-        // Try to get current requested entry from cache
-        if (flextype('cache')->has($entry_cache_id)) {
+        // 1. Try to get current requested entry from cache
+        if (flextype('cache')->has($entryCacheID)) {
             // Fetch entry from cache
-            $this->storage['fetch_single']['data'] = flextype('cache')->get($entry_cache_id);
+            $this->storage['fetch']['data'] = flextype('cache')->get($entryCacheID);
 
             // Run event: onEntryAfterCacheInitialized
             flextype('emitter')->emit('onEntryAfterCacheInitialized');
 
             // Return entry from cache
-            return arrays($this->storage['fetch_single']['data']);
+            return arrays($this->storage['fetch']['data']);
         }
 
-        // Try to get current requested entry from filesystem
-        if ($this->has($this->storage['fetch_single']['id'])) {
+        // 2. Try to get current requested entry from filesystem
+        if ($this->has($this->storage['fetch']['id'])) {
+
             // Get entry file location
-            $entry_file = $this->getFileLocation($this->storage['fetch_single']['id']);
+            $entryFile = $this->getFileLocation($this->storage['fetch']['id']);
 
             // Try to get requested entry from the filesystem
-            $entry_file_content = filesystem()->file($entry_file)->get();
-            if ($entry_file_content === false) {
-                return arrays([]);
+            $entryFileContent = filesystem()->file($entryFile)->get();
+            if ($entryFileContent === false) {
+                return arrays();
             }
 
             // Decode entry file content
-            $this->storage['fetch_single']['data'] = flextype('frontmatter')->decode($entry_file_content);
+            $this->storage['fetch']['data'] = flextype('frontmatter')->decode($entryFileContent);
 
             // Run event: onEntryAfterInitialized
             flextype('emitter')->emit('onEntryAfterInitialized');
 
             // Set cache state
-            $cache = flextype('entries')->storage['fetch_single']['data']['cache']['enabled'] ??
+            $cache = flextype('entries')->storage['fetch']['data']['cache']['enabled'] ??
                                 flextype('registry')->get('flextype.settings.cache.enabled');
 
             // Save entry data to cache
             if ($cache) {
-                flextype('cache')->set($entry_cache_id, $this->storage['fetch_single']['data']);
+                flextype('cache')->set($entryCacheID, $this->storage['fetch']['data']);
             }
 
             // Return entry data
-            return arrays($this->storage['fetch_single']['data']);
+            return arrays($this->storage['fetch']['data']);
         }
 
         // Return empty array if entry is not founded
-        return arrays([]);
+        return arrays();
     }
 
     /**
-     * Fetch entries collection
+     * Fetch entries collection.
      *
      * @param string $id     Unique identifier of the entry(entries).
-     * @param array  $filter Select items in collection by given conditions.
-     *
-     * @return Arrays
+     * @param array  $params Params array.
      *
      * @access public
      */
-    public function fetchCollection(string $id, array $filter = []): Arrays
+    public function fetchCollection(string $id, array $params = []): Arrays
     {
         // Store data
-        $this->storage['fetch_collection']['id']   = $this->getDirectoryLocation($id);
-        $this->storage['fetch_collection']['data'] = [];
+        $this->storage['fetch']['id']   = $id;
+        $this->storage['fetch']['data'] = [];
 
         // Run event: onEntriesInitialized
         flextype('emitter')->emit('onEntriesInitialized');
 
-        // Apply find_filter
-        $entries_list = find($this->storage['fetch_collection']['id'], $filter);
+        // Find entries
+        $entries = find($this->getDirectoryLocation($this->storage['fetch']['id']), $params);
 
-        // If entries founded in the entries folder
-        // We are checking... Whether the requested entry is an a true entry.
-        // Get entry $_id. Remove entries path and remove left and right slashes.
-        // Fetch single entry.
-        if (count($entries_list) > 0) {
-            foreach ($entries_list as $current_entry) {
-                if ($current_entry->getType() !== 'file' || $current_entry->getFilename() !== 'entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension')) {
+        if ($entries->hasResults()) {
+            foreach ($entries as $currenEntry) {
+                if ($currenEntry->getType() !== 'file' || $currenEntry->getFilename() !== 'entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension')) {
                     continue;
                 }
 
-                $_id                                             = ltrim(rtrim(str_replace(PATH['project'] . '/entries/', '', str_replace('\\', '/', $current_entry->getPath())), '/'), '/');
-                $this->storage['fetch_collection']['data'][$_id] = $this->fetchSingle($_id);
+                $currentEntryID = strings($currenEntry->getPath())
+                                        ->replace('\\', '/')
+                                        ->replace(PATH['project'] . '/entries/', '')
+                                        ->trim('/')
+                                        ->toString();
+
+                $data[$currentEntryID] = $this->fetchSingle($currentEntryID);
             }
 
-            // Apply filter
-            $this->storage['fetch_collection']['data'] = filter($this->storage['fetch_collection']['data'], $filter);
+            $this->storage['fetch']['id']   = $id;
+            $this->storage['fetch']['data'] = filter($data, $params);
 
             // Run event: onEntriesAfterInitialized
             flextype('emitter')->emit('onEntriesAfterInitialized');
         }
 
         // Return entries array
-        return arrays($this->storage['fetch_collection']['data']);
+        return arrays($this->storage['fetch']['data']);
     }
 
     /**
      * Move entry
      *
-     * @param string $id     Unique identifier of the entry(entries).
-     * @param string $new_id New Unique identifier of the entry(entries).
+     * @param string $id    Unique identifier of the entry(entries).
+     * @param string $newID New Unique identifier of the entry(entries).
      *
      * @return bool True on success, false on failure.
      *
      * @access public
      */
-    public function move(string $id, string $new_id): bool
+    public function move(string $id, string $newID): bool
     {
         // Store data
         $this->storage['move']['id']     = $id;
-        $this->storage['move']['new_id'] = $new_id;
+        $this->storage['move']['new_id'] = $newID;
 
         // Run event: onEntryMove
         flextype('emitter')->emit('onEntryMove');
 
         if (! $this->has($this->storage['move']['new_id'])) {
-            return filesystem()->directory($this->getDirectoryLocation($this->storage['move']['id']))->move($this->getDirectoryLocation($this->storage['move']['new_id']));
+            return filesystem()
+                        ->directory($this->getDirectoryLocation($this->storage['move']['id']))
+                        ->move($this->getDirectoryLocation($this->storage['move']['new_id']));
         }
 
         return false;
@@ -233,13 +231,13 @@ class Entries
         // Run event: onEntryUpdate
         flextype('emitter')->emit('onEntryUpdate');
 
-        $entry_file = $this->getFileLocation($this->storage['update']['id']);
+        $entryFile = $this->getFileLocation($this->storage['update']['id']);
 
-        if (filesystem()->file($entry_file)->exists()) {
-            $body  = filesystem()->file($entry_file)->get();
+        if (filesystem()->file($entryFile)->exists()) {
+            $body  = filesystem()->file($entryFile)->get();
             $entry = flextype('frontmatter')->decode($body);
 
-            return (bool) filesystem()->file($entry_file)->put(flextype('frontmatter')->encode(array_merge($entry, $this->storage['update']['data'])));
+            return (bool) filesystem()->file($entryFile)->put(flextype('frontmatter')->encode(array_merge($entry, $this->storage['update']['data'])));
         }
 
         return false;
@@ -265,16 +263,19 @@ class Entries
         flextype('emitter')->emit('onEntryCreate');
 
         // Create entry directory first if it is not exists
-        $entry_dir = $this->getDirectoryLocation($this->storage['create']['id']);
-        if (! filesystem()->directory($entry_dir)->exists() &&
-            ! filesystem()->directory($entry_dir)->create()) {
+        $entryDir = $this->getDirectoryLocation($this->storage['create']['id']);
+
+        if (
+            ! filesystem()->directory($entryDir)->exists() &&
+            ! filesystem()->directory($entryDir)->create()
+        ) {
             return false;
         }
 
         // Create entry file
-        $entry_file = $entry_dir . '/entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension');
-        if (! filesystem()->file($entry_file)->exists()) {
-            return (bool) filesystem()->file($entry_file)->put(flextype('frontmatter')->encode($this->storage['create']['data']));
+        $entryFile = $entryDir . '/entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension');
+        if (! filesystem()->file($entryFile)->exists()) {
+            return (bool) filesystem()->file($entryFile)->put(flextype('frontmatter')->encode($this->storage['create']['data']));
         }
 
         return false;
@@ -297,29 +298,33 @@ class Entries
         // Run event: onEntryDelete
         flextype('emitter')->emit('onEntryDelete');
 
-        return filesystem()->directory($this->getDirectoryLocation($this->storage['delete']['id']))->delete();
+        return filesystem()
+                    ->directory($this->getDirectoryLocation($this->storage['delete']['id']))
+                    ->delete();
     }
 
     /**
      * Copy entry(s)
      *
-     * @param string $id     Unique identifier of the entry(entries).
-     * @param string $new_id New Unique identifier of the entry(entries).
+     * @param string $id    Unique identifier of the entry(entries).
+     * @param string $newID New Unique identifier of the entry(entries).
      *
      * @return bool|null True on success, false on failure.
      *
      * @access public
      */
-    public function copy(string $id, string $new_id): ?bool
+    public function copy(string $id, string $newID): ?bool
     {
         // Store data
         $this->storage['copy']['id']     = $id;
-        $this->storage['copy']['new_id'] = $new_id;
+        $this->storage['copy']['new_id'] = $newID;
 
         // Run event: onEntryCopy
         flextype('emitter')->emit('onEntryCopy');
 
-        return filesystem()->directory($this->getDirectoryLocation($this->storage['copy']['id']))->copy($this->getDirectoryLocation($this->storage['copy']['new_id']));
+        return filesystem()
+                    ->directory($this->getDirectoryLocation($this->storage['copy']['id']))
+                    ->copy($this->getDirectoryLocation($this->storage['copy']['new_id']));
     }
 
     /**
@@ -385,12 +390,12 @@ class Entries
             return '';
         }
 
-        $entry_file = $this->getFileLocation($id);
+        $entryFile = $this->getFileLocation($id);
 
-        if (filesystem()->file($entry_file)->exists()) {
-            return md5('entry' . $entry_file . (filesystem()->file($entry_file)->lastModified() ?: ''));
+        if (filesystem()->file($entryFile)->exists()) {
+            return strings('entry' . $entryFile . (filesystem()->file($entryFile)->lastModified() ?: ''))->hash()->toString();
         }
 
-        return md5('entry' . $entry_file);
+        return strings('entry' . $entryFile)->hash()->toString();
     }
 }

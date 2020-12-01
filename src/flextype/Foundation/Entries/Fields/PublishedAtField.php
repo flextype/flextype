@@ -9,16 +9,18 @@ declare(strict_types=1);
 
 if (flextype('registry')->get('flextype.settings.entries.fields.published_at.enabled')) {
     flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {
-        if (flextype('entries')->getStorage('fetch_single.data.published_at') === null) {
-            flextype('entries')->setStorage('fetch_single.data.published_at', (int) filesystem()->file(flextype('entries')->getFileLocation(flextype('entries')->getStorage('fetch_single.id')))->lastModified());
+        if (flextype('entries')->getStorage('fetch.data.published_at') === null) {
+            flextype('entries')->setStorage('fetch.data.published_at', (int) filesystem()->file(flextype('entries')->getFileLocation(flextype('entries')->getStorage('fetch.id')))->lastModified());
         } else {
-            flextype('entries')->setStorage('fetch_single.data.published_at', (int) strtotime((string) flextype('entries')->getStorage('fetch_single.data.published_at')));
+            flextype('entries')->setStorage('fetch.data.published_at', (int) strtotime((string) flextype('entries')->getStorage('fetch.data.published_at')));
         }
     });
 
     flextype('emitter')->addListener('onEntryCreate', static function (): void {
-        if (flextype('entries')->getStorage('create.data.published_at') === null) {
-            flextype('entries')->setStorage('create.data.published_at', date(flextype('registry')->get('flextype.settings.date_format'), time()));
+        if (flextype('entries')->getStorage('create.data.published_at') !== null) {
+            return;
         }
+
+        flextype('entries')->setStorage('create.data.published_at', date(flextype('registry')->get('flextype.settings.date_format'), time()));
     });
 }
