@@ -59,7 +59,7 @@ class Entries
      *
      * @param string $id         Unique identifier of the entry(entries).
      * @param bool   $collection Set TRUE if collection of entries need to be returned.
-     * @param array  $params     Params array.
+     * @param array  $params     Parameters array.
      *
      * @access public
      */
