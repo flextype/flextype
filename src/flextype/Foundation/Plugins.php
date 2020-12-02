@@ -157,7 +157,7 @@ class Plugins
             }
 
             // Sort plugins list by priority.
-            $plugins = arrays($plugins)->sortBySubKey('_priority', 'DESC')->toArray();
+            $plugins = arrays($plugins)->sortBy('_priority', 'DESC')->toArray();
 
             // ... and delete tmp _priority field for sorting
             foreach ($plugins as $plugin_name => $plugin_data) {
