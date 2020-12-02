@@ -21,6 +21,7 @@ use Whoops\Util\Misc;
 use function date_default_timezone_set;
 use function error_reporting;
 use function file_exists;
+use function flextype;
 use function function_exists;
 use function get_class;
 use function mb_internal_encoding;
@@ -54,6 +55,7 @@ $flextype = Flextype::getInstance([
         'httpVersion' => $registry->get('flextype.settings.http_version'),
     ],
 ]);
+
 
 /**
  * Display Errors
