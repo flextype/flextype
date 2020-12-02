@@ -347,7 +347,7 @@ flextype()->put('/api/folders/copy', function (Request $request, Response $respo
 });
 
 /**
- * Rename folder
+ * Move folder
  *
  * endpoint: PUT /api/folders
  *
@@ -406,16 +406,16 @@ flextype()->put('/api/folders', function (Request $request, Response $response) 
                 }
 
                 // Rename folder
-                $rename_folder = flextype('media_folders')->rename($path, $new_path);
+                $move_folder = flextype('media_folders')->move($path, $new_path);
 
                 $response_data = [];
 
-                if ($rename_folder) {
+                if ($move_folder) {
                     $response_data['data'] = flextype('media_folders')->fetch($new_path);
                 }
 
                 // Set response code
-                $response_code = $rename_folder ? 200 : 404;
+                $response_code = $move_folder ? 200 : 404;
 
                 // Update calls counter
                 filesystem()->file($folders_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));

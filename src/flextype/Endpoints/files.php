@@ -295,7 +295,7 @@ flextype()->put('/api/files', function (Request $request, Response $response) us
                 }
 
                 // Rename file
-                $rename_file = flextype('media_files')->rename($path, $new_path);
+                $rename_file = flextype('media_files')->move($path, $new_path);
 
                 $response_data['data'] = [];
 
