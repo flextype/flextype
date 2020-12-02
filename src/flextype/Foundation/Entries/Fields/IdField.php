@@ -15,6 +15,6 @@ if (flextype('registry')->get('flextype.settings.entries.fields.id.enabled')) {
             return;
         }
 
-        flextype('entries')->setStorage('fetch.data.id', (string) Strings::create(flextype('entries')->getStorage('fetch.id'))->trimSlashes());
+        flextype('entries')->setStorage('fetch.data.id', (string) strings(flextype('entries')->getStorage('fetch.id'))->trimSlashes());
     });
 }

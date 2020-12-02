@@ -143,6 +143,6 @@ class Yaml
 
     public function getCacheID($input): string
     {
-        return Strings::create('yaml' . $input)->hash()->toString();
+        return strings('yaml' . $input)->hash()->toString();
     }
 }

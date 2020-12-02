@@ -110,6 +110,6 @@ class Json
 
     public function getCacheID($input): string
     {
-        return Strings::create('json' . $input)->hash()->toString();
+        return strings('json' . $input)->hash()->toString();
     }
 }

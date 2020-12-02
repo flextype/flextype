@@ -115,6 +115,6 @@ class Shortcode
      */
     public function getCacheID(string $input): string
     {
-        return Strings::create('shortcode' . $input)->hash()->toString();
+        return strings('shortcode' . $input)->hash()->toString();
     }
 }

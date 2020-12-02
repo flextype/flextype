@@ -15,7 +15,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.slug.enabled')) 
             return;
         }
 
-        $parts = Strings::create(flextype('entries')->getStorage('fetch.id'))->trimSlashes()->segments();
+        $parts = strings(flextype('entries')->getStorage('fetch.id'))->trimSlashes()->segments();
         flextype('entries')->setStorage('fetch.data.slug', (string) end($parts));
     });
 }

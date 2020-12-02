@@ -94,17 +94,17 @@ class Frontmatter
         $input = (string) preg_replace("/(\r\n|\r)/", "\n", $input);
 
         // Parse Frontmatter and Body
-        $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . Strings::create($input)->trimLeft()->toString());
+        $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . strings($input)->trimLeft()->toString());
 
         if (count($parts) < 3) {
-            return ['content' => Strings::create($input)->trim()->toString()];
+            return ['content' => strings($input)->trim()->toString()];
         }
 
-        return flextype('yaml')->decode(Strings::create($parts[1])->trim()->toString(), false) + ['content' => Strings::create(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))->trim()->toString()];
+        return flextype('yaml')->decode(strings($parts[1])->trim()->toString(), false) + ['content' => strings(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))->trim()->toString()];
     }
 
     public function getCacheID($input): string
     {
-        return Strings::create('frontmatter' . $input)->hash()->toString();
+        return strings('frontmatter' . $input)->hash()->toString();
     }
 }

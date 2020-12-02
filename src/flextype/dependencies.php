@@ -125,7 +125,7 @@ flextype()->container()['cache'] = static function () {
             if ($key === 'path' && in_array($driver_name, ['files', 'sqlite', 'leveldb'])) {
                 $config['path'] = ! empty($value) ? PATH['tmp'] . '/' . $value : sys_get_temp_dir();
             } else {
-                $config[Strings::create($key)->camel()->toString()] = $value;
+                $config[strings($key)->camel()->toString()] = $value;
             }
         }
 

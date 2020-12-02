@@ -76,6 +76,6 @@ class Markdown
 
     public function getCacheID($input): string
     {
-        return Strings::create('markdown' . $input)->hash()->toString();
+        return strings('markdown' . $input)->hash()->toString();
     }
 }
