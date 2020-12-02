@@ -341,7 +341,7 @@ flextype()->patch('/api/entries', function (Request $request, Response $response
 });
 
 /**
- * Rename entry
+ * Move entry
  *
  * endpoint: PUT /api/entries
  *
@@ -352,7 +352,7 @@ flextype()->patch('/api/entries', function (Request $request, Response $response
  * access_token  - [REQUIRED] - Valid Authentication token.
  *
  * Returns:
- * Returns the entry item object for the entry item that was just renamed.
+ * Returns the entry item object for the entry item that was just moved.
  */
 flextype()->put('/api/entries', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
@@ -402,18 +402,18 @@ flextype()->put('/api/entries', function (Request $request, Response $response) 
                                 ->write(flextype('json')->encode($api_errors['0003']));
                 }
 
-                // Rename entry
-                $rename_entry = flextype('entries')->rename($id, $new_id);
+                // Move entry
+                $move_entry = flextype('entries')->move($id, $new_id);
 
                 // Get entry data
-                if ($rename_entry) {
+                if ($move_entry) {
                     $response_data['data'] = flextype('entries')->fetch($new_id);
                 } else {
                     $response_data['data'] = [];
                 }
 
                 // Set response code
-                $response_code = $rename_entry ? 200 : 404;
+                $response_code = $move_entry ? 200 : 404;
 
                 // Update calls counter
                 filesystem()->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
