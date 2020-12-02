@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use Atomastic\Session\Session;
+use Atomastic\Strings\Strings;
 use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
-use Atomastic\Strings\Strings;
-use Atomastic\Session\Session;
 use Flextype\Foundation\Cors;
 use Flextype\Foundation\Entries\Entries;
 use Flextype\Foundation\Media\MediaFiles;
@@ -55,9 +55,9 @@ use Thunder\Shortcode\ShortcodeFacade;
 
 use function date;
 use function extension_loaded;
+use function flextype;
 use function in_array;
 use function sys_get_temp_dir;
-
 
 /**
  * Create a standard session hanndler
