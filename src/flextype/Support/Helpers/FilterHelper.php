@@ -51,7 +51,7 @@ if (! function_exists('filter')) {
 
         if (isset($params['sort_by'])) {
             if (isset($params['sort_by']['key']) && isset($params['sort_by']['direction'])) {
-                $collection->sortBySubKey($params['sort_by']['key'], $params['sort_by']['direction']);
+                $collection->sortBy($params['sort_by']['key'], $params['sort_by']['direction']);
             }
         }
 
