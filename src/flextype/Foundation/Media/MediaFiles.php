@@ -9,16 +9,18 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Media;
 
+use ErrorException;
 use Intervention\Image\ImageManagerStatic as Image;
 use RuntimeException;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
 
-
 use function basename;
 use function chmod;
 use function exif_read_data;
 use function explode;
+use function filesystem;
+use function flextype;
 use function getimagesize;
 use function in_array;
 use function is_dir;
@@ -29,7 +31,6 @@ use function mime_content_type;
 use function move_uploaded_file;
 use function pathinfo;
 use function realpath;
-use function rename;
 use function str_replace;
 use function strpos;
 use function strrpos;
@@ -260,7 +261,6 @@ class MediaFiles
         $result = [];
 
         foreach (filesystem()->find()->files()->in(flextype('media_folders_meta')->getDirectoryMetaLocation($path)) as $file) {
-
             $basename = $file->getBasename('.' . $file->getExtension());
 
             $result[$basename]              = flextype('yaml')->decode(filesystem()->file($file->getPathname())->get());
@@ -377,7 +377,7 @@ class MediaFiles
         try {
             // Get the width and height from the uploaded image
             [$width, $height] = getimagesize($file['tmp_name']);
-        } catch (\ErrorException $e) {
+        } catch (ErrorException $e) {
             // Ignore read errors
         }
 
