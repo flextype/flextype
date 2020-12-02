@@ -117,6 +117,17 @@ You may help us to create amazing knowledge base for Flextype. Fix spelling, add
 ### Silver Sponsor
 
 ### Bronze Sponsor
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="#">
+         Jeremy Monroe
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
