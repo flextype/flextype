@@ -2,7 +2,7 @@
 # [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-12-XX)
 
 ### Features
-* **core** add Atomastic Components instead of Flextype Components #478 ([https://github.com/flextype/flextype/issues/478])
+* **core** add Atomastic Components instead of Flextype Components ([#478](https://github.com/flextype/flextype/issues/478))
 
     Added:
     - atomastic/session
@@ -11,7 +11,7 @@
     - atomastic/registry
     - atomastic/strings
 
-* **entries** Entries API return Arrays Object instead of plain array on fetch. #485
+* **entries** Entries API return Arrays Object instead of plain array on fetch. ([#485](https://github.com/flextype/flextype/issues/485))
 
     From no we have ability to work with entries singles and collections as with smart objects
     for further data manipulations with help of Atomastic Arrays Component.
