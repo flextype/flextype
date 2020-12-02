@@ -60,11 +60,11 @@ class MediaFiles
         $upload_metadata_folder = PATH['project'] . '/uploads/.meta/' . $folder . '/';
 
         if (! filesystem()->directory($upload_folder)->exists()) {
-            filesystem()->directory($upload_folder)->create();
+            filesystem()->directory($upload_folder)->create(0755, true);
         }
 
         if (! filesystem()->directory($upload_metadata_folder)->exists()) {
-            filesystem()->directory($upload_metadata_folder)->create();
+            filesystem()->directory($upload_metadata_folder)->create(0755, true);
         }
 
         $accept_file_types = flextype('registry')->get('flextype.settings.media.accept_file_types');

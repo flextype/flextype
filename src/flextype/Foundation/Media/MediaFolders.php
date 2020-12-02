@@ -96,8 +96,8 @@ class MediaFolders
             ! filesystem()->directory($this->getDirectoryLocation($id))->exists() &&
             ! filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->exists()
         ) {
-            return filesystem()->directory($this->getDirectoryLocation($id))->create() &&
-                   filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->create();
+            return filesystem()->directory($this->getDirectoryLocation($id))->create(0755, true) &&
+                   filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->create(0755, true);
         }
 
         return false;
