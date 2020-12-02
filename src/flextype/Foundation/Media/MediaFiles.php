@@ -164,9 +164,11 @@ class MediaFiles
                                 $exif_data = [];
 
                                 try {
-                                    $headers = exif_read_data($filename);
-                                    foreach ($headers['COMPUTED'] as $header => $value) {
-                                        $exif_data[$header] = $value;
+                                    $headers = @exif_read_data($filename);
+                                    if ($headers != false) {
+                                        foreach ($headers['COMPUTED'] as $header => $value) {
+                                            $exif_data[$header] = $value;
+                                        }
                                     }
                                 } catch (RuntimeException $e) {
                                     // catch... @todo
