@@ -10,15 +10,16 @@ declare(strict_types=1);
 namespace Flextype\Foundation;
 
 use Composer\Semver\Semver;
-use Atomastic\Arrays\Arrays;
-use Atomastic\Filesystem\Filesystem;
 use Flextype\Component\I18n\I18n;
 use RuntimeException;
 
 use function array_diff_key;
 use function array_replace_recursive;
+use function arrays;
 use function count;
 use function filemtime;
+use function filesystem;
+use function flextype;
 use function is_array;
 use function md5;
 use function trim;
@@ -98,8 +99,6 @@ class Plugins
 
             // Go through...
             foreach ($plugins_list as $plugin) {
-
-
                 // Set plugin settings directory
                 $project_plugin_settings_dir = PATH['project'] . '/config/plugins/' . $plugin['dirname'];
 
@@ -353,7 +352,7 @@ class Plugins
 
         if (filesystem()->directory(PATH['project'] . '/plugins/')->exists()) {
             foreach (filesystem()->find()->in(PATH['project'] . '/plugins/')->directories()->depth(0) as $plugin) {
-                $plugins_list[$plugin->getBasename()]['dirname'] = $plugin->getBasename();
+                $plugins_list[$plugin->getBasename()]['dirname']  = $plugin->getBasename();
                 $plugins_list[$plugin->getBasename()]['pathname'] = $plugin->getPathname();
             }
         }
