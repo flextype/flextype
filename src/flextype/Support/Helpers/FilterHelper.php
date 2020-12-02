@@ -12,52 +12,58 @@ if (! function_exists('filter')) {
      * Create a collection from the given value and filter it.
      *
      * @param  mixed $items  Items.
-     * @param  array $filter Filters params array.
+     * @param  array $params Params array.
      *
      * @return array|bool|int
      */
-    function filter($items = [], array $filter = [])
+    function filter($items = [], array $params = [])
     {
         $collection = arrays($items);
 
-        ! isset($filter['return']) AND $filter['return'] = 'all';
+        ! isset($params['return']) and $params['return'] = 'all';
 
-        if (isset($filter['where'])) {
-            if (is_array($filter['where'])) {
-                foreach ($filter['where'] as $key => $value) {
-                    if (isset($value['key']) &&
-                        isset($value['operator']) &&
-                        isset($value['value'])) {
-                        $collection->where($value['key'], $value['operator'], $value['value']);
+        if (isset($params['where'])) {
+            if (is_array($params['where'])) {
+                foreach ($params['where'] as $key => $value) {
+                    if (
+                        ! isset($value['key']) ||
+                        ! isset($value['operator']) ||
+                        ! isset($value['value'])
+                    ) {
+                        continue;
                     }
+
+                    $collection->where($value['key'], $value['operator'], $value['value']);
                 }
             }
         }
 
-        if (isset($filter['group_by'])) {
-            $collection->groupBy($filter['group_by']);
+        if (isset($params['group_by'])) {
+            $collection->groupBy($params['group_by']);
         }
 
-        if (isset($filter['slice_offset']) && isset($filter['slice_offset'])) {
-            $collection->slice(isset($filter['slice_offset']) ? (int) $filter['slice_offset'] : 0,
-                               isset($filter['slice_limit']) ? (int) $filter['slice_limit'] : 0);
+        if (isset($params['slice_offset']) && isset($params['slice_offset'])) {
+            $collection->slice(
+                isset($params['slice_offset']) ? (int) $params['slice_offset'] : 0,
+                isset($params['slice_limit']) ? (int) $params['slice_limit'] : 0
+            );
         }
 
-        if (isset($filter['sort_by'])) {
-            if (isset($filter['sort_by']['key']) && isset($filter['sort_by']['direction'])) {
-                $collection->sortBySubKey($filter['sort_by']['key'], $filter['sort_by']['direction']);
+        if (isset($params['sort_by'])) {
+            if (isset($params['sort_by']['key']) && isset($params['sort_by']['direction'])) {
+                $collection->sortBySubKey($params['sort_by']['key'], $params['sort_by']['direction']);
             }
         }
 
-        if (isset($filter['offset'])) {
-            $collection->offset(isset($filter['offset']) ? (int) $filter['offset'] : 0);
+        if (isset($params['offset'])) {
+            $collection->offset(isset($params['offset']) ? (int) $params['offset'] : 0);
         }
 
-        if (isset($filter['limit'])) {
-            $collection->limit(isset($filter['limit']) ? (int) $filter['limit'] : 0);
+        if (isset($params['limit'])) {
+            $collection->limit(isset($params['limit']) ? (int) $params['limit'] : 0);
         }
 
-        switch ($filter['return']) {
+        switch ($params['return']) {
             case 'first':
                 $result = $collection->first();
                 break;
@@ -68,7 +74,7 @@ if (! function_exists('filter')) {
                 $result = $collection->next();
                 break;
             case 'random':
-                $result = $collection->random(isset($filter['random']) ? (int) $filter['random'] : null);
+                $result = $collection->random(isset($params['random']) ? (int) $params['random'] : null);
                 break;
             case 'exists':
                 $result = $collection->count() > 0;
@@ -86,6 +92,5 @@ if (! function_exists('filter')) {
         }
 
         return $result;
-
     }
 }

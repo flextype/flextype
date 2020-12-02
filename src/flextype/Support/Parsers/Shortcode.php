@@ -11,6 +11,8 @@ namespace Flextype\Support\Parsers;
 
 use Atomastic\Strings\Strings;
 
+use function flextype;
+
 class Shortcode
 {
     /**

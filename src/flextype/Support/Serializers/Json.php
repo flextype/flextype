@@ -13,6 +13,7 @@ use Atomastic\Strings\Strings;
 use RuntimeException;
 
 use function defined;
+use function flextype;
 use function json_decode;
 use function json_encode;
 use function json_last_error;

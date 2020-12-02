@@ -9,11 +9,12 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Serializers;
 
-use Atomastic\Arrays\Arrays;
 use Atomastic\Strings\Strings;
 
 use function array_slice;
+use function arrays;
 use function count;
+use function flextype;
 use function implode;
 use function ltrim;
 use function preg_replace;
@@ -68,8 +69,8 @@ class Frontmatter
     {
         if (isset($input['content'])) {
             $content = $input['content'];
-            $input = arrays($input)->delete('content')->toArray();
-            $matter = flextype('yaml')->encode($input);
+            $input   = arrays($input)->delete('content')->toArray();
+            $matter  = flextype('yaml')->encode($input);
         } else {
             $content = '';
             $matter  = flextype('yaml')->encode($input);
