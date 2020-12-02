@@ -11,7 +11,7 @@
     - atomastic/registry
     - atomastic/strings
 
-* **cache** add new cache engine - PHPFastCache insteed of Doctrine Cache ([#457](https://github.com/flextype/flextype/issues/457))
+* **cache** add new cache engine - PHPFastCache instead of Doctrine Cache ([#457](https://github.com/flextype/flextype/issues/457))
 
     #### New config for PhpFastCache
     https://github.com/flextype/flextype/blob/dev/src/flextype/settings.yaml#L127-L241  
@@ -50,11 +50,7 @@
 
     ```php
     $storage = [
-        'fetch_single' => [
-          'id' => '',
-          'data' => '',
-        ],
-        'fetch_collection' => [
+        'fetch' => [
           'id' => '',
           'data' => '',
         ],
@@ -87,7 +83,7 @@
 
     ```php
     flextype('emitter')->addListener('onEntryAfterInitialized', static function () : void {
-        flextype('entries')->setStorage('fetch_single.data.title', 'New title');
+        flextype('entries')->setStorage('fetch.data.title', 'New title');
     });
 
     $entry = flextype('entries')->fetchSingle('about');
@@ -97,9 +93,9 @@
 
 * **entries** add new events: `onEntryHas`, `onEntryInitialized`, `onEntriesInitialized` ([#467](https://github.com/flextype/flextype/issues/467))
 
-* **helpers** add new helper `find()` for files and directories searching instead of `find_filter()`
+* **helpers** add new support helper `find()` for files and directories searching instead of `find_filter()`
 
-* **helpers** add new helper `filter()` for data collection filtering instead of `arrays_filter()`
+* **helpers** add new support helper `filter()` for data collection filtering instead of `arrays_filter()`
 
 ### Bug Fixes
 
