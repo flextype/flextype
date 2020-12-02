@@ -11,6 +11,22 @@
     - atomastic/registry
     - atomastic/strings
 
+* **entries** Entries API return Arrays Object instead of plain array on fetch. #485
+
+    From no we have ability to work with entries singles and collections as with smart objects
+    for further data manipulations with help of Atomastic Arrays Component.
+
+    Example:
+    ```php
+    // Fetch random 10 posts created by Awilum and sort them by published_at field.
+    $posts = flextype('entries')
+               ->fetchCollection('blog')
+               ->where('author.name', 'eq', 'Awilum')
+               ->sortBy('published_at')
+               ->limit(10)
+               ->random();
+    ```
+
 * **cache** add new cache engine - PHPFastCache instead of Doctrine Cache ([#457](https://github.com/flextype/flextype/issues/457))
 
     #### New config for PhpFastCache
