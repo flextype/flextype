@@ -37,6 +37,10 @@
     https://github.com/PHPSocialNetwork/phpfastcache   
 
 
+* **media** add new `move()` method instead of `rename()`
+
+* **entries** add new `move()` method instead of `rename()`
+
 * **core** add new `PATH['tmp']` constant ([#470](https://github.com/flextype/flextype/issues/470))
 
     Now we have:
