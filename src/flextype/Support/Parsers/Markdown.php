@@ -9,9 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Parsers;
 
-use Atomastic\Strings\Strings;
-
 use function flextype;
+use function strings;
 
 class Markdown
 {

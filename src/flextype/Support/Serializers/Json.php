@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Serializers;
 
-use Atomastic\Strings\Strings;
 use RuntimeException;
 
 use function defined;
@@ -18,6 +17,7 @@ use function json_decode;
 use function json_encode;
 use function json_last_error;
 use function json_last_error_msg;
+use function strings;
 
 use const JSON_PRESERVE_ZERO_FRACTION;
 use const JSON_PRETTY_PRINT;

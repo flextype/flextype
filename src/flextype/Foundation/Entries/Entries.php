@@ -105,7 +105,6 @@ class Entries
 
         // 2. Try to get current requested entry from filesystem
         if ($this->has($this->storage['fetch']['id'])) {
-
             // Get entry file location
             $entryFile = $this->getFileLocation($this->storage['fetch']['id']);
 

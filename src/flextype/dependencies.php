@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Atomastic\Session\Session;
-use Atomastic\Strings\Strings;
 use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
 use Flextype\Foundation\Cors;
@@ -57,6 +56,7 @@ use function date;
 use function extension_loaded;
 use function flextype;
 use function in_array;
+use function strings;
 use function sys_get_temp_dir;
 
 /**

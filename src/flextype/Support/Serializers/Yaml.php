@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Serializers;
 
-use Atomastic\Strings\Strings;
 use RuntimeException;
 use Symfony\Component\Yaml\Exception\DumpException as SymfonyYamlDumpException;
 use Symfony\Component\Yaml\Exception\ParseException as SymfonyYamlParseException;
@@ -20,6 +19,7 @@ use function flextype;
 use function function_exists;
 use function ini_get;
 use function ini_set;
+use function strings;
 
 class Yaml
 {

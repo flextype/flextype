@@ -7,7 +7,6 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-use Atomastic\Strings\Strings;
 
 if (flextype('registry')->get('flextype.settings.entries.fields.slug.enabled')) {
     flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {

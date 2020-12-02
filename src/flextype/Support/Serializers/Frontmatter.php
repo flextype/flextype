@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Serializers;
 
-use Atomastic\Strings\Strings;
-
 use function array_slice;
 use function arrays;
 use function count;
@@ -19,6 +17,7 @@ use function implode;
 use function ltrim;
 use function preg_replace;
 use function preg_split;
+use function strings;
 
 use const PHP_EOL;
 
