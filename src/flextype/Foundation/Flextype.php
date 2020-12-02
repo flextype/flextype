@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation;
 
-use Psr\Container\ContainerInterface;
 use Exception;
+use Psr\Container\ContainerInterface;
 use Slim\App;
 
 use function is_null;
@@ -36,6 +36,7 @@ final class Flextype extends App
      */
     protected function __clone()
     {
+        throw new Exception('Cannot clone a Flextype.');
     }
 
     /**
