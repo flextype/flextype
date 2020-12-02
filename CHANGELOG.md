@@ -121,6 +121,8 @@
 
 * **entries** fix issue with delete() method ([#465](https://github.com/flextype/flextype/issues/465))
 
+* **media** fix issue with exif_read_data() on files upload.
+
 ### Refactoring
 
 * **entries** remove App from all core namespaces ([#469](https://github.com/flextype/flextype/issues/469))
