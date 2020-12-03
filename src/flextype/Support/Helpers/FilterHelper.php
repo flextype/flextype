@@ -11,20 +11,20 @@ if (! function_exists('filter')) {
     /**
      * Create a collection from the given value and filter it.
      *
-     * @param  mixed $items  Items.
-     * @param  array $params Params array.
+     * @param  mixed $items   Items.
+     * @param  array $options Options array.
      *
      * @return array|bool|int
      */
-    function filter($items = [], array $params = [])
+    function filter($items = [], array $options = [])
     {
         $collection = arrays($items);
 
-        ! isset($params['return']) and $params['return'] = 'all';
+        ! isset($options['return']) and $options['return'] = 'all';
 
-        if (isset($params['where'])) {
-            if (is_array($params['where'])) {
-                foreach ($params['where'] as $key => $value) {
+        if (isset($options['where'])) {
+            if (is_array($options['where'])) {
+                foreach ($options['where'] as $key => $value) {
                     if (
                         ! isset($value['key']) ||
                         ! isset($value['operator']) ||
@@ -38,32 +38,32 @@ if (! function_exists('filter')) {
             }
         }
 
-        if (isset($params['group_by'])) {
-            $collection->groupBy($params['group_by']);
+        if (isset($options['group_by'])) {
+            $collection->groupBy($options['group_by']);
         }
 
-        if (isset($params['slice_offset']) && isset($params['slice_offset'])) {
+        if (isset($options['slice_offset']) && isset($options['slice_offset'])) {
             $collection->slice(
-                isset($params['slice_offset']) ? (int) $params['slice_offset'] : 0,
-                isset($params['slice_limit']) ? (int) $params['slice_limit'] : 0
+                isset($options['slice_offset']) ? (int) $options['slice_offset'] : 0,
+                isset($options['slice_limit']) ? (int) $options['slice_limit'] : 0
             );
         }
 
-        if (isset($params['sort_by'])) {
-            if (isset($params['sort_by']['key']) && isset($params['sort_by']['direction'])) {
-                $collection->sortBy($params['sort_by']['key'], $params['sort_by']['direction']);
+        if (isset($options['sort_by'])) {
+            if (isset($options['sort_by']['key']) && isset($options['sort_by']['direction'])) {
+                $collection->sortBy($options['sort_by']['key'], $options['sort_by']['direction']);
             }
         }
 
-        if (isset($params['offset'])) {
-            $collection->offset(isset($params['offset']) ? (int) $params['offset'] : 0);
+        if (isset($options['offset'])) {
+            $collection->offset(isset($options['offset']) ? (int) $options['offset'] : 0);
         }
 
-        if (isset($params['limit'])) {
-            $collection->limit(isset($params['limit']) ? (int) $params['limit'] : 0);
+        if (isset($options['limit'])) {
+            $collection->limit(isset($options['limit']) ? (int) $options['limit'] : 0);
         }
 
-        switch ($params['return']) {
+        switch ($options['return']) {
             case 'first':
                 $result = $collection->first();
                 break;
@@ -74,7 +74,7 @@ if (! function_exists('filter')) {
                 $result = $collection->next();
                 break;
             case 'random':
-                $result = $collection->random(isset($params['random']) ? (int) $params['random'] : null);
+                $result = $collection->random(isset($options['random']) ? (int) $options['random'] : null);
                 break;
             case 'exists':
                 $result = $collection->count() > 0;
