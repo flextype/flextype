@@ -149,7 +149,14 @@
     flextype('entries')->entry['title'] = 'New title';
 
     // new
-    flextype('entries')->setStorage('fetch_single.data.title', 'New title');
+    flextype('entries')->setStorage('fetch.data.title', 'New title');
+
+    // old
+    $title = flextype('entries')->entry['title'];
+
+    // new
+    $title = flextype('entries')->getStorage('fetch.data.title');
+    $title = flextype('entries')->getStorage('fetch.data')['title'];
     ```
 * **core** Removed App from all core namespaces ([#469](https://github.com/flextype/flextype/issues/469))
 
