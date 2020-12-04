@@ -9,12 +9,16 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Media;
 
+
+use Atomastic\Arrays\Arrays;
 use ErrorException;
 use Intervention\Image\ImageManagerStatic as Image;
 use RuntimeException;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
 
+use function arrays;
+use function filter;
 use function basename;
 use function chmod;
 use function exif_read_data;
@@ -200,32 +204,14 @@ class MediaFiles
     }
 
     /**
-     * Fetch file(s)
+     * Fetch single file.
      *
-     * @param string $directory The directory to list.
+     * @param string $path    The path to file.
+     * @param array  $options Options array.
      *
-     * @return array A list of file(s) metadata.
+     * @access public
      */
-    public function fetch(string $path): array
-    {
-        // Get list if file or files for specific folder
-        if (is_dir($path)) {
-            $files = $this->fetchCollection($path);
-        } else {
-            $files = $this->fetchSingle($path);
-        }
-
-        return $files;
-    }
-
-    /**
-     * Fetch single file
-     *
-     * @param string $path The path to file.
-     *
-     * @return array A file metadata.
-     */
-    public function fetchSingle(string $path): array
+    public function fetchSingle(string $path, array $options = []): Arrays
     {
         $result = [];
 
@@ -248,17 +234,20 @@ class MediaFiles
             $result['full_url'] = $full_url . '/project/uploads/' . $path;
         }
 
-        return $result;
+        $result = filter($result, $options);
+
+        return arrays($result);
     }
 
     /**
-     * Fetch files collection
+     * Fetch files collection.
      *
-     * @param string $path The path to files collection.
+     * @param string $path    Unique identifier of the files collecton.
+     * @param array  $options Options array.
      *
-     * @return array A list of files metadata.
+     * @access public
      */
-    public function fetchCollection(string $path): array
+    public function fetchCollection(string $path, array $options = []): Arrays
     {
         $result = [];
 
@@ -281,7 +270,9 @@ class MediaFiles
             $result[$basename]['full_url'] = $full_url . '/project/uploads/' . $path . '/' . $basename;
         }
 
-        return $result;
+        $result = filter($result, $options);
+
+        return arrays($result);
     }
 
     /**

@@ -75,9 +75,9 @@ flextype()->get('/api/files', function (Request $request, Response $response) us
 
                 // Get list if file or files for specific folder
                 if (is_dir(PATH['project'] . '/uploads/' . $path)) {
-                    $files = flextype('media_files')->fetchCollection($path);
+                    $files = flextype('media_files')->fetchCollection($path)->toArray();
                 } else {
-                    $files = flextype('media_files')->fetchSingle($path);
+                    $files = flextype('media_files')->fetchSingle($path)->toArray();
                 }
 
                 // Write response data
@@ -190,7 +190,7 @@ flextype()->post('/api/files', function (Request $request, Response $response) u
                 $response_data['data'] = [];
 
                 if ($create_file) {
-                    $response_data['data'] = flextype('media_files')->fetch($folder . '/' . basename($create_file));
+                    $response_data['data'] = flextype('media_files')->fetchSingle($folder . '/' . basename($create_file));
                 }
 
                 // Set response code
@@ -300,7 +300,7 @@ flextype()->put('/api/files', function (Request $request, Response $response) us
                 $response_data['data'] = [];
 
                 if ($rename_file) {
-                    $response_data['data'] = flextype('media_files')->fetch($new_path);
+                    $response_data['data'] = flextype('media_files')->fetchSingle($new_path);
                 }
 
                 // Set response code
@@ -409,7 +409,7 @@ flextype()->put('/api/files/copy', function (Request $request, Response $respons
                 $response_data['data'] = [];
 
                 if ($copy_file) {
-                    $response_data['data'] = flextype('media_files')->fetch($new_path);
+                    $response_data['data'] = flextype('media_files')->fetchSingle($new_path);
                 }
 
                 // Set response code
@@ -621,7 +621,7 @@ flextype()->patch('/api/files/meta', function (Request $request, Response $respo
                 $response_data['data'] = [];
 
                 if ($update_file_meta) {
-                    $response_data['data'] = flextype('media_files')->fetch($path);
+                    $response_data['data'] = flextype('media_files')->fetchSingle($path);
                 }
 
                 // Set response code
@@ -732,7 +732,7 @@ flextype()->post('/api/files/meta', function (Request $request, Response $respon
                 $response_data['data'] = [];
 
                 if ($add_file_meta) {
-                    $response_data['data'] = flextype('media_files')->fetch($path);
+                    $response_data['data'] = flextype('media_files')->fetchSingle($path);
                 }
 
                 // Set response code
@@ -842,7 +842,7 @@ flextype()->delete('/api/files/meta', function (Request $request, Response $resp
                 $response_data['data'] = [];
 
                 if ($delete_file_meta) {
-                    $response_data['data'] = flextype('media_files')->fetch($path);
+                    $response_data['data'] = flextype('media_files')->fetchSingle($path);
                 }
 
                 // Set response code
