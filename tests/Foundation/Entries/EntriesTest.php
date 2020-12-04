@@ -27,28 +27,6 @@ test('test update() method', function () {
     $this->assertFalse(flextype('entries')->update('bar', ['title' => 'Test']));
 });
 
-test('test fetch() method', function () {
-    // 1
-    flextype('entries')->create('foo', []);
-    $fetch = flextype('entries')->fetch('foo');
-    $this->assertTrue(count($fetch) > 0);
-
-    // 2
-    $this->assertEquals([], flextype('entries')->fetch('bar')->toArray());
-
-    // 3
-    flextype('entries')->create('zed', ['title' => 'Zed']);
-    $fetch = flextype('entries')->fetch('zed');
-    $this->assertEquals('Zed', $fetch['title']);
-
-    // 4
-    flextype('entries')->create('foo', []);
-    flextype('entries')->create('foo/bar', []);
-    flextype('entries')->create('foo/baz', ['foo' => ['bar' => 'zed']]);
-    $fetch = flextype('entries')->fetch('foo', true)->toArray();
-    $this->assertTrue(count($fetch) > 0);
-
-});
 
 test('test fetchSingle() method', function () {
     // 1
@@ -57,23 +35,23 @@ test('test fetchSingle() method', function () {
     $this->assertTrue(count($fetch) > 0);
 
     // 2
-    $this->assertEquals([], flextype('entries')->fetchSingle('bar')->toArray());
+    $this->assertEquals('foo', flextype('entries')->fetchSingle('foo')['id']);
 
     // 3
     flextype('entries')->create('zed', ['title' => 'Zed']);
-    $fetch = flextype('entries')->fetchSingle('zed')->toArray();
+    $fetch = flextype('entries')->fetchSingle('zed');
     $this->assertEquals('Zed', $fetch['title']);
 
     // 4
-    flextype('entries')->setStorage('fetch_single.id', 'wrong-entry');
-    $this->assertEquals([], flextype('entries')->fetchSingle('wrong-entry')->toArray());
+    flextype('entries')->setStorage('fetch.id', 'wrong-entry');
+    $this->assertEquals(0, flextype('entries')->fetchSingle('wrong-entry')->count());
 });
 
 test('test fetchCollection() method', function () {
     flextype('entries')->create('foo', []);
-    flextype('entries')->create('foo/bar', []);
-    flextype('entries')->create('foo/baz', []);
-    $fetch = flextype('entries')->fetchCollection('foo')->toArray();
+    flextype('entries')->create('foo/bar', ['title' => 'Bar']);
+    flextype('entries')->create('foo/baz', ['title' => 'Baz']);
+    $fetch = flextype('entries')->fetchCollection('foo');
     $this->assertTrue(count($fetch) > 0);
 });
 
@@ -138,4 +116,6 @@ test('test setStorage and getStorage entry', function () {
     flextype('entries')->setStorage('bar', ['title' => 'Bar']);
     $this->assertEquals('Foo', flextype('entries')->getStorage('foo')['title']);
     $this->assertEquals('Bar', flextype('entries')->getStorage('bar')['title']);
+    $this->assertEquals('Foo', flextype('entries')->getStorage('foo.title'));
+    $this->assertEquals('Bar', flextype('entries')->getStorage('bar.title'));
 });
