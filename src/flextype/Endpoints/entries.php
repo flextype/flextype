@@ -73,9 +73,9 @@ flextype()->get('/api/entries', function (Request $request, Response $response) 
                 }
 
                 if ($filter === null) {
-                    $response_data['data'] = flextype('entries')->fetchSingle($id);
+                    $response_data['data'] = flextype('entries')->fetchSingle($id)->toArray();
                 } else {
-                    $response_data['data'] = flextype('entries')->fetchCollection($id, $filter);
+                    $response_data['data'] = flextype('entries')->fetchCollection($id, $filter)->toArray();
                 }
 
                 // Set response code

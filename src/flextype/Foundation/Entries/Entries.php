@@ -55,31 +55,14 @@ class Entries
     }
 
     /**
-     * Fetch entry(entries)
-     *
-     * @param string $id         Unique identifier of the entry(entries).
-     * @param bool   $collection Set TRUE if collection of entries need to be returned.
-     * @param array  $params     Parameters array.
-     *
-     * @access public
-     */
-    public function fetch(string $id, bool $collection = false, array $params = []): Arrays
-    {
-        if ($collection) {
-            return $this->fetchCollection($id, $params);
-        }
-
-        return $this->fetchSingle($id);
-    }
-
-    /**
      * Fetch single entry.
      *
-     * @param string $id Unique identifier of the entry.
+     * @param string $id      Unique identifier of the entry.
+     * @param array  $options Options array.
      *
      * @access public
      */
-    public function fetchSingle(string $id): Arrays
+    public function fetchSingle(string $id, array $options = []): Arrays
     {
         // Store data
         $this->storage['fetch']['id']   = $id;
@@ -98,6 +81,9 @@ class Entries
 
             // Run event: onEntryAfterCacheInitialized
             flextype('emitter')->emit('onEntryAfterCacheInitialized');
+
+            // Apply filter for fetch data
+            $this->storage['fetch']['data'] = filter($this->storage['fetch']['data'], $options);
 
             // Return entry from cache
             return arrays($this->storage['fetch']['data']);
@@ -129,6 +115,9 @@ class Entries
                 flextype('cache')->set($entryCacheID, $this->storage['fetch']['data']);
             }
 
+            // Apply filter for fetch data
+            $this->storage['fetch']['data'] = filter($this->storage['fetch']['data'], $options);
+
             // Return entry data
             return arrays($this->storage['fetch']['data']);
         }
@@ -140,22 +129,23 @@ class Entries
     /**
      * Fetch entries collection.
      *
-     * @param string $id     Unique identifier of the entry(entries).
-     * @param array  $params Params array.
+     * @param string $id      Unique identifier of the entries collecton.
+     * @param array  $options Options array.
      *
      * @access public
      */
-    public function fetchCollection(string $id, array $params = []): Arrays
+    public function fetchCollection(string $id, array $options = []): Arrays
     {
         // Store data
-        $this->storage['fetch']['id']   = $id;
-        $this->storage['fetch']['data'] = [];
+        $this->storage['fetch']['id']      = $id;
+        $this->storage['fetch']['data']    = [];
+        $this->storage['fetch']['options'] = $options;
 
         // Run event: onEntriesInitialized
         flextype('emitter')->emit('onEntriesInitialized');
 
         // Find entries
-        $entries = find($this->getDirectoryLocation($this->storage['fetch']['id']), $params);
+        $entries = find($this->getDirectoryLocation($this->storage['fetch']['id']), $options);
 
         if ($entries->hasResults()) {
             foreach ($entries as $currenEntry) {
@@ -169,11 +159,14 @@ class Entries
                                         ->trim('/')
                                         ->toString();
 
-                $data[$currentEntryID] = $this->fetchSingle($currentEntryID);
+                $data[$currentEntryID] = $this->fetchSingle($currentEntryID)->toArray();
             }
 
+            // Restore fetch id
             $this->storage['fetch']['id']   = $id;
-            $this->storage['fetch']['data'] = filter($data, $params);
+
+            // Apply filter for fetch data
+            $this->storage['fetch']['data'] = filter($data, $options);
 
             // Run event: onEntriesAfterInitialized
             flextype('emitter')->emit('onEntriesAfterInitialized');
@@ -186,8 +179,8 @@ class Entries
     /**
      * Move entry
      *
-     * @param string $id    Unique identifier of the entry(entries).
-     * @param string $newID New Unique identifier of the entry(entries).
+     * @param string $id    Unique identifier of the entry.
+     * @param string $newID New Unique identifier of the entry.
      *
      * @return bool True on success, false on failure.
      *
@@ -214,7 +207,7 @@ class Entries
     /**
      * Update entry
      *
-     * @param string $id   Unique identifier of the entry(entries).
+     * @param string $id   Unique identifier of the entry.
      * @param array  $data Data to update for the entry.
      *
      * @return bool True on success, false on failure.
@@ -243,9 +236,9 @@ class Entries
     }
 
     /**
-     * Create entry
+     * Create entry.
      *
-     * @param string $id   Unique identifier of the entry(entries).
+     * @param string $id   Unique identifier of the entry.
      * @param array  $data Data to create for the entry.
      *
      * @return bool True on success, false on failure.
@@ -281,9 +274,9 @@ class Entries
     }
 
     /**
-     * Delete entry
+     * Delete entry.
      *
-     * @param string $id Unique identifier of the entry(entries).
+     * @param string $id Unique identifier of the entry.
      *
      * @return bool True on success, false on failure.
      *
@@ -303,10 +296,10 @@ class Entries
     }
 
     /**
-     * Copy entry(s)
+     * Copy entry.
      *
-     * @param string $id    Unique identifier of the entry(entries).
-     * @param string $newID New Unique identifier of the entry(entries).
+     * @param string $id    Unique identifier of the entry.
+     * @param string $newID New Unique identifier of the entry.
      *
      * @return bool|null True on success, false on failure.
      *
