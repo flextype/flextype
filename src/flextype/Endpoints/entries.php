@@ -186,7 +186,7 @@ flextype()->post('/api/entries', function (Request $request, Response $response)
                 $create_entry = flextype('entries')->create($id, $data);
 
                 if ($create_entry) {
-                    $response_data['data'] = flextype('entries')->fetch($id);
+                    $response_data['data'] = flextype('entries')->fetchSingle($id);
                 } else {
                     $response_data['data'] = [];
                 }
@@ -296,7 +296,7 @@ flextype()->patch('/api/entries', function (Request $request, Response $response
                 $update_entry = flextype('entries')->update($id, $data);
 
                 if ($update_entry) {
-                    $response_data['data'] = flextype('entries')->fetch($id);
+                    $response_data['data'] = flextype('entries')->fetchSingle($id);
                 } else {
                     $response_data['data'] = [];
                 }
@@ -407,7 +407,7 @@ flextype()->put('/api/entries', function (Request $request, Response $response) 
 
                 // Get entry data
                 if ($move_entry) {
-                    $response_data['data'] = flextype('entries')->fetch($new_id);
+                    $response_data['data'] = flextype('entries')->fetchSingle($new_id);
                 } else {
                     $response_data['data'] = [];
                 }
@@ -518,7 +518,7 @@ flextype()->put('/api/entries/copy', function (Request $request, Response $respo
 
                 // Get entry data
                 if ($copy_entry === null) {
-                    $response_data['data'] = flextype('entries')->fetch($new_id);
+                    $response_data['data'] = flextype('entries')->fetchSingle($new_id);
                 } else {
                     $response_data['data'] = [];
                 }
