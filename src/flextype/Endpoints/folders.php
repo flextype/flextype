@@ -83,9 +83,9 @@ flextype()->get('/api/folders', function (Request $request, Response $response) 
 
                 // Get list if folder or fodlers for specific folder
                 if ($collection) {
-                    $folders = flextype('media_folders')->fetchCollection($path);
+                    $folders = flextype('media_folders')->fetchCollection($path)->toArray();
                 } else {
-                    $folders = flextype('media_folders')->fetchSingle($path);
+                    $folders = flextype('media_folders')->fetchSingle($path)->toArray();
                 }
 
                 // Write response data
@@ -195,7 +195,7 @@ flextype()->post('/api/folders', function (Request $request, Response $response)
                 $response_data = [];
 
                 if ($create_folder) {
-                    $response_data['data'] = flextype('media_folders')->fetch($path);
+                    $response_data['data'] = flextype('media_folders')->fetchSingle($path);
                 }
 
                 // Set response code
@@ -302,7 +302,7 @@ flextype()->put('/api/folders/copy', function (Request $request, Response $respo
                 $response_data = [];
 
                 if ($copy_folder) {
-                    $response_data['data'] = flextype('media_folders')->fetch($new_path);
+                    $response_data['data'] = flextype('media_folders')->fetchSingle($new_path);
                 } else {
                     $response_data['data'] = $copy_folder;
                 }
@@ -411,7 +411,7 @@ flextype()->put('/api/folders', function (Request $request, Response $response) 
                 $response_data = [];
 
                 if ($move_folder) {
-                    $response_data['data'] = flextype('media_folders')->fetch($new_path);
+                    $response_data['data'] = flextype('media_folders')->fetchSingle($new_path);
                 }
 
                 // Set response code

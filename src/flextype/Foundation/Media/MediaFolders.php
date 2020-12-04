@@ -9,9 +9,12 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Media;
 
+use Atomastic\Arrays\Arrays;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
 
+use function arrays;
+use function filter;
 use function filesystem;
 use function flextype;
 use function str_replace;
@@ -19,30 +22,14 @@ use function str_replace;
 class MediaFolders
 {
     /**
-     * Fetch folders(s)
+     * Fetch single folder.
      *
-     * @param string $path       The path of directory to list.
-     * @param bool   $collection Set `true` if collection of folders need to be fetched.
+     * @param string $path    The path to folder.
+     * @param array  $options Options array.
      *
-     * @return array A list of file(s) metadata.
+     * @access public
      */
-    public function fetch(string $path, bool $collection = false): array
-    {
-        if ($collection) {
-            return $this->fetchCollection($path);
-        }
-
-        return $this->fetchSingle($path);
-    }
-
-    /**
-     * Fetch single folder
-     *
-     * @param string $path The path to file.
-     *
-     * @return array A file metadata.
-     */
-    public function fetchsingle(string $path): array
+    public function fetchSingle(string $path, array $options = []): Arrays
     {
         $result = [];
 
@@ -60,25 +47,30 @@ class MediaFolders
             $result['full_url'] = $full_url . '/project/uploads/' . $path;
         }
 
-        return $result;
+        $result = filter($result, $options);
+
+        return arrays($result);
     }
 
     /**
-     * Fetch folder collection
+     * Fetch folders collection.
      *
-     * @param string $path The path to files collection.
+     * @param string $path    The path to folder.
+     * @param array  $options Options array.
      *
-     * @return array A list of files metadata.
+     * @access public
      */
-    public function fetchCollection(string $path): array
+    public function fetchCollection(string $path, array $options = []): Arrays
     {
         $result = [];
 
         foreach (filesystem()->find()->directories()->in(flextype('media_folders_meta')->getDirectoryMetaLocation($path)) as $folder) {
-            $result[$folder->getFilename()] = $this->fetchSingle($path . '/' . $folder->getFilename());
+            $result[$folder->getFilename()] = $this->fetchSingle($path . '/' . $folder->getFilename())->toArray();
         }
 
-        return $result;
+        $result = filter($result, $options);
+
+        return arrays($result);
     }
 
     /**
