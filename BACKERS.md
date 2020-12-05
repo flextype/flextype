@@ -13,6 +13,17 @@ However, the amount of effort needed to maintain and develop new features for th
 ### Silver Sponsor
 
 ### Bronze Sponsor
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="#">
+         Jeremy Monroe
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ### Generous Backer
 
