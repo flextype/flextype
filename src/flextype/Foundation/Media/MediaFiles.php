@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Flextype\Foundation\Media;
 
 
+use Atomastic\Macroable\Macroable;
 use Atomastic\Arrays\Arrays;
 use ErrorException;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -50,6 +51,8 @@ use const UPLOAD_ERR_OK;
 
 class MediaFiles
 {
+    use Macroable;
+
     /**
      * Upload media file
      *

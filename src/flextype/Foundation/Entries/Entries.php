@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Flextype\Foundation\Entries;
 
 use Atomastic\Arrays\Arrays;
+use Atomastic\Macroable\Macroable;
 
 use function array_merge;
 use function arrays;
@@ -21,6 +22,8 @@ use function strings;
 
 class Entries
 {
+    use Macroable;
+
     /**
      * Entries Storage
      *

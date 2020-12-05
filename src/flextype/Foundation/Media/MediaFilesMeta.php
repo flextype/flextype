@@ -9,12 +9,16 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Media;
 
+use Atomastic\Macroable\Macroable;
+
 use function arrays;
 use function filesystem;
 use function flextype;
 
 class MediaFilesMeta
 {
+    use Macroable;
+
     /**
      * Update file meta information
      *

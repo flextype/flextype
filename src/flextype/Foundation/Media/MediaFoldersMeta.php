@@ -9,8 +9,12 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Media;
 
+use Atomastic\Macroable\Macroable;
+
 class MediaFoldersMeta
 {
+    use Macroable;
+
     /**
      * Get files directory meta location
      *

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Media;
 
+use Atomastic\Macroable\Macroable;
 use Atomastic\Arrays\Arrays;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
@@ -21,6 +22,8 @@ use function str_replace;
 
 class MediaFolders
 {
+    use Macroable;
+
     /**
      * Fetch single folder.
      *
