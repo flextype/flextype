@@ -27,6 +27,14 @@
                ->random();
     ```
 
+* **entries** Standardize Entries API fetch. ([#486](https://github.com/flextype/flextype/issues/486))
+
+* **entries** Standardize Media Files API fetch. ([#487](https://github.com/flextype/flextype/issues/487))
+
+* **entries** Standardize Media Folders API fetch. ([#488](https://github.com/flextype/flextype/issues/488))
+
+* **entries** Add ability to extend Core class with Macros. ([#489](https://github.com/flextype/flextype/issues/489))
+
 * **cache** add new cache engine - PHPFastCache instead of Doctrine Cache ([#457](https://github.com/flextype/flextype/issues/457))
 
     #### New config for PhpFastCache
