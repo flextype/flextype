@@ -9,9 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Media;
 
-
-use Atomastic\Macroable\Macroable;
 use Atomastic\Arrays\Arrays;
+use Atomastic\Macroable\Macroable;
 use ErrorException;
 use Intervention\Image\ImageManagerStatic as Image;
 use RuntimeException;
@@ -19,12 +18,12 @@ use Slim\Http\Environment;
 use Slim\Http\Uri;
 
 use function arrays;
-use function filter;
 use function basename;
 use function chmod;
 use function exif_read_data;
 use function explode;
 use function filesystem;
+use function filter;
 use function flextype;
 use function getimagesize;
 use function in_array;
@@ -172,7 +171,7 @@ class MediaFiles
 
                                 try {
                                     $headers = @exif_read_data($filename);
-                                    if ($headers != false) {
+                                    if ($headers !== false) {
                                         foreach ($headers['COMPUTED'] as $header => $value) {
                                             $exif_data[$header] = $value;
                                         }

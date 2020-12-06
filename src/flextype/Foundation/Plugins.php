@@ -28,7 +28,7 @@ use function trim;
 class Plugins
 {
     use Macroable;
-    
+
     /**
      * Locales array
      *

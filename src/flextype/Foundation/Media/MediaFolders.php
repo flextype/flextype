@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Media;
 
-use Atomastic\Macroable\Macroable;
 use Atomastic\Arrays\Arrays;
+use Atomastic\Macroable\Macroable;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
 
 use function arrays;
-use function filter;
 use function filesystem;
+use function filter;
 use function flextype;
 use function str_replace;
 
