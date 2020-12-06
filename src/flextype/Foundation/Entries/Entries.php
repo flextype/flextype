@@ -166,7 +166,7 @@ class Entries
             }
 
             // Restore fetch id
-            $this->storage['fetch']['id']   = $id;
+            $this->storage['fetch']['id'] = $id;
 
             // Apply filter for fetch data
             $this->storage['fetch']['data'] = filter($data, $options);
