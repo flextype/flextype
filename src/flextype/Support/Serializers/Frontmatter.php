@@ -48,8 +48,8 @@ class Frontmatter
         if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($data_from_cache = flextype('cache')->get($key)) {
-                return $data_from_cache;
+            if ($dataFromCache = flextype('cache')->get($key)) {
+                return $dataFromCache;
             }
 
             $data = $this->_decode($input);

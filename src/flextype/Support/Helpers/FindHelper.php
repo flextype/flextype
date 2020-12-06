@@ -15,11 +15,11 @@ if (! function_exists('find')) {
       *
       * @param  string $path      Path.
       * @param  array  $options   Options array.
-      * @param  string $search_in Search in 'files' or 'directories'. Default is 'files'.
+      * @param  string $searchIn Search in 'files' or 'directories'. Default is 'files'.
       *
       * @return Symfony\Component\Finder<Finder>
       */
-    function find(string $path = '', array $options = [], string $search_in = 'files'): Finder
+    function find(string $path = '', array $options = [], string $searchIn = 'files'): Finder
     {
         $find = filesystem()->find()->in($path);
 
@@ -36,6 +36,6 @@ if (! function_exists('find')) {
         isset($options['sort_by']) && $options['sort_by'] === 'mtime' and $find->sortByModifiedTime();
         isset($options['sort_by']) && $options['sort_by'] === 'ctime' and $find->sortByChangedTime();
 
-        return $search_in === 'directories' ? $find->directories() : $find->files();
+        return $searchIn === 'directories' ? $find->directories() : $find->files();
     }
 }

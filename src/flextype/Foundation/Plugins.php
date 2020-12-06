@@ -72,82 +72,82 @@ class Plugins
         $locale = flextype('registry')->get('flextype.settings.locale');
 
         // Get plugins list
-        $plugins_list = $this->getPluginsList();
+        $pluginsList = $this->getPluginsList();
 
         // Get plugins Cache ID
-        $plugins_cache_id = $this->getPluginsCacheID($plugins_list);
+        $pluginsCacheID = $this->getPluginsCacheID($pluginsList);
 
         // If Plugins List isnt empty then continue
-        if (count($plugins_list) <= 0) {
+        if (count($pluginsList) <= 0) {
             return;
         }
 
         // Get plugins from cache or scan plugins folder and create new plugins cache item
-        if (flextype('cache')->has($plugins_cache_id)) {
-            flextype('registry')->set('plugins', flextype('cache')->get($plugins_cache_id));
+        if (flextype('cache')->has($pluginsCacheID)) {
+            flextype('registry')->set('plugins', flextype('cache')->get($pluginsCacheID));
 
             if (flextype('cache')->has($locale)) {
                 I18n::add(flextype('cache')->get($locale), $locale);
             } else {
                 // Save plugins dictionary
-                $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
+                $dictionary = $this->getPluginsDictionary($pluginsList, $locale);
                 flextype('cache')->set($locale, $dictionary[$locale]);
             }
         } else {
             // Init plugin configs
             $plugins                 = [];
-            $default_plugin_settings = [];
-            $project_plugin_settings = [];
-            $default_plugin_manifest = [];
+            $defaultPluginSettings = [];
+            $projectPluginSettings = [];
+            $defaultPluginManifest = [];
 
             // Go through...
-            foreach ($plugins_list as $plugin) {
+            foreach ($pluginsList as $plugin) {
                 // Set plugin settings directory
-                $project_plugin_settings_dir = PATH['project'] . '/config/plugins/' . $plugin['dirname'];
+                $projectPluginSettingsDir = PATH['project'] . '/config/plugins/' . $plugin['dirname'];
 
                 // Set default plugin settings and manifest files
-                $default_plugin_settings_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
-                $default_plugin_manifest_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
+                $defaultPluginSettingsFile = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $defaultPluginManifestFile = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
 
                 // Set project plugin settings file
-                $project_plugin_settings_file = PATH['project'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $projectPluginSettingsFile = PATH['project'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
 
                 // Create project plugin settings directory
-                ! filesystem()->directory($project_plugin_settings_dir)->exists() and filesystem()->directory($project_plugin_settings_dir)->create(0755, true);
+                ! filesystem()->directory($projectPluginSettingsDir)->exists() and filesystem()->directory($projectPluginSettingsDir)->create(0755, true);
 
                 // Check if default plugin settings file exists
-                if (! filesystem()->file($default_plugin_settings_file)->exists()) {
+                if (! filesystem()->file($defaultPluginSettingsFile)->exists()) {
                     throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin settings - failed!');
                 }
 
                 // Get default plugin settings content
-                $default_plugin_settings_file_content = filesystem()->file($default_plugin_settings_file)->get();
-                $default_plugin_settings              = flextype('yaml')->decode($default_plugin_settings_file_content);
+                $defaultPluginSettingsFileContent = filesystem()->file($defaultPluginSettingsFile)->get();
+                $defaultPluginSettings              = flextype('yaml')->decode($defaultPluginSettingsFileContent);
 
                 // Create project plugin settings file
-                ! filesystem()->file($project_plugin_settings_file)->exists() and filesystem()->file($project_plugin_settings_file)->put($default_plugin_settings_file_content);
+                ! filesystem()->file($projectPluginSettingsFile)->exists() and filesystem()->file($projectPluginSettingsFile)->put($defaultPluginSettingsFileContent);
 
                 // Get project plugin settings content
-                $project_plugin_settings_file_content = filesystem()->file($project_plugin_settings_file)->get();
+                $projectPluginSettingsFileContent = filesystem()->file($projectPluginSettingsFile)->get();
 
-                if (trim($project_plugin_settings_file_content) === '') {
-                    $project_plugin_settings = [];
+                if (trim($projectPluginSettingsFileContent) === '') {
+                    $projectPluginSettings = [];
                 } else {
-                    $project_plugin_settings = flextype('yaml')->decode($project_plugin_settings_file_content);
+                    $projectPluginSettings = flextype('yaml')->decode($projectPluginSettingsFileContent);
                 }
 
                 // Check if default plugin manifest file exists
-                if (! filesystem()->file($default_plugin_manifest_file)->exists()) {
+                if (! filesystem()->file($defaultPluginManifestFile)->exists()) {
                     throw new RuntimeException('Load ' . $plugin['dirname'] . ' plugin manifest - failed!');
                 }
 
                 // Get default plugin manifest content
-                $default_plugin_manifest_file_content = filesystem()->file($default_plugin_manifest_file)->get();
-                $default_plugin_manifest              = flextype('yaml')->decode($default_plugin_manifest_file_content);
+                $defaultPluginManifestFileContent = filesystem()->file($defaultPluginManifestFile)->get();
+                $defaultPluginManifest             = flextype('yaml')->decode($defaultPluginManifestFileContent);
 
                 // Merge plugin settings and manifest data
-                $plugins[$plugin['dirname']]['manifest'] = $default_plugin_manifest;
-                $plugins[$plugin['dirname']]['settings'] = array_replace_recursive($default_plugin_settings, $project_plugin_settings);
+                $plugins[$plugin['dirname']]['manifest'] = $defaultPluginManifest;
+                $plugins[$plugin['dirname']]['settings'] = array_replace_recursive($defaultPluginSettings, $projectPluginSettings);
 
                 // Check if is not set plugin priority
                 if (! isset($plugins[$plugin['dirname']]['settings']['priority'])) {
@@ -163,8 +163,8 @@ class Plugins
             $plugins = arrays($plugins)->sortBy('_priority', 'DESC')->toArray();
 
             // ... and delete tmp _priority field for sorting
-            foreach ($plugins as $plugin_name => $plugin_data) {
-                $plugins[$plugin_name] = arrays($plugins)->delete($plugin_name . '._priority')->toArray();
+            foreach ($plugins as $pluginName => $pluginData) {
+                $plugins[$pluginName] = arrays($plugins)->delete($pluginName . '._priority')->toArray();
             }
 
             // Get Valid Plugins Dependencies
@@ -172,10 +172,10 @@ class Plugins
 
             // Save plugins list
             flextype('registry')->set('plugins', $plugins);
-            flextype('cache')->set($plugins_cache_id, $plugins);
+            flextype('cache')->set($pluginsCacheID, $plugins);
 
             // Save plugins dictionary
-            $dictionary = $this->getPluginsDictionary($plugins_list, $locale);
+            $dictionary = $this->getPluginsDictionary($pluginsList, $locale);
             flextype('cache')->set($locale, $dictionary[$locale]);
         }
 
@@ -187,21 +187,21 @@ class Plugins
     /**
      * Get plugins dictionary
      *
-     * @param  array $plugins_list Plugins list
+     * @param  array $pluginsList Plugins list
      *
      * @access private
      */
-    public function getPluginsDictionary(array $plugins_list, string $locale): array
+    public function getPluginsDictionary(array $pluginsList, string $locale): array
     {
-        foreach ($plugins_list as $plugin) {
-            $language_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
+        foreach ($pluginsList as $plugin) {
+            $languageFile = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
 
-            if (! filesystem()->file($language_file)->exists()) {
+            if (! filesystem()->file($languageFile)->exists()) {
                 continue;
             }
 
-            if (($content = filesystem()->file($language_file)->get()) === false) {
-                throw new RuntimeException('Load file: ' . $language_file . ' - failed!');
+            if (($content = filesystem()->file($languageFile)->get()) === false) {
+                throw new RuntimeException('Load file: ' . $languageFile . ' - failed!');
             }
 
             $translates = flextype('yaml')->decode($content);
@@ -215,32 +215,32 @@ class Plugins
     /**
      * Get plugins Cache ID
      *
-     * @param  array $plugins_list Plugins list
+     * @param  array $pluginsList Plugins list
      *
      * @access private
      */
-    public function getPluginsCacheID(array $plugins_list): string
+    public function getPluginsCacheID(array $pluginsList): string
     {
         // Plugin cache id
-        $_plugins_cache_id = '';
+        $_pluginsCacheID = '';
 
         // Go through...
-        if (is_array($plugins_list) && count($plugins_list) > 0) {
-            foreach ($plugins_list as $plugin) {
-                $default_plugin_settings_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
-                $default_plugin_manifest_file = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
-                $project_plugin_settings_file = PATH['project'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
+        if (is_array($pluginsList) && count($pluginsList) > 0) {
+            foreach ($pluginsList as $plugin) {
+                $defaultPluginSettingsFile = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $defaultPluginManifestFile = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
+                $projectPluginSettingsFile = PATH['project'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
 
-                $f1 = filesystem()->file($default_plugin_settings_file)->exists() ? filemtime($default_plugin_settings_file) : '';
-                $f2 = filesystem()->file($default_plugin_manifest_file)->exists() ? filemtime($default_plugin_manifest_file) : '';
-                $f3 = filesystem()->file($project_plugin_settings_file)->exists() ? filemtime($project_plugin_settings_file) : '';
+                $f1 = filesystem()->file($defaultPluginSettingsFile)->exists() ? filemtime($defaultPluginSettingsFile) : '';
+                $f2 = filesystem()->file($defaultPluginManifestFile)->exists() ? filemtime($defaultPluginManifestFile) : '';
+                $f3 = filesystem()->file($projectPluginSettingsFile)->exists() ? filemtime($projectPluginSettingsFile) : '';
 
-                $_plugins_cache_id .= $f1 . $f2 . $f3;
+                $_pluginsCacheID .= $f1 . $f2 . $f3;
             }
         }
 
         // Create Unique Cache ID for Plugins
-        return md5('plugins' . PATH['project'] . '/plugins/' . $_plugins_cache_id);
+        return md5('plugins' . PATH['project'] . '/plugins/' . $_pluginsCacheID);
     }
 
     /**
@@ -253,33 +253,33 @@ class Plugins
     public function getValidPluginsDependencies(array $plugins): array
     {
         // Set verified plugins array
-        $verified_plugins = [];
+        $verifiedPlugins = [];
 
         // Set non verfied plugins
-        $non_verified_plugins = $plugins;
+        $nonVerifiedPlugins = $plugins;
 
         // Go through plugins list and verify them.
-        foreach ($plugins as $plugin_name => &$plugin_data) {
+        foreach ($plugins as $pluginName => &$pluginData) {
             // Set verified true by default
             $verified = true;
 
             // If there is any dependencies for this plugin
-            if (isset($plugin_data['manifest']['dependencies'])) {
+            if (isset($pluginData['manifest']['dependencies'])) {
                 // Go through plugin dependencies
-                foreach ($plugin_data['manifest']['dependencies'] as $dependency => $constraints) {
+                foreach ($pluginData['manifest']['dependencies'] as $dependency => $constraints) {
                     // Verify flextype version
                     if ($dependency === 'flextype') {
                         if (! Semver::satisfies(flextype('registry')->get('flextype.manifest.version'), $constraints)) {
                             $verified = false;
 
                             // Remove plugin where it is require this dependency
-                            foreach ($plugins as $_plugin_name => $_plugin_data) {
-                                if (! $_plugin_data['manifest']['dependencies'][$plugin_name]) {
+                            foreach ($plugins as $_plugin_name => $_pluginData) {
+                                if (! $_pluginData['manifest']['dependencies'][$pluginName]) {
                                     continue;
                                 }
 
                                 unset($plugins[$_plugin_name]);
-                                unset($verified_plugins[$_plugin_name]);
+                                unset($verifiedPlugins[$_plugin_name]);
                             }
                         }
                     } else {
@@ -288,13 +288,13 @@ class Plugins
                             $verified = false;
 
                             // Remove plugin where it is require this dependency
-                            foreach ($plugins as $_plugin_name => $_plugin_data) {
-                                if (! $_plugin_data['manifest']['dependencies'][$plugin_name]) {
+                            foreach ($plugins as $_plugin_name => $_pluginData) {
+                                if (! $_pluginData['manifest']['dependencies'][$pluginName]) {
                                     continue;
                                 }
 
                                 unset($plugins[$_plugin_name]);
-                                unset($verified_plugins[$_plugin_name]);
+                                unset($verifiedPlugins[$_plugin_name]);
                             }
                         } else {
                             $version = $plugins[$dependency]['manifest']['version'];
@@ -302,13 +302,13 @@ class Plugins
                                 $verified = false;
 
                                 // Remove plugin where it is require this dependency
-                                foreach ($plugins as $_plugin_name => $_plugin_data) {
-                                    if (! $_plugin_data['manifest']['dependencies'][$plugin_name]) {
+                                foreach ($plugins as $_plugin_name => $_pluginData) {
+                                    if (! $_pluginData['manifest']['dependencies'][$pluginName]) {
                                         continue;
                                     }
 
                                     unset($plugins[$_plugin_name]);
-                                    unset($verified_plugins[$_plugin_name]);
+                                    unset($verifiedPlugins[$_plugin_name]);
                                 }
                             }
                         }
@@ -321,16 +321,16 @@ class Plugins
                 continue;
             }
 
-            $verified_plugins[$plugin_name] = $plugin_data;
+            $verifiedPlugins[$pluginName] = $pluginData;
         }
 
         // Show alert if dependencies are not installed properly
-        $diff = array_diff_key($non_verified_plugins, $verified_plugins);
+        $diff = array_diff_key($nonVerifiedPlugins, $verifiedPlugins);
         if (count($diff) > 0) {
             echo '<b>Dependencies need to be installed properly for this plugins:</b>';
             echo '<ul>';
-            foreach ($diff as $plugin_name => $plugin_data) {
-                echo '<li>' . $plugin_name . '</li>';
+            foreach ($diff as $pluginName => $pluginData) {
+                echo '<li>' . $pluginName . '</li>';
             }
 
             echo '</ul>';
@@ -338,7 +338,7 @@ class Plugins
         }
 
         // Return verified plugins list
-        return $verified_plugins;
+        return $verifiedPlugins;
     }
 
     /**
@@ -351,16 +351,16 @@ class Plugins
     public function getPluginsList(): array
     {
         // Get Plugins List
-        $plugins_list = [];
+        $pluginsList = [];
 
         if (filesystem()->directory(PATH['project'] . '/plugins/')->exists()) {
             foreach (filesystem()->find()->in(PATH['project'] . '/plugins/')->directories()->depth(0) as $plugin) {
-                $plugins_list[$plugin->getBasename()]['dirname']  = $plugin->getBasename();
-                $plugins_list[$plugin->getBasename()]['pathname'] = $plugin->getPathname();
+                $pluginsList[$plugin->getBasename()]['dirname']  = $plugin->getBasename();
+                $pluginsList[$plugin->getBasename()]['pathname'] = $plugin->getPathname();
             }
         }
 
-        return $plugins_list;
+        return $pluginsList;
     }
 
     /**
@@ -374,12 +374,12 @@ class Plugins
             return;
         }
 
-        foreach (flextype('registry')->get('plugins') as $plugin_name => $plugin) {
-            if (! flextype('registry')->get('plugins.' . $plugin_name . '.settings.enabled')) {
+        foreach (flextype('registry')->get('plugins') as $pluginName => $plugin) {
+            if (! flextype('registry')->get('plugins.' . $pluginName . '.settings.enabled')) {
                 continue;
             }
 
-            include_once PATH['project'] . '/plugins/' . $plugin_name . '/bootstrap.php';
+            include_once PATH['project'] . '/plugins/' . $pluginName . '/bootstrap.php';
         }
     }
 }

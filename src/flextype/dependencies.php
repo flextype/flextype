@@ -113,16 +113,16 @@ flextype()->container()['slugify'] = static function () {
 
 
 flextype()->container()['cache'] = static function () {
-    $driver_name = flextype('registry')->get('flextype.settings.cache.driver');
+    $driverName = flextype('registry')->get('flextype.settings.cache.driver');
 
     $config = [];
 
-    function getDriverConfig(string $driver_name): array
+    function getDriverConfig(string $driverName): array
     {
         $config = [];
 
-        foreach (flextype('registry')->get('flextype.settings.cache.drivers.' . $driver_name) as $key => $value) {
-            if ($key === 'path' && in_array($driver_name, ['files', 'sqlite', 'leveldb'])) {
+        foreach (flextype('registry')->get('flextype.settings.cache.drivers.' . $driverName) as $key => $value) {
+            if ($key === 'path' && in_array($driverName, ['files', 'sqlite', 'leveldb'])) {
                 $config['path'] = ! empty($value) ? PATH['tmp'] . '/' . $value : sys_get_temp_dir();
             } else {
                 $config[strings($key)->camel()->toString()] = $value;
@@ -132,93 +132,93 @@ flextype()->container()['cache'] = static function () {
         return $config;
     }
 
-    if (! $driver_name || $driver_name === 'auto') {
+    if (! $driverName || $driverName === 'auto') {
         if (extension_loaded('apcu')) {
-            $driver_name = 'apcu';
+            $driverName = 'apcu';
         } elseif (extension_loaded('wincache')) {
-            $driver_name = 'wincache';
+            $driverName = 'wincache';
         } else {
-            $driver_name = 'files';
+            $driverName = 'files';
         }
     }
 
     if (flextype('registry')->get('flextype.settings.cache.enabled') === false) {
-        $driver_name = 'devnull';
+        $driverName = 'devnull';
     }
 
-    switch ($driver_name) {
+    switch ($driverName) {
         case 'apcu':
-            $config = new Config(getDriverConfig($driver_name));
+            $config = new Config(getDriverConfig($driverName));
             break;
         case 'cassandra':
-            $config = new \Phpfastcache\Drivers\Cassandra\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Cassandra\Config(getDriverConfig($driverName));
             break;
         case 'cookie':
-            $config = new \Phpfastcache\Drivers\Cookie\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Cookie\Config(getDriverConfig($driverName));
             break;
         case 'couchbase':
-            $config = new \Phpfastcache\Drivers\Couchbase\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Couchbase\Config(getDriverConfig($driverName));
             break;
         case 'couchdb':
-            $config = new \Phpfastcache\Drivers\Couchdb\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Couchdb\Config(getDriverConfig($driverName));
             break;
         case 'devfalse':
-            $config = new \Phpfastcache\Drivers\Devfalse\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Devfalse\Config(getDriverConfig($driverName));
             break;
         case 'devnull':
-            $config = new \Phpfastcache\Drivers\Devnull\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Devnull\Config(getDriverConfig($driverName));
             break;
         case 'devtrue':
-            $config = new \Phpfastcache\Drivers\Devtrue\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Devtrue\Config(getDriverConfig($driverName));
             break;
         case 'files':
-            $config = new \Phpfastcache\Drivers\Files\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Files\Config(getDriverConfig($driverName));
             break;
         case 'leveldb':
-            $config = new \Phpfastcache\Drivers\Leveldb\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Leveldb\Config(getDriverConfig($driverName));
             break;
         case 'memcache':
-            $config = new \Phpfastcache\Drivers\Memcache\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Memcache\Config(getDriverConfig($driverName));
             break;
         case 'memcached':
-            $config = new \Phpfastcache\Drivers\Memcached\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Memcached\Config(getDriverConfig($driverName));
             break;
         case 'memstatic':
-            $config = new \Phpfastcache\Drivers\Memstatic\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Memstatic\Config(getDriverConfig($driverName));
             break;
         case 'mongodb':
-            $config = new \Phpfastcache\Drivers\Mongodb\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Mongodb\Config(getDriverConfig($driverName));
             break;
         case 'predis':
-            $config = new \Phpfastcache\Drivers\Predis\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Predis\Config(getDriverConfig($driverName));
             break;
         case 'redis':
-            $config = new \Phpfastcache\Drivers\Redis\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Redis\Config(getDriverConfig($driverName));
             break;
         case 'riak':
-            $config = new \Phpfastcache\Drivers\Riak\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Riak\Config(getDriverConfig($driverName));
             break;
         case 'sqlite':
-            $config = new \Phpfastcache\Drivers\Sqlite\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Sqlite\Config(getDriverConfig($driverName));
             break;
         case 'ssdb':
-            $config = new \Phpfastcache\Drivers\Ssdb\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Ssdb\Config(getDriverConfig($driverName));
             break;
         case 'wincache':
-            $config = new \Phpfastcache\Drivers\Wincache\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Wincache\Config(getDriverConfig($driverName));
             break;
         case 'zenddisk':
-            $config = new \Phpfastcache\Drivers\Zenddisk\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Zenddisk\Config(getDriverConfig($driverName));
             break;
         case 'zendshm':
-            $config = new \Phpfastcache\Drivers\Zendshm\Config(getDriverConfig($driver_name));
+            $config = new \Phpfastcache\Drivers\Zendshm\Config(getDriverConfig($driverName));
             break;
         default:
             // code...
             break;
     }
 
-    return new Cache($driver_name, $config);
+    return new Cache($driverName, $config);
 };
 
 /**

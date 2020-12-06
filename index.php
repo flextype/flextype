@@ -44,7 +44,7 @@ version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(s
 /**
  * Ensure vendor libraries exist
  */
-! is_file($flextype_autoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i> for flextype');
+! is_file($flextypeAutoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i> for flextype');
 
 /**
  * Register The Auto Loader
@@ -55,7 +55,7 @@ version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(s
  * loading any of our classes later on. It feels nice to relax.
  * Register The Auto Loader
  */
-$flextype_loader = require_once $flextype_autoload;
+$flextypeLoader = require_once $flextypeAutoload;
 
 /**
  * Bootstraps the Flextype
