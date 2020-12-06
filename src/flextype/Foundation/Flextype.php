@@ -74,7 +74,7 @@ final class Flextype extends App
     /**
      * Returns Flextype Instance
      *
-     * @param ContainerInterface|array $container
+     * @param ContainerInterface|array $container Container.
      */
     public static function getInstance($container = []): Flextype
     {
