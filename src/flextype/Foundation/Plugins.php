@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation;
 
+use Atomastic\Macroable\Macroable;
 use Composer\Semver\Semver;
 use Flextype\Component\I18n\I18n;
 use RuntimeException;
@@ -26,6 +27,8 @@ use function trim;
 
 class Plugins
 {
+    use Macroable;
+    
     /**
      * Locales array
      *
