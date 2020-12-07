@@ -48,7 +48,7 @@ APC, APCu, XCache, Memcached, or Redis for better performance.
 2. Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, create directory <code>/project</code> and be sure to chmod the following directory to <code>755</code> (or <code>777</code>), so it is readable and writable by Flextype.<br>
 3. Create Rest API's tokens for your project using this [webpage](https://flextype.org/en/api-token-generator).
 
-[read the documentation](https://github.com/flextype/plugins)
+[read the documentation](https://docs.flextype.org/en)
 
 ## COMMUNITY
 Flextype is open source, community driven project, and maintained by community!

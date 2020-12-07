@@ -1,5 +1,5 @@
 <a name="0.9.12"></a>
-# [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-12-XX)
+# [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-12-07)
 
 ### Features
 * **core** add Atomastic Components instead of Flextype Components ([#478](https://github.com/flextype/flextype/issues/478))
@@ -44,6 +44,8 @@
     We are start using PhpFastCache PSR16 adapter  
     https://github.com/PHPSocialNetwork/phpfastcache   
 
+
+* **core** Unit Test powered by PestPHP.
 
 * **media** add new `move()` method instead of `rename()`
 
