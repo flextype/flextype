@@ -2,74 +2,70 @@
 
 declare(strict_types=1);
 
-use Flextype\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
-$flextype_manifest_file_path         = ROOT_DIR . '/src/flextype/flextype.yaml';
-$default_flextype_settings_file_path = ROOT_DIR . '/src/flextype/settings.yaml';
-$custom_flextype_settings_file_path  = PATH['project'] . '/config/flextype/settings.yaml';
-$preflight_flextype_path             = PATH['cache'] . '/preflight/flextype/';
-$custom_flextype_settings_path       = PATH['project'] . '/config/flextype/';
+$flextypeManifestFilePath        = ROOT_DIR . '/src/flextype/flextype.yaml';
+$defaultFlextypeSettingsFilePath = ROOT_DIR . '/src/flextype/settings.yaml';
+$customFlextypeSettingsFilePath  = PATH['project'] . '/config/flextype/settings.yaml';
+$preflightFlextypePath           = PATH['tmp'] . '/preflight/flextype/';
+$customFlextypeSettingsPath   = PATH['project'] . '/config/flextype/';
 
-! Filesystem::has($preflight_flextype_path) and Filesystem::createDir($preflight_flextype_path);
-! Filesystem::has($custom_flextype_settings_path) and Filesystem::createDir($custom_flextype_settings_path);
+! filesystem()->directory($preflightFlextypePath)->exists() and filesystem()->directory($preflightFlextypePath)->create(0755, true);
+! filesystem()->directory($customFlextypeSettingsPath)->exists() and filesystem()->directory($customFlextypeSettingsPath)->create(0755, true);
 
-$f1 = file_exists($flextype_manifest_file_path) ? filemtime($flextype_manifest_file_path) : '';
-$f2 = file_exists($default_flextype_settings_file_path) ? filemtime($default_flextype_settings_file_path) : '';
-$f3 = file_exists($custom_flextype_settings_file_path) ? filemtime($custom_flextype_settings_file_path) : '';
+$f1 = file_exists($flextypeManifestFilePath) ? filemtime($flextypeManifestFilePath) : '';
+$f2 = file_exists($defaultFlextypeSettingsFilePath) ? filemtime($defaultFlextypeSettingsFilePath) : '';
+$f3 = file_exists($customFlextypeSettingsFilePath) ? filemtime($customFlextypeSettingsFilePath) : '';
 
 // Create Unique Cache ID
-$cache_id = md5($flextype_manifest_file_path . $default_flextype_settings_file_path . $custom_flextype_settings_file_path . $f1 . $f2 . $f3);
+$cacheID = md5($flextypeManifestFilePath . $defaultFlextypeSettingsFilePath . $customFlextypeSettingsFilePath . $f1 . $f2 . $f3);
 
-if (Filesystem::has($preflight_flextype_path . '/' . $cache_id . '.php')) {
-    $flextype_data = require $preflight_flextype_path . '/' . $cache_id . '.php';
+if (filesystem()->file($preflightFlextypePath . '/' . $cacheID . '.txt')->exists()) {
+    $flextypeData = unserialize(filesystem()->file($preflightFlextypePath . '/' . $cacheID . '.txt')->get());
 } else {
-    // Drop the flextype preflight dir and create new one.
-    Filesystem::deleteDir($preflight_flextype_path) and Filesystem::createDir($preflight_flextype_path);
-
     // Set settings if Flextype Default settings config files exist
-    if (! Filesystem::has($default_flextype_settings_file_path)) {
+    if (! filesystem()->file($defaultFlextypeSettingsFilePath)->exists()) {
         throw new RuntimeException('Flextype Default settings config file does not exist.');
     }
 
-    if (($default_flextype_settings_content = Filesystem::read($default_flextype_settings_file_path)) === false) {
-        throw new RuntimeException('Load file: ' . $default_flextype_settings_file_path . ' - failed!');
+    if (($defaultFlextypeSettingsContent = filesystem()->file($defaultFlextypeSettingsFilePath)->get()) === false) {
+        throw new RuntimeException('Load file: ' . $defaultFlextypeSettingsFilePath . ' - failed!');
     } else {
-        if (trim($default_flextype_settings_content) === '') {
-            $default_flextype_settings['settings'] = [];
+        if (trim($defaultFlextypeSettingsContent) === '') {
+            $defaultFlextypeSettings['settings'] = [];
         } else {
-            $default_flextype_settings['settings'] = SymfonyYaml::parse($default_flextype_settings_content);
+            $defaultFlextypeSettings['settings'] = SymfonyYaml::parse($defaultFlextypeSettingsContent);
         }
     }
 
     // Create flextype custom settings file
-    ! Filesystem::has($custom_flextype_settings_file_path) and Filesystem::write($custom_flextype_settings_file_path, $default_flextype_settings_content);
+    ! filesystem()->file($customFlextypeSettingsFilePath)->exists() and filesystem()->file($customFlextypeSettingsFilePath)->put($defaultFlextypeSettingsContent);
 
-    if (($custom_flextype_settings_content = Filesystem::read($custom_flextype_settings_file_path)) === false) {
-        throw new RuntimeException('Load file: ' . $custom_flextype_settings_file_path . ' - failed!');
+    if (($customFlextypeSettingsContent = filesystem()->file($customFlextypeSettingsFilePath)->get()) === false) {
+        throw new RuntimeException('Load file: ' . $customFlextypeSettingsFilePath . ' - failed!');
     } else {
-        if (trim($custom_flextype_settings_content) === '') {
-            $custom_flextype_settings['settings'] = [];
+        if (trim($customFlextypeSettingsContent) === '') {
+            $customFlextypeSettings['settings'] = [];
         } else {
-            $custom_flextype_settings['settings'] = SymfonyYaml::parse($custom_flextype_settings_content);
+            $customFlextypeSettings['settings'] = SymfonyYaml::parse($customFlextypeSettingsContent);
         }
     }
 
-    if (($flextype_manifest_content = Filesystem::read($flextype_manifest_file_path)) === false) {
-        throw new RuntimeException('Load file: ' . $flextype_manifest_file_path . ' - failed!');
+    if (($flextypeManifestContent = filesystem()->file($flextypeManifestFilePath)->get()) === false) {
+        throw new RuntimeException('Load file: ' . $flextypeManifestFilePath . ' - failed!');
     } else {
-        if (trim($flextype_manifest_content) === '') {
-            $flextype_manifest['manifest'] = [];
+        if (trim($flextypeManifestContent) === '') {
+            $flextypeManifest['manifest'] = [];
         } else {
-            $flextype_manifest['manifest'] = SymfonyYaml::parse($flextype_manifest_content);
+            $flextypeManifest['manifest'] = SymfonyYaml::parse($flextypeManifestContent);
         }
     }
 
     // Merge flextype default settings with custom project settings.
-    $flextype_data = array_replace_recursive($default_flextype_settings, $custom_flextype_settings, $flextype_manifest);
+    $flextypeData = array_replace_recursive($defaultFlextypeSettings, $customFlextypeSettings, $flextypeManifest);
 
-    Filesystem::write($preflight_flextype_path . $cache_id . '.php', sprintf('<?php return %s;', var_export($flextype_data, true)));
+    filesystem()->file($preflightFlextypePath . $cacheID . '.txt')->put(serialize($flextypeData));
 }
 
 // Store flextype merged data in the flextype registry.
-$registry->set('flextype', $flextype_data);
+$registry->set('flextype', $flextypeData);

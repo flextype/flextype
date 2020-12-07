@@ -9,25 +9,25 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use Atomastic\Session\Session;
 use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
-use Flextype\App\Foundation\Cache\Cache;
-use Flextype\App\Foundation\Cors;
-use Flextype\App\Foundation\Entries\Entries;
-use Flextype\App\Foundation\Media\MediaFiles;
-use Flextype\App\Foundation\Media\MediaFilesMeta;
-use Flextype\App\Foundation\Media\MediaFolders;
-use Flextype\App\Foundation\Media\MediaFoldersMeta;
-use Flextype\App\Foundation\Plugins;
-use Flextype\App\Support\Parsers\Markdown;
-use Flextype\App\Support\Parsers\Shortcode;
-use Flextype\App\Support\Serializers\Frontmatter;
-use Flextype\App\Support\Serializers\Json;
-use Flextype\App\Support\Serializers\Yaml;
+use Flextype\Foundation\Cors;
+use Flextype\Foundation\Entries\Entries;
+use Flextype\Foundation\Media\MediaFiles;
+use Flextype\Foundation\Media\MediaFilesMeta;
+use Flextype\Foundation\Media\MediaFolders;
+use Flextype\Foundation\Media\MediaFoldersMeta;
+use Flextype\Foundation\Plugins;
+use Flextype\Support\Parsers\Markdown;
+use Flextype\Support\Parsers\Shortcode;
+use Flextype\Support\Serializers\Frontmatter;
+use Flextype\Support\Serializers\Json;
+use Flextype\Support\Serializers\Yaml;
 use Intervention\Image\ImageManager;
 use League\Event\Emitter;
 use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
+use League\Flysystem\Filesystem as Flysystem;
 use League\Glide\Api\Api;
 use League\Glide\Manipulators\Background;
 use League\Glide\Manipulators\Blur;
@@ -48,10 +48,23 @@ use League\Glide\ServerFactory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use ParsedownExtra;
+use Phpfastcache\Drivers\Apcu\Config;
+use Phpfastcache\Helper\Psr16Adapter as Cache;
 use Thunder\Shortcode\ShortcodeFacade;
+
 use function date;
 use function extension_loaded;
+use function flextype;
+use function in_array;
+use function strings;
+use function sys_get_temp_dir;
 
+/**
+ * Create a standard session hanndler
+ */
+flextype()->container()['session'] = static function () {
+    return new Session();
+};
 
 /**
  * Supply a custom callable resolver, which resolves PSR-15 middlewares.
@@ -72,7 +85,7 @@ flextype()->container()['registry'] = static function () use ($registry) {
  */
 flextype()->container()['logger'] = static function () {
     $logger = new Logger('flextype');
-    $logger->pushHandler(new StreamHandler(PATH['logs'] . '/' . date('Y-m-d') . '.log'));
+    $logger->pushHandler(new StreamHandler(PATH['tmp'] . '/logs/' . date('Y-m-d') . '.log'));
 
     return $logger;
 };
@@ -98,47 +111,114 @@ flextype()->container()['slugify'] = static function () {
     ]);
 };
 
-/**
- * Adds the cache adapter to the Flextype container
- */
-flextype()->container()['cache_adapter'] = static function () {
-    $driver_name = flextype('registry')->get('flextype.settings.cache.driver');
 
-    if (! $driver_name || $driver_name === 'auto') {
+flextype()->container()['cache'] = static function () {
+    $driverName = flextype('registry')->get('flextype.settings.cache.driver');
+
+    $config = [];
+
+    function getDriverConfig(string $driverName): array
+    {
+        $config = [];
+
+        foreach (flextype('registry')->get('flextype.settings.cache.drivers.' . $driverName) as $key => $value) {
+            if ($key === 'path' && in_array($driverName, ['files', 'sqlite', 'leveldb'])) {
+                $config['path'] = ! empty($value) ? PATH['tmp'] . '/' . $value : sys_get_temp_dir();
+            } else {
+                $config[strings($key)->camel()->toString()] = $value;
+            }
+        }
+
+        return $config;
+    }
+
+    if (! $driverName || $driverName === 'auto') {
         if (extension_loaded('apcu')) {
-            $driver_name = 'apcu';
+            $driverName = 'apcu';
         } elseif (extension_loaded('wincache')) {
-            $driver_name = 'wincache';
+            $driverName = 'wincache';
         } else {
-            $driver_name = 'phparrayfile';
+            $driverName = 'files';
         }
     }
 
-    $drivers_classes = [
-        'apcu' => 'Apcu',
-        'wincache' => 'WinCache',
-        'phpfile' => 'PhpFile',
-        'phparrayfile' => 'PhpArrayFile',
-        'array' => 'Array',
-        'filesystem' => 'Filesystem',
-        'memcached' => 'Memcached',
-        'redis' => 'Redis',
-        'sqlite3' => 'SQLite3',
-        'zenddatacache' => 'ZendDataCache',
-    ];
+    if (flextype('registry')->get('flextype.settings.cache.enabled') === false) {
+        $driverName = 'devnull';
+    }
 
-    $class_name = $drivers_classes[$driver_name];
+    switch ($driverName) {
+        case 'apcu':
+            $config = new Config(getDriverConfig($driverName));
+            break;
+        case 'cassandra':
+            $config = new \Phpfastcache\Drivers\Cassandra\Config(getDriverConfig($driverName));
+            break;
+        case 'cookie':
+            $config = new \Phpfastcache\Drivers\Cookie\Config(getDriverConfig($driverName));
+            break;
+        case 'couchbase':
+            $config = new \Phpfastcache\Drivers\Couchbase\Config(getDriverConfig($driverName));
+            break;
+        case 'couchdb':
+            $config = new \Phpfastcache\Drivers\Couchdb\Config(getDriverConfig($driverName));
+            break;
+        case 'devfalse':
+            $config = new \Phpfastcache\Drivers\Devfalse\Config(getDriverConfig($driverName));
+            break;
+        case 'devnull':
+            $config = new \Phpfastcache\Drivers\Devnull\Config(getDriverConfig($driverName));
+            break;
+        case 'devtrue':
+            $config = new \Phpfastcache\Drivers\Devtrue\Config(getDriverConfig($driverName));
+            break;
+        case 'files':
+            $config = new \Phpfastcache\Drivers\Files\Config(getDriverConfig($driverName));
+            break;
+        case 'leveldb':
+            $config = new \Phpfastcache\Drivers\Leveldb\Config(getDriverConfig($driverName));
+            break;
+        case 'memcache':
+            $config = new \Phpfastcache\Drivers\Memcache\Config(getDriverConfig($driverName));
+            break;
+        case 'memcached':
+            $config = new \Phpfastcache\Drivers\Memcached\Config(getDriverConfig($driverName));
+            break;
+        case 'memstatic':
+            $config = new \Phpfastcache\Drivers\Memstatic\Config(getDriverConfig($driverName));
+            break;
+        case 'mongodb':
+            $config = new \Phpfastcache\Drivers\Mongodb\Config(getDriverConfig($driverName));
+            break;
+        case 'predis':
+            $config = new \Phpfastcache\Drivers\Predis\Config(getDriverConfig($driverName));
+            break;
+        case 'redis':
+            $config = new \Phpfastcache\Drivers\Redis\Config(getDriverConfig($driverName));
+            break;
+        case 'riak':
+            $config = new \Phpfastcache\Drivers\Riak\Config(getDriverConfig($driverName));
+            break;
+        case 'sqlite':
+            $config = new \Phpfastcache\Drivers\Sqlite\Config(getDriverConfig($driverName));
+            break;
+        case 'ssdb':
+            $config = new \Phpfastcache\Drivers\Ssdb\Config(getDriverConfig($driverName));
+            break;
+        case 'wincache':
+            $config = new \Phpfastcache\Drivers\Wincache\Config(getDriverConfig($driverName));
+            break;
+        case 'zenddisk':
+            $config = new \Phpfastcache\Drivers\Zenddisk\Config(getDriverConfig($driverName));
+            break;
+        case 'zendshm':
+            $config = new \Phpfastcache\Drivers\Zendshm\Config(getDriverConfig($driverName));
+            break;
+        default:
+            // code...
+            break;
+    }
 
-    $adapter = "Flextype\\App\\Foundation\\Cache\\{$class_name}CacheAdapter";
-
-    return new $adapter();
-};
-
-/**
- * Add cache service to Flextype container
- */
-flextype()->container()['cache'] = static function () {
-    return new Cache();
+    return new Cache($driverName, $config);
 };
 
 /**
@@ -154,6 +234,10 @@ flextype()->container()['shortcode'] = static function () {
 flextype()->container()['markdown'] = static function () {
     return new Markdown(new ParsedownExtra());
 };
+
+flextype('markdown')->getInstance()->setBreaksEnabled(flextype('registry')->get('flextype.settings.markdown.auto_line_breaks'));
+flextype('markdown')->getInstance()->setUrlsLinked(flextype('registry')->get('flextype.settings.markdown.auto_url_links'));
+flextype('markdown')->getInstance()->setMarkupEscaped(flextype('registry')->get('flextype.settings.markdown.escape_markup'));
 
 /**
  * Add json serializer service to Flextype container
@@ -184,17 +268,17 @@ flextype()->container()['images'] = static function () {
     $imagesSettings = ['driver' => flextype('registry')->get('flextype.settings.image.driver')];
 
     // Set source filesystem
-    $source = new Filesystem(
+    $source = new Flysystem(
         new Local(PATH['project'] . '/uploads/entries/')
     );
 
     // Set cache filesystem
-    $cache = new Filesystem(
-        new Local(PATH['cache'] . '/glide')
+    $cache = new Flysystem(
+        new Local(PATH['tmp'] . '/glide')
     );
 
     // Set watermarks filesystem
-    $watermarks = new Filesystem(
+    $watermarks = new Flysystem(
         new Local(PATH['project'] . '/watermarks')
     );
 
@@ -205,7 +289,7 @@ flextype()->container()['images'] = static function () {
     $manipulators = [
         new Orientation(),
         new Crop(),
-        new Size(2000*2000),
+        new Size(2000 * 2000),
         new Brightness(),
         new Contrast(),
         new Gamma(),

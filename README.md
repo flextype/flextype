@@ -1,7 +1,7 @@
 <img src="https://images2.imgbox.com/49/8d/4ipHqUcj_o.jpg" alt="Flextype" align="center">
 
 <p align="center">
-<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version&color=black"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?color=black" alt="Total downloads"></a> <a href="https://scrutinizer-ci.com/g/flextype/flextype?branch=master"><img src="https://img.shields.io/scrutinizer/g/flextype/flextype.svg?branch=master&color=black" alt="Quality Score"></a> <a href="https://flextype.org/en/discord"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat" alt="Discord"></a>
+<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version&color=black"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?color=black" alt="Total downloads"></a> <img src="https://github.com/atomastic/strings/workflows/Static%20Analysis/badge.svg?branch=dev"> <img src="https://github.com/atomastic/strings/workflows/Tests/badge.svg"> <a href="https://codeclimate.com/github/flextype/flextype/maintainability"><img src="https://api.codeclimate.com/v1/badges/5ba8b0c7dc4fecf738d0/maintainability" /></a>  <a href="https://app.codacy.com/gh/flextype/flextype?utm_source=github.com&utm_medium=referral&utm_content=flextype/flextype&utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/2d7159d9372c414a99d62fe564fdea48"></a> <a href="https://flextype.org/en/discord"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat" alt="Discord"></a> <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fflextype%2Fflextype?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflextype%2Fflextype.svg?type=shield"/></a>
 </p>
 <br>
 
@@ -14,7 +14,7 @@ With Flextype, you are in complete control. Design your data structure the way y
 The underlying architecture of Flextype is built using well established and best-in-class technologies. This is to ensure that Flextype is simple to use and easy to extend. Some of these key technologies include:
 
 * [Slim PHP](http://www.slimframework.com): Framework for powerful web applications and APIs.
-* [Doctrine Project](https://www.doctrine-project.org): A set of decoupled and reusable PHP libraries for powerful web applications.
+* [Atomastic](https://atomastic.com): A set of decoupled and reusable PHP building blocks for kickass Web Applications.
 * [The PHP League](https://thephpleague.com): The League of Extraordinary PHP Packages well tested and using modern coding standards.
 * [Respect Validation](https://respect-validation.readthedocs.io/): The most awesome validation engine ever created for PHP.
 * [Thunderer Shortcode](https://github.com/thunderer/Shortcode): Advanced shortcode (BBCode) parser and engine for PHP.
@@ -48,7 +48,7 @@ APC, APCu, XCache, Memcached, or Redis for better performance.
 2. Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, create directory <code>/project</code> and be sure to chmod the following directory to <code>755</code> (or <code>777</code>), so it is readable and writable by Flextype.<br>
 3. Create Rest API's tokens for your project using this [webpage](https://flextype.org/en/api-token-generator).
 
-[read the documentation](https://github.com/flextype/plugins)
+[read the documentation](https://docs.flextype.org/en)
 
 ## COMMUNITY
 Flextype is open source, community driven project, and maintained by community!
@@ -110,7 +110,6 @@ If you need help with Git or our workflow, please ask in our community chat. We 
 
 You may help us to create amazing knowledge base for Flextype. Fix spelling, add code examples, help organize, write new articles, and etc...
 
-
 ## SPONSORS
 
 ### Gold Sponsor
@@ -122,12 +121,7 @@ You may help us to create amazing knowledge base for Flextype. Fix spelling, add
   <tbody>
     <tr>
       <td align="center" valign="middle">
-          <a href="https://web-easy.org">
-              <img src="https://flextype.org/api/images/en/sponsors/webeasy.png?dpr=2&w=80&q=70&token=3b29b31ae05c89c2009f6e3f96e3d703" alt="" class="inline">
-          </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="#">
+        <a href="https://twitter.com/jeremyjmonroe">
          Jeremy Monroe
         </a>
       </td>
@@ -137,4 +131,4 @@ You may help us to create amazing knowledge base for Flextype. Fix spelling, add
 
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
-Copyright (c) 2018-2020 [Sergey Romanenko](https://github.com/Awilum)
+Copyright (c) 2021 [Sergey Romanenko](https://github.com/Awilum)
