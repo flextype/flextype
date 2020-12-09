@@ -136,3 +136,29 @@ test('test macro() entry', function () {
     $this->assertEquals(1, flextype('entries')->fetchRecentPosts(1)->count());
     $this->assertEquals(2, flextype('entries')->fetchRecentPosts(2)->count());
 });
+
+test('test mixin() entry', function () {
+    flextype('entries')->create('foo', []);
+    flextype('entries')->create('foo/bar', []);
+    flextype('entries')->create('foo/baz', []);
+
+    class FooMixin {
+        public function foo() {
+            return function () {
+                return 'Foo';
+            };
+        }
+
+        public function bar() {
+            return function ($val = 'Foo') {
+                return $val;
+            };
+        }
+    }
+
+    flextype('entries')::mixin(new FooMixin());
+
+    $this->assertEquals('Foo', flextype('entries')->foo());
+    $this->assertEquals('Foo', flextype('entries')->bar());
+    $this->assertEquals('Bar', flextype('entries')->bar('Bar'));
+});
