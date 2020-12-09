@@ -119,3 +119,20 @@ test('test setStorage and getStorage entry', function () {
     $this->assertEquals('Foo', flextype('entries')->getStorage('foo.title'));
     $this->assertEquals('Bar', flextype('entries')->getStorage('bar.title'));
 });
+
+test('test macro() entry', function () {
+    flextype('entries')->create('foo', []);
+    flextype('entries')->create('foo/bar', []);
+    flextype('entries')->create('foo/baz', []);
+
+    flextype('entries')::macro('fetchRecentPosts', function($limit = 1) {
+    	return flextype('entries')
+                    ->fetchCollection('foo')
+                    ->sortBy('published_at')
+                    ->limit($limit);
+    });
+
+    $this->assertEquals(1, flextype('entries')->fetchRecentPosts()->count());
+    $this->assertEquals(1, flextype('entries')->fetchRecentPosts(1)->count());
+    $this->assertEquals(2, flextype('entries')->fetchRecentPosts(2)->count());
+});
