@@ -17,6 +17,7 @@ use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 use Whoops\Util\Misc;
+use DateTimeZone;
 
 use function date_default_timezone_set;
 use function error_reporting;
@@ -138,7 +139,9 @@ function_exists('mb_internal_encoding') and mb_internal_encoding(flextype('regis
 /**
  * Set default timezone
  */
-date_default_timezone_set(flextype('registry')->get('flextype.settings.timezone'));
+if (in_array(flextype('registry')->get('flextype.settings.timezone'), DateTimeZone::listIdentifiers())) {
+    date_default_timezone_set(flextype('registry')->get('flextype.settings.timezone'));
+}
 
 /**
  * Init shortocodes
