@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 
 if (flextype('registry')->get('flextype.settings.entries.fields.slug.enabled')) {
-    flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {
+    flextype('emitter')->addListener('onEntriesFetchSingleAfterInitialized', static function (): void {
         if (flextype('entries')->getStorage('fetch.data.slug') !== null) {
             return;
         }
