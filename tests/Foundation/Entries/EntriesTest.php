@@ -27,6 +27,31 @@ test('test update() method', function () {
     $this->assertFalse(flextype('entries')->update('bar', ['title' => 'Test']));
 });
 
+test('test fetch() entry', function () {
+    flextype('entries')->create('foo', ['title' => 'Foo']);
+    flextype('entries')->create('foo/bar', ['title' => 'Bar']);
+    flextype('entries')->create('foo/baz', ['title' => 'Baz']);
+    flextype('entries')->create('foo/zed', ['title' => 'Zed']);
+
+    $this->assertEquals(12, flextype('entries')->fetch('foo')->count());
+    $this->assertEquals(12, flextype('entries')->fetch('foo', ['collection' => false])->count());
+    $this->assertEquals(3, flextype('entries')->fetch('foo', ['collection' => true])->count());
+
+    $this->assertEquals('Bar', flextype('entries')->fetch('foo/bar')['title']);
+    $this->assertEquals('Baz', flextype('entries')->fetch('foo/baz')['title']);
+    $this->assertEquals('Zed', flextype('entries')->fetch('foo/zed')['title']);
+
+    flextype('emitter')->addListener('onEntriesFetchCollectionAfterInitialized', static function (): void {
+        flextype('entries')->setStorage('fetch.data.foo/zed.title', 'ZedFromCollection!');
+    });
+
+    flextype('emitter')->addListener('onEntriesFetchCollectionAfterInitialized', static function (): void {
+        flextype('entries')->setStorage('fetch.data.foo/baz.title', 'BazFromCollection!');
+    });
+
+    $this->assertEquals('ZedFromCollection!', flextype('entries')->fetch('foo', ['collection' => true])['foo/zed.title']);
+    $this->assertEquals('BazFromCollection!', flextype('entries')->fetch('foo', ['collection' => true])['foo/baz.title']);
+});
 
 test('test fetchSingle() method', function () {
     // 1
@@ -92,14 +117,14 @@ test('test getFileLocation() method', function () {
                           flextype('entries')->getFileLocation('foo'));
 });
 
-test('test getDirectoryLocation entry', function () {
+test('test getDirectoryLocation() entry', function () {
     flextype('entries')->create('foo', []);
 
     $this->assertStringContainsString('/foo',
                           flextype('entries')->getDirectoryLocation('foo'));
 });
 
-test('test getCacheID entry', function () {
+test('test getCacheID() entry', function () {
     flextype('registry')->set('flextype.settings.cache.enabled', false);
     flextype('entries')->create('foo', []);
     $this->assertEquals('', flextype('entries')->getCacheID('foo'));
@@ -111,7 +136,7 @@ test('test getCacheID entry', function () {
     flextype('registry')->set('flextype.settings.cache.enabled', false);
 });
 
-test('test setStorage and getStorage entry', function () {
+test('test setStorage() and getStorage() entry', function () {
     flextype('entries')->setStorage('foo', ['title' => 'Foo']);
     flextype('entries')->setStorage('bar', ['title' => 'Bar']);
     $this->assertEquals('Foo', flextype('entries')->getStorage('foo')['title']);
