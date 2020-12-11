@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 
 if (flextype('registry')->get('flextype.settings.entries.fields.routable.enabled')) {
-    flextype('emitter')->addListener('onEntriesFetchSingleAfterInitialized', static function (): void {
+    flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
         if (flextype('entries')->getStorage('fetch.data.routable') === null) {
             flextype('entries')->setStorage('fetch.data.routable', true);
         } else {

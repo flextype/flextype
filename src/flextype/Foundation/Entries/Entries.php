@@ -81,11 +81,16 @@ class Entries
         // Run event: onEntriesFetch
         flextype('emitter')->emit('onEntriesFetch');
 
-        if (isset($options['collection']) && strings($options['collection'])->isTrue()) {
-            return $this->fetchCollection($id, $options);
+        // Fetch collection
+        if (isset($this->storage['fetch']['options']['collection']) &&
+            strings($this->storage['fetch']['options']['collection'])->isTrue()) {
+            return $this->fetchCollection($this->storage['fetch']['id'],
+                                          $this->storage['fetch']['options']);
         }
 
-        return $this->fetchSingle($id, $options);
+        // Fetch single
+        return $this->fetchSingle($this->storage['fetch']['id'],
+                                  $this->storage['fetch']['options']);
     }
 
     /**
@@ -116,11 +121,12 @@ class Entries
             // Fetch entry from cache
             $this->storage['fetch']['data'] = flextype('cache')->get($entryCacheID);
 
-            // Run event: onEntriesFetchSingleAfterCacheInitialized
-            flextype('emitter')->emit('onEntriesFetchSingleAfterCacheInitialized');
-
             // Apply filter for fetch data
-            $this->storage['fetch']['data'] = filter($this->storage['fetch']['data'], $options);
+            $this->storage['fetch']['data'] = filter($this->storage['fetch']['data'],
+                                                     $this->storage['fetch']['options']);
+
+            // Run event: onEntriesFetchSingleCacheHasResult
+            flextype('emitter')->emit('onEntriesFetchSingleCacheHasResult');
 
             // Return entry from cache
             return arrays($this->storage['fetch']['data']);
@@ -140,9 +146,6 @@ class Entries
             // Decode entry file content
             $this->storage['fetch']['data'] = flextype('frontmatter')->decode($entryFileContent);
 
-            // Run event: onEntriesFetchSingleAfterInitialized
-            flextype('emitter')->emit('onEntriesFetchSingleAfterInitialized');
-
             // Set cache state
             $cache = flextype('entries')->storage['fetch']['data']['cache']['enabled'] ??
                                 flextype('registry')->get('flextype.settings.cache.enabled');
@@ -153,14 +156,21 @@ class Entries
             }
 
             // Apply filter for fetch data
-            $this->storage['fetch']['data'] = filter($this->storage['fetch']['data'], $options);
+            $this->storage['fetch']['data'] = filter($this->storage['fetch']['data'],
+                                                     $this->storage['fetch']['options']);
+
+            // Run event: onEntriesFetchSingleHasResult
+            flextype('emitter')->emit('onEntriesFetchSingleHasResult');
 
             // Return entry data
             return arrays($this->storage['fetch']['data']);
         }
 
+        // Run event: onEntriesFetchSingleNoResult
+        flextype('emitter')->emit('onEntriesFetchSingleNoResult');
+
         // Return empty array if entry is not founded
-        return arrays();
+        return arrays($this->storage['fetch']['data']);
     }
 
     /**
@@ -183,9 +193,11 @@ class Entries
         // Run event: onEntriesFetchCollection
         flextype('emitter')->emit('onEntriesFetchCollection');
 
-        // Find entries
-        $entries = find($this->getDirectoryLocation($this->storage['fetch']['id']), $options);
+        // Find entries in the filesystem
+        $entries = find($this->getDirectoryLocation($this->storage['fetch']['id']),
+                                                    $this->storage['fetch']['options']);
 
+        // Walk through entries results
         if ($entries->hasResults()) {
             foreach ($entries as $currenEntry) {
                 if ($currenEntry->getType() !== 'file' || $currenEntry->getFilename() !== 'entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension')) {
@@ -205,11 +217,14 @@ class Entries
             $this->storage['fetch']['id'] = $id;
 
             // Apply filter for fetch data
-            $this->storage['fetch']['data'] = filter($data, $options);
+            $this->storage['fetch']['data'] = filter($data, $this->storage['fetch']['options']);
 
-            // Run event: onEntriesFetchCollectionAfterInitialized
-            flextype('emitter')->emit('onEntriesFetchCollectionAfterInitialized');
+            // Run event: onEntriesFetchCollectionHasResult
+            flextype('emitter')->emit('onEntriesFetchCollectionHasResult');
         }
+
+        // Run event: onEntriesFetchCollectionNoResult
+        flextype('emitter')->emit('onEntriesFetchCollectionNoResult');
 
         // Return entries array
         return arrays($this->storage['fetch']['data']);

@@ -41,11 +41,11 @@ test('test fetch() entry', function () {
     $this->assertEquals('Baz', flextype('entries')->fetch('foo/baz')['title']);
     $this->assertEquals('Zed', flextype('entries')->fetch('foo/zed')['title']);
 
-    flextype('emitter')->addListener('onEntriesFetchCollectionAfterInitialized', static function (): void {
+    flextype('emitter')->addListener('onEntriesFetchCollectionHasResult', static function (): void {
         flextype('entries')->setStorage('fetch.data.foo/zed.title', 'ZedFromCollection!');
     });
 
-    flextype('emitter')->addListener('onEntriesFetchCollectionAfterInitialized', static function (): void {
+    flextype('emitter')->addListener('onEntriesFetchCollectionHasResult', static function (): void {
         flextype('entries')->setStorage('fetch.data.foo/baz.title', 'BazFromCollection!');
     });
 

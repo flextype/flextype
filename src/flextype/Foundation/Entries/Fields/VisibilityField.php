@@ -14,7 +14,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.visibility.enabl
         'visible' => 'visible',
     ];
 
-    flextype('emitter')->addListener('onEntriesFetchSingleAfterInitialized', static function () use ($visibility): void {
+    flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function () use ($visibility): void {
         if (flextype('entries')->getStorage('fetch.data.visibility') !== null && in_array(flextype('entries')->getStorage('fetch.data.visibility'), $visibility)) {
             flextype('entries')->setStorage('fetch.data.visibility', (string) $visibility[flextype('entries')->getStorage('fetch.data.visibility')]);
         } else {

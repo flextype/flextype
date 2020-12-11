@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 if (flextype('registry')->get('flextype.settings.entries.fields.published_at.enabled')) {
-    flextype('emitter')->addListener('onEntriesFetchSingleAfterInitialized', static function (): void {
+    flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
         if (flextype('entries')->getStorage('fetch.data.published_at') === null) {
             flextype('entries')->setStorage('fetch.data.published_at', (int) filesystem()->file(flextype('entries')->getFileLocation(flextype('entries')->getStorage('fetch.id')))->lastModified());
         } else {

@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 if (flextype('registry')->get('flextype.settings.entries.fields.parsers.enabled')) {
-    flextype('emitter')->addListener('onEntriesFetchSingleAfterInitialized', static function (): void {
+    flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
         processParsersField();
     });
 }
