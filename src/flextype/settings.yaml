@@ -59,6 +59,8 @@ errors:
 entries:
   extension: md
   fields:
+    fetch:
+      enabled: true
     slug:
       enabled: true
     published_at:
