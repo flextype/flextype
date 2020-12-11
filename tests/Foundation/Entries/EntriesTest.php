@@ -34,6 +34,7 @@ test('test fetch() entry', function () {
     flextype('entries')->create('foo/zed', ['title' => 'Zed']);
 
     dump(flextype('entries')->fetch('foo'));
+    dump(flextype('entries')->fetch('foo'));
     dump(flextype('entries')->fetch('foo', ['collection' => false]));
 
 //    $this->assertEquals(12, flextype('entries')->fetch('foo')->count());
