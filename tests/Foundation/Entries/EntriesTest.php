@@ -36,6 +36,8 @@ test('test fetch() entry', function () {
     flextype('registry')->set('flextype.settings.cache.enabled', false);
     dump(flextype('entries')->fetch('foo'));
     dump(flextype('entries')->fetch('foo'));
+    $this->assertEquals(12, flextype('entries')->fetch('foo')->count());
+    $this->assertEquals(12, flextype('entries')->fetch('foo', ['collection' => false])->count());
     flextype('registry')->set('flextype.settings.cache.enabled', true);
     //dump(flextype('entries')->fetch('foo', ['collection' => false]));
 
