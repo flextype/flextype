@@ -118,11 +118,9 @@ class Entries
 
         // 1. Try to get current requested entry from cache
         if (flextype('cache')->has($entryCacheID)) {
-            // Fetch entry from cache
-            $this->storage['fetch']['data'] = flextype('cache')->get($entryCacheID);
 
-            // Apply filter for fetch data
-            $this->storage['fetch']['data'] = filter($this->storage['fetch']['data'],
+            // Fetch entry from cache and Apply filter for fetch data
+            $this->storage['fetch']['data'] = filter(flextype('cache')->get($entryCacheID),
                                                      $this->storage['fetch']['options']);
 
             // Run event: onEntriesFetchSingleCacheHasResult
@@ -139,23 +137,23 @@ class Entries
 
             // Try to get requested entry from the filesystem
             $entryFileContent = filesystem()->file($entryFile)->get();
+
             if ($entryFileContent === false) {
-                return arrays();
+                // Run event: onEntriesFetchSingleNoResult
+                flextype('emitter')->emit('onEntriesFetchSingleNoResult');
+                return arrays($this->storage['fetch']['data']);
             }
 
-            // Decode entry file content
-            $this->storage['fetch']['data'] = flextype('frontmatter')->decode($entryFileContent);
-
-            // Set cache state
-            $cache = flextype('entries')->storage['fetch']['data']['cache']['enabled'] ??
-                                flextype('registry')->get('flextype.settings.cache.enabled');
-
-            // Apply filter for fetch data
-            $this->storage['fetch']['data'] = filter($this->storage['fetch']['data'],
+            // Decode entry file content and Apply filter for fetch data
+            $this->storage['fetch']['data'] = filter(flextype('frontmatter')->decode($entryFileContent),
                                                      $this->storage['fetch']['options']);
 
             // Run event: onEntriesFetchSingleHasResult
             flextype('emitter')->emit('onEntriesFetchSingleHasResult');
+
+            // Set cache state
+            $cache = flextype('entries')->storage['fetch']['data']['cache']['enabled'] ??
+                                 flextype('registry')->get('flextype.settings.cache.enabled');
 
              // Save entry data to cache
             if ($cache) {
