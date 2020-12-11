@@ -33,16 +33,10 @@ test('test fetch() entry', function () {
     flextype('entries')->create('foo/baz', ['title' => 'Baz']);
     flextype('entries')->create('foo/zed', ['title' => 'Zed']);
 
-    //flextype('registry')->set('flextype.settings.cache.enabled', false);
-    dump(flextype('entries')->fetch('foo'));
-    dump(flextype('entries')->fetch('foo'));
     $this->assertEquals(12, flextype('entries')->fetch('foo')->count());
+    $this->assertEquals('foo', flextype('entries')->fetch('foo')['id']);
     $this->assertEquals(12, flextype('entries')->fetch('foo', ['collection' => false])->count());
-    //flextype('registry')->set('flextype.settings.cache.enabled', true);
-    //dump(flextype('entries')->fetch('foo', ['collection' => false]));
-
-//    $this->assertEquals(12, flextype('entries')->fetch('foo')->count());
-//    $this->assertEquals(12, flextype('entries')->fetch('foo', ['collection' => false])->count());
+    $this->assertEquals('foo', flextype('entries')->fetch('foo')['id']);
     $this->assertEquals(3, flextype('entries')->fetch('foo', ['collection' => true])->count());
 
     $this->assertEquals('Bar', flextype('entries')->fetch('foo/bar')['title']);
