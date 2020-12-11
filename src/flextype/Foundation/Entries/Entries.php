@@ -150,6 +150,9 @@ class Entries
             $cache = flextype('entries')->storage['fetch']['data']['cache']['enabled'] ??
                                 flextype('registry')->get('flextype.settings.cache.enabled');
 
+            // Run event: onEntriesFetchSingleHasResult
+            flextype('emitter')->emit('onEntriesFetchSingleHasResult');
+
             // Save entry data to cache
             if ($cache) {
                 flextype('cache')->set($entryCacheID, $this->storage['fetch']['data']);
@@ -158,9 +161,6 @@ class Entries
             // Apply filter for fetch data
             $this->storage['fetch']['data'] = filter($this->storage['fetch']['data'],
                                                      $this->storage['fetch']['options']);
-
-            // Run event: onEntriesFetchSingleHasResult
-            flextype('emitter')->emit('onEntriesFetchSingleHasResult');
 
             // Return entry data
             return arrays($this->storage['fetch']['data']);
