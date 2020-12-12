@@ -14,14 +14,14 @@ test('test RoutableField', function () {
     flextype('registry')->set('flextype.settings.cache.enabled', false);
 
     flextype('entries')->create('foo', ['routable' => true]);
-    $routable = flextype('entries')->fetchSingle('foo')['routable'];
+    $routable = flextype('entries')->fetch('foo')['routable'];
     $this->assertTrue($routable);
 
     flextype('entries')->create('bar', []);
-    $routable = flextype('entries')->fetchSingle('bar')['routable'];
+    $routable = flextype('entries')->fetch('bar')['routable'];
     $this->assertTrue($routable);
 
     flextype('entries')->create('zed', ['routable' => false]);
-    $routable = flextype('entries')->fetchSingle('zed')['routable'];
+    $routable = flextype('entries')->fetch('zed')['routable'];
     $this->assertFalse($routable);
 });

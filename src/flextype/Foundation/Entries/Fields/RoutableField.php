@@ -10,10 +10,10 @@ declare(strict_types=1);
 
 if (flextype('registry')->get('flextype.settings.entries.fields.routable.enabled')) {
     flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
-        if (flextype('entries')->getStorage('fetch.data.routable') === null) {
-            flextype('entries')->setStorage('fetch.data.routable', true);
+        if (flextype('entries')->getStorage('fetch_single.data.routable') === null) {
+            flextype('entries')->setStorage('fetch_single.data.routable', true);
         } else {
-            flextype('entries')->setStorage('fetch.data.routable', (bool) flextype('entries')->getStorage('fetch.data.routable'));
+            flextype('entries')->setStorage('fetch_single.data.routable', (bool) flextype('entries')->getStorage('fetch_single.data.routable'));
         }
     });
 

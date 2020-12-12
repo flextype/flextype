@@ -10,11 +10,11 @@ declare(strict_types=1);
 
 if (flextype('registry')->get('flextype.settings.entries.fields.slug.enabled')) {
     flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
-        if (flextype('entries')->getStorage('fetch.data.slug') !== null) {
+        if (flextype('entries')->getStorage('fetch_single.data.slug') !== null) {
             return;
         }
 
-        $parts = strings(flextype('entries')->getStorage('fetch.id'))->trimSlashes()->segments();
-        flextype('entries')->setStorage('fetch.data.slug', (string) end($parts));
+        $parts = strings(flextype('entries')->getStorage('fetch_single.id'))->trimSlashes()->segments();
+        flextype('entries')->setStorage('fetch_single.data.slug', (string) end($parts));
     });
 }

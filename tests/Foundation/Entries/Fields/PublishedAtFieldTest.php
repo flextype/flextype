@@ -13,7 +13,7 @@ afterEach(function (): void {
 test('test PublishedAtField', function () {
     flextype('entries')->create('foo', []);
 
-    $published_at = flextype('entries')->fetchSingle('foo')['published_at'];
+    $published_at = flextype('entries')->fetch('foo')['published_at'];
 
     $this->assertTrue(strlen($published_at) > 0);
     $this->assertTrue((ctype_digit($published_at) && strtotime(date('Y-m-d H:i:s', $published_at)) === (int)$published_at));
