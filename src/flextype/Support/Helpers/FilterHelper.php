@@ -14,9 +14,9 @@ if (! function_exists('filter')) {
      * @param  mixed $items   Items.
      * @param  array $options Options array.
      *
-     * @return array|bool|int
+     * @return array
      */
-    function filter($items = [], array $options = [])
+    function filter($items = [], array $options = []): array
     {
         $collection = arrays($items);
 
@@ -40,13 +40,6 @@ if (! function_exists('filter')) {
 
         if (isset($options['group_by'])) {
             $collection->groupBy($options['group_by']);
-        }
-
-        if (isset($options['slice_offset']) && isset($options['slice_offset'])) {
-            $collection->slice(
-                isset($options['slice_offset']) ? (int) $options['slice_offset'] : 0,
-                isset($options['slice_limit']) ? (int) $options['slice_limit'] : 0
-            );
         }
 
         if (isset($options['sort_by'])) {
@@ -75,12 +68,6 @@ if (! function_exists('filter')) {
                 break;
             case 'random':
                 $result = $collection->random(isset($options['random']) ? (int) $options['random'] : null);
-                break;
-            case 'exists':
-                $result = $collection->count() > 0;
-                break;
-            case 'count':
-                $result = $collection->count();
                 break;
             case 'shuffle':
                 $result = $collection->shuffle()->toArray();
