@@ -35,51 +35,34 @@ test('test fetch() entry', function () {
 
     $this->assertEquals(12, flextype('entries')->fetch('foo')->count());
     $this->assertEquals('foo', flextype('entries')->fetch('foo')['id']);
-    $this->assertEquals(12, flextype('entries')->fetch('foo', ['collection' => false])->count());
+    $this->assertEquals(12, flextype('entries')->fetch('foo', 'single')->count());
     $this->assertEquals('foo', flextype('entries')->fetch('foo')['id']);
-    $this->assertEquals(3, flextype('entries')->fetch('foo', ['collection' => true])->count());
+    $this->assertEquals(3, flextype('entries')->fetch('foo', 'collection')->count());
 
     $this->assertEquals('Bar', flextype('entries')->fetch('foo/bar')['title']);
     $this->assertEquals('Baz', flextype('entries')->fetch('foo/baz')['title']);
     $this->assertEquals('Zed', flextype('entries')->fetch('foo/zed')['title']);
 
+    flextype('entries')->setStorage('fetch.id', 'wrong-entry');
+    $this->assertEquals(0, flextype('entries')->fetch('wrong-entry')->count());
+    flextype('entries')->setStorage('fetch_single.id', 'wrong-entry');
+    $this->assertEquals(0, flextype('entries')->fetch('wrong-entry')->count());
+
+    $this->assertTrue(count(flextype('entries')->fetch('foo', 'collection')) > 0);
+
+/*
     flextype('emitter')->addListener('onEntriesFetchCollectionHasResult', static function (): void {
-        flextype('entries')->setStorage('fetch.data.foo/zed.title', 'ZedFromCollection!');
+        flextype('entries')->setStorage('fetch_collection.data.foo/zed.title', 'ZedFromCollection!');
     });
 
     flextype('emitter')->addListener('onEntriesFetchCollectionHasResult', static function (): void {
-        flextype('entries')->setStorage('fetch.data.foo/baz.title', 'BazFromCollection!');
+        flextype('entries')->setStorage('fetch_collection.data.foo/baz.title', 'BazFromCollection!');
     });
 
     $this->assertEquals('ZedFromCollection!', flextype('entries')->fetch('foo', ['collection' => true])['foo/zed.title']);
     $this->assertEquals('BazFromCollection!', flextype('entries')->fetch('foo', ['collection' => true])['foo/baz.title']);
-});
+*/
 
-test('test fetchSingle() method', function () {
-    // 1
-    flextype('entries')->create('foo', []);
-    $fetch = flextype('entries')->fetchSingle('foo');
-    $this->assertTrue(count($fetch) > 0);
-
-    // 2
-    $this->assertEquals('foo', flextype('entries')->fetchSingle('foo')['id']);
-
-    // 3
-    flextype('entries')->create('zed', ['title' => 'Zed']);
-    $fetch = flextype('entries')->fetchSingle('zed');
-    $this->assertEquals('Zed', $fetch['title']);
-
-    // 4
-    flextype('entries')->setStorage('fetch.id', 'wrong-entry');
-    $this->assertEquals(0, flextype('entries')->fetchSingle('wrong-entry')->count());
-});
-
-test('test fetchCollection() method', function () {
-    flextype('entries')->create('foo', []);
-    flextype('entries')->create('foo/bar', ['title' => 'Bar']);
-    flextype('entries')->create('foo/baz', ['title' => 'Baz']);
-    $fetch = flextype('entries')->fetchCollection('foo');
-    $this->assertTrue(count($fetch) > 0);
 });
 
 test('test copy() method', function () {
