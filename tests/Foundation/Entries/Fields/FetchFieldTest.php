@@ -11,53 +11,56 @@ afterEach(function (): void {
 });
 
 test('test fetchField', function () {
-    flextype('entries')->create('bikes', ['title' => 'Bikes']);
-    flextype('entries')->create('bikes/gt', ['title' => 'GT', 'brand' => 'gt']);
-    flextype('entries')->create('bikes/norco', ['title' => 'Norco', 'brand' => 'norco']);
 
+
+
+    // Create catalog
+    flextype('entries')->create('catalog', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/catalog/entry.md')->get()));
+    flextype('entries')->create('catalog/bikes', ['title' => 'Bikes']);
+    flextype('entries')->create('catalog/bikes/gt', ['title' => 'GT', 'brand' => 'gt']);
+    flextype('entries')->create('catalog/bikes/norco', ['title' => 'Norco', 'brand' => 'norco']);
+    flextype('entries')->create('catalog/bikes/foo', ['title' => 'foo']);
+    flextype('entries')->create('catalog/bikes/foo/bar', ['title' => 'bar']);
+
+    // Create discounts
     flextype('entries')->create('discounts', ['title' => 'Discounts']);
-    flextype('entries')->create('discounts/30-off', ['title' => '30% off', 'visibility' => 'published']);
-    flextype('entries')->create('discounts/50-off', ['title' => '50% off']);
+    flextype('entries')->create('discounts/30-off', ['title' => '30% off', 'category' => 'bikes']);
+    flextype('entries')->create('discounts/50-off', ['title' => '50% off', 'category' => 'bikes']);
 
+    // Create banner
     flextype('entries')->create('banner', ['title' => 'Banner']);
 
-    flextype('entries')->create('catalog',
-flextype('yaml')->decode("title: Catalog
-fetch:
-  -
-    id: bikes
-    result: bikes
-    options:
-      collection: true
-      where:
-        -
-          key: brand
-          operator: eq
-          value: gt
-      limit: 10
-  -
-    id: discounts
-    result: discounts
-    options:
-      collection: true
-      where:
-        -
-          key: title
-          operator: eq
-          value: '30% off'
-        -
-          key: visibility
-          operator: eq
-          value: published
-  -
-    id: banner
-    result: banner
-")
-);
+    $catalogSingle = flextype('entries')->fetch('catalog');
+    $this->assertEquals(15, $catalogSingle->count());
+    $this->assertEquals('Catalog', $catalogSingle['title']);
+    $this->assertEquals('catalog', $catalogSingle['id']);
+    $this->assertEquals(1, $catalogSingle['bikes']->count());
+    $this->assertTrue(isset($catalogSingle['bikes']['catalog/bikes/gt']));
+    $this->assertEquals('GT', $catalogSingle['bikes']['catalog/bikes/gt']['title']);
+    $this->assertEquals(1, $catalogSingle['discounts']->count());
+    $this->assertTrue(isset($catalogSingle['discounts']['discounts/30-off']));
+    $this->assertEquals('30% off', $catalogSingle['discounts']['discounts/30-off']['title']);
 
-    $fetch = flextype('entries')->fetch('catalog');
+    $catalogSingleWithCollectionFalse = flextype('entries')->fetch('catalog', 'single');
+    $this->assertEquals(15, $catalogSingleWithCollectionFalse->count());
+    $this->assertEquals('Catalog', $catalogSingleWithCollectionFalse['title']);
+    $this->assertEquals('catalog', $catalogSingleWithCollectionFalse['id']);
+    $this->assertEquals(1, $catalogSingleWithCollectionFalse['bikes']->count());
+    $this->assertTrue(isset($catalogSingleWithCollectionFalse['bikes']['catalog/bikes/gt']));
+    $this->assertEquals('GT', $catalogSingleWithCollectionFalse['bikes']['catalog/bikes/gt']['title']);
+    $this->assertEquals(1, $catalogSingleWithCollectionFalse['discounts']->count());
+    $this->assertTrue(isset($catalogSingleWithCollectionFalse['discounts']['discounts/30-off']));
+    $this->assertEquals('30% off', $catalogSingleWithCollectionFalse['discounts']['discounts/30-off']['title']);
 
+    $catalogCollection = flextype('entries')->fetch('catalog', 'collection');
+    $this->assertEquals(1, $catalogCollection->count());
+    $this->assertEquals('Bikes', $catalogCollection['catalog/bikes']['title']);
+    $this->assertEquals('catalog/bikes', $catalogCollection['catalog/bikes']['id']);
 
-    //$this->assertEquals(1, $fetch['discounts']->count());
-    //$this->assertEquals('Banner', $fetch['banner']['title']);
+    $catalogLongCollecion = flextype('entries')->fetch('catalog', 'collection', ['find' => ['depth' => ['>0', '<4']]]);
+    $this->assertEquals(5, $catalogLongCollecion->count());
+
+    $banner = flextype('entries')->fetch('banner');
+    $this->assertEquals('Banner', $banner['title']);
+    $this->assertEquals('banner', $banner['id']);
 });
