@@ -197,8 +197,8 @@ class Entries
         // Find entries in the filesystem
         $entries = find($this->getDirectoryLocation($this->storage['fetch_collection']['id']),
                                                     isset($this->storage['fetch_collection']['options']['find']) ?
-                                                        $this->storage['fetch_collection']['options']['find'] :
-                                                        []);
+                                                          $this->storage['fetch_collection']['options']['find'] :
+                                                          []);
 
         // Walk through entries results
         if ($entries->hasResults()) {
@@ -224,8 +224,10 @@ class Entries
             // Apply filter for fetch data
             $this->storage['fetch_collection']['data'] = filter($this->storage['fetch_collection']['data'],
                                                                 isset($this->storage['fetch_collection']['options']['filter']) ?
-                                                                    $this->storage['fetch_collection']['options']['filter'] :
-                                                                    []);
+                                                                      $this->storage['fetch_collection']['options']['filter'] :
+                                                                      isset($options['filter']) ? $options['filter'] : []);
+
+
 
         }
 
