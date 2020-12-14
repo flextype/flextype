@@ -2,15 +2,17 @@
 title: Root
 fetch:
   single:
-    from: single
-    id: albums
-  collection:
-    from: collection
-    id: albums
-  collectionWithDepth:
-    from: collection
     id: albums
     options:
+      from: single
+  collection:
+    id: albums
+    options:
+      from: collection
+  collectionWithDepth:
+    id: albums
+    options:
+      from: collection
       find:
         depth: '>0'
 ---

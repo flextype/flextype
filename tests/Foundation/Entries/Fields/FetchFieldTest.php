@@ -10,6 +10,16 @@ afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
+test('test fetchField for blog', function () {
+    flextype('entries')->create('blog', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/entry.md')->get()));
+    flextype('entries')->create('blog/post-1', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/post-1/entry.md')->get()));
+    flextype('entries')->create('blog/post-2', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/post-2/entry.md')->get()));
+
+    $blog = flextype('entries')->fetch('blog');
+
+    $this->assertEquals(14, $blog->count());
+});
+
 test('test fetchField for catalog', function () {
 
     // Create catalog
@@ -40,40 +50,18 @@ test('test fetchField for catalog', function () {
     $this->assertTrue(isset($catalogSingle['discounts']['discounts/30-off']));
     $this->assertEquals('30% off', $catalogSingle['discounts']['discounts/30-off']['title']);
 
-    $catalogSingleWithCollectionFalse = flextype('entries')->fetch('catalog', 'single');
-    $this->assertEquals(16, $catalogSingleWithCollectionFalse->count());
-    $this->assertEquals('Catalog', $catalogSingleWithCollectionFalse['title']);
-    $this->assertEquals('catalog', $catalogSingleWithCollectionFalse['id']);
-    $this->assertEquals(1, $catalogSingleWithCollectionFalse['bikes']->count());
-    $this->assertTrue(isset($catalogSingleWithCollectionFalse['bikes']['catalog/bikes/gt']));
-    $this->assertEquals('GT', $catalogSingleWithCollectionFalse['bikes']['catalog/bikes/gt']['title']);
-    $this->assertEquals(1, $catalogSingleWithCollectionFalse['discounts']->count());
-    $this->assertTrue(isset($catalogSingleWithCollectionFalse['discounts']['discounts/30-off']));
-    $this->assertEquals('30% off', $catalogSingleWithCollectionFalse['discounts']['discounts/30-off']['title']);
-
-    $catalogCollection = flextype('entries')->fetch('catalog', 'collection');
+    $catalogCollection = flextype('entries')->fetch('catalog', ['from' => 'collection']);
     $this->assertEquals(1, $catalogCollection->count());
     $this->assertEquals('Bikes', $catalogCollection['catalog/bikes']['title']);
     $this->assertEquals('catalog/bikes', $catalogCollection['catalog/bikes']['id']);
 
-    $catalogLongCollecion = flextype('entries')->fetch('catalog', 'collection', ['find' => ['depth' => ['>0', '<4']]]);
+    $catalogLongCollecion = flextype('entries')->fetch('catalog', ['from' => 'collection', 'find' => ['depth' => ['>0', '<4']]]);
     $this->assertEquals(5, $catalogLongCollecion->count());
 
     $banner = flextype('entries')->fetch('banner');
     $this->assertEquals('Banner', $banner['title']);
     $this->assertEquals('banner', $banner['id']);
 });
-
-test('test fetchField for blog', function () {
-    flextype('entries')->create('blog', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/entry.md')->get()));
-    flextype('entries')->create('blog/post-1', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/post-1/entry.md')->get()));
-    flextype('entries')->create('blog/post-2', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/post-2/entry.md')->get()));
-
-    $blog = flextype('entries')->fetch('blog')->sortKeys();
-
-    $this->assertEquals(14, $blog->count());
-});
-
 
 test('test fetchField for albmus', function () {
     flextype('entries')->create('root', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/root/entry.md')->get()));

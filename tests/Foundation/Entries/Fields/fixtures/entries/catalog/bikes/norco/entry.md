@@ -5,9 +5,10 @@ fetch:
   label:
     from: single
     id: discounts/30-off
-    options: []
+    options:
+      from: collection
   discounts:
-    from: collection
     id: discounts
-    options: []
+    options:
+      from: collection
 ---

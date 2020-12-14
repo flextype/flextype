@@ -3,15 +3,15 @@ title: Catalog
 visibility: draft
 fetch:
   label1:
-    from: single
     id: discounts/50-off
     options:
+      from: single
       filter:
         limit: 4
   bikes:
     id: catalog/bikes
-    from: collection
     options:
+      from: collection
       filter:
         where:
           -
@@ -21,8 +21,8 @@ fetch:
         limit: 10
   discounts:
     id: discounts
-    from: collection
     options:
+      from: collection
       filter:
         where:
           -

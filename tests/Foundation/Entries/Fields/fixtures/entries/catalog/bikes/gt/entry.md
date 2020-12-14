@@ -4,8 +4,8 @@ brand: gt
 fetch:
   discounts_available:
     id: discounts
-    from: collection
     options:
+      from: collection
       filter:
         where:
         -
@@ -13,15 +13,15 @@ fetch:
           operator: eq
           value: bikes
   label1:
-    from: single
     id: discounts/50-off
     options:
+      from: single
       filter:
         limit: 3
   label2:
-    from: single
     id: discounts/30-off
     options:
+      from: single
       filter:
         limit: 2
 ---
