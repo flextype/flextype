@@ -14,12 +14,23 @@ if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchCol
             // Get fetch.
             $original = flextype('entries')->getStorage('fetch');
 
+            switch (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchSingle.result')) {
+                case 'toArray':
+                    $resultTo = 'toArray';
+                    break;
+
+                case 'toObject':
+                default:
+                    $resultTo = 'copy';
+                    break;
+            }
+
             // Modify fetch.
             foreach (flextype('entries')->getStorage('fetch.data.entries.fetchCollection') as $field => $body) {
                 $data[$field] = flextype('entries')->fetchCollection($body['id'],
-                        isset($body['options']) ?
-                              $body['options'] :
-                              []);
+                                                                     isset($body['options']) ?
+                                                                           $body['options'] :
+                                                                           [])->{$resultTo}();
             }
 
             // Save fetch.
@@ -36,12 +47,23 @@ if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchSin
             // Get fetch.
             $original = flextype('entries')->getStorage('fetch');
 
+            switch (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchSingle.result')) {
+                case 'toArray':
+                    $resultTo = 'toArray';
+                    break;
+
+                case 'toObject':
+                default:
+                    $resultTo = 'copy';
+                    break;
+            }
+
             // Modify fetch.
             foreach (flextype('entries')->getStorage('fetch.data.entries.fetchSingle') as $field => $body) {
                 $data[$field] = flextype('entries')->fetchSingle($body['id'],
-                        isset($body['options']) ?
-                              $body['options'] :
-                              []);
+                                                                 isset($body['options']) ?
+                                                                       $body['options'] :
+                                                                       [])->{$resultTo}();
             }
 
             // Save fetch.

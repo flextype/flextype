@@ -1,6 +1,6 @@
 ---
 title: Catalog
-visibility: draft
+visibility: visible
 entries:
   fetchSingle:
     label1:

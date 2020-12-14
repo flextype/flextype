@@ -62,8 +62,10 @@ entries:
     entries:
       fetchCollection:
         enabled: true
+        result: toObject
       fetchSingle:
         enabled: true
+        result: toObject
     slug:
       enabled: true
     published_at:
