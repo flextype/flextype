@@ -10,10 +10,10 @@ declare(strict_types=1);
 
 if (flextype('registry')->get('flextype.settings.entries.fields.id.enabled')) {
     flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
-        if (flextype('entries')->getStorage('fetch_single.data.id') !== null) {
+        if (flextype('entries')->getStorage('fetch.data.id') !== null) {
             return;
         }
 
-        flextype('entries')->setStorage('fetch_single.data.id', (string) strings(flextype('entries')->getStorage('fetch_single.id'))->trimSlashes());
+        flextype('entries')->setStorage('fetch.data.id', (string) strings(flextype('entries')->getStorage('fetch.id'))->trimSlashes());
     });
 }
