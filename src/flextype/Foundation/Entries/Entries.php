@@ -148,36 +148,34 @@ class Entries
     public function fetchSingle(string $id, array $options = []): Arrays
     {
         // Store data
-        $this->storage['fetch']['id']      = $id;
-        $this->storage['fetch']['options'] = $options;
-        $this->storage['fetch']['data']    = [];
+        $this->setStorage('fetch.id', $id);
+        $this->setStorage('fetch.options', $options);
+        $this->setStorage('fetch.data', []);
 
         // Run event: onEntriesFetchSingle
         flextype('emitter')->emit('onEntriesFetchSingle');
 
         // Get Cache ID for current requested entry
-        $entryCacheID = $this->getCacheID($this->storage['fetch']['id']);
+        $entryCacheID = $this->getCacheID($this->getStorage('fetch.id'));
 
         // 1. Try to get current requested entry from cache
         if (flextype('cache')->has($entryCacheID)) {
 
             // Fetch entry from cache and Apply filter for fetch data
             $this->storage['fetch']['data'] = filter(flextype('cache')->get($entryCacheID),
-                                                            isset($this->storage['fetch']['options']['filter']) ?
-                                                                $this->storage['fetch']['options']['filter'] :
-                                                                []);
+                                                     $this->getStorage('fetch.options.filter', []));
 
             // Run event: onEntriesFetchSingleCacheHasResult
             flextype('emitter')->emit('onEntriesFetchSingleCacheHasResult');
 
             // Return entry from cache
-            return arrays($this->storage['fetch']['data']);
+            return arrays($this->getStorage('fetch.data'));
         }
 
         // 2. Try to get current requested entry from filesystem
-        if ($this->has($this->storage['fetch']['id'])) {
+        if ($this->has($this->getStorage('fetch.id'))) {
             // Get entry file location
-            $entryFile = $this->getFileLocation($this->storage['fetch']['id']);
+            $entryFile = $this->getFileLocation($this->getStorage('fetch.id'));
 
             // Try to get requested entry from the filesystem
             $entryFileContent = filesystem()->file($entryFile)->get();
@@ -185,20 +183,18 @@ class Entries
             if ($entryFileContent === false) {
                 // Run event: onEntriesFetchSingleNoResult
                 flextype('emitter')->emit('onEntriesFetchSingleNoResult');
-                return arrays($this->storage['fetch']['data']);
+                return arrays($this->getStorage('fetch.data'));
             }
 
             // Decode entry file content
-            $this->storage['fetch']['data'] = flextype('frontmatter')->decode($entryFileContent);
+            $this->setStorage('fetch.data', flextype('frontmatter')->decode($entryFileContent));
 
             // Run event: onEntriesFetchSingleHasResult
             flextype('emitter')->emit('onEntriesFetchSingleHasResult');
 
             // Apply filter for fetch data
-            $this->storage['fetch']['data'] = filter($this->storage['fetch']['data'],
-                                                            isset($this->storage['fetch']['options']['filter']) ?
-                                                                $this->storage['fetch']['options']['filter'] :
-                                                                []);
+            $this->storage['fetch']['data'] = filter($this->getStorage('fetch.data'),
+                                                     $this->getStorage('fetch.options.filter', []));
 
             // Set cache state
             $cache = flextype('entries')->storage['fetch']['data']['cache']['enabled'] ??
