@@ -1,6 +1,7 @@
 ---
 title: level1
-fetch:
-  root:
-    id: level1/level2
+entries:
+  fetchSingle:
+    root:
+      id: level1/level2
 ---

@@ -12,10 +12,10 @@ afterEach(function (): void {
 
 test('test SlugField', function () {
     flextype('entries')->create('foo', []);
-    $slug = flextype('entries')->fetch('foo')['slug'];
+    $slug = flextype('entries')->fetchSingle('foo')['slug'];
     $this->assertEquals('foo', $slug);
 
     flextype('entries')->create('bar', []);
-    $slug = flextype('entries')->fetch('bar')['slug'];
+    $slug = flextype('entries')->fetchSingle('bar')['slug'];
     $this->assertEquals('bar', $slug);
 });

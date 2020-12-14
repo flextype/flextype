@@ -1,8 +1,8 @@
 ---
 title: blog
-fetch:
-  posts:
-    id: blog
-    options:
-      from: collection
+entries:
+  fetchCollection:
+    posts:
+      id: blog
+      options: []
 ---

@@ -10,17 +10,17 @@ afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
-test('test fetchField for blog', function () {
+test('test entries field for blog', function () {
     flextype('entries')->create('blog', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/entry.md')->get()));
     flextype('entries')->create('blog/post-1', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/post-1/entry.md')->get()));
     flextype('entries')->create('blog/post-2', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/post-2/entry.md')->get()));
 
-    $blog = flextype('entries')->fetch('blog');
+    $blog = flextype('entries')->fetchSingle('blog');
 
     $this->assertEquals(14, $blog->count());
 });
 
-test('test fetchField for catalog', function () {
+test('test entries field for catalog', function () {
 
     // Create catalog
     flextype('entries')->create('catalog', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/catalog/entry.md')->get()));
@@ -38,7 +38,7 @@ test('test fetchField for catalog', function () {
     // Create banner
     flextype('entries')->create('banner', ['title' => 'Banner']);
 
-    $catalogSingle = flextype('entries')->fetch('catalog');
+    $catalogSingle = flextype('entries')->fetchSingle('catalog');
 
     $this->assertEquals(16, $catalogSingle->count());
     $this->assertEquals('Catalog', $catalogSingle['title']);
@@ -50,20 +50,20 @@ test('test fetchField for catalog', function () {
     $this->assertTrue(isset($catalogSingle['discounts']['discounts/30-off']));
     $this->assertEquals('30% off', $catalogSingle['discounts']['discounts/30-off']['title']);
 
-    $catalogCollection = flextype('entries')->fetch('catalog', ['from' => 'collection']);
+    $catalogCollection = flextype('entries')->fetchCollection('catalog');
     $this->assertEquals(1, $catalogCollection->count());
     $this->assertEquals('Bikes', $catalogCollection['catalog/bikes']['title']);
     $this->assertEquals('catalog/bikes', $catalogCollection['catalog/bikes']['id']);
 
-    $catalogLongCollecion = flextype('entries')->fetch('catalog', ['from' => 'collection', 'find' => ['depth' => ['>0', '<4']]]);
+    $catalogLongCollecion = flextype('entries')->fetchCollection('catalog', ['find' => ['depth' => ['>0', '<4']]]);
     $this->assertEquals(5, $catalogLongCollecion->count());
 
-    $banner = flextype('entries')->fetch('banner');
+    $banner = flextype('entries')->fetchSingle('banner');
     $this->assertEquals('Banner', $banner['title']);
     $this->assertEquals('banner', $banner['id']);
 });
 
-test('test fetchField for albmus', function () {
+test('test entries field for albmus', function () {
     flextype('entries')->create('root', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/root/entry.md')->get()));
 
     flextype('entries')->create('albums', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/root/albums/entry.md')->get()));
@@ -74,16 +74,18 @@ test('test fetchField for albmus', function () {
     flextype('entries')->create('banners/1', ['title' => 'Banner1']);
     flextype('entries')->create('banners/2', ['title' => 'Banner2']);
 
+    $root = flextype('entries')->fetchSingle('root');
 
+    $this->assertEquals(16, $root->count());
 });
 
-test('test fetchField for long nested entries', function () {
+test('test entries field for long nested entries', function () {
     flextype('entries')->create('level1', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/entry.md')->get()));
     flextype('entries')->create('level1/level2', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/level2/entry.md')->get()));
     flextype('entries')->create('level1/level2/level3', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/level2/level3/entry.md')->get()));
     flextype('entries')->create('level1/level2/level3/level4', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/level2/level3/level4/entry.md')->get()));
 
-    $level = flextype('entries')->fetch('level1')->sortKeys();
+    $level = flextype('entries')->fetchSingle('level1');
 
     $this->assertEquals(14, $level->count());
     $this->assertEquals('level1/level2', $level['root']['id']);
