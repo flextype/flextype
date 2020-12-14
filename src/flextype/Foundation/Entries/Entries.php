@@ -27,8 +27,8 @@ class Entries
     /**
      * Entries Storage
      *
-     * Used for storing current requested entry(entries) data
-     * and maybe changed on fly.
+     * Used for storing current requested entries data
+     * and allow to change them on fly.
      *
      * @var array
      * @access private
