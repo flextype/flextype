@@ -44,12 +44,14 @@ class Entries
     private $fetchCallbackMethod = 'single';
 
     /**
-     * Get storage
+     * Get an item from an storage using "dot" notation.
      *
      * @param  string|int|null $key     Key.
      * @param  mixed           $default Default value.
      *
      * @access public
+     *
+     * @return array Updated storage.
      */
     public function getStorage($key, $default = null)
     {
@@ -57,16 +59,43 @@ class Entries
     }
 
     /**
-     * Set storage
+     * Checks if the given dot-notated key exists in the storage.
+     *
+     * @param  string|array $keys Keys
+     *
+     * @return bool Return TRUE key exists in the array, FALSE otherwise.
+     */
+    public function hasStorage($keys): bool
+    {
+        return arrays($this->storage)->has($keys);
+    }
+
+    /**
+     * Set an storage item to a given value using "dot" notation.
+     * If no key is given to the method, the entire storage will be replaced.
      *
      * @param  string|null $key   Key.
      * @param  mixed       $value Value.
      *
      * @access public
+     *
+     * @return array Updated storage.
      */
     public function setStorage(?string $key, $value): void
     {
         $this->storage = arrays($this->storage)->set($key, $value)->toArray();
+    }
+
+    /**
+     * Deletes an storage value using "dot notation".
+     *
+     * @param  array|string $keys Keys
+     *
+     * @return array Updated storage.
+     */
+    public function deleteStorage($keys): self
+    {
+        return $this->storage = arrays($this->storage)->delete($keys)->toArray();
     }
 
     /**
@@ -82,27 +111,28 @@ class Entries
     public function fetch(string $id, array $options = [])
     {
         // Store data in EMS.
-        $this->storage['fetch']['id']      = $id;
-        $this->storage['fetch']['options'] = $options;
-        $this->storage['fetch']['data']    = [];
+        $this->setStorage('fetch.id', $id);
+        $this->setStorage('fetch.options', $options);
+        $this->setStorage('fetch.data', []);
 
         // Run event: onEntriesFetch
         flextype('emitter')->emit('onEntriesFetch');
 
-        $fetchFromCallbackMethodName = strings(isset($this->storage['fetch']['options']['from']) ?
-                                                     $this->storage['fetch']['options']['from'] :
-                                                     $this->fetchCallbackMethod)
+        // Get valid callable method for fetch.
+        $fetchFromCallbackMethodName = strings($this->hasStorage('fetch.options.from') ?
+                                               $this->getStorage('fetch.options.from') :
+                                               $this->fetchCallbackMethod)
                                            ->studly()
                                            ->prepend('fetch')
                                            ->toString();
 
-        $fetchFromCallbackMethod = is_callable(array($this, $fetchFromCallbackMethodName)) ?
+        $fetchFromCallbackMethod = is_callable([$this, $fetchFromCallbackMethodName]) ?
                                                             $fetchFromCallbackMethodName :
                                                             $this->fetchCallbackMethod;
 
-        // Return fetch result
-        return $this->{$fetchFromCallbackMethod}($this->storage['fetch']['id'],
-                                                 $this->storage['fetch']['options']);
+        // Get fetch result
+        return $this->{$fetchFromCallbackMethod}($this->getStorage('fetch.id'),
+                                                 $this->getStorage('fetch.options'));
     }
 
     /**
