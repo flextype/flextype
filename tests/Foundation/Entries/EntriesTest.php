@@ -35,9 +35,9 @@ test('test fetch() entry', function () {
 
     $this->assertEquals(12, flextype('entries')->fetch('foo')->count());
     $this->assertEquals('foo', flextype('entries')->fetch('foo')['id']);
-    $this->assertEquals(12, flextype('entries')->fetch('foo', 'single')->count());
+    $this->assertEquals(12, flextype('entries')->fetch('foo', ['from' => 'single'])->count());
     $this->assertEquals('foo', flextype('entries')->fetch('foo')['id']);
-    $this->assertEquals(3, flextype('entries')->fetch('foo', 'collection')->count());
+    $this->assertEquals(3, flextype('entries')->fetch('foo', ['from' => 'collection'])->count());
 
     $this->assertEquals('Bar', flextype('entries')->fetch('foo/bar')['title']);
     $this->assertEquals('Baz', flextype('entries')->fetch('foo/baz')['title']);
@@ -45,10 +45,10 @@ test('test fetch() entry', function () {
 
     flextype('entries')->setStorage('fetch.id', 'wrong-entry');
     $this->assertEquals(0, flextype('entries')->fetch('wrong-entry')->count());
-    flextype('entries')->setStorage('fetch_single.id', 'wrong-entry');
+    flextype('entries')->setStorage('fetch.id', 'wrong-entry');
     $this->assertEquals(0, flextype('entries')->fetch('wrong-entry')->count());
 
-    $this->assertTrue(count(flextype('entries')->fetch('foo', 'collection')) > 0);
+    $this->assertTrue(count(flextype('entries')->fetch('foo', ['from' => 'collection'])) > 0);
 
 /*
     flextype('emitter')->addListener('onEntriesFetchCollectionHasResult', static function (): void {
