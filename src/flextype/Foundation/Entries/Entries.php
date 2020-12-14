@@ -36,6 +36,14 @@ class Entries
     private $storage = [];
 
     /**
+     * Callback method for fetch.
+     *
+     * @var string
+     * @access private
+     */
+    private $fetchCallbackMethod = 'single';
+
+    /**
      * Get storage
      *
      * @param  string|int|null $key     Key.
@@ -71,23 +79,30 @@ class Entries
      *
      * @return mixed
      */
-    public function fetch(string $id, $from = 'single', array $options = [])
+    public function fetch(string $id, array $options = [])
     {
         // Store data in EMS.
         $this->storage['fetch']['id']      = $id;
-        $this->storage['fetch']['from']    = $from;
         $this->storage['fetch']['options'] = $options;
         $this->storage['fetch']['data']    = [];
 
         // Run event: onEntriesFetch
         flextype('emitter')->emit('onEntriesFetch');
 
+        $fetchFromCallbackMethodName = strings(isset($this->storage['fetch']['options']['from']) ?
+                                                     $this->storage['fetch']['options']['from'] :
+                                                     $this->fetchCallbackMethod)
+                                           ->studly()
+                                           ->prepend('fetch')
+                                           ->toString();
+
+        $fetchFromCallbackMethod = is_callable(array($this, $fetchFromCallbackMethodName)) ?
+                                                            $fetchFromCallbackMethodName :
+                                                            $this->fetchCallbackMethod;
+
         // Return fetch result
-        return $this->{strings($this->storage['fetch']['from'])
-                           ->studly()
-                           ->prepend('fetch')
-                           ->toString()}($this->storage['fetch']['id'],
-                                         $this->storage['fetch']['options']);
+        return $this->{$fetchFromCallbackMethod}($this->storage['fetch']['id'],
+                                                 $this->storage['fetch']['options']);
     }
 
     /**
@@ -105,7 +120,6 @@ class Entries
         // Store data
         $this->storage['fetch']['id']      = $id;
         $this->storage['fetch']['options'] = $options;
-        $this->storage['fetch']['from']    = 'single';
         $this->storage['fetch']['data']    = [];
 
         // Run event: onEntriesFetchSingle
