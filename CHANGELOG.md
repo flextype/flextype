@@ -51,6 +51,42 @@
     **onEntriesCopy** instead of **onEntryCopy
     **onEntriesHas** instead of **onEntryHas**
 
+* **entries** Flextype EMS structure is changes because of issues with collisions ([#496](https://github.com/flextype/flextype/issues/496))
+
+    Updated structure:
+
+    ```php
+    $storage = [
+        'fetch' => [
+          'id' => '',
+          'data' => [],
+          'options' => [],
+        ],
+        'create' => [
+          'id' => '',
+          'data' => [],
+        ],
+        'update' => [
+          'id' => '',
+          'data' => [],
+        ],
+        'delete' => [
+          'id' => '',
+        ],
+        'copy' => [
+          'id' => '',
+          'newID' => '',
+        ],
+        'move' => [
+          'id' => '',
+          'newID' => '',
+        ],
+        'has' => [
+          'id' => '',
+        ],
+    ];
+    ```
+
 <a name="0.9.12"></a>
 # [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-12-07)
 
