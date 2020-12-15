@@ -26,10 +26,11 @@ if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchCol
 
             // Modify fetch.
             foreach (flextype('entries')->getStorage('fetch.data.entries.fetchCollection') as $field => $body) {
+                $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
                 $data[$field] = flextype('entries')->fetchCollection($body['id'],
                                                                      isset($body['options']) ?
                                                                            $body['options'] :
-                                                                           [])->{$resultTo}();
+                                                                           [])->{$result}();
             }
 
             // Save fetch.
@@ -59,10 +60,11 @@ if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchSin
 
             // Modify fetch.
             foreach (flextype('entries')->getStorage('fetch.data.entries.fetchSingle') as $field => $body) {
+                $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
                 $data[$field] = flextype('entries')->fetchSingle($body['id'],
                                                                  isset($body['options']) ?
                                                                        $body['options'] :
-                                                                       [])->{$resultTo}();
+                                                                       [])->{$result}();
             }
 
             // Save fetch.
