@@ -60,7 +60,10 @@
         'fetch' => [
           'id' => '',
           'data' => [],
-          'options' => [],
+          'options' => [
+              'find' => [],
+              'filter' => [],
+          ],
         ],
         'create' => [
           'id' => '',
