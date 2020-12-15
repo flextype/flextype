@@ -25,6 +25,32 @@
 
 * **entries** fix issue with collisions in Entries API $storage for entries fetching. ([#496](https://github.com/flextype/flextype/issues/496))
 
+### BREAKING CHANGES
+
+* **helpers** `filter` helper return `array` result every time and not `int` or `bool`. ([#493](https://github.com/flextype/flextype/issues/493))
+
+* **helpers** `filter` helper not support `slice_offset` and `slice_limit` because they are are duplicates already exists functionality `offset` and `limit`. ([#493](https://github.com/flextype/flextype/issues/493))
+
+* **helpers** `filter` helper not support `count` and `exists`. ([#493](https://github.com/flextype/flextype/issues/493))
+
+* **entries** we have changes in the events names for Entries API ([#499](https://github.com/flextype/flextype/issues/499))
+
+    Events:
+
+    **onEntriesFetchSingle** instead of **onEntryInitialized**
+    **onEntriesFetchSingleCacheHasResult** instead of **onEntryAfterCacheInitialized**
+    **onEntriesFetchSingleNoResult**
+    **onEntriesFetchSingleHasResult** instead of **onEntryAfterInitialized**
+    **onEntriesFetchCollection** instead of **onEntriesInitialized**
+    **onEntriesFetchCollectionHasResult** instead of **onEntriesAfterInitialized**
+    **onEntriesFetchCollectionNoResult**
+    **onEntriesMove** instead of **onEntryMove**
+    **onEntriesUpdate** instead of **onEntryUpdate**
+    **onEntriesCreate** instead of **onEntryCreate**
+    **onEntriesDelete** instead of **onEntryDelete**
+    **onEntriesCopy** instead of **onEntryCopy
+    **onEntriesHas** instead of **onEntryHas**
+
 <a name="0.9.12"></a>
 # [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-12-07)
 
