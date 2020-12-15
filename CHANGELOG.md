@@ -1,6 +1,30 @@
 <a name="0.9.13"></a>
 # [0.9.13](https://github.com/flextype/flextype/compare/v0.9.12...v0.9.13) (2020-12-XX)
 
+### Features
+
+* **fields** add new field `registry.get` for Registry API ([#494](https://github.com/flextype/flextype/issues/494))
+
+  Registry API provides method get() for retrieving data from registry and now we able to access them inside entries frontmatter header for retrieving data right in the entries.
+
+  Examples here: https://github.com/flextype/flextype/issues/494
+
+ * **fields** add new field `entries.fetchSingle` and `entries.fetchCollection` for Entries API ([#492](https://github.com/flextype/flextype/issues/492))
+
+  Entries API provides two methods for entries fetch: fetchCollection() and fetchSingle() and now we able to access them inside entries frontmatter header for fetching data right in the entries. Also, we will able to add and use any kind of fetch methods with our macroable functionality.
+
+  Examples here: https://github.com/flextype/flextype/issues/492
+
+* **entries** add new method `deleteStorage()` for Entries API ([#498](https://github.com/flextype/flextype/issues/498))
+
+* **entries** add new method `hasStorage()` for Entries API ([#497](https://github.com/flextype/flextype/issues/497))
+
+### Bug Fixes
+
+* **core** fix issue with invalid timezone setting ([#490](https://github.com/flextype/flextype/issues/490))
+
+* **entries** fix issue with collisions in Entries API $storage for entries fetching. ([#496](https://github.com/flextype/flextype/issues/496))
+
 <a name="0.9.12"></a>
 # [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-12-07)
 
