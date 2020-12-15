@@ -7,14 +7,13 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-
 if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchCollection.enabled')) {
     flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
-        if (flextype('entries')->getStorage('fetch.data.entries.fetchCollection') !== null) {
+        if (flextype('entries')->hasStorage('fetch.data.entries.fetchCollection')) {
             // Get fetch.
             $original = flextype('entries')->getStorage('fetch');
 
-            switch (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchSingle.result')) {
+            switch (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchCollection.result')) {
                 case 'toArray':
                     $resultTo = 'toArray';
                     break;
@@ -43,7 +42,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchCol
 
 if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchSingle.enabled')) {
     flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
-        if (flextype('entries')->getStorage('fetch.data.entries.fetchSingle') !== null) {
+        if (flextype('entries')->hasStorage('fetch.data.entries.fetchSingle')) {
             // Get fetch.
             $original = flextype('entries')->getStorage('fetch');
 
