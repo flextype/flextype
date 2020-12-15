@@ -5,9 +5,9 @@
 
 * **fields** add new field `registry.get` for Registry API ([#494](https://github.com/flextype/flextype/issues/494))
 
-      Registry API provides method get() for retrieving data from registry and now we able to access them inside entries frontmatter header for retrieving data right in the entries.
+    Registry API provides method get() for retrieving data from registry and now we able to access them inside entries frontmatter header for retrieving data right in the entries.
 
-      Examples here: https://github.com/flextype/flextype/issues/494
+    Examples here: https://github.com/flextype/flextype/issues/494
 
  * **fields** add new field `entries.fetchSingle` and `entries.fetchCollection` for Entries API ([#492](https://github.com/flextype/flextype/issues/492))
 
