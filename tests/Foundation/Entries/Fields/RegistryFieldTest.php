@@ -17,9 +17,6 @@ test('test registry field', function () {
 
     $data = flextype('entries')->fetchSingle('registry-root');
 
-    print_r($data);
-    print_r($data->toJson());
-
     $this->assertEquals('Flextype', $data['flextype']);
     $this->assertEquals('Sergey Romanenko', $data['author']['name']);
     $this->assertEquals('MIT', $data['license']);
