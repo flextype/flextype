@@ -59,6 +59,9 @@ errors:
 entries:
   extension: md
   fields:
+    registry:
+      get:
+        enabled: true
     entries:
       fetchCollection:
         enabled: true
