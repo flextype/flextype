@@ -37,19 +37,19 @@
 
     Events:
 
-    **onEntriesFetchSingle** instead of **onEntryInitialized**
-    **onEntriesFetchSingleCacheHasResult** instead of **onEntryAfterCacheInitialized**
-    **onEntriesFetchSingleNoResult**
-    **onEntriesFetchSingleHasResult** instead of **onEntryAfterInitialized**
-    **onEntriesFetchCollection** instead of **onEntriesInitialized**
-    **onEntriesFetchCollectionHasResult** instead of **onEntriesAfterInitialized**
-    **onEntriesFetchCollectionNoResult**
-    **onEntriesMove** instead of **onEntryMove**
-    **onEntriesUpdate** instead of **onEntryUpdate**
-    **onEntriesCreate** instead of **onEntryCreate**
-    **onEntriesDelete** instead of **onEntryDelete**
-    **onEntriesCopy** instead of **onEntryCopy
-    **onEntriesHas** instead of **onEntryHas**
+    **onEntriesFetchSingle** instead of **onEntryInitialized**  
+    **onEntriesFetchSingleCacheHasResult** instead of **onEntryAfterCacheInitialized**  
+    **onEntriesFetchSingleNoResult**  
+    **onEntriesFetchSingleHasResult** instead of **onEntryAfterInitialized**  
+    **onEntriesFetchCollection** instead of **onEntriesInitialized**  
+    **onEntriesFetchCollectionHasResult** instead of **onEntriesAfterInitialized**  
+    **onEntriesFetchCollectionNoResult**  
+    **onEntriesMove** instead of **onEntryMove**  
+    **onEntriesUpdate** instead of **onEntryUpdate**  
+    **onEntriesCreate** instead of **onEntryCreate**  
+    **onEntriesDelete** instead of **onEntryDelete**  
+    **onEntriesCopy** instead of **onEntryCopy**  
+    **onEntriesHas** instead of **onEntryHas**  
 
 * **entries** Flextype EMS structure is changes because of issues with collisions ([#496](https://github.com/flextype/flextype/issues/496))
 
