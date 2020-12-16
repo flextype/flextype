@@ -91,9 +91,9 @@ flextype()->get('/api/entries', function (Request $request, Response $response) 
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                                ->withStatus($api_errors['0102'])
+                                ->withStatus($api_errors['0102']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('json')->encode($api_errors['0102']['http_status_code']));
+                                ->write(flextype('json')->encode($api_errors['0102']));
                 }
 
                 return $response
@@ -200,9 +200,9 @@ flextype()->post('/api/entries', function (Request $request, Response $response)
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                                ->withStatus($api_errors['0102'])
+                                ->withStatus($api_errors['0102']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('json')->encode($api_errors['0102']['http_status_code']));
+                                ->write(flextype('json')->encode($api_errors['0102']));
                 }
 
                 // Return response
@@ -310,9 +310,9 @@ flextype()->patch('/api/entries', function (Request $request, Response $response
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                                ->withStatus($api_errors['0102'])
+                                ->withStatus($api_errors['0102']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('json')->encode($api_errors['0102']['http_status_code']));
+                                ->write(flextype('json')->encode($api_errors['0102']));
                 }
 
                 // Return response
@@ -421,9 +421,9 @@ flextype()->put('/api/entries', function (Request $request, Response $response) 
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                                ->withStatus($api_errors['0102'])
+                                ->withStatus($api_errors['0102']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('json')->encode($api_errors['0102']['http_status_code']));
+                                ->write(flextype('json')->encode($api_errors['0102']));
                 }
 
                 // Return response
@@ -532,9 +532,9 @@ flextype()->put('/api/entries/copy', function (Request $request, Response $respo
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                                ->withStatus($api_errors['0102'])
+                                ->withStatus($api_errors['0102']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('json')->encode($api_errors['0102']['http_status_code']));
+                                ->write(flextype('json')->encode($api_errors['0102']));
                 }
 
                 // Return response
@@ -634,9 +634,9 @@ flextype()->delete('/api/entries', function (Request $request, Response $respons
                 if ($response_code === 404) {
                     // Return response
                     return $response
-                                ->withStatus($api_errors['0102'])
+                                ->withStatus($api_errors['0102']['http_status_code'])
                                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('json')->encode($api_errors['0102']['http_status_code']));
+                                ->write(flextype('json')->encode($api_errors['0102']));
                 }
 
                 // Return response
