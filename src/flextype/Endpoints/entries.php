@@ -11,6 +11,7 @@ namespace Flextype;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Http\Response;
+use Atomastic\Arrays\Arrays;
 
 use function array_replace_recursive;
 use function count;
@@ -73,22 +74,24 @@ flextype()->get('/api/entries', function (Request $request, Response $response) 
                                 ->write(flextype('json')->encode($api_errors['0003']));
                 }
 
-                switch ($from) {
-                    case 'collection':
-                        $response_data['data'] = flextype('entries')->fetchCollection($id, $options)->toArray();
-                        break;
-                    case 'single':
-                    default:
-                        $response_data['data'] = flextype('entries')->fetchSingle($id, $options)->toArray();
-                        break;
-                }
+                flextype('registry')->set('flextype.settings.entries.fields.entries.fetchCollection.result', 'toArray');
+                flextype('registry')->set('flextype.settings.entries.fields.entries.fetchSingle.result', 'toArray');
+
+                $fetchFromCallbackMethodName = strings($from)
+                                                   ->studly()
+                                                   ->prepend('fetch')
+                                                   ->toString();
+
+                $fetchFromCallbackMethod = is_callable([flextype('entries'), $fetchFromCallbackMethodName]) ?
+                                                                             $fetchFromCallbackMethodName :
+                                                                             'fetchSingle';
+
+                // Get fetch result
+                $response_data['data'] = flextype('entries')->{$fetchFromCallbackMethod}($id, $options);
+                $response_data['data'] = ($response_data['data'] instanceof Arrays) ? $response_data['data']->toArray() : $response_data['data'];
 
                 // Set response code
-                if (is_array($response_data['data'])) {
-                    $response_code = count($response_data['data']) > 0 ? 200 : 404;
-                } else {
-                    $response_code = $response_data['data'] > 0 ? 200 : 404;
-                }
+                $response_code = count($response_data['data']) > 0 ? 200 : 404;
 
                 // Update calls counter
                 filesystem()->file($entries_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
