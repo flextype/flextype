@@ -161,7 +161,7 @@ class Entries
         // Run event: onEntriesFetchCollection
         flextype('emitter')->emit('onEntriesFetchCollection');
 
-        if (! $this->has($id)) {
+        if (! $this->getDirectoryLocation($id)) {
             // Run event: onEntriesFetchCollectionNoResult
             flextype('emitter')->emit('onEntriesFetchCollectionNoResult');
 
