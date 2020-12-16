@@ -51,9 +51,10 @@ flextype()->get('/api/entries', function (Request $request, Response $response) 
     }
 
     // Set variables
-    $id     = $query['id'];
-    $token  = $query['token'];
-    $filter = $query['filter'] ?? null;
+    $id      = $query['id'];
+    $token   = $query['token'];
+    $options = $query['options'] ?? [];
+    $from    = $query['from'] ?? 'single';
 
     if (flextype('registry')->get('flextype.settings.api.entries.enabled')) {
         // Validate entries token
@@ -72,10 +73,14 @@ flextype()->get('/api/entries', function (Request $request, Response $response) 
                                 ->write(flextype('json')->encode($api_errors['0003']));
                 }
 
-                if ($filter === null) {
-                    $response_data['data'] = flextype('entries')->fetchSingle($id)->toArray();
-                } else {
-                    $response_data['data'] = flextype('entries')->fetchCollection($id, $filter)->toArray();
+                switch ($from) {
+                    case 'collection':
+                        $response_data['data'] = flextype('entries')->fetchCollection($id, $options)->toArray();
+                        break;
+                    case 'single':
+                    default:
+                        $response_data['data'] = flextype('entries')->fetchSingle($id, $options)->toArray();
+                        break;
                 }
 
                 // Set response code
