@@ -33,7 +33,38 @@ class Entries
      * @var array
      * @access private
      */
-    private $storage = [];
+    private $storage = [
+        'fetch' => [
+          'id' => '',
+          'data' => [],
+          'options' => [
+              'find' => [],
+              'filter' => [],
+          ],
+        ],
+        'create' => [
+          'id' => '',
+          'data' => [],
+        ],
+        'update' => [
+          'id' => '',
+          'data' => [],
+        ],
+        'delete' => [
+          'id' => '',
+        ],
+        'copy' => [
+          'id' => '',
+          'newID' => '',
+        ],
+        'move' => [
+          'id' => '',
+          'newID' => '',
+        ],
+        'has' => [
+          'id' => '',
+        ],
+    ];
 
     /**
      * Fetch single entry.
@@ -129,6 +160,14 @@ class Entries
     {
         // Run event: onEntriesFetchCollection
         flextype('emitter')->emit('onEntriesFetchCollection');
+
+        if (! $this->has($id)) {
+            // Run event: onEntriesFetchCollectionNoResult
+            flextype('emitter')->emit('onEntriesFetchCollectionNoResult');
+
+            // Return entries array
+            return arrays($this->getStorage('fetch.data'));
+        }
 
         // Find entries in the filesystem
         $entries = find($this->getDirectoryLocation($id),
