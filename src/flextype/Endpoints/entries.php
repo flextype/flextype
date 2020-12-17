@@ -78,7 +78,7 @@ flextype()->get('/api/entries', function (Request $request, Response $response) 
                 flextype('registry')->set('flextype.settings.entries.fields.entries.fetch.result', 'toArray');
 
                 if (isset($method) &&
-                    str_contains($method, 'fetch') &&
+                    strpos($body['method'], 'fetch') !== false &&
                     is_callable([flextype('entries'), $method])) {
                     $fetchFromCallbackMethod = $method;
                 } else {
