@@ -77,13 +77,13 @@ flextype()->get('/api/entries', function (Request $request, Response $response) 
                 // override entries.fetch.result
                 flextype('registry')->set('flextype.settings.entries.fields.entries.fetch.result', 'toArray');
 
-                 if (isset($method) &&
-                     strings($method)->contains('fetch') &&
-                     is_callable([flextype('entries'), $method])) {
-                     $fetchFromCallbackMethod = $method;
-                 } else {
-                     $fetchFromCallbackMethod = 'fetch';
-                 }
+                if (isset($method) &&
+                    str_contains($method, 'fetch') &&
+                    is_callable([flextype('entries'), $method])) {
+                    $fetchFromCallbackMethod = $method;
+                } else {
+                    $fetchFromCallbackMethod = 'fetch';
+                }
 
                 // Get fetch result
                 $response_data['data'] = flextype('entries')->{$fetchFromCallbackMethod}($id, $options);
