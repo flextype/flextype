@@ -2,17 +2,17 @@
 title: GT
 brand: gt
 entries:
-  fetchCollection:
+  fetch:
     discounts_available:
       id: discounts
       options:
+        collection: true
         filter:
           where:
             -
               key: category
               operator: eq
               value: bikes
-  fetchSingle:
     label1:
       id: discounts/50-off
       options:

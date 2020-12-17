@@ -1,7 +1,7 @@
 ---
 title: level2
 entries:
-  fetchSingle:
+  fetch:
     root:
       id: level1/level2/level3
 ---

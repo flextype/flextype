@@ -2,16 +2,16 @@
 title: Catalog
 visibility: visible
 entries:
-  fetchSingle:
+  fetch:
     label1:
       id: discounts/50-off
       options:
         filter:
           limit: 4
-  fetchCollection:
     bikes:
       id: catalog/bikes
       options:
+        collection: true
         filter:
           where:
             -
@@ -22,6 +22,7 @@ entries:
     discounts:
       id: discounts
       options:
+        collection: true
         filter:
           where:
             -

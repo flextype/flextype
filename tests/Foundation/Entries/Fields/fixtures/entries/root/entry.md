@@ -1,15 +1,17 @@
 ---
 title: Root
 entries:
-  fetchSingle:
+  fetch:
     albums:
       id: albums
-  fetchCollection:
     collection:
       id: albums
+      options:
+        collection: true
     collectionWithDepth:
       id: albums
       options:
+        collection: false
         find:
           depth: '>0'
 ---

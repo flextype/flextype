@@ -2,14 +2,13 @@
 title: Norco
 brand: norco
 entries:
-  fetchSingle:
+  fetch:
     label:
       id: discounts/30-off
       options:
-        from: collection
-  fetchCollection:
+        collection: true
     discounts:
       id: discounts
       options:
-        from: collection
+        collection: true
 ---

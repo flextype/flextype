@@ -1,7 +1,7 @@
 ---
 title: Level 1
 entries:
-  fetchSingle:
+  fetch:
     level2:
       id: registry-root/level-1/level-2
       result: toArray

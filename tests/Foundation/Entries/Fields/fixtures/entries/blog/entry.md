@@ -1,8 +1,9 @@
 ---
 title: blog
 entries:
-  fetchCollection:
+  fetch:
     posts:
       id: blog
-      options: []
+      options:
+        collection: true
 ---

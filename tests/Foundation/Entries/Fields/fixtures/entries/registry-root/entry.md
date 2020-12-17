@@ -9,7 +9,7 @@ registry:
     license:
       key: flextype.manifest.license
 entries:
-  fetchSingle:
+  fetch:
     level1:
       id: registry-root/level-1
       result: toArray

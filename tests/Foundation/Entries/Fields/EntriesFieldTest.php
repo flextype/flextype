@@ -38,7 +38,7 @@ test('test entries field for catalog', function () {
     // Create banner
     flextype('entries')->create('banner', ['title' => 'Banner']);
 
-    $catalogSingle = flextype('entries')->fetchSingle('catalog');
+    $catalogSingle = flextype('entries')->fetch('catalog');
 
     $this->assertEquals(16, $catalogSingle->count());
     $this->assertEquals('Catalog', $catalogSingle['title']);
@@ -50,12 +50,12 @@ test('test entries field for catalog', function () {
     $this->assertTrue(isset($catalogSingle['discounts']['discounts/30-off']));
     $this->assertEquals('30% off', $catalogSingle['discounts']['discounts/30-off']['title']);
 
-    $catalogCollection = flextype('entries')->fetchCollection('catalog');
+    $catalogCollection = flextype('entries')->fetch('catalog', ['collection' => true]);
     $this->assertEquals(1, $catalogCollection->count());
     $this->assertEquals('Bikes', $catalogCollection['catalog/bikes']['title']);
     $this->assertEquals('catalog/bikes', $catalogCollection['catalog/bikes']['id']);
 
-    $catalogLongCollecion = flextype('entries')->fetchCollection('catalog', ['find' => ['depth' => ['>0', '<4']]]);
+    $catalogLongCollecion = flextype('entries')->fetch('catalog', ['collection' => true, 'find' => ['depth' => ['>0', '<4']]]);
     $this->assertEquals(5, $catalogLongCollecion->count());
 
     $banner = flextype('entries')->fetchSingle('banner');
@@ -74,7 +74,7 @@ test('test entries field for albmus', function () {
     flextype('entries')->create('banners/1', ['title' => 'Banner1']);
     flextype('entries')->create('banners/2', ['title' => 'Banner2']);
 
-    $root = flextype('entries')->fetchSingle('root');
+    $root = flextype('entries')->fetch('root');
 
     $this->assertEquals(16, $root->count());
 });
@@ -85,10 +85,23 @@ test('test entries field for long nested entries', function () {
     flextype('entries')->create('level1/level2/level3', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/level2/level3/entry.md')->get()));
     flextype('entries')->create('level1/level2/level3/level4', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/level2/level3/level4/entry.md')->get()));
 
-    $level = flextype('entries')->fetchSingle('level1');
+    $level = flextype('entries')->fetch('level1');
 
     $this->assertEquals(14, $level->count());
     $this->assertEquals('level1/level2', $level['root']['id']);
     $this->assertEquals('level1/level2/level3', $level['root']['root']['id']);
     $this->assertEquals('level1/level2/level3/level4', $level['root']['root']['root']['id']);
+});
+
+test('test entries field for macroable fetch entries', function () {
+    flextype('entries')->create('macroable', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/macroable/entry.md')->get()));
+
+    flextype('entries')::macro('fetchExtraData', function ($id, $options) {
+        return ['id' => $id, 'options' => $options];
+    });
+
+    $macroable = flextype('entries')->fetch('macroable');
+
+    $this->assertEquals('table', $macroable['table']['id']);
+    $this->assertEquals('world', $macroable['table']['options']['hello']);
 });
