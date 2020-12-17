@@ -151,7 +151,7 @@ class Plugins
 
                 // Check if is not set plugin priority
                 if (! isset($plugins[$plugin['dirname']]['settings']['priority'])) {
-                    // Set default plugin priority = 1
+                    // Set default plugin priority = 100
                     $plugins[$plugin['dirname']]['settings']['priority'] = 100;
                 }
 
@@ -316,7 +316,6 @@ class Plugins
                 }
             }
 
-            // If plugin is verified than include it
             if (! $verified) {
                 continue;
             }
