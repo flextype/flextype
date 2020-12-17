@@ -267,7 +267,7 @@ flextype()->put('/api/media/files', function (Request $request, Response $respon
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['new_path'])) {
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response->withStatus($api_errors['0501']['http_status_code'])
                         ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                         ->write(flextype('json')->encode($api_errors['0501']));
@@ -276,8 +276,8 @@ flextype()->put('/api/media/files', function (Request $request, Response $respon
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id         = $post_data['path'];
-    $new_path     = $post_data['new_path'];
+    $id         = $post_data['id'];
+    $new_id     = $post_data['new_id'];
 
     if (flextype('registry')->get('flextype.settings.api.media.files.enabled')) {
         // Validate files and access token
@@ -311,12 +311,12 @@ flextype()->put('/api/media/files', function (Request $request, Response $respon
                 }
 
                 // Rename file
-                $rename_file = flextype('media.files')->move($id, $new_path);
+                $rename_file = flextype('media.files')->move($id, $new_id);
 
                 $response_data['data'] = [];
 
                 if ($rename_file) {
-                    $response_data['data'] = flextype('media.files')->fetch($new_path);
+                    $response_data['data'] = flextype('media.files')->fetch($new_id);
                 }
 
                 // Set response code
@@ -376,7 +376,7 @@ flextype()->put('/api/media/files/copy', function (Request $request, Response $r
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['new_path'])) {
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response->withStatus($api_errors['0501']['http_status_code'])
                         ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                         ->write(flextype('json')->encode($api_errors['0501']));
@@ -385,8 +385,8 @@ flextype()->put('/api/media/files/copy', function (Request $request, Response $r
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id         = $post_data['path'];
-    $new_path     = $post_data['new_path'];
+    $id         = $post_data['id'];
+    $new_id     = $post_data['new_id'];
 
     if (flextype('registry')->get('flextype.settings.api.media.files.enabled')) {
         // Validate files and access token
@@ -420,12 +420,12 @@ flextype()->put('/api/media/files/copy', function (Request $request, Response $r
                 }
 
                 // Copy file
-                $copy_file = flextype('media.files')->copy($id, $new_path);
+                $copy_file = flextype('media.files')->copy($id, $new_id);
 
                 $response_data['data'] = [];
 
                 if ($copy_file) {
-                    $response_data['data'] = flextype('media.files')->fetch($new_path);
+                    $response_data['data'] = flextype('media.files')->fetch($new_id);
                 }
 
                 // Set response code
@@ -484,7 +484,7 @@ flextype()->delete('/api/media/files', function (Request $request, Response $res
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['path']) || ! isset($post_data['access_token']) || ! isset($post_data['path'])) {
+    if (! isset($post_data['id']) || ! isset($post_data['access_token']) || ! isset($post_data['id'])) {
         return $response->withStatus($api_errors['0501']['http_status_code'])
                         ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                         ->write(flextype('json')->encode($api_errors['0501']));
@@ -493,7 +493,7 @@ flextype()->delete('/api/media/files', function (Request $request, Response $res
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id         = $post_data['path'];
+    $id         = $post_data['id'];
 
     if (flextype('registry')->get('flextype.settings.api.media.files.enabled')) {
         // Validate files and access token
@@ -587,7 +587,7 @@ flextype()->patch('/api/media/files/meta', function (Request $request, Response 
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['field']) || ! isset($post_data['value'])) {
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['field']) || ! isset($post_data['value'])) {
         return $response->withStatus($api_errors['0501']['http_status_code'])
                         ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                         ->write(flextype('json')->encode($api_errors['0501']));
@@ -596,7 +596,7 @@ flextype()->patch('/api/media/files/meta', function (Request $request, Response 
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id           = $post_data['path'];
+    $id           = $post_data['id'];
     $field        = $post_data['field'];
     $value        = $post_data['value'];
 
@@ -698,7 +698,7 @@ flextype()->post('/api/media/files/meta', function (Request $request, Response $
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['field']) || ! isset($post_data['value'])) {
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['field']) || ! isset($post_data['value'])) {
         return $response->withStatus($api_errors['0501']['http_status_code'])
                         ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                         ->write(flextype('json')->encode($api_errors['0501']));
@@ -707,7 +707,7 @@ flextype()->post('/api/media/files/meta', function (Request $request, Response $
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id           = $post_data['path'];
+    $id           = $post_data['id'];
     $field        = $post_data['field'];
     $value        = $post_data['value'];
 
@@ -809,7 +809,7 @@ flextype()->delete('/api/media/files/meta', function (Request $request, Response
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['field'])) {
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['field'])) {
         return $response->withStatus($api_errors['0501']['http_status_code'])
                         ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                         ->write(flextype('json')->encode($api_errors['0501']));
@@ -818,7 +818,7 @@ flextype()->delete('/api/media/files/meta', function (Request $request, Response
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id         = $post_data['path'];
+    $id         = $post_data['id'];
     $field        = $post_data['field'];
 
     if (flextype('registry')->get('flextype.settings.api.media.files.enabled')) {
@@ -1022,7 +1022,7 @@ flextype()->post('/api/media/folders', function (Request $request, Response $res
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path'])) {
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id'])) {
         return $response->withStatus($api_errors['0601']['http_status_code'])
             ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
             ->write(flextype('json')->encode($api_errors['0601']));
@@ -1031,7 +1031,7 @@ flextype()->post('/api/media/folders', function (Request $request, Response $res
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id         = $post_data['path'];
+    $id         = $post_data['id'];
 
     if (flextype('registry')->get('flextype.settings.api.media.folders.enabled')) {
         // Validate files and access token
@@ -1128,7 +1128,7 @@ flextype()->put('/api/media/folders/copy', function (Request $request, Response 
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['new_path'])) {
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response->withStatus($api_errors['0601']['http_status_code'])
             ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
             ->write(flextype('json')->encode($api_errors['0601']));
@@ -1137,8 +1137,8 @@ flextype()->put('/api/media/folders/copy', function (Request $request, Response 
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id           = $post_data['path'];
-    $new_path     = $post_data['new_path'];
+    $id           = $post_data['id'];
+    $new_id       = $post_data['new_id'];
 
     if (flextype('registry')->get('flextype.settings.api.media.folders.enabled')) {
         // Validate files and access token
@@ -1170,12 +1170,12 @@ flextype()->put('/api/media/folders/copy', function (Request $request, Response 
                 }
 
                 // Copy folder
-                $copy_folder = flextype('media.folders')->copy($id, $new_path);
+                $copy_folder = flextype('media.folders')->copy($id, $new_id);
 
                 $response_data = [];
 
                 if ($copy_folder) {
-                    $response_data['data'] = flextype('media.folders')->fetch($new_path);
+                    $response_data['data'] = flextype('media.folders')->fetch($new_id);
                 } else {
                     $response_data['data'] = $copy_folder;
                 }
@@ -1237,7 +1237,7 @@ flextype()->put('/api/media/folders', function (Request $request, Response $resp
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path']) || ! isset($post_data['new_path'])) {
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response->withStatus($api_errors['0601']['http_status_code'])
             ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
             ->write(flextype('json')->encode($api_errors['0601']));
@@ -1246,8 +1246,8 @@ flextype()->put('/api/media/folders', function (Request $request, Response $resp
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id         = $post_data['path'];
-    $new_path     = $post_data['new_path'];
+    $id           = $post_data['id'];
+    $new_id       = $post_data['new_id'];
 
     if (flextype('registry')->get('flextype.settings.api.media.folders.enabled')) {
         // Validate files and access token
@@ -1279,12 +1279,12 @@ flextype()->put('/api/media/folders', function (Request $request, Response $resp
                 }
 
                 // Rename folder
-                $move_folder = flextype('media.folders')->move($id, $new_path);
+                $move_folder = flextype('media.folders')->move($id, $new_id);
 
                 $response_data = [];
 
                 if ($move_folder) {
-                    $response_data['data'] = flextype('media.folders')->fetch($new_path);
+                    $response_data['data'] = flextype('media.folders')->fetch($new_id);
                 }
 
                 // Set response code
@@ -1343,7 +1343,7 @@ flextype()->delete('/api/media/folders', function (Request $request, Response $r
     // Get Post Data
     $post_data = $request->getParsedBody();
 
-    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['path'])) {
+    if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id'])) {
         return $response->withStatus($api_errors['0601']['http_status_code'])
             ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
             ->write(flextype('json')->encode($api_errors['0601']));
@@ -1352,7 +1352,7 @@ flextype()->delete('/api/media/folders', function (Request $request, Response $r
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $id         = $post_data['path'];
+    $id         = $post_data['id'];
 
     if (flextype('registry')->get('flextype.settings.api.media.folders.enabled')) {
         // Validate files and access token
