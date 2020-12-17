@@ -269,7 +269,7 @@ flextype()->container()['images'] = static function () {
 
     // Set source filesystem
     $source = new Flysystem(
-        new Local(PATH['project'] . '/media/entries/')
+        new Local(PATH['project'] . '/media/')
     );
 
     // Set cache filesystem
