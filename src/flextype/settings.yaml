@@ -422,7 +422,7 @@ media:
 session:
   name: Flextype
 
-# Flextype APIs
+# Flextype Rest APIs
 api:
   entries:
     enabled: true
@@ -430,12 +430,13 @@ api:
   registry:
     enabled: true
     default_token:
-  files:
-    enabled: true
-    default_token:
-  folders:
-    enabled: true
-    default_token:
+  media:
+    files:
+      enabled: true
+      default_token:
+    folders:
+      enabled: true
+      default_token:
   images:
     enabled: true
     default_token:
