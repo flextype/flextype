@@ -15,7 +15,7 @@ test('test registry field', function () {
     flextype('entries')->create('registry-root/level-1', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/level-1/entry.md')->get()));
     flextype('entries')->create('registry-root/level-1/level-2', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/level-1/level-2/entry.md')->get()));
 
-    $data = flextype('entries')->fetchSingle('registry-root');
+    $data = flextype('entries')->fetch('registry-root');
 
     $this->assertEquals('Flextype', $data['flextype']);
     $this->assertEquals('Sergey Romanenko', $data['author']['name']);

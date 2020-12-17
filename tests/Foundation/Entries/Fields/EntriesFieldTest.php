@@ -15,7 +15,7 @@ test('test entries field for blog', function () {
     flextype('entries')->create('blog/post-1', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/post-1/entry.md')->get()));
     flextype('entries')->create('blog/post-2', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/post-2/entry.md')->get()));
 
-    $blog = flextype('entries')->fetchSingle('blog');
+    $blog = flextype('entries')->fetch('blog');
 
     $this->assertEquals(14, $blog->count());
 });
@@ -58,7 +58,7 @@ test('test entries field for catalog', function () {
     $catalogLongCollecion = flextype('entries')->fetch('catalog', ['collection' => true, 'find' => ['depth' => ['>0', '<4']]]);
     $this->assertEquals(5, $catalogLongCollecion->count());
 
-    $banner = flextype('entries')->fetchSingle('banner');
+    $banner = flextype('entries')->fetch('banner');
     $this->assertEquals('Banner', $banner['title']);
     $this->assertEquals('banner', $banner['id']);
 });

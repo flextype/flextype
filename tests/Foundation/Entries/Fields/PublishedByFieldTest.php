@@ -12,10 +12,10 @@ afterEach(function (): void {
 
 test('test PublishedByField', function () {
     flextype('entries')->create('foo', []);
-    $published_by = flextype('entries')->fetchSingle('foo')['published_by'];
+    $published_by = flextype('entries')->fetch('foo')['published_by'];
     $this->assertEquals('', $published_by);
 
     flextype('entries')->create('bar', ['published_by' => 'Zed']);
-    $published_by = flextype('entries')->fetchSingle('bar')['published_by'];
+    $published_by = flextype('entries')->fetch('bar')['published_by'];
     $this->assertEquals('Zed', $published_by);
 });

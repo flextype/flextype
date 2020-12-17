@@ -27,28 +27,28 @@ test('test update() method', function () {
     $this->assertFalse(flextype('entries')->update('bar', ['title' => 'Test']));
 });
 
-test('test fetchSingle() and fetchCollection() entry', function () {
+test('test fetch() entry', function () {
     flextype('entries')->create('foo', ['title' => 'Foo']);
     flextype('entries')->create('foo/bar', ['title' => 'Bar']);
     flextype('entries')->create('foo/baz', ['title' => 'Baz']);
     flextype('entries')->create('foo/zed', ['title' => 'Zed']);
 
-    $this->assertEquals(12, flextype('entries')->fetchSingle('foo')->count());
-    $this->assertEquals('foo', flextype('entries')->fetchSingle('foo')['id']);
-    $this->assertEquals(12, flextype('entries')->fetchSingle('foo', [])->count());
-    $this->assertEquals('foo', flextype('entries')->fetchSingle('foo')['id']);
-    $this->assertEquals(3, flextype('entries')->fetchCollection('foo')->count());
+    $this->assertEquals(12, flextype('entries')->fetch('foo')->count());
+    $this->assertEquals('foo', flextype('entries')->fetch('foo')['id']);
+    $this->assertEquals(12, flextype('entries')->fetch('foo', [])->count());
+    $this->assertEquals('foo', flextype('entries')->fetch('foo')['id']);
+    $this->assertEquals(3, flextype('entries')->fetch('foo', ['collection' => true])->count());
 
-    $this->assertEquals('Bar', flextype('entries')->fetchSingle('foo/bar')['title']);
-    $this->assertEquals('Baz', flextype('entries')->fetchSingle('foo/baz')['title']);
-    $this->assertEquals('Zed', flextype('entries')->fetchSingle('foo/zed')['title']);
+    $this->assertEquals('Bar', flextype('entries')->fetch('foo/bar')['title']);
+    $this->assertEquals('Baz', flextype('entries')->fetch('foo/baz')['title']);
+    $this->assertEquals('Zed', flextype('entries')->fetch('foo/zed')['title']);
 
     flextype('entries')->setStorage('fetch.id', 'wrong-entry');
-    $this->assertEquals(0, flextype('entries')->fetchSingle('wrong-entry')->count());
+    $this->assertEquals(0, flextype('entries')->fetch('wrong-entry')->count());
     flextype('entries')->setStorage('fetch.id', 'wrong-entry');
-    $this->assertEquals(0, flextype('entries')->fetchSingle('wrong-entry')->count());
+    $this->assertEquals(0, flextype('entries')->fetch('wrong-entry')->count());
 
-    $this->assertTrue(count(flextype('entries')->fetchCollection('foo')) > 0);
+    $this->assertTrue(count(flextype('entries')->fetch('foo', ['collection' => true])) > 0);
 
 /*
     flextype('emitter')->addListener('onEntriesFetchCollectionHasResult', static function (): void {
@@ -137,7 +137,7 @@ test('test macro() entry', function () {
 
     flextype('entries')::macro('fetchRecentPosts', function($limit = 1) {
     	return flextype('entries')
-                    ->fetchCollection('foo')
+                    ->fetch('foo')
                     ->sortBy('published_at')
                     ->limit($limit);
     });
