@@ -59,6 +59,15 @@ errors:
 entries:
   extension: md
   fields:
+    media:
+      files:
+        fetch:
+          enabled: true
+          result: toObject
+      folders:
+        fetch:
+          enabled: true
+          result: toObject
     registry:
       get:
         enabled: true
