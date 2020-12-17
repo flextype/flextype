@@ -63,10 +63,7 @@ entries:
       get:
         enabled: true
     entries:
-      fetchCollection:
-        enabled: true
-        result: toObject
-      fetchSingle:
+      fetch:
         enabled: true
         result: toObject
     slug:

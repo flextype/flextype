@@ -7,70 +7,49 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchCollection.enabled')) {
-    flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
-        if (flextype('entries')->hasStorage('fetch.data.entries.fetchCollection')) {
-            // Get fetch.
-            $original = flextype('entries')->getStorage('fetch');
 
-            switch (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchCollection.result')) {
-                case 'toArray':
-                    $resultTo = 'toArray';
-                    break;
+ if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.enabled')) {
+     flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
+         if (flextype('entries')->hasStorage('fetch.data.entries.fetch')) {
+             // Get fetch.
+             $original = flextype('entries')->getStorage('fetch');
 
-                case 'toObject':
-                default:
-                    $resultTo = 'copy';
-                    break;
-            }
+             switch (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.result')) {
+                 case 'toArray':
+                     $resultTo = 'toArray';
+                     break;
 
-            // Modify fetch.
-            foreach (flextype('entries')->getStorage('fetch.data.entries.fetchCollection') as $field => $body) {
-                $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
-                $data[$field] = flextype('entries')->fetchCollection($body['id'],
-                                                                     isset($body['options']) ?
-                                                                           $body['options'] :
-                                                                           [])->{$result}();
-            }
+                 case 'toObject':
+                 default:
+                     $resultTo = 'copy';
+                     break;
+             }
 
-            // Save fetch.
-            flextype('entries')->setStorage('fetch.id', $original['id']);
-            flextype('entries')->setStorage('fetch.options', $original['options']);
-            flextype('entries')->setStorage('fetch.data', arrays($original['data'])->merge($data)->toArray());
-        }
-    });
-}
+             // Modify fetch.
+             foreach (flextype('entries')->getStorage('fetch.data.entries.fetch') as $field => $body) {
 
-if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchSingle.enabled')) {
-    flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
-        if (flextype('entries')->hasStorage('fetch.data.entries.fetchSingle')) {
-            // Get fetch.
-            $original = flextype('entries')->getStorage('fetch');
+                 if (isset($body['method']) &&
+                     str_contains($body['method'], 'fetch') &&
+                     is_callable([flextype('entries'), $body['method']])) {
+                     $fetchFromCallbackMethod = $body['method'];
+                 } else {
+                     $fetchFromCallbackMethod = 'fetch';
+                 }
 
-            switch (flextype('registry')->get('flextype.settings.entries.fields.entries.fetchSingle.result')) {
-                case 'toArray':
-                    $resultTo = 'toArray';
-                    break;
+                 $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
 
-                case 'toObject':
-                default:
-                    $resultTo = 'copy';
-                    break;
-            }
+                 $data[$field] = flextype('entries')->{$fetchFromCallbackMethod}($body['id'],
+                                                            isset($body['options']) ?
+                                                                  $body['options'] :
+                                                                  []);
 
-            // Modify fetch.
-            foreach (flextype('entries')->getStorage('fetch.data.entries.fetchSingle') as $field => $body) {
-                $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
-                $data[$field] = flextype('entries')->fetchSingle($body['id'],
-                                                                 isset($body['options']) ?
-                                                                       $body['options'] :
-                                                                       [])->{$result}();
-            }
+                $data[$field] = ($data[$field] instanceof Arrays) ? $data[$field]->{$result}() : $data[$field];
+             }
 
-            // Save fetch.
-            flextype('entries')->setStorage('fetch.id', $original['id']);
-            flextype('entries')->setStorage('fetch.options', $original['options']);
-            flextype('entries')->setStorage('fetch.data', arrays($original['data'])->merge($data)->toArray());
-        }
-    });
-}
+             // Save fetch.
+             flextype('entries')->setStorage('fetch.id', $original['id']);
+             flextype('entries')->setStorage('fetch.options', $original['options']);
+             flextype('entries')->setStorage('fetch.data', arrays($original['data'])->merge($data)->toArray());
+         }
+     });
+ }
