@@ -11,6 +11,7 @@ namespace Flextype;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Http\Response;
+use Atomastic\Arrays\Arrays;
 
 use function array_replace_recursive;
 use function basename;
@@ -43,15 +44,17 @@ flextype()->get('/api/files', function (Request $request, Response $response) us
     // Get Query Params
     $query = $request->getQueryParams();
 
-    if (! isset($query['path']) || ! isset($query['token'])) {
+    if (! isset($query['id']) || ! isset($query['token'])) {
         return $response->withStatus($api_errors['0500']['http_status_code'])
                         ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                         ->write(flextype('json')->encode($api_errors['0500']));
     }
 
     // Set variables
-    $path  = $query['path'];
+    $id  = $query['id'];
     $token = $query['token'];
+    $options = $query['options'] ?? [];
+    $method  = $query['method'] ?? '';
 
     if (flextype('registry')->get('flextype.settings.api.files.enabled')) {
         // Validate delivery token
@@ -73,12 +76,17 @@ flextype()->get('/api/files', function (Request $request, Response $response) us
                 // Create files array
                 $files = [];
 
-                // Get list if file or files for specific folder
-                if (is_dir(PATH['project'] . '/uploads/' . $path)) {
-                    $files = flextype('media_files')->fetchCollection($path)->toArray();
+                if (isset($method) &&
+                    strpos($method, 'fetch') !== false &&
+                    is_callable([flextype('media_files'), $method])) {
+                    $fetchFromCallbackMethod = $method;
                 } else {
-                    $files = flextype('media_files')->fetchSingle($path)->toArray();
+                    $fetchFromCallbackMethod = 'fetch';
                 }
+
+                // Get fetch result
+                $files = flextype('media_files')->{$fetchFromCallbackMethod}($id, $options);
+                $files = ($files instanceof Arrays) ? $files->toArray() : $files;
 
                 // Write response data
                 $response_data         = [];
@@ -190,7 +198,7 @@ flextype()->post('/api/files', function (Request $request, Response $response) u
                 $response_data['data'] = [];
 
                 if ($create_file) {
-                    $response_data['data'] = flextype('media_files')->fetchSingle($folder . '/' . basename($create_file));
+                    $response_data['data'] = flextype('media_files')->fetch($folder . '/' . basename($create_file));
                 }
 
                 // Set response code
@@ -260,7 +268,7 @@ flextype()->put('/api/files', function (Request $request, Response $response) us
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $path         = $post_data['path'];
+    $id         = $post_data['path'];
     $new_path     = $post_data['new_path'];
 
     if (flextype('registry')->get('flextype.settings.api.files.enabled')) {
@@ -295,12 +303,12 @@ flextype()->put('/api/files', function (Request $request, Response $response) us
                 }
 
                 // Rename file
-                $rename_file = flextype('media_files')->move($path, $new_path);
+                $rename_file = flextype('media_files')->move($id, $new_path);
 
                 $response_data['data'] = [];
 
                 if ($rename_file) {
-                    $response_data['data'] = flextype('media_files')->fetchSingle($new_path);
+                    $response_data['data'] = flextype('media_files')->fetch($new_path);
                 }
 
                 // Set response code
@@ -369,7 +377,7 @@ flextype()->put('/api/files/copy', function (Request $request, Response $respons
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $path         = $post_data['path'];
+    $id         = $post_data['path'];
     $new_path     = $post_data['new_path'];
 
     if (flextype('registry')->get('flextype.settings.api.files.enabled')) {
@@ -404,12 +412,12 @@ flextype()->put('/api/files/copy', function (Request $request, Response $respons
                 }
 
                 // Copy file
-                $copy_file = flextype('media_files')->copy($path, $new_path);
+                $copy_file = flextype('media_files')->copy($id, $new_path);
 
                 $response_data['data'] = [];
 
                 if ($copy_file) {
-                    $response_data['data'] = flextype('media_files')->fetchSingle($new_path);
+                    $response_data['data'] = flextype('media_files')->fetch($new_path);
                 }
 
                 // Set response code
@@ -477,7 +485,7 @@ flextype()->delete('/api/files', function (Request $request, Response $response)
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $path         = $post_data['path'];
+    $id         = $post_data['path'];
 
     if (flextype('registry')->get('flextype.settings.api.files.enabled')) {
         // Validate files and access token
@@ -511,7 +519,7 @@ flextype()->delete('/api/files', function (Request $request, Response $response)
                 }
 
                 // Delete file
-                $delete_file = flextype('media_files')->delete($path);
+                $delete_file = flextype('media_files')->delete($id);
 
                 // Set response code
                 $response_code = $delete_file ? 204 : 404;
@@ -580,7 +588,7 @@ flextype()->patch('/api/files/meta', function (Request $request, Response $respo
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $path         = $post_data['path'];
+    $id           = $post_data['path'];
     $field        = $post_data['field'];
     $value        = $post_data['value'];
 
@@ -616,12 +624,12 @@ flextype()->patch('/api/files/meta', function (Request $request, Response $respo
                 }
 
                 // Update file meta
-                $update_file_meta = flextype('media_files_meta')->update($path, $field, $value);
+                $update_file_meta = flextype('media_files_meta')->update($id, $field, $value);
 
                 $response_data['data'] = [];
 
                 if ($update_file_meta) {
-                    $response_data['data'] = flextype('media_files')->fetchSingle($path);
+                    $response_data['data'] = flextype('media_files')->fetch($id);
                 }
 
                 // Set response code
@@ -691,7 +699,7 @@ flextype()->post('/api/files/meta', function (Request $request, Response $respon
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $path         = $post_data['path'];
+    $id           = $post_data['path'];
     $field        = $post_data['field'];
     $value        = $post_data['value'];
 
@@ -727,12 +735,12 @@ flextype()->post('/api/files/meta', function (Request $request, Response $respon
                 }
 
                 // Add file meta
-                $add_file_meta = flextype('media_files_meta')->add($path, $field, $value);
+                $add_file_meta = flextype('media_files_meta')->add($id, $field, $value);
 
                 $response_data['data'] = [];
 
                 if ($add_file_meta) {
-                    $response_data['data'] = flextype('media_files')->fetchSingle($path);
+                    $response_data['data'] = flextype('media_files')->fetch($id);
                 }
 
                 // Set response code
@@ -802,7 +810,7 @@ flextype()->delete('/api/files/meta', function (Request $request, Response $resp
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $path         = $post_data['path'];
+    $id         = $post_data['path'];
     $field        = $post_data['field'];
 
     if (flextype('registry')->get('flextype.settings.api.files.enabled')) {
@@ -837,12 +845,12 @@ flextype()->delete('/api/files/meta', function (Request $request, Response $resp
                 }
 
                 // Delete file meta
-                $delete_file_meta = flextype('media_files_meta')->delete($path, $field);
+                $delete_file_meta = flextype('media_files_meta')->delete($id, $field);
 
                 $response_data['data'] = [];
 
                 if ($delete_file_meta) {
-                    $response_data['data'] = flextype('media_files')->fetchSingle($path);
+                    $response_data['data'] = flextype('media_files')->fetch($id);
                 }
 
                 // Set response code
