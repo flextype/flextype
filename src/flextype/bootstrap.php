@@ -119,17 +119,6 @@ flextype('session')->setOptions(flextype('registry')->get('flextype.settings.ses
 flextype('session')->start();
 
 /**
- * Include API ENDPOINTS
- */
-include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/errors.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/access.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/entries.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/registry.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/files.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/folders.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/images.php';
-
-/**
  * Set internal encoding
  */
 function_exists('mb_language') and mb_language('uni');
@@ -179,6 +168,19 @@ foreach ($entryFields as $fieldName => $field) {
  * Init plugins
  */
 flextype('plugins')->init();
+
+/**
+ * Include API ENDPOINTS
+ */
+if (flextype()->isApiRequest()) {
+    include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/errors.php';
+    include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/access.php';
+    include_once ROOT_DIR . '/src/flextype/Endpoints/entries.php';
+    include_once ROOT_DIR . '/src/flextype/Endpoints/registry.php';
+    include_once ROOT_DIR . '/src/flextype/Endpoints/files.php';
+    include_once ROOT_DIR . '/src/flextype/Endpoints/folders.php';
+    include_once ROOT_DIR . '/src/flextype/Endpoints/images.php';
+}
 
 /**
  * Enable lazy CORS
