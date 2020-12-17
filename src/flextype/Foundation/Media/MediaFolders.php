@@ -25,55 +25,57 @@ class MediaFolders
     use Macroable;
 
     /**
-     * Fetch single folder.
+     * Fetch.
      *
-     * @param string $path    The path to folder.
+     * @param string $id      The path to folder.
      * @param array  $options Options array.
      *
      * @access public
+     *
+     * @return self Returns instance of The Arrays class.
      */
-    public function fetchSingle(string $path, array $options = []): Arrays
+    public function fetch(string $id, array $options = []): Arrays
     {
-        $result = [];
+        // Run event: onEntriesFetch
+        flextype('emitter')->emit('onMediaFoldersFetch');
 
-        if (filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($path))->exists()) {
-            $result['path']      = $path;
-            $result['full_path'] = str_replace('/.meta', '', flextype('media_folders_meta')->getDirectoryMetaLocation($path));
-            $result['url']       = 'project/uploads/' . $path;
+        // Single fetch helper
+        $single = function ($id, $options) {
+            $result = [];
 
-            if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
-                $fullUrl = flextype('registry')->get('flextype.settings.url');
-            } else {
-                $fullUrl = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
+            if (filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->exists()) {
+                $result['path']      = $id;
+                $result['full_path'] = str_replace('/.meta', '', flextype('media_folders_meta')->getDirectoryMetaLocation($id));
+                $result['url']       = 'project/uploads/' . $id;
+
+                if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
+                    $fullUrl = flextype('registry')->get('flextype.settings.url');
+                } else {
+                    $fullUrl = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
+                }
+
+                $result['full_url'] = $fullUrl . '/project/uploads/' . $id;
             }
 
-            $result['full_url'] = $fullUrl . '/project/uploads/' . $path;
+            $result = filter($result, $options);
+
+            return arrays($result);
+        };
+
+        if (isset($options['collection']) &&
+            strings($options['collection'])->isTrue()) {
+                $result = [];
+
+                foreach (filesystem()->find()->directories()->in(flextype('media_folders_meta')->getDirectoryMetaLocation($id)) as $folder) {
+                    $result[$folder->getFilename()] = $single($id . '/' . $folder->getFilename(), [])->toArray();
+                }
+
+                $result = filter($result, $options);
+
+                return arrays($result);
+        } else {
+            return $single($id, $options);
         }
-
-        $result = filter($result, $options);
-
-        return arrays($result);
-    }
-
-    /**
-     * Fetch folders collection.
-     *
-     * @param string $path    The path to folder.
-     * @param array  $options Options array.
-     *
-     * @access public
-     */
-    public function fetchCollection(string $path, array $options = []): Arrays
-    {
-        $result = [];
-
-        foreach (filesystem()->find()->directories()->in(flextype('media_folders_meta')->getDirectoryMetaLocation($path)) as $folder) {
-            $result[$folder->getFilename()] = $this->fetchSingle($path . '/' . $folder->getFilename())->toArray();
-        }
-
-        $result = filter($result, $options);
-
-        return arrays($result);
     }
 
     /**

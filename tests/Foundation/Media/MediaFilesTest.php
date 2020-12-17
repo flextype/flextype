@@ -12,24 +12,17 @@ afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/uploads')->delete();
 });
 
-test('test fetchSingle() method', function () {
+test('test fetch() method', function () {
     filesystem()->file(PATH['project'] . '/uploads/foo.txt')->put('foo');
     filesystem()->file(PATH['project'] . '/uploads/.meta/foo.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Foo', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
     filesystem()->file(PATH['project'] . '/uploads/bar.txt')->put('foo');
     filesystem()->file(PATH['project'] . '/uploads/.meta/bar.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Bar', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
 
-    $this->assertTrue(count(flextype('media_files')->fetchSingle('foo.txt')) > 0);
-    $this->assertEquals('Foo', flextype('media_files')->fetchSingle('foo.txt')['title']);
-});
+    $this->assertTrue(count(flextype('media_files')->fetch('foo.txt')) > 0);
+    $this->assertEquals('Foo', flextype('media_files')->fetch('foo.txt')['title']);
 
-test('test fetchCollection() method', function () {
-    filesystem()->file(PATH['project'] . '/uploads/foo.txt')->put('foo');
-    filesystem()->file(PATH['project'] . '/uploads/.meta/foo.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Foo', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
-    filesystem()->file(PATH['project'] . '/uploads/bar.txt')->put('foo');
-    filesystem()->file(PATH['project'] . '/uploads/.meta/bar.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Bar', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
-
-    $this->assertTrue(count(flextype('media_files')->fetchCollection('/')) == 2);
-    $this->assertEquals('Foo', flextype('media_files')->fetchCollection('/')['foo.txt']['title']);
+    $this->assertTrue(count(flextype('media_files')->fetch('/', ['collection' => true])) == 2);
+    $this->assertEquals('Foo', flextype('media_files')->fetch('/', ['collection' => true])['foo.txt']['title']);
 });
 
 test('test move() method', function () {

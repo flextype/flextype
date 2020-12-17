@@ -13,18 +13,12 @@ afterEach(function (): void {
 });
 
 
-test('test fetchCollection() method', function () {
+test('test fetch() method', function () {
     $this->assertTrue(flextype('media_folders')->create('foo'));
     $this->assertTrue(flextype('media_folders')->create('foo/bar'));
     $this->assertTrue(flextype('media_folders')->create('foo/zed'));
-    $this->assertTrue(count(flextype('media_folders')->fetchCollection('foo')) == 2);
-});
-
-test('test fetchSingle() method', function () {
-    $this->assertTrue(flextype('media_folders')->create('foo'));
-    $this->assertTrue(flextype('media_folders')->create('foo/bar'));
-    $this->assertTrue(flextype('media_folders')->create('foo/zed'));
-    $this->assertTrue(count(flextype('media_folders')->fetchSingle('foo')) > 0);
+    $this->assertTrue(count(flextype('media_folders')->fetch('foo', ['collection' => true])) == 2);
+    $this->assertTrue(count(flextype('media_folders')->fetch('foo')) > 0);
 });
 
 test('test create() method', function () {
