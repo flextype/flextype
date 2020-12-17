@@ -29,12 +29,13 @@ declare(strict_types=1);
              foreach (flextype('entries')->getStorage('fetch.data.entries.fetch') as $field => $body) {
 
                  if (isset($body['method']) &&
-                     str_contains($body['method'], 'fetch') &&
+                     strpos($body['method'], 'fetch') !== false &&
                      is_callable([flextype('entries'), $body['method']])) {
                      $fetchFromCallbackMethod = $body['method'];
                  } else {
                      $fetchFromCallbackMethod = 'fetch';
                  }
+
 
                  $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
 
