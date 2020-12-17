@@ -55,7 +55,7 @@ flextype()->get('/api/entries', function (Request $request, Response $response) 
     $id      = $query['id'];
     $token   = $query['token'];
     $options = $query['options'] ?? [];
-    $from    = $query['from'] ?? 'single';
+    $method  = $query['method'] ?? '';
 
     if (flextype('registry')->get('flextype.settings.api.entries.enabled')) {
         // Validate entries token
@@ -74,17 +74,16 @@ flextype()->get('/api/entries', function (Request $request, Response $response) 
                                 ->write(flextype('json')->encode($api_errors['0003']));
                 }
 
-                flextype('registry')->set('flextype.settings.entries.fields.entries.fetchCollection.result', 'toArray');
-                flextype('registry')->set('flextype.settings.entries.fields.entries.fetchSingle.result', 'toArray');
+                // override entries.fetch.result
+                flextype('registry')->set('flextype.settings.entries.fields.entries.fetch.result', 'toArray');
 
-                $fetchFromCallbackMethodName = strings($from)
-                                                   ->studly()
-                                                   ->prepend('fetch')
-                                                   ->toString();
-
-                $fetchFromCallbackMethod = is_callable([flextype('entries'), $fetchFromCallbackMethodName]) ?
-                                                                             $fetchFromCallbackMethodName :
-                                                                             'fetchSingle';
+                 if (isset($method) &&
+                     strings($method)->contains('fetch') &&
+                     is_callable([flextype('entries'), $method])) {
+                     $fetchFromCallbackMethod = $method;
+                 } else {
+                     $fetchFromCallbackMethod = 'fetch';
+                 }
 
                 // Get fetch result
                 $response_data['data'] = flextype('entries')->{$fetchFromCallbackMethod}($id, $options);
