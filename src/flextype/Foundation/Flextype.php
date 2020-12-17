@@ -12,6 +12,8 @@ namespace Flextype\Foundation;
 use Exception;
 use Psr\Container\ContainerInterface;
 use Slim\App;
+use Slim\Http\Environment;
+use Slim\Http\Uri;
 
 use function is_null;
 
@@ -84,6 +86,16 @@ final class Flextype extends App
         }
 
         return self::$instances[$cls];
+    }
+
+    /**
+     * Determine API Request
+     *
+     * @return bool
+     */
+    public function isApiRequest(): bool
+    {
+        return explode('/', Uri::createFromEnvironment(new Environment($_SERVER))->getPath())[0] === 'api';
     }
 
     /**
