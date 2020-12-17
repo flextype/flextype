@@ -11,6 +11,7 @@ namespace Flextype;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Http\Response;
+use Atomastic\Arrays\Arrays;
 
 use function array_replace_recursive;
 use function count;
@@ -42,25 +43,17 @@ flextype()->get('/api/folders', function (Request $request, Response $response) 
     // Get Query Params
     $query = $request->getQueryParams();
 
-    if (! isset($query['path']) || ! isset($query['token'])) {
+    if (! isset($query['id']) || ! isset($query['token'])) {
         return $response->withStatus($api_errors['0600']['http_status_code'])
                         ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
                         ->write(flextype('json')->encode($api_errors['0600']));
     }
 
     // Set variables
-    $path  = $query['path'];
+    $id  = $query['id'];
     $token = $query['token'];
-
-    if (isset($query['collection'])) {
-        if ($query['collection'] === 'true') {
-            $collection = true;
-        } else {
-            $collection = false;
-        }
-    } else {
-        $collection = false;
-    }
+    $options = $query['options'] ?? [];
+    $method  = $query['method'] ?? '';
 
     if (flextype('registry')->get('flextype.settings.api.folders.enabled')) {
         // Validate delivery token
@@ -81,12 +74,17 @@ flextype()->get('/api/folders', function (Request $request, Response $response) 
                 // Create folders array
                 $folders = [];
 
-                // Get list if folder or fodlers for specific folder
-                if ($collection) {
-                    $folders = flextype('media_folders')->fetchCollection($path)->toArray();
+                if (isset($method) &&
+                    strpos($method, 'fetch') !== false &&
+                    is_callable([flextype('media_folders'), $method])) {
+                    $fetchFromCallbackMethod = $method;
                 } else {
-                    $folders = flextype('media_folders')->fetchSingle($path)->toArray();
+                    $fetchFromCallbackMethod = 'fetch';
                 }
+
+                // Get fetch result
+                $folders = flextype('media_folders')->{$fetchFromCallbackMethod}($id, $options);
+                $folders = ($folders instanceof Arrays) ? $folders->toArray() : $folders;
 
                 // Write response data
                 $response_data         = [];
@@ -158,7 +156,7 @@ flextype()->post('/api/folders', function (Request $request, Response $response)
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $path         = $post_data['path'];
+    $id         = $post_data['path'];
 
     if (flextype('registry')->get('flextype.settings.api.folders.enabled')) {
         // Validate files and access token
@@ -190,12 +188,12 @@ flextype()->post('/api/folders', function (Request $request, Response $response)
                 }
 
                 // Create folder
-                $create_folder = flextype('media_folders')->create($path);
+                $create_folder = flextype('media_folders')->create($id);
 
                 $response_data = [];
 
                 if ($create_folder) {
-                    $response_data['data'] = flextype('media_folders')->fetchSingle($path);
+                    $response_data['data'] = flextype('media_folders')->fetch($id);
                 }
 
                 // Set response code
@@ -264,7 +262,7 @@ flextype()->put('/api/folders/copy', function (Request $request, Response $respo
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $path         = $post_data['path'];
+    $id           = $post_data['path'];
     $new_path     = $post_data['new_path'];
 
     if (flextype('registry')->get('flextype.settings.api.folders.enabled')) {
@@ -297,12 +295,12 @@ flextype()->put('/api/folders/copy', function (Request $request, Response $respo
                 }
 
                 // Copy folder
-                $copy_folder = flextype('media_folders')->copy($path, $new_path);
+                $copy_folder = flextype('media_folders')->copy($id, $new_path);
 
                 $response_data = [];
 
                 if ($copy_folder) {
-                    $response_data['data'] = flextype('media_folders')->fetchSingle($new_path);
+                    $response_data['data'] = flextype('media_folders')->fetch($new_path);
                 } else {
                     $response_data['data'] = $copy_folder;
                 }
@@ -373,7 +371,7 @@ flextype()->put('/api/folders', function (Request $request, Response $response) 
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $path         = $post_data['path'];
+    $id         = $post_data['path'];
     $new_path     = $post_data['new_path'];
 
     if (flextype('registry')->get('flextype.settings.api.folders.enabled')) {
@@ -406,12 +404,12 @@ flextype()->put('/api/folders', function (Request $request, Response $response) 
                 }
 
                 // Rename folder
-                $move_folder = flextype('media_folders')->move($path, $new_path);
+                $move_folder = flextype('media_folders')->move($id, $new_path);
 
                 $response_data = [];
 
                 if ($move_folder) {
-                    $response_data['data'] = flextype('media_folders')->fetchSingle($new_path);
+                    $response_data['data'] = flextype('media_folders')->fetch($new_path);
                 }
 
                 // Set response code
@@ -479,7 +477,7 @@ flextype()->delete('/api/folders', function (Request $request, Response $respons
     // Set variables
     $token        = $post_data['token'];
     $access_token = $post_data['access_token'];
-    $path         = $post_data['path'];
+    $id         = $post_data['path'];
 
     if (flextype('registry')->get('flextype.settings.api.folders.enabled')) {
         // Validate files and access token
@@ -511,7 +509,7 @@ flextype()->delete('/api/folders', function (Request $request, Response $respons
                 }
 
                 // Delete folder
-                $delete_folder = flextype('media_folders')->delete($path);
+                $delete_folder = flextype('media_folders')->delete($id);
 
                 // Set response code
                 $response_code = $delete_folder ? 204 : 404;
