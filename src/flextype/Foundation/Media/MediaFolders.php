@@ -43,9 +43,9 @@ class MediaFolders
         $single = function ($id, $options) {
             $result = [];
 
-            if (filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->exists()) {
+            if (filesystem()->directory(flextype('media.folders.meta')->getDirectoryMetaLocation($id))->exists()) {
                 $result['path']      = $id;
-                $result['full_path'] = str_replace('/.meta', '', flextype('media_folders_meta')->getDirectoryMetaLocation($id));
+                $result['full_path'] = str_replace('/.meta', '', flextype('media.folders.meta')->getDirectoryMetaLocation($id));
                 $result['url']       = 'project/media/' . $id;
 
                 if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
@@ -66,7 +66,7 @@ class MediaFolders
             strings($options['collection'])->isTrue()) {
                 $result = [];
 
-                foreach (filesystem()->find()->directories()->in(flextype('media_folders_meta')->getDirectoryMetaLocation($id)) as $folder) {
+                foreach (filesystem()->find()->directories()->in(flextype('media.folders.meta')->getDirectoryMetaLocation($id)) as $folder) {
                     $result[$folder->getFilename()] = $single($id . '/' . $folder->getFilename(), [])->toArray();
                 }
 
@@ -91,10 +91,10 @@ class MediaFolders
     {
         if (
             ! filesystem()->directory($this->getDirectoryLocation($id))->exists() &&
-            ! filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->exists()
+            ! filesystem()->directory(flextype('media.folders.meta')->getDirectoryMetaLocation($id))->exists()
         ) {
             return filesystem()->directory($this->getDirectoryLocation($id))->create(0755, true) &&
-                   filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->create(0755, true);
+                   filesystem()->directory(flextype('media.folders.meta')->getDirectoryMetaLocation($id))->create(0755, true);
         }
 
         return false;
@@ -114,10 +114,10 @@ class MediaFolders
     {
         if (
             (filesystem()->directory($this->getDirectoryLocation($newID))->exists() === false &&
-             filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($newID))->exists() === false)
+             filesystem()->directory(flextype('media.folders.meta')->getDirectoryMetaLocation($newID))->exists() === false)
         ) {
             return filesystem()->directory($this->getDirectoryLocation($id))->move($this->getDirectoryLocation($newID)) &&
-                                                     filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->move(flextype('media_folders_meta')->getDirectoryMetaLocation($newID));
+                                                     filesystem()->directory(flextype('media.folders.meta')->getDirectoryMetaLocation($id))->move(flextype('media.folders.meta')->getDirectoryMetaLocation($newID));
         }
 
         return false;
@@ -137,17 +137,17 @@ class MediaFolders
     {
         if (
             (filesystem()->directory($this->getDirectoryLocation($newID))->exists() === false &&
-             filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($newID))->exists() === false)
+             filesystem()->directory(flextype('media.folders.meta')->getDirectoryMetaLocation($newID))->exists() === false)
         ) {
             filesystem()
                 ->directory($this->getDirectoryLocation($id))
                 ->copy($this->getDirectoryLocation($newID));
             filesystem()
-                ->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))
-                ->copy(flextype('media_folders_meta')->getDirectoryMetaLocation($newID));
+                ->directory(flextype('media.folders.meta')->getDirectoryMetaLocation($id))
+                ->copy(flextype('media.folders.meta')->getDirectoryMetaLocation($newID));
 
             return filesystem()->directory($this->getDirectoryLocation($newID))->exists() &&
-                   filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($newID))->exists();
+                   filesystem()->directory(flextype('media.folders.meta')->getDirectoryMetaLocation($newID))->exists();
         }
 
         return false;
@@ -165,7 +165,7 @@ class MediaFolders
     public function delete(string $id): bool
     {
         return filesystem()->directory($this->getDirectoryLocation($id))->delete() &&
-               filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->delete();
+               filesystem()->directory(flextype('media.folders.meta')->getDirectoryMetaLocation($id))->delete();
     }
 
     /**

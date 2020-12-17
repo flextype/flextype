@@ -16,7 +16,7 @@ afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
-test('test media_files field', function () {
+test('test media.files field', function () {
 
     filesystem()->file(PATH['project'] . '/media/foo.txt')->put('foo');
     filesystem()->file(PATH['project'] . '/media/.meta/foo.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Foo', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
@@ -25,11 +25,11 @@ test('test media_files field', function () {
 
     flextype('entries')->create('media', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/media/entry.md')->get()));
 
-    flextype('media_files')::macro('fetchExtraData', function ($id, $options) {
+    flextype('media.files')::macro('fetchExtraData', function ($id, $options) {
         return ['id' => $id, 'options' => $options];
     });
 
-    flextype('media_folders')::macro('fetchExtraData', function ($id, $options) {
+    flextype('media.folders')::macro('fetchExtraData', function ($id, $options) {
         return ['id' => $id, 'options' => $options];
     });
 

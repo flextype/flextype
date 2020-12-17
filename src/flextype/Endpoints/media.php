@@ -86,14 +86,14 @@ flextype()->get('/api/media/files', function (Request $request, Response $respon
 
                 if (isset($method) &&
                     strpos($method, 'fetch') !== false &&
-                    is_callable([flextype('media_files'), $method])) {
+                    is_callable([flextype('media.files'), $method])) {
                     $fetchFromCallbackMethod = $method;
                 } else {
                     $fetchFromCallbackMethod = 'fetch';
                 }
 
                 // Get fetch result
-                $files = flextype('media_files')->{$fetchFromCallbackMethod}($id, $options);
+                $files = flextype('media.files')->{$fetchFromCallbackMethod}($id, $options);
                 $files = ($files instanceof Arrays) ? $files->toArray() : $files;
 
                 // Write response data
@@ -201,12 +201,12 @@ flextype()->post('/api/media/files', function (Request $request, Response $respo
                 }
 
                 // Create file
-                $create_file = flextype('media_files')->upload($file, $folder);
+                $create_file = flextype('media.files')->upload($file, $folder);
 
                 $response_data['data'] = [];
 
                 if ($create_file) {
-                    $response_data['data'] = flextype('media_files')->fetch($folder . '/' . basename($create_file));
+                    $response_data['data'] = flextype('media.files')->fetch($folder . '/' . basename($create_file));
                 }
 
                 // Set response code
@@ -311,12 +311,12 @@ flextype()->put('/api/media/files', function (Request $request, Response $respon
                 }
 
                 // Rename file
-                $rename_file = flextype('media_files')->move($id, $new_path);
+                $rename_file = flextype('media.files')->move($id, $new_path);
 
                 $response_data['data'] = [];
 
                 if ($rename_file) {
-                    $response_data['data'] = flextype('media_files')->fetch($new_path);
+                    $response_data['data'] = flextype('media.files')->fetch($new_path);
                 }
 
                 // Set response code
@@ -420,12 +420,12 @@ flextype()->put('/api/media/files/copy', function (Request $request, Response $r
                 }
 
                 // Copy file
-                $copy_file = flextype('media_files')->copy($id, $new_path);
+                $copy_file = flextype('media.files')->copy($id, $new_path);
 
                 $response_data['data'] = [];
 
                 if ($copy_file) {
-                    $response_data['data'] = flextype('media_files')->fetch($new_path);
+                    $response_data['data'] = flextype('media.files')->fetch($new_path);
                 }
 
                 // Set response code
@@ -527,7 +527,7 @@ flextype()->delete('/api/media/files', function (Request $request, Response $res
                 }
 
                 // Delete file
-                $delete_file = flextype('media_files')->delete($id);
+                $delete_file = flextype('media.files')->delete($id);
 
                 // Set response code
                 $response_code = $delete_file ? 204 : 404;
@@ -632,12 +632,12 @@ flextype()->patch('/api/media/files/meta', function (Request $request, Response 
                 }
 
                 // Update file meta
-                $update_file_meta = flextype('media_files_meta')->update($id, $field, $value);
+                $update_file_meta = flextype('media.files.meta')->update($id, $field, $value);
 
                 $response_data['data'] = [];
 
                 if ($update_file_meta) {
-                    $response_data['data'] = flextype('media_files')->fetch($id);
+                    $response_data['data'] = flextype('media.files')->fetch($id);
                 }
 
                 // Set response code
@@ -743,12 +743,12 @@ flextype()->post('/api/media/files/meta', function (Request $request, Response $
                 }
 
                 // Add file meta
-                $add_file_meta = flextype('media_files_meta')->add($id, $field, $value);
+                $add_file_meta = flextype('media.files.meta')->add($id, $field, $value);
 
                 $response_data['data'] = [];
 
                 if ($add_file_meta) {
-                    $response_data['data'] = flextype('media_files')->fetch($id);
+                    $response_data['data'] = flextype('media.files')->fetch($id);
                 }
 
                 // Set response code
@@ -853,12 +853,12 @@ flextype()->delete('/api/media/files/meta', function (Request $request, Response
                 }
 
                 // Delete file meta
-                $delete_file_meta = flextype('media_files_meta')->delete($id, $field);
+                $delete_file_meta = flextype('media.files.meta')->delete($id, $field);
 
                 $response_data['data'] = [];
 
                 if ($delete_file_meta) {
-                    $response_data['data'] = flextype('media_files')->fetch($id);
+                    $response_data['data'] = flextype('media.files')->fetch($id);
                 }
 
                 // Set response code
@@ -951,14 +951,14 @@ flextype()->get('/api/media/folders', function (Request $request, Response $resp
 
                 if (isset($method) &&
                     strpos($method, 'fetch') !== false &&
-                    is_callable([flextype('media_folders'), $method])) {
+                    is_callable([flextype('media.folders'), $method])) {
                     $fetchFromCallbackMethod = $method;
                 } else {
                     $fetchFromCallbackMethod = 'fetch';
                 }
 
                 // Get fetch result
-                $folders = flextype('media_folders')->{$fetchFromCallbackMethod}($id, $options);
+                $folders = flextype('media.folders')->{$fetchFromCallbackMethod}($id, $options);
                 $folders = ($folders instanceof Arrays) ? $folders->toArray() : $folders;
 
                 // Write response data
@@ -1063,12 +1063,12 @@ flextype()->post('/api/media/folders', function (Request $request, Response $res
                 }
 
                 // Create folder
-                $create_folder = flextype('media_folders')->create($id);
+                $create_folder = flextype('media.folders')->create($id);
 
                 $response_data = [];
 
                 if ($create_folder) {
-                    $response_data['data'] = flextype('media_folders')->fetch($id);
+                    $response_data['data'] = flextype('media.folders')->fetch($id);
                 }
 
                 // Set response code
@@ -1170,12 +1170,12 @@ flextype()->put('/api/media/folders/copy', function (Request $request, Response 
                 }
 
                 // Copy folder
-                $copy_folder = flextype('media_folders')->copy($id, $new_path);
+                $copy_folder = flextype('media.folders')->copy($id, $new_path);
 
                 $response_data = [];
 
                 if ($copy_folder) {
-                    $response_data['data'] = flextype('media_folders')->fetch($new_path);
+                    $response_data['data'] = flextype('media.folders')->fetch($new_path);
                 } else {
                     $response_data['data'] = $copy_folder;
                 }
@@ -1279,12 +1279,12 @@ flextype()->put('/api/media/folders', function (Request $request, Response $resp
                 }
 
                 // Rename folder
-                $move_folder = flextype('media_folders')->move($id, $new_path);
+                $move_folder = flextype('media.folders')->move($id, $new_path);
 
                 $response_data = [];
 
                 if ($move_folder) {
-                    $response_data['data'] = flextype('media_folders')->fetch($new_path);
+                    $response_data['data'] = flextype('media.folders')->fetch($new_path);
                 }
 
                 // Set response code
@@ -1384,7 +1384,7 @@ flextype()->delete('/api/media/folders', function (Request $request, Response $r
                 }
 
                 // Delete folder
-                $delete_folder = flextype('media_folders')->delete($id);
+                $delete_folder = flextype('media.folders')->delete($id);
 
                 // Set response code
                 $response_code = $delete_folder ? 204 : 404;

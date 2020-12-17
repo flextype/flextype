@@ -325,28 +325,28 @@ flextype()->container()['entries'] = static function () {
 /**
  * Add media folders service to Flextype container
  */
-flextype()->container()['media_folders'] = static function () {
+flextype()->container()['media.folders'] = static function () {
     return new MediaFolders();
 };
 
 /**
  * Add media files service to Flextype container
  */
-flextype()->container()['media_files'] = static function () {
+flextype()->container()['media.files'] = static function () {
     return new MediaFiles();
 };
 
 /**
  * Add media folders meta service to Flextype container
  */
-flextype()->container()['media_folders_meta'] = static function () {
+flextype()->container()['media.folders.meta'] = static function () {
     return new MediaFoldersMeta();
 };
 
 /**
  * Add media files meta service to Flextype container
  */
-flextype()->container()['media_files_meta'] = static function () {
+flextype()->container()['media.files.meta'] = static function () {
     return new MediaFilesMeta();
 };
 
