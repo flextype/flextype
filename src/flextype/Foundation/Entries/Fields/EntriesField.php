@@ -7,8 +7,9 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
+use Atomastic\Arrays\Arrays;
 
- if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.enabled')) {
+if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.enabled')) {
      flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
          if (flextype('entries')->hasStorage('fetch.data.entries.fetch')) {
              // Get fetch.
@@ -53,4 +54,4 @@ declare(strict_types=1);
              flextype('entries')->setStorage('fetch.data', arrays($original['data'])->merge($data)->toArray());
          }
      });
- }
+}
