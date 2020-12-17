@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 beforeEach(function() {
-    filesystem()->directory(PATH['project'] . '/uploads')->create(0755, true);
+    filesystem()->directory(PATH['project'] . '/media')->create(0755, true);
     filesystem()->directory(PATH['project'] . '/media/.meta')->create(0755, true);
 });
 
 afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/media/.meta')->delete();
-    filesystem()->directory(PATH['project'] . '/uploads')->delete();
+    filesystem()->directory(PATH['project'] . '/media')->delete();
 });
 
 

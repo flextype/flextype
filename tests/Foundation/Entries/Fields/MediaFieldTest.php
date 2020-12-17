@@ -4,7 +4,7 @@ use Flextype\Component\Filesystem\Filesystem;
 
 beforeEach(function() {
     filesystem()->directory(PATH['project'] . '/entries')->create();
-    filesystem()->directory(PATH['project'] . '/uploads')->create(0755, true);
+    filesystem()->directory(PATH['project'] . '/media')->create(0755, true);
     filesystem()->directory(PATH['project'] . '/media/.meta')->create(0755, true);
     filesystem()->directory(PATH['project'] . '/media/foo')->create(0755, true);
     filesystem()->directory(PATH['project'] . '/media/.meta/foo')->create(0755, true);
@@ -12,7 +12,7 @@ beforeEach(function() {
 
 afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/media/.meta')->delete();
-    filesystem()->directory(PATH['project'] . '/uploads')->delete();
+    filesystem()->directory(PATH['project'] . '/media')->delete();
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
