@@ -62,8 +62,8 @@ class MediaFiles
      */
     public function upload(array $file, string $folder)
     {
-        $uploadFolder         = PATH['project'] . '/uploads/' . $folder . '/';
-        $uploadMetadataFolder = PATH['project'] . '/uploads/.meta/' . $folder . '/';
+        $uploadFolder         = PATH['project'] . '/media/' . $folder . '/';
+        $uploadMetadataFolder = PATH['project'] . '/media/.meta/' . $folder . '/';
 
         if (! filesystem()->directory($uploadFolder)->exists()) {
             filesystem()->directory($uploadFolder)->create(0755, true);
@@ -232,7 +232,7 @@ class MediaFiles
                     $result[$basename]['basename']  = explode('.', basename(flextype('media_files_meta')->getFileMetaLocation($basename)))[0];
                     $result[$basename]['extension'] = ltrim(strstr($basename, '.'), '.');
                     $result[$basename]['dirname']   = pathinfo(str_replace('/.meta', '', $file->getPathname()))['dirname'];
-                    $result[$basename]['url']       = 'project/uploads/' . $id . '/' . $basename;
+                    $result[$basename]['url']       = 'project/media/' . $id . '/' . $basename;
 
                     if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
                         $fullUrl = flextype('registry')->get('flextype.settings.url');
@@ -240,7 +240,7 @@ class MediaFiles
                         $fullUrl = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
                     }
 
-                    $result[$basename]['full_url'] = $fullUrl . '/project/uploads/' . $id . '/' . $basename;
+                    $result[$basename]['full_url'] = $fullUrl . '/project/media/' . $id . '/' . $basename;
                 }
 
                 $result = filter($result, $options);
@@ -257,7 +257,7 @@ class MediaFiles
                 $result['extension'] = ltrim(strstr($id, '.'), '.');
                 $result['dirname']   = pathinfo(str_replace('/.meta', '', flextype('media_files_meta')->getFileMetaLocation($id)))['dirname'];
 
-                $result['url'] = 'project/uploads/' . $id;
+                $result['url'] = 'project/media/' . $id;
 
                 if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
                     $fullUrl = flextype('registry')->get('flextype.settings.url');
@@ -265,7 +265,7 @@ class MediaFiles
                     $fullUrl = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
                 }
 
-                $result['full_url'] = $fullUrl . '/project/uploads/' . $id;
+                $result['full_url'] = $fullUrl . '/project/media/' . $id;
             }
 
             $result = filter($result, $options);
@@ -358,7 +358,7 @@ class MediaFiles
      */
     public function getFileLocation(string $id): string
     {
-        return PATH['project'] . '/uploads/' . $id;
+        return PATH['project'] . '/media/' . $id;
     }
 
     /**

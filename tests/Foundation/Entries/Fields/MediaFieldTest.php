@@ -5,23 +5,23 @@ use Flextype\Component\Filesystem\Filesystem;
 beforeEach(function() {
     filesystem()->directory(PATH['project'] . '/entries')->create();
     filesystem()->directory(PATH['project'] . '/uploads')->create(0755, true);
-    filesystem()->directory(PATH['project'] . '/uploads/.meta')->create(0755, true);
-    filesystem()->directory(PATH['project'] . '/uploads/foo')->create(0755, true);
-    filesystem()->directory(PATH['project'] . '/uploads/.meta/foo')->create(0755, true);
+    filesystem()->directory(PATH['project'] . '/media/.meta')->create(0755, true);
+    filesystem()->directory(PATH['project'] . '/media/foo')->create(0755, true);
+    filesystem()->directory(PATH['project'] . '/media/.meta/foo')->create(0755, true);
 });
 
 afterEach(function (): void {
-    filesystem()->directory(PATH['project'] . '/uploads/.meta')->delete();
+    filesystem()->directory(PATH['project'] . '/media/.meta')->delete();
     filesystem()->directory(PATH['project'] . '/uploads')->delete();
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
 test('test media_files field', function () {
 
-    filesystem()->file(PATH['project'] . '/uploads/foo.txt')->put('foo');
-    filesystem()->file(PATH['project'] . '/uploads/.meta/foo.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Foo', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
-    filesystem()->file(PATH['project'] . '/uploads/bar.txt')->put('foo');
-    filesystem()->file(PATH['project'] . '/uploads/.meta/bar.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Bar', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
+    filesystem()->file(PATH['project'] . '/media/foo.txt')->put('foo');
+    filesystem()->file(PATH['project'] . '/media/.meta/foo.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Foo', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
+    filesystem()->file(PATH['project'] . '/media/bar.txt')->put('foo');
+    filesystem()->file(PATH['project'] . '/media/.meta/bar.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Bar', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
 
     flextype('entries')->create('media', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/media/entry.md')->get()));
 

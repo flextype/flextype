@@ -70,7 +70,7 @@ flextype()->get('/api/images/{path:.+}', function (Request $request, Response $r
                 // Update calls counter
                 filesystem()->file($delivery_images_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1])));
 
-                if (filesystem()->file(PATH['project'] . '/uploads/entries/' . $args['path'])->exists()) {
+                if (filesystem()->file(PATH['project'] . '/media/entries/' . $args['path'])->exists()) {
                     return flextype('images')->getImageResponse($args['path'], $_GET);
                 }
 

@@ -46,7 +46,7 @@ class MediaFolders
             if (filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->exists()) {
                 $result['path']      = $id;
                 $result['full_path'] = str_replace('/.meta', '', flextype('media_folders_meta')->getDirectoryMetaLocation($id));
-                $result['url']       = 'project/uploads/' . $id;
+                $result['url']       = 'project/media/' . $id;
 
                 if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
                     $fullUrl = flextype('registry')->get('flextype.settings.url');
@@ -54,7 +54,7 @@ class MediaFolders
                     $fullUrl = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
                 }
 
-                $result['full_url'] = $fullUrl . '/project/uploads/' . $id;
+                $result['full_url'] = $fullUrl . '/project/media/' . $id;
             }
 
             $result = filter($result, $options);
@@ -179,6 +179,6 @@ class MediaFolders
      */
     public function getDirectoryLocation(string $id): string
     {
-        return PATH['project'] . '/uploads/' . $id;
+        return PATH['project'] . '/media/' . $id;
     }
 }

@@ -101,6 +101,6 @@ class MediaFilesMeta
      */
     public function getFileMetaLocation(string $id): string
     {
-        return PATH['project'] . '/uploads/.meta/' . $id . '.yaml';
+        return PATH['project'] . '/media/.meta/' . $id . '.yaml';
     }
 }
