@@ -16,7 +16,6 @@ use Intervention\Image\ImageManagerStatic as Image;
 use RuntimeException;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
-use Flextype\Foundation\Media\MediaFilesMeta;
 
 use function arrays;
 use function basename;
@@ -37,6 +36,7 @@ use function move_uploaded_file;
 use function pathinfo;
 use function realpath;
 use function str_replace;
+use function strings;
 use function strpos;
 use function strrpos;
 use function strstr;
@@ -88,9 +88,9 @@ class MediaFiles
         $maxImageWidth   = flextype('registry')->get('flextype.settings.media.max_image_width');
         $maxImageHeight  = flextype('registry')->get('flextype.settings.media.max_image_height');
 
-        $exact     = false;
-        $chmod     = 0644;
-        $filename  = null;
+        $exact    = false;
+        $chmod    = 0644;
+        $filename = null;
         $exifData = [];
 
         // Tests if a successful upload has been made.
@@ -220,53 +220,30 @@ class MediaFiles
      * @param string $id      The path to file.
      * @param array  $options Options array.
      *
-     * @access public
-     *
      * @return self Returns instance of The Arrays class.
+     *
+     * @access public
      */
     public function fetch(string $id, array $options = []): Arrays
     {
         // Run event: onEntriesFetch
         flextype('emitter')->emit('onMediaFilesFetch');
 
-        if (isset($options['collection']) &&
-            strings($options['collection'])->isTrue()) {
+        if (
+            isset($options['collection']) &&
+            strings($options['collection'])->isTrue()
+        ) {
                 $result = [];
 
-                foreach (filesystem()->find()->files()->in(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id)) as $file) {
-                    $basename = $file->getBasename('.' . $file->getExtension());
+            foreach (filesystem()->find()->files()->in(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id)) as $file) {
+                $basename = $file->getBasename('.' . $file->getExtension());
 
-                    $result[$basename]              = flextype('serializers')->yaml()->decode(filesystem()->file($file->getPathname())->get());
-                    $result[$basename]['filename']  = pathinfo(str_replace('/.meta', '', flextype('media')->files()->meta()->getFileMetaLocation($basename)))['filename'];
-                    $result[$basename]['basename']  = explode('.', basename(flextype('media')->files()->meta()->getFileMetaLocation($basename)))[0];
-                    $result[$basename]['extension'] = ltrim(strstr($basename, '.'), '.');
-                    $result[$basename]['dirname']   = pathinfo(str_replace('/.meta', '', $file->getPathname()))['dirname'];
-                    $result[$basename]['url']       = 'project/media/' . $id . '/' . $basename;
-
-                    if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
-                        $fullUrl = flextype('registry')->get('flextype.settings.url');
-                    } else {
-                        $fullUrl = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
-                    }
-
-                    $result[$basename]['full_url'] = $fullUrl . '/project/media/' . $id . '/' . $basename;
-                }
-
-                $result = filter($result, $options);
-
-                return arrays($result);
-        } else {
-            $result = [];
-
-            if (filesystem()->file(flextype('media')->files()->meta()->getFileMetaLocation($id))->exists()) {
-                $result = flextype('serializers')->yaml()->decode(filesystem()->file(flextype('media')->files()->meta()->getFileMetaLocation($id))->get());
-
-                $result['filename']  = pathinfo(str_replace('/.meta', '', flextype('media')->files()->meta()->getFileMetaLocation($id)))['filename'];
-                $result['basename']  = explode('.', basename(flextype('media')->files()->meta()->getFileMetaLocation($id)))[0];
-                $result['extension'] = ltrim(strstr($id, '.'), '.');
-                $result['dirname']   = pathinfo(str_replace('/.meta', '', flextype('media')->files()->meta()->getFileMetaLocation($id)))['dirname'];
-
-                $result['url'] = 'project/media/' . $id;
+                $result[$basename]              = flextype('serializers')->yaml()->decode(filesystem()->file($file->getPathname())->get());
+                $result[$basename]['filename']  = pathinfo(str_replace('/.meta', '', flextype('media')->files()->meta()->getFileMetaLocation($basename)))['filename'];
+                $result[$basename]['basename']  = explode('.', basename(flextype('media')->files()->meta()->getFileMetaLocation($basename)))[0];
+                $result[$basename]['extension'] = ltrim(strstr($basename, '.'), '.');
+                $result[$basename]['dirname']   = pathinfo(str_replace('/.meta', '', $file->getPathname()))['dirname'];
+                $result[$basename]['url']       = 'project/media/' . $id . '/' . $basename;
 
                 if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
                     $fullUrl = flextype('registry')->get('flextype.settings.url');
@@ -274,19 +251,44 @@ class MediaFiles
                     $fullUrl = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
                 }
 
-                $result['full_url'] = $fullUrl . '/project/media/' . $id;
+                $result[$basename]['full_url'] = $fullUrl . '/project/media/' . $id . '/' . $basename;
             }
 
-            $result = filter($result, $options);
+                $result = filter($result, $options);
 
-            return arrays($result);
+                return arrays($result);
         }
+
+        $result = [];
+
+        if (filesystem()->file(flextype('media')->files()->meta()->getFileMetaLocation($id))->exists()) {
+            $result = flextype('serializers')->yaml()->decode(filesystem()->file(flextype('media')->files()->meta()->getFileMetaLocation($id))->get());
+
+            $result['filename']  = pathinfo(str_replace('/.meta', '', flextype('media')->files()->meta()->getFileMetaLocation($id)))['filename'];
+            $result['basename']  = explode('.', basename(flextype('media')->files()->meta()->getFileMetaLocation($id)))[0];
+            $result['extension'] = ltrim(strstr($id, '.'), '.');
+            $result['dirname']   = pathinfo(str_replace('/.meta', '', flextype('media')->files()->meta()->getFileMetaLocation($id)))['dirname'];
+
+            $result['url'] = 'project/media/' . $id;
+
+            if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
+                $fullUrl = flextype('registry')->get('flextype.settings.url');
+            } else {
+                $fullUrl = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
+            }
+
+            $result['full_url'] = $fullUrl . '/project/media/' . $id;
+        }
+
+        $result = filter($result, $options);
+
+        return arrays($result);
     }
 
     /**
      * Move file
      *
-     * @param string $id     Unique identifier of the file.
+     * @param string $id    Unique identifier of the file.
      * @param string $newID New Unique identifier of the file.
      *
      * @return bool True on success, false on failure.
@@ -336,7 +338,7 @@ class MediaFiles
     /**
      * Copy file
      *
-     * @param string $id     Unique identifier of the file.
+     * @param string $id    Unique identifier of the file.
      * @param string $newID New Unique identifier of the file.
      *
      * @return bool True on success, false on failure.

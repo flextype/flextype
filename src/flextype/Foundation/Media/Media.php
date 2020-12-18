@@ -11,9 +11,6 @@ namespace Flextype\Foundation\Media;
 
 use Atomastic\Macroable\Macroable;
 
-use Flextype\Foundation\Media\MediaFiles;
-use Flextype\Foundation\Media\MediaFolders;
-
 class Media
 {
     use Macroable;

@@ -13,13 +13,13 @@ use Atomastic\Arrays\Arrays;
 use Atomastic\Macroable\Macroable;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
-use Flextype\Foundation\Media\MediaFoldersMeta;
 
 use function arrays;
 use function filesystem;
 use function filter;
 use function flextype;
 use function str_replace;
+use function strings;
 
 class MediaFolders
 {
@@ -39,9 +39,9 @@ class MediaFolders
      * @param string $id      The path to folder.
      * @param array  $options Options array.
      *
-     * @access public
-     *
      * @return self Returns instance of The Arrays class.
+     *
+     * @access public
      */
     public function fetch(string $id, array $options = []): Arrays
     {
@@ -49,7 +49,7 @@ class MediaFolders
         flextype('emitter')->emit('onMediaFoldersFetch');
 
         // Single fetch helper
-        $single = function ($id, $options) {
+        $single = static function ($id, $options) {
             $result = [];
 
             if (filesystem()->directory(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id))->exists()) {
@@ -71,20 +71,22 @@ class MediaFolders
             return arrays($result);
         };
 
-        if (isset($options['collection']) &&
-            strings($options['collection'])->isTrue()) {
+        if (
+            isset($options['collection']) &&
+            strings($options['collection'])->isTrue()
+        ) {
                 $result = [];
 
-                foreach (filesystem()->find()->directories()->in(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id)) as $folder) {
-                    $result[$folder->getFilename()] = $single($id . '/' . $folder->getFilename(), [])->toArray();
-                }
+            foreach (filesystem()->find()->directories()->in(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id)) as $folder) {
+                $result[$folder->getFilename()] = $single($id . '/' . $folder->getFilename(), [])->toArray();
+            }
 
                 $result = filter($result, $options);
 
                 return arrays($result);
-        } else {
-            return $single($id, $options);
         }
+
+        return $single($id, $options);
     }
 
     /**
@@ -112,7 +114,7 @@ class MediaFolders
     /**
      * Move folder
      *
-     * @param string $id     Unique identifier of the folder.
+     * @param string $id    Unique identifier of the folder.
      * @param string $newID New Unique identifier of the folder.
      *
      * @return bool True on success, false on failure.
@@ -135,7 +137,7 @@ class MediaFolders
     /**
      * Copy folder
      *
-     * @param string $id     Unique identifier of the folder.
+     * @param string $id    Unique identifier of the folder.
      * @param string $newID New Unique identifier of the folder.
      *
      * @return bool True on success, false on failure.
