@@ -29,14 +29,13 @@ if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.en
              // Modify fetch.
              foreach (flextype('entries')->getStorage('fetch.data.entries.fetch') as $field => $body) {
 
-                 if (isset($body['method']) &&
-                     strpos($body['method'], 'fetch') !== false &&
-                     is_callable([flextype('entries'), $body['method']])) {
-                     $fetchFromCallbackMethod = $body['method'];
+                 if (isset($body['options']['method']) &&
+                     strpos($body['options']['method'], 'fetch') !== false &&
+                     is_callable([flextype('entries'), $body['options']['method']])) {
+                     $fetchFromCallbackMethod = $body['options']['method'];
                  } else {
                      $fetchFromCallbackMethod = 'fetch';
                  }
-
 
                  $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
 

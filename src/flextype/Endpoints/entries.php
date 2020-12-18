@@ -55,7 +55,7 @@ flextype()->get('/api/entries', function (Request $request, Response $response) 
     $id      = $query['id'];
     $token   = $query['token'];
     $options = $query['options'] ?? [];
-    $method  = $query['method'] ?? '';
+    $method  = $query['options']['method'] ?? '';
 
     if (flextype('registry')->get('flextype.settings.api.entries.enabled')) {
         // Validate entries token

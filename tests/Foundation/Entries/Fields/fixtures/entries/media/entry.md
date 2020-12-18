@@ -5,8 +5,8 @@ media:
     fetch:
       macroable_folder:
         id: 'foo'
-        method: fetchExtraData
-        options: []
+        options:
+          method: fetchExtraData
       foo_folder:
         id: 'foo'
       collection_of_folders:
@@ -17,8 +17,8 @@ media:
     fetch:
       macroable_file:
         id: 'foo'
-        method: fetchExtraData
-        options: []
+        options:
+          method: fetchExtraData
       foo_file:
         id: foo.txt
       collection_of_files:
