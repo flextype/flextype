@@ -15,7 +15,7 @@ use function strings;
 use Thunder\Shortcode\ShortcodeFacade;
 use Exception;
 
-class Shortcode
+final class Shortcode
 {
     /**
      * The Shortcode's instance is stored in a static field. This field is an
