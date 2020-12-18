@@ -31,7 +31,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.media.files.fetc
 
                  if (isset($body['method']) &&
                      strpos($body['method'], 'fetch') !== false &&
-                     is_callable([flextype('media.files'), $body['method']])) {
+                     is_callable([flextype('media')->files(), $body['method']])) {
                      $fetchFromCallbackMethod = $body['method'];
                  } else {
                      $fetchFromCallbackMethod = 'fetch';
@@ -40,7 +40,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.media.files.fetc
 
                  $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
 
-                 $data[$field] = flextype('media.files')->{$fetchFromCallbackMethod}($body['id'],
+                 $data[$field] = flextype('media')->files()->{$fetchFromCallbackMethod}($body['id'],
                                                             isset($body['options']) ?
                                                                   $body['options'] :
                                                                   []);
@@ -80,7 +80,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.media.folders.fe
 
                  if (isset($body['method']) &&
                      strpos($body['method'], 'fetch') !== false &&
-                     is_callable([flextype('media.folders'), $body['method']])) {
+                     is_callable([flextype('media')->folders(), $body['method']])) {
                      $fetchFromCallbackMethod = $body['method'];
                  } else {
                      $fetchFromCallbackMethod = 'fetch';
@@ -89,7 +89,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.media.folders.fe
 
                  $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
 
-                 $data[$field] = flextype('media.folders')->{$fetchFromCallbackMethod}($body['id'],
+                 $data[$field] = flextype('media')->folders()->{$fetchFromCallbackMethod}($body['id'],
                                                             isset($body['options']) ?
                                                                   $body['options'] :
                                                                   []);

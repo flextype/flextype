@@ -14,5 +14,5 @@ afterEach(function (): void {
 
 test('test getDirectoryMetaLocation() method', function () {
     $this->assertStringContainsString('/.meta/foo',
-                          flextype('media.folders.meta')->getDirectoryMetaLocation('foo'));
+                          flextype('media')->folders()->meta()->getDirectoryMetaLocation('foo'));
 });

@@ -19,17 +19,17 @@ afterEach(function (): void {
 test('test media.files field', function () {
 
     filesystem()->file(PATH['project'] . '/media/foo.txt')->put('foo');
-    filesystem()->file(PATH['project'] . '/media/.meta/foo.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Foo', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
+    filesystem()->file(PATH['project'] . '/media/.meta/foo.txt.yaml')->put(flextype('serializers')->yaml()->encode(['title' => 'Foo', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
     filesystem()->file(PATH['project'] . '/media/bar.txt')->put('foo');
-    filesystem()->file(PATH['project'] . '/media/.meta/bar.txt.yaml')->put(flextype('yaml')->encode(['title' => 'Bar', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
+    filesystem()->file(PATH['project'] . '/media/.meta/bar.txt.yaml')->put(flextype('serializers')->yaml()->encode(['title' => 'Bar', 'description' => '', 'type' => 'text/plain', 'filesize' => 3, 'uploaded_on' => 1603090370, 'exif' => []]));
 
-    flextype('entries')->create('media', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/media/entry.md')->get()));
+    flextype('entries')->create('media', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/media/entry.md')->get()));
 
-    flextype('media.files')::macro('fetchExtraData', function ($id, $options) {
+    flextype('media')->files()::macro('fetchExtraData', function ($id, $options) {
         return ['id' => $id, 'options' => $options];
     });
 
-    flextype('media.folders')::macro('fetchExtraData', function ($id, $options) {
+    flextype('media')->folders()::macro('fetchExtraData', function ($id, $options) {
         return ['id' => $id, 'options' => $options];
     });
 
