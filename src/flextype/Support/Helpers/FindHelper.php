@@ -13,8 +13,8 @@ if (! function_exists('find')) {
      /**
       * Create a Finder instance with predefined filter params or without them.
       *
-      * @param  string $path      Path.
-      * @param  array  $options   Options array.
+      * @param  string $path     Path.
+      * @param  array  $options  Options array.
       * @param  string $searchIn Search in 'files' or 'directories'. Default is 'files'.
       *
       * @return Symfony\Component\Finder<Finder>

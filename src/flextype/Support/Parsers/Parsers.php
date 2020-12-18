@@ -11,9 +11,6 @@ namespace Flextype\Support\Parsers;
 
 use Atomastic\Macroable\Macroable;
 
-use Flextype\Support\Parsers\Markdown;
-use Flextype\Support\Parsers\Shortcode;
-
 class Parsers
 {
     use Macroable;

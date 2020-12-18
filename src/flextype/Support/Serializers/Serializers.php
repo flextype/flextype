@@ -11,10 +11,6 @@ namespace Flextype\Support\Serializers;
 
 use Atomastic\Macroable\Macroable;
 
-use Flextype\Support\Serializers\Frontmatter;
-use Flextype\Support\Serializers\Json;
-use Flextype\Support\Serializers\Yaml;
-
 class Serializers
 {
     use Macroable;

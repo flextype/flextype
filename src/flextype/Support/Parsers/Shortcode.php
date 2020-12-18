@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Parsers;
 
+use Exception;
+use Thunder\Shortcode\ShortcodeFacade;
+
 use function flextype;
 use function strings;
-
-use Thunder\Shortcode\ShortcodeFacade;
-use Exception;
 
 final class Shortcode
 {

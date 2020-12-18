@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Parsers;
 
+use Exception;
+use ParsedownExtra;
+
 use function flextype;
 use function strings;
-
-use ParsedownExtra;
-use Exception;
 
 final class Markdown
 {
@@ -117,7 +117,7 @@ final class Markdown
      *
      * @access public
      */
-    public function getCacheID($input): string
+    public function getCacheID(string $input): string
     {
         return strings('markdown' . $input)->hash()->toString();
     }
