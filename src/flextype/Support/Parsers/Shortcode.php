@@ -26,6 +26,11 @@ class Shortcode
      */
     private static $instances = [];
 
+     /**
+      * Shortcode facade
+      */
+    private $shortcodeFacade = null;
+
     /**
      * Shortcode should not be cloneable.
      */
@@ -49,7 +54,17 @@ class Shortcode
      */
     protected function __construct()
     {
-        return new ShortcodeFacade();
+        $this->shortcodeFacade = new ShortcodeFacade();
+    }
+
+    /**
+     * Shortcode facade
+     *
+     * @param
+     */
+    public function facade(): ShortcodeFacade
+    {
+        return $this->shortcodeFacade;
     }
 
     /**
@@ -77,7 +92,7 @@ class Shortcode
      */
     public function addHandler(string $name, callable $handler)
     {
-        return $this->addHandler($name, $handler);
+        return $this->facade()->addHandler($name, $handler);
     }
 
     /**
@@ -90,7 +105,7 @@ class Shortcode
      */
     public function addEventHandler(string $name, callable $handler)
     {
-        return $this->addEventHandler($name, $handler);
+        return $this->facade()->addEventHandler($name, $handler);
     }
 
     /**
@@ -102,7 +117,7 @@ class Shortcode
      */
     public function parse(string $input)
     {
-        return $this->parse($input);
+        return $this->facade()->parse($input);
     }
 
     /**
@@ -122,13 +137,13 @@ class Shortcode
                 return $dataFromCache;
             }
 
-            $data = $this->process($input);
+            $data = $this->facade()->process($input);
             flextype('cache')->set($key, $data);
 
             return $data;
         }
 
-        return $this->process($input);
+        return $this->facade()->process($input);
     }
 
     /**
