@@ -12,31 +12,73 @@ namespace Flextype\Support\Parsers;
 use function flextype;
 use function strings;
 
+use ParsedownExtra;
+
 class Markdown
 {
     /**
-     * Markdown
+     * The Markdown's instance is stored in a static field. This field is an
+     * array, because we'll allow our Markdown to have subclasses. Each item in
+     * this array will be an instance of a specific Markdown's subclass.
+     *
+     * @var array
      */
-    private $markdown;
+    private static $instances = [];
+
+     /**
+      * Markdown facade
+      */
+    private $markdownFacade = null;
 
     /**
-     * Constructor
-     *
-     * @access public
+     * Markdown should not be cloneable.
      */
-    public function __construct($markdown)
+    protected function __clone()
     {
-        $this->markdown = $markdown;
+        throw new Exception('Cannot clone a Markdown.');
     }
 
     /**
-     * Get Markdown instance
-     *
-     * @access public
+     * Markdown should not be restorable from strings.
      */
-    public function getInstance()
+    public function __wakeup(): void
     {
-        return $this->markdown;
+        throw new Exception('Cannot unserialize a Markdown.');
+    }
+
+    /**
+     * Markdown construct
+     *
+     * @param
+     */
+    protected function __construct()
+    {
+        $this->markdownFacade = new ParsedownExtra();
+    }
+
+    /**
+     * Markdown facade
+     *
+     * @param
+     */
+    public function facade(): ParsedownExtra
+    {
+        return $this->markdownFacade;
+    }
+
+    /**
+     * Returns Markdown Instance
+     *
+     * @param
+     */
+    public static function getInstance(): Markdown
+    {
+        $cls = static::class;
+        if (! isset(self::$instances[$cls])) {
+            self::$instances[$cls] = new static();
+        }
+
+        return self::$instances[$cls];
     }
 
     /**
@@ -56,23 +98,24 @@ class Markdown
                 return $dataFromCache;
             }
 
-            $data = $this->_parse($input);
+            $data = $this->facade()->text($input);
             flextype('cache')->set($key, $data);
 
             return $data;
         }
 
-        return $this->_parse($input);
+        return $this->facade()->text($input);
     }
 
     /**
-     * @see parse()
+     * Get Cache ID for markdown.
+     *
+     * @param  string $input Input.
+     *
+     * @return string Cache ID.
+     *
+     * @access public
      */
-    protected function _parse(string $input): string
-    {
-        return $this->markdown->text($input);
-    }
-
     public function getCacheID($input): string
     {
         return strings('markdown' . $input)->hash()->toString();

@@ -36,7 +36,7 @@ class Shortcode
      */
     protected function __clone()
     {
-        throw new Exception('Cannot clone a Flextype.');
+        throw new Exception('Cannot clone a Shortcode.');
     }
 
     /**
@@ -44,7 +44,7 @@ class Shortcode
      */
     public function __wakeup(): void
     {
-        throw new Exception('Cannot unserialize a Flextype.');
+        throw new Exception('Cannot unserialize a Shortcode.');
     }
 
     /**

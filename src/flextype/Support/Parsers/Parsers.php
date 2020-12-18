@@ -13,7 +13,6 @@ use Atomastic\Macroable\Macroable;
 
 use Flextype\Support\Parsers\Markdown;
 use Flextype\Support\Parsers\Shortcode;
-use ParsedownExtra;
 
 class Parsers
 {
@@ -24,13 +23,13 @@ class Parsers
      */
     public function markdown(): Markdown
     {
-        return new Markdown(new ParsedownExtra());
+        return Markdown::getInstance();
     }
 
     /**
      * Create a Shortcode instance.
      */
-    public function shortcode()
+    public function shortcode(): Shortcode
     {
         return Shortcode::getInstance();
     }
