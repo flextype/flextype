@@ -13,8 +13,9 @@ use function flextype;
 use function strings;
 
 use ParsedownExtra;
+use Exception;
 
-class Markdown
+final class Markdown
 {
     /**
      * The Markdown's instance is stored in a static field. This field is an
