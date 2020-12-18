@@ -29,10 +29,10 @@ if (flextype('registry')->get('flextype.settings.entries.fields.media.files.fetc
              // Modify fetch.
              foreach (flextype('entries')->getStorage('fetch.data.media.files.fetch') as $field => $body) {
 
-                 if (isset($body['method']) &&
-                     strpos($body['method'], 'fetch') !== false &&
-                     is_callable([flextype('media')->files(), $body['method']])) {
-                     $fetchFromCallbackMethod = $body['method'];
+                 if (isset($body['options']['method']) &&
+                     strpos($body['options']['method'], 'fetch') !== false &&
+                     is_callable([flextype('media')->files(), $body['options']['method']])) {
+                     $fetchFromCallbackMethod = $body['options']['method'];
                  } else {
                      $fetchFromCallbackMethod = 'fetch';
                  }
@@ -78,10 +78,10 @@ if (flextype('registry')->get('flextype.settings.entries.fields.media.folders.fe
              // Modify fetch.
              foreach (flextype('entries')->getStorage('fetch.data.media.folders.fetch') as $field => $body) {
 
-                 if (isset($body['method']) &&
-                     strpos($body['method'], 'fetch') !== false &&
-                     is_callable([flextype('media')->folders(), $body['method']])) {
-                     $fetchFromCallbackMethod = $body['method'];
+                 if (isset($body['options']['method']) &&
+                     strpos($body['options']['method'], 'fetch') !== false &&
+                     is_callable([flextype('media')->folders(), $body['options']['method']])) {
+                     $fetchFromCallbackMethod = $body['options']['method'];
                  } else {
                      $fetchFromCallbackMethod = 'fetch';
                  }

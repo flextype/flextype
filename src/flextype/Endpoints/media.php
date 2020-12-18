@@ -62,7 +62,7 @@ flextype()->get('/api/media/files', function (Request $request, Response $respon
     $id  = $query['id'];
     $token = $query['token'];
     $options = $query['options'] ?? [];
-    $method  = $query['method'] ?? '';
+    $method  = $query['options']['method'] ?? '';
 
     if (flextype('registry')->get('flextype.settings.api.media.files.enabled')) {
         // Validate delivery token
