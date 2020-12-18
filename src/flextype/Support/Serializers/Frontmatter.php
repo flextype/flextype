@@ -69,10 +69,10 @@ class Frontmatter
         if (isset($input['content'])) {
             $content = $input['content'];
             $input   = arrays($input)->delete('content')->toArray();
-            $matter  = flextype('yaml')->encode($input);
+            $matter  = flextype('serializers')->yaml()->encode($input);
         } else {
             $content = '';
-            $matter  = flextype('yaml')->encode($input);
+            $matter  = flextype('serializers')->yaml()->encode($input);
         }
 
         return '---' . "\n" .
@@ -99,7 +99,7 @@ class Frontmatter
             return ['content' => strings($input)->trim()->toString()];
         }
 
-        return flextype('yaml')->decode(strings($parts[1])->trim()->toString(), false) + ['content' => strings(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))->trim()->toString()];
+        return flextype('serializers')->yaml()->decode(strings($parts[1])->trim()->toString(), false) + ['content' => strings(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))->trim()->toString()];
     }
 
     public function getCacheID($input): string

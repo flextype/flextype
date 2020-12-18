@@ -129,7 +129,7 @@ class Entries
               }
 
               // Decode entry file content
-              $this->setStorage('fetch.data', flextype('frontmatter')->decode($entryFileContent));
+              $this->setStorage('fetch.data', flextype('serializers')->frontmatter()->decode($entryFileContent));
 
               // Run event: onEntriesFetchSingleHasResult
               flextype('emitter')->emit('onEntriesFetchSingleHasResult');
@@ -267,9 +267,9 @@ class Entries
 
         if (filesystem()->file($entryFile)->exists()) {
             $body  = filesystem()->file($entryFile)->get();
-            $entry = flextype('frontmatter')->decode($body);
+            $entry = flextype('serializers')->frontmatter()->decode($body);
 
-            return (bool) filesystem()->file($entryFile)->put(flextype('frontmatter')->encode(array_merge($entry, $this->getStorage('update.data'))));
+            return (bool) filesystem()->file($entryFile)->put(flextype('serializers')->frontmatter()->encode(array_merge($entry, $this->getStorage('update.data'))));
         }
 
         return false;
@@ -307,7 +307,7 @@ class Entries
         // Create entry file
         $entryFile = $entryDir . '/entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension');
         if (! filesystem()->file($entryFile)->exists()) {
-            return (bool) filesystem()->file($entryFile)->put(flextype('frontmatter')->encode($this->getStorage('create.data')));
+            return (bool) filesystem()->file($entryFile)->put(flextype('serializers')->frontmatter()->encode($this->getStorage('create.data')));
         }
 
         return false;

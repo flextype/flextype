@@ -11,9 +11,9 @@ afterEach(function (): void {
 });
 
 test('test entries field for blog', function () {
-    flextype('entries')->create('blog', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/entry.md')->get()));
-    flextype('entries')->create('blog/post-1', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/post-1/entry.md')->get()));
-    flextype('entries')->create('blog/post-2', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/post-2/entry.md')->get()));
+    flextype('entries')->create('blog', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/entry.md')->get()));
+    flextype('entries')->create('blog/post-1', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/post-1/entry.md')->get()));
+    flextype('entries')->create('blog/post-2', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/blog/post-2/entry.md')->get()));
 
     $blog = flextype('entries')->fetch('blog');
 
@@ -23,10 +23,10 @@ test('test entries field for blog', function () {
 test('test entries field for catalog', function () {
 
     // Create catalog
-    flextype('entries')->create('catalog', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/catalog/entry.md')->get()));
-    flextype('entries')->create('catalog/bikes', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/catalog/bikes/entry.md')->get()));
-    flextype('entries')->create('catalog/bikes/gt', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/catalog/bikes/gt/entry.md')->get()));
-    flextype('entries')->create('catalog/bikes/norco', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/catalog/bikes/norco/entry.md')->get()));
+    flextype('entries')->create('catalog', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/catalog/entry.md')->get()));
+    flextype('entries')->create('catalog/bikes', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/catalog/bikes/entry.md')->get()));
+    flextype('entries')->create('catalog/bikes/gt', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/catalog/bikes/gt/entry.md')->get()));
+    flextype('entries')->create('catalog/bikes/norco', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/catalog/bikes/norco/entry.md')->get()));
     flextype('entries')->create('catalog/bikes/foo', ['title' => 'foo']);
     flextype('entries')->create('catalog/bikes/foo/bar', ['title' => 'bar']);
 
@@ -64,11 +64,11 @@ test('test entries field for catalog', function () {
 });
 
 test('test entries field for albmus', function () {
-    flextype('entries')->create('root', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/root/entry.md')->get()));
+    flextype('entries')->create('root', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/root/entry.md')->get()));
 
-    flextype('entries')->create('albums', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/root/albums/entry.md')->get()));
-    flextype('entries')->create('albums/category-1', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/root/albums/category-1/entry.md')->get()));
-    flextype('entries')->create('albums/category-1/album-1', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/root/albums/category-1/album-1/entry.md')->get()));
+    flextype('entries')->create('albums', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/root/albums/entry.md')->get()));
+    flextype('entries')->create('albums/category-1', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/root/albums/category-1/entry.md')->get()));
+    flextype('entries')->create('albums/category-1/album-1', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/root/albums/category-1/album-1/entry.md')->get()));
 
     flextype('entries')->create('banners', ['title' => 'Banners']);
     flextype('entries')->create('banners/1', ['title' => 'Banner1']);
@@ -80,10 +80,10 @@ test('test entries field for albmus', function () {
 });
 
 test('test entries field for long nested entries', function () {
-    flextype('entries')->create('level1', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/entry.md')->get()));
-    flextype('entries')->create('level1/level2', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/level2/entry.md')->get()));
-    flextype('entries')->create('level1/level2/level3', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/level2/level3/entry.md')->get()));
-    flextype('entries')->create('level1/level2/level3/level4', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/level2/level3/level4/entry.md')->get()));
+    flextype('entries')->create('level1', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/entry.md')->get()));
+    flextype('entries')->create('level1/level2', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/level2/entry.md')->get()));
+    flextype('entries')->create('level1/level2/level3', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/level2/level3/entry.md')->get()));
+    flextype('entries')->create('level1/level2/level3/level4', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/level1/level2/level3/level4/entry.md')->get()));
 
     $level = flextype('entries')->fetch('level1');
 
@@ -94,7 +94,7 @@ test('test entries field for long nested entries', function () {
 });
 
 test('test entries field for macroable fetch entries', function () {
-    flextype('entries')->create('macroable', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/macroable/entry.md')->get()));
+    flextype('entries')->create('macroable', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/macroable/entry.md')->get()));
 
     flextype('entries')::macro('fetchExtraData', function ($id, $options) {
         return ['id' => $id, 'options' => $options];

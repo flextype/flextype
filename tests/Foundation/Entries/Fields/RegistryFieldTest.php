@@ -11,9 +11,9 @@ afterEach(function (): void {
 });
 
 test('test registry field', function () {
-    flextype('entries')->create('registry-root', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/entry.md')->get()));
-    flextype('entries')->create('registry-root/level-1', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/level-1/entry.md')->get()));
-    flextype('entries')->create('registry-root/level-1/level-2', flextype('frontmatter')->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/level-1/level-2/entry.md')->get()));
+    flextype('entries')->create('registry-root', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/entry.md')->get()));
+    flextype('entries')->create('registry-root/level-1', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/level-1/entry.md')->get()));
+    flextype('entries')->create('registry-root/level-1/level-2', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/level-1/level-2/entry.md')->get()));
 
     $data = flextype('entries')->fetch('registry-root');
 
