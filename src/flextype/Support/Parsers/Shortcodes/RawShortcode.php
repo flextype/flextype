@@ -13,9 +13,9 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Shortcode: [raw]
 if (flextype('registry')->get('flextype.settings.shortcode.shortcodes.raw.enabled')) {
-    flextype('shortcode')->addHandler('raw', static function (ShortcodeInterface $s) {
+    flextype('parsers')->shortcode()->addHandler('raw', static function (ShortcodeInterface $s) {
         return $s->getContent();
     });
 
-    flextype('shortcode')->addEventHandler(Events::FILTER_SHORTCODES, new FilterRawEventHandler(['raw']));
+    flextype('parsers')->shortcode()->addEventHandler(Events::FILTER_SHORTCODES, new FilterRawEventHandler(['raw']));
 }
