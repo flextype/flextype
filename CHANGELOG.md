@@ -173,7 +173,7 @@
 
 * **core** add new method `isApiRequest` to Determine API Request in the basic core functionality. ([#507](https://github.com/flextype/flextype/issues/507))
 
-* **rest-api-entries** add ability to send options for fetch() methods in Entries Rest API. ([#504](https://github.com/flextype/flextype/issues/504))
+* **rest-api-entries** add ability to send options for `fetch()` methods in Entries Rest API. ([#504](https://github.com/flextype/flextype/issues/504))
 
     **Fetch single**
     ```
@@ -195,7 +195,69 @@
     GET /api/entries?id=YOUR_ENTRY_ID&options[collection]=true&options=[find]&[filter]&token=YOUR_ENTRIES_TOKEN
     ```
 
+* **rest-api-entries** add ability to call macroable fetch methods. ([#505](https://github.com/flextype/flextype/issues/505))
+
+    With help of query option `?options[method]=` we should able to call any macroable fetch methods.
+
+    ### Example
+
+    **Macroable method XML**
+
+    ```
+    flextype('entries')::macro('fetchXml', function(string $id, array $options) {
+      return ['XML DATA HERE'];
+    });
+    ```
+
+    **HTTP GET:**
+
+    ```
+    GET /api/entries?id=YOUR_ID&options[method]=fetchXml&token=YOUR_ENTRIES_TOKEN
+    ```
+
 * **rest-api-media** reorganize endpoints for Media Rest API ([#514](https://github.com/flextype/flextype/issues/514))
+
+* **rest-api-media** add ability to call macroable fetch methods. ([#512](https://github.com/flextype/flextype/issues/512))
+
+    With help of query option `?options[method]=` we should able to call any macroable fetch methods.
+
+    ### Example
+
+    **Macroable method**
+
+    ```
+    flextype('media')->folders()::macro('fetchFromOtherStorage', function(string $id, array $options) {
+      // fetch data from Other Storage using $id and $options
+    });
+    ```
+
+    **HTTP GET:**
+
+    ```
+    GET /api/folders?id=YOUR_MEDIA_FILES_ID&options[method]= fetchFromOtherStorage&token=YOUR_MEDIA_FOLDERS_TOKEN
+    ```
+
+* **rest-api-media** add ability to call macroable fetch methods. ([#513](https://github.com/flextype/flextype/issues/513))
+
+    With help of query option `?option[method]=` we should able to call any macroable fetch methods.
+
+    ### Example
+
+    **Macroable method**
+
+    ```
+    flextype('media')->files()::macro('fetchFromOtherStorage', function(string $id, array $options) {
+      // fetch data from Other Storage using $id and $options
+    });
+    ```
+
+    **HTTP GET:**
+
+    ```
+    GET /api/files?id=YOUR_MEDIA_FILES_ID&option[method]=fetchFromOtherStorage&token=YOUR_MEDIA_FILES_TOKEN
+    ```
+
+
 
 ### Bug Fixes
 
