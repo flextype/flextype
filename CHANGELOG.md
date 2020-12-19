@@ -62,6 +62,8 @@
 
 * **rest-api-entries** fix issue with 404 status code in Entries Rest API ([#502](https://github.com/flextype/flextype/issues/502))
 
+* **rest-api** fix issue with Rest API endpoints initialisation. ([#506](https://github.com/flextype/flextype/issues/506))
+
 ### BREAKING CHANGES
 
 * **helpers** `filter` helper return `array` result every time and not `int` or `bool`. ([#493](https://github.com/flextype/flextype/issues/493))
