@@ -47,17 +47,124 @@
 
 * **fields** add new field `entries.fetch` for Entries API ([#492](https://github.com/flextype/flextype/issues/492))
 
-    Entries API provides methods for entries fetch: `fetch()` and we should able to access them inside entries frontmatter header for fetching data right in the entries. Also, we will able to add and use any kind of fetch methods with our macroable functionality.
+    Entries API provides methods for entries fetch: `fetch()` and we should able to access them inside entries frontmatter header for fetching data right in the entries. Also, we will able to add and use any kind of fetch methods with our macroable functionality.  
 
-    Examples here: https://github.com/flextype/flextype/issues/492
+    **Basic Example**  
+
+    Catalog entry with several queries and with several nested queries inside of children entries.
+
+    File: `/project/entries/catalog/entry.md`
+
+    ```yaml
+    ---
+    title: Catalog
+    visibility: visible
+    entries:
+      fetch:
+        label1:
+          id: discounts/50-off
+          options:
+            filter:
+              limit: 4
+        bikes:
+          id: catalog/bikes
+          options:
+            collection: true
+            filter:
+              where:
+                -
+                  key: brand
+                  operator: eq
+                  value: gt
+              limit: 10
+        discounts:
+          id: discounts
+          options:
+            collection: true
+            filter:
+              where:
+                -
+                  key: title
+                  operator: eq
+                  value: '30% off'
+                -
+                  key: category
+                  operator: eq
+                  value: bikes
+    ---
+    ```
+
+    **Setting for this fields**  
+
+    File: `/project/config/flextype/settings.yaml`
+
+    ```yaml
+    entries:
+      fields:
+        entries:
+          fetch:
+            enabled: true
+            result: toObject
+    ```
+
+    Valid values for setting **enabled** is **true** or **false**  
+    Valid values for setting **result** is **toObject** or **toArray**  
 
 * **fields** add new field `media.files.fetch` and `media.folders.fetch` for Media API's ([#501](https://github.com/flextype/flextype/issues/501)) ([#500](https://github.com/flextype/flextype/issues/500))
 
     Media API's provides methods for files and folders fetch: `fetch()` and we should able to access them inside entries frontmatter header for fetching data right in the entries. Also, we will able to add and use any kind of fetch methods with our macroable functionality.
 
-    Examples here:   
-    https://github.com/flextype/flextype/issues/500
-    https://github.com/flextype/flextype/issues/501
+    ```yaml
+    ---
+    title: Media
+    media:
+      folders:
+        fetch:
+          macroable_folder:
+            id: 'foo'
+            options:
+              method: fetchExtraData
+          foo_folder:
+            id: 'foo'
+          collection_of_folders:
+            id: '/'
+            options:
+              collection: true
+      files:
+        fetch:
+          macroable_file:
+            id: 'foo'
+            options:
+              method: fetchExtraData
+          foo_file:
+            id: foo.txt
+          collection_of_files:
+            id: '/'
+            options:
+              collection: true
+    ---
+    ```
+
+    **Setting for this fields**  
+
+    File: `/project/config/flextype/settings.yaml`
+
+    ```yaml
+    entries:
+      fields:
+        media:
+          files:
+            fetch:
+              enabled: true
+              result: toObject
+          folders:
+            fetch:
+              enabled: true
+              result: toObject
+    ```
+
+    Valid values for setting **enabled** is **true** or **false**    
+    Valid values for setting **result** is **toObject** or **toArray**   
 
 
 * **entries** add new method `deleteStorage()` for Entries API ([#498](https://github.com/flextype/flextype/issues/498))
