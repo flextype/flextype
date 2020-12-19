@@ -257,7 +257,7 @@
 
     Events:
 
-    **onEntriesFetch**
+    **onEntriesFetch**  
     **onEntriesFetchSingle** instead of **onEntryInitialized**  
     **onEntriesFetchSingleCacheHasResult** instead of **onEntryAfterCacheInitialized**  
     **onEntriesFetchSingleNoResult**  
