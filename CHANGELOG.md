@@ -195,6 +195,8 @@
     GET /api/entries?id=YOUR_ENTRY_ID&options[collection]=true&options=[find]&[filter]&token=YOUR_ENTRIES_TOKEN
     ```
 
+* **rest-api-media** reorganize endpoints for Media Rest API ([#514](https://github.com/flextype/flextype/issues/514))
+
 ### Bug Fixes
 
 * **core** fix issue with invalid timezone setting ([#490](https://github.com/flextype/flextype/issues/490))
@@ -209,6 +211,42 @@
 
 ### BREAKING CHANGES
 
+* **rest-api-media** reorganize endpoints for Media Rest API ([#514](https://github.com/flextype/flextype/issues/514))
+
+    |  | NEW ENDPOINT | OLD ENDPOINT |
+    |---|---|---|
+    | **GET** |  /api/media/files |  /api/files |
+    | **POST** |  /api/media/files |  /api/files |
+    | **PUT** |  /api/media/files |  /api/files |
+    | **PATCH** |  /api/media/files |  /api/files |
+    | **DELETE** |  /api/media/files |  /api/files |
+    | **POST** |  /api/media/files/copy |  /api/files/copy |
+    | **PATCH** |  /api/media/files/meta |  /api/files/meta |
+    | **POST** |  /api/media/files/meta |  /api/files/meta |
+    | **DELETE** |  /api/media/files/meta |  /api/files/meta |
+    | **GET** |  /api/media/folders |  /api/folders |
+    | **POST** |  /api/media/folders |  /api/folders |
+    | **PATCH** |  /api/media/folders |  /api/folders |
+    | **DELETE** |  /api/media/folders |  /api/folders |
+    | **POST** |  /api/media/folders/copy |  /api/folders/copy |
+
+    **Tokens:**
+    - token for files should be moved from `/tokens/files/` to `/tokens/media/files/`
+    - token for folders should be moved from `/tokens/folders/` to `/tokens/media/folders/`
+
+    **Settings:**
+    ```yaml
+    api:
+      ...
+      media:
+        files:
+          enabled: true
+          default_token:
+        folders:
+          enabled: true
+          default_token:
+    ```
+
 * **helpers** `filter` helper return `array` result every time and not `int` or `bool`. ([#493](https://github.com/flextype/flextype/issues/493))
 
 * **helpers** `filter` helper not support `slice_offset` and `slice_limit` because they are are duplicates already exists functionality `offset` and `limit`. ([#493](https://github.com/flextype/flextype/issues/493))
@@ -219,6 +257,7 @@
 
     Events:
 
+    **onEntriesFetch**
     **onEntriesFetchSingle** instead of **onEntryInitialized**  
     **onEntriesFetchSingleCacheHasResult** instead of **onEntryAfterCacheInitialized**  
     **onEntriesFetchSingleNoResult**  
