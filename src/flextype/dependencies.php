@@ -220,10 +220,6 @@ flextype()->container()['parsers'] = static function () {
     return new Parsers();
 };
 
-//flextype('parsers')->markdown()->getInstance()->setBreaksEnabled(flextype('registry')->get('flextype.settings.markdown.auto_line_breaks'));
-//flextype('parsers')->markdown()->getInstance()->setUrlsLinked(flextype('registry')->get('flextype.settings.markdown.auto_url_links'));
-//flextype('parsers')->markdown()->getInstance()->setMarkupEscaped(flextype('registry')->get('flextype.settings.markdown.escape_markup'));
-
 /**
  * Add serializer service to Flextype container
  */

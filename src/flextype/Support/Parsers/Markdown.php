@@ -55,6 +55,9 @@ final class Markdown
     protected function __construct()
     {
         $this->markdownFacade = new ParsedownExtra();
+        $this->markdownFacade->setBreaksEnabled(flextype('registry')->get('flextype.settings.markdown.auto_line_breaks'));
+        $this->markdownFacade->setUrlsLinked(flextype('registry')->get('flextype.settings.markdown.auto_url_links'));
+        $this->markdownFacade->setMarkupEscaped(flextype('registry')->get('flextype.settings.markdown.escape_markup'));
     }
 
     /**
