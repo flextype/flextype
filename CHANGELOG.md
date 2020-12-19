@@ -5,25 +5,62 @@
 
 * **fields** add new field `registry.get` for Registry API ([#494](https://github.com/flextype/flextype/issues/494))
 
-    Registry API provides method `get()` for retrieving data from registry and now we able to access them inside entries frontmatter header for retrieving data right in the entries.
+    Registry API provides method `get()` for retrieving data from registry and we should able to access them inside entries frontmatter header for retrieving data right in the entries.
 
     Examples here: https://github.com/flextype/flextype/issues/494
 
- * **fields** add new field `entries.fetchSingle` and `entries.fetchCollection` for Entries API ([#492](https://github.com/flextype/flextype/issues/492))
+* **fields** add new field `entries.fetch` for Entries API ([#492](https://github.com/flextype/flextype/issues/492))
 
-    Entries API provides two methods for entries fetch: `fetchCollection()` and `fetchSingle()` and now we able to access them inside entries frontmatter header for fetching data right in the entries. Also, we will able to add and use any kind of fetch methods with our macroable functionality.
+    Entries API provides methods for entries fetch: `fetch()` and we should able to access them inside entries frontmatter header for fetching data right in the entries. Also, we will able to add and use any kind of fetch methods with our macroable functionality.
 
     Examples here: https://github.com/flextype/flextype/issues/492
+
+* **fields** add new field `media.files.fetch` and `media.folders.fetch` for Media API's ([#501](https://github.com/flextype/flextype/issues/501)) ([#500](https://github.com/flextype/flextype/issues/500))
+
+    Media API's provides methods for files and folders fetch: `fetch()` and we should able to access them inside entries frontmatter header for fetching data right in the entries. Also, we will able to add and use any kind of fetch methods with our macroable functionality.
+
+    Examples here:   
+    https://github.com/flextype/flextype/issues/500
+    https://github.com/flextype/flextype/issues/501
+
 
 * **entries** add new method `deleteStorage()` for Entries API ([#498](https://github.com/flextype/flextype/issues/498))
 
 * **entries** add new method `hasStorage()` for Entries API ([#497](https://github.com/flextype/flextype/issues/497))
 
+* **core** add new method `isApiRequest` to Determine API Request in the basic core functionality. ([#507](https://github.com/flextype/flextype/issues/507))
+
+* **rest-api-entries** add ability to send options for fetch() methods in Entries Rest API. ([#504](https://github.com/flextype/flextype/issues/504))
+
+    **Fetch single**
+    ```
+    GET /api/entries?id=YOUR_ENTRY_ID&token=YOUR_ENTRIES_TOKEN
+    ```
+
+    **Fetch single with options**
+    ```
+    GET /api/entries?id=YOUR_ENTRY_ID&options=[filter]&token=YOUR_ENTRIES_TOKEN
+    ```
+
+    **Fetch collection**
+    ```
+    GET /api/entries?id=YOUR_ENTRY_ID&options[collection]=true&token=YOUR_ENTRIES_TOKEN
+    ```
+
+    **Fetch collection with options**
+    ```
+    GET /api/entries?id=YOUR_ENTRY_ID&options[collection]=true&options=[find]&[filter]&token=YOUR_ENTRIES_TOKEN
+    ```
+
 ### Bug Fixes
 
 * **core** fix issue with invalid timezone setting ([#490](https://github.com/flextype/flextype/issues/490))
 
+* **entries** fix issue with not exists entries collections. ([#503](https://github.com/flextype/flextype/issues/503))
+
 * **entries** fix issue with collisions in Entries API $storage for entries fetching. ([#496](https://github.com/flextype/flextype/issues/496))
+
+* **rest-api-entries** fix issue with 404 status code in Entries Rest API ([#502](https://github.com/flextype/flextype/issues/502))
 
 ### BREAKING CHANGES
 
@@ -89,6 +126,13 @@
         ],
     ];
     ```
+* **rest-api-entries** Entries Rest API - for collection fetch we should define this in the request query `&options[collection]=true`
+
+* **rest-api-entries** Entries Rest API - instead of `&filter=[]` we should define filtering in the request query like this `&options[find]` and `&options[filter]`
+
+* **rest-api-media-files** Media Files Rest API - for collection fetch we should define this in the request query `&options[collection]=true`
+
+* **rest-api-media-folders** Media Folders Rest API - instead of `&filter=[]` we should define filtering in the request query like this `&options[find]` and `&options[filter]`
 
 <a name="0.9.12"></a>
 # [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-12-07)
