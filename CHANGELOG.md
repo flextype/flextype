@@ -7,7 +7,43 @@
 
     Registry API provides method `get()` for retrieving data from registry and we should able to access them inside entries frontmatter header for retrieving data right in the entries.
 
-    Examples here: https://github.com/flextype/flextype/issues/494
+    **Basic Example**
+
+    Sample entry with several queries and with several nested queries inside of children entries.
+
+    File: `/project/entries/registry-root/entry.md`
+
+    ```yaml
+    ---
+    title: Root
+    registry:
+      get:
+        flextype:
+          key: flextype.manifest.name
+        author.name:
+          key: flextype.manifest.author.name
+        license:
+          key: flextype.manifest.license
+    entries:
+      fetch:
+        level1:
+          id: registry-root/level-1
+    ---
+    ```
+
+    **Setting for this fields**
+
+    File: `/project/config/flextype/settings.yaml`
+
+    ```yaml
+    entries:
+      fields:
+        registry:
+          get:
+            enabled: true
+    ```
+
+    Valid values for setting **enabled** is **true** or **false**
 
 * **fields** add new field `entries.fetch` for Entries API ([#492](https://github.com/flextype/flextype/issues/492))
 
