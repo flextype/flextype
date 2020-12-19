@@ -23,14 +23,14 @@
 
     **New methods to access Parsers:**  
 
-    ```
+    ```php
     flextype('parsers')->shortcode()
     flextype('parsers')->markdown()
     ```
 
     **Adding macros:**  
 
-    ```
+    ```php
     flextype('parsers')::macro('NAME', CALLBACK_FUNCTION() {});
     ```
 
