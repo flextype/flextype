@@ -3,6 +3,86 @@
 
 ### Features
 
+* **media-files** we will use `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#508](https://github.com/flextype/flextype/issues/508))
+
+    ```php
+    /**
+     * Fetch.
+     *
+     * @param string $id      The path to file.
+     * @param array  $options Options array.
+     *
+     * @access public
+     *
+     * @return self Returns instance of The Arrays class.
+     */
+    public function fetch(string $id, array $options = []): Arrays
+    ```
+
+    Media Files API is macroable and we will able to add any custom fetch methods for receiving data from different sources.
+
+    ```php
+    flextype('media')->files()::macro('fetchFromOtherStorage', function(string $id, array $options) {
+      // fetch data from Other Storage using $id and $options
+    });
+
+    $data = flextype('media')->files()-> fetchFromOtherStorage($id, $options);
+    ```
+
+* **media-folders** we will use `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#509](https://github.com/flextype/flextype/issues/509))
+
+    ```php
+    /**
+     * Fetch.
+     *
+     * @param string $id      The path to folder.
+     * @param array  $options Options array.
+     *
+     * @access public
+     *
+     * @return self Returns instance of The Arrays class.
+     */
+    public function fetch(string $id, array $options = []): Arrays
+    ```
+
+    Media Folders API is macroable and we will able to add any custom fetch methods for receiving data from different sources.
+
+    ```php
+    flextype('media')->folders()::macro('fetchFromOtherStorage', function(string $id, array $options) {
+      // fetch data from Other Storage using $id and $options
+    });
+
+    $data = flextype('media')->folders()-> fetchFromOtherStorage($id, $options);
+    ```
+
+* **entries** we will use `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#495](https://github.com/flextype/flextype/issues/495))
+
+    ```php
+    /**
+    * Fetch.
+    *
+    * @param string $id      Unique identifier of the entry.
+    * @param array  $options Options array.
+    *
+    * @access public
+    *
+    * @return mixed
+    */
+    public function fetch(string $id, array $options = []): Arrays
+    ```
+
+    Entries API is macroable and we will able to add any custom fetch methods for receiving data from different sources.
+
+    ```php
+    flextype('entries')::macro('fetchXML', function(string $id, array $options) {
+    // fetch data from XML using $id and $options
+    });
+
+    $data = flextype('entries')->fetchXML($id, $options);
+    ```
+
+* **images** we will use `media/` folder instead of `uploads/entries/` ([#516](https://github.com/flextype/flextype/issues/516))
+
 * **serializers** standardise serializers container names with macroable ability. ([#518](https://github.com/flextype/flextype/issues/518))
 
     **New methods to access Serializers:**  
@@ -449,6 +529,31 @@
 * **rest-api-media-files** Media Files Rest API - for collection fetch we should define this in the request query `&options[collection]=true`
 
 * **rest-api-media-folders** Media Folders Rest API - instead of `&filter=[]` we should define filtering in the request query like this `&options[find]` and `&options[filter]`
+
+* **images** we will use `media/` folder instead of `uploads/entries/` ([#516](https://github.com/flextype/flextype/issues/516))
+
+    - folder `uploads/entries/` should should be renamed to `media/entries/` related to this ticket: #515
+    - in the endpoint `/api/images/{path:.+}` path for entries, should starts with `/entries/`.
+
+    **Example:**  
+
+    **old:** `/api/images/home/banner.jpg`
+    **new:** `/api/images/entries/home/banner.jpg`
+
+* **entries** we should use only `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#495](https://github.com/flextype/flextype/issues/495))
+
+    - method `fetchSingle()` removed. Use `fetch($id, $options)` method.
+    - methods `fetchCollection` removed. Use  `fetch($id, ['collection' => true])` method.
+
+* **media-folders** we should use only `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#509](https://github.com/flextype/flextype/issues/509))
+
+    - method `fetchSingle()` removed. Use `fetch($id, $options)` method.
+    - methods `fetchCollection` removed. Use  `fetch($id, ['collection' => true])` method.
+
+* **media-files** we should use only `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#508](https://github.com/flextype/flextype/issues/508))
+
+    - method `fetchSingle()` removed. Use `fetch($id, $options)` method.
+    - methods `fetchCollection` removed. Use  `fetch($id, ['collection' => true])` method.
 
 <a name="0.9.12"></a>
 # [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-12-07)
