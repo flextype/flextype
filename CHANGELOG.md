@@ -3,6 +3,60 @@
 
 ### Features
 
+* **serializers** standardise serializers container names with macroable ability. ([#518](https://github.com/flextype/flextype/issues/518))
+
+    **New methods to access Serializers:**  
+
+    ```php
+    flextype('serializers')->yaml()
+    flextype('serializers')->json()
+    flextype('serializers')->frontmatter()
+    ```
+
+    **Adding macros:**  
+
+    ```php
+    flextype('serializers')::macro('NAME', CALLBACK_FUNCTION() {});
+    ```
+
+* **parsers** standardise parsers container names with macroable ability. ([#519](https://github.com/flextype/flextype/issues/519))
+
+    **New methods to access Parsers:**  
+
+    ```
+    flextype('parsers')->shortcode()
+    flextype('parsers')->markdown()
+    ```
+
+    **Adding macros:**  
+
+    ```
+    flextype('parsers')::macro('NAME', CALLBACK_FUNCTION() {});
+    ```
+
+* **media** standardise media container names with macroable ability for Media API. ([#517](https://github.com/flextype/flextype/issues/517))
+
+    New macroable common class for all media - `class Media`  
+
+    **New methods to access Media API:**  
+
+    ```php
+    flextype('media')->files()
+    flextype('media')->files()->meta()
+    flextype('media')->folders()
+    flextype('media')->folders()->meta()
+    ```
+
+    **Adding macros:**  
+
+    ```php
+    flextype('media')::macro('NAME', CALLBACK_FUNCTION() {});
+    flextype('media')->files()::macro('NAME', CALLBACK_FUNCTION() {});
+    flextype('media')->files()->meta()::macro('NAME', CALLBACK_FUNCTION() {});
+    flextype('media')->folders()::macro('NAME', CALLBACK_FUNCTION() {});
+    flextype('media')->folders()->meta()::macro('NAME', CALLBACK_FUNCTION() {});
+    ```
+
 * **fields** add new field `registry.get` for Registry API ([#494](https://github.com/flextype/flextype/issues/494))
 
     Registry API provides method `get()` for retrieving data from registry and we should able to access them inside entries frontmatter header for retrieving data right in the entries.
@@ -217,7 +271,7 @@
 
 * **rest-api-media** reorganize endpoints for Media Rest API ([#514](https://github.com/flextype/flextype/issues/514))
 
-* **rest-api-media** add ability to call macroable fetch methods. ([#512](https://github.com/flextype/flextype/issues/512))
+* **rest-api-media** add ability to call macroable fetch methods for Folder. ([#512](https://github.com/flextype/flextype/issues/512))
 
     With help of query option `?options[method]=` we should able to call any macroable fetch methods.
 
@@ -237,7 +291,7 @@
     GET /api/folders?id=YOUR_MEDIA_FILES_ID&options[method]= fetchFromOtherStorage&token=YOUR_MEDIA_FOLDERS_TOKEN
     ```
 
-* **rest-api-media** add ability to call macroable fetch methods. ([#513](https://github.com/flextype/flextype/issues/513))
+* **rest-api-media** add ability to call macroable fetch methods for Files. ([#513](https://github.com/flextype/flextype/issues/513))
 
     With help of query option `?option[method]=` we should able to call any macroable fetch methods.
 
@@ -257,8 +311,6 @@
     GET /api/files?id=YOUR_MEDIA_FILES_ID&option[method]=fetchFromOtherStorage&token=YOUR_MEDIA_FILES_TOKEN
     ```
 
-
-
 ### Bug Fixes
 
 * **core** fix issue with invalid timezone setting ([#490](https://github.com/flextype/flextype/issues/490))
@@ -272,6 +324,24 @@
 * **rest-api** fix issue with Rest API endpoints initialisation. ([#506](https://github.com/flextype/flextype/issues/506))
 
 ### BREAKING CHANGES
+
+* **media** standardise media container names with macroable ability for Media API. ([#517](https://github.com/flextype/flextype/issues/517))
+
+    | NEW CONTAINER           | OLD CONTAINER              |   
+    |------------------|------------------|
+    | media      | media_files, media_files_meta, media_folders, media_folders_meta      |
+
+* **parsers** standardise parsers container names with macroable ability. ([#519](https://github.com/flextype/flextype/issues/519))
+
+    | NEW CONTAINER           | OLD CONTAINER              |   
+    |------------------|------------------|
+    | parsers      | shortcode, markdown       |
+
+* **serializers** standardise serializers container names with macroable ability. ([#518](https://github.com/flextype/flextype/issues/518))
+
+    | NEW CONTAINER           | OLD CONTAINER              |   
+    |------------------|------------------|
+    | serializers      | yaml, json, frontmatter       |
 
 * **rest-api-media** reorganize endpoints for Media Rest API ([#514](https://github.com/flextype/flextype/issues/514))
 
