@@ -393,6 +393,8 @@
 
 ### Bug Fixes
 
+* **fields** fix issue with slug field in Entries API ([#520](https://github.com/flextype/flextype/issues/520))
+
 * **core** fix issue with invalid timezone setting ([#490](https://github.com/flextype/flextype/issues/490))
 
 * **entries** fix issue with not exists entries collections. ([#503](https://github.com/flextype/flextype/issues/503))
