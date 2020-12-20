@@ -26,6 +26,6 @@ class MediaFoldersMeta
      */
     public function getDirectoryMetaLocation(string $id): string
     {
-        return PATH['project'] . '/uploads/.meta/' . $id;
+        return PATH['project'] . '/media/.meta/' . $id;
     }
 }

@@ -43,7 +43,7 @@ class Plugins
      */
     public function __construct()
     {
-        $this->locales = flextype('yaml')->decode(filesystem()->file(ROOT_DIR . '/src/flextype/locales.yaml')->get());
+        $this->locales = flextype('serializers')->yaml()->decode(filesystem()->file(ROOT_DIR . '/src/flextype/locales.yaml')->get());
     }
 
     /**
@@ -122,7 +122,7 @@ class Plugins
 
                 // Get default plugin settings content
                 $defaultPluginSettingsFileContent = filesystem()->file($defaultPluginSettingsFile)->get();
-                $defaultPluginSettings              = flextype('yaml')->decode($defaultPluginSettingsFileContent);
+                $defaultPluginSettings              = flextype('serializers')->yaml()->decode($defaultPluginSettingsFileContent);
 
                 // Create project plugin settings file
                 ! filesystem()->file($projectPluginSettingsFile)->exists() and filesystem()->file($projectPluginSettingsFile)->put($defaultPluginSettingsFileContent);
@@ -133,7 +133,7 @@ class Plugins
                 if (trim($projectPluginSettingsFileContent) === '') {
                     $projectPluginSettings = [];
                 } else {
-                    $projectPluginSettings = flextype('yaml')->decode($projectPluginSettingsFileContent);
+                    $projectPluginSettings = flextype('serializers')->yaml()->decode($projectPluginSettingsFileContent);
                 }
 
                 // Check if default plugin manifest file exists
@@ -143,7 +143,7 @@ class Plugins
 
                 // Get default plugin manifest content
                 $defaultPluginManifestFileContent = filesystem()->file($defaultPluginManifestFile)->get();
-                $defaultPluginManifest             = flextype('yaml')->decode($defaultPluginManifestFileContent);
+                $defaultPluginManifest             = flextype('serializers')->yaml()->decode($defaultPluginManifestFileContent);
 
                 // Merge plugin settings and manifest data
                 $plugins[$plugin['dirname']]['manifest'] = $defaultPluginManifest;
@@ -151,7 +151,7 @@ class Plugins
 
                 // Check if is not set plugin priority
                 if (! isset($plugins[$plugin['dirname']]['settings']['priority'])) {
-                    // Set default plugin priority = 1
+                    // Set default plugin priority = 100
                     $plugins[$plugin['dirname']]['settings']['priority'] = 100;
                 }
 
@@ -204,7 +204,7 @@ class Plugins
                 throw new RuntimeException('Load file: ' . $languageFile . ' - failed!');
             }
 
-            $translates = flextype('yaml')->decode($content);
+            $translates = flextype('serializers')->yaml()->decode($content);
 
             I18n::add($translates, $locale);
         }
@@ -316,7 +316,6 @@ class Plugins
                 }
             }
 
-            // If plugin is verified than include it
             if (! $verified) {
                 continue;
             }

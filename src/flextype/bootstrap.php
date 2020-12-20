@@ -17,6 +17,7 @@ use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 use Whoops\Util\Misc;
+use DateTimeZone;
 
 use function date_default_timezone_set;
 use function error_reporting;
@@ -118,17 +119,6 @@ flextype('session')->setOptions(flextype('registry')->get('flextype.settings.ses
 flextype('session')->start();
 
 /**
- * Include API ENDPOINTS
- */
-include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/errors.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/access.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/entries.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/registry.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/files.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/folders.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/images.php';
-
-/**
  * Set internal encoding
  */
 function_exists('mb_language') and mb_language('uni');
@@ -138,7 +128,9 @@ function_exists('mb_internal_encoding') and mb_internal_encoding(flextype('regis
 /**
  * Set default timezone
  */
-date_default_timezone_set(flextype('registry')->get('flextype.settings.timezone'));
+if (in_array(flextype('registry')->get('flextype.settings.timezone'), DateTimeZone::listIdentifiers())) {
+    date_default_timezone_set(flextype('registry')->get('flextype.settings.timezone'));
+}
 
 /**
  * Init shortocodes
@@ -176,6 +168,18 @@ foreach ($entryFields as $fieldName => $field) {
  * Init plugins
  */
 flextype('plugins')->init();
+
+/**
+ * Include API ENDPOINTS
+ */
+if (flextype()->isApiRequest()) {
+    include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/errors.php';
+    include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/access.php';
+    include_once ROOT_DIR . '/src/flextype/Endpoints/entries.php';
+    include_once ROOT_DIR . '/src/flextype/Endpoints/registry.php';
+    include_once ROOT_DIR . '/src/flextype/Endpoints/media.php';
+    include_once ROOT_DIR . '/src/flextype/Endpoints/images.php';
+}
 
 /**
  * Enable lazy CORS

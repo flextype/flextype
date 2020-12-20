@@ -45,7 +45,7 @@ flextype()->get('/api/images/{path:.+}', function (Request $request, Response $r
     if (! isset($query['token'])) {
         return $response->withStatus($api_errors['0400']['http_status_code'])
             ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('json')->encode($api_errors['0400']));
+            ->write(flextype('serializers')->json()->encode($api_errors['0400']));
     }
 
     // Set variables
@@ -57,43 +57,43 @@ flextype()->get('/api/images/{path:.+}', function (Request $request, Response $r
             $delivery_images_token_file_path = PATH['project'] . '/tokens/images/' . $token . '/token.yaml';
 
             // Set delivery token file
-            if ($delivery_images_token_file_data = flextype('yaml')->decode(filesystem()->file($delivery_images_token_file_path)->get())) {
+            if ($delivery_images_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($delivery_images_token_file_path)->get())) {
                 if (
                     $delivery_images_token_file_data['state'] === 'disabled' ||
                     ($delivery_images_token_file_data['limit_calls'] !== 0 && $delivery_images_token_file_data['calls'] >= $delivery_images_token_file_data['limit_calls'])
                 ) {
                     return $response->withStatus($api_errors['0003']['http_status_code'])
                     ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('json')->encode($api_errors['0003']));
+                    ->write(flextype('serializers')->json()->encode($api_errors['0003']));
                 }
 
                 // Update calls counter
-                filesystem()->file($delivery_images_token_file_path)->put(flextype('yaml')->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1])));
+                filesystem()->file($delivery_images_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1])));
 
-                if (filesystem()->file(PATH['project'] . '/uploads/entries/' . $args['path'])->exists()) {
+                if (filesystem()->file(PATH['project'] . '/media/' . $args['path'])->exists()) {
                     return flextype('images')->getImageResponse($args['path'], $_GET);
                 }
 
                 return $response
                     ->withStatus($api_errors['0402']['http_status_code'])
                 ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('json')->encode($api_errors['0402']));
+                ->write(flextype('serializers')->json()->encode($api_errors['0402']));
             }
 
             return $response
                    ->withStatus($api_errors['0003']['http_status_code'])
             ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('json')->encode($api_errors['0003']));
+            ->write(flextype('serializers')->json()->encode($api_errors['0003']));
         }
 
         return $response
                ->withStatus($api_errors['0003']['http_status_code'])
             ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('json')->encode($api_errors['0003']));
+            ->write(flextype('serializers')->json()->encode($api_errors['0003']));
     }
 
     return $response
            ->withStatus($api_errors['0003']['http_status_code'])
             ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('json')->encode($api_errors['0003']));
+            ->write(flextype('serializers')->json()->encode($api_errors['0003']));
 });

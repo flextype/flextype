@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 if (flextype('registry')->get('flextype.settings.entries.fields.modified_at.enabled')) {
-    flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {
+    flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
         if (flextype('entries')->getStorage('fetch.data.modified_at') !== null) {
             return;
         }

@@ -28,27 +28,27 @@
 
         "atomastic/session": "^1.0.0",
         "atomastic/filesystem": "^1.0.0",
-        "atomastic/arrays": "^2.1.0",
+        "atomastic/arrays": "^2.2.0",
         "atomastic/registry": "^2.0.0",
         "atomastic/strings": "^2.4.0",
         "atomastic/macroable": "^1.0.0",
 
         "slim/slim": "^3.12.3",
 
-        "filp/whoops": "^2.7.3",
+        "filp/whoops": "^2.9.1",
 
         "league/glide-slim": "^1.0.0",
         "league/event": "^2.2.0",
-        "league/glide": "^1.6.0",
+        "league/glide": "^1.7.0",
 
-        "phpfastcache/phpfastcache": "^8.0.2",
+        "phpfastcache/phpfastcache": "^8.0.3",
 
-        "respect/validation": "^2.0.17",
+        "respect/validation": "^2.1.0",
         "monolog/monolog": "^2.1.1",
         "cocur/slugify": "^4.0.0",
         "ramsey/uuid": "^4.1.1",
-        "symfony/yaml": "^5.1.5",
-        "symfony/finder": "^5.1.5",
+        "symfony/yaml": "^5.2.0",
+        "symfony/finder": "^5.2.0",
 
         "bnf/slim3-psr15": "^1.1.1",
 
@@ -57,7 +57,7 @@
 
         "thunderer/shortcode": "^0.7.4",
 
-        "composer/semver": "^3.0.1",
+        "composer/semver": "^3.2.4",
         "guzzlehttp/guzzle": "7.2.0"
     },
     "suggest": {

@@ -14,16 +14,10 @@ use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
 use Flextype\Foundation\Cors;
 use Flextype\Foundation\Entries\Entries;
-use Flextype\Foundation\Media\MediaFiles;
-use Flextype\Foundation\Media\MediaFilesMeta;
-use Flextype\Foundation\Media\MediaFolders;
-use Flextype\Foundation\Media\MediaFoldersMeta;
+use Flextype\Foundation\Media\Media;
 use Flextype\Foundation\Plugins;
-use Flextype\Support\Parsers\Markdown;
-use Flextype\Support\Parsers\Shortcode;
-use Flextype\Support\Serializers\Frontmatter;
-use Flextype\Support\Serializers\Json;
-use Flextype\Support\Serializers\Yaml;
+use Flextype\Support\Parsers\Parsers;
+use Flextype\Support\Serializers\Serializers;
 use Intervention\Image\ImageManager;
 use League\Event\Emitter;
 use League\Flysystem\Adapter\Local;
@@ -47,10 +41,8 @@ use League\Glide\Responses\SlimResponseFactory;
 use League\Glide\ServerFactory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use ParsedownExtra;
 use Phpfastcache\Drivers\Apcu\Config;
 use Phpfastcache\Helper\Psr16Adapter as Cache;
-use Thunder\Shortcode\ShortcodeFacade;
 
 use function date;
 use function extension_loaded;
@@ -222,42 +214,17 @@ flextype()->container()['cache'] = static function () {
 };
 
 /**
- * Add shortcode parser service to Flextype container
+ * Add parsers service to Flextype container
  */
-flextype()->container()['shortcode'] = static function () {
-    return new Shortcode(new ShortcodeFacade());
+flextype()->container()['parsers'] = static function () {
+    return new Parsers();
 };
 
 /**
- * Add markdown parser service to Flextype container
+ * Add serializer service to Flextype container
  */
-flextype()->container()['markdown'] = static function () {
-    return new Markdown(new ParsedownExtra());
-};
-
-flextype('markdown')->getInstance()->setBreaksEnabled(flextype('registry')->get('flextype.settings.markdown.auto_line_breaks'));
-flextype('markdown')->getInstance()->setUrlsLinked(flextype('registry')->get('flextype.settings.markdown.auto_url_links'));
-flextype('markdown')->getInstance()->setMarkupEscaped(flextype('registry')->get('flextype.settings.markdown.escape_markup'));
-
-/**
- * Add json serializer service to Flextype container
- */
-flextype()->container()['json'] = static function () {
-    return new Json();
-};
-
-/**
- * Add yaml serializer service to Flextype container
- */
-flextype()->container()['yaml'] = static function () {
-    return new Yaml();
-};
-
-/**
- * Add frontmatter serializer service to Flextype container
- */
-flextype()->container()['frontmatter'] = static function () {
-    return new Frontmatter();
+flextype()->container()['serializers'] = static function () {
+    return new Serializers();
 };
 
 /**
@@ -269,7 +236,7 @@ flextype()->container()['images'] = static function () {
 
     // Set source filesystem
     $source = new Flysystem(
-        new Local(PATH['project'] . '/uploads/entries/')
+        new Local(PATH['project'] . '/media/')
     );
 
     // Set cache filesystem
@@ -323,31 +290,10 @@ flextype()->container()['entries'] = static function () {
 };
 
 /**
- * Add media folders service to Flextype container
+ * Add media service to Flextype container
  */
-flextype()->container()['media_folders'] = static function () {
-    return new MediaFolders();
-};
-
-/**
- * Add media files service to Flextype container
- */
-flextype()->container()['media_files'] = static function () {
-    return new MediaFiles();
-};
-
-/**
- * Add media folders meta service to Flextype container
- */
-flextype()->container()['media_folders_meta'] = static function () {
-    return new MediaFoldersMeta();
-};
-
-/**
- * Add media files meta service to Flextype container
- */
-flextype()->container()['media_files_meta'] = static function () {
-    return new MediaFilesMeta();
+flextype()->container()['media'] = static function () {
+    return new Media();
 };
 
 /**

@@ -14,7 +14,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.visibility.enabl
         'visible' => 'visible',
     ];
 
-    flextype('emitter')->addListener('onEntryAfterInitialized', static function () use ($visibility): void {
+    flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function () use ($visibility): void {
         if (flextype('entries')->getStorage('fetch.data.visibility') !== null && in_array(flextype('entries')->getStorage('fetch.data.visibility'), $visibility)) {
             flextype('entries')->setStorage('fetch.data.visibility', (string) $visibility[flextype('entries')->getStorage('fetch.data.visibility')]);
         } else {
@@ -22,7 +22,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.visibility.enabl
         }
     });
 
-    flextype('emitter')->addListener('onEntryCreate', static function () use ($visibility): void {
+    flextype('emitter')->addListener('onEntriesCreate', static function () use ($visibility): void {
         if (flextype('entries')->getStorage('create.data.visibility') !== null && in_array(flextype('entries')->getStorage('create.data.visibility'), $visibility)) {
             flextype('entries')->setStorage('create.data.visibility', (string) $visibility[flextype('entries')->getStorage('create.data.visibility')]);
         } else {

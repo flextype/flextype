@@ -42,27 +42,18 @@ test('test filter() method', function () {
     $this->assertContains(filter($random, ['return' => 'first']), $data);
     $this->assertContains(filter($random, ['return' => 'last']), $data);
 
-    // return: exists
-    $this->assertTrue(filter($data, ['return' => 'exists']));
-
     // return: shuffle
     $this->assertTrue(
         is_array(filter($data, ['return' => 'shuffle'])) &&
         is_array(filter($data, ['return' => 'shuffle']))
     );
 
-    // return: count
-    $this->assertEquals(3, filter($data, ['return' => 'count']));
-
-    // param: limit and return: all
-    $this->assertEquals(['home'  => ['title' => 'Home']], filter($data, ['return' => 'all', 'limit' => 1]));
-
     // param: offset and return: all
     $this->assertEquals(['about' => ['title' => 'About'],
                          'blog'  => ['title' => 'Blog']], filter($data, ['return' => 'all', 'offset' => 1]));
 
-    // param: slice_offset slice_limit and return: all
-    $this->assertEquals(['about' => ['title' => 'About']], filter($data, ['return' => 'all', 'slice_offset' => 1, 'slice_limit' => 1]));
+    // param: limit and return: all
+    $this->assertEquals(['home'  => ['title' => 'Home']], filter($data, ['return' => 'all', 'limit' => 1]));
 
     // param: sort_by and return: all
     $this->assertEquals(['about' => ['title' => 'About'],

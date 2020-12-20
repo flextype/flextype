@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 
 if (flextype('registry')->get('flextype.settings.entries.fields.created_at.enabled')) {
-    flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {
+    flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
         if (flextype('entries')->getStorage('fetch.data.created_at') === null) {
             flextype('entries')->setStorage('fetch.data.created_at', (int) filesystem()->file(flextype('entries')->getFileLocation(flextype('entries')->getStorage('fetch.id')))->lastModified());
         } else {
@@ -17,7 +17,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.created_at.enabl
         }
     });
 
-    flextype('emitter')->addListener('onEntryCreate', static function (): void {
+    flextype('emitter')->addListener('onEntriesCreate', static function (): void {
         if (flextype('entries')->getStorage('create.data.created_at') !== null) {
             return;
         }

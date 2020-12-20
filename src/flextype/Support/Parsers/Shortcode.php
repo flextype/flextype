@@ -9,34 +9,77 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Parsers;
 
+use Exception;
+use Thunder\Shortcode\ShortcodeFacade;
+
 use function flextype;
 use function strings;
 
-class Shortcode
+final class Shortcode
 {
     /**
-     * Shortcode Fasade
+     * The Shortcode's instance is stored in a static field. This field is an
+     * array, because we'll allow our Shortcode to have subclasses. Each item in
+     * this array will be an instance of a specific Shortcode's subclass.
+     *
+     * @var array
      */
-    private $shortcode;
+    private static $instances = [];
+
+     /**
+      * Shortcode facade
+      */
+    private $shortcodeFacade = null;
 
     /**
-     * Constructor
-     *
-     * @access public
+     * Shortcode should not be cloneable.
      */
-    public function __construct($shortcode)
+    protected function __clone()
     {
-        $this->shortcode = $shortcode;
+        throw new Exception('Cannot clone a Shortcode.');
     }
 
     /**
-     * Get Shortcode instance
-     *
-     * @access public
+     * Shortcode should not be restorable from strings.
      */
-    public function getInstance()
+    public function __wakeup(): void
     {
-        return $this->shortcode;
+        throw new Exception('Cannot unserialize a Shortcode.');
+    }
+
+    /**
+     * Shortcode construct
+     *
+     * @param
+     */
+    protected function __construct()
+    {
+        $this->shortcodeFacade = new ShortcodeFacade();
+    }
+
+    /**
+     * Shortcode facade
+     *
+     * @param
+     */
+    public function facade(): ShortcodeFacade
+    {
+        return $this->shortcodeFacade;
+    }
+
+    /**
+     * Returns Shortcode Instance
+     *
+     * @param
+     */
+    public static function getInstance(): Shortcode
+    {
+        $cls = static::class;
+        if (! isset(self::$instances[$cls])) {
+            self::$instances[$cls] = new static();
+        }
+
+        return self::$instances[$cls];
     }
 
     /**
@@ -49,7 +92,7 @@ class Shortcode
      */
     public function addHandler(string $name, callable $handler)
     {
-        return $this->shortcode->addHandler($name, $handler);
+        return $this->facade()->addHandler($name, $handler);
     }
 
     /**
@@ -62,7 +105,7 @@ class Shortcode
      */
     public function addEventHandler(string $name, callable $handler)
     {
-        return $this->shortcode->addEventHandler($name, $handler);
+        return $this->facade()->addEventHandler($name, $handler);
     }
 
     /**
@@ -74,7 +117,7 @@ class Shortcode
      */
     public function parse(string $input)
     {
-        return $this->shortcode->parse($input);
+        return $this->facade()->parse($input);
     }
 
     /**
@@ -94,13 +137,13 @@ class Shortcode
                 return $dataFromCache;
             }
 
-            $data = $this->shortcode->process($input);
+            $data = $this->facade()->process($input);
             flextype('cache')->set($key, $data);
 
             return $data;
         }
 
-        return $this->shortcode->process($input);
+        return $this->facade()->process($input);
     }
 
     /**

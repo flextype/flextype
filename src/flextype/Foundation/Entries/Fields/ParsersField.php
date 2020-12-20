@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 if (flextype('registry')->get('flextype.settings.entries.fields.parsers.enabled')) {
-    flextype('emitter')->addListener('onEntryAfterInitialized', static function (): void {
+    flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
         processParsersField();
     });
 }
@@ -32,13 +32,13 @@ function processParsersField(): void
                                     if ($parserName == 'markdown') {
                                         if (arrays(flextype('entries')->getStorage('fetch.data'))->has($field)) {
                                             flextype('entries')->setStorage('fetch.data.'.$field,
-                                                                            flextype('markdown')->parse(flextype('entries')->getStorage('fetch.data.'.$field), $cache));
+                                                                            flextype('parsers')->markdown()->parse(flextype('entries')->getStorage('fetch.data.'.$field), $cache));
                                         }
                                     }
                                     if ($parserName == 'shortcode') {
                                         if (arrays(flextype('entries')->getStorage('fetch.data'))->has($field)) {
                                             flextype('entries')->setStorage('fetch.data.'.$field,
-                                                                            flextype('shortcode')->process(flextype('entries')->getStorage('fetch.data.'.$field), $cache));
+                                                                            flextype('parsers')->shortcode()->process(flextype('entries')->getStorage('fetch.data.'.$field), $cache));
                                         }
                                     }
                                 }

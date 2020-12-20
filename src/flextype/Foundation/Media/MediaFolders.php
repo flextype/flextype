@@ -19,61 +19,74 @@ use function filesystem;
 use function filter;
 use function flextype;
 use function str_replace;
+use function strings;
 
 class MediaFolders
 {
     use Macroable;
 
     /**
-     * Fetch single folder.
-     *
-     * @param string $path    The path to folder.
-     * @param array  $options Options array.
-     *
-     * @access public
+     * Create a Media Folders Meta instance.
      */
-    public function fetchSingle(string $path, array $options = []): Arrays
+    public function meta(): MediaFoldersMeta
     {
-        $result = [];
-
-        if (filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($path))->exists()) {
-            $result['path']      = $path;
-            $result['full_path'] = str_replace('/.meta', '', flextype('media_folders_meta')->getDirectoryMetaLocation($path));
-            $result['url']       = 'project/uploads/' . $path;
-
-            if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
-                $fullUrl = flextype('registry')->get('flextype.settings.url');
-            } else {
-                $fullUrl = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
-            }
-
-            $result['full_url'] = $fullUrl . '/project/uploads/' . $path;
-        }
-
-        $result = filter($result, $options);
-
-        return arrays($result);
+        return new MediaFoldersMeta();
     }
 
     /**
-     * Fetch folders collection.
+     * Fetch.
      *
-     * @param string $path    The path to folder.
+     * @param string $id      The path to folder.
      * @param array  $options Options array.
+     *
+     * @return self Returns instance of The Arrays class.
      *
      * @access public
      */
-    public function fetchCollection(string $path, array $options = []): Arrays
+    public function fetch(string $id, array $options = []): Arrays
     {
-        $result = [];
+        // Run event: onEntriesFetch
+        flextype('emitter')->emit('onMediaFoldersFetch');
 
-        foreach (filesystem()->find()->directories()->in(flextype('media_folders_meta')->getDirectoryMetaLocation($path)) as $folder) {
-            $result[$folder->getFilename()] = $this->fetchSingle($path . '/' . $folder->getFilename())->toArray();
+        // Single fetch helper
+        $single = static function ($id, $options) {
+            $result = [];
+
+            if (filesystem()->directory(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id))->exists()) {
+                $result['path']      = $id;
+                $result['full_path'] = str_replace('/.meta', '', flextype('media')->folders()->meta()->getDirectoryMetaLocation($id));
+                $result['url']       = 'project/media/' . $id;
+
+                if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
+                    $fullUrl = flextype('registry')->get('flextype.settings.url');
+                } else {
+                    $fullUrl = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
+                }
+
+                $result['full_url'] = $fullUrl . '/project/media/' . $id;
+            }
+
+            $result = filter($result, $options);
+
+            return arrays($result);
+        };
+
+        if (
+            isset($options['collection']) &&
+            strings($options['collection'])->isTrue()
+        ) {
+                $result = [];
+
+            foreach (filesystem()->find()->directories()->in(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id)) as $folder) {
+                $result[$folder->getFilename()] = $single($id . '/' . $folder->getFilename(), [])->toArray();
+            }
+
+                $result = filter($result, $options);
+
+                return arrays($result);
         }
 
-        $result = filter($result, $options);
-
-        return arrays($result);
+        return $single($id, $options);
     }
 
     /**
@@ -89,10 +102,10 @@ class MediaFolders
     {
         if (
             ! filesystem()->directory($this->getDirectoryLocation($id))->exists() &&
-            ! filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->exists()
+            ! filesystem()->directory(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id))->exists()
         ) {
             return filesystem()->directory($this->getDirectoryLocation($id))->create(0755, true) &&
-                   filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->create(0755, true);
+                   filesystem()->directory(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id))->create(0755, true);
         }
 
         return false;
@@ -101,7 +114,7 @@ class MediaFolders
     /**
      * Move folder
      *
-     * @param string $id     Unique identifier of the folder.
+     * @param string $id    Unique identifier of the folder.
      * @param string $newID New Unique identifier of the folder.
      *
      * @return bool True on success, false on failure.
@@ -112,10 +125,10 @@ class MediaFolders
     {
         if (
             (filesystem()->directory($this->getDirectoryLocation($newID))->exists() === false &&
-             filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($newID))->exists() === false)
+             filesystem()->directory(flextype('media')->folders()->meta()->getDirectoryMetaLocation($newID))->exists() === false)
         ) {
             return filesystem()->directory($this->getDirectoryLocation($id))->move($this->getDirectoryLocation($newID)) &&
-                                                     filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->move(flextype('media_folders_meta')->getDirectoryMetaLocation($newID));
+                                                     filesystem()->directory(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id))->move(flextype('media')->folders()->meta()->getDirectoryMetaLocation($newID));
         }
 
         return false;
@@ -124,7 +137,7 @@ class MediaFolders
     /**
      * Copy folder
      *
-     * @param string $id     Unique identifier of the folder.
+     * @param string $id    Unique identifier of the folder.
      * @param string $newID New Unique identifier of the folder.
      *
      * @return bool True on success, false on failure.
@@ -135,17 +148,17 @@ class MediaFolders
     {
         if (
             (filesystem()->directory($this->getDirectoryLocation($newID))->exists() === false &&
-             filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($newID))->exists() === false)
+             filesystem()->directory(flextype('media')->folders()->meta()->getDirectoryMetaLocation($newID))->exists() === false)
         ) {
             filesystem()
                 ->directory($this->getDirectoryLocation($id))
                 ->copy($this->getDirectoryLocation($newID));
             filesystem()
-                ->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))
-                ->copy(flextype('media_folders_meta')->getDirectoryMetaLocation($newID));
+                ->directory(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id))
+                ->copy(flextype('media')->folders()->meta()->getDirectoryMetaLocation($newID));
 
             return filesystem()->directory($this->getDirectoryLocation($newID))->exists() &&
-                   filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($newID))->exists();
+                   filesystem()->directory(flextype('media')->folders()->meta()->getDirectoryMetaLocation($newID))->exists();
         }
 
         return false;
@@ -163,7 +176,7 @@ class MediaFolders
     public function delete(string $id): bool
     {
         return filesystem()->directory($this->getDirectoryLocation($id))->delete() &&
-               filesystem()->directory(flextype('media_folders_meta')->getDirectoryMetaLocation($id))->delete();
+               filesystem()->directory(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id))->delete();
     }
 
     /**
@@ -177,6 +190,6 @@ class MediaFolders
      */
     public function getDirectoryLocation(string $id): string
     {
-        return PATH['project'] . '/uploads/' . $id;
+        return PATH['project'] . '/media/' . $id;
     }
 }
