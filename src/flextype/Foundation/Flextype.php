@@ -89,16 +89,6 @@ final class Flextype extends App
     }
 
     /**
-     * Determine API Request
-     *
-     * @return bool
-     */
-    public function isApiRequest(): bool
-    {
-        return explode('/', Uri::createFromEnvironment(new Environment($_SERVER))->getPath())[0] === 'api';
-    }
-
-    /**
      * Returns the current Flextype version
      */
     public function getVersion(): string

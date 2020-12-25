@@ -57,7 +57,6 @@ $flextype = Flextype::getInstance([
     ],
 ]);
 
-
 /**
  * Display Errors
  */
@@ -172,14 +171,12 @@ flextype('plugins')->init();
 /**
  * Include API ENDPOINTS
  */
-if (flextype()->isApiRequest()) {
-    include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/errors.php';
-    include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/access.php';
-    include_once ROOT_DIR . '/src/flextype/Endpoints/entries.php';
-    include_once ROOT_DIR . '/src/flextype/Endpoints/registry.php';
-    include_once ROOT_DIR . '/src/flextype/Endpoints/media.php';
-    include_once ROOT_DIR . '/src/flextype/Endpoints/images.php';
-}
+include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/errors.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/access.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/entries.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/registry.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/media.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/images.php';
 
 /**
  * Enable lazy CORS
@@ -189,6 +186,11 @@ if (flextype()->isApiRequest()) {
  * couldn't access our APIs because they're hosted on another.com which is a different domain.
  */
 flextype('cors')->init();
+
+/**
+ * Run high priority event: onFlextypeBeforeRun before Flextype Application starts.
+ */
+flextype('emitter')->emit('onFlextypeBeforeRun');
 
 /**
  * Run application
