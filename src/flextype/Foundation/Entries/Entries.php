@@ -179,6 +179,9 @@ class Entries
 
           // Walk through entries results
           if ($entries->hasResults()) {
+
+              $data = [];
+
               foreach ($entries as $currenEntry) {
                   if ($currenEntry->getType() !== 'file' || $currenEntry->getFilename() !== 'entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension')) {
                       continue;
