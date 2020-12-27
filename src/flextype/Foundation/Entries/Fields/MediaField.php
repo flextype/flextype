@@ -14,6 +14,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.media.files.fetc
          if (flextype('entries')->hasStorage('fetch.data.media.files.fetch')) {
              // Get fetch.
              $original = flextype('entries')->getStorage('fetch');
+             $data = [];
 
              switch (flextype('registry')->get('flextype.settings.entries.fields.media.files.fetch.result')) {
                  case 'toArray':
@@ -63,6 +64,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.media.folders.fe
 
              // Get fetch.
              $original = flextype('entries')->getStorage('fetch');
+             $data = [];
 
              switch (flextype('registry')->get('flextype.settings.entries.fields.media.folders.fetch.result')) {
                  case 'toArray':
