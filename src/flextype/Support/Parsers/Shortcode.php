@@ -49,8 +49,6 @@ final class Shortcode
 
     /**
      * Shortcode construct
-     *
-     * @param
      */
     protected function __construct()
     {
@@ -59,8 +57,6 @@ final class Shortcode
 
     /**
      * Shortcode facade
-     *
-     * @param
      */
     public function facade(): ShortcodeFacade
     {
@@ -69,8 +65,6 @@ final class Shortcode
 
     /**
      * Returns Shortcode Instance
-     *
-     * @param
      */
     public static function getInstance(): Shortcode
     {
