@@ -19,7 +19,7 @@ use function flextype;
 /**
  * Validate registry token
  */
-function validate_registry_token($token): bool
+function validate_registry_token(string $token): bool
 {
     return filesystem()->file(PATH['project'] . '/tokens/registry/' . $token . '/token.yaml')->exists();
 }
