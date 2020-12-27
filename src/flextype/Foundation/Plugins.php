@@ -151,8 +151,8 @@ class Plugins
 
                 // Check if is not set plugin priority
                 if (! isset($plugins[$plugin['dirname']]['settings']['priority'])) {
-                    // Set default plugin priority = 100
-                    $plugins[$plugin['dirname']]['settings']['priority'] = 100;
+                    // Set default plugin priority = 1000
+                    $plugins[$plugin['dirname']]['settings']['priority'] = 1000;
                 }
 
                 // Set tmp _priority field for sorting
@@ -378,7 +378,17 @@ class Plugins
                 continue;
             }
 
-            include_once PATH['project'] . '/plugins/' . $pluginName . '/bootstrap.php';
+            include PATH['project'] . '/plugins/' . $pluginName . '/bootstrap.php';
+
+            //spl_autoload_register(function ($pluginName) {
+            //    include PATH['project'] . '/plugins/' . $pluginName . '/bootstrap.php';
+            //});
+
         }
+
+        //dd(get_declared_classes());
+
+
+
     }
 }
