@@ -533,7 +533,7 @@ flextype()->delete('/api/media/files', function (Request $request, Response $res
                 $response_code = $delete_file ? 204 : 404;
 
                 // Update calls counter
-                filesystem()->file($files_token_file_path)->get(flextype('serializers')->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
+                filesystem()->file($files_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -609,7 +609,7 @@ flextype()->patch('/api/media/files/meta', function (Request $request, Response 
             // Set files and access token file
             if (
                 ($files_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($access_token_file_path)->get($access_token_file_path)))
+                ($access_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
                     $files_token_file_data['state'] === 'disabled' ||
