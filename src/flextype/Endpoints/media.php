@@ -155,7 +155,7 @@ flextype()->get('/api/media/files', function (Request $request, Response $respon
  */
 flextype()->post('/api/media/files', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['folder']) || ! isset($_FILES['file'])) {
         return $response->withStatus($api_errors['0501']['http_status_code'])
@@ -265,7 +265,7 @@ flextype()->post('/api/media/files', function (Request $request, Response $respo
  */
 flextype()->put('/api/media/files', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response->withStatus($api_errors['0501']['http_status_code'])
@@ -374,7 +374,7 @@ flextype()->put('/api/media/files', function (Request $request, Response $respon
  */
 flextype()->put('/api/media/files/copy', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response->withStatus($api_errors['0501']['http_status_code'])
@@ -482,7 +482,7 @@ flextype()->put('/api/media/files/copy', function (Request $request, Response $r
  */
 flextype()->delete('/api/media/files', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['id']) || ! isset($post_data['access_token']) || ! isset($post_data['id'])) {
         return $response->withStatus($api_errors['0501']['http_status_code'])
@@ -585,7 +585,7 @@ flextype()->delete('/api/media/files', function (Request $request, Response $res
  */
 flextype()->patch('/api/media/files/meta', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['field']) || ! isset($post_data['value'])) {
         return $response->withStatus($api_errors['0501']['http_status_code'])
@@ -696,7 +696,7 @@ flextype()->patch('/api/media/files/meta', function (Request $request, Response 
  */
 flextype()->post('/api/media/files/meta', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['field']) || ! isset($post_data['value'])) {
         return $response->withStatus($api_errors['0501']['http_status_code'])
@@ -807,7 +807,7 @@ flextype()->post('/api/media/files/meta', function (Request $request, Response $
  */
 flextype()->delete('/api/media/files/meta', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['field'])) {
         return $response->withStatus($api_errors['0501']['http_status_code'])
@@ -1020,7 +1020,7 @@ flextype()->get('/api/media/folders', function (Request $request, Response $resp
  */
 flextype()->post('/api/media/folders', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id'])) {
         return $response->withStatus($api_errors['0601']['http_status_code'])
@@ -1126,7 +1126,7 @@ flextype()->post('/api/media/folders', function (Request $request, Response $res
  */
 flextype()->put('/api/media/folders/copy', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response->withStatus($api_errors['0601']['http_status_code'])
@@ -1235,7 +1235,7 @@ flextype()->put('/api/media/folders/copy', function (Request $request, Response 
  */
 flextype()->put('/api/media/folders', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response->withStatus($api_errors['0601']['http_status_code'])
@@ -1341,7 +1341,7 @@ flextype()->put('/api/media/folders', function (Request $request, Response $resp
 */
 flextype()->delete('/api/media/folders', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id'])) {
         return $response->withStatus($api_errors['0601']['http_status_code'])
