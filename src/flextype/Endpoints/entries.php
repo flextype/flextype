@@ -22,7 +22,7 @@ use function is_array;
 /**
  * Validate entries entries token
  */
-function validate_entries_token($token): bool
+function validate_entries_token(string $token): bool
 {
     return filesystem()->file(PATH['project'] . '/tokens/entries/' . $token . '/token.yaml')->exists();
 }
