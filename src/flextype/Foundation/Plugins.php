@@ -34,7 +34,7 @@ class Plugins
      *
      * @var array
      */
-    private $locales = [];
+    private array $locales = [];
 
     /**
      * Constructor

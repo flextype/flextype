@@ -31,7 +31,7 @@ final class Flextype extends App
      *
      * @var array
      */
-    private static $instances = [];
+    private static array $instances = [];
 
     /**
      * Flextype should not be cloneable.

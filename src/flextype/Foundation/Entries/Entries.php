@@ -33,7 +33,7 @@ class Entries
      * @var array
      * @access private
      */
-    private $storage = [
+    private array $storage = [
         'fetch' => [
           'id' => '',
           'data' => [],
