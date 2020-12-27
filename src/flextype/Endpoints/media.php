@@ -23,7 +23,7 @@ use function is_dir;
 /**
  * Validate files token
  */
-function validate_files_token($token): bool
+function validate_files_token(string $token): bool
 {
     return filesystem()->file(PATH['project'] . '/tokens/media/files/' . $token . '/token.yaml')->exists();
 }
@@ -31,7 +31,7 @@ function validate_files_token($token): bool
 /**
  * Validate folders token
  */
-function validate_folders_token($token): bool
+function validate_folders_token(string $token): bool
 {
     return filesystem()->file(PATH['project'] . '/tokens/media/folders/' . $token . '/token.yaml')->exists();
 }
