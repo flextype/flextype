@@ -378,17 +378,7 @@ class Plugins
                 continue;
             }
 
-            include PATH['project'] . '/plugins/' . $pluginName . '/bootstrap.php';
-
-            //spl_autoload_register(function ($pluginName) {
-            //    include PATH['project'] . '/plugins/' . $pluginName . '/bootstrap.php';
-            //});
-
+            include_once PATH['project'] . '/plugins/' . $pluginName . '/bootstrap.php';
         }
-
-        //dd(get_declared_classes());
-
-
-
     }
 }
