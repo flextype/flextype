@@ -95,7 +95,7 @@ class Plugins
             }
         } else {
             // Init plugin configs
-            $plugins                 = [];
+            $plugins               = [];
             $defaultPluginSettings = [];
             $projectPluginSettings = [];
             $defaultPluginManifest = [];
@@ -121,7 +121,7 @@ class Plugins
                 }
 
                 // Get default plugin settings content
-                $defaultPluginSettingsFileContent = filesystem()->file($defaultPluginSettingsFile)->get();
+                $defaultPluginSettingsFileContent   = filesystem()->file($defaultPluginSettingsFile)->get();
                 $defaultPluginSettings              = flextype('serializers')->yaml()->decode($defaultPluginSettingsFileContent);
 
                 // Create project plugin settings file
@@ -142,7 +142,7 @@ class Plugins
                 }
 
                 // Get default plugin manifest content
-                $defaultPluginManifestFileContent = filesystem()->file($defaultPluginManifestFile)->get();
+                $defaultPluginManifestFileContent  = filesystem()->file($defaultPluginManifestFile)->get();
                 $defaultPluginManifest             = flextype('serializers')->yaml()->decode($defaultPluginManifestFileContent);
 
                 // Merge plugin settings and manifest data
@@ -151,8 +151,8 @@ class Plugins
 
                 // Check if is not set plugin priority
                 if (! isset($plugins[$plugin['dirname']]['settings']['priority'])) {
-                    // Set default plugin priority = 1000
-                    $plugins[$plugin['dirname']]['settings']['priority'] = 1000;
+                    // Set default plugin priority = 100
+                    $plugins[$plugin['dirname']]['settings']['priority'] = 100;
                 }
 
                 // Set tmp _priority field for sorting
@@ -160,7 +160,7 @@ class Plugins
             }
 
             // Sort plugins list by priority.
-            $plugins = arrays($plugins)->sortBy('_priority', 'DESC')->toArray();
+            $plugins = arrays($plugins)->sortBy('_priority', 'ASC')->toArray();
 
             // ... and delete tmp _priority field for sorting
             foreach ($plugins as $pluginName => $pluginData) {
