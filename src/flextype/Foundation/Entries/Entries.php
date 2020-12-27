@@ -430,11 +430,13 @@ class Entries
      *
      * @param  array|string $keys Keys
      *
-     * @return array Updated storage.
+     * @return self Returns instance of The Entries class.
      */
     public function deleteStorage($keys): self
     {
-        return $this->storage = arrays($this->storage)->delete($keys)->toArray();
+        $this->storage = arrays($this->storage)->delete($keys)->toArray();
+
+        return $this;
     }
 
     /**
