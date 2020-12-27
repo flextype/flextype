@@ -27,7 +27,7 @@ The underlying architecture of Flextype is built using well established and best
 Make sure your server meets the following requirements.
 
 * Webserver (Apache with Mod Rewrite)
-* PHP 7.3.0 or higher
+* PHP 7.4.0 or higher
 
 #### PHP EXTENSIONS
 Flextype needs the following PHP extensions to be enabled:

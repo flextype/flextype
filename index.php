@@ -21,7 +21,7 @@ use const PHP_VERSION;
 /**
  * Define the application minimum supported PHP version.
  */
-define('FLEXTYPE_MINIMUM_PHP', '7.3.0');
+define('FLEXTYPE_MINIMUM_PHP', '7.4.0');
 
 /**
  * Define the PATH to the root directory (without trailing slash).
@@ -32,8 +32,8 @@ define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
  * Define the PATH (without trailing slash).
  */
 define('PATH', [
-    'project'   => ROOT_DIR . '/project',
-    'tmp'   => ROOT_DIR . '/var/tmp',
+    'project' => ROOT_DIR . '/project',
+    'tmp'     => ROOT_DIR . '/var/tmp',
 ]);
 
 /**
