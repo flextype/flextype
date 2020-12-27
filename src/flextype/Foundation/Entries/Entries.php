@@ -418,11 +418,13 @@ class Entries
      *
      * @access public
      *
-     * @return array Updated storage.
+     * @return self Returns instance of The Entries class.
      */
-    public function setStorage(?string $key, $value): void
+    public function setStorage(?string $key, $value): self
     {
         $this->storage = arrays($this->storage)->set($key, $value)->toArray();
+
+        return $this;
     }
 
     /**
