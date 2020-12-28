@@ -102,6 +102,7 @@ class Plugins
 
             // Go through...
             foreach ($pluginsList as $plugin) {
+
                 // Set plugin settings directory
                 $projectPluginSettingsDir = PATH['project'] . '/config/plugins/' . $plugin['dirname'];
 
