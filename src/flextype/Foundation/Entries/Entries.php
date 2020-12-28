@@ -74,7 +74,7 @@ class Entries
      *
      * @access public
      *
-     * @return self Returns instance of The Arrays class.
+     * @return Arrays Returns instance of The Arrays class with items.
      */
     public function fetch(string $id, array $options = []): Arrays
     {
