@@ -1,5 +1,5 @@
 <a name="0.9.14"></a>
-# [0.9.14](https://github.com/flextype/flextype/compare/v0.9.13...v0.9.14) (2020-12-xx)
+# [0.9.14](https://github.com/flextype/flextype/compare/v0.9.13...v0.9.14) (2020-12-30)
 
 ### Features
 
