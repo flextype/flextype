@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 /**
- * Flextype (http://flextype.org)
+ * Flextype (https://flextype.org)
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\Finder as Finder;
 
 if (! function_exists('find')) {
      /**
@@ -17,7 +17,7 @@ if (! function_exists('find')) {
       * @param  array  $options  Options array.
       * @param  string $searchIn Search in 'files' or 'directories'. Default is 'files'.
       *
-      * @return Symfony\Component\Finder<Finder>
+      * @return Finder
       */
     function find(string $path = '', array $options = [], string $searchIn = 'files'): Finder
     {

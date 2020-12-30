@@ -33,7 +33,7 @@ class Entries
      * @var array
      * @access private
      */
-    private $storage = [
+    private array $storage = [
         'fetch' => [
           'id' => '',
           'data' => [],
@@ -74,7 +74,7 @@ class Entries
      *
      * @access public
      *
-     * @return self Returns instance of The Arrays class.
+     * @return Arrays Returns instance of The Arrays class with items.
      */
     public function fetch(string $id, array $options = []): Arrays
     {
@@ -179,6 +179,9 @@ class Entries
 
           // Walk through entries results
           if ($entries->hasResults()) {
+
+              $data = [];
+
               foreach ($entries as $currenEntry) {
                   if ($currenEntry->getType() !== 'file' || $currenEntry->getFilename() !== 'entry' . '.' . flextype('registry')->get('flextype.settings.entries.extension')) {
                       continue;
@@ -415,11 +418,13 @@ class Entries
      *
      * @access public
      *
-     * @return array Updated storage.
+     * @return self Returns instance of The Entries class.
      */
-    public function setStorage(?string $key, $value): void
+    public function setStorage(?string $key, $value): self
     {
         $this->storage = arrays($this->storage)->set($key, $value)->toArray();
+
+        return $this;
     }
 
     /**
@@ -427,11 +432,13 @@ class Entries
      *
      * @param  array|string $keys Keys
      *
-     * @return array Updated storage.
+     * @return self Returns instance of The Entries class.
      */
     public function deleteStorage($keys): self
     {
-        return $this->storage = arrays($this->storage)->delete($keys)->toArray();
+        $this->storage = arrays($this->storage)->delete($keys)->toArray();
+
+        return $this;
     }
 
     /**

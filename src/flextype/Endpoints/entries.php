@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Flextype (http://flextype.org)
+ * Flextype (https://flextype.org)
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
@@ -22,7 +22,7 @@ use function is_array;
 /**
  * Validate entries entries token
  */
-function validate_entries_token($token): bool
+function validate_entries_token(string $token): bool
 {
     return filesystem()->file(PATH['project'] . '/tokens/entries/' . $token . '/token.yaml')->exists();
 }
@@ -143,7 +143,7 @@ flextype()->get('/api/entries', function (Request $request, Response $response) 
  */
 flextype()->post('/api/entries', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['data'])) {
         return $response
@@ -253,7 +253,7 @@ flextype()->post('/api/entries', function (Request $request, Response $response)
  */
 flextype()->patch('/api/entries', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['data'])) {
         return $response
@@ -363,7 +363,7 @@ flextype()->patch('/api/entries', function (Request $request, Response $response
  */
 flextype()->put('/api/entries', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response
@@ -474,7 +474,7 @@ flextype()->put('/api/entries', function (Request $request, Response $response) 
  */
 flextype()->put('/api/entries/copy', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response
@@ -584,7 +584,7 @@ flextype()->put('/api/entries/copy', function (Request $request, Response $respo
  */
 flextype()->delete('/api/entries', function (Request $request, Response $response) use ($api_errors) {
     // Get Post Data
-    $post_data = $request->getParsedBody();
+    $post_data = (array) $request->getParsedBody();
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id'])) {
         return $response

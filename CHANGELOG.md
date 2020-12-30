@@ -1,3 +1,24 @@
+<a name="0.9.14"></a>
+# [0.9.14](https://github.com/flextype/flextype/compare/v0.9.13...v0.9.14) (2020-12-30)
+
+### Features
+
+* **core** Moving to PHP 7.4.0 ([#524](https://github.com/flextype/flextype/issues/524))
+
+* **plugins** Set default plugin priority 100 and SORT them ascending ([#523](https://github.com/flextype/flextype/issues/523))
+
+### Bug Fixes
+
+* **core** fix issue with Rest API endpoints detection. ([#522](https://github.com/flextype/flextype/issues/522))
+
+* **entries** fix issue with empty variable $data in fetch() method. ([#531](https://github.com/flextype/flextype/issues/531))
+
+* **entries** fix issue with deleteStorage() method return data.
+
+### Refactoring
+
+* **core** general code refactoring and improvements.
+
 <a name="0.9.13"></a>
 # [0.9.13](https://github.com/flextype/flextype/compare/v0.9.12...v0.9.13) (2020-12-20)
 

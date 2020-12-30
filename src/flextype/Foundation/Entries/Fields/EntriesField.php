@@ -14,6 +14,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.en
          if (flextype('entries')->hasStorage('fetch.data.entries.fetch')) {
              // Get fetch.
              $original = flextype('entries')->getStorage('fetch');
+             $data = [];
 
              switch (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.result')) {
                  case 'toArray':

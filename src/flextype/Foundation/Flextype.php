@@ -22,7 +22,7 @@ final class Flextype extends App
     /**
      * Flextype version
      */
-    public const VERSION = '0.9.13';
+    public const VERSION = '0.9.14';
 
     /**
      * The Flextype's instance is stored in a static field. This field is an
@@ -31,7 +31,7 @@ final class Flextype extends App
      *
      * @var array
      */
-    private static $instances = [];
+    private static array $instances = [];
 
     /**
      * Flextype should not be cloneable.
@@ -86,16 +86,6 @@ final class Flextype extends App
         }
 
         return self::$instances[$cls];
-    }
-
-    /**
-     * Determine API Request
-     *
-     * @return bool
-     */
-    public function isApiRequest(): bool
-    {
-        return explode('/', Uri::createFromEnvironment(new Environment($_SERVER))->getPath())[0] === 'api';
     }
 
     /**

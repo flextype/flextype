@@ -34,7 +34,7 @@ class Plugins
      *
      * @var array
      */
-    private $locales = [];
+    private array $locales = [];
 
     /**
      * Constructor
@@ -95,13 +95,14 @@ class Plugins
             }
         } else {
             // Init plugin configs
-            $plugins                 = [];
+            $plugins               = [];
             $defaultPluginSettings = [];
             $projectPluginSettings = [];
             $defaultPluginManifest = [];
 
             // Go through...
             foreach ($pluginsList as $plugin) {
+
                 // Set plugin settings directory
                 $projectPluginSettingsDir = PATH['project'] . '/config/plugins/' . $plugin['dirname'];
 
@@ -121,7 +122,7 @@ class Plugins
                 }
 
                 // Get default plugin settings content
-                $defaultPluginSettingsFileContent = filesystem()->file($defaultPluginSettingsFile)->get();
+                $defaultPluginSettingsFileContent   = filesystem()->file($defaultPluginSettingsFile)->get();
                 $defaultPluginSettings              = flextype('serializers')->yaml()->decode($defaultPluginSettingsFileContent);
 
                 // Create project plugin settings file
@@ -142,7 +143,7 @@ class Plugins
                 }
 
                 // Get default plugin manifest content
-                $defaultPluginManifestFileContent = filesystem()->file($defaultPluginManifestFile)->get();
+                $defaultPluginManifestFileContent  = filesystem()->file($defaultPluginManifestFile)->get();
                 $defaultPluginManifest             = flextype('serializers')->yaml()->decode($defaultPluginManifestFileContent);
 
                 // Merge plugin settings and manifest data
@@ -160,7 +161,7 @@ class Plugins
             }
 
             // Sort plugins list by priority.
-            $plugins = arrays($plugins)->sortBy('_priority', 'DESC')->toArray();
+            $plugins = arrays($plugins)->sortBy('_priority', 'ASC')->toArray();
 
             // ... and delete tmp _priority field for sorting
             foreach ($plugins as $pluginName => $pluginData) {
@@ -378,7 +379,7 @@ class Plugins
                 continue;
             }
 
-            include_once PATH['project'] . '/plugins/' . $pluginName . '/bootstrap.php';
+            include_once PATH['project'] . '/plugins/' . $pluginName . '/plugin.php';
         }
     }
 }

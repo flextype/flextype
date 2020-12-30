@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Flextype (http://flextype.org)
+ * Flextype (https://flextype.org)
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
@@ -14,7 +14,7 @@ use function filesystem;
 /**
  * Validate access token
  */
-function validate_access_token($token): bool
+function validate_access_token(string $token): bool
 {
     return filesystem()->file(PATH['project'] . '/tokens/access/' . $token . '/token.yaml')->exists();
 }

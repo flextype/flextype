@@ -8,7 +8,7 @@ $flextypeManifestFilePath        = ROOT_DIR . '/src/flextype/flextype.yaml';
 $defaultFlextypeSettingsFilePath = ROOT_DIR . '/src/flextype/settings.yaml';
 $customFlextypeSettingsFilePath  = PATH['project'] . '/config/flextype/settings.yaml';
 $preflightFlextypePath           = PATH['tmp'] . '/preflight/flextype/';
-$customFlextypeSettingsPath   = PATH['project'] . '/config/flextype/';
+$customFlextypeSettingsPath      = PATH['project'] . '/config/flextype/';
 
 ! filesystem()->directory($preflightFlextypePath)->exists() and filesystem()->directory($preflightFlextypePath)->create(0755, true);
 ! filesystem()->directory($customFlextypeSettingsPath)->exists() and filesystem()->directory($customFlextypeSettingsPath)->create(0755, true);

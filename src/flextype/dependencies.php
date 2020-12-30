@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Flextype (http://flextype.org)
+ * Flextype (https://flextype.org)
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
@@ -54,23 +54,17 @@ use function sys_get_temp_dir;
 /**
  * Create a standard session hanndler
  */
-flextype()->container()['session'] = static function () {
-    return new Session();
-};
+flextype()->container()['session'] = fn() => new Session();
 
 /**
  * Supply a custom callable resolver, which resolves PSR-15 middlewares.
  */
-flextype()->container()['callableResolver'] = static function () {
-    return new CallableResolver(flextype()->container());
-};
+flextype()->container()['callableResolver'] = fn() => new CallableResolver(flextype()->container());
 
 /**
  * Add registry service to Flextype container
  */
-flextype()->container()['registry'] = static function () use ($registry) {
-    return $registry;
-};
+flextype()->container()['registry'] = $registry;
 
 /**
  * Add logger service to Flextype container
@@ -85,9 +79,7 @@ flextype()->container()['logger'] = static function () {
 /**
  * Add emitter service to Flextype container
  */
-flextype()->container()['emitter'] = static function () {
-    return new Emitter();
-};
+flextype()->container()['emitter'] = fn() => new Emitter();
 
 /**
  * Add slugify service to Flextype container
@@ -216,16 +208,12 @@ flextype()->container()['cache'] = static function () {
 /**
  * Add parsers service to Flextype container
  */
-flextype()->container()['parsers'] = static function () {
-    return new Parsers();
-};
+flextype()->container()['parsers'] = fn() => new Parsers();
 
 /**
  * Add serializer service to Flextype container
  */
-flextype()->container()['serializers'] = static function () {
-    return new Serializers();
-};
+flextype()->container()['serializers'] = fn() => new Serializers();
 
 /**
  * Add images service to Flextype container
@@ -285,27 +273,19 @@ flextype()->container()['images'] = static function () {
 /**
  * Add entries service to Flextype container
  */
-flextype()->container()['entries'] = static function () {
-    return new Entries();
-};
+flextype()->container()['entries'] = fn() => new Entries();
 
 /**
  * Add media service to Flextype container
  */
-flextype()->container()['media'] = static function () {
-    return new Media();
-};
+flextype()->container()['media'] = fn() => new Media();
 
 /**
  * Add plugins service to Flextype container
  */
-flextype()->container()['plugins'] = static function () {
-    return new Plugins();
-};
+flextype()->container()['plugins'] = fn() => new Plugins();
 
 /**
  * Add cors service to Flextype container
  */
-flextype()->container()['cors'] = static function () {
-    return new Cors();
-};
+flextype()->container()['cors'] = fn() => new Cors();

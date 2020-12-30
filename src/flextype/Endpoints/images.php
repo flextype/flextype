@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Flextype (http://flextype.org)
+ * Flextype (https://flextype.org)
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
@@ -19,7 +19,7 @@ use function flextype;
 /**
  * Validate images token
  */
-function validate_images_token($token): bool
+function validate_images_token(string $token): bool
 {
     return filesystem()->file(PATH['project'] . '/tokens/images/' . $token . '/token.yaml')->exists();
 }
