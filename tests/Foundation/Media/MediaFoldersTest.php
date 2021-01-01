@@ -35,6 +35,13 @@ test('test copy() method', function () {
     $this->assertTrue(flextype('media')->folders()->copy('foo', 'bar'));
 });
 
+
+test('test has() method', function () {
+    $this->assertTrue(flextype('media')->folders()->create('foo'));
+    $this->assertTrue(flextype('media')->folders()->has('foo'));
+    $this->assertFalse(flextype('media')->folders()->has('bar'));
+});
+
 test('test delete() method', function () {
     $this->assertTrue(flextype('media')->folders()->create('foo'));
     $this->assertTrue(flextype('media')->folders()->delete('foo'));
