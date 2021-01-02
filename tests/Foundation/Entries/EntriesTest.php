@@ -43,20 +43,20 @@ test('test fetch() entry', function () {
     $this->assertEquals('Baz', flextype('entries')->fetch('foo/baz')['title']);
     $this->assertEquals('Zed', flextype('entries')->fetch('foo/zed')['title']);
 
-    flextype('entries')->setStorage('fetch.id', 'wrong-entry');
+    flextype('entries')->storage()->set('fetch.id', 'wrong-entry');
     $this->assertEquals(0, flextype('entries')->fetch('wrong-entry')->count());
-    flextype('entries')->setStorage('fetch.id', 'wrong-entry');
+    flextype('entries')->storage()->set('fetch.id', 'wrong-entry');
     $this->assertEquals(0, flextype('entries')->fetch('wrong-entry')->count());
 
     $this->assertTrue(count(flextype('entries')->fetch('foo', ['collection' => true])) > 0);
 
 /*
     flextype('emitter')->addListener('onEntriesFetchCollectionHasResult', static function (): void {
-        flextype('entries')->setStorage('fetch_collection.data.foo/zed.title', 'ZedFromCollection!');
+        flextype('entries')->storage()->set('fetch_collection.data.foo/zed.title', 'ZedFromCollection!');
     });
 
     flextype('emitter')->addListener('onEntriesFetchCollectionHasResult', static function (): void {
-        flextype('entries')->setStorage('fetch_collection.data.foo/baz.title', 'BazFromCollection!');
+        flextype('entries')->storage()->set('fetch_collection.data.foo/baz.title', 'BazFromCollection!');
     });
 
     $this->assertEquals('ZedFromCollection!', flextype('entries')->fetch('foo', ['collection' => true])['foo/zed.title']);
@@ -121,13 +121,16 @@ test('test getCacheID() entry', function () {
     flextype('registry')->set('flextype.settings.cache.enabled', false);
 });
 
-test('test setStorage() and getStorage() entry', function () {
-    flextype('entries')->setStorage('foo', ['title' => 'Foo']);
-    flextype('entries')->setStorage('bar', ['title' => 'Bar']);
-    $this->assertEquals('Foo', flextype('entries')->getStorage('foo')['title']);
-    $this->assertEquals('Bar', flextype('entries')->getStorage('bar')['title']);
-    $this->assertEquals('Foo', flextype('entries')->getStorage('foo.title'));
-    $this->assertEquals('Bar', flextype('entries')->getStorage('bar.title'));
+test('test storage() entry', function () {
+    flextype('entries')->storage()->set('foo', ['title' => 'Foo']);
+    $this->assertEquals('Foo', flextype('entries')->storage()->get('foo')['title']);
+    flextype('entries')->storage()->set('bar', ['title' => 'Bar']);
+    $this->assertEquals(true, flextype('entries')->storage()->has('foo.title'));
+    $this->assertEquals(true, flextype('entries')->storage()->has('bar.title'));
+    flextype('entries')->storage()->delete('foo.title');
+    flextype('entries')->storage()->delete('bar.title');
+    $this->assertEquals(false, flextype('entries')->storage()->has('foo.title'));
+    $this->assertEquals(false, flextype('entries')->storage()->has('bar.title'));
 });
 
 test('test macro() entry', function () {

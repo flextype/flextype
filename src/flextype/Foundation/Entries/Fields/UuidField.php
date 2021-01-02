@@ -11,10 +11,10 @@ use Ramsey\Uuid\Uuid;
 
 if (flextype('registry')->get('flextype.settings.entries.fields.uuid.enabled')) {
     flextype('emitter')->addListener('onEntriesCreate', static function (): void {
-        if (flextype('entries')->getStorage('create.data.uuid') !== null) {
+        if (flextype('entries')->storage()->get('create.data.uuid') !== null) {
             return;
         }
 
-        flextype('entries')->setStorage('create.data.uuid', Uuid::uuid4()->toString());
+        flextype('entries')->storage()->set('create.data.uuid', Uuid::uuid4()->toString());
     });
 }
