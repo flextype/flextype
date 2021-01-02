@@ -59,7 +59,16 @@ class Yaml
      */
     public function encode($input, int $inline = 5, int $indent = 2, int $flags = 0): string
     {
-        return $this->_encode($input, $inline, $indent, $flags);
+        try {
+            return SymfonyYaml::dump(
+                $input,
+                $inline,
+                $indent,
+                $flags
+            );
+        } catch (SymfonyYamlDumpException $e) {
+            throw new RuntimeException('Encoding YAML failed: ' . $e->getMessage(), 0, $e);
+        }
     }
 
     /**
@@ -75,6 +84,35 @@ class Yaml
      */
     public function decode(string $input, bool $cache = true, int $flags = 0): array
     {
+        $decode = function (string $input, int $flags = 0) {
+            // Try native PECL YAML PHP extension first if available.
+            if (function_exists('yaml_parse') && $this->native) {
+                // Safely decode YAML.
+
+                // Save and Mute error_reporting
+                $errorReporting = error_reporting();
+                error_reporting(0);
+
+                $saved = ini_get('yaml.decode_php');
+                ini_set('yaml.decode_php', '0');
+                $decoded = yaml_parse($input);
+                ini_set('yaml.decode_php', $saved);
+
+                // Restore error_reporting
+                error_reporting($errorReporting);
+
+                if ($decoded !== false) {
+                    return $decoded;
+                }
+            }
+
+            try {
+                return SymfonyYaml::parse($input, $flags);
+            } catch (SymfonyYamlParseException $e) {
+                throw new RuntimeException('Decoding YAML failed: ' . $e->getMessage(), 0, $e);
+            }
+        };
+
         if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
@@ -82,66 +120,25 @@ class Yaml
                 return $dataFromCache;
             }
 
-            $data = $this->_decode($input, $flags);
+            $data = $decode($input, $flags);
             flextype('cache')->set($key, $data);
 
             return $data;
         }
 
-        return $this->_decode($input, $flags);
+        return $decode($input, $flags);
     }
 
     /**
-     * @see encode()
+     * Get Cache ID for YAML.
+     *
+     * @param  string $input Input.
+     *
+     * @return string Cache ID.
+     *
+     * @access public
      */
-    protected function _encode($input, int $inline = 5, int $indent = 2, int $flags = 0): string
-    {
-        try {
-            return SymfonyYaml::dump(
-                $input,
-                $inline,
-                $indent,
-                $flags
-            );
-        } catch (SymfonyYamlDumpException $e) {
-            throw new RuntimeException('Encoding YAML failed: ' . $e->getMessage(), 0, $e);
-        }
-    }
-
-    /**
-     * @see decode()
-     */
-    protected function _decode(string $input, int $flags = 0): array
-    {
-        // Try native PECL YAML PHP extension first if available.
-        if (function_exists('yaml_parse') && $this->native) {
-            // Safely decode YAML.
-
-            // Save and Mute error_reporting
-            $errorReporting = error_reporting();
-            error_reporting(0);
-
-            $saved = ini_get('yaml.decode_php');
-            ini_set('yaml.decode_php', '0');
-            $decoded = yaml_parse($input);
-            ini_set('yaml.decode_php', $saved);
-
-            // Restore error_reporting
-            error_reporting($errorReporting);
-
-            if ($decoded !== false) {
-                return $decoded;
-            }
-        }
-
-        try {
-            return SymfonyYaml::parse($input, $flags);
-        } catch (SymfonyYamlParseException $e) {
-            throw new RuntimeException('Decoding YAML failed: ' . $e->getMessage(), 0, $e);
-        }
-    }
-
-    public function getCacheID($input): string
+    public function getCacheID(string $input): string
     {
         return strings('yaml' . $input)->hash()->toString();
     }

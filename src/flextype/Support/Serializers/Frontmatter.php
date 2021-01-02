@@ -32,40 +32,6 @@ class Frontmatter
      */
     public function encode($input): string
     {
-        return $this->_encode($input);
-    }
-
-    /**
-     * Takes a FRONTMATTER encoded string and converts it into a PHP variable.
-     *
-     * @param string $input A string containing FRONTMATTER
-     * @param bool   $cache Cache result data or no. Default is true
-     *
-     * @return mixed The FRONTMATTER converted to a PHP value
-     */
-    public function decode(string $input, bool $cache = true)
-    {
-        if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
-            $key = $this->getCacheID($input);
-
-            if ($dataFromCache = flextype('cache')->get($key)) {
-                return $dataFromCache;
-            }
-
-            $data = $this->_decode($input);
-            flextype('cache')->set($key, $data);
-
-            return $data;
-        }
-
-        return $this->_decode($input);
-    }
-
-    /**
-     * @see encode()
-     */
-    protected function _encode($input): string
-    {
         if (isset($input['content'])) {
             $content = $input['content'];
             $input   = arrays($input)->delete('content')->toArray();
@@ -82,27 +48,58 @@ class Frontmatter
     }
 
     /**
-     * @see decode()
+     * Takes a FRONTMATTER encoded string and converts it into a PHP variable.
+     *
+     * @param string $input A string containing FRONTMATTER
+     * @param bool   $cache Cache result data or no. Default is true
+     *
+     * @return mixed The FRONTMATTER converted to a PHP value
      */
-    protected function _decode(string $input)
+    public function decode(string $input, bool $cache = true)
     {
-        // Remove UTF-8 BOM if it exists.
-        $input = ltrim($input, "\xef\xbb\xbf");
+        $decode = function (string $input) {
+            // Remove UTF-8 BOM if it exists.
+            $input = ltrim($input, "\xef\xbb\xbf");
 
-        // Normalize line endings to Unix style.
-        $input = (string) preg_replace("/(\r\n|\r)/", "\n", $input);
+            // Normalize line endings to Unix style.
+            $input = (string) preg_replace("/(\r\n|\r)/", "\n", $input);
 
-        // Parse Frontmatter and Body
-        $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . strings($input)->trimLeft()->toString());
+            // Parse Frontmatter and Body
+            $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . strings($input)->trimLeft()->toString());
 
-        if (count($parts) < 3) {
-            return ['content' => strings($input)->trim()->toString()];
+            if (count($parts) < 3) {
+                return ['content' => strings($input)->trim()->toString()];
+            }
+
+            return flextype('serializers')->yaml()->decode(strings($parts[1])->trim()->toString(), false) + ['content' => strings(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))->trim()->toString()];
+        };
+
+        if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
+            $key = $this->getCacheID($input);
+
+            if ($dataFromCache = flextype('cache')->get($key)) {
+                return $dataFromCache;
+            }
+
+            $data = $decode($input);
+            flextype('cache')->set($key, $data);
+
+            return $data;
         }
 
-        return flextype('serializers')->yaml()->decode(strings($parts[1])->trim()->toString(), false) + ['content' => strings(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))->trim()->toString()];
+        return $decode($input);
     }
 
-    public function getCacheID($input): string
+    /**
+     * Get Cache ID for frontmatter.
+     *
+     * @param  string $input Input.
+     *
+     * @return string Cache ID.
+     *
+     * @access public
+     */
+    public function getCacheID(string $input): string
     {
         return strings('frontmatter' . $input)->hash()->toString();
     }
