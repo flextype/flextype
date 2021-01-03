@@ -123,7 +123,7 @@ class Plugins
 
                 // Get default plugin settings content
                 $defaultPluginSettingsFileContent   = filesystem()->file($defaultPluginSettingsFile)->get();
-                $defaultPluginSettings              = flextype('serializers')->yaml()->decode($defaultPluginSettingsFileContent);
+                $defaultPluginSettings              = empty($defaultPluginSettingsFileContent) ? [] : flextype('serializers')->yaml()->decode($defaultPluginSettingsFileContent);
 
                 // Create project plugin settings file
                 ! filesystem()->file($projectPluginSettingsFile)->exists() and filesystem()->file($projectPluginSettingsFile)->put($defaultPluginSettingsFileContent);
@@ -144,7 +144,7 @@ class Plugins
 
                 // Get default plugin manifest content
                 $defaultPluginManifestFileContent  = filesystem()->file($defaultPluginManifestFile)->get();
-                $defaultPluginManifest             = flextype('serializers')->yaml()->decode($defaultPluginManifestFileContent);
+                $defaultPluginManifest             = empty($defaultPluginManifestFileContent) ? [] : flextype('serializers')->yaml()->decode($defaultPluginManifestFileContent);
 
                 // Merge plugin settings and manifest data
                 $plugins[$plugin['dirname']]['manifest'] = $defaultPluginManifest;
