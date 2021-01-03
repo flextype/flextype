@@ -7,7 +7,6 @@
 * **entries** simplify functionality to work with online entries storage. ([#536](https://github.com/flextype/flextype/issues/536))
 * **parsers** move markdown and shortcode settings under parsers setting. ([#539](https://github.com/flextype/flextype/issues/539))
 
-
 ### Bug Fixes
 
 * **entries** fix issue with individual entries cache field ([#537](https://github.com/flextype/flextype/issues/537))
