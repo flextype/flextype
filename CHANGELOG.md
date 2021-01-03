@@ -5,6 +5,8 @@
 
 * **media** add method `has()` for Media Folders ([#534](https://github.com/flextype/flextype/issues/534))
 * **entries** simplify functionality to work with online entries storage. ([#536](https://github.com/flextype/flextype/issues/536))
+* **parsers** move markdown and shortcode settings under parsers setting. ([#539](https://github.com/flextype/flextype/issues/539))
+
 
 ### Bug Fixes
 
