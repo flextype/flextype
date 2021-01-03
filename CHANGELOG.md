@@ -1,3 +1,29 @@
+<a name="0.9.15"></a>
+# [0.9.15](https://github.com/flextype/flextype/compare/v0.9.14...v0.9.15) (2020-01-xx)
+
+### Features
+
+* **media** add method `has()` for Media Folders ([#534](https://github.com/flextype/flextype/issues/534))
+* **entries** simplify functionality to work with online entries storage. ([#536](https://github.com/flextype/flextype/issues/536))
+
+### Bug Fixes
+
+* **entries** fix issue with individual entries cache field ([#537](https://github.com/flextype/flextype/issues/537))
+* **plugins** fix issue with empty manifest and settings yaml files ([#538](https://github.com/flextype/flextype/issues/538))
+
+### BREAKING CHANGES
+
+* **entries** according to this ticket ([#536](https://github.com/flextype/flextype/issues/536)) we have several changes for entries storage.
+
+    * use `flextype('entries')->storage()->get()` instead of `flextype('entries')->getStorage()`
+    * use `flextype('entries')->storage()->set()` instead of `flextype('entries')->setStorage()`
+    * use `flextype('entries')->storage()->has()` instead of `flextype('entries')->hasStorage()`
+    * use `flextype('entries')->storage()->delete()` instead of `flextype('entries')->deleteStorage()`
+
+    note: all method from Atomastic Arrays are available from Arrays Storage Object manipulations
+    docs: https://github.com/atomastic/arrays
+
+
 <a name="0.9.14"></a>
 # [0.9.14](https://github.com/flextype/flextype/compare/v0.9.13...v0.9.14) (2020-12-30)
 
