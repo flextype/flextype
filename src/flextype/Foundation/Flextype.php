@@ -22,7 +22,7 @@ final class Flextype extends App
     /**
      * Flextype version
      */
-    public const VERSION = '0.9.14';
+    public const VERSION = '0.9.15';
 
     /**
      * The Flextype's instance is stored in a static field. This field is an

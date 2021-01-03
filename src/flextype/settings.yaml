@@ -344,24 +344,25 @@ image:
 # - markdown.auto_line_breaks: Enable automatic line breaks
 # - markdown.auto_url_links:   Enable automatic HTML links
 # - markdown.escape_markup:    Escape markup tags into entities
-markdown:
-  auto_line_breaks: false
-  auto_url_links: false
-  escape_markup: false
-
+#
 # Shortcode
 #
 # - shortcodes: Flextype Shortcodes to load.
-shortcode:
-  shortcodes:
-    entries:
-      enabled: true
-    raw:
-      enabled: true
-    registry:
-      enabled: true
-    url:
-      enabled: true
+parsers:
+  markdown:
+    auto_line_breaks: false
+    auto_url_links: false
+    escape_markup: false
+  shortcode:
+    shortcodes:
+      entries:
+        enabled: true
+      raw:
+        enabled: true
+      registry:
+        enabled: true
+      url:
+        enabled: true
 
 # CORS
 #

@@ -165,7 +165,7 @@ class MediaFolders
     }
 
     /**
-     * Delete dir
+     * Delete folder
      *
      * @param string $id Unique identifier of the file.
      *
@@ -177,6 +177,21 @@ class MediaFolders
     {
         return filesystem()->directory($this->getDirectoryLocation($id))->delete() &&
                filesystem()->directory(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id))->delete();
+    }
+
+    /**
+     * Check whether a folder exists.
+     *
+     * @param string $id Unique identifier of the folder.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function has(string $id): bool
+    {
+        return filesystem()->directory($this->getDirectoryLocation($id))->exists() &&
+               filesystem()->directory(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id))->exists();
     }
 
     /**

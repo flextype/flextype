@@ -41,7 +41,18 @@ class Json
      */
     public function encode($input, int $options = 0, int $depth = 512): string
     {
-        return $this->_encode($input, $options, $depth);
+        $options = ($options & self::ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE)
+            | JSON_UNESCAPED_SLASHES
+            | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)
+            | (defined('JSON_PRESERVE_ZERO_FRACTION') ? JSON_PRESERVE_ZERO_FRACTION : 0);
+
+        $json = json_encode($input, $options, $depth);
+
+        if ($error = json_last_error()) {
+            throw new RuntimeException(json_last_error_msg(), $error);
+        }
+
+        return $json;
     }
 
     /**
@@ -59,6 +70,16 @@ class Json
      */
     public function decode(string $input, bool $cache = true, bool $assoc = true, int $depth = 512, int $flags = 0)
     {
+        $decode = function (string $input, bool $assoc = true, int $depth = 512, int $flags = 0) {
+            $value = json_decode($input, $assoc, $depth, $flags);
+
+            if ($error = json_last_error()) {
+                throw new RuntimeException(json_last_error_msg(), $error);
+            }
+
+            return $value;
+        };
+
         if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
@@ -66,49 +87,25 @@ class Json
                 return $dataFromCache;
             }
 
-            $data = $this->_decode($input, $assoc, $depth, $flags);
+            $data = $decode($input, $assoc, $depth, $flags);
             flextype('cache')->set($key, $data);
 
             return $data;
         }
 
-        return $this->_decode($input);
+        return $decode($input);
     }
 
     /**
-     * @see Json::encode()
+     * Get Cache ID for JSON.
+     *
+     * @param  string $input Input.
+     *
+     * @return string Cache ID.
+     *
+     * @access public
      */
-    public function _encode($input, $options = 0, int $depth = 512): string
-    {
-        $options = ($options & self::ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE)
-            | JSON_UNESCAPED_SLASHES
-            | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)
-            | (defined('JSON_PRESERVE_ZERO_FRACTION') ? JSON_PRESERVE_ZERO_FRACTION : 0);
-
-        $json = json_encode($input, $options, $depth);
-
-        if ($error = json_last_error()) {
-            throw new RuntimeException(json_last_error_msg(), $error);
-        }
-
-        return $json;
-    }
-
-    /**
-     * @see decode()
-     */
-    protected function _decode(string $input, bool $assoc = true, int $depth = 512, int $flags = 0)
-    {
-        $value = json_decode($input, $assoc, $depth, $flags);
-
-        if ($error = json_last_error()) {
-            throw new RuntimeException(json_last_error_msg(), $error);
-        }
-
-        return $value;
-    }
-
-    public function getCacheID($input): string
+    public function getCacheID(string $input): string
     {
         return strings('json' . $input)->hash()->toString();
     }

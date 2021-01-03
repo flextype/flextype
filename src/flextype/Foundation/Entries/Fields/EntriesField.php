@@ -11,9 +11,9 @@ use Atomastic\Arrays\Arrays;
 
 if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.enabled')) {
      flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
-         if (flextype('entries')->hasStorage('fetch.data.entries.fetch')) {
+         if (flextype('entries')->storage()->has('fetch.data.entries.fetch')) {
              // Get fetch.
-             $original = flextype('entries')->getStorage('fetch');
+             $original = flextype('entries')->storage()->get('fetch');
              $data = [];
 
              switch (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.result')) {
@@ -28,7 +28,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.en
              }
 
              // Modify fetch.
-             foreach (flextype('entries')->getStorage('fetch.data.entries.fetch') as $field => $body) {
+             foreach (flextype('entries')->storage()->get('fetch.data.entries.fetch') as $field => $body) {
 
                  if (isset($body['options']['method']) &&
                      strpos($body['options']['method'], 'fetch') !== false &&
@@ -49,9 +49,9 @@ if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.en
              }
 
              // Save fetch.
-             flextype('entries')->setStorage('fetch.id', $original['id']);
-             flextype('entries')->setStorage('fetch.options', $original['options']);
-             flextype('entries')->setStorage('fetch.data', arrays($original['data'])->merge($data)->toArray());
+             flextype('entries')->storage()->set('fetch.id', $original['id']);
+             flextype('entries')->storage()->set('fetch.options', $original['options']);
+             flextype('entries')->storage()->set('fetch.data', arrays($original['data'])->merge($data)->toArray());
          }
      });
 }

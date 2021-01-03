@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 if (flextype('registry')->get('flextype.settings.entries.fields.created_by.enabled')) {
     flextype('emitter')->addListener('onEntriesCreate', static function (): void {
-        if (flextype('entries')->getStorage('create.data.created_by') !== null) {
+        if (flextype('entries')->storage()->get('create.data.created_by') !== null) {
             return;
         }
 
-        flextype('entries')->setStorage('create.data.created_by', '');
+        flextype('entries')->storage()->set('create.data.created_by', '');
     });
 }
