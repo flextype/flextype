@@ -123,10 +123,11 @@ class Entries
 
               // Apply filter for fetch data
               $this->storage()->set('fetch.data', filter($this->storage()->get('fetch.data'),
-                                                       $this->storage()->get('fetch.options.filter', [])));
+                                                         $this->storage()->get('fetch.options.filter', [])));
 
               // Set cache state
-              $cache = $this->storage()->get('fetch.data.cache', flextype('registry')->get('flextype.settings.cache.enabled'));
+              $cache = $this->storage()->get('fetch.data.cache.enabled',
+                                             flextype('registry')->get('flextype.settings.cache.enabled'));
 
                // Save entry data to cache
               if ($cache) {
