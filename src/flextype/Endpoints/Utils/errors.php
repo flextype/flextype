@@ -102,7 +102,3 @@ $api_errors = [
         'message' => 'Folder not found',
     ],
 ];
-
-
-$api_sys_messages['AccessTokenInvalid'] = ['sys' => ['type' => 'Error', 'id' => 'AccessTokenInvalid'], 'message' => 'The access token you sent could not be found or is invalid.'];
-$api_sys_messages['NotFound']           = ['sys' => ['type' => 'Error', 'id' => 'NotFound'], 'message' => 'The resource could not be found.'];
