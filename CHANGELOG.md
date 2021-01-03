@@ -20,7 +20,7 @@
     * use `flextype('entries')->storage()->has()` instead of `flextype('entries')->hasStorage()`
     * use `flextype('entries')->storage()->delete()` instead of `flextype('entries')->deleteStorage()`
 
-    note: all method from Atomastic Arrays are available from Arrays Storage Object manipulations
+    note: all method from Atomastic Arrays are available for Arrays Storage Object manipulations
     docs: https://github.com/atomastic/arrays
 
 
