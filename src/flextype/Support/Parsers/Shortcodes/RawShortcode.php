@@ -12,7 +12,7 @@ use Thunder\Shortcode\Events;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Shortcode: [raw]
-if (flextype('registry')->get('flextype.settings.shortcode.shortcodes.raw.enabled')) {
+if (flextype('registry')->get('flextype.settings.parsers.shortcode.shortcodes.raw.enabled')) {
     flextype('parsers')->shortcode()->addHandler('raw', static function (ShortcodeInterface $s) {
         return $s->getContent();
     });

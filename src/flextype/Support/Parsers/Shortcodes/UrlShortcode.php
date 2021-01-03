@@ -11,7 +11,7 @@ use Slim\Http\Environment;
 use Slim\Http\Uri;
 
 // Shortcode: [url]
-if (flextype('registry')->get('flextype.settings.shortcode.shortcodes.url.enabled')) {
+if (flextype('registry')->get('flextype.settings.parsers.shortcode.shortcodes.url.enabled')) {
     flextype('parsers')->shortcode()->addHandler('url', static function () {
         if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
             return flextype('registry')->get('flextype.settings.url');

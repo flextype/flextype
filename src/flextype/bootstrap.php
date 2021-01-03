@@ -134,9 +134,9 @@ if (in_array(flextype('registry')->get('flextype.settings.timezone'), DateTimeZo
 /**
  * Init shortocodes
  *
- * Load Flextype Shortcodes from directory /flextype/Support/Parsers/Shortcodes/ based on flextype.settings.shortcode.shortcodes array
+ * Load Flextype Shortcodes from directory /flextype/Support/Parsers/Shortcodes/ based on flextype.settings.parsers.shortcode.shortcodes array
  */
-$shortcodes = flextype('registry')->get('flextype.settings.shortcode.shortcodes');
+$shortcodes = flextype('registry')->get('flextype.settings.parsers.shortcode.shortcodes');
 
 foreach ($shortcodes as $shortcodeName => $shortcode) {
     $shortcodeFilePath = ROOT_DIR . '/src/flextype/Support/Parsers/Shortcodes/' . str_replace('_', '', ucwords($shortcodeName, '_')) . 'Shortcode.php';
