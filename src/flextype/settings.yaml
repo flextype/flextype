@@ -333,17 +333,7 @@ slugify:
   lowercase_after_regexp: false
   strip_tags: false
 
-# Image
-#
-# - driver: gd or imagick
-image:
-  driver: gd
-
 # Markdown
-#
-# - markdown.auto_line_breaks: Enable automatic line breaks
-# - markdown.auto_url_links:   Enable automatic HTML links
-# - markdown.escape_markup:    Escape markup tags into entities
 #
 # Shortcode
 #
@@ -418,11 +408,13 @@ media:
   accept_file_types: 'gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg'
   max_file_size: 8000000
   safe_names: true
-  image_width: 1600
-  image_height: 0
-  image_quality: 70
-  max_image_width: null
-  max_image_height: null
+  images:
+    driver: gd
+    image_width: 1600
+    image_height: 0
+    image_quality: 70
+    max_image_width: null
+    max_image_height: null
 
 # Session
 #
