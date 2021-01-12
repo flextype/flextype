@@ -13,7 +13,6 @@ use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
 use League\CommonMark\Extension\Table\TableExtension;
-use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
 
 use function flextype;
 use function strings;
@@ -64,7 +63,6 @@ final class Markdown
         $this->environment = Environment::createCommonMarkEnvironment();
         $this->environment->addExtension(new AttributesExtension());
         $this->environment->addExtension(new TableExtension());
-        $this->environment->addExtension(new StrikethroughExtension());
         $this->converter = new CommonMarkConverter($config, $this->environment);
     }
 
