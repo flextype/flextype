@@ -1,3 +1,10 @@
+<a name="0.9.16"></a>
+# [0.9.16](https://github.com/flextype/flextype/compare/v0.9.15...v0.9.16) (2020-01-xx)
+
+### Features
+
+* **parsers** add commonmark instead of parsedown ([#540](https://github.com/flextype/flextype/issues/540))
+
 <a name="0.9.15"></a>
 # [0.9.15](https://github.com/flextype/flextype/compare/v0.9.14...v0.9.15) (2020-01-03)
 
