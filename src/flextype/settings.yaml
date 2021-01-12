@@ -350,9 +350,18 @@ image:
 # - shortcodes: Flextype Shortcodes to load.
 parsers:
   markdown:
-    auto_line_breaks: false
-    auto_url_links: false
-    escape_markup: false
+    renderer:
+      block_separator: "\n"
+      inner_separator: "\n"
+      soft_break: "\n"
+    enable_em: true
+    enable_strong: true
+    use_asterisk: true
+    use_underscore: true
+    unordered_list_markers: ['-', '*', '+']
+    html_input: 'allow'
+    allow_unsafe_links: false
+    max_nesting_level: INF
   shortcode:
     shortcodes:
       entries:
