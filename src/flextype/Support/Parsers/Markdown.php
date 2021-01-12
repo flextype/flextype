@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Support\Parsers;
 
+use Exception;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
