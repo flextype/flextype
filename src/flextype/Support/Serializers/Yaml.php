@@ -82,7 +82,7 @@ class Yaml
      *
      * @throws RuntimeException If the YAML is not valid
      */
-    public function decode(string $input, bool $cache = true, int $flags = 0): array
+    public function decode(string $input, bool $cache = true, int $flags = 0)
     {
         $decode = function (string $input, int $flags = 0) {
             // Try native PECL YAML PHP extension first if available.
