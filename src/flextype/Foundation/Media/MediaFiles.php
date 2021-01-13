@@ -221,7 +221,7 @@ class MediaFiles
      * @param string $id      The path to file.
      * @param array  $options Options array.
      *
-     * @return self Returns instance of The Arrays class.
+     * @return Arrays Returns instance of The Arrays class.
      *
      * @access public
      */
