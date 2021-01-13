@@ -80,7 +80,7 @@ class Yaml
      *
      * @return mixed The YAML converted to a PHP value
      *
-     * @throws ParseException If the YAML is not valid
+     * @throws RuntimeException If the YAML is not valid
      */
     public function decode(string $input, bool $cache = true, int $flags = 0): array
     {
