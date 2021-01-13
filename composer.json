@@ -41,7 +41,7 @@
         "league/event": "^2.2.0",
         "league/glide": "^1.7.0",
 
-        "phpfastcache/phpfastcache": "^8.0.3",
+        "phpfastcache/phpfastcache": "^8.0.4",
 
         "respect/validation": "^2.1.0",
         "monolog/monolog": "^2.1.1",
