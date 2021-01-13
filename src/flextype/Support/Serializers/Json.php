@@ -66,7 +66,7 @@ class Json
      *
      * @return mixed The JSON converted to a PHP value
      *
-     * @throws ParseException If the JSON is not valid
+     * @throws RuntimeException If the JSON is not valid
      */
     public function decode(string $input, bool $cache = true, bool $assoc = true, int $depth = 512, int $flags = 0)
     {
