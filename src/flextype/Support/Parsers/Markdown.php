@@ -85,8 +85,6 @@ final class Markdown
 
     /**
      * Returns Markdown Instance
-     *
-     * @param
      */
     public static function getInstance(): Markdown
     {
