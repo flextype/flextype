@@ -104,7 +104,7 @@ final class Markdown
      *
      * @return mixed The MARKDOWN converted to a PHP value
      */
-    public function parse(string $input, bool $cache = true): string
+    public function parse(string $input, bool $cache = true)
     {
         if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
