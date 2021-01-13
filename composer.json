@@ -48,7 +48,7 @@
         "cocur/slugify": "^4.0.0",
         "ramsey/uuid": "^4.1.1",
         "symfony/yaml": "^5.2.1",
-        "symfony/finder": "^5.2.0",
+        "symfony/finder": "^5.2.1",
 
         "bnf/slim3-psr15": "^1.1.1",
 
