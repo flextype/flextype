@@ -76,7 +76,7 @@
         ]
     },
     "require-dev": {
-        "doctrine/coding-standard": "8.1.0",
+        "doctrine/coding-standard": "8.2.0",
         "pestphp/pest": "^1.0.0",
         "phpstan/phpstan": "^0.12.66",
         "symfony/var-dumper": "^5.1.5",
