@@ -44,7 +44,7 @@
         "phpfastcache/phpfastcache": "^8.0.4",
 
         "respect/validation": "^2.1.0",
-        "monolog/monolog": "^2.1.1",
+        "monolog/monolog": "^2.2.0",
         "cocur/slugify": "^4.0.0",
         "ramsey/uuid": "^4.1.1",
         "symfony/yaml": "^5.2.0",
