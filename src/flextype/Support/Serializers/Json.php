@@ -39,7 +39,7 @@ class Json
      *
      * @return mixed A JSON string representing the original PHP value
      */
-    public function encode($input, int $options = 0, int $depth = 512): string
+    public function encode($input, int $options = 0, int $depth = 512)
     {
         $options = ($options & self::ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE)
             | JSON_UNESCAPED_SLASHES
