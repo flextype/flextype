@@ -354,6 +354,8 @@ parsers:
     max_nesting_level: INF
   shortcode:
     shortcodes:
+      media:
+        enabled: true
       entries:
         enabled: true
       raw:
