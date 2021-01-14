@@ -85,8 +85,8 @@ class MediaFiles
         $acceptFileTypes = flextype('registry')->get('flextype.settings.media.accept_file_types');
         $maxFileSize     = flextype('registry')->get('flextype.settings.media.max_file_size');
         $safeNames       = flextype('registry')->get('flextype.settings.media.safe_names');
-        $maxImageWidth   = flextype('registry')->get('flextype.settings.media.max_image_width');
-        $maxImageHeight  = flextype('registry')->get('flextype.settings.media.max_image_height');
+        $maxImageWidth   = flextype('registry')->get('flextype.settings.media.images.max_image_width');
+        $maxImageHeight  = flextype('registry')->get('flextype.settings.media.images.max_image_height');
 
         $exact    = false;
         $chmod    = 0644;
@@ -149,29 +149,30 @@ class MediaFiles
                             chmod($filename, $chmod);
 
                             if (in_array(mime_content_type($filename), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
+
                                 // open an image file
                                 $img = Image::make($filename);
 
                                 // now you are able to resize the instance
-                                if (flextype('registry')->get('flextype.settings.media.image_width') > 0 && flextype('registry')->get('flextype.settings.media.image_height') > 0) {
-                                    $img->resize(flextype('registry')->get('flextype.settings.media.image_width'), flextype('registry')->get('flextype.settings.media.image_height'), static function ($constraint): void {
+                                if (flextype('registry')->get('flextype.settings.media.images.image_width') > 0 && flextype('registry')->get('flextype.settings.media.images.image_height') > 0) {
+                                    $img->resize(flextype('registry')->get('flextype.settings.media.images.image_width'), flextype('registry')->get('flextype.settings.media.images.image_height'), static function ($constraint): void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
-                                } elseif (flextype('registry')->get('flextype.settings.media.image_width') > 0) {
-                                    $img->resize(flextype('registry')->get('flextype.settings.media.image_width'), null, static function ($constraint): void {
+                                } elseif (flextype('registry')->get('flextype.settings.media.images.image_width') > 0) {
+                                    $img->resize(flextype('registry')->get('flextype.settings.media.images.image_width'), null, static function ($constraint): void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
-                                } elseif (flextype('registry')->get('flextype.settings.media.image_height') > 0) {
-                                    $img->resize(null, flextype('registry')->get('flextype.settings.media.image_height'), static function ($constraint): void {
+                                } elseif (flextype('registry')->get('flextype.settings.media.images.image_height') > 0) {
+                                    $img->resize(null, flextype('registry')->get('flextype.settings.media.images.image_height'), static function ($constraint): void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
                                 }
 
                                 // finally we save the image as a new file
-                                $img->save($filename, flextype('registry')->get('flextype.settings.media.image_quality'));
+                                $img->save($filename, flextype('registry')->get('flextype.settings.media.images.image_quality'));
 
                                 // destroy
                                 $img->destroy();
@@ -220,7 +221,7 @@ class MediaFiles
      * @param string $id      The path to file.
      * @param array  $options Options array.
      *
-     * @return self Returns instance of The Arrays class.
+     * @return Arrays Returns instance of The Arrays class.
      *
      * @access public
      */
@@ -233,7 +234,8 @@ class MediaFiles
             isset($options['collection']) &&
             strings($options['collection'])->isTrue()
         ) {
-                $result = [];
+
+            $result = [];
 
             foreach (filesystem()->find()->files()->in(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id)) as $file) {
                 $basename = $file->getBasename('.' . $file->getExtension());

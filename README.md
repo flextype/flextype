@@ -83,7 +83,7 @@ However, the amount of effort needed to maintain and develop new features for th
 
 You can support it's ongoing development by being a project backer or a sponsor:
 * [Become a backer or sponsor on Patreon](https://www.patreon.com/awilum).
-* [One-time donation via PayPal, QIWI, Sberbank, Yandex](https://flextype.org/en/one-time-donation)
+* [One-time donation via PayPal, QIWI, Sberbank](https://flextype.org/en/one-time-donation)
 * [Visit our Sponsors & Backers page](https://flextype.org/en/sponsors)
 
 ### PLATFORM CONTRIBUTIONS

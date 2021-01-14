@@ -10,7 +10,10 @@ declare(strict_types=1);
 namespace Flextype\Support\Parsers;
 
 use Exception;
-use ParsedownExtra;
+use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\Environment;
+use League\CommonMark\Extension\Attributes\AttributesExtension;
+use League\CommonMark\Extension\Table\TableExtension;
 
 use function flextype;
 use function strings;
@@ -27,9 +30,14 @@ final class Markdown
     private static $instances = [];
 
      /**
-      * Markdown facade
+      * Markdown Environment
       */
-    private $markdownFacade = null;
+    private $environment = null;
+
+    /**
+     * Markdown Converter
+     */
+    private $converter = null;
 
     /**
      * Markdown should not be cloneable.
@@ -49,31 +57,34 @@ final class Markdown
 
     /**
      * Markdown construct
-     *
-     * @param
      */
     protected function __construct()
     {
-        $this->markdownFacade = new ParsedownExtra();
-        $this->markdownFacade->setBreaksEnabled(flextype('registry')->get('flextype.settings.parsers.markdown.auto_line_breaks'));
-        $this->markdownFacade->setUrlsLinked(flextype('registry')->get('flextype.settings.parsers.markdown.auto_url_links'));
-        $this->markdownFacade->setMarkupEscaped(flextype('registry')->get('flextype.settings.parsers.markdown.escape_markup'));
+        $config = flextype('registry')->get('flextype.settings.parsers.markdown');
+        $this->environment = Environment::createCommonMarkEnvironment();
+        $this->environment->addExtension(new AttributesExtension());
+        $this->environment->addExtension(new TableExtension());
+        $this->converter = new CommonMarkConverter($config, $this->environment);
     }
 
     /**
-     * Markdown facade
-     *
-     * @param
+     * Markdown Environment
      */
-    public function facade(): ParsedownExtra
+    public function environment(): Environment
     {
-        return $this->markdownFacade;
+        return $this->environment;
+    }
+
+    /**
+     * Markdown Converter
+     */
+    public function converter(): CommonMarkConverter
+    {
+        return $this->converter;
     }
 
     /**
      * Returns Markdown Instance
-     *
-     * @param
      */
     public static function getInstance(): Markdown
     {
@@ -93,7 +104,7 @@ final class Markdown
      *
      * @return mixed The MARKDOWN converted to a PHP value
      */
-    public function parse(string $input, bool $cache = true): string
+    public function parse(string $input, bool $cache = true)
     {
         if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
@@ -102,13 +113,13 @@ final class Markdown
                 return $dataFromCache;
             }
 
-            $data = $this->facade()->text($input);
+            $data = $this->converter()->convertToHtml($input);
             flextype('cache')->set($key, $data);
 
             return $data;
         }
 
-        return $this->facade()->text($input);
+        return $this->converter()->convertToHtml($input);
     }
 
     /**

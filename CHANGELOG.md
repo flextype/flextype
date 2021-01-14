@@ -1,3 +1,25 @@
+<a name="0.9.16"></a>
+# [0.9.16](https://github.com/flextype/flextype/compare/v0.9.15...v0.9.16) (2020-01-14)
+
+### Features
+
+* **parsers** add commonmark instead of parsedown ([#540](https://github.com/flextype/flextype/issues/540))
+* **shortcodes** add new shortcode - media_files_fetch
+
+    example:
+
+    ```
+    [media_files_fetch id="entries/home/foo.txt" field="title" default="Bar"]
+    ```
+
+### Bug Fixes
+
+* **bootstrap** fix include path for dependencies.
+
+### Refactoring
+
+* **core** general code refactoring and improvements.
+
 <a name="0.9.15"></a>
 # [0.9.15](https://github.com/flextype/flextype/compare/v0.9.14...v0.9.15) (2020-01-03)
 

@@ -220,7 +220,7 @@ flextype()->container()['serializers'] = fn() => new Serializers();
  */
 flextype()->container()['images'] = static function () {
     // Get images settings
-    $imagesSettings = ['driver' => flextype('registry')->get('flextype.settings.image.driver')];
+    $imagesSettings = ['driver' => flextype('registry')->get('flextype.settings.media.image.driver')];
 
     // Set source filesystem
     $source = new Flysystem(

@@ -190,7 +190,7 @@ class Plugins
      *
      * @param  array $pluginsList Plugins list
      *
-     * @access private
+     * @access public
      */
     public function getPluginsDictionary(array $pluginsList, string $locale): array
     {
@@ -218,7 +218,7 @@ class Plugins
      *
      * @param  array $pluginsList Plugins list
      *
-     * @access private
+     * @access public
      */
     public function getPluginsCacheID(array $pluginsList): string
     {

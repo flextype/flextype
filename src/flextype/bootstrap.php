@@ -103,7 +103,7 @@ if ($registry->get('flextype.settings.errors.display')) {
 /**
  * Include Dependencies
  */
-include_once 'dependencies.php';
+include_once ROOT_DIR . '/src/flextype/dependencies.php';
 
 /**
  * Set session options before you start the session
