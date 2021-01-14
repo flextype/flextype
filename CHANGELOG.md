@@ -1,5 +1,5 @@
 <a name="0.9.16"></a>
-# [0.9.16](https://github.com/flextype/flextype/compare/v0.9.15...v0.9.16) (2020-01-xx)
+# [0.9.16](https://github.com/flextype/flextype/compare/v0.9.15...v0.9.16) (2020-01-14)
 
 ### Features
 
@@ -9,7 +9,7 @@
     example:
 
     ```
-    [media_files_fetch id="foo.txt" field="title" default="Bar"]
+    [media_files_fetch id="entries/home/foo.txt" field="title" default="Bar"]
     ```
 
 ### Bug Fixes
