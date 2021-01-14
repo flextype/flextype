@@ -12,6 +12,10 @@
     [media_files_fetch id="foo.txt" field="title" default="Bar"]
     ```
 
+### Bug Fixes
+
+* **bootstrap** fix include path for dependencies.
+
 ### Refactoring
 
 * **core** general code refactoring and improvements.
