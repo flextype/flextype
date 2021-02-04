@@ -53,6 +53,11 @@ class MediaFolders
             $result = [];
 
             if (filesystem()->directory(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id))->exists()) {
+
+                $id = trim($id, '/');
+
+                $result['basename']  = basename($id);
+                $result['dirname']   = dirname($id);
                 $result['path']      = $id;
                 $result['full_path'] = str_replace('/.meta', '', flextype('media')->folders()->meta()->getDirectoryMetaLocation($id));
                 $result['url']       = 'project/media/' . $id;
@@ -75,15 +80,15 @@ class MediaFolders
             isset($options['collection']) &&
             strings($options['collection'])->isTrue()
         ) {
-                $result = [];
+            $result = [];
 
-            foreach (filesystem()->find()->directories()->in(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id)) as $folder) {
+            foreach (filesystem()->find()->directories()->depth(0)->in(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id)) as $folder) {
                 $result[$folder->getFilename()] = $single($id . '/' . $folder->getFilename(), [])->toArray();
             }
 
-                $result = filter($result, $options);
+            $result = filter($result, $options);
 
-                return arrays($result);
+            return arrays($result);
         }
 
         return $single($id, $options);
