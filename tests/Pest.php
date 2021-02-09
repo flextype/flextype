@@ -15,4 +15,4 @@ define('PATH', [
 ! is_file($flextype_autoload = ROOT_DIR . '/vendor/autoload.php') and exit('Please run: <i>composer install</i> for flextype');
 $flextype_loader = require_once $flextype_autoload;
 
-include ROOT_DIR . '/src/flextype/bootstrap.php';
+include ROOT_DIR . '/src/flextype/flextype.php';
