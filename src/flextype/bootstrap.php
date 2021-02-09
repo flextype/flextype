@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use Atomastic\Csrf\Csrf;
+use Atomastic\Session\Session;
 use Atomastic\Registry\Registry;
 use Flextype\Foundation\Flextype;
 use Slim\Http\Environment;
@@ -116,6 +118,11 @@ flextype('session')->setOptions(flextype('registry')->get('flextype.settings.ses
  * Start the session
  */
 flextype('session')->start();
+
+/**
+ * Add CSRF (cross-site request forgery) protection service to Flextype container
+ */
+flextype()->container()['csrf'] = fn() => new Csrf('__csrf_token', '', 128);
 
 /**
  * Set internal encoding
