@@ -41,6 +41,6 @@ test('test media.files field', function () {
     $this->assertEquals(2, $media['collection_of_files']->count());
 
     $this->assertEquals('foo', $media['macroable_folder']['id']);
-    $this->assertEquals(4, $media['foo_folder']->count());
+    $this->assertEquals(6, $media['foo_folder']->count());
     $this->assertEquals(1, $media['collection_of_folders']->count());
 });
