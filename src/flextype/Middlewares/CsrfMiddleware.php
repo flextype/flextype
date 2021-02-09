@@ -29,7 +29,7 @@ class CsrfMiddleware
             if (flextype('csrf')->isValid($post_data[flextype('csrf')->getTokenName()])) {
                 $response = $next($request, $response);
             } else {
-                $response = $response->write('This looks like a cross-site request forgery!');
+                die('This looks like a cross-site request forgery!');
             }
         } else {
             $response = $next($request, $response);
