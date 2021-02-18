@@ -1,5 +1,5 @@
 <a name="0.9.16"></a>
-# [0.9.16](https://github.com/flextype/flextype/compare/v0.9.15...v0.9.16) (2020-01-14)
+# [0.9.16](https://github.com/flextype/flextype/compare/v0.9.15...v0.9.16) (2021-01-14)
 
 ### Features
 
@@ -21,7 +21,7 @@
 * **core** general code refactoring and improvements.
 
 <a name="0.9.15"></a>
-# [0.9.15](https://github.com/flextype/flextype/compare/v0.9.14...v0.9.15) (2020-01-03)
+# [0.9.15](https://github.com/flextype/flextype/compare/v0.9.14...v0.9.15) (2021-01-03)
 
 ### Features
 
