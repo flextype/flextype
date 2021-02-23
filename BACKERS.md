@@ -1,6 +1,6 @@
 <h1 align="center">Sponsors &amp; Backers</h1>
 
-Flextype is an MIT-licensed open source project and completely free to use..
+Flextype is an MIT-licensed open source project and completely free to use.
 
 However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing. You can support it's ongoing development by being a backer or a sponsor:
 
@@ -26,3 +26,8 @@ However, the amount of effort needed to maintain and develop new features for th
 * Viktoriya Kozyr
 * Alexander Greca
 * Izabela Sokołowska
+
+### Previous supporters
+
+* Jeremy Monroe
+* web-easy
