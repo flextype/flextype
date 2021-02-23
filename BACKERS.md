@@ -24,7 +24,6 @@ However, the amount of effort needed to maintain and develop new features for th
 
 ### One-time donations
 * Viktoriya Kozyr
-* Alexander Greca
 * Izabela Sokołowska
 
 ### Previous supporters
