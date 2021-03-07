@@ -17,7 +17,6 @@ However, the amount of effort needed to maintain and develop new features for th
 ### Generous Backer
 
 ### Backers
-* Arseni Khramenkin
 
 ### Coffee Supporter
 * Anastasiia G.
@@ -30,3 +29,4 @@ However, the amount of effort needed to maintain and develop new features for th
 
 * Jeremy Monroe
 * web-easy
+* Arseni Khramenkin
