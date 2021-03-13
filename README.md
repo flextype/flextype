@@ -1,7 +1,7 @@
 <img src="https://images2.imgbox.com/49/8d/4ipHqUcj_o.jpg" alt="Flextype" align="center">
 
 <p align="center">
-<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version&color=black"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?color=black" alt="Total downloads"></a> <img src="https://github.com/atomastic/strings/workflows/Static%20Analysis/badge.svg?branch=dev"> <img src="https://github.com/atomastic/strings/workflows/Tests/badge.svg"> <a href="https://codeclimate.com/github/flextype/flextype/maintainability"><img src="https://api.codeclimate.com/v1/badges/5ba8b0c7dc4fecf738d0/maintainability" /></a>  <a href="https://app.codacy.com/gh/flextype/flextype?utm_source=github.com&utm_medium=referral&utm_content=flextype/flextype&utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/2d7159d9372c414a99d62fe564fdea48"></a> <a href="https://flextype.org/en/discord"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat" alt="Discord"></a> <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fflextype%2Fflextype?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflextype%2Fflextype.svg?type=shield"/></a>
+<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version&color=black"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?color=black" alt="Total downloads"></a> <img src="https://github.com/atomastic/strings/workflows/Static%20Analysis/badge.svg?branch=dev"> <img src="https://github.com/atomastic/strings/workflows/Tests/badge.svg"> <a href="https://codeclimate.com/github/flextype/flextype/maintainability"><img src="https://api.codeclimate.com/v1/badges/5ba8b0c7dc4fecf738d0/maintainability" /></a>  <a href="https://app.codacy.com/gh/flextype/flextype?utm_source=github.com&utm_medium=referral&utm_content=flextype/flextype&utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/2d7159d9372c414a99d62fe564fdea48"></a> <a href="https://flextype.org/discord"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat" alt="Discord"></a> <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fflextype%2Fflextype?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflextype%2Fflextype.svg?type=shield"/></a>
 </p>
 <br>
 
@@ -44,16 +44,16 @@ APC, APCu, XCache, Memcached, or Redis for better performance.
 
 ## QUICK INSTALLATION
 
-1. [Download the latest version of Flextype](https://flextype.org/en/downloads).
+1. [Download the latest version of Flextype](https://flextype.org/downloads).
 2. Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, create directory <code>/project</code> and be sure to chmod the following directory to <code>755</code> (or <code>777</code>), so it is readable and writable by Flextype.<br>
-3. Create Rest API's tokens for your project using this [webpage](https://flextype.org/en/api-token-generator).
+3. Create Rest API's tokens for your project using this [webpage](https://flextype.org/api-token-generator).
 
-[read the documentation](https://docs.flextype.org/en)
+[read the documentation](https://flextype.org/documentation)
 
 ## COMMUNITY
 Flextype is open source, community driven project, and maintained by community!
 
-#### [Discord](https://flextype.org/en/discord)
+#### [Discord](https://flextype.org/discord)
 
 Got a question about setting up or using Flextype? We'll do our best to help you out. Also here you may start discussions about core, plugin and themes development.
 
@@ -83,8 +83,8 @@ However, the amount of effort needed to maintain and develop new features for th
 
 You can support it's ongoing development by being a project backer or a sponsor:
 * [Become a backer or sponsor on Patreon](https://www.patreon.com/awilum).
-* [One-time donation via PayPal, QIWI, Sberbank](https://flextype.org/en/one-time-donation)
-* [Visit our Sponsors & Backers page](https://flextype.org/en/sponsors)
+* [One-time donation via PayPal, QIWI, Sberbank](https://flextype.org/one-time-donation)
+* [Visit our Sponsors & Backers page](https://flextype.org/sponsors)
 
 ### PLATFORM CONTRIBUTIONS
 
@@ -94,7 +94,7 @@ Another excellent way to help out is by contributing your time or services.
 
 We are on a mission to build high quality platform to develop fast, flexible, easier to manage websites with Flextype!
 
-If you wish to participate in the translation of Flextype, please [Join Flextype International Translator Team](https://flextype.org/en/international-translator-team) and start translating!
+If you wish to participate in the translation of Flextype, please [Join Flextype International Translator Team](https://flextype.org/international-translator-team) and start translating!
 
 #### BUG REPORTING
 
