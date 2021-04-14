@@ -1,10 +1,7 @@
 # Global
 .composer
 composer.lock
-package-lock.json
 vendor/
-node_modules/
-dist/
 
 # Flextype Site Specific
 var/
@@ -12,7 +9,6 @@ var/
 # OS Generated
 .DS_Store*
 ehthumbs.db
-Icon?
 Thumbs.db
 *.swp
 
