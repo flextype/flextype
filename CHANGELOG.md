@@ -1,3 +1,7 @@
+<a name="0.9.17"></a>
+# [0.9.17](https://github.com/flextype/flextype/compare/v0.9.16...v0.9.17) (2021-XX-XX)
+
+
 <a name="0.9.16"></a>
 # [0.9.16](https://github.com/flextype/flextype/compare/v0.9.15...v0.9.16) (2021-01-14)
 
