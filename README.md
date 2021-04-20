@@ -53,13 +53,13 @@ APC, APCu, XCache, Memcached, or Redis for better performance.
 ## COMMUNITY
 Flextype is open source, community driven project, and maintained by community!
 
-#### [Discord](https://flextype.org/discord)
-
-Got a question about setting up or using Flextype? We'll do our best to help you out. Also here you may start discussions about core, plugin and themes development.
-
 #### [Github](https://github.com/flextype)
 
 You may use GitHub Discussions to start discussion about core, plugin and themes development or If you want to report a bug, you can use the GitHub Issues.
+
+#### [Discord](https://flextype.org/discord)
+
+Got a question about setting up or using Flextype? We'll do our best to help you out. Also here you may start discussions about core, plugin and themes development.
 
 #### [Twitter](https://twitter.com/getflextype)
 
