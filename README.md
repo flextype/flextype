@@ -59,15 +59,11 @@ Got a question about setting up or using Flextype? We'll do our best to help you
 
 #### [Github](https://github.com/flextype)
 
-If you want to report a bug or contribute your ideas, you can use the Flextype GitHub Issues tracker.
+You may use GitHub Discussions to start discussion about core, plugin and themes development or If you want to report a bug, you can use the GitHub Issues.
 
 #### [Twitter](https://twitter.com/getflextype)
 
 Follow Flextype on Twitter to get real-time news regarding the development and all events we are attending.
-
-#### [Vkontakte](https://vk.com/flextype)
-
-Russian Flextype Community!
 
 ## SUPPORTING FLEXTYPE
 
