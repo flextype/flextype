@@ -15,6 +15,7 @@ use Atomastic\Session\Session;
 use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
 use DateTimeZone;
+use Flextype\Foundation\Actions;
 use Flextype\Foundation\Cors;
 use Flextype\Foundation\Entries\Entries;
 use Flextype\Foundation\Flextype;
@@ -75,6 +76,11 @@ use function ucwords;
  * Init Registry
  */
 $registry = Registry::getInstance();
+
+/**
+ * Init Actions
+ */
+$actions = Actions::getInstance();
 
 /**
  * Preflight the Flextype
@@ -154,6 +160,11 @@ flextype()->container()['callableResolver'] = static fn () => new CallableResolv
  * Add registry service to Flextype container
  */
 flextype()->container()['registry'] = $registry;
+
+/**
+ * Add actions service to Flextype container
+ */
+flextype()->container()['actions'] = $actions;
 
 /**
  * Add logger service to Flextype container
