@@ -165,9 +165,9 @@ class Plugins
 
             // ... and delete tmp _priority field for sorting
             foreach ($plugins as $pluginName => $pluginData) {
-                $plugins[$pluginName] = arrays($plugins)->delete($pluginName . '._priority')->toArray();
+                $plugins = arrays($plugins)->delete($pluginName . '._priority')->toArray();
             }
-
+    
             // Get Valid Plugins Dependencies
             $plugins = $this->getValidPluginsDependencies($plugins);
 
