@@ -54,49 +54,61 @@ errors:
   display: false
 
 # Entries
-#
-# - extension: Set entries file extension
 entries:
-  extension: md
-  fields:
-    media:
-      files:
+  content:
+    collection: content
+    fields:
+      media:
+        files:
+          fetch:
+            enabled: true
+            result: toObject
+        folders:
+          fetch:
+            enabled: true
+            result: toObject
+      registry:
+        path: "/src/flextype/Foundation/Content/Fields/IdField.php"
+        get:
+          enabled: true
+      content:
+        path: "/src/flextype/Foundation/Content/Fields/ContentField.php"
         fetch:
           enabled: true
           result: toObject
-      folders:
-        fetch:
-          enabled: true
-          result: toObject
-    registry:
-      get:
+      slug:
+        path: "/src/flextype/Foundation/Content/Fields/SlugField.php"
         enabled: true
-    entries:
-      fetch:
+      published_at:
+        path: "/src/flextype/Foundation/Content/Fields/PublsishedAtField.php"
         enabled: true
-        result: toObject
-    slug:
-      enabled: true
-    published_at:
-      enabled: true
-    published_by:
-      enabled: true
-    modified_at:
-      enabled: true
-    created_at:
-      enabled: true
-    created_by:
-      enabled: true
-    routable:
-      enabled: true
-    parsers:
-      enabled: true
-    visibility:
-      enabled: true
-    uuid:
-      enabled: true
-    id:
-      enabled: true
+      published_by:
+        path: "/src/flextype/Foundation/Content/Fields/PublishedByField.php"
+        enabled: true
+      modified_at:
+        path: "/src/flextype/Foundation/Content/Fields/ModifiedAtField.php"
+        enabled: true
+      created_at:
+        path: "/src/flextype/Foundation/Content/Fields/CreatedAtField.php"
+        enabled: true
+      created_by:
+        path: "/src/flextype/Foundation/Content/Fields/CreatedByField.php"
+        enabled: true
+      routable:
+        path: "/src/flextype/Foundation/Content/Fields/RoutableField.php"
+        enabled: true
+      parsers:
+        path: "/src/flextype/Foundation/Content/Fields/ParsesField.php"
+        enabled: true
+      visibility:
+        path: "/src/flextype/Foundation/Content/Fields/VisibilityField.php"
+        enabled: true
+      uuid:
+        path: "/src/flextype/Foundation/Content/Fields/UuidField.php"
+        enabled: true
+      id:
+        path: "/src/flextype/Foundation/Content/Fields/IdField.php"
+        enabled: true
 
 # Cache
 #
@@ -356,7 +368,7 @@ parsers:
     shortcodes:
       media:
         enabled: true
-      entries:
+      content:
         enabled: true
       raw:
         enabled: true
@@ -435,12 +447,10 @@ api:
     enabled: true
     default_token:
   media:
-    files:
-      enabled: true
-      default_token:
-    folders:
-      enabled: true
-      default_token:
+    enabled: true
+    default_token:
   images:
     enabled: true
     default_token:
+  access:
+    enabled: true
