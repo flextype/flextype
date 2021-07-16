@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 use Atomastic\Arrays\Arrays;
 
-if (flextype('registry')->get('flextype.settings.entries.fields.media.files.fetch.enabled')) {
-     flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
-         if (flextype('entries')->storage()->has('fetch.data.media.files.fetch')) {
+if (flextype('registry')->get('flextype.settings.entries.content.fields.media.files.fetch.enabled')) {
+     flextype('emitter')->addListener('onContentFetchSingleHasResult', static function (): void {
+         if (flextype('content')->registry()->has('fetch.data.media.files.fetch')) {
              // Get fetch.
-             $original = flextype('entries')->storage()->get('fetch');
+             $original = flextype('content')->registry()->get('fetch');
              $data = [];
 
-             switch (flextype('registry')->get('flextype.settings.entries.fields.media.files.fetch.result')) {
+             switch (flextype('registry')->get('flextype.settings.entries.content.fields.media.files.fetch.result')) {
                  case 'toArray':
                      $resultTo = 'toArray';
                      break;
@@ -28,7 +28,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.media.files.fetc
              }
 
              // Modify fetch.
-             foreach (flextype('entries')->storage()->get('fetch.data.media.files.fetch') as $field => $body) {
+             foreach (flextype('content')->registry()->get('fetch.data.media.files.fetch') as $field => $body) {
 
                  if (isset($body['options']['method']) &&
                      strpos($body['options']['method'], 'fetch') !== false &&
@@ -50,23 +50,23 @@ if (flextype('registry')->get('flextype.settings.entries.fields.media.files.fetc
              }
 
              // Save fetch.
-             flextype('entries')->storage()->set('fetch.id', $original['id']);
-             flextype('entries')->storage()->set('fetch.options', $original['options']);
-             flextype('entries')->storage()->set('fetch.data', arrays($original['data'])->merge($data)->toArray());
+             flextype('content')->registry()->set('fetch.id', $original['id']);
+             flextype('content')->registry()->set('fetch.options', $original['options']);
+             flextype('content')->registry()->set('fetch.data', arrays($original['data'])->merge($data)->toArray());
          }
      });
 }
 
 
-if (flextype('registry')->get('flextype.settings.entries.fields.media.folders.fetch.enabled')) {
-     flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
-         if (flextype('entries')->storage()->has('fetch.data.media.folders.fetch')) {
+if (flextype('registry')->get('flextype.settings.entries.content.fields.media.folders.fetch.enabled')) {
+     flextype('emitter')->addListener('onContentFetchSingleHasResult', static function (): void {
+         if (flextype('content')->registry()->has('fetch.data.media.folders.fetch')) {
 
              // Get fetch.
-             $original = flextype('entries')->storage()->get('fetch');
+             $original = flextype('content')->registry()->get('fetch');
              $data = [];
 
-             switch (flextype('registry')->get('flextype.settings.entries.fields.media.folders.fetch.result')) {
+             switch (flextype('registry')->get('flextype.settings.entries.content.fields.media.folders.fetch.result')) {
                  case 'toArray':
                      $resultTo = 'toArray';
                      break;
@@ -78,7 +78,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.media.folders.fe
              }
 
              // Modify fetch.
-             foreach (flextype('entries')->storage()->get('fetch.data.media.folders.fetch') as $field => $body) {
+             foreach (flextype('content')->registry()->get('fetch.data.media.folders.fetch') as $field => $body) {
 
                  if (isset($body['options']['method']) &&
                      strpos($body['options']['method'], 'fetch') !== false &&
@@ -100,9 +100,9 @@ if (flextype('registry')->get('flextype.settings.entries.fields.media.folders.fe
              }
 
              // Save fetch.
-             flextype('entries')->storage()->set('fetch.id', $original['id']);
-             flextype('entries')->storage()->set('fetch.options', $original['options']);
-             flextype('entries')->storage()->set('fetch.data', arrays($original['data'])->merge($data)->toArray());
+             flextype('content')->registry()->set('fetch.id', $original['id']);
+             flextype('content')->registry()->set('fetch.options', $original['options']);
+             flextype('content')->registry()->set('fetch.data', arrays($original['data'])->merge($data)->toArray());
          }
      });
 }

@@ -17,7 +17,7 @@ use Cocur\Slugify\Slugify;
 use DateTimeZone;
 use Flextype\Foundation\Actions;
 use Flextype\Foundation\Cors;
-use Flextype\Foundation\Entries\Entries;
+use Flextype\Foundation\Content\Content;
 use Flextype\Foundation\Flextype;
 use Flextype\Foundation\Media\Media;
 use Flextype\Foundation\Plugins;
@@ -371,9 +371,9 @@ flextype()->container()['images'] = static function () {
 };
 
 /**
- * Add entries service to Flextype container
+ * Add content service to Flextype container
  */
-flextype()->container()['entries'] = static fn () => new Entries();
+flextype()->container()['content'] = static fn () => new Content(flextype('registry')->get('flextype.settings.entries.content'));
 
 /**
  * Add media service to Flextype container
@@ -435,22 +435,6 @@ foreach ($shortcodes as $shortcodeName => $shortcode) {
     }
 
     include_once $shortcodeFilePath;
-}
-
-/**
- * Init entries fields
- *
- * Load Flextype Entries fields from directory /flextype/Foundation/Entries/Fields/ based on flextype.settings.entries.fields array
- */
-$entryFields = flextype('registry')->get('flextype.settings.entries.fields');
-
-foreach ($entryFields as $fieldName => $field) {
-    $entryFieldFilePath = ROOT_DIR . '/src/flextype/Foundation/Entries/Fields/' . str_replace('_', '', ucwords($fieldName, '_')) . 'Field.php';
-    if (! file_exists($entryFieldFilePath)) {
-        continue;
-    }
-
-    include_once $entryFieldFilePath;
 }
 
 /**
