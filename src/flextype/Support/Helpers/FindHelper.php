@@ -7,6 +7,8 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
+namespace Flextype\Support\Helpers;
+
 use Symfony\Component\Finder\Finder as Finder;
 
 if (! function_exists('find')) {
