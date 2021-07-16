@@ -23,10 +23,10 @@ class CsrfMiddleware
      */
     public function __invoke(Request $request, Response $response, callable $next) : Response
     {
-        $post_data = $request->getParsedBody();
+        $data = $request->getParsedBody();
 
-        if (isset($post_data[flextype('csrf')->getTokenName()])) {
-            if (flextype('csrf')->isValid($post_data[flextype('csrf')->getTokenName()])) {
+        if (isset($data[flextype('csrf')->getTokenName()])) {
+            if (flextype('csrf')->isValid($data[flextype('csrf')->getTokenName()])) {
                 $response = $next($request, $response);
             } else {
                 die('This looks like a cross-site request forgery!');
