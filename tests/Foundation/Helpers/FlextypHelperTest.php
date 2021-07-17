@@ -20,7 +20,7 @@ test('test getInstance() method', function () {
 
 test('test container() method', function () {
     // get container
-    $this->assertInstanceOf(Entries::class, flextype('entries'));
+    $this->assertInstanceOf(Entries::class, flextype('content'));
 
     // set container
     flextype()->container()['foo'] = 'bar';

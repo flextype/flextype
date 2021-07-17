@@ -9,151 +9,151 @@ afterEach(function (): void {
 });
 
 test('test create() method', function () {
-    $this->assertTrue(flextype('entries')->create('foo', []));
-    $this->assertFalse(flextype('entries')->create('foo', []));
+    $this->assertTrue(flextype('content')->create('foo', []));
+    $this->assertFalse(flextype('content')->create('foo', []));
 });
 
 test('test has()', function () {
-    flextype('entries')->create('foo', []);
+    flextype('content')->create('foo', []);
 
-    $this->assertTrue(flextype('entries')->has('foo'));
-    $this->assertFalse(flextype('entries')->has('bar'));
+    $this->assertTrue(flextype('content')->has('foo'));
+    $this->assertFalse(flextype('content')->has('bar'));
 });
 
 test('test update() method', function () {
-    flextype('entries')->create('foo', []);
+    flextype('content')->create('foo', []);
 
-    $this->assertTrue(flextype('entries')->update('foo', ['title' => 'Test']));
-    $this->assertFalse(flextype('entries')->update('bar', ['title' => 'Test']));
+    $this->assertTrue(flextype('content')->update('foo', ['title' => 'Test']));
+    $this->assertFalse(flextype('content')->update('bar', ['title' => 'Test']));
 });
 
 test('test fetch() entry', function () {
-    flextype('entries')->create('foo', ['title' => 'Foo']);
-    flextype('entries')->create('foo/bar', ['title' => 'Bar']);
-    flextype('entries')->create('foo/baz', ['title' => 'Baz']);
-    flextype('entries')->create('foo/zed', ['title' => 'Zed']);
+    flextype('content')->create('foo', ['title' => 'Foo']);
+    flextype('content')->create('foo/bar', ['title' => 'Bar']);
+    flextype('content')->create('foo/baz', ['title' => 'Baz']);
+    flextype('content')->create('foo/zed', ['title' => 'Zed']);
 
-    $this->assertEquals(12, flextype('entries')->fetch('foo')->count());
-    $this->assertEquals('foo', flextype('entries')->fetch('foo')['id']);
-    $this->assertEquals(12, flextype('entries')->fetch('foo', [])->count());
-    $this->assertEquals('foo', flextype('entries')->fetch('foo')['id']);
-    $this->assertEquals(3, flextype('entries')->fetch('foo', ['collection' => true])->count());
+    $this->assertEquals(12, flextype('content')->fetch('foo')->count());
+    $this->assertEquals('foo', flextype('content')->fetch('foo')['id']);
+    $this->assertEquals(12, flextype('content')->fetch('foo', [])->count());
+    $this->assertEquals('foo', flextype('content')->fetch('foo')['id']);
+    $this->assertEquals(3, flextype('content')->fetch('foo', ['collection' => true])->count());
 
-    $this->assertEquals('Bar', flextype('entries')->fetch('foo/bar')['title']);
-    $this->assertEquals('Baz', flextype('entries')->fetch('foo/baz')['title']);
-    $this->assertEquals('Zed', flextype('entries')->fetch('foo/zed')['title']);
+    $this->assertEquals('Bar', flextype('content')->fetch('foo/bar')['title']);
+    $this->assertEquals('Baz', flextype('content')->fetch('foo/baz')['title']);
+    $this->assertEquals('Zed', flextype('content')->fetch('foo/zed')['title']);
 
-    flextype('entries')->storage()->set('fetch.id', 'wrong-entry');
-    $this->assertEquals(0, flextype('entries')->fetch('wrong-entry')->count());
-    flextype('entries')->storage()->set('fetch.id', 'wrong-entry');
-    $this->assertEquals(0, flextype('entries')->fetch('wrong-entry')->count());
+    flextype('content')->storage()->set('fetch.id', 'wrong-entry');
+    $this->assertEquals(0, flextype('content')->fetch('wrong-entry')->count());
+    flextype('content')->storage()->set('fetch.id', 'wrong-entry');
+    $this->assertEquals(0, flextype('content')->fetch('wrong-entry')->count());
 
-    $this->assertTrue(count(flextype('entries')->fetch('foo', ['collection' => true])) > 0);
+    $this->assertTrue(count(flextype('content')->fetch('foo', ['collection' => true])) > 0);
 
 /*
-    flextype('emitter')->addListener('onEntriesFetchCollectionHasResult', static function (): void {
-        flextype('entries')->storage()->set('fetch_collection.data.foo/zed.title', 'ZedFromCollection!');
+    flextype('emitter')->addListener('onContentFetchCollectionHasResult', static function (): void {
+        flextype('content')->storage()->set('fetch_collection.data.foo/zed.title', 'ZedFromCollection!');
     });
 
-    flextype('emitter')->addListener('onEntriesFetchCollectionHasResult', static function (): void {
-        flextype('entries')->storage()->set('fetch_collection.data.foo/baz.title', 'BazFromCollection!');
+    flextype('emitter')->addListener('onContentFetchCollectionHasResult', static function (): void {
+        flextype('content')->storage()->set('fetch_collection.data.foo/baz.title', 'BazFromCollection!');
     });
 
-    $this->assertEquals('ZedFromCollection!', flextype('entries')->fetch('foo', ['collection' => true])['foo/zed.title']);
-    $this->assertEquals('BazFromCollection!', flextype('entries')->fetch('foo', ['collection' => true])['foo/baz.title']);
+    $this->assertEquals('ZedFromCollection!', flextype('content')->fetch('foo', ['collection' => true])['foo/zed.title']);
+    $this->assertEquals('BazFromCollection!', flextype('content')->fetch('foo', ['collection' => true])['foo/baz.title']);
 */
 
 });
 
 test('test copy() method', function () {
-    flextype('entries')->create('foo', []);
-    flextype('entries')->create('foo/bar', []);
-    flextype('entries')->create('foo/baz', []);
+    flextype('content')->create('foo', []);
+    flextype('content')->create('foo/bar', []);
+    flextype('content')->create('foo/baz', []);
 
-    flextype('entries')->create('zed', []);
-    flextype('entries')->copy('foo', 'zed');
+    flextype('content')->create('zed', []);
+    flextype('content')->copy('foo', 'zed');
 
-    $this->assertTrue(flextype('entries')->has('zed'));
+    $this->assertTrue(flextype('content')->has('zed'));
 });
 
 test('test delete() method', function () {
-    flextype('entries')->create('foo', []);
-    flextype('entries')->create('foo/bar', []);
-    flextype('entries')->create('foo/baz', []);
+    flextype('content')->create('foo', []);
+    flextype('content')->create('foo/bar', []);
+    flextype('content')->create('foo/baz', []);
 
-    $this->assertTrue(flextype('entries')->delete('foo'));
-    $this->assertFalse(flextype('entries')->has('foo'));
+    $this->assertTrue(flextype('content')->delete('foo'));
+    $this->assertFalse(flextype('content')->has('foo'));
 });
 
 test('test move() method', function () {
-    flextype('entries')->create('foo', []);
-    flextype('entries')->create('zed', []);
+    flextype('content')->create('foo', []);
+    flextype('content')->create('zed', []);
 
-    $this->assertTrue(flextype('entries')->move('foo', 'bar'));
-    $this->assertTrue(flextype('entries')->has('bar'));
-    $this->assertFalse(flextype('entries')->has('foo'));
-    $this->assertFalse(flextype('entries')->move('zed', 'bar'));
+    $this->assertTrue(flextype('content')->move('foo', 'bar'));
+    $this->assertTrue(flextype('content')->has('bar'));
+    $this->assertFalse(flextype('content')->has('foo'));
+    $this->assertFalse(flextype('content')->move('zed', 'bar'));
 });
 
 test('test getFileLocation() method', function () {
-    flextype('entries')->create('foo', []);
+    flextype('content')->create('foo', []);
 
     $this->assertStringContainsString('/foo/entry.md',
-                          flextype('entries')->getFileLocation('foo'));
+                          flextype('content')->getFileLocation('foo'));
 });
 
 test('test getDirectoryLocation() entry', function () {
-    flextype('entries')->create('foo', []);
+    flextype('content')->create('foo', []);
 
     $this->assertStringContainsString('/foo',
-                          flextype('entries')->getDirectoryLocation('foo'));
+                          flextype('content')->getDirectoryLocation('foo'));
 });
 
 test('test getCacheID() entry', function () {
     flextype('registry')->set('flextype.settings.cache.enabled', false);
-    flextype('entries')->create('foo', []);
-    $this->assertEquals('', flextype('entries')->getCacheID('foo'));
+    flextype('content')->create('foo', []);
+    $this->assertEquals('', flextype('content')->getCacheID('foo'));
 
     flextype('registry')->set('flextype.settings.cache.enabled', true);
-    flextype('entries')->create('bar', []);
-    $cache_id = flextype('entries')->getCacheID('bar');
+    flextype('content')->create('bar', []);
+    $cache_id = flextype('content')->getCacheID('bar');
     $this->assertEquals(32, strlen($cache_id));
     flextype('registry')->set('flextype.settings.cache.enabled', false);
 });
 
 test('test storage() entry', function () {
-    flextype('entries')->storage()->set('foo', ['title' => 'Foo']);
-    $this->assertEquals('Foo', flextype('entries')->storage()->get('foo')['title']);
-    flextype('entries')->storage()->set('bar', ['title' => 'Bar']);
-    $this->assertEquals(true, flextype('entries')->storage()->has('foo.title'));
-    $this->assertEquals(true, flextype('entries')->storage()->has('bar.title'));
-    flextype('entries')->storage()->delete('foo.title');
-    flextype('entries')->storage()->delete('bar.title');
-    $this->assertEquals(false, flextype('entries')->storage()->has('foo.title'));
-    $this->assertEquals(false, flextype('entries')->storage()->has('bar.title'));
+    flextype('content')->storage()->set('foo', ['title' => 'Foo']);
+    $this->assertEquals('Foo', flextype('content')->storage()->get('foo')['title']);
+    flextype('content')->storage()->set('bar', ['title' => 'Bar']);
+    $this->assertEquals(true, flextype('content')->storage()->has('foo.title'));
+    $this->assertEquals(true, flextype('content')->storage()->has('bar.title'));
+    flextype('content')->storage()->delete('foo.title');
+    flextype('content')->storage()->delete('bar.title');
+    $this->assertEquals(false, flextype('content')->storage()->has('foo.title'));
+    $this->assertEquals(false, flextype('content')->storage()->has('bar.title'));
 });
 
 test('test macro() entry', function () {
-    flextype('entries')->create('foo', []);
-    flextype('entries')->create('foo/bar', []);
-    flextype('entries')->create('foo/baz', []);
+    flextype('content')->create('foo', []);
+    flextype('content')->create('foo/bar', []);
+    flextype('content')->create('foo/baz', []);
 
-    flextype('entries')::macro('fetchRecentPosts', function($limit = 1) {
-    	return flextype('entries')
+    flextype('content')::macro('fetchRecentPosts', function($limit = 1) {
+    	return flextype('content')
                     ->fetch('foo')
                     ->sortBy('published_at')
                     ->limit($limit);
     });
 
-    $this->assertEquals(1, flextype('entries')->fetchRecentPosts()->count());
-    $this->assertEquals(1, flextype('entries')->fetchRecentPosts(1)->count());
-    $this->assertEquals(2, flextype('entries')->fetchRecentPosts(2)->count());
+    $this->assertEquals(1, flextype('content')->fetchRecentPosts()->count());
+    $this->assertEquals(1, flextype('content')->fetchRecentPosts(1)->count());
+    $this->assertEquals(2, flextype('content')->fetchRecentPosts(2)->count());
 });
 
 test('test mixin() entry', function () {
-    flextype('entries')->create('foo', []);
-    flextype('entries')->create('foo/bar', []);
-    flextype('entries')->create('foo/baz', []);
+    flextype('content')->create('foo', []);
+    flextype('content')->create('foo/bar', []);
+    flextype('content')->create('foo/baz', []);
 
     class FooMixin {
         public function foo() {
@@ -169,9 +169,9 @@ test('test mixin() entry', function () {
         }
     }
 
-    flextype('entries')::mixin(new FooMixin());
+    flextype('content')::mixin(new FooMixin());
 
-    $this->assertEquals('Foo', flextype('entries')->foo());
-    $this->assertEquals('Foo', flextype('entries')->bar());
-    $this->assertEquals('Bar', flextype('entries')->bar('Bar'));
+    $this->assertEquals('Foo', flextype('content')->foo());
+    $this->assertEquals('Foo', flextype('content')->bar());
+    $this->assertEquals('Bar', flextype('content')->bar('Bar'));
 });

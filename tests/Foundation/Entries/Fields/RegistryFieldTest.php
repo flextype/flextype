@@ -11,11 +11,11 @@ afterEach(function (): void {
 });
 
 test('test registry field', function () {
-    flextype('entries')->create('registry-root', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/entry.md')->get()));
-    flextype('entries')->create('registry-root/level-1', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/level-1/entry.md')->get()));
-    flextype('entries')->create('registry-root/level-1/level-2', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/level-1/level-2/entry.md')->get()));
+    flextype('content')->create('registry-root', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/entry.md')->get()));
+    flextype('content')->create('registry-root/level-1', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/level-1/entry.md')->get()));
+    flextype('content')->create('registry-root/level-1/level-2', flextype('serializers')->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/Foundation/Entries/Fields/fixtures/entries/registry-root/level-1/level-2/entry.md')->get()));
 
-    $data = flextype('entries')->fetch('registry-root');
+    $data = flextype('content')->fetch('registry-root');
 
     $this->assertEquals('Flextype', $data['flextype']);
     $this->assertEquals('Sergey Romanenko', $data['author']['name']);

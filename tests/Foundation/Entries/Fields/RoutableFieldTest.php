@@ -13,15 +13,15 @@ afterEach(function (): void {
 test('test RoutableField', function () {
     flextype('registry')->set('flextype.settings.cache.enabled', false);
 
-    flextype('entries')->create('foo', ['routable' => true]);
-    $routable = flextype('entries')->fetch('foo')['routable'];
+    flextype('content')->create('foo', ['routable' => true]);
+    $routable = flextype('content')->fetch('foo')['routable'];
     $this->assertTrue($routable);
 
-    flextype('entries')->create('bar', []);
-    $routable = flextype('entries')->fetch('bar')['routable'];
+    flextype('content')->create('bar', []);
+    $routable = flextype('content')->fetch('bar')['routable'];
     $this->assertTrue($routable);
 
-    flextype('entries')->create('zed', ['routable' => false]);
-    $routable = flextype('entries')->fetch('zed')['routable'];
+    flextype('content')->create('zed', ['routable' => false]);
+    $routable = flextype('content')->fetch('zed')['routable'];
     $this->assertFalse($routable);
 });

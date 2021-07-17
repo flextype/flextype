@@ -13,7 +13,7 @@ afterEach(function (): void {
 });
 
 test('test UuidField', function () {
-    flextype('entries')->create('foo', []);
-    $uuid = flextype('entries')->fetch('foo')['uuid'];
+    flextype('content')->create('foo', []);
+    $uuid = flextype('content')->fetch('foo')['uuid'];
     $this->assertTrue(v::uuid()->validate($uuid));
 });
