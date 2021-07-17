@@ -100,6 +100,7 @@ class Entries
       $this->registry()->set('fetch.options', $options);
       $this->registry()->set('fetch.data', []);
 
+
       // Run event
       flextype('emitter')->emit('on' . strings($this->options['collection'])->capitalize()->toString() . 'Fetch');
 
@@ -126,16 +127,16 @@ class Entries
 
               // Run event
               flextype('emitter')->emit('on' . strings($this->options['collection'])->capitalize()->toString() . 'FetchSingleCacheHasResult');
-
+              
               // Return entry from cache
               return arrays($this->registry()->get('fetch.data'));
           }
-
+         
           // 2. Try to get current requested entry from filesystem
           if ($this->has($this->registry()->get('fetch.id'))) {
               // Get entry file location
               $entryFile = $this->getFileLocation($this->registry()->get('fetch.id'));
-
+             
               // Try to get requested entry from the filesystem
               $entryFileContent = filesystem()->file($entryFile)->get();
 
@@ -163,7 +164,7 @@ class Entries
               if ($cache) {
                   flextype('cache')->set($entryCacheID, $this->registry()->get('fetch.data'));
               }
-
+              
               // Return entry data
               return arrays($this->registry()->get('fetch.data'));
           }
@@ -207,7 +208,7 @@ class Entries
 
                   $currentEntryID = strings($currenEntry->getPath())
                                           ->replace('\\', '/')
-                                          ->replace(PATH['project'] . '/entries/', '')
+                                          ->replace(PATH['project'] . '/entries/' . $this->options['collection'] . '/', '')
                                           ->trim('/')
                                           ->toString();
 
@@ -228,10 +229,11 @@ class Entries
 
           // Run event:
           flextype('emitter')->emit('on' . strings($this->options['collection'])->capitalize()->toString() . 'FetchCollectionNoResult');
-
+          
           // Return entries array
           return arrays($this->registry()->get('fetch.data'));
       } else {
+          
           return $single($this->registry['fetch']['id'],
                          $this->registry['fetch']['options']);
       }
@@ -411,7 +413,7 @@ class Entries
      */
     public function getFileLocation(string $id): string
     {
-        return PATH['project'] . '/entries/' . $id . '/entry.yaml';
+        return PATH['project'] . '/entries/' . $this->options['collection'] . '/' . $id . '/entry.yaml';
     }
 
     /**
