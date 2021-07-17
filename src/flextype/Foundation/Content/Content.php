@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation\Content;
 
-use Atomastic\Arrays\Arrays;
 use Atomastic\Macroable\Macroable;
 use Flextype\Foundation\Entries;
 
