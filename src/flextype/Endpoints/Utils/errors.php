@@ -12,7 +12,7 @@ namespace Flextype;
 /**
  * API errors
  */
-$api_errors = [
+$apiErrors = [
     '0000' => [
         'http_status_code' => 500,
         'message' => 'Internal Error',
