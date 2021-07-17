@@ -14,7 +14,7 @@ use function filesystem;
 /**
  * Validate access token
  */
-function validate_access_token(string $token): bool
+function validateAccessToken(string $token): bool
 {
     return filesystem()->file(PATH['project'] . '/tokens/access/' . $token . '/token.yaml')->exists();
 }
