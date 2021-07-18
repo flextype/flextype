@@ -447,7 +447,7 @@ flextype('plugins')->init();
  */
 include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/errors.php';
 include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/access.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/entries.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/content.php';
 include_once ROOT_DIR . '/src/flextype/Endpoints/registry.php';
 include_once ROOT_DIR . '/src/flextype/Endpoints/media.php';
 include_once ROOT_DIR . '/src/flextype/Endpoints/images.php';
