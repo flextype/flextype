@@ -355,8 +355,13 @@ class Plugins
 
         if (filesystem()->directory(PATH['project'] . '/plugins/')->exists()) {
             foreach (filesystem()->find()->in(PATH['project'] . '/plugins/')->directories()->depth(0) as $plugin) {
-                $pluginsList[$plugin->getBasename()]['dirname']  = $plugin->getBasename();
-                $pluginsList[$plugin->getBasename()]['pathname'] = $plugin->getPathname();
+                $pluginName = $plugin->getBasename();
+                if (filesystem()->file(PATH['project'] . '/plugins/' . $pluginName . '/plugin.php')->exists() &&
+                    filesystem()->file(PATH['project'] . '/plugins/' . $pluginName . '/plugin.yaml')->exists() && 
+                    filesystem()->file(PATH['project'] . '/plugins/' . $pluginName . '/settings.yaml')->exists()) {
+                    $pluginsList[$pluginName]['dirname']  = $plugin->getBasename();
+                    $pluginsList[$pluginName]['pathname'] = $plugin->getPathname();
+                }
             }
         }
 
