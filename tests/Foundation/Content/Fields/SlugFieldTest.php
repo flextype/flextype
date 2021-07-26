@@ -11,11 +11,11 @@ afterEach(function (): void {
 });
 
 test('test SlugField', function () {
-    flextype('content')->create('foo', []);
-    $slug = flextype('content')->fetch('foo')['slug'];
+    flextype('entries')->create('foo', []);
+    $slug = flextype('entries')->fetch('foo')['slug'];
     $this->assertEquals('foo', $slug);
 
-    flextype('content')->create('bar', []);
-    $slug = flextype('content')->fetch('bar')['slug'];
+    flextype('entries')->create('bar', []);
+    $slug = flextype('entries')->fetch('bar')['slug'];
     $this->assertEquals('bar', $slug);
 });

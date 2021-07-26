@@ -11,9 +11,9 @@ afterEach(function (): void {
 });
 
 test('test ParsersField', function () {
-    flextype('content')->create('foo', ['content' => '# Foo', 'parsers' => ['markdown' => ['enabled' => true, 'fields' => ['content']]]]);
-    $this->assertEquals(trim('<h1>Foo</h1>'), trim(flextype('content')->fetch('foo')['content']));
+    flextype('entries')->create('foo', ['content' => '# Foo', 'parsers' => ['markdown' => ['enabled' => true, 'fields' => ['content']]]]);
+    $this->assertEquals(trim('<h1>Foo</h1>'), trim(flextype('entries')->fetch('foo')['content']));
 
-    flextype('content')->create('bar', ['content' => '[registry_get name="Bar" default="Zed"]', 'parsers' => ['shortcode' => ['enabled' => true, 'fields' => ['content']]]]);
-    $this->assertEquals('Zed', flextype('content')->fetch('bar')['content']);
+    flextype('entries')->create('bar', ['content' => '[registry_get name="Bar" default="Zed"]', 'parsers' => ['shortcode' => ['enabled' => true, 'fields' => ['content']]]]);
+    $this->assertEquals('Zed', flextype('entries')->fetch('bar')['content']);
 });

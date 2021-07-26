@@ -11,7 +11,7 @@ afterEach(function (): void {
 });
 
 test('test entries_fetch  shortcode', function () {
-    $this->assertTrue(flextype('content')->create('foo', ['title' => 'Foo']));
+    $this->assertTrue(flextype('entries')->create('foo', ['title' => 'Foo']));
     $this->assertEquals('Foo', flextype('parsers')->shortcode()->process('[entries_fetch id="foo" field="title"]'));
     $this->assertEquals('Bar', flextype('parsers')->shortcode()->process('[entries_fetch id="foo" field="bar" default="Bar"]'));
 });
