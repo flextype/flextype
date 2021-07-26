@@ -22,9 +22,9 @@ class Actions extends Arrays
     private static ?Actions $instance = null;
 
     /**
-     * Actions storage
+     * Actions registry
      */
-    private static ?Arrays $storage = null;
+    private static ?Arrays $registry = null;
 
     /**
      * Gets the instance via lazy initialization (created on first usage)
@@ -35,8 +35,8 @@ class Actions extends Arrays
             static::$instance = new self();
         }
 
-        if (static::$storage === null) {
-            static::$storage = new Arrays();
+        if (static::$registry === null) {
+            static::$registry = new Arrays();
         }
 
         return static::$instance;
