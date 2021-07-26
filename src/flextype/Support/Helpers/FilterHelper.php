@@ -7,8 +7,6 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\Support\Helpers;
-
 if (! function_exists('filter')) {
     /**
      * Create a collection from the given value and filter it.
