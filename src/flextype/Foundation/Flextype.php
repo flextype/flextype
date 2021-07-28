@@ -10,14 +10,26 @@ declare(strict_types=1);
 namespace Flextype\Foundation;
 
 use Exception;
-use Psr\Container\ContainerInterface;
+use DI\Bridge\Slim\Bridge;
+use DI\Container;
 use Slim\App;
-use Slim\Http\Environment;
-use Slim\Http\Uri;
+use Slim\Middleware\ContentLengthMiddleware;
+use Slim\Middleware\OutputBufferingMiddleware;
+use Slim\Middleware\RoutingMiddleware;
+use Slim\Psr7\Factory\StreamFactory;
+use Atomastic\Csrf\Csrf;
+use Atomastic\Registry\Registry;
+use Atomastic\Session\Session;
+use Cocur\Slugify\Slugify;
+use DateTimeZone;
+use Flextype\Foundation\Actions;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Container\ContainerInterface;
 
 use function is_null;
 
-final class Flextype extends App
+final class Flextype
 {
     /**
      * Flextype version
@@ -32,6 +44,9 @@ final class Flextype extends App
      * @var array
      */
     private static array $instances = [];
+
+    private App $app;
+    private Container $container;
 
     /**
      * Flextype should not be cloneable.
@@ -51,34 +66,28 @@ final class Flextype extends App
 
     /**
      * Flextype construct
-     *
-     * @param ContainerInterface|array $container
      */
-    protected function __construct($container = [])
+    protected function __construct(ContainerInterface $container = null)
     {
-        parent::__construct($container);
+        $this->app       = Bridge::create($container);
+        $this->container = $this->app->getContainer();
     }
 
-    /**
-     * Get/Set Dependency Injection Container.
-     *
-     * @param string|null $name DI Container name.
-     */
-    public function container(?string $name = null)
+    public function app() 
     {
-        if (is_null($name)) {
-            return self::getInstance()->getContainer();
-        }
-
-        return self::getInstance()->getContainer()[$name];
+        return $this->app;
     }
+
+    public function container() 
+    {
+        return $this->container;
+    }
+
 
     /**
      * Returns Flextype Instance
-     *
-     * @param ContainerInterface|array $container Container.
      */
-    public static function getInstance($container = []): Flextype
+    public static function getInstance(ContainerInterface $container = null): Flextype
     {
         $cls = static::class;
         if (! isset(self::$instances[$cls])) {

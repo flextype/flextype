@@ -34,11 +34,10 @@
         "atomastic/macroable": "^2.0.0",
         "atomastic/csrf": "^1.0.1",
 
-        "slim/slim": "^3.12.3",
+        "slim/slim": "^4.8.1",
 
         "filp/whoops": "^2.12.1",
 
-        "league/glide-slim": "^1.0.0",
         "league/event": "^2.2.0",
         "league/glide": "^1.7.0",
 
@@ -48,17 +47,18 @@
         "monolog/monolog": "^2.2.0",
         "cocur/slugify": "^4.0.0",
         "ramsey/uuid": "^4.1.1",
-        "symfony/yaml": "^5.2.9",
+        "symfony/yaml": "^5.3.4",
         "symfony/finder": "^5.2.9",
-
-        "bnf/slim3-psr15": "^1.1.1",
 
         "league/commonmark": "^1.5.8",
 
         "thunderer/shortcode": "^0.7.4",
 
         "composer/semver": "^3.2.5",
-        "guzzlehttp/guzzle": "7.3.0"
+        "slim/psr7": "^1.4",
+        "php-di/php-di": "^6.3",
+        "php-di/slim-bridge": "^3.1",
+        "pimple/pimple": "^3.4"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
@@ -73,7 +73,8 @@
         "files": [
             "src/flextype/Support/Helpers/FindHelper.php",
             "src/flextype/Support/Helpers/FilterHelper.php",
-            "src/flextype/Foundation/Helpers/FlextypeHelper.php"
+            "src/flextype/Foundation/Helpers/FlextypeHelper.php",
+            "src/flextype/Foundation/Helpers/ActionsHelper.php"
         ]
     },
     "require-dev": {

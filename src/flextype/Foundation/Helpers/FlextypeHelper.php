@@ -11,15 +11,10 @@ use Flextype\Foundation\Flextype;
 
 if (! function_exists('flextype')) {
     /**
-     * Get the available Flextype Application instance
-     * or try to get Dependency Injection Container if $container is not null.
+     * Get the available Flextype instance.
      */
-    function flextype($containerName = null, $container = [])
+    function flextype($container = null)
     {
-        if (is_null($containerName)) {
-            return Flextype::getInstance($container);
-        }
-
-        return Flextype::getInstance($container)->container($containerName);
+        return Flextype::getInstance($container);
     }
 }

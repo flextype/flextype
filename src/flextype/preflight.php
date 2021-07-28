@@ -68,4 +68,4 @@ if (filesystem()->file($preflightFlextypePath . '/' . $cacheID . '.txt')->exists
 }
 
 // Store flextype merged data in the flextype registry.
-$registry->set('flextype', $flextypeData);
+flextype()->container()->get('registry')->set('flextype', $flextypeData);
