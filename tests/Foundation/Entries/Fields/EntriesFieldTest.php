@@ -17,7 +17,7 @@ test('test entries field for blog', function () {
 
     $blog = entries()->fetch('blog');
 
-    $this->assertEquals(14, $blog->count());
+    $this->assertEquals(13, $blog->count());
 });
 
 test('test entries field for catalog', function () {
@@ -40,7 +40,7 @@ test('test entries field for catalog', function () {
 
     $catalogSingle = entries()->fetch('catalog');
 
-    $this->assertEquals(16, $catalogSingle->count());
+    $this->assertEquals(15, $catalogSingle->count());
     $this->assertEquals('Catalog', $catalogSingle['title']);
     $this->assertEquals('catalog', $catalogSingle['id']);
     $this->assertEquals(1, $catalogSingle['bikes']->count());
@@ -76,7 +76,7 @@ test('test entries field for albmus', function () {
 
     $root = entries()->fetch('root');
 
-    $this->assertEquals(16, $root->count());
+    $this->assertEquals(15, $root->count());
 });
 
 test('test entries field for long nested entries', function () {
@@ -87,7 +87,7 @@ test('test entries field for long nested entries', function () {
 
     $level = entries()->fetch('level1');
 
-    $this->assertEquals(14, $level->count());
+    $this->assertEquals(13, $level->count());
     $this->assertEquals('level1/level2', $level['root']['id']);
     $this->assertEquals('level1/level2/level3', $level['root']['root']['id']);
     $this->assertEquals('level1/level2/level3/level4', $level['root']['root']['root']['id']);

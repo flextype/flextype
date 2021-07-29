@@ -33,9 +33,9 @@ test('test fetch() entry', function () {
     entries()->create('foo/baz', ['title' => 'Baz']);
     entries()->create('foo/zed', ['title' => 'Zed']);
 
-    $this->assertEquals(12, entries()->fetch('foo')->count());
+    $this->assertEquals(11, entries()->fetch('foo')->count());
     $this->assertEquals('foo', entries()->fetch('foo')['id']);
-    $this->assertEquals(12, entries()->fetch('foo', [])->count());
+    $this->assertEquals(11, entries()->fetch('foo', [])->count());
     $this->assertEquals('foo', entries()->fetch('foo')['id']);
     $this->assertEquals(3, entries()->fetch('foo', ['collection' => true])->count());
 
@@ -43,9 +43,9 @@ test('test fetch() entry', function () {
     $this->assertEquals('Baz', entries()->fetch('foo/baz')['title']);
     $this->assertEquals('Zed', entries()->fetch('foo/zed')['title']);
 
-    entries()->storage()->set('fetch.id', 'wrong-entry');
+    entries()->registry()->set('fetch.id', 'wrong-entry');
     $this->assertEquals(0, entries()->fetch('wrong-entry')->count());
-    entries()->storage()->set('fetch.id', 'wrong-entry');
+    entries()->registry()->set('fetch.id', 'wrong-entry');
     $this->assertEquals(0, entries()->fetch('wrong-entry')->count());
 
     $this->assertTrue(count(entries()->fetch('foo', ['collection' => true])) > 0);
@@ -108,15 +108,15 @@ test('test getCacheID() entry', function () {
 });
 
 test('test storage() entry', function () {
-    entries()->storage()->set('foo', ['title' => 'Foo']);
-    $this->assertEquals('Foo', entries()->storage()->get('foo')['title']);
-    entries()->storage()->set('bar', ['title' => 'Bar']);
-    $this->assertEquals(true, entries()->storage()->has('foo.title'));
-    $this->assertEquals(true, entries()->storage()->has('bar.title'));
-    entries()->storage()->delete('foo.title');
-    entries()->storage()->delete('bar.title');
-    $this->assertEquals(false, entries()->storage()->has('foo.title'));
-    $this->assertEquals(false, entries()->storage()->has('bar.title'));
+    entries()->registry()->set('foo', ['title' => 'Foo']);
+    $this->assertEquals('Foo', entries()->registry()->get('foo')['title']);
+    entries()->registry()->set('bar', ['title' => 'Bar']);
+    $this->assertEquals(true, entries()->registry()->has('foo.title'));
+    $this->assertEquals(true, entries()->registry()->has('bar.title'));
+    entries()->registry()->delete('foo.title');
+    entries()->registry()->delete('bar.title');
+    $this->assertEquals(false, entries()->registry()->has('foo.title'));
+    $this->assertEquals(false, entries()->registry()->has('bar.title'));
 });
 
 test('test macro() entry', function () {
