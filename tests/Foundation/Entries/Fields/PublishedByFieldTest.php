@@ -11,11 +11,11 @@ afterEach(function (): void {
 });
 
 test('test PublishedByField', function () {
-    flextype('entries')->create('foo', []);
-    $published_by = flextype('entries')->fetch('foo')['published_by'];
+    entries()->create('foo', []);
+    $published_by = entries()->fetch('foo')['published_by'];
     $this->assertEquals('', $published_by);
 
-    flextype('entries')->create('bar', ['published_by' => 'Zed']);
-    $published_by = flextype('entries')->fetch('bar')['published_by'];
+    entries()->create('bar', ['published_by' => 'Zed']);
+    $published_by = entries()->fetch('bar')['published_by'];
     $this->assertEquals('Zed', $published_by);
 });
