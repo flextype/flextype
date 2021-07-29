@@ -9,31 +9,11 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation;
 
-use Exception;
-use DI\Bridge\Slim\Bridge;
-use DI\Container;
-use Middlewares\Whoops;
-use Slim\App;
-use Slim\Middleware\ContentLengthMiddleware;
-use Slim\Middleware\OutputBufferingMiddleware;
-use Slim\Middleware\RoutingMiddleware;
-use Slim\Middleware\ErrorMiddleware;
-use Slim\Psr7\Factory\StreamFactory;
 use Atomastic\Csrf\Csrf;
-use Atomastic\Registry\Registry;
 use Atomastic\Session\Session;
 use Cocur\Slugify\Slugify;
 use DateTimeZone;
-use Flextype\Foundation\Actions;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Container\ContainerInterface;
-use Bnf\Slim3Psr15\CallableResolver;
-use Flextype\Foundation\Cors;
 use Flextype\Foundation\Entries\Entries;
-use Flextype\Foundation\Flextype;
-use Flextype\Foundation\Plugins;
 use Flextype\Support\Parsers\Parsers;
 use Flextype\Support\Serializers\Serializers;
 use Intervention\Image\ImageManager;
@@ -55,19 +35,48 @@ use League\Glide\Manipulators\Pixelate;
 use League\Glide\Manipulators\Sharpen;
 use League\Glide\Manipulators\Size;
 use League\Glide\Manipulators\Watermark;
-use League\Glide\Responses\SlimResponseFactory;
+use League\Glide\Responses\PsrResponseFactory;
 use League\Glide\ServerFactory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Phpfastcache\Drivers\Apcu\Config;
 use Phpfastcache\Helper\Psr16Adapter as Cache;
-use Slim\Http\Environment;
-use Slim\Http\Uri;
-use Whoops\Handler\JsonResponseHandler;
-use Whoops\Handler\PrettyPageHandler;
-use Whoops\Run;
-use Whoops\Util\Misc;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Middleware\ContentLengthMiddleware;
+use Slim\Middleware\OutputBufferingMiddleware;
+use Slim\Middleware\RoutingMiddleware;
+use Slim\Psr7\Factory\StreamFactory;
+use Slim\Psr7\Stream;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
+
+use function app;
+use function array_replace_recursive;
+use function container;
+use function count;
+use function date;
+use function date_default_timezone_set;
+use function emitter;
+use function entries;
+use function extension_loaded;
+use function file_exists;
+use function filemtime;
+use function filesystem;
+use function flextype;
+use function function_exists;
+use function implode;
+use function in_array;
+use function mb_internal_encoding;
+use function mb_language;
+use function mb_regex_encoding;
+use function md5;
+use function registry;
+use function session;
+use function strings;
+use function sys_get_temp_dir;
+use function trim;
+use function var_export;
 
 // Init Flextype
 flextype();
@@ -92,7 +101,7 @@ $f3 = file_exists($customFlextypeSettingsFilePath) ? filemtime($customFlextypeSe
 $cacheID = md5($flextypeManifestFilePath . $defaultFlextypeSettingsFilePath . $customFlextypeSettingsFilePath . $f1 . $f2 . $f3);
 
 if (filesystem()->file($preflightFlextypePath . '/' . $cacheID . '.php')->exists()) {
-    $flextypeData = include($preflightFlextypePath . '/' . $cacheID . '.php');
+    $flextypeData = include $preflightFlextypePath . '/' . $cacheID . '.php';
 } else {
     // Set settings if Flextype Default settings config files exist
     if (! filesystem()->file($defaultFlextypeSettingsFilePath)->exists()) {
@@ -135,7 +144,7 @@ if (filesystem()->file($preflightFlextypePath . '/' . $cacheID . '.php')->exists
     // Merge flextype default settings with custom project settings.
     $flextypeData = array_replace_recursive($defaultFlextypeSettings, $customFlextypeSettings, $flextypeManifest);
 
-    filesystem()->file($preflightFlextypePath . $cacheID . '.php')->put("<?php\n" . "return " . var_export($flextypeData, true) . ";\n");
+    filesystem()->file($preflightFlextypePath . $cacheID . '.php')->put("<?php\n return " . var_export($flextypeData, true) . ";\n");
 }
 
 // Store flextype merged data in the flextype registry.
@@ -161,7 +170,7 @@ if (registry()->get('flextype.settings.output_buffering')) {
         case 'prepend':
             app()->add(new OutputBufferingMiddleware(new StreamFactory(), OutputBufferingMiddleware::PREPEND));
             break;
-        
+
         case 'append':
         default:
             app()->add(new OutputBufferingMiddleware(new StreamFactory(), OutputBufferingMiddleware::APPEND));
@@ -198,7 +207,7 @@ container()->set('slugify', new Slugify([
 ]));
 
 // Add Cache service
-container()->set('cache', static function () {
+container()->set('cache', function () {
     $driverName = registry()->get('flextype.settings.cache.driver');
 
     $config = [];
@@ -262,7 +271,7 @@ container()->set('cache', static function () {
             break;
         case 'phparray':
             $config = new \Phpfastcache\Drivers\Phparray\Config(getDriverConfig($driverName));
-            
+
             break;
         case 'leveldb':
             $config = new \Phpfastcache\Drivers\Leveldb\Config(getDriverConfig($driverName));
@@ -318,8 +327,7 @@ container()->set('parsers', new Parsers());
 container()->set('serializers', new Serializers());
 
 // Add Images service
-container()->set('images', static function () {
-
+container()->set('images', function () {
     // Get images settings
     $imagesSettings = ['driver' => registry()->get('flextype.settings.media.image.driver')];
 
@@ -366,15 +374,14 @@ container()->set('images', static function () {
     $server = ServerFactory::create([
         'source' => $source,
         'cache' => $cache,
-        'api' => $api
+        'api' => $api,
     ]);
-    
+
     $server->setResponseFactory(
-        new \League\Glide\Responses\PsrResponseFactory(
+        new PsrResponseFactory(
             new \Slim\Psr7\Response(),
-            function ($stream)
-            {
-                return new \Slim\Psr7\Stream($stream);
+            function ($stream) {
+                return new Stream($stream);
             }
         )
     );
@@ -417,7 +424,6 @@ if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listId
 // This is important for third party web apps using Flextype, as without CORS, a JavaScript app hosted on example.com
 // couldn't access our APIs because they're hosted on another.com which is a different domain.
 if (registry()->get('flextype.settings.cors.enabled')) {
-        
     // Allow preflight requests for all routes.
     app()->options('/{routes:.+}', function (ServerRequestInterface $request, ResponseInterface $response) {
         return $response;
@@ -425,7 +431,6 @@ if (registry()->get('flextype.settings.cors.enabled')) {
 
     // Add headers
     app()->add(function (Request $request, RequestHandlerInterface $handler): Response {
-
         $response = $handler->handle($request);
 
         // Set variables
@@ -441,17 +446,17 @@ if (registry()->get('flextype.settings.cors.enabled')) {
                 ->withHeader('Access-Control-Allow-Methods', $methods)
                 ->withHeader('Access-Control-Allow-Expose', $expose)
                 ->withHeader('Access-Control-Allow-Credentials', $credentials);
-
     });
 }
 
 // Define app routes
 app()->get('/hello/{name}', function ($name, Request $request, Response $response) {
     $response->getBody()->write("Hello, $name");
+
     return $response;
 });
 
-$entries = entries()->fetch('', ["collection" => true]);
+$entries = entries()->fetch('', ['collection' => true]);
 
 // Add Routing Middleware
 app()->addRoutingMiddleware();
