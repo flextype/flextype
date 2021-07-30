@@ -43,7 +43,7 @@ class Plugins
      */
     public function __construct()
     {
-        $this->locales = flextype('serializers')->yaml()->decode(filesystem()->file(ROOT_DIR . '/src/flextype/locales.yaml')->get());
+        $this->locales = serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/src/flextype/locales.yaml')->get());
     }
 
     /**
@@ -66,10 +66,10 @@ class Plugins
     public function init(): void
     {
         // Set empty plugins item
-        flextype('registry')->set('plugins', []);
+        registry()->set('plugins', []);
 
         // Set locale
-        $locale = flextype('registry')->get('flextype.settings.locale');
+        $locale = registry()->get('flextype.settings.locale');
 
         // Get plugins list
         $pluginsList = $this->getPluginsList();
@@ -83,15 +83,15 @@ class Plugins
         }
 
         // Get plugins from cache or scan plugins folder and create new plugins cache item
-        if (flextype('cache')->has($pluginsCacheID)) {
-            flextype('registry')->set('plugins', flextype('cache')->get($pluginsCacheID));
+        if (cache()->has($pluginsCacheID)) {
+            registry()->set('plugins', cache()->get($pluginsCacheID));
 
-            if (flextype('cache')->has($locale)) {
-                I18n::add(flextype('cache')->get($locale), $locale);
+            if (cache()->has($locale)) {
+                I18n::add(cache()->get($locale), $locale);
             } else {
                 // Save plugins dictionary
                 $dictionary = $this->getPluginsDictionary($pluginsList, $locale);
-                flextype('cache')->set($locale, $dictionary[$locale]);
+                cache()->set($locale, $dictionary[$locale]);
             }
         } else {
             // Init plugin configs
@@ -123,7 +123,7 @@ class Plugins
 
                 // Get default plugin settings content
                 $defaultPluginSettingsFileContent   = filesystem()->file($defaultPluginSettingsFile)->get();
-                $defaultPluginSettings              = empty($defaultPluginSettingsFileContent) ? [] : flextype('serializers')->yaml()->decode($defaultPluginSettingsFileContent);
+                $defaultPluginSettings              = empty($defaultPluginSettingsFileContent) ? [] : serializers()->yaml()->decode($defaultPluginSettingsFileContent);
 
                 // Create project plugin settings file
                 ! filesystem()->file($projectPluginSettingsFile)->exists() and filesystem()->file($projectPluginSettingsFile)->put($defaultPluginSettingsFileContent);
@@ -134,7 +134,7 @@ class Plugins
                 if (trim($projectPluginSettingsFileContent) === '') {
                     $projectPluginSettings = [];
                 } else {
-                    $projectPluginSettings = flextype('serializers')->yaml()->decode($projectPluginSettingsFileContent);
+                    $projectPluginSettings = serializers()->yaml()->decode($projectPluginSettingsFileContent);
                 }
 
                 // Check if default plugin manifest file exists
@@ -144,7 +144,7 @@ class Plugins
 
                 // Get default plugin manifest content
                 $defaultPluginManifestFileContent  = filesystem()->file($defaultPluginManifestFile)->get();
-                $defaultPluginManifest             = empty($defaultPluginManifestFileContent) ? [] : flextype('serializers')->yaml()->decode($defaultPluginManifestFileContent);
+                $defaultPluginManifest             = empty($defaultPluginManifestFileContent) ? [] : serializers()->yaml()->decode($defaultPluginManifestFileContent);
 
                 // Merge plugin settings and manifest data
                 $plugins[$plugin['dirname']]['manifest'] = $defaultPluginManifest;
@@ -172,17 +172,17 @@ class Plugins
             $plugins = $this->getValidPluginsDependencies($plugins);
 
             // Save plugins list
-            flextype('registry')->set('plugins', $plugins);
-            flextype('cache')->set($pluginsCacheID, $plugins);
+            registry()->set('plugins', $plugins);
+            cache()->set($pluginsCacheID, $plugins);
 
             // Save plugins dictionary
             $dictionary = $this->getPluginsDictionary($pluginsList, $locale);
-            flextype('cache')->set($locale, $dictionary[$locale]);
+            cache()->set($locale, $dictionary[$locale]);
         }
 
         $this->includeEnabledPlugins();
 
-        flextype('emitter')->emit('onPluginsInitialized');
+        emitter()->emit('onPluginsInitialized');
     }
 
     /**
@@ -205,7 +205,7 @@ class Plugins
                 throw new RuntimeException('Load file: ' . $languageFile . ' - failed!');
             }
 
-            $translates = flextype('serializers')->yaml()->decode($content);
+            $translates = serializers()->yaml()->decode($content);
 
             I18n::add($translates, $locale);
         }
@@ -270,7 +270,7 @@ class Plugins
                 foreach ($pluginData['manifest']['dependencies'] as $dependency => $constraints) {
                     // Verify flextype version
                     if ($dependency === 'flextype') {
-                        if (! Semver::satisfies(flextype('registry')->get('flextype.manifest.version'), $constraints)) {
+                        if (! Semver::satisfies(registry()->get('flextype.manifest.version'), $constraints)) {
                             $verified = false;
 
                             // Remove plugin where it is require this dependency
@@ -375,12 +375,12 @@ class Plugins
      */
     private function includeEnabledPlugins(): void
     {
-        if (! is_array(flextype('registry')->get('plugins')) || count(flextype('registry')->get('plugins')) <= 0) {
+        if (! is_array(registry()->get('plugins')) || count(registry()->get('plugins')) <= 0) {
             return;
         }
 
-        foreach (flextype('registry')->get('plugins') as $pluginName => $plugin) {
-            if (! flextype('registry')->get('plugins.' . $pluginName . '.settings.enabled')) {
+        foreach (registry()->get('plugins') as $pluginName => $plugin) {
+            if (! registry()->get('plugins.' . $pluginName . '.settings.enabled')) {
                 continue;
             }
 
