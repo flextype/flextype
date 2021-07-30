@@ -7,12 +7,12 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-if (flextype('registry')->get('flextype.settings.entries.fields.published_by.enabled')) {
-    flextype('emitter')->addListener('onEntriesCreate', static function (): void {
-        if (flextype('entries')->registry()->get('create.data.published_by') !== null) {
+if (registry()->get('flextype.settings.entries.fields.published_by.enabled')) {
+    emitter()->addListener('onEntriesCreate', static function (): void {
+        if (entries()->registry()->get('create.data.published_by') !== null) {
             return;
         }
 
-        flextype('entries')->registry()->set('create.data.published_by', '');
+        entries()->registry()->set('create.data.published_by', '');
     });
 }

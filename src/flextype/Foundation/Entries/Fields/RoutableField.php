@@ -8,20 +8,20 @@ declare(strict_types=1);
  */
 
 
-if (flextype('registry')->get('flextype.settings.entries.fields.routable.enabled')) {
-    flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
-        if (flextype('entries')->registry()->get('fetch.data.routable') === null) {
-            flextype('entries')->registry()->set('fetch.data.routable', true);
+if (registry()->get('flextype.settings.entries.fields.routable.enabled')) {
+    emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
+        if (entries()->registry()->get('fetch.data.routable') === null) {
+            entries()->registry()->set('fetch.data.routable', true);
         } else {
-            flextype('entries')->registry()->set('fetch.data.routable', (bool) flextype('entries')->registry()->get('fetch.data.routable'));
+            entries()->registry()->set('fetch.data.routable', (bool) entries()->registry()->get('fetch.data.routable'));
         }
     });
 
-    flextype('emitter')->addListener('onEntriesCreate', static function (): void {
-        if (flextype('entries')->registry()->get('create.data.routable') === null) {
-            flextype('entries')->registry()->set('create.data.routable', true);
+    emitter()->addListener('onEntriesCreate', static function (): void {
+        if (entries()->registry()->get('create.data.routable') === null) {
+            entries()->registry()->set('create.data.routable', true);
         } else {
-            flextype('entries')->registry()->set('create.data.routable', (bool) flextype('entries')->registry()->get('create.data.routable'));
+            entries()->registry()->set('create.data.routable', (bool) entries()->registry()->get('create.data.routable'));
         }
     });
 }
