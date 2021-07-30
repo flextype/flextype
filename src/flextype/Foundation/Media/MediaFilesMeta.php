@@ -32,12 +32,12 @@ class MediaFilesMeta
      */
     public function update(string $id, string $field, string $value): bool
     {
-        $fileData = flextype('serializers')->yaml()->decode(filesystem()->file($this->getFileMetaLocation($id))->get());
+        $fileData = serializers()->yaml()->decode(filesystem()->file($this->getFileMetaLocation($id))->get());
 
         if (arrays($fileData)->has($field)) {
             $fileData = arrays($fileData)->set($field, $value);
 
-            return (bool) filesystem()->file($this->getFileMetaLocation($id))->put(flextype('serializers')->yaml()->encode($fileData->toArray()));
+            return (bool) filesystem()->file($this->getFileMetaLocation($id))->put(serializers()->yaml()->encode($fileData->toArray()));
         }
 
         return false;
@@ -56,12 +56,12 @@ class MediaFilesMeta
      */
     public function add(string $id, string $field, string $value): bool
     {
-        $fileData = flextype('serializers')->yaml()->decode(filesystem()->file($this->getFileMetaLocation($id))->get());
+        $fileData = serializers()->yaml()->decode(filesystem()->file($this->getFileMetaLocation($id))->get());
 
         if (! arrays($fileData)->has($field)) {
             $fileData = arrays($fileData)->set($field, $value);
 
-            return (bool) filesystem()->file($this->getFileMetaLocation($id))->put(flextype('serializers')->yaml()->encode($fileData->toArray()));
+            return (bool) filesystem()->file($this->getFileMetaLocation($id))->put(serializers()->yaml()->encode($fileData->toArray()));
         }
 
         return false;
@@ -79,12 +79,12 @@ class MediaFilesMeta
      */
     public function delete(string $id, string $field): bool
     {
-        $fileData = flextype('serializers')->yaml()->decode(filesystem()->file($this->getFileMetaLocation($id))->get());
+        $fileData = serializers()->yaml()->decode(filesystem()->file($this->getFileMetaLocation($id))->get());
 
         if (arrays($fileData)->has($field)) {
             $fileData = arrays($fileData)->delete($field);
 
-            return (bool) filesystem()->file($this->getFileMetaLocation($id))->put(flextype('serializers')->yaml()->encode($fileData->toArray()));
+            return (bool) filesystem()->file($this->getFileMetaLocation($id))->put(serializers()->yaml()->encode($fileData->toArray()));
         }
 
         return false;
