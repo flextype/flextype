@@ -15,4 +15,3 @@ define('PATH', [
 $flextype_loader = require_once $flextype_autoload;
 
 include ROOT_DIR . '/src/flextype/flextype.php';
-

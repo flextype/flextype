@@ -11,6 +11,6 @@ afterEach(function (): void {
 });
 
 test('test ParsersField', function () {
-    entries()->create('bar', ['entries' => '[registry_get name="Bar" default="Zed"]', 'parsers' => ['shortcode' => ['enabled' => true, 'fields' => ['entries']]]]);
+    entries()->create('bar', ['entries' => '[registry_get name="Bar" default="Zed"]', 'parsers' => ['shortcodes' => ['enabled' => true, 'fields' => ['entries']]]]);
     $this->assertEquals('Zed', entries()->fetch('bar')['entries']);
 });
