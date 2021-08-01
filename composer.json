@@ -36,10 +36,10 @@
 
         "slim/slim": "^4.8.1",
 
-        "filp/whoops": "^2.12.1",
+        "filp/whoops": "^2.14",
 
         "league/event": "^2.2.0",
-        "league/glide": "^1.7.0",
+        "league/glide": "^2.0.0",
 
         "phpfastcache/phpfastcache": "^8.0.5",
 
@@ -57,7 +57,8 @@
         "composer/semver": "^3.2.5",
         "slim/psr7": "^1.4",
         "php-di/php-di": "^6.3",
-        "php-di/slim-bridge": "^3.1"
+        "php-di/slim-bridge": "^3.1",
+        "middlewares/whoops": "^2.0"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
@@ -70,10 +71,7 @@
             "src/flextype"
         ],
         "files": [
-            "src/flextype/Support/Helpers/FindHelper.php",
-            "src/flextype/Support/Helpers/FilterHelper.php",
-            "src/flextype/Foundation/Helpers/FlextypeHelper.php",
-            "src/flextype/Foundation/Helpers/ActionsHelper.php"
+            "src/flextype/helpers.php"
         ]
     },
     "require-dev": {
