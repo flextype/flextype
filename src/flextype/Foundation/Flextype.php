@@ -93,7 +93,7 @@ final class Flextype
 
     /**
      * Returns Flextype Instance.
-     * 
+     *
      * Gets the instance via lazy initialization (created on first usage)
      *
      * @return Flextype Returns the current Flextype Instance.
