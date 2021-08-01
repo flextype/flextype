@@ -113,15 +113,15 @@ class Yaml
             }
         };
 
-        if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
+        if ($cache === true && registry()->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($dataFromCache = flextype('cache')->get($key)) {
+            if ($dataFromCache = cache()->get($key)) {
                 return $dataFromCache;
             }
 
             $data = $decode($input, $flags);
-            flextype('cache')->set($key, $data);
+            cache()->set($key, $data);
 
             return $data;
         }
