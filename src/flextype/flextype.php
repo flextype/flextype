@@ -15,6 +15,7 @@ use Cocur\Slugify\Slugify;
 use DateTimeZone;
 use Flextype\Foundation\Entries\Entries;
 use Flextype\Support\Parsers\Parsers;
+use Flextype\Support\Parsers\Shortcodes;
 use Flextype\Support\Serializers\Serializers;
 use Intervention\Image\ImageManager;
 use League\Event\Emitter;
@@ -51,6 +52,14 @@ use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Stream;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
+use Flextype\Foundation\Handlers\HttpErrorHandler;
+use Flextype\Foundation\Handlers\ShutdownHandler;
+use Slim\Exception\HttpInternalServerErrorException;
+use Slim\Factory\ServerRequestCreatorFactory;
+
+use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpNotFoundException;
+
 use function app;
 use function array_replace_recursive;
 use function container;
@@ -78,9 +87,11 @@ use function sys_get_temp_dir;
 use function trim;
 use function var_export;
 
-// Init Flextype
+// Init Flextype Instance 
+// Creates $app Application and $container Container objects
 flextype();
 
+// Add Registry Service
 container()->set('registry', registry());
 
 // Init Flextype config (manifest and settings)
@@ -183,20 +194,25 @@ if (registry()->get('flextype.settings.cache.routes')) {
     app()->getRouteCollector()->setCacheFile(PATH['tmp'] . '/routes/routes.php');
 }
 
-if (registry()->get('flextype.settings.errors.display')) {
-    app()->addErrorMiddleware(true, true, true);
-}
+$callableResolver = app()->getCallableResolver();
+$responseFactory = app()->getResponseFactory();
+$serverRequestCreator = ServerRequestCreatorFactory::create();
+$request = $serverRequestCreator->createServerRequestFromGlobals();
 
-// Add Session service
+$errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
+$shutdownHandler = new ShutdownHandler($request, $errorHandler, registry()->get('flextype.settings.errors.display'));
+register_shutdown_function($shutdownHandler);
+
+// Add Session Service
 container()->set('session', new Session());
 
-// Add Logger service
+// Add Logger Service
 container()->set('logger', (new Logger('flextype'))->pushHandler(new StreamHandler(PATH['tmp'] . '/logs/' . date('Y-m-d') . '.log')));
 
-// Add Emitter service
+// Add Emitter Service
 container()->set('emitter', new Emitter());
 
-// Add Slugify service
+// Add Slugify Service
 container()->set('slugify', new Slugify([
     'separator' => registry()->get('flextype.settings.slugify.separator'),
     'lowercase' => registry()->get('flextype.settings.slugify.lowercase'),
@@ -206,7 +222,7 @@ container()->set('slugify', new Slugify([
     'strip_tags' => registry()->get('flextype.settings.slugify.strip_tags'),
 ]));
 
-// Add Cache service
+// Add Cache Service
 container()->set('cache', function () {
     $driverName = registry()->get('flextype.settings.cache.driver');
 
@@ -320,13 +336,16 @@ container()->set('cache', function () {
     return new Cache($driverName, $config);
 });
 
-// Add Parsers service
+// Add Parsers Service
 container()->set('parsers', new Parsers());
 
-// Add Serializers service
+// Init Shortcodes 
+parsers()->shortcodes()->initShortcodes();
+
+// Add Serializers Service
 container()->set('serializers', new Serializers());
 
-// Add Images service
+// Add Images Service
 container()->set('images', function () {
     // Get images settings
     $imagesSettings = ['driver' => registry()->get('flextype.settings.media.image.driver')];
@@ -389,7 +408,7 @@ container()->set('images', function () {
     return $server;
 });
 
-// Add Entries service
+// Add Entries Service
 container()->set('entries', new Entries(registry()->get('flextype.settings.entries')));
 
 // Add Plugins service
@@ -453,13 +472,22 @@ if (registry()->get('flextype.settings.cors.enabled')) {
 app()->get('/hello/{name}', function ($name, Request $request, Response $response) {
     $response->getBody()->write("Hello, $name");
 
+    //entries()->create('bar', ['entries' => '[registry_get name="Bar" default="Zed"]', 'parsers' => ['shortcodes' => ['enabled' => true, 'fields' => ['entries']]]]);
+
+    dump(parsers()->shortcodes()->process('[registry_get name="Bar" default="Zed"]'));
+
+    dump(entries()->fetch('bar'));
+    dump(entries()->fetch('bar'));
+    dd(entries()->fetch('bar'));
+
     return $response;
 });
 
-$entries = entries()->fetch('', ['collection' => true]);
-
 // Add Routing Middleware
 app()->addRoutingMiddleware();
+
+// Add Error Handling Middleware
+app()->addErrorMiddleware(registry()->get('flextype.settings.errors.display'), false, false)->setDefaultErrorHandler($errorHandler);
 
 // Run high priority event: onFlextypeBeforeRun before Flextype Application starts.
 emitter()->emit('onFlextypeBeforeRun');
