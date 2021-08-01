@@ -107,16 +107,17 @@ class Storage
      */
     public function fetch(string $id, array $options = []): Arrays
     {
-      // Store data
+        // Store data
         $this->registry()->set('fetch.id', $id);
         $this->registry()->set('fetch.options', $options);
         $this->registry()->set('fetch.data', []);
 
-      // Run event
+        // Run event
         emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'Fetch');
 
-      // Single fetch helper
+        // Single fetch helper
         $single = function ($id, $options) {
+
             // Store data
             $this->registry()->set('fetch.id', $id);
             $this->registry()->set('fetch.options', $options);
@@ -130,31 +131,29 @@ class Storage
 
             // 1. Try to get current requested storage entry from cache
             if (cache()->has($storageEntryCacheID)) {
+
                 // Fetch storage entry from cache and Apply filter for fetch data
-                $this->registry()->set('fetch.data', filter(
-                    cache()->get($storageEntryCacheID),
-                    $this->registry()->get('fetch.options.filter', [])
-                ));
+                $this->registry()->set('fetch.data', filter(cache()->get($storageEntryCacheID),
+                                                        $this->registry()->get('fetch.options.filter', [])));
 
                 // Run event
                 emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchSingleCacheHasResult');
-
+                
                 // Return storage entry from cache
                 return arrays($this->registry()->get('fetch.data'));
             }
-
+            
             // 2. Try to get current requested storage entry from filesystem
             if ($this->has($this->registry()->get('fetch.id'))) {
                 // Get storage entry file location
                 $storageEntryFile = $this->getFileLocation($this->registry()->get('fetch.id'));
-
+                
                 // Try to get requested storage entry from the filesystem
                 $storageEntryFileContent = filesystem()->file($storageEntryFile)->get();
 
                 if ($storageEntryFileContent === false) {
                     // Run event
                     emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchSingleNoResult');
-
                     return arrays($this->registry()->get('fetch.data'));
                 }
 
@@ -165,22 +164,18 @@ class Storage
                 emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchSingleHasResult');
 
                 // Apply filter for fetch data
-                $this->registry()->set('fetch.data', filter(
-                    $this->registry()->get('fetch.data'),
-                    $this->registry()->get('fetch.options.filter', [])
-                ));
+                $this->registry()->set('fetch.data', filter($this->registry()->get('fetch.data'),
+                                                            $this->registry()->get('fetch.options.filter', [])));
 
                 // Set cache state
-                $cache = $this->registry()->get(
-                    'fetch.data.cache.enabled',
-                    registry()->get('flextype.settings.cache.enabled')
-                );
+                $cache = $this->registry()->get('fetch.data.cache.enabled',
+                                               registry()->get('flextype.settings.cache.enabled'));
 
-                 // Save storage entry data to cache
+                // Save storage entry data to cache
                 if ($cache) {
                     cache()->set($storageEntryCacheID, $this->registry()->get('fetch.data'));
                 }
-
+                
                 // Return storage entry data
                 return arrays($this->registry()->get('fetch.data'));
             }
@@ -192,70 +187,69 @@ class Storage
             return arrays($this->registry()->get('fetch.data'));
         };
 
-        if (
-            ! isset($this->registry['fetch']['options']['collection']) ||
-            ! strings($this->registry['fetch']['options']['collection'])->isTrue()
-        ) {
-            return $single(
-                $this->registry['fetch']['id'],
-                $this->registry['fetch']['options']
-            );
-        }
+        if (isset($this->registry['fetch']['options']['collection']) &&
+            strings($this->registry['fetch']['options']['collection'])->isTrue()) {
 
-        // Run event
-        emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchCollection');
-
-        if (! $this->getDirectoryLocation($id)) {
             // Run event
-            emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchCollectionNoResult');
+            emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchCollection');
+
+            if (! $this->getDirectoryLocation($id)) {
+                // Run event
+                emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchCollectionNoResult');
+
+                // Return entries array
+                return arrays($this->registry()->get('fetch.data'));
+            }
+
+            // Find entries in the filesystem
+            $entries = find($this->getDirectoryLocation($id),
+                                                        isset($options['find']) ?
+                                                            $options['find'] :
+                                                            []);
+
+            // Walk through entries results
+            if ($entries->hasResults()) {
+
+                $data = [];
+
+                foreach ($entries as $currenEntry) {
+                    if ($currenEntry->getType() !== 'file' || $currenEntry->getFilename() !== $this->options['filename'] . '.' . $this->options['extension']) {
+                        continue;
+                    }
+
+                    $currentEntryID = strings($currenEntry->getPath())
+                                            ->replace('\\', '/')
+                                            ->replace(PATH['project'] . '/' . $this->options['directory'] . '/', '')
+                                            ->trim('/')
+                                            ->toString();
+
+                    $data[$currentEntryID] = $single($currentEntryID, [])->toArray();
+                }
+
+                $this->registry()->set('fetch.data', $data);
+
+                // Run event
+                emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchCollectionHasResult');
+
+                // Apply filter for fetch data
+                $this->registry()->set('fetch.data', filter($this->registry()->get('fetch.data'),
+                                                        isset($options['filter']) ?
+                                                                $options['filter'] :
+                                                                []));
+            } else {
+                // Run event:
+                emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchCollectionNoResult');   
+
+                // Return entries array
+                return arrays($this->registry()->get('fetch.data'));
+            }
 
             // Return entries array
             return arrays($this->registry()->get('fetch.data'));
+        } else {
+            return $single($this->registry['fetch']['id'],
+                            $this->registry['fetch']['options']);
         }
-
-        // Find entries in the filesystem
-        $entries = find(
-            $this->getDirectoryLocation($id),
-            $options['find'] ??
-            []
-        );
-
-        // Walk through entries results
-        if ($entries->hasResults()) {
-            $data = [];
-
-            foreach ($entries as $currenEntry) {
-                if ($currenEntry->getType() !== 'file' || $currenEntry->getFilename() !== $this->options['filename'] . '.' . $this->options['extension']) {
-                    continue;
-                }
-
-                $currentEntryID = strings($currenEntry->getPath())
-                                      ->replace('\\', '/')
-                                      ->replace(PATH['project'] . '/' . $this->options['directory'] . '/', '')
-                                      ->trim('/')
-                                      ->toString();
-
-                $data[$currentEntryID] = $single($currentEntryID, [])->toArray();
-            }
-
-            $this->registry()->set('fetch.data', $data);
-
-            // Run event
-            emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchCollectionHasResult');
-
-            // Apply filter for fetch data
-            $this->registry()->set('fetch.data', filter(
-                $this->registry()->get('fetch.data'),
-                $options['filter'] ??
-                []
-            ));
-        }
-
-        // Run event:
-        emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchCollectionNoResult');
-
-        // Return entries array
-        return arrays($this->registry()->get('fetch.data'));
     }
 
     /**
