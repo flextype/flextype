@@ -69,13 +69,15 @@ class Driver implements ExtendedCacheItemPoolInterface, AggregatablePoolInterfac
     {
         $file_path = $this->getFilePath($item->getKey(), true);
 
-        try{
-            $content = include $file_path;
-        }catch (PhpfastcacheIOException $e){
-            return null;
-        }
+        $value = null;
 
-        return $content;
+        set_error_handler(static function () {});
+
+        $value = include $file_path;
+        
+        restore_error_handler();
+
+        return $value;
     }
 
     /**
