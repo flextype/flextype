@@ -15,20 +15,16 @@ use Thunder\Shortcode\ShortcodeFacade;
 use function flextype;
 use function strings;
 
-final class Shortcode
+final class Shortcodes
 {
     /**
-     * The Shortcode's instance is stored in a static field. This field is an
-     * array, because we'll allow our Shortcode to have subclasses. Each item in
-     * this array will be an instance of a specific Shortcode's subclass.
-     *
-     * @var array
+     * Registry instance
      */
-    private static $instances = [];
+    private static ?Shortcodes $instance = null;
 
-     /**
-      * Shortcode facade
-      */
+    /**
+     * Shortcode facade
+     */
     private $shortcodeFacade = null;
 
     /**
@@ -56,6 +52,18 @@ final class Shortcode
     }
 
     /**
+     * Gets the instance via lazy initialization (created on first usage)
+     */
+    public static function getInstance(): Shortcodes
+    {
+        if (static::$instance === null) {
+            static::$instance = new self();
+        }
+
+        return static::$instance;
+    }
+
+    /**
      * Shortcode facade
      */
     public function facade(): ShortcodeFacade
@@ -64,16 +72,32 @@ final class Shortcode
     }
 
     /**
-     * Returns Shortcode Instance
+     * Init Shortcodes
      */
-    public static function getInstance(): Shortcode
+    public function initShortcodes(): void
     {
-        $cls = static::class;
-        if (! isset(self::$instances[$cls])) {
-            self::$instances[$cls] = new static();
+        $shortcodes = registry()->get('flextype.settings.parsers.shortcodes');
+
+        if (
+            ! isset($shortcodes) ||
+            ! is_array($shortcodes) ||
+            count($shortcodes) <= 0
+        ) {
+            return;
         }
 
-        return self::$instances[$cls];
+        foreach ($shortcodes as $shortcode) {
+            if (! isset($shortcode['path'])) {
+                continue;
+            }
+
+            if (! file_exists(ROOT_DIR . $shortcode['path'])) {
+                
+                continue;
+            }
+
+            include_once ROOT_DIR . $shortcode['path'];
+        }
     }
 
     /**
@@ -124,15 +148,15 @@ final class Shortcode
      */
     public function process(string $input, bool $cache = true)
     {
-        if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
+        if ($cache === true && registry()->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($dataFromCache = flextype('cache')->get($key)) {
+            if ($dataFromCache = cache()->get($key)) {
                 return $dataFromCache;
             }
 
             $data = $this->facade()->process($input);
-            flextype('cache')->set($key, $data);
+            cache()->set($key, $data);
 
             return $data;
         }
