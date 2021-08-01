@@ -14,8 +14,9 @@ use Atomastic\Session\Session;
 use Cocur\Slugify\Slugify;
 use DateTimeZone;
 use Flextype\Foundation\Entries\Entries;
+use Flextype\Foundation\Handlers\HttpErrorHandler;
+use Flextype\Foundation\Handlers\ShutdownHandler;
 use Flextype\Support\Parsers\Parsers;
-use Flextype\Support\Parsers\Shortcodes;
 use Flextype\Support\Serializers\Serializers;
 use Intervention\Image\ImageManager;
 use League\Event\Emitter;
@@ -44,7 +45,9 @@ use Phpfastcache\Drivers\Apcu\Config;
 use Phpfastcache\Helper\Psr16Adapter as Cache;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Factory\ServerRequestCreatorFactory;
 use Slim\Middleware\ContentLengthMiddleware;
 use Slim\Middleware\OutputBufferingMiddleware;
 use Slim\Middleware\RoutingMiddleware;
@@ -52,20 +55,14 @@ use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Stream;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
-use Flextype\Foundation\Handlers\HttpErrorHandler;
-use Flextype\Foundation\Handlers\ShutdownHandler;
-use Slim\Exception\HttpInternalServerErrorException;
-use Slim\Factory\ServerRequestCreatorFactory;
-
-use Psr\Http\Message\ServerRequestInterface;
-use Slim\Exception\HttpNotFoundException;
-
 use function app;
 use function array_replace_recursive;
 use function container;
 use function count;
 use function date;
 use function date_default_timezone_set;
+use function dd;
+use function dump;
 use function emitter;
 use function entries;
 use function extension_loaded;
@@ -80,6 +77,8 @@ use function mb_internal_encoding;
 use function mb_language;
 use function mb_regex_encoding;
 use function md5;
+use function parsers;
+use function register_shutdown_function;
 use function registry;
 use function session;
 use function strings;
@@ -87,7 +86,7 @@ use function sys_get_temp_dir;
 use function trim;
 use function var_export;
 
-// Init Flextype Instance 
+// Init Flextype Instance
 // Creates $app Application and $container Container objects
 flextype();
 
@@ -194,12 +193,12 @@ if (registry()->get('flextype.settings.cache.routes')) {
     app()->getRouteCollector()->setCacheFile(PATH['tmp'] . '/routes/routes.php');
 }
 
-$callableResolver = app()->getCallableResolver();
-$responseFactory = app()->getResponseFactory();
+$callableResolver     = app()->getCallableResolver();
+$responseFactory      = app()->getResponseFactory();
 $serverRequestCreator = ServerRequestCreatorFactory::create();
-$request = $serverRequestCreator->createServerRequestFromGlobals();
+$request              = $serverRequestCreator->createServerRequestFromGlobals();
 
-$errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
+$errorHandler    = new HttpErrorHandler($callableResolver, $responseFactory);
 $shutdownHandler = new ShutdownHandler($request, $errorHandler, registry()->get('flextype.settings.errors.display'));
 register_shutdown_function($shutdownHandler);
 
@@ -339,7 +338,7 @@ container()->set('cache', function () {
 // Add Parsers Service
 container()->set('parsers', new Parsers());
 
-// Init Shortcodes 
+// Init Shortcodes
 parsers()->shortcodes()->initShortcodes();
 
 // Add Serializers Service
