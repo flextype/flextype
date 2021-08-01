@@ -414,11 +414,9 @@ container()->set('entries', new Entries(registry()->get('flextype.settings.entri
 // Add Plugins service
 //container()->set('plugins', new Plugins());
 
-/**
-* Set session options before you start the session
-* Standard PHP session configuration options
-* https://secure.php.net/manual/en/session.configuration.php
-*/
+// Set session options before you start the session
+// Standard PHP session configuration options
+// https://secure.php.net/manual/en/session.configuration.php
 session()->setOptions(registry()->get('flextype.settings.session'));
 
 // Start the session
@@ -492,5 +490,5 @@ app()->addErrorMiddleware(registry()->get('flextype.settings.errors.display'), f
 // Run high priority event: onFlextypeBeforeRun before Flextype Application starts.
 emitter()->emit('onFlextypeBeforeRun');
 
-// Run Flextpype Application
+// Run Flextype Application
 app()->run();
