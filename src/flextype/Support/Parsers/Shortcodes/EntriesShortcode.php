@@ -12,8 +12,8 @@ namespace Flextype\Support\Parsers\Shortcodes;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Shortcode: [entries_fetch id="entry-id" field="field-name" default="default-value"]
-if (flextype('registry')->get('flextype.settings.parsers.shortcode.shortcodes.content.enabled')) {
-    flextype('parsers')->shortcode()->addHandler('entries_fetch', static function (ShortcodeInterface $s) {
-        return arrays(flextype('entries')->fetch($s->getParameter('id')))->get($s->getParameter('field'), $s->getParameter('default'));
+if (registry()->get('flextype.settings.parsers.shortcodes.entries.enabled')) {
+    parsers()->shortcodes()->addHandler('entries_fetch', static function (ShortcodeInterface $s) {
+        return arrays(entries()->fetch($s->getParameter('id')))->get($s->getParameter('field'), $s->getParameter('default'));
     });
 }
