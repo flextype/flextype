@@ -19,7 +19,7 @@ locale: en_US
 # Application URL
 #
 # Define custom application url
-url: ''
+url: '/flextype'
 
 # Valid date format
 #
@@ -70,7 +70,7 @@ entries:
           enabled: true
           result: toObject
     registry:
-      path: "/src/flextype/Foundation/Entries/Fields/IdField.php"
+      path: "/src/flextype/Foundation/Entries/Fields/RegistryField.php"
       get:
         enabled: true
     entries:
@@ -82,7 +82,7 @@ entries:
       path: "/src/flextype/Foundation/Entries/Fields/SlugField.php"
       enabled: true
     published_at:
-      path: "/src/flextype/Foundation/Entries/Fields/PublsishedAtField.php"
+      path: "/src/flextype/Foundation/Entries/Fields/PublishedAtField.php"
       enabled: true
     published_by:
       path: "/src/flextype/Foundation/Entries/Fields/PublishedByField.php"
@@ -100,7 +100,7 @@ entries:
       path: "/src/flextype/Foundation/Entries/Fields/RoutableField.php"
       enabled: true
     parsers:
-      path: "/src/flextype/Foundation/Entries/Fields/ParsesField.php"
+      path: "/src/flextype/Foundation/Entries/Fields/ParsersField.php"
       enabled: true
     visibility:
       path: "/src/flextype/Foundation/Entries/Fields/VisibilityField.php"
@@ -156,6 +156,11 @@ entries:
 
 cache:
   enabled: true
+  router: routes
+  auto_reload:
+    storage: false
+    plugins: false
+    flextype: false
   driver: auto
   drivers:
     apcu: {}
@@ -193,6 +198,12 @@ cache:
     devnull: {}
     devfalse: {}
     devtrue: {}
+    phparray:
+      path: '/data'
+      security_key: 'auto'
+      htaccess: true
+      secure_file_manipulation: false
+      default_ttl: 900
     files:
       path: '/data'
       security_key: 'auto'
@@ -366,18 +377,22 @@ parsers:
     html_input: 'allow'
     allow_unsafe_links: false
     max_nesting_level: INF
-  shortcode:
-    shortcodes:
-      media:
-        enabled: true
-      content:
-        enabled: true
-      raw:
-        enabled: true
-      registry:
-        enabled: true
-      url:
-        enabled: true
+  shortcodes:
+    media:
+      path: "/src/flextype/Support/Parsers/Shortcodes/MediaShortcode.php"
+      enabled: true
+    entries:
+      path: "/src/flextype/Support/Parsers/Shortcodes/EntriesShortcode.php"
+      enabled: true
+    raw:
+      path: "/src/flextype/Support/Parsers/Shortcodes/RawShortcode.php"
+      enabled: true
+    registry:
+      path: "/src/flextype/Support/Parsers/Shortcodes/RegistryShortcode.php"
+      enabled: true
+    url:
+      path: "/src/flextype/Support/Parsers/Shortcodes/UrlShortcode.php"
+      enabled: true
 
 # CORS
 #

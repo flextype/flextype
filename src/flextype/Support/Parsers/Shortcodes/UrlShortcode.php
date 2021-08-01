@@ -13,12 +13,12 @@ use Slim\Http\Environment;
 use Slim\Http\Uri;
 
 // Shortcode: [url]
-if (flextype('registry')->get('flextype.settings.parsers.shortcode.shortcodes.url.enabled')) {
-    flextype('parsers')->shortcode()->addHandler('url', static function () {
-        if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
-            return flextype('registry')->get('flextype.settings.url');
+if (registry()->get('flextype.settings.parsers.shortcodes.url.enabled')) {
+    parsers()->shortcodes()->addHandler('url', static function () {
+        if (registry()->has('flextype.settings.url') && registry()->get('flextype.settings.url') !== '') {
+            return registry()->get('flextype.settings.url');
         }
 
-        return Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
+        return app()->getBasePath();
     });
 }

@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 use Atomastic\Arrays\Arrays;
 
-if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.enabled')) {
-     flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
-         if (flextype('entries')->registry()->has('fetch.data.entries.fetch')) {
+if (registry()->get('flextype.settings.entries.fields.entries.fetch.enabled')) {
+     emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
+         if (entries()->registry()->has('fetch.data.entries.fetch')) {
              // Get fetch.
-             $original = flextype('entries')->registry()->get('fetch');
+             $original = entries()->registry()->get('fetch');
              $data = [];
 
-             switch (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.result')) {
+             switch (registry()->get('flextype.settings.entries.fields.entries.fetch.result')) {
                  case 'toArray':
                      $resultTo = 'toArray';
                      break;
@@ -28,11 +28,11 @@ if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.en
              }
 
              // Modify fetch.
-             foreach (flextype('entries')->registry()->get('fetch.data.entries.fetch') as $field => $body) {
+             foreach (entries()->registry()->get('fetch.data.entries.fetch') as $field => $body) {
 
                  if (isset($body['options']['method']) &&
                      strpos($body['options']['method'], 'fetch') !== false &&
-                     is_callable([flextype('entries'), $body['options']['method']])) {
+                     is_callable([entries(), $body['options']['method']])) {
                      $fetchFromCallbackMethod = $body['options']['method'];
                  } else {
                      $fetchFromCallbackMethod = 'fetch';
@@ -40,7 +40,7 @@ if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.en
 
                  $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
 
-                 $data[$field] = flextype('entries')->{$fetchFromCallbackMethod}($body['id'],
+                 $data[$field] = entries()->{$fetchFromCallbackMethod}($body['id'],
                                                             isset($body['options']) ?
                                                                   $body['options'] :
                                                                   []);
@@ -49,9 +49,9 @@ if (flextype('registry')->get('flextype.settings.entries.fields.entries.fetch.en
              }
 
              // Save fetch.
-             flextype('entries')->registry()->set('fetch.id', $original['id']);
-             flextype('entries')->registry()->set('fetch.options', $original['options']);
-             flextype('entries')->registry()->set('fetch.data', arrays($original['data'])->merge($data)->toArray());
+             entries()->registry()->set('fetch.id', $original['id']);
+             entries()->registry()->set('fetch.options', $original['options']);
+             entries()->registry()->set('fetch.data', arrays($original['data'])->merge($data)->toArray());
          }
      });
 }

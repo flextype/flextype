@@ -8,20 +8,22 @@ declare(strict_types=1);
  */
 
 
-if (flextype('registry')->get('flextype.settings.entries.fields.created_at.enabled')) {
-    flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function (): void {
-        if (flextype('entries')->registry()->get('fetch.data.created_at') === null) {
-            flextype('entries')->registry()->set('fetch.data.created_at', (int) filesystem()->file(flextype('entries')->getFileLocation(flextype('entries')->registry()->get('fetch.id')))->lastModified());
+if (registry()->get('flextype.settings.entries.fields.created_at.enabled')) {
+    emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
+        if (entries()->registry()->get('fetch.data.created_at') === null) {
+            entries()->registry()->set('fetch.data.created_at', (int) filesystem()->file(entries()->getFileLocation(entries()->registry()->get('fetch.id')))->lastModified());
         } else {
-            flextype('entries')->registry()->set('fetch.data.created_at', (int) strtotime((string) flextype('entries')->registry()->get('fetch.data.created_at')));
+            entries()->registry()->set('fetch.data.created_at', (int) strtotime((string) entries()->registry()->get('fetch.data.created_at')));
         }
     });
 
-    flextype('emitter')->addListener('onEntriesCreate', static function (): void {
-        if (flextype('entries')->registry()->get('create.data.created_at') !== null) {
+    emitter()->addListener('onEntriesCreate', static function (): void {
+        if (entries()->registry()->get('create.data.created_at') !== null) {
             return;
         }
 
-        flextype('entries')->registry()->set('create.data.created_at', date(flextype('registry')->get('flextype.settings.date_format'), time()));
+        entries()->registry()->set('create.data.created_at', date(registry()->get('flextype.settings.date_format'), time()));
     });
 }
+
+

@@ -7,20 +7,15 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype;
+namespace Flextype\Foundation;
 
 use Atomastic\Csrf\Csrf;
-use Atomastic\Registry\Registry;
 use Atomastic\Session\Session;
-use Bnf\Slim3Psr15\CallableResolver;
 use Cocur\Slugify\Slugify;
 use DateTimeZone;
-use Flextype\Foundation\Actions;
-use Flextype\Foundation\Cors;
-use Flextype\Foundation\Content\Content;
-use Flextype\Foundation\Flextype;
-use Flextype\Foundation\Media\Media;
-use Flextype\Foundation\Plugins;
+use Flextype\Foundation\Entries\Entries;
+use Flextype\Foundation\Handlers\HttpErrorHandler;
+use Flextype\Foundation\Handlers\ShutdownHandler;
 use Flextype\Support\Parsers\Parsers;
 use Flextype\Support\Serializers\Serializers;
 use Intervention\Image\ImageManager;
@@ -42,162 +37,193 @@ use League\Glide\Manipulators\Pixelate;
 use League\Glide\Manipulators\Sharpen;
 use League\Glide\Manipulators\Size;
 use League\Glide\Manipulators\Watermark;
-use League\Glide\Responses\SlimResponseFactory;
+use League\Glide\Responses\PsrResponseFactory;
 use League\Glide\ServerFactory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Phpfastcache\Drivers\Apcu\Config;
 use Phpfastcache\Helper\Psr16Adapter as Cache;
-use Slim\Http\Environment;
-use Slim\Http\Uri;
-use Whoops\Handler\JsonResponseHandler;
-use Whoops\Handler\PrettyPageHandler;
-use Whoops\Run;
-use Whoops\Util\Misc;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Factory\ServerRequestCreatorFactory;
+use Slim\Middleware\ContentLengthMiddleware;
+use Slim\Middleware\OutputBufferingMiddleware;
+use Slim\Middleware\RoutingMiddleware;
+use Slim\Psr7\Factory\StreamFactory;
+use Slim\Psr7\Stream;
+use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
+use function app;
+use function array_replace_recursive;
+use function container;
+use function count;
 use function date;
 use function date_default_timezone_set;
-use function error_reporting;
+use function dd;
+use function dump;
+use function emitter;
+use function entries;
 use function extension_loaded;
 use function file_exists;
+use function filemtime;
+use function filesystem;
 use function flextype;
 use function function_exists;
-use function get_class;
+use function implode;
 use function in_array;
 use function mb_internal_encoding;
 use function mb_language;
 use function mb_regex_encoding;
-use function str_replace;
+use function md5;
+use function parsers;
+use function register_shutdown_function;
+use function registry;
+use function session;
 use function strings;
 use function sys_get_temp_dir;
-use function ucwords;
+use function trim;
+use function var_export;
 
-/**
- * Init Registry
- */
-$registry = Registry::getInstance();
+// Init Flextype Instance
+// Creates $app Application and $container Container objects
+flextype();
 
-/**
- * Init Actions
- */
-$actions = Actions::getInstance();
+// Add Registry Service
+container()->set('registry', registry());
 
-/**
- * Preflight the Flextype
- */
-include_once ROOT_DIR . '/src/flextype/preflight.php';
+// Init Flextype config (manifest and settings)
+$flextypeManifestFilePath        = ROOT_DIR . '/src/flextype/flextype.yaml';
+$defaultFlextypeSettingsFilePath = ROOT_DIR . '/src/flextype/settings.yaml';
+$customFlextypeSettingsFilePath  = PATH['project'] . '/config/flextype/settings.yaml';
+$preflightFlextypePath           = PATH['tmp'] . '/config/flextype/';
+$customFlextypeSettingsPath      = PATH['project'] . '/config/flextype/';
 
-/**
- * Create new Flextype Application
- */
-$flextype = Flextype::getInstance([
-    'settings' => [
-        'debug' => $registry->get('flextype.settings.errors.display'),
-        'displayErrorDetails' => $registry->get('flextype.settings.display_error_details'),
-        'addContentLengthHeader' => $registry->get('flextype.settings.add_content_length_header'),
-        'routerCacheFile' => $registry->get('flextype.settings.router_cache_file'),
-        'determineRouteBeforeAppMiddleware' => $registry->get('flextype.settings.determine_route_before_app_middleware'),
-        'outputBuffering' => $registry->get('flextype.settings.output_buffering'),
-        'responseChunkSize' => $registry->get('flextype.settings.response_chunk_size'),
-        'httpVersion' => $registry->get('flextype.settings.http_version'),
-    ],
-]);
+! filesystem()->directory($preflightFlextypePath)->exists() and filesystem()->directory($preflightFlextypePath)->create(0755, true);
+! filesystem()->directory($customFlextypeSettingsPath)->exists() and filesystem()->directory($customFlextypeSettingsPath)->create(0755, true);
 
-/**
- * Display Errors
- */
-if ($registry->get('flextype.settings.errors.display')) {
-    $environment = new Environment($_SERVER);
-    $uri         = Uri::createFromEnvironment($environment);
+$f1 = file_exists($flextypeManifestFilePath) ? filemtime($flextypeManifestFilePath) : '';
+$f2 = file_exists($defaultFlextypeSettingsFilePath) ? filemtime($defaultFlextypeSettingsFilePath) : '';
+$f3 = file_exists($customFlextypeSettingsFilePath) ? filemtime($customFlextypeSettingsFilePath) : '';
 
-    $prettyPageHandler = new PrettyPageHandler();
+// Create Unique Cache ID
+$cacheID = md5($flextypeManifestFilePath . $defaultFlextypeSettingsFilePath . $customFlextypeSettingsFilePath . $f1 . $f2 . $f3);
 
-    $prettyPageHandler->setEditor((string) $registry->get('flextype.settings.whoops.editor'));
-    $prettyPageHandler->setPageTitle((string) $registry->get('flextype.settings.whoops.page_title'));
-
-    $prettyPageHandler->addDataTable('Flextype Application', [
-        'Application Class' => get_class(flextype()),
-        'Script Name'       => $environment->get('SCRIPT_NAME'),
-        'Request URI'       => $environment->get('PATH_INFO') ?: '<none>',
-    ]);
-
-    $prettyPageHandler->addDataTable('Flextype Application (Request)', [
-        'Path'            => $uri->getPath(),
-        'URL'             => (string) $uri,
-        'Query String'    => $uri->getQuery() ?: '<none>',
-        'Scheme'          => $uri->getScheme() ?: '<none>',
-        'Port'            => $uri->getPort() ?: '<none>',
-        'Host'            => $uri->getHost() ?: '<none>',
-    ]);
-
-    // Set Whoops to default exception handler
-    $whoops = new Run();
-    $whoops->pushHandler($prettyPageHandler);
-
-    // Enable JsonResponseHandler when request is AJAX
-    if (Misc::isAjaxRequest()) {
-        $whoops->pushHandler(new JsonResponseHandler());
+if (filesystem()->file($preflightFlextypePath . '/' . $cacheID . '.php')->exists()) {
+    $flextypeData = include $preflightFlextypePath . '/' . $cacheID . '.php';
+} else {
+    // Set settings if Flextype Default settings config files exist
+    if (! filesystem()->file($defaultFlextypeSettingsFilePath)->exists()) {
+        throw new RuntimeException('Flextype Default settings config file does not exist.');
     }
 
-    $whoops->register();
+    if (($defaultFlextypeSettingsContent = filesystem()->file($defaultFlextypeSettingsFilePath)->get()) === false) {
+        throw new RuntimeException('Load file: ' . $defaultFlextypeSettingsFilePath . ' - failed!');
+    } else {
+        if (trim($defaultFlextypeSettingsContent) === '') {
+            $defaultFlextypeSettings['settings'] = [];
+        } else {
+            $defaultFlextypeSettings['settings'] = SymfonyYaml::parse($defaultFlextypeSettingsContent);
+        }
+    }
 
-    flextype()->container()['whoops'] = $whoops;
-} else {
-    error_reporting(0);
+    // Create flextype custom settings file
+    ! filesystem()->file($customFlextypeSettingsFilePath)->exists() and filesystem()->file($customFlextypeSettingsFilePath)->put($defaultFlextypeSettingsContent);
+
+    if (($customFlextypeSettingsContent = filesystem()->file($customFlextypeSettingsFilePath)->get()) === false) {
+        throw new RuntimeException('Load file: ' . $customFlextypeSettingsFilePath . ' - failed!');
+    } else {
+        if (trim($customFlextypeSettingsContent) === '') {
+            $customFlextypeSettings['settings'] = [];
+        } else {
+            $customFlextypeSettings['settings'] = SymfonyYaml::parse($customFlextypeSettingsContent);
+        }
+    }
+
+    if (($flextypeManifestContent = filesystem()->file($flextypeManifestFilePath)->get()) === false) {
+        throw new RuntimeException('Load file: ' . $flextypeManifestFilePath . ' - failed!');
+    } else {
+        if (trim($flextypeManifestContent) === '') {
+            $flextypeManifest['manifest'] = [];
+        } else {
+            $flextypeManifest['manifest'] = SymfonyYaml::parse($flextypeManifestContent);
+        }
+    }
+
+    // Merge flextype default settings with custom project settings.
+    $flextypeData = array_replace_recursive($defaultFlextypeSettings, $customFlextypeSettings, $flextypeManifest);
+
+    filesystem()->file($preflightFlextypePath . $cacheID . '.php')->put("<?php\n return " . var_export($flextypeData, true) . ";\n");
 }
 
-/**
- * Create a standard session hanndler
- */
-flextype()->container()['session'] = static fn () => new Session();
+// Store flextype merged data in the flextype registry.
+registry()->set('flextype', $flextypeData);
 
-/**
- * Supply a custom callable resolver, which resolves PSR-15 middlewares.
- */
-flextype()->container()['callableResolver'] = static fn () => new CallableResolver(flextype()->container());
+// Set Flextype base path
+app()->setBasePath(registry()->get('flextype.settings.url'));
 
-/**
- * Add registry service to Flextype container
- */
-flextype()->container()['registry'] = $registry;
+// Add Routing Middleware
+app()->add(new RoutingMiddleware(app()->getRouteResolver(), app()->getRouteCollector()->getRouteParser()));
 
-/**
- * Add actions service to Flextype container
- */
-flextype()->container()['actions'] = $actions;
+// Add Content Length Middleware
+if (registry()->get('flextype.settings.add_content_length_header')) {
+    app()->add(new ContentLengthMiddleware());
+}
 
-/**
- * Add logger service to Flextype container
- */
-flextype()->container()['logger'] = static function () {
-    $logger = new Logger('flextype');
-    $logger->pushHandler(new StreamHandler(PATH['tmp'] . '/logs/' . date('Y-m-d') . '.log'));
+// Add Body Parsing Middleware
+app()->addBodyParsingMiddleware();
 
-    return $logger;
-};
+// Add Output Buffering Middleware
+if (registry()->get('flextype.settings.output_buffering')) {
+    switch (registry()->get('flextype.settings.output_buffering')) {
+        case 'prepend':
+            app()->add(new OutputBufferingMiddleware(new StreamFactory(), OutputBufferingMiddleware::PREPEND));
+            break;
 
-/**
- * Add emitter service to Flextype container
- */
-flextype()->container()['emitter'] = static fn () => new Emitter();
+        case 'append':
+        default:
+            app()->add(new OutputBufferingMiddleware(new StreamFactory(), OutputBufferingMiddleware::APPEND));
+            break;
+    }
+}
 
-/**
- * Add slugify service to Flextype container
- */
-flextype()->container()['slugify'] = static function () {
-    return new Slugify([
-        'separator' => flextype('registry')->get('flextype.settings.slugify.separator'),
-        'lowercase' => flextype('registry')->get('flextype.settings.slugify.lowercase'),
-        'trim' => flextype('registry')->get('flextype.settings.slugify.trim'),
-        'regexp' => flextype('registry')->get('flextype.settings.slugify.regexp'),
-        'lowercase_after_regexp' => flextype('registry')->get('flextype.settings.slugify.lowercase_after_regexp'),
-        'strip_tags' => flextype('registry')->get('flextype.settings.slugify.strip_tags'),
-    ]);
-};
+// Add Router Cache
+if (registry()->get('flextype.settings.cache.routes')) {
+    app()->getRouteCollector()->setCacheFile(PATH['tmp'] . '/routes/routes.php');
+}
 
+$callableResolver     = app()->getCallableResolver();
+$responseFactory      = app()->getResponseFactory();
+$serverRequestCreator = ServerRequestCreatorFactory::create();
+$request              = $serverRequestCreator->createServerRequestFromGlobals();
 
-flextype()->container()['cache'] = static function () {
-    $driverName = flextype('registry')->get('flextype.settings.cache.driver');
+$errorHandler    = new HttpErrorHandler($callableResolver, $responseFactory);
+$shutdownHandler = new ShutdownHandler($request, $errorHandler, registry()->get('flextype.settings.errors.display'));
+register_shutdown_function($shutdownHandler);
+
+// Add Session Service
+container()->set('session', new Session());
+
+// Add Logger Service
+container()->set('logger', (new Logger('flextype'))->pushHandler(new StreamHandler(PATH['tmp'] . '/logs/' . date('Y-m-d') . '.log')));
+
+// Add Emitter Service
+container()->set('emitter', new Emitter());
+
+// Add Slugify Service
+container()->set('slugify', new Slugify([
+    'separator' => registry()->get('flextype.settings.slugify.separator'),
+    'lowercase' => registry()->get('flextype.settings.slugify.lowercase'),
+    'trim' => registry()->get('flextype.settings.slugify.trim'),
+    'regexp' => registry()->get('flextype.settings.slugify.regexp'),
+    'lowercase_after_regexp' => registry()->get('flextype.settings.slugify.lowercase_after_regexp'),
+    'strip_tags' => registry()->get('flextype.settings.slugify.strip_tags'),
+]));
+
+// Add Cache Service
+container()->set('cache', function () {
+    $driverName = registry()->get('flextype.settings.cache.driver');
 
     $config = [];
 
@@ -205,8 +231,8 @@ flextype()->container()['cache'] = static function () {
     {
         $config = [];
 
-        foreach (flextype('registry')->get('flextype.settings.cache.drivers.' . $driverName) as $key => $value) {
-            if ($key === 'path' && in_array($driverName, ['files', 'sqlite', 'leveldb'])) {
+        foreach (registry()->get('flextype.settings.cache.drivers.' . $driverName) as $key => $value) {
+            if ($key === 'path' && in_array($driverName, ['files', 'sqlite', 'leveldb', 'phparray'])) {
                 $config['path'] = ! empty($value) ? PATH['tmp'] . '/' . $value : sys_get_temp_dir();
             } else {
                 $config[strings($key)->camel()->toString()] = $value;
@@ -226,7 +252,7 @@ flextype()->container()['cache'] = static function () {
         }
     }
 
-    if (flextype('registry')->get('flextype.settings.cache.enabled') === false) {
+    if (registry()->get('flextype.settings.cache.enabled') === false) {
         $driverName = 'devnull';
     }
 
@@ -257,6 +283,10 @@ flextype()->container()['cache'] = static function () {
             break;
         case 'files':
             $config = new \Phpfastcache\Drivers\Files\Config(getDriverConfig($driverName));
+            break;
+        case 'phparray':
+            $config = new \Phpfastcache\Drivers\Phparray\Config(getDriverConfig($driverName));
+
             break;
         case 'leveldb':
             $config = new \Phpfastcache\Drivers\Leveldb\Config(getDriverConfig($driverName));
@@ -303,24 +333,21 @@ flextype()->container()['cache'] = static function () {
     }
 
     return new Cache($driverName, $config);
-};
+});
 
-/**
- * Add parsers service to Flextype container
- */
-flextype()->container()['parsers'] = static fn () => new Parsers();
+// Add Parsers Service
+container()->set('parsers', new Parsers());
 
-/**
- * Add serializer service to Flextype container
- */
-flextype()->container()['serializers'] = static fn () => new Serializers();
+// Init Shortcodes
+parsers()->shortcodes()->initShortcodes();
 
-/**
- * Add images service to Flextype container
- */
-flextype()->container()['images'] = static function () {
+// Add Serializers Service
+container()->set('serializers', new Serializers());
+
+// Add Images Service
+container()->set('images', function () {
     // Get images settings
-    $imagesSettings = ['driver' => flextype('registry')->get('flextype.settings.media.image.driver')];
+    $imagesSettings = ['driver' => registry()->get('flextype.settings.media.image.driver')];
 
     // Set source filesystem
     $source = new Flysystem(
@@ -362,111 +389,105 @@ flextype()->container()['images'] = static function () {
     $api = new Api($imageManager, $manipulators);
 
     // Setup Glide server
-    return ServerFactory::create([
+    $server = ServerFactory::create([
         'source' => $source,
         'cache' => $cache,
         'api' => $api,
-        'response' => new SlimResponseFactory(),
     ]);
-};
 
-/**
- * Add content service to Flextype container
- */
-flextype()->container()['content'] = static fn () => new Content(flextype('registry')->get('flextype.settings.entries.content'));
+    $server->setResponseFactory(
+        new PsrResponseFactory(
+            new \Slim\Psr7\Response(),
+            function ($stream) {
+                return new Stream($stream);
+            }
+        )
+    );
 
-/**
- * Add media service to Flextype container
- */
-flextype()->container()['media'] = static fn () => new Media();
+    return $server;
+});
 
-/**
- * Add plugins service to Flextype container
- */
-flextype()->container()['plugins'] = static fn () => new Plugins();
+// Add Entries Service
+container()->set('entries', new Entries(registry()->get('flextype.settings.entries')));
 
-/**
- * Add cors service to Flextype container
- */
-flextype()->container()['cors'] = static fn () => new Cors();
+// Add Plugins service
+//container()->set('plugins', new Plugins());
 
-/**
- * Set session options before you start the session
- * Standard PHP session configuration options
- * https://secure.php.net/manual/en/session.configuration.php
- */
-flextype('session')->setOptions(flextype('registry')->get('flextype.settings.session'));
+// Set session options before you start the session
+// Standard PHP session configuration options
+// https://secure.php.net/manual/en/session.configuration.php
+session()->setOptions(registry()->get('flextype.settings.session'));
 
-/**
- * Start the session
- */
-flextype('session')->start();
+// Start the session
+session()->start();
 
-/**
- * Add CSRF (cross-site request forgery) protection service to Flextype container
- */
-flextype()->container()['csrf'] = static fn () => new Csrf('__csrf_token', '', 128);
+// Add CSRF (cross-site request forgery) protection service to Flextype container
+container()->set('csrf', new Csrf('__csrf_token', '', 128));
 
-/**
- * Set internal encoding
- */
+// Set internal encoding
 function_exists('mb_language') and mb_language('uni');
-function_exists('mb_regex_encoding') and mb_regex_encoding(flextype('registry')->get('flextype.settings.charset'));
-function_exists('mb_internal_encoding') and mb_internal_encoding(flextype('registry')->get('flextype.settings.charset'));
+function_exists('mb_regex_encoding') and mb_regex_encoding(registry()->get('flextype.settings.charset'));
+function_exists('mb_internal_encoding') and mb_internal_encoding(registry()->get('flextype.settings.charset'));
 
-/**
- * Set default timezone
- */
-if (in_array(flextype('registry')->get('flextype.settings.timezone'), DateTimeZone::listIdentifiers())) {
-    date_default_timezone_set(flextype('registry')->get('flextype.settings.timezone'));
+// Set default timezone
+if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listIdentifiers())) {
+    date_default_timezone_set(registry()->get('flextype.settings.timezone'));
 }
 
-/**
- * Init shortocodes
- *
- * Load Flextype Shortcodes from directory /flextype/Support/Parsers/Shortcodes/ based on flextype.settings.parsers.shortcode.shortcodes array
- */
-$shortcodes = flextype('registry')->get('flextype.settings.parsers.shortcode.shortcodes');
+// Enable lazy CORS
+//
+// CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.
+// This is important for third party web apps using Flextype, as without CORS, a JavaScript app hosted on example.com
+// couldn't access our APIs because they're hosted on another.com which is a different domain.
+if (registry()->get('flextype.settings.cors.enabled')) {
+    // Allow preflight requests for all routes.
+    app()->options('/{routes:.+}', function (ServerRequestInterface $request, ResponseInterface $response) {
+        return $response;
+    });
 
-foreach ($shortcodes as $shortcodeName => $shortcode) {
-    $shortcodeFilePath = ROOT_DIR . '/src/flextype/Support/Parsers/Shortcodes/' . str_replace('_', '', ucwords($shortcodeName, '_')) . 'Shortcode.php';
-    if (! file_exists($shortcodeFilePath)) {
-        continue;
-    }
+    // Add headers
+    app()->add(function (Request $request, RequestHandlerInterface $handler): Response {
+        $response = $handler->handle($request);
 
-    include_once $shortcodeFilePath;
+        // Set variables
+        $origin      = registry()->get('flextype.settings.cors.origin');
+        $headers     = count(registry()->get('flextype.settings.cors.headers')) ? implode(', ', registry()->get('flextype.settings.cors.headers')) : '';
+        $methods     = count(registry()->get('flextype.settings.cors.methods')) ? implode(', ', registry()->get('flextype.settings.cors.methods')) : '';
+        $expose      = count(registry()->get('flextype.settings.cors.expose')) ? implode(', ', registry()->get('flextype.settings.cors.expose')) : '';
+        $credentials = registry()->get('flextype.settings.cors.credentials') ? 'true' : 'false';
+
+        return $response
+                ->withHeader('Access-Control-Allow-Origin', $origin)
+                ->withHeader('Access-Control-Allow-Headers', $headers)
+                ->withHeader('Access-Control-Allow-Methods', $methods)
+                ->withHeader('Access-Control-Allow-Expose', $expose)
+                ->withHeader('Access-Control-Allow-Credentials', $credentials);
+    });
 }
 
-/**
- * Init plugins
- */
-flextype('plugins')->init();
+// Define app routes
+app()->get('/hello/{name}', function ($name, Request $request, Response $response) {
+    $response->getBody()->write("Hello, $name");
 
-/**
- * Include API ENDPOINTS
- */
-include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/errors.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/Utils/access.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/content.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/registry.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/media.php';
-include_once ROOT_DIR . '/src/flextype/Endpoints/images.php';
+    //entries()->create('bar', ['entries' => '[registry_get name="Bar" default="Zed"]', 'parsers' => ['shortcodes' => ['enabled' => true, 'fields' => ['entries']]]]);
 
-/**
- * Enable lazy CORS
- *
- * CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.
- * This is important for third party web apps using Flextype, as without CORS, a JavaScript app hosted on example.com
- * couldn't access our APIs because they're hosted on another.com which is a different domain.
- */
-flextype('cors')->init();
+    dump(parsers()->shortcodes()->process('[registry_get name="Bar" default="Zed"]'));
 
-/**
- * Run high priority event: onFlextypeBeforeRun before Flextype Application starts.
- */
-flextype('emitter')->emit('onFlextypeBeforeRun');
+    dump(entries()->fetch('bar'));
+    dump(entries()->fetch('bar'));
+    dd(entries()->fetch('bar'));
 
-/**
- * Run application
- */
-flextype()->run();
+    return $response;
+});
+
+// Add Routing Middleware
+app()->addRoutingMiddleware();
+
+// Add Error Handling Middleware
+app()->addErrorMiddleware(registry()->get('flextype.settings.errors.display'), false, false)->setDefaultErrorHandler($errorHandler);
+
+// Run high priority event: onFlextypeBeforeRun before Flextype Application starts.
+emitter()->emit('onFlextypeBeforeRun');
+
+// Run Flextype Application
+app()->run();

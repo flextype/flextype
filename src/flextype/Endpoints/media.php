@@ -46,8 +46,8 @@ flextype()->get('/api/media/files', function (Request $request, Response $respon
 
     if (! isset($query['id']) || ! isset($query['token'])) {
         return $response->withStatus($apiErrors['0500']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0500']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0500']));
     }
 
     // Set variables
@@ -56,21 +56,21 @@ flextype()->get('/api/media/files', function (Request $request, Response $respon
     $options = $query['options'] ?? [];
     $method  = $query['options']['method'] ?? '';
 
-    if (flextype('registry')->get('flextype.settings.api.media.enabled')) {
+    if (registry()->get('flextype.settings.api.media.enabled')) {
         // Validate delivery token
         if (validate_media_token($token)) {
             $files_token_file_path = PATH['project'] . '/tokens/media/' . $token . '/token.yaml';
 
             // Set delivery token file
-            if ($files_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($files_token_file_path)->get())) {
+            if ($files_token_file_data = serializers()->yaml()->decode(filesystem()->file($files_token_file_path)->get())) {
                 if (
                     $files_token_file_data['state'] === 'disabled' ||
                     ($files_token_file_data['limit_calls'] !== 0 && $files_token_file_data['calls'] >= $files_token_file_data['limit_calls'])
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 // Create files array
@@ -96,39 +96,39 @@ flextype()->get('/api/media/files', function (Request $request, Response $respon
                 $response_code = count($response_data['data']) > 0 ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($files_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
+                filesystem()->file($files_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
                                 ->withStatus($apiErrors['0502']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0502']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0502']));
                 }
 
                 // Return response
                 return $response
                             ->withStatus($response_code)
-                            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                            ->write(flextype('serializers')->json()->encode($response_data));
+                            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                            ->write(serializers()->json()->encode($response_data));
             }
 
             return $response
                         ->withStatus($apiErrors['0003']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0003']));
         }
 
         return $response
                     ->withStatus($apiErrors['0003']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0003']));
     }
 
     return $response
                 ->withStatus($apiErrors['0003']['http_status_code'])
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($apiErrors['0003']));
 });
 
 /**
@@ -151,8 +151,8 @@ flextype()->post('/api/media/files', function (Request $request, Response $respo
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['folder']) || ! isset($_FILES['file'])) {
         return $response->withStatus($apiErrors['0501']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0501']));
     }
 
     // Set variables
@@ -161,7 +161,7 @@ flextype()->post('/api/media/files', function (Request $request, Response $respo
     $folder       = $post_data['folder'];
     $file         = $_FILES['file'];
 
-    if (flextype('registry')->get('flextype.settings.api.media.enabled')) {
+    if (registry()->get('flextype.settings.api.media.enabled')) {
         // Validate files and access token
         if (validate_media_token($token) && validateAccessToken($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/media/' . $token . '/token.yaml';
@@ -169,8 +169,8 @@ flextype()->post('/api/media/files', function (Request $request, Response $respo
 
             // Set files and access token file
             if (
-                ($files_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
+                ($files_token_file_data = serializers()->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
                     $files_token_file_data['state'] === 'disabled' ||
@@ -178,8 +178,8 @@ flextype()->post('/api/media/files', function (Request $request, Response $respo
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 if (
@@ -188,8 +188,8 @@ flextype()->post('/api/media/files', function (Request $request, Response $respo
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 // Create file
@@ -205,39 +205,39 @@ flextype()->post('/api/media/files', function (Request $request, Response $respo
                 $response_code = filesystem()->file($create_file)->exists() ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($files_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
+                filesystem()->file($files_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
                                 ->withStatus($apiErrors['0502']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0502']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0502']));
                 }
 
                 // Return response
                 return $response
                             ->withStatus($response_code)
-                            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                            ->write(flextype('serializers')->json()->encode($response_data));
+                            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                            ->write(serializers()->json()->encode($response_data));
             }
 
             return $response
                         ->withStatus($apiErrors['0003']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0003']));
         }
 
         return $response
                     ->withStatus($apiErrors['0003']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0003']));
     }
 
     return $response
                 ->withStatus($apiErrors['0003']['http_status_code'])
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($apiErrors['0003']));
 });
 
 
@@ -261,8 +261,8 @@ flextype()->put('/api/media/files', function (Request $request, Response $respon
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response->withStatus($apiErrors['0501']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0501']));
     }
 
     // Set variables
@@ -271,7 +271,7 @@ flextype()->put('/api/media/files', function (Request $request, Response $respon
     $id           = $post_data['id'];
     $new_id       = $post_data['new_id'];
 
-    if (flextype('registry')->get('flextype.settings.api.media.enabled')) {
+    if (registry()->get('flextype.settings.api.media.enabled')) {
         // Validate files and access token
         if (validate_media_token($token) && validateAccessToken($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/media/' . $token . '/token.yaml';
@@ -279,8 +279,8 @@ flextype()->put('/api/media/files', function (Request $request, Response $respon
 
             // Set files and access token file
             if (
-                ($files_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
+                ($files_token_file_data = serializers()->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
                     $files_token_file_data['state'] === 'disabled' ||
@@ -288,8 +288,8 @@ flextype()->put('/api/media/files', function (Request $request, Response $respon
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 if (
@@ -298,8 +298,8 @@ flextype()->put('/api/media/files', function (Request $request, Response $respon
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 // Rename file
@@ -315,39 +315,39 @@ flextype()->put('/api/media/files', function (Request $request, Response $respon
                 $response_code = $rename_file === true ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($files_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
+                filesystem()->file($files_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
                                 ->withStatus($apiErrors['0502']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0502']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0502']));
                 }
 
                 // Return response
                 return $response
                             ->withStatus($response_code)
-                            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                            ->write(flextype('serializers')->json()->encode($response_data));
+                            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                            ->write(serializers()->json()->encode($response_data));
             }
 
             return $response
                         ->withStatus($apiErrors['0003']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0003']));
         }
 
         return $response
                     ->withStatus($apiErrors['0003']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0003']));
     }
 
     return $response
                 ->withStatus($apiErrors['0003']['http_status_code'])
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($apiErrors['0003']));
 });
 
 /**
@@ -370,8 +370,8 @@ flextype()->put('/api/media/files/copy', function (Request $request, Response $r
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response->withStatus($apiErrors['0501']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0501']));
     }
 
     // Set variables
@@ -380,7 +380,7 @@ flextype()->put('/api/media/files/copy', function (Request $request, Response $r
     $id           = $post_data['id'];
     $new_id       = $post_data['new_id'];
 
-    if (flextype('registry')->get('flextype.settings.api.media.enabled')) {
+    if (registry()->get('flextype.settings.api.media.enabled')) {
         // Validate files and access token
         if (validate_media_token($token) && validateAccessToken($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/media/' . $token . '/token.yaml';
@@ -388,8 +388,8 @@ flextype()->put('/api/media/files/copy', function (Request $request, Response $r
 
             // Set files and access token file
             if (
-                ($files_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
+                ($files_token_file_data = serializers()->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
                     $files_token_file_data['state'] === 'disabled' ||
@@ -397,8 +397,8 @@ flextype()->put('/api/media/files/copy', function (Request $request, Response $r
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 if (
@@ -407,8 +407,8 @@ flextype()->put('/api/media/files/copy', function (Request $request, Response $r
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 // Copy file
@@ -424,39 +424,39 @@ flextype()->put('/api/media/files/copy', function (Request $request, Response $r
                 $response_code = $copy_file === true ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($files_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
+                filesystem()->file($files_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
                                 ->withStatus($apiErrors['0502']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0502']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0502']));
                 }
 
                 // Return response
                 return $response
                             ->withStatus($response_code)
-                            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                            ->write(flextype('serializers')->json()->encode($response_data));
+                            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                            ->write(serializers()->json()->encode($response_data));
             }
 
             return $response
                         ->withStatus($apiErrors['0003']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0003']));
         }
 
         return $response
                     ->withStatus($apiErrors['0003']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0003']));
     }
 
     return $response
                 ->withStatus($apiErrors['0003']['http_status_code'])
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($apiErrors['0003']));
 });
 
 /**
@@ -478,8 +478,8 @@ flextype()->delete('/api/media/files', function (Request $request, Response $res
 
     if (! isset($post_data['id']) || ! isset($post_data['access_token']) || ! isset($post_data['id'])) {
         return $response->withStatus($apiErrors['0501']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0501']));
     }
 
     // Set variables
@@ -487,7 +487,7 @@ flextype()->delete('/api/media/files', function (Request $request, Response $res
     $access_token = $post_data['access_token'];
     $id           = $post_data['id'];
 
-    if (flextype('registry')->get('flextype.settings.api.media.enabled')) {
+    if (registry()->get('flextype.settings.api.media.enabled')) {
         // Validate files and access token
         if (validate_media_token($token) && validateAccessToken($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/media/' . $token . '/token.yaml';
@@ -495,8 +495,8 @@ flextype()->delete('/api/media/files', function (Request $request, Response $res
 
             // Set files and access token file
             if (
-                ($files_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
+                ($files_token_file_data = serializers()->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
                     $files_token_file_data['state'] === 'disabled' ||
@@ -504,8 +504,8 @@ flextype()->delete('/api/media/files', function (Request $request, Response $res
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 if (
@@ -514,8 +514,8 @@ flextype()->delete('/api/media/files', function (Request $request, Response $res
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 // Delete file
@@ -525,39 +525,39 @@ flextype()->delete('/api/media/files', function (Request $request, Response $res
                 $response_code = $delete_file ? 204 : 404;
 
                 // Update calls counter
-                filesystem()->file($files_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
+                filesystem()->file($files_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
                                 ->withStatus($apiErrors['0502']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0502']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0502']));
                 }
 
                 // Return response
                 return $response
                             ->withStatus($response_code)
-                            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                            ->write(flextype('serializers')->json()->encode($delete_file));
+                            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                            ->write(serializers()->json()->encode($delete_file));
             }
 
             return $response
                         ->withStatus($apiErrors['0003']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0003']));
         }
 
         return $response
                     ->withStatus($apiErrors['0003']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0003']));
     }
 
     return $response
                 ->withStatus($apiErrors['0003']['http_status_code'])
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($apiErrors['0003']));
 });
 
 /**
@@ -581,8 +581,8 @@ flextype()->patch('/api/media/files/meta', function (Request $request, Response 
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['field']) || ! isset($post_data['value'])) {
         return $response->withStatus($apiErrors['0501']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0501']));
     }
 
     // Set variables
@@ -592,7 +592,7 @@ flextype()->patch('/api/media/files/meta', function (Request $request, Response 
     $field        = $post_data['field'];
     $value        = $post_data['value'];
 
-    if (flextype('registry')->get('flextype.settings.api.media.enabled')) {
+    if (registry()->get('flextype.settings.api.media.enabled')) {
         // Validate files and access token
         if (validate_media_token($token) && validateAccessToken($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/media/' . $token . '/token.yaml';
@@ -600,8 +600,8 @@ flextype()->patch('/api/media/files/meta', function (Request $request, Response 
 
             // Set files and access token file
             if (
-                ($files_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
+                ($files_token_file_data = serializers()->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
                     $files_token_file_data['state'] === 'disabled' ||
@@ -609,8 +609,8 @@ flextype()->patch('/api/media/files/meta', function (Request $request, Response 
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 if (
@@ -619,8 +619,8 @@ flextype()->patch('/api/media/files/meta', function (Request $request, Response 
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 // Update file meta
@@ -636,39 +636,39 @@ flextype()->patch('/api/media/files/meta', function (Request $request, Response 
                 $response_code = $update_file_meta ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($files_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
+                filesystem()->file($files_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
                                 ->withStatus($apiErrors['0502']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0502']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0502']));
                 }
 
                 // Return response
                 return $response
                             ->withStatus($response_code)
-                            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                            ->write(flextype('serializers')->json()->encode($response_data));
+                            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                            ->write(serializers()->json()->encode($response_data));
             }
 
             return $response
                         ->withStatus($apiErrors['0003']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0003']));
         }
 
         return $response
                     ->withStatus($apiErrors['0003']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0003']));
     }
 
     return $response
                 ->withStatus($apiErrors['0003']['http_status_code'])
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($apiErrors['0003']));
 });
 
 /**
@@ -692,8 +692,8 @@ flextype()->post('/api/media/files/meta', function (Request $request, Response $
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['field']) || ! isset($post_data['value'])) {
         return $response->withStatus($apiErrors['0501']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0501']));
     }
 
     // Set variables
@@ -703,7 +703,7 @@ flextype()->post('/api/media/files/meta', function (Request $request, Response $
     $field        = $post_data['field'];
     $value        = $post_data['value'];
 
-    if (flextype('registry')->get('flextype.settings.api.media.enabled')) {
+    if (registry()->get('flextype.settings.api.media.enabled')) {
         // Validate files and access token
         if (validate_media_token($token) && validateAccessToken($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/media/' . $token . '/token.yaml';
@@ -711,8 +711,8 @@ flextype()->post('/api/media/files/meta', function (Request $request, Response $
 
             // Set files and access token file
             if (
-                ($files_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
+                ($files_token_file_data = serializers()->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
                     $files_token_file_data['state'] === 'disabled' ||
@@ -720,8 +720,8 @@ flextype()->post('/api/media/files/meta', function (Request $request, Response $
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 if (
@@ -730,8 +730,8 @@ flextype()->post('/api/media/files/meta', function (Request $request, Response $
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 // Add file meta
@@ -747,39 +747,39 @@ flextype()->post('/api/media/files/meta', function (Request $request, Response $
                 $response_code = $add_file_meta ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($files_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
+                filesystem()->file($files_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
                                 ->withStatus($apiErrors['0502']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0502']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0502']));
                 }
 
                 // Return response
                 return $response
                             ->withStatus($response_code)
-                            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                            ->write(flextype('serializers')->json()->encode($response_data));
+                            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                            ->write(serializers()->json()->encode($response_data));
             }
 
             return $response
                         ->withStatus($apiErrors['0003']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0003']));
         }
 
         return $response
                     ->withStatus($apiErrors['0003']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0003']));
     }
 
     return $response
                 ->withStatus($apiErrors['0003']['http_status_code'])
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($apiErrors['0003']));
 });
 
 
@@ -803,8 +803,8 @@ flextype()->delete('/api/media/files/meta', function (Request $request, Response
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['field'])) {
         return $response->withStatus($apiErrors['0501']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0501']));
     }
 
     // Set variables
@@ -813,7 +813,7 @@ flextype()->delete('/api/media/files/meta', function (Request $request, Response
     $id           = $post_data['id'];
     $field        = $post_data['field'];
 
-    if (flextype('registry')->get('flextype.settings.api.media.enabled')) {
+    if (registry()->get('flextype.settings.api.media.enabled')) {
         // Validate files and access token
         if (validate_media_token($token) && validateAccessToken($access_token)) {
             $files_token_file_path  = PATH['project'] . '/tokens/media/' . $token . '/token.yaml';
@@ -821,8 +821,8 @@ flextype()->delete('/api/media/files/meta', function (Request $request, Response
 
             // Set files and access token file
             if (
-                ($files_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
+                ($files_token_file_data = serializers()->yaml()->decode(filesystem()->file($files_token_file_path)->get())) &&
+                ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
                     $files_token_file_data['state'] === 'disabled' ||
@@ -830,8 +830,8 @@ flextype()->delete('/api/media/files/meta', function (Request $request, Response
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 if (
@@ -840,8 +840,8 @@ flextype()->delete('/api/media/files/meta', function (Request $request, Response
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
                 // Delete file meta
@@ -857,39 +857,39 @@ flextype()->delete('/api/media/files/meta', function (Request $request, Response
                 $response_code = $delete_file_meta ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($files_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
+                filesystem()->file($files_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($files_token_file_data, ['calls' => $files_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
                                 ->withStatus($apiErrors['0502']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0502']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0502']));
                 }
 
                 // Return response
                 return $response
                             ->withStatus($response_code)
-                            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                            ->write(flextype('serializers')->json()->encode($response_data));
+                            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                            ->write(serializers()->json()->encode($response_data));
             }
 
             return $response
                         ->withStatus($apiErrors['0003']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0003']));
         }
 
         return $response
                     ->withStatus($apiErrors['0003']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0003']));
     }
 
     return $response
                 ->withStatus($apiErrors['0003']['http_status_code'])
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($apiErrors['0003']));
 });
 
 
@@ -912,8 +912,8 @@ flextype()->get('/api/media/folders', function (Request $request, Response $resp
 
     if (! isset($query['id']) || ! isset($query['token'])) {
         return $response->withStatus($apiErrors['0600']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0600']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0600']));
     }
 
     // Set variables
@@ -922,20 +922,20 @@ flextype()->get('/api/media/folders', function (Request $request, Response $resp
     $options = $query['options'] ?? [];
     $method  = $query['method'] ?? '';
 
-    if (flextype('registry')->get('flextype.settings.api.media.enabled')) {
+    if (registry()->get('flextype.settings.api.media.enabled')) {
         // Validate delivery token
         if (validate_media_token($token)) {
             $folders_token_file_path = PATH['project'] . '/tokens/media/' . $token . '/token.yaml';
 
             // Set delivery token file
-            if ($folders_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($folders_token_file_path)->get())) {
+            if ($folders_token_file_data = serializers()->yaml()->decode(filesystem()->file($folders_token_file_path)->get())) {
                 if (
                     $folders_token_file_data['state'] === 'disabled' ||
                     ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])
                 ) {
                     return $response->withStatus($apiErrors['0501']['http_status_code'])
-                                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                    ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                    ->write(serializers()->json()->encode($apiErrors['0501']));
                 }
 
                 // Create folders array
@@ -961,39 +961,39 @@ flextype()->get('/api/media/folders', function (Request $request, Response $resp
                 $response_code = count($response_data['data']) > 0 ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($folders_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
+                filesystem()->file($folders_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
                            ->withStatus($apiErrors['0602']['http_status_code'])
-                           ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                           ->write(flextype('serializers')->json()->encode($apiErrors['0602']));
+                           ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                           ->write(serializers()->json()->encode($apiErrors['0602']));
                 }
 
                 // Return response
                 return $response
                        ->withStatus($response_code)
-                       ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                       ->write(flextype('serializers')->json()->encode($response_data));
+                       ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                       ->write(serializers()->json()->encode($response_data));
             }
 
             return $response
                    ->withStatus($apiErrors['0003']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+            ->write(serializers()->json()->encode($apiErrors['0003']));
         }
 
         return $response
                ->withStatus($apiErrors['0003']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+            ->write(serializers()->json()->encode($apiErrors['0003']));
     }
 
     return $response
            ->withStatus($apiErrors['0003']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+            ->write(serializers()->json()->encode($apiErrors['0003']));
 });
 
 
@@ -1016,8 +1016,8 @@ flextype()->post('/api/media/folders', function (Request $request, Response $res
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id'])) {
         return $response->withStatus($apiErrors['0601']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('serializers')->json()->encode($apiErrors['0601']));
+            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+            ->write(serializers()->json()->encode($apiErrors['0601']));
     }
 
     // Set variables
@@ -1025,7 +1025,7 @@ flextype()->post('/api/media/folders', function (Request $request, Response $res
     $access_token = $post_data['access_token'];
     $id           = $post_data['id'];
 
-    if (flextype('registry')->get('flextype.settings.api.media.enabled')) {
+    if (registry()->get('flextype.settings.api.media.enabled')) {
         // Validate files and access token
         if (validate_media_token($token) && validateAccessToken($access_token)) {
             $folders_token_file_path = PATH['project'] . '/tokens/media/' . $token . '/token.yaml';
@@ -1033,16 +1033,16 @@ flextype()->post('/api/media/folders', function (Request $request, Response $res
 
             // Set files and access token file
             if (
-                ($folders_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($folders_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
+                ($folders_token_file_data = serializers()->yaml()->decode(filesystem()->file($folders_token_file_path)->get())) &&
+                ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
                     $folders_token_file_data['state'] === 'disabled' ||
                     ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])
                 ) {
                     return $response->withStatus($apiErrors['0501']['http_status_code'])
-                                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                    ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                    ->write(serializers()->json()->encode($apiErrors['0501']));
                 }
 
                 if (
@@ -1050,8 +1050,8 @@ flextype()->post('/api/media/folders', function (Request $request, Response $res
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
                 ) {
                     return $response->withStatus($apiErrors['0501']['http_status_code'])
-                                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                    ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                    ->write(serializers()->json()->encode($apiErrors['0501']));
                 }
 
                 // Create folder
@@ -1067,39 +1067,39 @@ flextype()->post('/api/media/folders', function (Request $request, Response $res
                 $response_code = $create_folder ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($folders_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
+                filesystem()->file($folders_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
                          ->withStatus($apiErrors['0602']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0602']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0602']));
                 }
 
                 // Return response
                 return $response
                      ->withStatus($response_code)
-                     ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                     ->write(flextype('serializers')->json()->encode($response_data));
+                     ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                     ->write(serializers()->json()->encode($response_data));
             }
 
             return $response
                         ->withStatus($apiErrors['0003']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0003']));
         }
 
         return $response
                     ->withStatus($apiErrors['0003']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0003']));
     }
 
     return $response
                 ->withStatus($apiErrors['0003']['http_status_code'])
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($apiErrors['0003']));
 });
 
 /**
@@ -1122,8 +1122,8 @@ flextype()->put('/api/media/folders/copy', function (Request $request, Response 
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response->withStatus($apiErrors['0601']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('serializers')->json()->encode($apiErrors['0601']));
+            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+            ->write(serializers()->json()->encode($apiErrors['0601']));
     }
 
     // Set variables
@@ -1132,7 +1132,7 @@ flextype()->put('/api/media/folders/copy', function (Request $request, Response 
     $id           = $post_data['id'];
     $new_id       = $post_data['new_id'];
 
-    if (flextype('registry')->get('flextype.settings.api.media.enabled')) {
+    if (registry()->get('flextype.settings.api.media.enabled')) {
         // Validate files and access token
         if (validate_media_token($token) && validateAccessToken($access_token)) {
             $folders_token_file_path = PATH['project'] . '/tokens/media/' . $token . '/token.yaml';
@@ -1140,16 +1140,16 @@ flextype()->put('/api/media/folders/copy', function (Request $request, Response 
 
             // Set files and access token file
             if (
-                ($folders_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($folders_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
+                ($folders_token_file_data = serializers()->yaml()->decode(filesystem()->file($folders_token_file_path)->get())) &&
+                ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
                     $folders_token_file_data['state'] === 'disabled' ||
                     ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])
                 ) {
                     return $response->withStatus($apiErrors['0601']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0601']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0601']));
                 }
 
                 if (
@@ -1157,8 +1157,8 @@ flextype()->put('/api/media/folders/copy', function (Request $request, Response 
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
                 ) {
                     return $response->withStatus($apiErrors['0601']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0601']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0601']));
                 }
 
                 // Copy folder
@@ -1176,39 +1176,39 @@ flextype()->put('/api/media/folders/copy', function (Request $request, Response 
                 $response_code = $copy_folder ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($folders_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
+                filesystem()->file($folders_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
                                 ->withStatus($apiErrors['0602']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0602']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0602']));
                 }
 
                 // Return response
                 return $response
                      ->withStatus($response_code)
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($response_data));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($response_data));
             }
 
             return $response
                         ->withStatus($apiErrors['0003']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0003']));
         }
 
         return $response
                     ->withStatus($apiErrors['0003']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0003']));
     }
 
     return $response
                 ->withStatus($apiErrors['0003']['http_status_code'])
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($apiErrors['0003']));
 });
 
 /**
@@ -1231,8 +1231,8 @@ flextype()->put('/api/media/folders', function (Request $request, Response $resp
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id']) || ! isset($post_data['new_id'])) {
         return $response->withStatus($apiErrors['0601']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('serializers')->json()->encode($apiErrors['0601']));
+            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+            ->write(serializers()->json()->encode($apiErrors['0601']));
     }
 
     // Set variables
@@ -1241,7 +1241,7 @@ flextype()->put('/api/media/folders', function (Request $request, Response $resp
     $id           = $post_data['id'];
     $new_id       = $post_data['new_id'];
 
-    if (flextype('registry')->get('flextype.settings.api.media.enabled')) {
+    if (registry()->get('flextype.settings.api.media.enabled')) {
         // Validate files and access token
         if (validate_media_token($token) && validateAccessToken($access_token)) {
             $folders_token_file_path = PATH['project'] . '/tokens/media/' . $token . '/token.yaml';
@@ -1249,16 +1249,16 @@ flextype()->put('/api/media/folders', function (Request $request, Response $resp
 
             // Set files and access token file
             if (
-                ($folders_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($folders_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
+                ($folders_token_file_data = serializers()->yaml()->decode(filesystem()->file($folders_token_file_path)->get())) &&
+                ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
                     $folders_token_file_data['state'] === 'disabled' ||
                     ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])
                 ) {
                     return $response->withStatus($apiErrors['0501']['http_status_code'])
-                                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                    ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                    ->write(serializers()->json()->encode($apiErrors['0501']));
                 }
 
                 if (
@@ -1266,8 +1266,8 @@ flextype()->put('/api/media/folders', function (Request $request, Response $resp
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
                 ) {
                     return $response->withStatus($apiErrors['0501']['http_status_code'])
-                                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                    ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                    ->write(serializers()->json()->encode($apiErrors['0501']));
                 }
 
                 // Rename folder
@@ -1283,39 +1283,39 @@ flextype()->put('/api/media/folders', function (Request $request, Response $resp
                 $response_code = $move_folder ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($folders_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
+                filesystem()->file($folders_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
                                 ->withStatus($apiErrors['0602']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0602']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0602']));
                 }
 
                 // Return response
                 return $response
                      ->withStatus($response_code)
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($response_data));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($response_data));
             }
 
             return $response
                         ->withStatus($apiErrors['0003']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0003']));
         }
 
         return $response
                     ->withStatus($apiErrors['0003']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0003']));
     }
 
     return $response
                 ->withStatus($apiErrors['0003']['http_status_code'])
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($apiErrors['0003']));
 });
 
 /**
@@ -1337,8 +1337,8 @@ flextype()->delete('/api/media/folders', function (Request $request, Response $r
 
     if (! isset($post_data['token']) || ! isset($post_data['access_token']) || ! isset($post_data['id'])) {
         return $response->withStatus($apiErrors['0601']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-            ->write(flextype('serializers')->json()->encode($apiErrors['0601']));
+            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+            ->write(serializers()->json()->encode($apiErrors['0601']));
     }
 
     // Set variables
@@ -1346,7 +1346,7 @@ flextype()->delete('/api/media/folders', function (Request $request, Response $r
     $access_token = $post_data['access_token'];
     $id         = $post_data['id'];
 
-    if (flextype('registry')->get('flextype.settings.api.media.enabled')) {
+    if (registry()->get('flextype.settings.api.media.enabled')) {
         // Validate files and access token
         if (validate_media_token($token) && validateAccessToken($access_token)) {
             $folders_token_file_path = PATH['project'] . '/tokens/media/' . $token . '/token.yaml';
@@ -1354,16 +1354,16 @@ flextype()->delete('/api/media/folders', function (Request $request, Response $r
 
             // Set files and access token file
             if (
-                ($folders_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($folders_token_file_path)->get())) &&
-                ($access_token_file_data = flextype('serializers')->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
+                ($folders_token_file_data = serializers()->yaml()->decode(filesystem()->file($folders_token_file_path)->get())) &&
+                ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
                     $folders_token_file_data['state'] === 'disabled' ||
                     ($folders_token_file_data['limit_calls'] !== 0 && $folders_token_file_data['calls'] >= $folders_token_file_data['limit_calls'])
                 ) {
                     return $response->withStatus($apiErrors['0501']['http_status_code'])
-                                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                    ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                    ->write(serializers()->json()->encode($apiErrors['0501']));
                 }
 
                 if (
@@ -1371,8 +1371,8 @@ flextype()->delete('/api/media/folders', function (Request $request, Response $r
                     ($access_token_file_data['limit_calls'] !== 0 && $access_token_file_data['calls'] >= $access_token_file_data['limit_calls'])
                 ) {
                     return $response->withStatus($apiErrors['0501']['http_status_code'])
-                                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                    ->write(flextype('serializers')->json()->encode($apiErrors['0501']));
+                                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                    ->write(serializers()->json()->encode($apiErrors['0501']));
                 }
 
                 // Delete folder
@@ -1382,37 +1382,37 @@ flextype()->delete('/api/media/folders', function (Request $request, Response $r
                 $response_code = $delete_folder ? 204 : 404;
 
                 // Update calls counter
-                filesystem()->file($folders_token_file_path)->put(flextype('serializers')->yaml()->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
+                filesystem()->file($folders_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($folders_token_file_data, ['calls' => $folders_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
                     return $response
                                 ->withStatus($apiErrors['0602']['http_status_code'])
-                                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                                ->write(flextype('serializers')->json()->encode($apiErrors['0602']));
+                                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                                ->write(serializers()->json()->encode($apiErrors['0602']));
                 }
 
                 // Return response
                 return $response
                      ->withStatus($response_code)
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($delete_folder));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($delete_folder));
             }
 
             return $response
                         ->withStatus($apiErrors['0003']['http_status_code'])
-                        ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                        ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                        ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                        ->write(serializers()->json()->encode($apiErrors['0003']));
         }
 
         return $response
                     ->withStatus($apiErrors['0003']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                    ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                    ->write(serializers()->json()->encode($apiErrors['0003']));
     }
 
     return $response
                 ->withStatus($apiErrors['0003']['http_status_code'])
-                ->withHeader('Content-Type', 'application/json;charset=' . flextype('registry')->get('flextype.settings.charset'))
-                ->write(flextype('serializers')->json()->encode($apiErrors['0003']));
+                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
+                ->write(serializers()->json()->encode($apiErrors['0003']));
 });

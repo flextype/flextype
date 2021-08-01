@@ -7,26 +7,26 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-if (flextype('registry')->get('flextype.settings.entries.fields.visibility.enabled')) {
+if (registry()->get('flextype.settings.entries.fields.visibility.enabled')) {
     $visibility = [
         'draft' => 'draft',
         'hidden' => 'hidden',
         'visible' => 'visible',
     ];
 
-    flextype('emitter')->addListener('onEntriesFetchSingleHasResult', static function () use ($visibility): void {
-        if (flextype('entries')->registry()->get('fetch.data.visibility') !== null && in_array(flextype('entries')->registry()->get('fetch.data.visibility'), $visibility)) {
-            flextype('entries')->registry()->set('fetch.data.visibility', (string) $visibility[flextype('entries')->registry()->get('fetch.data.visibility')]);
+    emitter()->addListener('onEntriesFetchSingleHasResult', static function () use ($visibility): void {
+        if (entries()->registry()->get('fetch.data.visibility') !== null && in_array(entries()->registry()->get('fetch.data.visibility'), $visibility)) {
+            entries()->registry()->set('fetch.data.visibility', (string) $visibility[entries()->registry()->get('fetch.data.visibility')]);
         } else {
-            flextype('entries')->registry()->set('fetch.data.visibility', (string) $visibility['visible']);
+            entries()->registry()->set('fetch.data.visibility', (string) $visibility['visible']);
         }
     });
 
-    flextype('emitter')->addListener('onEntriesCreate', static function () use ($visibility): void {
-        if (flextype('entries')->registry()->get('create.data.visibility') !== null && in_array(flextype('entries')->registry()->get('create.data.visibility'), $visibility)) {
-            flextype('entries')->registry()->set('create.data.visibility', (string) $visibility[flextype('entries')->registry()->get('create.data.visibility')]);
+    emitter()->addListener('onEntriesCreate', static function () use ($visibility): void {
+        if (entries()->registry()->get('create.data.visibility') !== null && in_array(entries()->registry()->get('create.data.visibility'), $visibility)) {
+            entries()->registry()->set('create.data.visibility', (string) $visibility[entries()->registry()->get('create.data.visibility')]);
         } else {
-            flextype('entries')->registry()->set('create.data.visibility', (string) $visibility['visible']);
+            entries()->registry()->set('create.data.visibility', (string) $visibility['visible']);
         }
     });
 }

@@ -82,11 +82,11 @@ class MediaFiles
             filesystem()->directory($uploadMetadataFolder)->create(0755, true);
         }
 
-        $acceptFileTypes = flextype('registry')->get('flextype.settings.media.accept_file_types');
-        $maxFileSize     = flextype('registry')->get('flextype.settings.media.max_file_size');
-        $safeNames       = flextype('registry')->get('flextype.settings.media.safe_names');
-        $maxImageWidth   = flextype('registry')->get('flextype.settings.media.images.max_image_width');
-        $maxImageHeight  = flextype('registry')->get('flextype.settings.media.images.max_image_height');
+        $acceptFileTypes = registry()->get('flextype.settings.media.accept_file_types');
+        $maxFileSize     = registry()->get('flextype.settings.media.max_file_size');
+        $safeNames       = registry()->get('flextype.settings.media.safe_names');
+        $maxImageWidth   = registry()->get('flextype.settings.media.images.max_image_width');
+        $maxImageHeight  = registry()->get('flextype.settings.media.images.max_image_height');
 
         $exact    = false;
         $chmod    = 0644;
@@ -154,25 +154,25 @@ class MediaFiles
                                 $img = Image::make($filename);
 
                                 // now you are able to resize the instance
-                                if (flextype('registry')->get('flextype.settings.media.images.image_width') > 0 && flextype('registry')->get('flextype.settings.media.images.image_height') > 0) {
-                                    $img->resize(flextype('registry')->get('flextype.settings.media.images.image_width'), flextype('registry')->get('flextype.settings.media.images.image_height'), static function ($constraint): void {
+                                if (registry()->get('flextype.settings.media.images.image_width') > 0 && registry()->get('flextype.settings.media.images.image_height') > 0) {
+                                    $img->resize(registry()->get('flextype.settings.media.images.image_width'), registry()->get('flextype.settings.media.images.image_height'), static function ($constraint): void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
-                                } elseif (flextype('registry')->get('flextype.settings.media.images.image_width') > 0) {
-                                    $img->resize(flextype('registry')->get('flextype.settings.media.images.image_width'), null, static function ($constraint): void {
+                                } elseif (registry()->get('flextype.settings.media.images.image_width') > 0) {
+                                    $img->resize(registry()->get('flextype.settings.media.images.image_width'), null, static function ($constraint): void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
-                                } elseif (flextype('registry')->get('flextype.settings.media.images.image_height') > 0) {
-                                    $img->resize(null, flextype('registry')->get('flextype.settings.media.images.image_height'), static function ($constraint): void {
+                                } elseif (registry()->get('flextype.settings.media.images.image_height') > 0) {
+                                    $img->resize(null, registry()->get('flextype.settings.media.images.image_height'), static function ($constraint): void {
                                         $constraint->aspectRatio();
                                         $constraint->upsize();
                                     });
                                 }
 
                                 // finally we save the image as a new file
-                                $img->save($filename, flextype('registry')->get('flextype.settings.media.images.image_quality'));
+                                $img->save($filename, registry()->get('flextype.settings.media.images.image_quality'));
 
                                 // destroy
                                 $img->destroy();
@@ -202,7 +202,7 @@ class MediaFiles
 
                             filesystem()
                                 ->file($uploadMetadataFolder . basename($filename) . '.yaml')
-                                ->put(flextype('serializers')->yaml()->encode($metadata));
+                                ->put(serializers()->yaml()->encode($metadata));
 
                             // Return new file path
                             return $filename;
@@ -228,7 +228,7 @@ class MediaFiles
     public function fetch(string $id, array $options = []): Arrays
     {
         // Run event: onEntriesFetch
-        flextype('emitter')->emit('onMediaFilesFetch');
+        emitter()->emit('onMediaFilesFetch');
 
         if (
             isset($options['collection']) &&
@@ -240,15 +240,15 @@ class MediaFiles
             foreach (filesystem()->find()->files()->depth(0)->in(flextype('media')->folders()->meta()->getDirectoryMetaLocation($id)) as $file) {
                 $basename = $file->getBasename('.' . $file->getExtension());
 
-                $result[$basename]              = flextype('serializers')->yaml()->decode(filesystem()->file($file->getPathname())->get());
+                $result[$basename]              = serializers()->yaml()->decode(filesystem()->file($file->getPathname())->get());
                 $result[$basename]['filename']  = pathinfo(str_replace('/.meta', '', flextype('media')->files()->meta()->getFileMetaLocation($basename)))['filename'];
                 $result[$basename]['basename']  = explode('.', basename(flextype('media')->files()->meta()->getFileMetaLocation($basename)))[0];
                 $result[$basename]['extension'] = ltrim(strstr($basename, '.'), '.');
                 $result[$basename]['dirname']   = pathinfo(str_replace('/.meta', '', $file->getPathname()))['dirname'];
                 $result[$basename]['url']       = 'project/media/' . $id . '/' . $basename;
 
-                if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
-                    $fullUrl = flextype('registry')->get('flextype.settings.url');
+                if (registry()->has('flextype.settings.url') && registry()->get('flextype.settings.url') !== '') {
+                    $fullUrl = registry()->get('flextype.settings.url');
                 } else {
                     $fullUrl = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
                 }
@@ -266,7 +266,7 @@ class MediaFiles
         $result = [];
 
         if (filesystem()->file(flextype('media')->files()->meta()->getFileMetaLocation($id))->exists()) {
-            $result = flextype('serializers')->yaml()->decode(filesystem()->file(flextype('media')->files()->meta()->getFileMetaLocation($id))->get());
+            $result = serializers()->yaml()->decode(filesystem()->file(flextype('media')->files()->meta()->getFileMetaLocation($id))->get());
 
             $result['filename']  = pathinfo(str_replace('/.meta', '', flextype('media')->files()->meta()->getFileMetaLocation($id)))['filename'];
             $result['basename']  = explode('.', basename(flextype('media')->files()->meta()->getFileMetaLocation($id)))[0];
@@ -276,8 +276,8 @@ class MediaFiles
             $result['url']  = 'project/media/' . $id;
             $result['path'] = $id;
 
-            if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
-                $fullUrl = flextype('registry')->get('flextype.settings.url');
+            if (registry()->has('flextype.settings.url') && registry()->get('flextype.settings.url') !== '') {
+                $fullUrl = registry()->get('flextype.settings.url');
             } else {
                 $fullUrl = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
             }

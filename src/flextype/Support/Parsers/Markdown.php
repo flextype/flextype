@@ -60,7 +60,7 @@ final class Markdown
      */
     protected function __construct()
     {
-        $config = flextype('registry')->get('flextype.settings.parsers.markdown');
+        $config = registry()->get('flextype.settings.parsers.markdown');
         $this->environment = Environment::createCommonMarkEnvironment();
         $this->environment->addExtension(new AttributesExtension());
         $this->environment->addExtension(new TableExtension());
@@ -106,15 +106,15 @@ final class Markdown
      */
     public function parse(string $input, bool $cache = true)
     {
-        if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
+        if ($cache === true && registry()->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($dataFromCache = flextype('cache')->get($key)) {
+            if ($dataFromCache = cache()->get($key)) {
                 return $dataFromCache;
             }
 
             $data = $this->converter()->convertToHtml($input);
-            flextype('cache')->set($key, $data);
+            cache()->set($key, $data);
 
             return $data;
         }

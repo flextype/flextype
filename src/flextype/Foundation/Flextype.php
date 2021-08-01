@@ -9,15 +9,13 @@ declare(strict_types=1);
 
 namespace Flextype\Foundation;
 
+use DI\Bridge\Slim\Bridge;
+use DI\Container;
 use Exception;
 use Psr\Container\ContainerInterface;
 use Slim\App;
-use Slim\Http\Environment;
-use Slim\Http\Uri;
 
-use function is_null;
-
-final class Flextype extends App
+final class Flextype
 {
     /**
      * Flextype version
@@ -25,13 +23,21 @@ final class Flextype extends App
     public const VERSION = '0.9.16';
 
     /**
-     * The Flextype's instance is stored in a static field. This field is an
-     * array, because we'll allow our Flextype to have subclasses. Each item in
-     * this array will be an instance of a specific Flextype's subclass.
+     * The Flextype instance.
      *
      * @var array
      */
-    private static array $instances = [];
+    private static ?Flextype $instance = null;
+
+    /**
+     * The Flextype Application.
+     */
+    private static App $app;
+
+    /**
+     * The Flextype Application Container.
+     */
+    private static Container $container;
 
     /**
      * Flextype should not be cloneable.
@@ -50,46 +56,65 @@ final class Flextype extends App
     }
 
     /**
-     * Flextype construct
-     *
-     * @param ContainerInterface|array $container
+     * Flextype construct.
      */
-    protected function __construct($container = [])
+    protected function __construct(?ContainerInterface $container = null)
     {
-        parent::__construct($container);
+        // Set Application with PHP-DI Bridge
+        self::$app = Bridge::create($container);
+
+        // Set Application Container
+        self::$container = self::$app->getContainer();
     }
 
     /**
-     * Get/Set Dependency Injection Container.
+     * Get Flextype Application.
      *
-     * @param string|null $name DI Container name.
+     * @return App Returns Flextype Application.
+     *
+     * @access public
      */
-    public function container(?string $name = null)
+    public function app(): App
     {
-        if (is_null($name)) {
-            return self::getInstance()->getContainer();
+        return self::$app;
+    }
+
+    /**
+     * Get Flextype Application Container.
+     *
+     * @return Flextype Returns Flextype Application Container.
+     *
+     * @access public
+     */
+    public function container(): Container
+    {
+        return self::$container;
+    }
+
+    /**
+     * Returns Flextype Instance.
+     *
+     * Gets the instance via lazy initialization (created on first usage)
+     *
+     * @return Flextype Returns the current Flextype Instance.
+     *
+     * @access public
+     */
+    public static function getInstance(?ContainerInterface $container = null): Flextype
+    {
+        if (static::$instance === null) {
+            static::$instance = new self();
         }
 
-        return self::getInstance()->getContainer()[$name];
+        return static::$instance;
     }
 
     /**
-     * Returns Flextype Instance
+     * Get the current Flextype version.
      *
-     * @param ContainerInterface|array $container Container.
-     */
-    public static function getInstance($container = []): Flextype
-    {
-        $cls = static::class;
-        if (! isset(self::$instances[$cls])) {
-            self::$instances[$cls] = new static($container);
-        }
-
-        return self::$instances[$cls];
-    }
-
-    /**
-     * Returns the current Flextype version
+     * @return string Returns the current Flextype version.
+     *
+     * @access public
      */
     public function getVersion(): string
     {

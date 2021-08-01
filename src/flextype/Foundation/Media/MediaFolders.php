@@ -46,7 +46,7 @@ class MediaFolders
     public function fetch(string $id, array $options = []): Arrays
     {
         // Run event: onEntriesFetch
-        flextype('emitter')->emit('onMediaFoldersFetch');
+        emitter()->emit('onMediaFoldersFetch');
 
         // Single fetch helper
         $single = static function ($id, $options) {
@@ -62,8 +62,8 @@ class MediaFolders
                 $result['full_path'] = str_replace('/.meta', '', flextype('media')->folders()->meta()->getDirectoryMetaLocation($id));
                 $result['url']       = 'project/media/' . $id;
 
-                if (flextype('registry')->has('flextype.settings.url') && flextype('registry')->get('flextype.settings.url') !== '') {
-                    $fullUrl = flextype('registry')->get('flextype.settings.url');
+                if (registry()->has('flextype.settings.url') && registry()->get('flextype.settings.url') !== '') {
+                    $fullUrl = registry()->get('flextype.settings.url');
                 } else {
                     $fullUrl = Uri::createFromEnvironment(new Environment($_SERVER))->getBaseUrl();
                 }

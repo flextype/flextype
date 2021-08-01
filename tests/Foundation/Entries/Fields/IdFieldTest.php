@@ -11,11 +11,11 @@ afterEach(function (): void {
 });
 
 test('test IdField', function () {
-    flextype('entries')->create('foo', []);
-    $id = flextype('entries')->fetch('foo')['id'];
+    entries()->create('foo', []);
+    $id = entries()->fetch('foo')['id'];
     $this->assertEquals('foo', $id);
 
-    flextype('entries')->create('foo/bar', []);
-    $id = flextype('entries')->fetch('foo/bar')['id'];
+    entries()->create('foo/bar', []);
+    $id = entries()->fetch('foo/bar')['id'];
     $this->assertEquals('foo/bar', $id);
 });

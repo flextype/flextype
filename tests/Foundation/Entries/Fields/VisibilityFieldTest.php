@@ -11,15 +11,15 @@ afterEach(function (): void {
 });
 
 test('test VisibilityField', function () {
-    flextype('entries')->create('foo', []);
-    $visibility = flextype('entries')->fetch('foo')['visibility'];
+    entries()->create('foo', []);
+    $visibility = entries()->fetch('foo')['visibility'];
     $this->assertEquals('visible', $visibility);
 
-    flextype('entries')->create('bar', ['visibility' => 'draft']);
-    $visibility = flextype('entries')->fetch('bar')['visibility'];
+    entries()->create('bar', ['visibility' => 'draft']);
+    $visibility = entries()->fetch('bar')['visibility'];
     $this->assertEquals('draft', $visibility);
 
-    flextype('entries')->create('zed', ['visibility' => 'foobar']);
-    $visibility = flextype('entries')->fetch('zed')['visibility'];
+    entries()->create('zed', ['visibility' => 'foobar']);
+    $visibility = entries()->fetch('zed')['visibility'];
     $this->assertEquals('visible', $visibility);
 });

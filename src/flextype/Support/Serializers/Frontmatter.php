@@ -35,10 +35,10 @@ class Frontmatter
         if (isset($input['content'])) {
             $content = $input['content'];
             $input   = arrays($input)->delete('content')->toArray();
-            $matter  = flextype('serializers')->yaml()->encode($input);
+            $matter  = serializers()->yaml()->encode($input);
         } else {
             $content = '';
-            $matter  = flextype('serializers')->yaml()->encode($input);
+            $matter  = serializers()->yaml()->encode($input);
         }
 
         return '---' . "\n" .
@@ -71,18 +71,18 @@ class Frontmatter
                 return ['content' => strings($input)->trim()->toString()];
             }
 
-            return flextype('serializers')->yaml()->decode(strings($parts[1])->trim()->toString(), false) + ['content' => strings(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))->trim()->toString()];
+            return serializers()->yaml()->decode(strings($parts[1])->trim()->toString(), false) + ['content' => strings(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))->trim()->toString()];
         };
 
-        if ($cache === true && flextype('registry')->get('flextype.settings.cache.enabled') === true) {
+        if ($cache === true && registry()->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 
-            if ($dataFromCache = flextype('cache')->get($key)) {
+            if ($dataFromCache = cache()->get($key)) {
                 return $dataFromCache;
             }
 
             $data = $decode($input);
-            flextype('cache')->set($key, $data);
+            cache()->set($key, $data);
 
             return $data;
         }
