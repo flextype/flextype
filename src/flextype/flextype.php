@@ -248,7 +248,7 @@ container()->set('cache', function () {
         } elseif (extension_loaded('wincache')) {
             $driverName = 'wincache';
         } else {
-            $driverName = 'files';
+            $driverName = 'phparray';
         }
     }
 
@@ -286,7 +286,6 @@ container()->set('cache', function () {
             break;
         case 'phparray':
             $config = new \Phpfastcache\Drivers\Phparray\Config(getDriverConfig($driverName));
-
             break;
         case 'leveldb':
             $config = new \Phpfastcache\Drivers\Leveldb\Config(getDriverConfig($driverName));
@@ -471,11 +470,11 @@ app()->get('/hello/{name}', function ($name, Request $request, Response $respons
 
     //entries()->create('bar', ['entries' => '[registry_get name="Bar" default="Zed"]', 'parsers' => ['shortcodes' => ['enabled' => true, 'fields' => ['entries']]]]);
 
-    dump(parsers()->shortcodes()->process('[registry_get name="Bar" default="Zed"]'));
+    //dump(parsers()->shortcodes()->process('[registry_get name="Bar" default="Zed"]'));
 
-    dump(entries()->fetch('bar'));
-    dump(entries()->fetch('bar'));
-    dd(entries()->fetch('bar'));
+    //dump(entries()->fetch('bar'));
+    //dump(entries()->fetch('bar'));
+    //dd(entries()->fetch('bar'));
 
     return $response;
 });
