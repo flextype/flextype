@@ -23,11 +23,11 @@ final class Flextype
     public const VERSION = '0.9.16';
 
     /**
-     * The Flextype Application instances.
+     * The Flextype instance.
      *
      * @var array
      */
-    private static array $instances = [];
+    private static ?Flextype $instance = null;
 
     /**
      * The Flextype Application.
@@ -93,6 +93,8 @@ final class Flextype
 
     /**
      * Returns Flextype Instance.
+     * 
+     * Gets the instance via lazy initialization (created on first usage)
      *
      * @return Flextype Returns the current Flextype Instance.
      *
@@ -100,12 +102,11 @@ final class Flextype
      */
     public static function getInstance(?ContainerInterface $container = null): Flextype
     {
-        $cls = static::class;
-        if (! isset(self::$instances[$cls])) {
-            self::$instances[$cls] = new static($container);
+        if (static::$instance === null) {
+            static::$instance = new self();
         }
 
-        return self::$instances[$cls];
+        return static::$instance;
     }
 
     /**
