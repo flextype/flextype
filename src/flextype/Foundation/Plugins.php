@@ -73,7 +73,7 @@ class Plugins
 
         // Get plugins list
         $pluginsList = $this->getPluginsList();
-
+        
         // Get plugins Cache ID
         $pluginsCacheID = $this->getPluginsCacheID($pluginsList);
 
@@ -177,6 +177,7 @@ class Plugins
 
             // Save plugins dictionary
             $dictionary = $this->getPluginsDictionary($pluginsList, $locale);
+
             cache()->set($locale, $dictionary[$locale]);
         }
 
@@ -197,17 +198,21 @@ class Plugins
         foreach ($pluginsList as $plugin) {
             $languageFile = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
 
-            if (! filesystem()->file($languageFile)->exists()) {
-                continue;
+            if (filesystem()->file($languageFile)->exists()) {
+                if (($content = filesystem()->file($languageFile)->get()) === false) {
+                    throw new RuntimeException('Load file: ' . $languageFile . ' - failed!');
+                }
+
+                if (trim($content) === '') {
+                    $translates = [];
+                } else {
+                    $translates = serializers()->yaml()->decode($content);
+                }
+                
+                I18n::add($translates, $locale);
+            } else {
+                I18n::add([], registry()->get('flextype.settings.locale'));
             }
-
-            if (($content = filesystem()->file($languageFile)->get()) === false) {
-                throw new RuntimeException('Load file: ' . $languageFile . ' - failed!');
-            }
-
-            $translates = serializers()->yaml()->decode($content);
-
-            I18n::add($translates, $locale);
         }
 
         return I18n::$dictionary;
