@@ -29,7 +29,7 @@ if (! Arrays::hasMacro('onlyFromCollection')) {
     });
 }
 
-if (! Arrays::hasMacro('onlyFromCollection')) {
+if (! Arrays::hasMacro('exceptFromCollection')) {
     /**
      * Return slice of an array except given keys.
      *
