@@ -28,7 +28,7 @@
 
         "atomastic/session": "^2.0.0",
         "atomastic/filesystem": "^2.0.0",
-        "atomastic/arrays": "^3.0.2",
+        "atomastic/arrays": "^3.0.4",
         "atomastic/registry": "^3.0.0",
         "atomastic/strings": "^3.0.2",
         "atomastic/macroable": "^2.0.0",
