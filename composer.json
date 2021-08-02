@@ -29,7 +29,7 @@
         "atomastic/session": "^2.0.0",
         "atomastic/filesystem": "^2.0.0",
         "atomastic/arrays": "^3.0.5",
-        "atomastic/registry": "^3.0.0",
+        "atomastic/registry": "^3.0.1",
         "atomastic/strings": "^3.0.2",
         "atomastic/macroable": "^2.0.0",
         "atomastic/csrf": "^1.0.1",
