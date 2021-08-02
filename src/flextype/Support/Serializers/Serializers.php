@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace Flextype\Support\Serializers;
 
 use Atomastic\Macroable\Macroable;
+use Flextype\Support\Serializers\Json;
+use Flextype\Support\Serializers\Yaml;
 
 class Serializers
 {
@@ -29,13 +31,5 @@ class Serializers
     public function yaml(): Yaml
     {
         return new Yaml();
-    }
-
-    /**
-     * Create a Frontmatter instance.
-     */
-    public function frontmatter(): Frontmatter
-    {
-        return new Frontmatter();
     }
 }
