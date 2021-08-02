@@ -131,7 +131,7 @@ class Storage
 
             // 1. Try to get current requested storage entry from cache
             if (cache()->has($storageEntryCacheID)) {
-
+                
                 // Fetch storage entry from cache and Apply filter for fetch data
                 $this->registry()->set('fetch.data', filter(cache()->get($storageEntryCacheID),
                                                         $this->registry()->get('fetch.options.filter', [])));
@@ -162,10 +162,9 @@ class Storage
 
                 // Run event
                 emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchSingleHasResult');
-
+                
                 // Apply filter for fetch data
-                $this->registry()->set('fetch.data', filter($this->registry()->get('fetch.data'),
-                                                            $this->registry()->get('fetch.options.filter', [])));
+                $this->registry()->set('fetch.data', filter($this->registry()->get('fetch.data'), $this->registry()->get('fetch.options.filter', [])));
 
                 // Set cache state
                 $cache = $this->registry()->get('fetch.data.cache.enabled',
@@ -231,11 +230,32 @@ class Storage
                 // Run event
                 emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchCollectionHasResult');
 
+                // Process filter `only` for collection
+                // after process we need to unset $options['filter']['only']
+                // to avoid it's running inside filter() helper.
+                if (isset($options['filter']['only'])) {
+                    $data = [];
+                    foreach ($this->registry()->get('fetch.data') as $key => $value) {
+                        $data[$key] = arrays($value)->only($options['filter']['only'])->toArray();
+                    }
+                    unset($options['filter']['only']);
+                    $this->registry()->set('fetch.data', $data);
+                }
+
+                // Process filter `except` for collection
+                // after process we need to unset $options['filter']['except']
+                // to avoid it's running inside filter() helper.
+                if (isset($options['filter']['except'])) {
+                    $data = [];
+                    foreach ($this->registry()->get('fetch.data') as $key => $value) {
+                        $data[$key] = arrays($value)->except($options['filter']['except'])->toArray();
+                    }
+                    unset($options['filter']['except']);
+                    $this->registry()->set('fetch.data', $data);
+                }
+
                 // Apply filter for fetch data
-                $this->registry()->set('fetch.data', filter($this->registry()->get('fetch.data'),
-                                                        isset($options['filter']) ?
-                                                                $options['filter'] :
-                                                                []));
+                $this->registry()->set('fetch.data', filter($this->registry()->get('fetch.data'), isset($options['filter']) ? $options['filter'] : []));
             } else {
                 // Run event:
                 emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchCollectionNoResult');   

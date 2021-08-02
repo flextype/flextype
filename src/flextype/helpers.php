@@ -157,6 +157,14 @@ if (! function_exists('filter')) {
 
         ! isset($options['return']) and $options['return'] = 'all';
 
+        if (isset($options['only'])) {
+            $collection->only($options['only']);
+        }
+
+        if (isset($options['except'])) {
+            $collection->except($options['except']);
+        }
+
         if (isset($options['where'])) {
             if (is_array($options['where'])) {
                 foreach ($options['where'] as $key => $value) {

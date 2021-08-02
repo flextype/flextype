@@ -49,6 +49,13 @@ test('test fetch() entry', function () {
     $this->assertEquals(0, entries()->fetch('wrong-entry')->count());
 
     $this->assertTrue(count(entries()->fetch('foo', ['collection' => true])) > 0);
+
+    $this->assertEquals(['title' => 'Foo'], entries()->fetch('foo', ['filter' => ['only' => ['title']]])->toArray());
+    $this->assertEquals(10, entries()->fetch('foo', ['filter' => ['except' => ['title']]])->count());
+    $this->assertEquals(1, entries()->fetch('foo', ['filter' => ['only' => ['title']]])->count());
+    $this->assertEquals(['foo/zed' => ['title' => 'Zed'], 'foo/baz' => ['title' => 'Baz'], 'foo/bar' => ['title' => 'Bar']], entries()->fetch('foo', ['collection' => true, 'filter' => ['only' => ['title']]])->toArray());
+    $except = entries()->fetch('foo', ['collection' => true, 'filter' => ['except' => ['title']]]);
+    $this->assertEquals(10, count($except['foo/bar']));
 });
 
 test('test copy() method', function () {
