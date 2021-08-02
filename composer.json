@@ -71,7 +71,8 @@
             "src/flextype"
         ],
         "files": [
-            "src/flextype/helpers.php"
+            "src/flextype/helpers.php",
+            "src/flextype/macros.php"
         ]
     },
     "require-dev": {
