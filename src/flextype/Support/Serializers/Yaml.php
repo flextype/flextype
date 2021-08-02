@@ -86,7 +86,7 @@ class Yaml
     {
         $decode = function (string $input, int $flags = 0) {
             // Try native PECL YAML PHP extension first if available.
-            if (function_exists('yaml_parse') && $this->native) {
+            if (function_exists('yaml_parse') && self::$native) {
                 // Safely decode YAML.
 
                 // Save and Mute error_reporting
