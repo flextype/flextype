@@ -10,20 +10,11 @@ declare(strict_types=1);
 namespace Flextype\Support\Parsers;
 
 use Atomastic\Macroable\Macroable;
-use Flextype\Support\Parsers\Markdown;
 use Flextype\Support\Parsers\Shortcodes;
 
 class Parsers
 {
     use Macroable;
-
-    /**
-     * Create a Markdown instance.
-     */
-    public function markdown(): Markdown
-    {
-        return Markdown::getInstance();
-    }
 
     /**
      * Create a Shortcodes instance.

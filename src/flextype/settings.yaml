@@ -364,19 +364,6 @@ slugify:
 #
 # - shortcodes: Flextype Shortcodes to load.
 parsers:
-  markdown:
-    renderer:
-      block_separator: "\n"
-      inner_separator: "\n"
-      soft_break: "\n"
-    enable_em: true
-    enable_strong: true
-    use_asterisk: true
-    use_underscore: true
-    unordered_list_markers: ['-', '*', '+']
-    html_input: 'allow'
-    allow_unsafe_links: false
-    max_nesting_level: INF
   shortcodes:
     media:
       path: "/src/flextype/Support/Parsers/Shortcodes/MediaShortcode.php"
