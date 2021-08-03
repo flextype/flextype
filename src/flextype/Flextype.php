@@ -103,7 +103,7 @@ final class Flextype
     public static function getInstance(?ContainerInterface $container = null): Flextype
     {
         if (static::$instance === null) {
-            static::$instance = new self();
+            static::$instance = new self($container);
         }
 
         return static::$instance;
