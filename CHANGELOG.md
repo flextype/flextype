@@ -5,66 +5,16 @@
 
 * **core** use `flextype.php` as common entry point instead of `bootstrap.php` and `dependencies.php`
 
-* **csrf** add Atomastic CSRF protection.
+* **csrf** add Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
 * **macros** add `onlyFromCollection` and `exceptFromCollection` macros for Arrays ([#553](https://github.com/flextype/flextype/issues/553))
-
-* **actions** add Actions API ([#549](https://github.com/flextype/flextype/issues/549))
-
-    ### Usage
-    
-    #### Example 1
-    ```php
-    // Set new action content.create
-    flextype('actions')->set('content.create', function($id, $data) {
-      return flextype('content')->create($id, $data);
-    });
-
-    // Get action content.create
-    flextype('actions')->get('content.create')('hello-world', []);
-    ```
-
-    #### Example 2
-    ```php
-    // Set new action content.update
-    flextype('actions')->set('content.update', function($id, $data) {
-      if (flextype('entries')->update($id, $data)) {
-        flextype('logger')->info("Content {$id} successfully updated");
-        flextype('cache')->delete($id);
-      } else {
-        flextype('logger')->error("Content {$id} was not updated");
-      }
-    });
-
-    // Get action content.update
-    flextype('actions')->get('content.update')('hello-world', []);
-    ```
-
-    #### Example 3
-    ```php
-    // Set new action content.create
-    flextype('actions')->set('content.create', function($id, $data) {
-      if(flextype('registry')->get('database') == 'MySQL') {
-      // ... create new content in the MySQL database.
-      } else {
-        return flextype('content')->create($id, $data);
-      }
-    });
-
-    // Get action content.create
-    flextype('actions')->get('content.create')('blog/post-1', []);
-    flextype('actions')->get('content.create')('blog/post-2', []);
-    flextype('actions')->get('content.create')('blog/post-3', []);
-    ```
-
-    The Flextype Actions API provides new capabilities to extend the Flextype core by registering and reusing useful code snippets from global actions namespace.
-
-    _**Note:** For security reason - actions should be executable only for PHP Backend and YAML Blueprints, and no possibility to execute them in the TWIG Templates or in the Entries Content._
 
 ### Bug Fixes
 
 * **htaccess** security fixes for `.htaccess`
+* **storage** fix issue when collection fetch returns no result
 * **plugins** fix plugins initialization ([#551](https://github.com/flextype/flextype/issues/551))
+* **plugins** fix Plugins API issue with non valid plugins ([#551](https://github.com/flextype/flextype/issues/555))
 
 <a name="0.9.16"></a>
 # [0.9.16](https://github.com/flextype/flextype/compare/v0.9.15...v0.9.16) (2021-01-14)
