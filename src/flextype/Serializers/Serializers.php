@@ -7,11 +7,11 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\Support\Serializers;
+namespace Flextype\Serializers;
 
 use Atomastic\Macroable\Macroable;
-use Flextype\Support\Serializers\Json;
-use Flextype\Support\Serializers\Yaml;
+use Flextype\Serializers\Json;
+use Flextype\Serializers\Yaml;
 
 class Serializers
 {

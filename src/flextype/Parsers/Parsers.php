@@ -7,10 +7,10 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\Support\Parsers;
+namespace Flextype\Parsers;
 
 use Atomastic\Macroable\Macroable;
-use Flextype\Support\Parsers\Shortcodes;
+use Flextype\Parsers\Shortcodes;
 
 class Parsers
 {

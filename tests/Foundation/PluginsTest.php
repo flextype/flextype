@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Flextype\Foundation\Flextype;
+use Flextype\Flextype;
 use Atomastic\Strings\Strings;
 
 beforeEach(function() {

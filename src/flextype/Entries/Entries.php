@@ -7,10 +7,10 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\Foundation\Entries;
+namespace Flextype\Entries;
 
 use Atomastic\Macroable\Macroable;
-use Flextype\Foundation\Storage;
+use Flextype\Storage;
 
 class Entries extends Storage
 {

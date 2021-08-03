@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\Support\Parsers\Shortcodes;
+namespace Flextype\Parsers\Shortcodes;
 
 use Slim\Http\Environment;
 use Slim\Http\Uri;

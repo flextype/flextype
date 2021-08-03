@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\Support\Parsers;
+namespace Flextype\Parsers;
 
 use Exception;
 use Thunder\Shortcode\ShortcodeFacade;

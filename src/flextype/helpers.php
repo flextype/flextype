@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-use Flextype\Foundation\Flextype;
+use Flextype\Flextype;
 use Symfony\Component\Finder\Finder as Finder;
 
 

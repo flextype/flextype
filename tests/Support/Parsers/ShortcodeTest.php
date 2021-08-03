@@ -8,7 +8,7 @@ use Thunder\Shortcode\Events;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 test('test getInstance() method', function () {
-    $this->assertInstanceOf(Flextype\Support\Parsers\Shortcodes::class, parsers()->shortcodes()->getInstance());
+    $this->assertInstanceOf(Flextype\Parsers\Shortcodes::class, parsers()->shortcodes()->getInstance());
 });
 
 test('test addHandler() method', function () {

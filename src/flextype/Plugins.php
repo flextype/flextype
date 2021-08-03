@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\Foundation;
+namespace Flextype;
 
 use Atomastic\Macroable\Macroable;
 use Composer\Semver\Semver;

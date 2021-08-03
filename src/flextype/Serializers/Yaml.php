@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\Support\Serializers;
+namespace Flextype\Serializers;
 
 use RuntimeException;
 use Symfony\Component\Yaml\Exception\DumpException as SymfonyYamlDumpException;

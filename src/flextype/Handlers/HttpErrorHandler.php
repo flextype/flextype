@@ -1,6 +1,6 @@
 <?php 
 
-namespace Flextype\Foundation\Handlers;
+namespace Flextype\Handlers;
 
 use Psr\Http\Message\ResponseInterface;
 use Slim\Exception\HttpBadRequestException;

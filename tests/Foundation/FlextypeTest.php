@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Flextype\Foundation\Flextype;
-use Flextype\Foundation\Entries\Entries;
+use Flextype\Flextype;
+use Flextype\Entries\Entries;
 use Atomastic\Strings\Strings;
 
 beforeEach(function() {

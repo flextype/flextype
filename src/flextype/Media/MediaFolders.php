@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\Foundation\Media;
+namespace Flextype\Media;
 
 use Atomastic\Arrays\Arrays;
 use Atomastic\Macroable\Macroable;
