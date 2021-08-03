@@ -40,7 +40,7 @@ function validate_media_token(string $token): bool
  * Returns:
  * An array of file item objects.
  */
-flextype()->get('/api/media/files', function (Request $request, Response $response) use ($apiErrors) {
+app()->get('/api/media/files', function (Request $request, Response $response) use ($apiErrors) {
     // Get Query Params
     $query = $request->getQueryParams();
 
@@ -906,7 +906,7 @@ flextype()->delete('/api/media/files/meta', function (Request $request, Response
  * Returns:
  * An array of folder(s) item objects.
  */
-flextype()->get('/api/media/folders', function (Request $request, Response $response) use ($apiErrors) {
+app()->get('/api/media/folders', function (Request $request, Response $response) use ($apiErrors) {
     // Get Query Params
     $query = $request->getQueryParams();
 

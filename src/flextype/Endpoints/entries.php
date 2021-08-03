@@ -40,7 +40,7 @@ function validateEntriesToken(string $token): bool
  * Returns:
  * An array of entry item objects.
  */
-flextype()->get('/api/entries', function (Request $request, Response $response) use ($api_errors) {
+app()->get('/api/entries', function (Request $request, Response $response) use ($api_errors) {
     // Get Query Params
     $query = $request->getQueryParams();
 

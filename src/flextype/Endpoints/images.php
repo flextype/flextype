@@ -38,7 +38,7 @@ function validate_images_token(string $token): bool
  * Returns:
  * Image file
  */
-flextype()->get('/api/images/{path:.+}', function (Request $request, Response $response, $args) use ($apiErrors) {
+app()->get('/api/images/{path:.+}', function (Request $request, Response $response, $args) use ($apiErrors) {
     // Get Query Params
     $query = $request->getQueryParams();
 
