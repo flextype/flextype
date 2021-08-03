@@ -28,7 +28,7 @@ use function strings;
 class Storage
 {
     /**
-     * Storage Registry
+     * Storage Registry.
      *
      * Local entries registry used for storing current requested
      * storage data and allow to change them on fly.
@@ -38,7 +38,7 @@ class Storage
     private Arrays $registry;
 
     /**
-     * Storage options
+     * Storage options.
      *
      * directory   - Storage data files directory.
      * filename    - Storage data filename.
@@ -62,7 +62,7 @@ class Storage
     }
 
     /**
-     * Init Storage Fields
+     * Init Storage Fields.
      */
     private function initFields(): void
     {
@@ -88,7 +88,11 @@ class Storage
     }
 
     /**
-     * Get Storage Registry
+     * Get Storage Registry.
+     *
+     * @return Arrays Returns storage registry.
+     *
+     * @access public
      */
     public function registry(): Arrays
     {
@@ -273,7 +277,7 @@ class Storage
     }
 
     /**
-     * Move storage entry
+     * Move storage entry.
      *
      * @param string $id    Unique identifier of the storage entry.
      * @param string $newID New Unique identifier of the storage entry.
@@ -301,7 +305,7 @@ class Storage
     }
 
     /**
-     * Update storage entry
+     * Update storage entry.
      *
      * @param string $id   Unique identifier of the storage entry.
      * @param array  $data Data to update for the storage entry.
@@ -416,7 +420,7 @@ class Storage
     }
 
     /**
-     * Check whether storage entry exists
+     * Check whether storage entry exists.
      *
      * @param string $id Unique identifier of the storage entry.
      *
@@ -436,7 +440,7 @@ class Storage
     }
 
     /**
-     * Get stoage entry file location
+     * Get stoage entry file location.
      *
      * @param string $id Unique identifier of the storage entry.
      *
@@ -450,7 +454,7 @@ class Storage
     }
 
     /**
-     * Get storage entry directory location
+     * Get storage entry directory location.
      *
      * @param string $id Unique identifier of the storage entry.
      *
@@ -488,7 +492,11 @@ class Storage
     }
 
     /**
-     * Get Storage options
+     * Get Storage options.
+     *
+     * @return array Returns storage options.
+     *
+     * @access public
      */
     public function getOptions(): array 
     {
