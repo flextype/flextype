@@ -486,4 +486,12 @@ class Storage
 
         return strings('storageEntry' . $storageEntryFile)->hash()->toString();
     }
+
+    /**
+     * Get Storage options
+     */
+    public function getOptions(): array 
+    {
+        return $this->options;
+    }
 }
