@@ -74,6 +74,8 @@ class Plugins
         // Get plugins list
         $pluginsList = $this->getPluginsList();
         
+        $pluginsList = arrays($pluginsList)->only(['box'])->toArray();
+
         // Get plugins Cache ID
         $pluginsCacheID = $this->getPluginsCacheID($pluginsList);
 
@@ -182,6 +184,8 @@ class Plugins
         }
 
         $this->includeEnabledPlugins();
+
+       
 
         emitter()->emit('onPluginsInitialized');
     }
