@@ -11,12 +11,13 @@ namespace Flextype\Serializers;
 
 use RuntimeException;
 
+use function cache;
 use function defined;
-use function flextype;
 use function json_decode;
 use function json_encode;
 use function json_last_error;
 use function json_last_error_msg;
+use function registry;
 use function strings;
 
 use const JSON_PRESERVE_ZERO_FRACTION;
@@ -33,7 +34,7 @@ class Json
     /**
      * Returns the JSON representation of a value
      *
-     * @param mixed $input   The PHP value
+     * @param mixed $input The PHP value
      *
      * @return mixed A JSON string representing the original PHP value
      */
@@ -76,7 +77,7 @@ class Json
         $depth = registry()->get('flextype.settings.serializers.json.decode.depth');
         $flags = registry()->get('flextype.settings.serializers.json.decode.flags');
 
-        $decode = function (string $input, bool $assoc, int $depth, int $flags) {
+        $decode = static function (string $input, bool $assoc, int $depth, int $flags) {
             $value = json_decode($input, $assoc, $depth, $flags);
 
             if ($error = json_last_error()) {

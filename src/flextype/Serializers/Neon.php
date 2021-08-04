@@ -10,6 +10,11 @@ declare(strict_types=1);
 namespace Flextype\Serializers;
 
 use Nette\Neon\Exception;
+use Nette\Neon\Neon as NeonSerializer;
+
+use function cache;
+use function registry;
+use function strings;
 
 class Neon
 {
@@ -25,7 +30,7 @@ class Neon
         $flags = registry()->get('flextype.settings.serializers.neon.encode.flags');
 
         try {
-            $neon = Neon::encode($value, $flags);
+            $neon = NeonSerializer::encode($value, $flags);
         } catch (Exception $e) {
             throw new RuntimeException('Encoding NEON failed');
         }
@@ -44,9 +49,9 @@ class Neon
     {
         $cache = registry()->get('flextype.settings.serializers.neon.decode.cache');
 
-        $decode = function (string $input) {
+        $decode = static function (string $input) {
             try {
-                $value = Neon::decode($input);
+                $value = NeonSerializer::decode($input);
             } catch (Exception $e) {
                 throw new RuntimeException('Decoding NEON failed');
             }
@@ -71,7 +76,7 @@ class Neon
     }
 
     /**
-     * Get Cache ID for frontmatter.
+     * Get Cache ID for neon.
      *
      * @param  string $input Input.
      *
@@ -81,6 +86,6 @@ class Neon
      */
     public function getCacheID(string $input): string
     {
-        return strings('frontmatter' . $input)->hash()->toString();
+        return strings('neon' . $input)->hash()->toString();
     }
 }

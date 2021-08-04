@@ -14,11 +14,12 @@ use Symfony\Component\Yaml\Exception\DumpException as SymfonyYamlDumpException;
 use Symfony\Component\Yaml\Exception\ParseException as SymfonyYamlParseException;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
+use function cache;
 use function error_reporting;
-use function flextype;
 use function function_exists;
 use function ini_get;
 use function ini_set;
+use function registry;
 use function strings;
 
 class Yaml
@@ -42,14 +43,14 @@ class Yaml
      * to convert the array into friendly YAML.
      *
      * @param mixed $input The PHP value.
-     * 
+     *
      * @return string A YAML string representing the original PHP value.
      */
     public function encode($input): string
     {
         $inline = registry()->get('flextype.settings.serializers.yaml.encode.inline');
         $indent = registry()->get('flextype.settings.serializers.yaml.encode.indent');
-        $flags = registry()->get('flextype.settings.serializers.yaml.encode.flags');
+        $flags  = registry()->get('flextype.settings.serializers.yaml.encode.flags');
 
         try {
             return SymfonyYaml::dump(
@@ -67,7 +68,7 @@ class Yaml
      * Parses YAML into a PHP value.
      *
      * @param string $input A string containing YAML.
-     * 
+     *
      * @return mixed The YAML converted to a PHP value.
      *
      * @throws RuntimeException If the YAML is not valid.
@@ -78,9 +79,9 @@ class Yaml
         $flags  = registry()->get('flextype.settings.serializers.yaml.decode.flags');
         $native = registry()->get('flextype.settings.serializers.yaml.decode.native');
 
-        $decode = function (string $input, int $flags, bool $native) {
+        $decode = static function (string $input, int $flags, bool $native) {
             // Try native PECL YAML PHP extension first if available.
-            if (function_exists('yaml_parse') && $native == true) {
+            if (function_exists('yaml_parse') && $native === true) {
                 // Safely decode YAML.
 
                 // Save and Mute error_reporting
