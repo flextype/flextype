@@ -76,7 +76,7 @@ class Json
         $depth = registry()->get('flextype.settings.serializers.json.decode.depth');
         $flags = registry()->get('flextype.settings.serializers.json.decode.flags');
 
-        $decode = function (string $input, bool $assoc = true, int $depth = 512, int $flags = 0) {
+        $decode = function (string $input, bool $assoc, int $depth, int $flags) {
             $value = json_decode($input, $assoc, $depth, $flags);
 
             if ($error = json_last_error()) {

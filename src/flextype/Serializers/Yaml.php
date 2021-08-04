@@ -78,7 +78,7 @@ class Yaml
         $flags  = registry()->get('flextype.settings.serializers.yaml.decode.flags');
         $native = registry()->get('flextype.settings.serializers.yaml.decode.native');
 
-        $decode = function (string $input, int $flags = 0, bool $native) {
+        $decode = function (string $input, int $flags, bool $native) {
             // Try native PECL YAML PHP extension first if available.
             if (function_exists('yaml_parse') && $native == true) {
                 // Safely decode YAML.
