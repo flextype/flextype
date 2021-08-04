@@ -402,6 +402,11 @@ serializers:
       header_serializer: yaml
     encode:    
       header_serializer: yaml
+  neon:
+    decode:
+      cache: true
+    encode:
+      flags: 0
 
 # Parsers
 #

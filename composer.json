@@ -56,7 +56,8 @@
         "slim/psr7": "^1.4",
         "php-di/php-di": "^6.3.4",
         "php-di/slim-bridge": "^3.1.1",
-        "middlewares/whoops": "^2.0"
+        "middlewares/whoops": "^2.0",
+        "nette/neon": "^3.2"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
