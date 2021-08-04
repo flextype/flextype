@@ -377,6 +377,9 @@ slugify:
 # frontmatter.decode.cache: Cache result data or no. Default is true.
 # frontmatter.decode.header_serializer: Header serializer.
 # frontmatter.encode.header_serializer: Header serializer.
+#
+# neon.decode.cache: Cache result data or no. Default is true.
+# neon.encode.flags: The flag can be 1, which will create multiline output.
 serializers:
   json: 
     decode:
