@@ -358,7 +358,52 @@ slugify:
   lowercase_after_regexp: false
   strip_tags: false
 
-# Markdown
+# Serializers
+#
+# json.decode.cache: Cache result data or no. Default is true.
+# json.decode.assoc: Decode assoc. When TRUE, returned objects will be converted into associative arrays.
+# json.decode.depth: Decode Depth. Set the maximum depth. Must be greater than zero.
+# json.decode.flags: Bitmask consisting of decode options.
+# json.encode.options: Bitmask consisting of encode options
+# json.encode.depth: Encode Depth. Set the maximum depth. Must be greater than zero.
+#
+# yaml.decode.cache: Cache result data or no. Default is true.
+# yaml.decode.native: Use native php pecl parser or symfony parser.
+# yaml.decode.flags: A bit field of DUMP_* constants to customize the dumped YAML string.
+# yaml.encode.inline: The level where you switch to inline YAML.
+# yaml.encode.indent: The amount of spaces to use for indentation of nested nodes.
+# yaml.encode.flags: A bit field of DUMP_* constants to customize the dumped YAML string.
+#
+# frontmatter.decode.cache: Cache result data or no. Default is true.
+# frontmatter.decode.header_serializer: Header serializer.
+# frontmatter.encode.header_serializer: Header serializer.
+serializers:
+  json: 
+    decode:
+      cache: true
+      assoc: true
+      depth: 512
+      flags: 0
+    encode: 
+      options: 0
+      depth: 512
+  yaml:
+    decode:
+      cache: true
+      native: true
+      flags: 0
+    encode:    
+      inline: 5
+      indent: 2
+      flags: 0
+  frontmatter:
+    decode:
+      cache: true
+      header_serializer: yaml
+    encode:    
+      header_serializer: yaml
+
+# Parsers
 #
 # Shortcode
 #

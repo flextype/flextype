@@ -34,13 +34,14 @@ class Json
      * Returns the JSON representation of a value
      *
      * @param mixed $input   The PHP value
-     * @param int   $options Bitmask consisting of encode options
-     * @param int   $depth   Encode Depth. Set the maximum depth. Must be greater than zero.
      *
      * @return mixed A JSON string representing the original PHP value
      */
-    public function encode($input, int $options = 0, int $depth = 512)
+    public function encode($input)
     {
+        $options = registry()->get('flextype.settings.serializers.json.encode.options');
+        $depth   = registry()->get('flextype.settings.serializers.json.encode.depth');
+
         $options = ($options & self::ESCAPE_UNICODE ? 0 : JSON_UNESCAPED_UNICODE)
             | JSON_UNESCAPED_SLASHES
             | ($options & self::PRETTY ? JSON_PRETTY_PRINT : 0)
@@ -68,8 +69,13 @@ class Json
      *
      * @throws RuntimeException If the JSON is not valid
      */
-    public function decode(string $input, bool $cache = true, bool $assoc = true, int $depth = 512, int $flags = 0)
+    public function decode(string $input)
     {
+        $cache = registry()->get('flextype.settings.serializers.json.decode.cache');
+        $assoc = registry()->get('flextype.settings.serializers.json.decode.assoc');
+        $depth = registry()->get('flextype.settings.serializers.json.decode.depth');
+        $flags = registry()->get('flextype.settings.serializers.json.decode.flags');
+
         $decode = function (string $input, bool $assoc = true, int $depth = 512, int $flags = 0) {
             $value = json_decode($input, $assoc, $depth, $flags);
 
