@@ -437,20 +437,6 @@ if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listId
 // Init Plugins
 plugins()->init();
 
-$foo = parsers()->shortcodes();
-$bar = parsers()->shortcodes();
-
-if ($foo instanceof $bar) {
-    echo 'yes';
-} else {
-    echo 'no';
-}
-
-dump(serializers()->foo()->decode('1'));
-dump(serializers()->foo()->decode('1'));
-dump(serializers()->foo()->decode('1'));
-
-
 // Enable lazy CORS
 //
 // CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.
