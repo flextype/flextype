@@ -115,13 +115,13 @@ class Yaml
                 return $dataFromCache;
             }
 
-            $data = $decode($input, $flags);
+            $data = $decode($input, $flags, $native);
             cache()->set($key, $data);
 
             return $data;
         }
 
-        return $decode($input, $flags);
+        return $decode($input, $flags, $native);
     }
 
     /**

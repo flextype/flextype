@@ -100,7 +100,7 @@ class Json
             return $data;
         }
 
-        return $decode($input);
+        return $decode($input, $assoc, $depth, $flags);
     }
 
     /**
