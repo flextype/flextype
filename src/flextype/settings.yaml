@@ -70,46 +70,46 @@ entries:
           enabled: true
           result: toObject
     registry:
-      path: "/src/flextype/Foundation/Entries/Fields/RegistryField.php"
+      path: "/src/flextype/Entries/Fields/RegistryField.php"
       get:
         enabled: true
     entries:
-      path: "/src/flextype/Foundation/Entries/Fields/EntriesField.php"
+      path: "/src/flextype/Entries/Fields/EntriesField.php"
       fetch:
         enabled: true
         result: toObject
     slug:
-      path: "/src/flextype/Foundation/Entries/Fields/SlugField.php"
+      path: "/src/flextype/Entries/Fields/SlugField.php"
       enabled: true
     published_at:
-      path: "/src/flextype/Foundation/Entries/Fields/PublishedAtField.php"
+      path: "/src/flextype/Entries/Fields/PublishedAtField.php"
       enabled: true
     published_by:
-      path: "/src/flextype/Foundation/Entries/Fields/PublishedByField.php"
+      path: "/src/flextype/Entries/Fields/PublishedByField.php"
       enabled: true
     modified_at:
-      path: "/src/flextype/Foundation/Entries/Fields/ModifiedAtField.php"
+      path: "/src/flextype/Entries/Fields/ModifiedAtField.php"
       enabled: true
     created_at:
-      path: "/src/flextype/Foundation/Entries/Fields/CreatedAtField.php"
+      path: "/src/flextype/Entries/Fields/CreatedAtField.php"
       enabled: true
     created_by:
-      path: "/src/flextype/Foundation/Entries/Fields/CreatedByField.php"
+      path: "/src/flextype/Entries/Fields/CreatedByField.php"
       enabled: true
     routable:
-      path: "/src/flextype/Foundation/Entries/Fields/RoutableField.php"
+      path: "/src/flextype/Entries/Fields/RoutableField.php"
       enabled: true
     parsers:
-      path: "/src/flextype/Foundation/Entries/Fields/ParsersField.php"
+      path: "/src/flextype/Entries/Fields/ParsersField.php"
       enabled: true
     visibility:
-      path: "/src/flextype/Foundation/Entries/Fields/VisibilityField.php"
+      path: "/src/flextype/Entries/Fields/VisibilityField.php"
       enabled: true
     uuid:
-      path: "/src/flextype/Foundation/Entries/Fields/UuidField.php"
+      path: "/src/flextype/Entries/Fields/UuidField.php"
       enabled: true
     id:
-      path: "/src/flextype/Foundation/Entries/Fields/IdField.php"
+      path: "/src/flextype/Entries/Fields/IdField.php"
       enabled: true
 
 # Cache
@@ -419,19 +419,19 @@ serializers:
 parsers:
   shortcodes:
     media:
-      path: "/src/flextype/Support/Parsers/Shortcodes/MediaShortcode.php"
+      path: "/src/flextype/Parsers/Shortcodes/MediaShortcode.php"
       enabled: true
     entries:
-      path: "/src/flextype/Support/Parsers/Shortcodes/EntriesShortcode.php"
+      path: "/src/flextype/Parsers/Shortcodes/EntriesShortcode.php"
       enabled: true
     raw:
-      path: "/src/flextype/Support/Parsers/Shortcodes/RawShortcode.php"
+      path: "/src/flextype/Parsers/Shortcodes/RawShortcode.php"
       enabled: true
     registry:
-      path: "/src/flextype/Support/Parsers/Shortcodes/RegistryShortcode.php"
+      path: "/src/flextype/Parsers/Shortcodes/RegistryShortcode.php"
       enabled: true
     url:
-      path: "/src/flextype/Support/Parsers/Shortcodes/UrlShortcode.php"
+      path: "/src/flextype/Parsers/Shortcodes/UrlShortcode.php"
       enabled: true
 
 # CORS
