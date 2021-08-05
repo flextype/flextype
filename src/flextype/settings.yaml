@@ -413,7 +413,7 @@ serializers:
     decode:
       cache: true
     encode:
-      flags: 0
+      flags: 1
 
 # Parsers
 #

@@ -30,7 +30,7 @@ class Neon
         $flags = registry()->get('flextype.settings.serializers.neon.encode.flags');
 
         try {
-            $neon = NeonSerializer::encode($value, $flags);
+            $neon = NeonSerializer::encode($input, $flags);
         } catch (Exception $e) {
             throw new RuntimeException('Encoding NEON failed');
         }
