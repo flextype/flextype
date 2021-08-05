@@ -55,6 +55,12 @@ errors:
 
 # Entries
 entries:
+  media:
+    directory: media
+    filename: media
+    extension: yaml
+    serializer: yaml
+    fields: []
   content:
     directory: content
     filename: content
