@@ -222,7 +222,7 @@ class Storage
 
                     $currentEntryID = strings($currenEntry->getPath())
                                             ->replace('\\', '/')
-                                            ->replace(PATH['project'] . '/' . $this->options['directory'] . '/', '')
+                                            ->replace(PATH['project'] . '/storage/' . $this->options['directory'] . '/', '')
                                             ->trim('/')
                                             ->toString();
 
@@ -450,7 +450,7 @@ class Storage
      */
     public function getFileLocation(string $id): string
     {
-        return PATH['project'] . '/' . $this->options['directory'] . '/' . $id . '/' . $this->options['filename'] . '.' . $this->options['extension'];
+        return PATH['project'] . '/storage/' . $this->options['directory'] . '/' . $id . '/' . $this->options['filename'] . '.' . $this->options['extension'];
     }
 
     /**
@@ -464,7 +464,7 @@ class Storage
      */
     public function getDirectoryLocation(string $id): string
     {
-        return PATH['project'] . '/' . $this->options['directory'] . '/' . $id;
+        return PATH['project'] . '/storage/' . $this->options['directory'] . '/' . $id;
     }
 
     /**

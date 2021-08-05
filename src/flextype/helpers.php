@@ -57,12 +57,12 @@ if (! function_exists('cache')) {
     }
 }
 
-if (! function_exists('entries')) {
+if (! function_exists('content')) {
     /**
-     * Get Flextype Entries Service.
+     * Get Flextype Content Service.
      */
-    function entries() {
-        return flextype()->container()->get('entries');
+    function content() {
+        return flextype()->container()->get('content');
     }
 }
 

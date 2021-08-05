@@ -53,64 +53,65 @@ date_display_format: 'd-m-Y H:i'
 errors:
   display: false
 
-# Entries
-entries:
-  directory: entries
-  filename: entry
-  extension: yaml
-  serializer: yaml
-  fields:
-    media:
-      files:
+# Storage
+storage:
+  content:
+    directory: content
+    filename: content
+    extension: yaml
+    serializer: yaml
+    fields:
+      media:
+        files:
+          fetch:
+            enabled: true
+            result: toObject
+        folders:
+          fetch:
+            enabled: true
+            result: toObject
+      registry:
+        path: "/src/flextype/Content/Fields/RegistryField.php"
+        get:
+          enabled: true
+      content:
+        path: "/src/flextype/Content/Fields/ContentField.php"
         fetch:
           enabled: true
           result: toObject
-      folders:
-        fetch:
-          enabled: true
-          result: toObject
-    registry:
-      path: "/src/flextype/Entries/Fields/RegistryField.php"
-      get:
+      slug:
+        path: "/src/flextype/Content/Fields/SlugField.php"
         enabled: true
-    entries:
-      path: "/src/flextype/Entries/Fields/EntriesField.php"
-      fetch:
+      published_at:
+        path: "/src/flextype/Content/Fields/PublishedAtField.php"
         enabled: true
-        result: toObject
-    slug:
-      path: "/src/flextype/Entries/Fields/SlugField.php"
-      enabled: true
-    published_at:
-      path: "/src/flextype/Entries/Fields/PublishedAtField.php"
-      enabled: true
-    published_by:
-      path: "/src/flextype/Entries/Fields/PublishedByField.php"
-      enabled: true
-    modified_at:
-      path: "/src/flextype/Entries/Fields/ModifiedAtField.php"
-      enabled: true
-    created_at:
-      path: "/src/flextype/Entries/Fields/CreatedAtField.php"
-      enabled: true
-    created_by:
-      path: "/src/flextype/Entries/Fields/CreatedByField.php"
-      enabled: true
-    routable:
-      path: "/src/flextype/Entries/Fields/RoutableField.php"
-      enabled: true
-    parsers:
-      path: "/src/flextype/Entries/Fields/ParsersField.php"
-      enabled: true
-    visibility:
-      path: "/src/flextype/Entries/Fields/VisibilityField.php"
-      enabled: true
-    uuid:
-      path: "/src/flextype/Entries/Fields/UuidField.php"
-      enabled: true
-    id:
-      path: "/src/flextype/Entries/Fields/IdField.php"
-      enabled: true
+      published_by:
+        path: "/src/flextype/Content/Fields/PublishedByField.php"
+        enabled: true
+      modified_at:
+        path: "/src/flextype/Content/Fields/ModifiedAtField.php"
+        enabled: true
+      created_at:
+        path: "/src/flextype/Content/Fields/CreatedAtField.php"
+        enabled: true
+      created_by:
+        path: "/src/flextype/Content/Fields/CreatedByField.php"
+        enabled: true
+      routable:
+        path: "/src/flextype/Content/Fields/RoutableField.php"
+        enabled: true
+      parsers:
+        path: "/src/flextype/Content/Fields/ParsersField.php"
+        enabled: true
+      visibility:
+        path: "/src/flextype/Content/Fields/VisibilityField.php"
+        enabled: true
+      uuid:
+        path: "/src/flextype/Content/Fields/UuidField.php"
+        enabled: true
+      id:
+        path: "/src/flextype/Content/Fields/IdField.php"
+        enabled: true
 
 # Cache
 #
@@ -455,8 +456,8 @@ parsers:
       media:
         path: "/src/flextype/Parsers/Shortcodes/MediaShortcode.php"
         enabled: true
-      entries:
-        path: "/src/flextype/Parsers/Shortcodes/EntriesShortcode.php"
+      content:
+        path: "/src/flextype/Parsers/Shortcodes/ContentShortcode.php"
         enabled: true
       raw:
         path: "/src/flextype/Parsers/Shortcodes/RawShortcode.php"
@@ -531,7 +532,7 @@ session:
 
 # Flextype Rest APIs
 api:
-  entries:
+  content:
     enabled: true
     default_token:
   registry:

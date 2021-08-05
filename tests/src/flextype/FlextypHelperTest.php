@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Flextype\Flextype;
-use Flextype\Entries\Entries;
+use Flextype\Content\Content;
 use Atomastic\Strings\Strings;
 
 test('test getVersion() method', function () {

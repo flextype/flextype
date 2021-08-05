@@ -13,7 +13,7 @@ use Atomastic\Csrf\Csrf;
 use Atomastic\Session\Session;
 use Cocur\Slugify\Slugify;
 use DateTimeZone;
-use Flextype\Entries\Entries;
+use Flextype\Content\Content;
 use Flextype\Handlers\HttpErrorHandler;
 use Flextype\Handlers\ShutdownHandler;
 use Flextype\Parsers\Parsers;
@@ -64,7 +64,7 @@ use function date_default_timezone_set;
 use function dd;
 use function dump;
 use function emitter;
-use function entries;
+use function content;
 use function extension_loaded;
 use function file_exists;
 use function filemtime;
@@ -406,9 +406,8 @@ container()->set('images', function () {
     return $server;
 });
 
-// Add Entries Service
-container()->set('entries', new Entries(registry()->get('flextype.settings.entries')));
-
+// Add Content Storage Service
+container()->set('content', new Content(registry()->get('flextype.settings.storage.content')));
 
 // Add Plugins Service
 container()->set('plugins', new Plugins());

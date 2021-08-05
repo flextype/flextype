@@ -20,27 +20,27 @@ use function flextype;
 use function is_array;
 
 /**
- * Validate entries entries token
+ * Validate content content token
  */
 function validateEntriesToken(string $token): bool
 {
-    return filesystem()->file(PATH['project'] . '/tokens/entries/' . $token . '/token.yaml')->exists();
+    return filesystem()->file(PATH['project'] . '/tokens/content/' . $token . '/token.yaml')->exists();
 }
 
 /**
- * Fetch entry(entries)
+ * Fetch entry(content)
  *
- * endpoint: GET /api/entries
+ * endpoint: GET /api/content
  *
  * Query:
- * id     - [REQUIRED] - Unique identifier of the entry(entries).
+ * id     - [REQUIRED] - Unique identifier of the entry(content).
  * token  - [REQUIRED] - Valid Entries token.
  * filter - [OPTIONAL] - Select items in collection by given conditions.
  *
  * Returns:
  * An array of entry item objects.
  */
-app()->get('/api/entries', function (Request $request, Response $response) use ($apiErrors) {
+app()->get('/api/content', function (Request $request, Response $response) use ($apiErrors) {
     // Get Query Params
     $query = $request->getQueryParams();
 
@@ -57,16 +57,16 @@ app()->get('/api/entries', function (Request $request, Response $response) use (
     $options = $query['options'] ?? [];
     $method  = $query['options']['method'] ?? '';
 
-    if (registry()->get('flextype.settings.api.entries.enabled')) {
-        // Validate entries token
+    if (registry()->get('flextype.settings.api.content.enabled')) {
+        // Validate content token
         if (validateEntriesToken($token)) {
-            $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
+            $content_token_file_path = PATH['project'] . '/tokens/content/' . $token . '/token.yaml';
 
-            // Set entries token file
-            if ($entries_token_file_data = serializers()->yaml()->decode(filesystem()->file($entries_token_file_path)->get())) {
+            // Set content token file
+            if ($content_token_file_data = serializers()->yaml()->decode(filesystem()->file($content_token_file_path)->get())) {
                 if (
-                    $entries_token_file_data['state'] === 'disabled' ||
-                    ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])
+                    $content_token_file_data['state'] === 'disabled' ||
+                    ($content_token_file_data['limit_calls'] !== 0 && $content_token_file_data['calls'] >= $content_token_file_data['limit_calls'])
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
@@ -74,26 +74,26 @@ app()->get('/api/entries', function (Request $request, Response $response) use (
                                 ->write(serializers()->json()->encode($apiErrors['0003']));
                 }
 
-                // override entries.fetch.result
-                registry()->set('flextype.settings.entries.fields.entries.fetch.result', 'toArray');
+                // override content.fetch.result
+                registry()->set('flextype.settings.storage.content.fields.content.fetch.result', 'toArray');
 
                 if (isset($method) &&
                     strpos($method, 'fetch') !== false &&
-                    is_callable([entries(), $method])) {
+                    is_callable([content(), $method])) {
                     $fetchFromCallbackMethod = $method;
                 } else {
                     $fetchFromCallbackMethod = 'fetch';
                 }
 
                 // Get fetch result
-                $response_data['data'] = entries()->{$fetchFromCallbackMethod}($id, $options);
+                $response_data['data'] = content()->{$fetchFromCallbackMethod}($id, $options);
                 $response_data['data'] = ($response_data['data'] instanceof Arrays) ? $response_data['data']->toArray() : $response_data['data'];
 
                 // Set response code
                 $response_code = count($response_data['data']) > 0 ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($entries_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
+                filesystem()->file($content_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($content_token_file_data, ['calls' => $content_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -130,7 +130,7 @@ app()->get('/api/entries', function (Request $request, Response $response) use (
 /**
  * Create entry
  *
- * endpoint: POST /api/entries
+ * endpoint: POST /api/content
  *
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
@@ -141,7 +141,7 @@ app()->get('/api/entries', function (Request $request, Response $response) use (
  * Returns:
  * Returns the entry item object for the entry item that was just created.
  */
-flextype()->post('/api/entries', function (Request $request, Response $response) use ($apiErrors) {
+flextype()->post('/api/content', function (Request $request, Response $response) use ($apiErrors) {
     // Get Post Data
     $post_data = (array) $request->getParsedBody();
 
@@ -158,20 +158,20 @@ flextype()->post('/api/entries', function (Request $request, Response $response)
     $id           = $post_data['id'];
     $data         = $post_data['data'];
 
-    if (registry()->get('flextype.settings.api.entries.enabled')) {
-        // Validate entries and access token
+    if (registry()->get('flextype.settings.api.content.enabled')) {
+        // Validate content and access token
         if (validateEntriesToken($token) && validate_access_token($access_token)) {
-            $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
+            $content_token_file_path = PATH['project'] . '/tokens/content/' . $token . '/token.yaml';
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set entries and access token file
+            // Set content and access token file
             if (
-                ($entries_token_file_data = serializers()->yaml()->decode(filesystem()->file($entries_token_file_path)->get())) &&
+                ($content_token_file_data = serializers()->yaml()->decode(filesystem()->file($content_token_file_path)->get())) &&
                 ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
-                    $entries_token_file_data['state'] === 'disabled' ||
-                    ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])
+                    $content_token_file_data['state'] === 'disabled' ||
+                    ($content_token_file_data['limit_calls'] !== 0 && $content_token_file_data['calls'] >= $content_token_file_data['limit_calls'])
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
@@ -190,10 +190,10 @@ flextype()->post('/api/entries', function (Request $request, Response $response)
                 }
 
                 // Create entry
-                $create_entry = entries()->create($id, $data);
+                $create_entry = content()->create($id, $data);
 
                 if ($create_entry) {
-                    $response_data['data'] = entries()->fetch($id);
+                    $response_data['data'] = content()->fetch($id);
                 } else {
                     $response_data['data'] = [];
                 }
@@ -202,7 +202,7 @@ flextype()->post('/api/entries', function (Request $request, Response $response)
                 $response_code = $create_entry ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($entries_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
+                filesystem()->file($content_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($content_token_file_data, ['calls' => $content_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -240,7 +240,7 @@ flextype()->post('/api/entries', function (Request $request, Response $response)
 /**
  * Update entry
  *
- * endpoint: PATCH /api/entries
+ * endpoint: PATCH /api/content
  *
  * Body:
  * id           - [REQUIRED] - Unique identifier of the entry.
@@ -251,7 +251,7 @@ flextype()->post('/api/entries', function (Request $request, Response $response)
  * Returns:
  * Returns the entry item object for the entry item that was just updated.
  */
-flextype()->patch('/api/entries', function (Request $request, Response $response) use ($apiErrors) {
+flextype()->patch('/api/content', function (Request $request, Response $response) use ($apiErrors) {
     // Get Post Data
     $post_data = (array) $request->getParsedBody();
 
@@ -268,20 +268,20 @@ flextype()->patch('/api/entries', function (Request $request, Response $response
     $id           = $post_data['id'];
     $data         = $post_data['data'];
 
-    if (registry()->get('flextype.settings.api.entries.enabled')) {
-        // Validate entries and access token
+    if (registry()->get('flextype.settings.api.content.enabled')) {
+        // Validate content and access token
         if (validateEntriesToken($token) && validate_access_token($access_token)) {
-            $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
+            $content_token_file_path = PATH['project'] . '/tokens/content/' . $token . '/token.yaml';
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set entries and access token file
+            // Set content and access token file
             if (
-                ($entries_token_file_data = serializers()->yaml()->decode(filesystem()->file($entries_token_file_path)->get())) &&
+                ($content_token_file_data = serializers()->yaml()->decode(filesystem()->file($content_token_file_path)->get())) &&
                 ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
-                    $entries_token_file_data['state'] === 'disabled' ||
-                    ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])
+                    $content_token_file_data['state'] === 'disabled' ||
+                    ($content_token_file_data['limit_calls'] !== 0 && $content_token_file_data['calls'] >= $content_token_file_data['limit_calls'])
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
@@ -300,10 +300,10 @@ flextype()->patch('/api/entries', function (Request $request, Response $response
                 }
 
                 // Update entry
-                $update_entry = entries()->update($id, $data);
+                $update_entry = content()->update($id, $data);
 
                 if ($update_entry) {
-                    $response_data['data'] = entries()->fetch($id);
+                    $response_data['data'] = content()->fetch($id);
                 } else {
                     $response_data['data'] = [];
                 }
@@ -312,7 +312,7 @@ flextype()->patch('/api/entries', function (Request $request, Response $response
                 $response_code = $update_entry ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($entries_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
+                filesystem()->file($content_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($content_token_file_data, ['calls' => $content_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -350,7 +350,7 @@ flextype()->patch('/api/entries', function (Request $request, Response $response
 /**
  * Move entry
  *
- * endpoint: PUT /api/entries
+ * endpoint: PUT /api/content
  *
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
@@ -361,7 +361,7 @@ flextype()->patch('/api/entries', function (Request $request, Response $response
  * Returns:
  * Returns the entry item object for the entry item that was just moved.
  */
-flextype()->put('/api/entries', function (Request $request, Response $response) use ($apiErrors) {
+flextype()->put('/api/content', function (Request $request, Response $response) use ($apiErrors) {
     // Get Post Data
     $post_data = (array) $request->getParsedBody();
 
@@ -378,20 +378,20 @@ flextype()->put('/api/entries', function (Request $request, Response $response) 
     $id           = $post_data['id'];
     $new_id       = $post_data['new_id'];
 
-    if (registry()->get('flextype.settings.api.entries.enabled')) {
-        // Validate entries and access token
+    if (registry()->get('flextype.settings.api.content.enabled')) {
+        // Validate content and access token
         if (validateEntriesToken($token) && validate_access_token($access_token)) {
-            $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
+            $content_token_file_path = PATH['project'] . '/tokens/content/' . $token . '/token.yaml';
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set entries and access token file
+            // Set content and access token file
             if (
-                ($entries_token_file_data = serializers()->yaml()->decode(filesystem()->file($entries_token_file_path)->get())) &&
+                ($content_token_file_data = serializers()->yaml()->decode(filesystem()->file($content_token_file_path)->get())) &&
                 ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
-                    $entries_token_file_data['state'] === 'disabled' ||
-                    ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])
+                    $content_token_file_data['state'] === 'disabled' ||
+                    ($content_token_file_data['limit_calls'] !== 0 && $content_token_file_data['calls'] >= $content_token_file_data['limit_calls'])
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
@@ -410,11 +410,11 @@ flextype()->put('/api/entries', function (Request $request, Response $response) 
                 }
 
                 // Move entry
-                $move_entry = entries()->move($id, $new_id);
+                $move_entry = content()->move($id, $new_id);
 
                 // Get entry data
                 if ($move_entry) {
-                    $response_data['data'] = entries()->fetch($new_id);
+                    $response_data['data'] = content()->fetch($new_id);
                 } else {
                     $response_data['data'] = [];
                 }
@@ -423,7 +423,7 @@ flextype()->put('/api/entries', function (Request $request, Response $response) 
                 $response_code = $move_entry ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($entries_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
+                filesystem()->file($content_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($content_token_file_data, ['calls' => $content_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -459,9 +459,9 @@ flextype()->put('/api/entries', function (Request $request, Response $response) 
 });
 
 /**
- * Copy entry(entries)
+ * Copy entry(content)
  *
- * endpoint: PUT /api/entries/copy
+ * endpoint: PUT /api/content/copy
  *
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
@@ -472,7 +472,7 @@ flextype()->put('/api/entries', function (Request $request, Response $response) 
  * Returns:
  * Returns the entry item object for the entry item that was just copied.
  */
-flextype()->put('/api/entries/copy', function (Request $request, Response $response) use ($apiErrors) {
+flextype()->put('/api/content/copy', function (Request $request, Response $response) use ($apiErrors) {
     // Get Post Data
     $post_data = (array) $request->getParsedBody();
 
@@ -489,20 +489,20 @@ flextype()->put('/api/entries/copy', function (Request $request, Response $respo
     $id           = $post_data['id'];
     $new_id       = $post_data['new_id'];
 
-    if (registry()->get('flextype.settings.api.entries.enabled')) {
-        // Validate entries and access token
+    if (registry()->get('flextype.settings.api.content.enabled')) {
+        // Validate content and access token
         if (validateEntriesToken($token) && validate_access_token($access_token)) {
-            $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
+            $content_token_file_path = PATH['project'] . '/tokens/content/' . $token . '/token.yaml';
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set entries and access token file
+            // Set content and access token file
             if (
-                ($entries_token_file_data = serializers()->yaml()->decode(filesystem()->file($entries_token_file_path)->get())) &&
+                ($content_token_file_data = serializers()->yaml()->decode(filesystem()->file($content_token_file_path)->get())) &&
                 ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
-                    $entries_token_file_data['state'] === 'disabled' ||
-                    ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])
+                    $content_token_file_data['state'] === 'disabled' ||
+                    ($content_token_file_data['limit_calls'] !== 0 && $content_token_file_data['calls'] >= $content_token_file_data['limit_calls'])
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
@@ -521,11 +521,11 @@ flextype()->put('/api/entries/copy', function (Request $request, Response $respo
                 }
 
                 // Copy entry
-                $copy_entry = entries()->copy($id, $new_id, true);
+                $copy_entry = content()->copy($id, $new_id, true);
 
                 // Get entry data
                 if ($copy_entry === null) {
-                    $response_data['data'] = entries()->fetch($new_id);
+                    $response_data['data'] = content()->fetch($new_id);
                 } else {
                     $response_data['data'] = [];
                 }
@@ -534,7 +534,7 @@ flextype()->put('/api/entries/copy', function (Request $request, Response $respo
                 $response_code = $copy_entry === null ? 200 : 404;
 
                 // Update calls counter
-                filesystem()->file($entries_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
+                filesystem()->file($content_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($content_token_file_data, ['calls' => $content_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
@@ -572,7 +572,7 @@ flextype()->put('/api/entries/copy', function (Request $request, Response $respo
 /**
  * Delete entry
  *
- * endpoint: DELETE /api/entries
+ * endpoint: DELETE /api/content
  *
  * Body:
  * id           - [REQUIRED] - Unique identifier of the entry.
@@ -582,7 +582,7 @@ flextype()->put('/api/entries/copy', function (Request $request, Response $respo
  * Returns:
  * Returns an empty body with HTTP status 204
  */
-flextype()->delete('/api/entries', function (Request $request, Response $response) use ($apiErrors) {
+flextype()->delete('/api/content', function (Request $request, Response $response) use ($apiErrors) {
     // Get Post Data
     $post_data = (array) $request->getParsedBody();
 
@@ -598,20 +598,20 @@ flextype()->delete('/api/entries', function (Request $request, Response $respons
     $access_token = $post_data['access_token'];
     $id           = $post_data['id'];
 
-    if (registry()->get('flextype.settings.api.entries.enabled')) {
-        // Validate entries and access token
+    if (registry()->get('flextype.settings.api.content.enabled')) {
+        // Validate content and access token
         if (validateEntriesToken($token) && validate_access_token($access_token)) {
-            $entries_token_file_path = PATH['project'] . '/tokens/entries/' . $token . '/token.yaml';
+            $content_token_file_path = PATH['project'] . '/tokens/content/' . $token . '/token.yaml';
             $access_token_file_path  = PATH['project'] . '/tokens/access/' . $access_token . '/token.yaml';
 
-            // Set entries and access token file
+            // Set content and access token file
             if (
-                ($entries_token_file_data = serializers()->yaml()->decode(filesystem()->file($entries_token_file_path)->get())) &&
+                ($content_token_file_data = serializers()->yaml()->decode(filesystem()->file($content_token_file_path)->get())) &&
                 ($access_token_file_data = serializers()->yaml()->decode(filesystem()->file($access_token_file_path)->get()))
             ) {
                 if (
-                    $entries_token_file_data['state'] === 'disabled' ||
-                    ($entries_token_file_data['limit_calls'] !== 0 && $entries_token_file_data['calls'] >= $entries_token_file_data['limit_calls'])
+                    $content_token_file_data['state'] === 'disabled' ||
+                    ($content_token_file_data['limit_calls'] !== 0 && $content_token_file_data['calls'] >= $content_token_file_data['limit_calls'])
                 ) {
                     return $response
                                 ->withStatus($apiErrors['0003']['http_status_code'])
@@ -630,13 +630,13 @@ flextype()->delete('/api/entries', function (Request $request, Response $respons
                 }
 
                 // Delete entry
-                $delete_entry = entries()->delete($id);
+                $delete_entry = content()->delete($id);
 
                 // Set response code
                 $response_code = $delete_entry ? 204 : 404;
 
                 // Update calls counter
-                filesystem()->file($entries_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($entries_token_file_data, ['calls' => $entries_token_file_data['calls'] + 1])));
+                filesystem()->file($content_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($content_token_file_data, ['calls' => $content_token_file_data['calls'] + 1])));
 
                 if ($response_code === 404) {
                     // Return response
