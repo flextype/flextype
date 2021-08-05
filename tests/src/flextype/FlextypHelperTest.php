@@ -7,7 +7,7 @@ use Flextype\Entries\Entries;
 use Atomastic\Strings\Strings;
 
 test('test getVersion() method', function () {
-    $this->assertTrue(!Strings::create(app()->getVersion())->isEmpty());
+    $this->assertTrue(!Strings::create(flextype()->getVersion())->isEmpty());
 });
 
 test('test getInstance() method', function () {
