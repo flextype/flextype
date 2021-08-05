@@ -25,12 +25,3 @@ test('test getInstance() method', function () {
     $this->assertInstanceOf(Flextype::class, $firstCall);
     $this->assertSame($firstCall, $secondCall);
 });
-
-test('test container() method', function () {
-    // get container
-   // $this->assertInstanceOf(Entries::class, Flextype::getInstance()->container('entries'));
-
-    // set container
-   // Flextype::getInstance()->container()['foo'] = 'bar';
-    //$this->assertEquals('bar', Flextype::getInstance()->container('foo'));
-});
