@@ -34,9 +34,14 @@ class Frontmatter
      */
     public function encode($input): string
     {
-        $headerSerializer = registry()->get('flextype.settings.serializers.frontmatter.encode.header_serializer');
+        $headerSerializer = registry()->get('flextype.settings.serializers.frontmatter.encode.header.serializer');
+        $allowed          = registry()->get('flextype.settings.serializers.frontmatter.encode.header.allowed');
 
         if ($headerSerializer === 'frontmatter') {
+            $headerSerializer = 'yaml';
+        }
+
+        if (! in_array($headerSerializer,  $allowed)) {
             $headerSerializer = 'yaml';
         }
 
@@ -61,10 +66,15 @@ class Frontmatter
      */
     public function decode(string $input)
     {
-        $headerSerializer = registry()->get('flextype.settings.serializers.frontmatter.decode.header_serializer');
+        $headerSerializer = registry()->get('flextype.settings.serializers.frontmatter.decode.header.serializer');
         $cache            = registry()->get('flextype.settings.serializers.frontmatter.decode.cache');
+        $allowed          = registry()->get('flextype.settings.serializers.frontmatter.encode.header.allowed');
 
         if ($headerSerializer === 'frontmatter') {
+            $headerSerializer = 'yaml';
+        }
+
+        if (! in_array($headerSerializer,  $allowed)) {
             $headerSerializer = 'yaml';
         }
 

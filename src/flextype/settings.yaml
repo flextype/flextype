@@ -402,9 +402,13 @@ serializers:
   frontmatter:
     decode:
       cache: true
-      header_serializer: yaml
+      header:
+        serializer: yaml
+        allowed: ['yaml', 'json', 'neon']
     encode:    
-      header_serializer: yaml
+      header:
+        serializer: yaml
+        allowed: ['yaml', 'json', 'neon']
   neon:
     decode:
       cache: true
