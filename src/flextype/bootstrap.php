@@ -407,7 +407,7 @@ container()->set('images', function () {
 });
 
 // Add Content Service
-container()->set('content', new Content(registry()->get('flextype.settings.storage.content')));
+container()->set('content', new Content(registry()->get('flextype.settings.entries.content')));
 
 // Add Plugins Service
 container()->set('plugins', new Plugins());
