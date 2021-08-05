@@ -78,7 +78,7 @@ class Frontmatter
             $headerSerializer = 'yaml';
         }
 
-        $decode = static function (string $input) {
+        $decode = static function (string $input) use ($headerSerializer) {
             // Remove UTF-8 BOM if it exists.
             $input = ltrim($input, "\xef\xbb\xbf");
 
