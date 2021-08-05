@@ -11,6 +11,7 @@ namespace Flextype\Parsers;
 
 use Atomastic\Macroable\Macroable;
 use Flextype\Parsers\Shortcodes;
+use Flextype\Parsers\Markdown;
 
 class Parsers
 {
@@ -22,5 +23,13 @@ class Parsers
     public function shortcodes(): Shortcodes
     {
         return Shortcodes::getInstance();
+    }
+
+    /**
+     * Create a Markdown instance.
+     */
+    public function markdown(): Markdown
+    {
+        return Markdown::getInstance();
     }
 }

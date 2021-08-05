@@ -146,8 +146,10 @@ final class Shortcodes
      *
      * @access public
      */
-    public function parse(string $input, bool $cache = true)
+    public function parse(string $input)
     {
+        $cache = registry()->get('flextype.settings.parsers.shortcodes.cache');
+
         if ($cache === true && registry()->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
 

@@ -417,26 +417,43 @@ serializers:
 
 # Parsers
 #
-# Shortcode
-#
-# - shortcodes: Flextype Shortcodes to load.
 parsers:
+  markdown:
+    cache: true
+    commonmark:
+      renderer:
+        block_separator: "\n"
+        inner_separator: "\n"
+        soft_break: "\n"
+      commonmark:
+        enable_em: true
+        enable_strong: true
+        use_asterisk: true
+        use_underscore: true
+        unordered_list_markers: ['-', '*', '+']
+      html_input: 'allow'
+      allow_unsafe_links: false
+      max_nesting_level: 9223372036854775807
+      slug_normalizer:
+        max_length: 255
   shortcodes:
-    media:
-      path: "/src/flextype/Parsers/Shortcodes/MediaShortcode.php"
-      enabled: true
-    entries:
-      path: "/src/flextype/Parsers/Shortcodes/EntriesShortcode.php"
-      enabled: true
-    raw:
-      path: "/src/flextype/Parsers/Shortcodes/RawShortcode.php"
-      enabled: true
-    registry:
-      path: "/src/flextype/Parsers/Shortcodes/RegistryShortcode.php"
-      enabled: true
-    url:
-      path: "/src/flextype/Parsers/Shortcodes/UrlShortcode.php"
-      enabled: true
+    cache: true
+    shortcodes:
+      media:
+        path: "/src/flextype/Parsers/Shortcodes/MediaShortcode.php"
+        enabled: true
+      entries:
+        path: "/src/flextype/Parsers/Shortcodes/EntriesShortcode.php"
+        enabled: true
+      raw:
+        path: "/src/flextype/Parsers/Shortcodes/RawShortcode.php"
+        enabled: true
+      registry:
+        path: "/src/flextype/Parsers/Shortcodes/RegistryShortcode.php"
+        enabled: true
+      url:
+        path: "/src/flextype/Parsers/Shortcodes/UrlShortcode.php"
+        enabled: true
 
 # CORS
 #
