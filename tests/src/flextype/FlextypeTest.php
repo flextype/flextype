@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 use Flextype\Flextype;
-use Flextype\Entries\Entries;
+use Flextype\Content\Content;
 use Atomastic\Strings\Strings;
 
 beforeEach(function() {
-    filesystem()->directory(PATH['project'] . '/entries')->create();
+    filesystem()->directory(PATH['project'] . '/entries/content')->create();
 });
 
 afterEach(function (): void {
-    filesystem()->directory(PATH['project'] . '/entries')->delete();
+    filesystem()->directory(PATH['project'] . '/entries/content')->delete();
 });
 
 test('test getVersion() method', function () {

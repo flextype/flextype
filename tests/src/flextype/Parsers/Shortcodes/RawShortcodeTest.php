@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 beforeEach(function() {
-    filesystem()->directory(PATH['project'] . '/entries')->create();
+    filesystem()->directory(PATH['project'] . '/entries/content')->create();
 });
 
 afterEach(function (): void {
-    filesystem()->directory(PATH['project'] . '/entries')->delete();
+    filesystem()->directory(PATH['project'] . '/entries/content')->delete();
 });
 
 test('test raw  shortcode', function () {
-    $this->assertTrue(entries()->create('foo', ['title' => 'Foo']));
-    $this->assertEquals('[entries_fetch id="foo" field="title"]',
-                        parsers()->shortcodes()->parse('[raw][entries_fetch id="foo" field="title"][/raw]'));
+    $this->assertTrue(content()->create('foo', ['title' => 'Foo']));
+    $this->assertEquals('[content_fetch id="foo" field="title"]',
+                        parsers()->shortcodes()->parse('[raw][content_fetch id="foo" field="title"][/raw]'));
 });

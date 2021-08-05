@@ -3,21 +3,21 @@
 declare(strict_types=1);
 
 test('test encode() method', function () {
-    $this->assertEquals("title: Foo\nentries: Bar\n",
+    $this->assertEquals("title: Foo\ncontent: Bar\n",
                         serializers()->yaml()
                             ->encode(['title' => 'Foo',
-                                      'entries' => 'Bar']));
+                                      'content' => 'Bar']));
 });
 
 test('test decode() method', function () {
     $this->assertEquals(['title' => 'Foo',
-                         'entries' => 'Bar'],
+                         'content' => 'Bar'],
                         serializers()->yaml()
-                            ->decode("title: Foo\nentries: Bar"));
+                            ->decode("title: Foo\ncontent: Bar"));
 });
 
 test('test getCacheID() method', function () {
-    $string = "title:Foo\nentries:Bar";
+    $string = "title:Foo\ncontent:Bar";
     $cache_id = serializers()->yaml()
                     ->getCacheID($string);
     $this->assertEquals(32, strlen($cache_id));

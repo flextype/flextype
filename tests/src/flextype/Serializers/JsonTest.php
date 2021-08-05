@@ -3,21 +3,21 @@
 declare(strict_types=1);
 
 test('test encode() method', function () {
-    $this->assertEquals('{"title":"Foo","entries":"Bar"}',
+    $this->assertEquals('{"title":"Foo","content":"Bar"}',
                         serializers()->json()
                             ->encode(['title' => 'Foo',
-                                      'entries' => 'Bar']));
+                                      'content' => 'Bar']));
 });
 
 test('test decode() method', function () {
     $this->assertEquals(['title' => 'Foo',
-                         'entries' => 'Bar'],
+                         'content' => 'Bar'],
                         serializers()->json()
-                            ->decode('{"title":"Foo","entries":"Bar"}'));
+                            ->decode('{"title":"Foo","content":"Bar"}'));
 });
 
 test('test getCacheID() method', function () {
-    $string = '{"title":"Foo","entries":"Bar"}';
+    $string = '{"title":"Foo","content":"Bar"}';
     $cache_id = serializers()->json()
                     ->getCacheID($string);
     $this->assertEquals(32, strlen($cache_id));
