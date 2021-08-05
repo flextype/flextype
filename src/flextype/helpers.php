@@ -66,6 +66,15 @@ if (! function_exists('content')) {
     }
 }
 
+if (! function_exists('media')) {
+    /**
+     * Get Flextype Media Service.
+     */
+    function media() {
+        return flextype()->container()->get('media');
+    }
+}
+
 if (! function_exists('parsers')) {
     /**
      * Get Flextype Parsers Service.
