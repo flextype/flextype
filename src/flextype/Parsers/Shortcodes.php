@@ -18,12 +18,12 @@ use function strings;
 final class Shortcodes
 {
     /**
-     * Registry instance
+     * Shortcodes instance.
      */
     private static ?Shortcodes $instance = null;
 
     /**
-     * Shortcode facade
+     * Shortcode facade.
      */
     private $shortcodeFacade = null;
 
@@ -44,7 +44,7 @@ final class Shortcodes
     }
 
     /**
-     * Shortcode construct
+     * Shortcode construct.
      */
     protected function __construct()
     {
@@ -52,7 +52,7 @@ final class Shortcodes
     }
 
     /**
-     * Gets the instance via lazy initialization (created on first usage)
+     * Gets the instance via lazy initialization (created on first usage).
      */
     public static function getInstance(): Shortcodes
     {
@@ -64,7 +64,7 @@ final class Shortcodes
     }
 
     /**
-     * Shortcode facade
+     * Shortcode facade.
      */
     public function facade(): ShortcodeFacade
     {
@@ -76,7 +76,7 @@ final class Shortcodes
      */
     public function initShortcodes(): void
     {
-        $shortcodes = registry()->get('flextype.settings.parsers.shortcodes');
+        $shortcodes = registry()->get('flextype.settings.parsers.shortcodes.shortcodes');
 
         if (
             ! isset($shortcodes) ||
@@ -103,8 +103,8 @@ final class Shortcodes
     /**
      * Add shortcode handler.
      *
-     * @param string   $name    Shortcode
-     * @param callable $handler Handler
+     * @param string   $name    Shortcode.
+     * @param callable $handler Handler.
      *
      * @access public
      */
@@ -116,8 +116,8 @@ final class Shortcodes
     /**
      * Add event handler.
      *
-     * @param string   $name    Event
-     * @param callable $handler Handler
+     * @param string   $name    Event.
+     * @param callable $handler Handler.
      *
      * @access public
      */
@@ -133,20 +133,20 @@ final class Shortcodes
      *
      * @access public
      */
-    public function parse(string $input)
+    public function parseText(string $input)
     {
         return $this->facade()->parse($input);
     }
 
     /**
-     * Processes text and replaces shortcodes.
+     * Parse and processes text to replaces shortcodes.
      *
      * @param string $input A text containing SHORTCODE
-     * @param bool   $cache Cache result data or no. Default is true
+     * @param bool   $cache Cache result data or no. Default is true.
      *
      * @access public
      */
-    public function process(string $input, bool $cache = true)
+    public function parse(string $input, bool $cache = true)
     {
         if ($cache === true && registry()->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
@@ -165,11 +165,11 @@ final class Shortcodes
     }
 
     /**
-     * Get Cache ID for shortcode
+     * Get Cache ID for shortcode.
      *
-     * @param  string $input Input
+     * @param  string $input Input.
      *
-     * @return string Cache ID
+     * @return string Cache ID.
      *
      * @access public
      */

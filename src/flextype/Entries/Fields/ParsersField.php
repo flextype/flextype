@@ -29,7 +29,7 @@ if (registry()->get('flextype.settings.entries.fields.parsers.enabled')) {
                                         if ($parserName == 'shortcodes') {
                                             if (arrays(entries()->registry()->get('fetch.data'))->has($field)) {
                                                 entries()->registry()->set('fetch.data.'.$field,
-                                                                                parsers()->shortcodes()->process(entries()->registry()->get('fetch.data.'.$field), $cache));
+                                                                                parsers()->shortcodes()->parse(entries()->registry()->get('fetch.data.'.$field), $cache));
                                             }
                                         }
                                     }
