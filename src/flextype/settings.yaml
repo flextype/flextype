@@ -417,6 +417,19 @@ serializers:
 
 # Parsers
 #
+# markdown.cache: Cache result data or no. Default is true.
+# markdown.commonmark.renderer.block_separator: String to use for separating renderer block elements.
+# markdown.commonmark.renderer.inner_separator: String to use for separating inner block contents.
+# markdown.commonmark.renderer.soft_break: String to use for rendering soft breaks.
+# markdown.commonmark.commonmark.enable_em: Disable <em> parsing by setting to false; enable with true (default: true)
+# markdown.commonmark.commonmark.enable_strong: Disable <strong> parsing by setting to false; enable with true (default: true)
+# markdown.commonmark.commonmark.use_asterisk: Disable parsing of * for emphasis by setting to false; enable with true (default: true)
+# markdown.commonmark.commonmark.use_underscore: Disable parsing of _ for emphasis by setting to false; enable with true (default: true)
+# markdown.commonmark.commonmark.unordered_list_markers: Array of characters that can be used to indicate a bulleted list.
+# markdown.commonmark.html_input: `strip` all HTML (equivalent to 'safe' => true). `allow` all HTML input as-is (default value; equivalent to `‘safe’ => false) `escape` Escape all HTML.
+# markdown.commonmark.allow_unsafe_links: Remove risky link and image URLs by setting this to false (default: true).
+# markdown.commonmark.max_nesting_level: The maximum nesting level for blocks (default: PHP_INT_MAX). Setting this to a positive integer can help protect against long parse times and/or segfaults if blocks are too deeply-nested.
+# markdown.commonmark.slug_normalizer.max_length: Limits the size of generated slugs (defaults to 255 characters)
 parsers:
   markdown:
     cache: true
