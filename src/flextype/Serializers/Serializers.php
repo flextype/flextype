@@ -12,6 +12,8 @@ namespace Flextype\Serializers;
 use Atomastic\Macroable\Macroable;
 use Flextype\Serializers\Json;
 use Flextype\Serializers\Yaml;
+use Flextype\Serializers\Frontmatter;
+use Flextype\Serializers\Neon;
 
 class Serializers
 {
@@ -31,5 +33,21 @@ class Serializers
     public function yaml(): Yaml
     {
         return new Yaml();
+    }
+
+    /**
+     * Create a Frontmatter instance.
+     */
+    public function frontmatter(): Frontmatter
+    {
+        return new Frontmatter();
+    }
+    
+    /**
+     * Create a Neon instance.
+     */
+    public function neon(): Neon
+    {
+        return new Neon();
     }
 }
