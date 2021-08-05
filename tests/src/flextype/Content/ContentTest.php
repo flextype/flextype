@@ -1,11 +1,11 @@
 <?php
 
 beforeEach(function() {
-    filesystem()->directory(PATH['project'] . '/storage/content')->create(0755, true);
+    filesystem()->directory(PATH['project'] . '/entries/content')->create(0755, true);
 });
 
 afterEach(function (): void {
-    filesystem()->directory(PATH['project'] . '/storage/content')->delete();
+    filesystem()->directory(PATH['project'] . '/entries/content')->delete();
 });
 
 test('test create() method', function () {

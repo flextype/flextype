@@ -3,17 +3,17 @@
 use Flextype\Component\Filesystem\Filesystem;
 
 beforeEach(function() {
-    filesystem()->directory(PATH['project'] . '/storage/content')->create();
+    filesystem()->directory(PATH['project'] . '/entries/content')->create();
 });
 
 afterEach(function (): void {
-    filesystem()->directory(PATH['project'] . '/storage/content')->delete();
+    filesystem()->directory(PATH['project'] . '/entries/content')->delete();
 });
 
 test('test content field for blog', function () {
-    content()->create('blog', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/blog/content.yaml')->get()));
-    content()->create('blog/post-1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/blog/post-1/content.yaml')->get()));
-    content()->create('blog/post-2', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/blog/post-2/content.yaml')->get()));
+    content()->create('blog', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/blog/content.yaml')->get()));
+    content()->create('blog/post-1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/blog/post-1/content.yaml')->get()));
+    content()->create('blog/post-2', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/blog/post-2/content.yaml')->get()));
 
     $blog = content()->fetch('blog');
 
@@ -23,10 +23,10 @@ test('test content field for blog', function () {
 test('test content field for catalog', function () {
 
     // Create catalog
-    content()->create('catalog', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/catalog/content.yaml')->get()));
-    content()->create('catalog/bikes', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/catalog/bikes/content.yaml')->get()));
-    content()->create('catalog/bikes/gt', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/catalog/bikes/gt/content.yaml')->get()));
-    content()->create('catalog/bikes/norco', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/catalog/bikes/norco/content.yaml')->get()));
+    content()->create('catalog', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/catalog/content.yaml')->get()));
+    content()->create('catalog/bikes', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/catalog/bikes/content.yaml')->get()));
+    content()->create('catalog/bikes/gt', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/catalog/bikes/gt/content.yaml')->get()));
+    content()->create('catalog/bikes/norco', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/catalog/bikes/norco/content.yaml')->get()));
     content()->create('catalog/bikes/foo', ['title' => 'foo']);
     content()->create('catalog/bikes/foo/bar', ['title' => 'bar']);
 
@@ -64,11 +64,11 @@ test('test content field for catalog', function () {
 });
 
 test('test content field for albmus', function () {
-    content()->create('root', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/root/content.yaml')->get()));
+    content()->create('root', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/root/content.yaml')->get()));
 
-    content()->create('albums', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/root/albums/content.yaml')->get()));
-    content()->create('albums/category-1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/root/albums/category-1/content.yaml')->get()));
-    content()->create('albums/category-1/album-1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/root/albums/category-1/album-1/content.yaml')->get()));
+    content()->create('albums', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/root/albums/content.yaml')->get()));
+    content()->create('albums/category-1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/root/albums/category-1/content.yaml')->get()));
+    content()->create('albums/category-1/album-1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/root/albums/category-1/album-1/content.yaml')->get()));
 
     content()->create('banners', ['title' => 'Banners']);
     content()->create('banners/1', ['title' => 'Banner1']);
@@ -80,10 +80,10 @@ test('test content field for albmus', function () {
 });
 
 test('test content field for long nested content', function () {
-    content()->create('level1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/level1/content.yaml')->get()));
-    content()->create('level1/level2', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/level1/level2/content.yaml')->get()));
-    content()->create('level1/level2/level3', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/level1/level2/level3/content.yaml')->get()));
-    content()->create('level1/level2/level3/level4', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/level1/level2/level3/level4/content.yaml')->get()));
+    content()->create('level1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/level1/content.yaml')->get()));
+    content()->create('level1/level2', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/level1/level2/content.yaml')->get()));
+    content()->create('level1/level2/level3', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/level1/level2/level3/content.yaml')->get()));
+    content()->create('level1/level2/level3/level4', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/level1/level2/level3/level4/content.yaml')->get()));
 
     $level = content()->fetch('level1');
 
@@ -94,7 +94,7 @@ test('test content field for long nested content', function () {
 });
 
 test('test content field for macroable fetch content', function () {
-    content()->create('macroable', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/macroable/content.yaml')->get()));
+    content()->create('macroable', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/macroable/content.yaml')->get()));
 
     content()::macro('fetchExtraData', function ($id, $options) {
         return ['id' => $id, 'options' => $options];

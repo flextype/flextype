@@ -25,10 +25,10 @@ use function registry;
 use function serializers;
 use function strings;
 
-class Storage
+class Entries
 {
     /**
-     * Storage Registry.
+     * Entries Registry.
      *
      * Local entries registry used for storing current requested
      * storage data and allow to change them on fly.
@@ -38,12 +38,12 @@ class Storage
     private Arrays $registry;
 
     /**
-     * Storage options.
+     * Entries options.
      *
-     * directory   - Storage data files directory.
-     * filename    - Storage data filename.
-     * extension   - Storage data extension.
-     * serializer  - Storage data serializer.
+     * directory   - Entries data files directory.
+     * filename    - Entries data filename.
+     * extension   - Entries data extension.
+     * serializer  - Entries data serializer.
      * fields      - Array of fields for storage.
      *
      * @var array
@@ -62,7 +62,7 @@ class Storage
     }
 
     /**
-     * Init Storage Fields.
+     * Init Entries Fields.
      */
     private function initFields(): void
     {
@@ -88,7 +88,7 @@ class Storage
     }
 
     /**
-     * Get Storage Registry.
+     * Get Entries Registry.
      *
      * @return Arrays Returns storage registry.
      *
@@ -222,7 +222,7 @@ class Storage
 
                     $currentEntryID = strings($currenEntry->getPath())
                                             ->replace('\\', '/')
-                                            ->replace(PATH['project'] . '/storage/' . $this->options['directory'] . '/', '')
+                                            ->replace(PATH['project'] . '/entries/' . $this->options['directory'] . '/', '')
                                             ->trim('/')
                                             ->toString();
 
@@ -444,13 +444,13 @@ class Storage
      *
      * @param string $id Unique identifier of the storage entry.
      *
-     * @return string Storage entry file location
+     * @return string Entries entry file location
      *
      * @access public
      */
     public function getFileLocation(string $id): string
     {
-        return PATH['project'] . '/storage/' . $this->options['directory'] . '/' . $id . '/' . $this->options['filename'] . '.' . $this->options['extension'];
+        return PATH['project'] . '/entries/' . $this->options['directory'] . '/' . $id . '/' . $this->options['filename'] . '.' . $this->options['extension'];
     }
 
     /**
@@ -458,13 +458,13 @@ class Storage
      *
      * @param string $id Unique identifier of the storage entry.
      *
-     * @return string Storage entry directory location
+     * @return string Entries entry directory location
      *
      * @access public
      */
     public function getDirectoryLocation(string $id): string
     {
-        return PATH['project'] . '/storage/' . $this->options['directory'] . '/' . $id;
+        return PATH['project'] . '/entries/' . $this->options['directory'] . '/' . $id;
     }
 
     /**
@@ -492,7 +492,7 @@ class Storage
     }
 
     /**
-     * Get Storage options.
+     * Get Entries options.
      *
      * @return array Returns storage options.
      *

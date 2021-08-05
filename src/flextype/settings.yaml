@@ -53,8 +53,8 @@ date_display_format: 'd-m-Y H:i'
 errors:
   display: false
 
-# Storage
-storage:
+# Entries
+entries:
   content:
     directory: content
     filename: content

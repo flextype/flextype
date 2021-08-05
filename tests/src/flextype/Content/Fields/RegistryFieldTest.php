@@ -3,17 +3,17 @@
 use Flextype\Component\Filesystem\Filesystem;
 
 beforeEach(function() {
-    filesystem()->directory(PATH['project'] . '/storage/content')->create();
+    filesystem()->directory(PATH['project'] . '/entries/content')->create();
 });
 
 afterEach(function (): void {
-    filesystem()->directory(PATH['project'] . '/storage/content')->delete();
+    filesystem()->directory(PATH['project'] . '/entries/content')->delete();
 });
 
 test('test registry field', function () {
-    content()->create('registry-root', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/registry-root/content.yaml')->get()));
-    content()->create('registry-root/level-1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/registry-root/level-1/content.yaml')->get()));
-    content()->create('registry-root/level-1/level-2', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/content/registry-root/level-1/level-2/content.yaml')->get()));
+    content()->create('registry-root', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/registry-root/content.yaml')->get()));
+    content()->create('registry-root/level-1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/registry-root/level-1/content.yaml')->get()));
+    content()->create('registry-root/level-1/level-2', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/registry-root/level-1/level-2/content.yaml')->get()));
 
     $data = content()->fetch('registry-root');
 

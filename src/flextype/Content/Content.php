@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace Flextype\Content;
 
 use Atomastic\Macroable\Macroable;
-use Flextype\Storage;
+use Flextype\Entries;
 
-class Content extends Storage
+class Content extends Entries
 {
     use Macroable;
 }

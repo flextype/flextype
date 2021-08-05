@@ -406,7 +406,7 @@ container()->set('images', function () {
     return $server;
 });
 
-// Add Content Storage Service
+// Add Content Entries Service
 container()->set('content', new Content(registry()->get('flextype.settings.storage.content')));
 
 // Add Plugins Service

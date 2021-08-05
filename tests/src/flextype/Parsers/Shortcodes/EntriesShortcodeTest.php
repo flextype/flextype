@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 beforeEach(function() {
-    filesystem()->directory(PATH['project'] . '/storage/content')->create();
+    filesystem()->directory(PATH['project'] . '/entries/content')->create();
 });
 
 afterEach(function (): void {
-    filesystem()->directory(PATH['project'] . '/storage/content')->delete();
+    filesystem()->directory(PATH['project'] . '/entries/content')->delete();
 });
 
 test('test content_fetch  shortcode', function () {
