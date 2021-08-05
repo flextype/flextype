@@ -13,5 +13,5 @@ afterEach(function (): void {
 test('test raw  shortcode', function () {
     $this->assertTrue(entries()->create('foo', ['title' => 'Foo']));
     $this->assertEquals('[entries_fetch id="foo" field="title"]',
-                        parsers()->shortcodes()->process('[raw][entries_fetch id="foo" field="title"][/raw]'));
+                        parsers()->shortcodes()->parse('[raw][entries_fetch id="foo" field="title"][/raw]'));
 });

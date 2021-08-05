@@ -20,19 +20,19 @@ test('test addEventHandler() method', function () {
         return 'Barz';
     });
     parsers()->shortcodes()->addEventHandler(Events::FILTER_SHORTCODES, new FilterRawEventHandler(['barz']));
-    $this->assertEquals('Barz', parsers()->shortcodes()->process('[barz]'));
+    $this->assertEquals('Barz', parsers()->shortcodes()->parse('[barz]'));
+});
+
+test('test parseText() method', function () {
+    $this->assertInstanceOf(Thunder\Shortcode\ShortcodeFacade::class, parsers()->shortcodes()->addHandler('bar', static function() { return ''; }));
+    $this->assertTrue(is_array(parsers()->shortcodes()->parseText('[bar]')));
+    $this->assertTrue(is_object(parsers()->shortcodes()->parseText('[bar]')[0]));
 });
 
 test('test parse() method', function () {
-    $this->assertInstanceOf(Thunder\Shortcode\ShortcodeFacade::class, parsers()->shortcodes()->addHandler('bar', static function() { return ''; }));
-    $this->assertTrue(is_array(parsers()->shortcodes()->parse('[bar]')));
-    $this->assertTrue(is_object(parsers()->shortcodes()->parse('[bar]')[0]));
-});
-
-test('test process() method', function () {
     $this->assertInstanceOf(Thunder\Shortcode\ShortcodeFacade::class, parsers()->shortcodes()->addHandler('zed', static function() { return 'Zed'; }));
-    $this->assertEquals('Zed', parsers()->shortcodes()->process('[zed]'));
-    $this->assertEquals('fòôBàřZed', parsers()->shortcodes()->process('fòôBàř[zed]'));
+    $this->assertEquals('Zed', parsers()->shortcodes()->parse('[zed]'));
+    $this->assertEquals('fòôBàřZed', parsers()->shortcodes()->parse('fòôBàř[zed]'));
 });
 
 test('test getCacheID() method', function () {
