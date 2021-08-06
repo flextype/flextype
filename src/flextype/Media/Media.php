@@ -49,32 +49,31 @@ class Media extends Entries
                 $id    = media()->registry()->get('create.id');
                 $url   = registry()->get('flextype.settings.url');
                 $media = media()->upload($file, $id);
-                if (is_string($media)) {
-                    $fileField = $media;
+        
+                if ($media->name) {
+                    media()->registry()->set('create.data.file', strings($url . '/project' . registry()->get('flextype.settings.media.upload.directory') . '/' . $id . '/media.' . filesystem()->file($media->name)->extension())->reduceSlashes()->toString());
                 } else {
-                    $fileField = strings($url . '/project' . registry()->get('flextype.settings.media.uploads.directory') . '/' . $id . '/media.' . filesystem()->file($media->name)->extension())->reduceSlashes()->toString();
+                    media()->registry()->set('create.data.file', '');
                 }
-
-                media()->registry()->set('create.data.file', $fileField);
             } else {
                 media()->registry()->set('create.data.file', $file);
             }
         });
 
         emitter()->addListener('onMediaCopy', static function (): void {
-            $currentPath = PATH['project'] . registry()->get('flextype.settings.media.uploads.directory') . media()->registry()->get('copy.id');
-            $newPath     = PATH['project'] . registry()->get('flextype.settings.media.uploads.directory') . media()->registry()->get('copy.newID');
+            $currentPath = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . media()->registry()->get('copy.id');
+            $newPath     = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . media()->registry()->get('copy.newID');
             filesystem()->directory($currentPath)->copy($newPath);
         });
 
         emitter()->addListener('onMediaMove', static function (): void {
-            $currentPath = PATH['project'] . registry()->get('flextype.settings.media.uploads.directory') . media()->registry()->get('move.id');
-            $newPath     = PATH['project'] . registry()->get('flextype.settings.media.uploads.directory') . media()->registry()->get('move.newID');
+            $currentPath = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . media()->registry()->get('move.id');
+            $newPath     = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . media()->registry()->get('move.newID');
             filesystem()->directory($currentPath)->move($newPath);
         });
 
         emitter()->addListener('onMediaDelete', static function (): void {
-            $currentPath = PATH['project'] . registry()->get('flextype.settings.media.uploads.directory') . media()->registry()->get('delete.id');
+            $currentPath = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . media()->registry()->get('delete.id');
             filesystem()->directory($currentPath)->delete();
         });
     }
