@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 use Flextype\Flextype;
 use Symfony\Component\Finder\Finder as Finder;
-
+use Intervention\Image\ImageManagerStatic as Image;
 
 if (! function_exists('flextype')) {
     /**
@@ -240,5 +240,149 @@ if (! function_exists('filter')) {
         }
 
         return $result;
+    }
+}
+
+if (! function_exists('image')) {
+    /**
+     * Create image.
+     *
+     * @param  string $file    Image file.
+     * @param  array  $options Options array.
+     *
+     * @return Image|void
+     */
+    function image(string $file, array $options = [])
+    {
+        $image = Image::make($file);
+
+        if (count($options) == 0) {
+            return $image;
+        }
+
+        if (isset($options['driver'])) {
+            if (in_array($options['driver'], ['imagick', 'gd'])) {
+                Image::configure(['driver' => $options['driver']]);
+            }
+        }
+
+        if (isset($options['blur'])) {
+            $image->blur($options['blur']);
+        }
+
+        if (isset($options['brightness'])) {
+            $image->brightness($options['brightness']);
+        }
+
+        if (isset($options['colorize']) && 
+            isset($options['colorize']['red']) &&
+            isset($options['colorize']['green']) &&
+            isset($options['colorize']['blue'])) {
+            $image->colorize($options['colorize']['red'],
+                                $options['colorize']['green'], 
+                                $options['colorize']['blue']);
+        }
+
+        if (isset($options['contrast'])) {
+            $image->contrast($options['contrast']);
+        }
+
+        if (isset($options['flip'])) {
+            $image->flip($options['flip']);
+        }
+
+        if (isset($options['gamma'])) {
+            $image->gamma($options['gamma']);
+        }
+
+        if (isset($options['rotate'])) {
+            $image->rotate($options['rotate']);
+        }
+
+        if (isset($options['pixelate'])) {
+            $image->pixelate($options['pixelate']);
+        }
+
+        if (isset($options['heighten'])) {
+            $image->heighten($options['heighten']['height'],
+                            function ($constraint) use ($options) {
+                                if (isset($options['heighten']['constraint']) &&
+                                    is_array($options['heighten']['constraint'])) {
+                                        foreach ($options['heighten']['constraint'] as $method) {
+                                            if (in_array($method, ['upsize'])) {
+                                                $constraint->{$method}();
+                                            }
+                                        }
+                                }
+                            });
+        }
+
+        if (isset($options['widen'])) {
+            $image->heighten($options['widen']['width'], 
+                            function ($constraint) use ($options) {
+                                if (isset($options['widen']['constraint']) &&
+                                    is_array($options['widen']['constraint'])) {
+                                        foreach ($options['widen']['constraint'] as $method) {
+                                            if (in_array($method, ['upsize'])) {
+                                                $constraint->{$method}();
+                                            }
+                                        }
+                                }
+                            });
+        }
+
+        if (isset($options['fit']) &&
+            isset($options['fit']['width'])) {
+            $image->fit($options['fit']['width'], 
+                        $options['fit']['height'] ?? null,
+                        function ($constraint) use ($options) {
+                            if (isset($options['fit']['constraint']) &&
+                                is_array($options['fit']['constraint'])) {
+                                    foreach ($options['fit']['constraint'] as $method) {
+                                        if (in_array($method, ['upsize'])) {
+                                            $constraint->{$method}();
+                                        }
+                                    }
+                            }
+                        },
+                        $options['fit']['position'] ?? 'center');
+        }
+
+        if (isset($options['crop']) &&
+            isset($options['crop']['width']) &&
+            isset($options['crop']['height'])) {
+            $image->crop($options['crop']['width'], 
+                                $options['crop']['height'],
+                                $options['crop']['x'] ?? null,
+                                $options['crop']['y'] ?? null);
+        }
+
+        
+        if (isset($options['invert']) &&
+            $options['invert'] == true) {
+            $image->invert();
+        }
+
+        if (isset($options['sharpen'])) {
+            $image->sharpen($options['sharpen']);
+        }
+
+        if (isset($options['resize'])) {
+            $image->resize($options['resize']['width'] ?? null,
+                            $options['resize']['height'] ?? null,
+                            function ($constraint) use ($options) {
+                                if (isset($options['resize']['constraint']) &&
+                                    is_array($options['resize']['constraint'])) {
+                                        foreach ($options['resize']['constraint'] as $method) {
+                                            if (in_array($method, ['aspectRatio', 'upsize'])) {
+                                                $constraint->{$method}();
+                                            }
+                                        }
+                                }
+                            });
+        }
+
+        $image->save($file, $options['quality'] ?? 70);
+        $image->destroy();
     }
 }
