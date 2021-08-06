@@ -12,34 +12,48 @@ namespace Flextype\Media;
 use Atomastic\Macroable\Macroable;
 use Flextype\Entries;
 use Sirius\Upload\Handler as UploadHandler;
-use Intervention\Image\ImageManagerStatic as Image;
+use Throwable;
+
+use function emitter;
+use function filesystem;
+use function getimagesize;
+use function image;
+use function is_array;
+use function is_string;
+use function media;
+use function registry;
+use function strings;
 
 class Media extends Entries
 {
     use Macroable;
 
-    public function __construct(array $options = []) {
+    public function __construct(array $options = [])
+    {
         parent::__construct($options);
 
         emitter()->addListener('onMediaCreate', static function (): void {
-            if (media()->registry()->has('create.data.file')) {
-                $file = media()->registry()->get('create.data.file');
-                if (is_array($file)) {
-                    $id = media()->registry()->get('create.id');
-                    $url = registry()->get('flextype.settings.url');
-                    $media = media()->upload($file, $id);
-                    if (is_string($media)) {
-                        $fileField = $media;
-                    } else {
-                        $fileField = strings($url . '/project' . registry()->get('flextype.settings.media.uploads.directory') . '/' . $id . '/media.' . filesystem()->file($media->name)->extension())->reduceSlashes()->toString();
-                    }
-                    media()->registry()->set('create.data.file', $fileField);
+            if (! media()->registry()->has('create.data.file')) {
+                return;
+            }
+
+            $file = media()->registry()->get('create.data.file');
+            if (is_array($file)) {
+                $id    = media()->registry()->get('create.id');
+                $url   = registry()->get('flextype.settings.url');
+                $media = media()->upload($file, $id);
+                if (is_string($media)) {
+                    $fileField = $media;
                 } else {
-                    media()->registry()->set('create.data.file', $file);
+                    $fileField = strings($url . '/project' . registry()->get('flextype.settings.media.uploads.directory') . '/' . $id . '/media.' . filesystem()->file($media->name)->extension())->reduceSlashes()->toString();
                 }
+
+                media()->registry()->set('create.data.file', $fileField);
+            } else {
+                media()->registry()->set('create.data.file', $file);
             }
         });
-    
+
         emitter()->addListener('onMediaDelete', static function (): void {
             $currentPath = PATH['project'] . registry()->get('flextype.settings.media.uploads.directory') . media()->registry()->get('delete.id');
             filesystem()->directory($currentPath)->delete();
@@ -82,32 +96,33 @@ class Media extends Entries
         // Set up the validation rules
         $uploadHandler->addRule('extension', ['allowed' => $settings['validation']['allowed_file_extensions']], 'Should be a valid image');
         $uploadHandler->addRule('size', ['max' => $settings['validation']['max_file_size']], 'Should have less than {max}');
-        $uploadHandler->addRule('imagewidth', 'min='.$settings['validation']['image']['width']['min'].'&max='.$settings['validation']['image']['width']['max']);
-        $uploadHandler->addRule('imageheight', 'min='.$settings['validation']['image']['height']['min'].'&max='.$settings['validation']['image']['width']['max']);
-       
+        $uploadHandler->addRule('imagewidth', 'min=' . $settings['validation']['image']['width']['min'] . '&max=' . $settings['validation']['image']['width']['max']);
+        $uploadHandler->addRule('imageheight', 'min=' . $settings['validation']['image']['height']['min'] . '&max=' . $settings['validation']['image']['width']['max']);
+
         if (isset($settings['validation']['image']['ratio'])) {
-            $uploadHandler->addRule('imageratio', 'ratio='.$settings['validation']['image']['ratio']['size'].'&error_margin='.$settings['validation']['image']['ratio']['error_margin']);
+            $uploadHandler->addRule('imageratio', 'ratio=' . $settings['validation']['image']['ratio']['size'] . '&error_margin=' . $settings['validation']['image']['ratio']['error_margin']);
         }
 
         $result = $uploadHandler->process($_FILES['file']);
 
-        if ($result->isValid()) {
-            try {
-                $result->confirm();
-                
-                $mediaFile = $uploadFolder . '/media.' . filesystem()->file($result->name)->extension();
-                
-                filesystem()->file($uploadFolder . '/' . $result->name)->move($mediaFile);
-
-                if (getimagesize($mediaFile)) {
-                    image($mediaFile, $settings['process']['image']);
-                }
-            } catch (\Exception $e) {
-                $result->clear();
-                throw $e;
-            }
-        } else {
+        if (! $result->isValid()) {
             return $result->getMessages();
+        }
+
+        try {
+            $result->confirm();
+
+            $mediaFile = $uploadFolder . '/media.' . filesystem()->file($result->name)->extension();
+
+            filesystem()->file($uploadFolder . '/' . $result->name)->move($mediaFile);
+
+            if (getimagesize($mediaFile)) {
+                image($mediaFile, $settings['process']['image']);
+            }
+        } catch (Throwable $e) {
+            $result->clear();
+
+            throw $e;
         }
 
         return $result;
