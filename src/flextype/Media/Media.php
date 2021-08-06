@@ -54,11 +54,6 @@ class Media extends Entries
             }
         });
 
-        emitter()->addListener('onMediaDelete', static function (): void {
-            $currentPath = PATH['project'] . registry()->get('flextype.settings.media.uploads.directory') . media()->registry()->get('delete.id');
-            filesystem()->directory($currentPath)->delete();
-        });
-
         emitter()->addListener('onMediaCopy', static function (): void {
             $currentPath = PATH['project'] . registry()->get('flextype.settings.media.uploads.directory') . media()->registry()->get('copy.id');
             $newPath     = PATH['project'] . registry()->get('flextype.settings.media.uploads.directory') . media()->registry()->get('copy.newID');
@@ -69,6 +64,11 @@ class Media extends Entries
             $currentPath = PATH['project'] . registry()->get('flextype.settings.media.uploads.directory') . media()->registry()->get('move.id');
             $newPath     = PATH['project'] . registry()->get('flextype.settings.media.uploads.directory') . media()->registry()->get('move.newID');
             filesystem()->directory($currentPath)->move($newPath);
+        });
+
+        emitter()->addListener('onMediaDelete', static function (): void {
+            $currentPath = PATH['project'] . registry()->get('flextype.settings.media.uploads.directory') . media()->registry()->get('delete.id');
+            filesystem()->directory($currentPath)->delete();
         });
     }
 
