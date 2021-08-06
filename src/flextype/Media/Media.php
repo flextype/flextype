@@ -28,6 +28,13 @@ class Media extends Entries
 {
     use Macroable;
 
+    /**
+     * Constructor.
+     *
+     * @param array $options Media options.
+     *
+     * @access public
+     */
     public function __construct(array $options = [])
     {
         parent::__construct($options);
@@ -73,7 +80,7 @@ class Media extends Entries
     }
 
     /**
-     * Upload media file
+     * Upload media file.
      *
      * @param array  $file   Raw file data (multipart/form-data).
      * @param string $folder The folder you're targetting.
