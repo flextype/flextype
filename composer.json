@@ -58,7 +58,8 @@
         "php-di/slim-bridge": "^3.1.1",
         "middlewares/whoops": "^2.0",
         "nette/neon": "^3.2",
-        "league/commonmark": "^2.0"
+        "league/commonmark": "^2.0",
+        "siriusphp/upload": "^3.0"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
