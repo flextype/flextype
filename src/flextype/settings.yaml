@@ -514,19 +514,25 @@ cors:
 
 # Media
 #
-# - max_file_size: Set the maximum upload size. Note, this can never exceed the settings for
-#                  `post_max_size` and `upload_max_filesize` in `php.ini`.
 media:
-  accept_file_types: 'gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg'
-  max_file_size: 8000000
-  safe_names: true
-  images:
-    driver: gd
-    image_width: 1600
-    image_height: 0
-    image_quality: 70
-    max_image_width: null
-    max_image_height: null
+  upload:
+    directory: '/uploads/media'
+    overwrite: true
+    autoconfirm: false
+    prefix: ''
+    allowed_file_extensions: ['gif', 'jpg', 'jpeg', 'png', 'ico', 'webm', 'svg']
+    max_file_size: '20M'
+    safe_names: true
+    image:
+      width:
+        max: 2000
+        min: 10
+      height: 
+        max: 2000
+        min: 10
+      #ratio:
+        #size: 4:3
+        #error_margin: 0
 
 # Session
 #
