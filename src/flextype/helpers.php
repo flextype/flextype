@@ -245,7 +245,7 @@ if (! function_exists('filter')) {
 
 if (! function_exists('image')) {
     /**
-     * Create image.
+     * Create a new image instance.
      *
      * @param  string $file    Image file.
      * @param  array  $options Options array.
@@ -384,5 +384,37 @@ if (! function_exists('image')) {
 
         $image->save($file, $options['quality'] ?? 70);
         $image->destroy();
+    }
+}
+
+if (! function_exists('imageCanvas')) {
+    /**
+     * Create a new image canvas instance.
+     *
+     * @param  int   $width      Canvas width.
+     * @param  int   $height     Canvas height.
+     * @param  mixed $background Canvas background.
+     *
+     * @return Image
+     */
+    function imageCanvas(int $width, int $height, $background = null): Image
+    {
+        return Image::canvas($width, $height, $background);
+    }
+}
+
+if (! function_exists('imageCache')) {
+    /**
+     * Create a new cached image instance.
+     *
+     * @param  Closure $callback   A closure containing the operations on an image, defining the cached image.
+     * @param  int     $lifetime   The lifetime in minutes of the image callback in the cache.
+     * @param  mixed   $background Decide if you want the method to return an Intervention Image instance or (by default) the image stream.
+     *
+     * @return mixed
+     */
+    function imageCache(Closure $callback, $lifetime = null, $returnObj = false)
+    {
+        return Image::cache($callback, $lifetime, $returnObj);
     }
 }
