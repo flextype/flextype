@@ -514,25 +514,49 @@ cors:
 
 # Media
 #
+# - upload.directory: Uploads directory
+#
+# - upload.overwrite: Overwrite existing files.
+#
+# - upload.autoconfirm: Auto-confirm uploads.
+#
+# - upload.prefix: Prefixing uploads.
+#
+# - upload.validation.allowed_file_extensions: Allowed file extensions.
+#
+# - upload.validation.max_file_size: Maximum file size.
+#
+# - upload.validation.image.width.max: Image maxiumum width.
+#
+# - upload.validation.image.width.min: Image minimum width.
+#
+# - upload.validation.image.height.max: Image maxiumum height.
+#
+# - upload.validation.image.height.min: Image minimum height.
+#
+# - upload.validation.image.ratio.size: The option can be a number (eg: 1.3) or a ratio-like string (eg: 4:3, 16:9). 
+#
+# - upload.validation.image.ratio.error_margin: The option error_margin specifies how much the image is allowed to 
+#                                               deviate from the target ratio. Default value is 0.
 media:
   upload:
     directory: '/uploads/media'
     overwrite: true
     autoconfirm: false
     prefix: ''
-    allowed_file_extensions: ['gif', 'jpg', 'jpeg', 'png', 'ico', 'webm', 'svg']
-    max_file_size: '20M'
-    safe_names: true
-    image:
-      width:
-        max: 2000
-        min: 10
-      height: 
-        max: 2000
-        min: 10
-      #ratio:
-        #size: 4:3
-        #error_margin: 0
+    validation:
+      allowed_file_extensions: ['gif', 'jpg', 'jpeg', 'png', 'ico', 'webm', 'svg']
+      max_file_size: '24M'
+      image:
+        width:
+          max: 4920
+          min: 100
+        height: 
+          max: 3264
+          min: 100
+    process:
+      image:
+        quality: 70
 
 # Session
 #
