@@ -60,7 +60,22 @@ entries:
     filename: media
     extension: yaml
     serializer: yaml
-    fields: []
+    fields:
+      modified_at:
+        path: "/src/flextype/Media/Fields/ModifiedAtField.php"
+        enabled: true
+      created_at:
+        path: "/src/flextype/Media/Fields/CreatedAtField.php"
+        enabled: true
+      created_by:
+        path: "/src/flextype/Media/Fields/CreatedByField.php"
+        enabled: true
+      uuid:
+        path: "/src/flextype/Media/Fields/UuidField.php"
+        enabled: true
+      id:
+        path: "/src/flextype/Media/Fields/IdField.php"
+        enabled: true
   content:
     directory: content
     filename: content
@@ -538,6 +553,8 @@ cors:
 #
 # - upload.validation.image.ratio.error_margin: The option error_margin specifies how much the image is allowed to 
 #                                               deviate from the target ratio. Default value is 0.
+#  
+# - upload.process.image.quality: 
 media:
   upload:
     directory: '/uploads/media'
