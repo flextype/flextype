@@ -9,20 +9,12 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Http\Response;
 
 use function array_replace_recursive;
 use function filesystem;
 use function flextype;
-
-/**
- * Validate images token
- */
-function validate_images_token(string $token): bool
-{
-    return filesystem()->file(PATH['project'] . '/tokens/images/' . $token . '/token.yaml')->exists();
-}
 
 /**
  * Fetch image
@@ -33,67 +25,64 @@ function validate_images_token(string $token): bool
  * path - [REQUIRED] - The file path with valid params for image manipulations.
  *
  * Query:
- * token  - [REQUIRED] - Valid Images API token.
+ * token  - [REQUIRED] - Valid token.
  *
  * Returns:
  * Image file
  */
-app()->get('/api/images/{path:.+}', function (Request $request, Response $response, $args) use ($apiErrors) {
+app()->get('/api/images/{path:.+}', function ($path, Request $request, Response $response) use ($apiErrors) {
+    
     // Get Query Params
     $query = $request->getQueryParams();
 
+    // Set response 400
+    $response400 = function () use ($response, $apiErrors) {
+        $response->getBody()->write(serializers()->json()->encode($apiErrors['400']));
+        $response->withStatus($apiErrors['400']['http_status_code']);
+        $response->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'));
+        return $response;
+    };
+
+    // Set response 404
+    $response404 = function () use ($response, $apiErrors) {
+        $response->getBody()->write(serializers()->json()->encode($apiErrors['404']));
+        $response->withStatus($apiErrors['404']['http_status_code']);
+        $response->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'));
+        return $response;
+    };
+
+    // Check is images api enabled
+    if (! registry()->get('flextype.settings.api.images.enabled')) {
+        return $response400();
+    }
+
+    // Check is token param exists
     if (! isset($query['token'])) {
-        return $response->withStatus($apiErrors['0400']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
-            ->write(serializers()->json()->encode($apiErrors['0400']));
+        return $response400();
     }
 
-    // Set variables
-    $token = $query['token'];
-
-    if (registry()->get('flextype.settings.api.images.enabled')) {
-        // Validate delivery image token
-        if (validate_images_token($token)) {
-            $delivery_images_token_file_path = PATH['project'] . '/tokens/images/' . $token . '/token.yaml';
-
-            // Set delivery token file
-            if ($delivery_images_token_file_data = serializers()->yaml()->decode(filesystem()->file($delivery_images_token_file_path)->get())) {
-                if (
-                    $delivery_images_token_file_data['state'] === 'disabled' ||
-                    ($delivery_images_token_file_data['limit_calls'] !== 0 && $delivery_images_token_file_data['calls'] >= $delivery_images_token_file_data['limit_calls'])
-                ) {
-                    return $response->withStatus($apiErrors['0003']['http_status_code'])
-                    ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
-                    ->write(serializers()->json()->encode($apiErrors['0003']));
-                }
-
-                // Update calls counter
-                filesystem()->file($delivery_images_token_file_path)->put(serializers()->yaml()->encode(array_replace_recursive($delivery_images_token_file_data, ['calls' => $delivery_images_token_file_data['calls'] + 1])));
-
-                if (filesystem()->file(PATH['project'] . '/media/' . $args['path'])->exists()) {
-                    return flextype('images')->getImageResponse($args['path'], $_GET);
-                }
-
-                return $response
-                    ->withStatus($apiErrors['0402']['http_status_code'])
-                ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
-                ->write(serializers()->json()->encode($apiErrors['0402']));
-            }
-
-            return $response
-                   ->withStatus($apiErrors['0003']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
-            ->write(serializers()->json()->encode($apiErrors['0003']));
-        }
-
-        return $response
-               ->withStatus($apiErrors['0003']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
-            ->write(serializers()->json()->encode($apiErrors['0003']));
+    // Check is token exists
+    if (! tokens()->has($query['token'])) {
+        return $response400();
     }
 
-    return $response
-           ->withStatus($apiErrors['0003']['http_status_code'])
-            ->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'))
-            ->write(serializers()->json()->encode($apiErrors['0003']));
+    // Fetch token
+    $tokenData = tokens()->fetch($query['token']);
+
+    // Check token state and limit_calls
+    if ($tokenData['state'] === 'disabled' || 
+        ($tokenData['limit_calls'] !== 0 && $tokenData['calls'] >= $tokenData['limit_calls'])) {
+        return $response400();
+    }
+
+    // Update token calls
+    tokens()->update($query['token'], ['calls' => $tokenData['calls'] + 1]);
+
+    // Check is file exists
+    if (! filesystem()->file(PATH['project'] . '/uploads/' . $path)->exists()) {
+        return $response404();
+    }
+
+    // Return image response
+    return container()->get('images')->getImageResponse($path, $_GET);
 });
