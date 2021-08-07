@@ -15,13 +15,14 @@ use Cocur\Slugify\Slugify;
 use DateTimeZone;
 use Flextype\Content\Content;
 use Flextype\Media\Media;
+use Flextype\Tokens\Tokens;
 use Flextype\Handlers\HttpErrorHandler;
 use Flextype\Handlers\ShutdownHandler;
 use Flextype\Parsers\Parsers;
 use Flextype\Serializers\Serializers;
 use Intervention\Image\ImageManager;
 use League\Event\Emitter;
-use League\Flysystem\Adapter\Local;
+use League\Flysystem\Local\LocalFilesystemAdapter as Local;
 use League\Flysystem\Filesystem as Flysystem;
 use League\Glide\Api\Api;
 use League\Glide\Manipulators\Background;
@@ -351,7 +352,7 @@ container()->set('images', function () {
 
     // Set source filesystem
     $source = new Flysystem(
-        new Local(PATH['project'] . '/media/')
+        new Local(PATH['project'] . '/uploads/')
     );
 
     // Set cache filesystem
@@ -413,6 +414,9 @@ container()->set('content', new Content(registry()->get('flextype.settings.entri
 // Add Media Service
 container()->set('media', new Media(registry()->get('flextype.settings.entries.media')));
 
+// Add Tokens Service
+container()->set('tokens', new Tokens(registry()->get('flextype.settings.entries.tokens')));
+
 // Add Plugins Service
 container()->set('plugins', new Plugins());
 
@@ -439,6 +443,13 @@ if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listId
 
 // Init Plugins
 plugins()->init();
+
+/**
+ * Include API ENDPOINTS
+ */
+include_once ROOT_DIR . '/src/flextype/Endpoints/errors.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/images.php';
+include_once ROOT_DIR . '/src/flextype/Endpoints/utils.php';
 
 // Enable lazy CORS
 //
