@@ -9,96 +9,31 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-/**
- * API errors
- */
-$apiErrors = [
-    '0000' => [
-        'http_status_code' => 500,
-        'message' => 'Internal Error',
-    ],
-    '0001' => [
-        'http_status_code' => 404,
-        'message' => 'Not Found',
-    ],
-    '0002' => [
-        'http_status_code' => 400,
-        'message' => 'Bad Request',
-    ],
-    '0003' => [
-        'http_status_code' => 401,
-        'message' => 'Unauthorized',
-    ],
-    '0100' => [
-        'http_status_code' => 400,
-        'message' => 'Wrong query params or not defined',
-    ],
-    '0101' => [
-        'http_status_code' => 400,
-        'message' => 'Wrong body params or not defined',
-    ],
-    '0102' => [
-        'http_status_code' => 404,
-        'message' => 'Entry not found',
-    ],
-    '0200' => [
-        'http_status_code' => 400,
-        'message' => 'Wrong query params or not defined',
-    ],
-    '0201' => [
-        'http_status_code' => 400,
-        'message' => 'Wrong body params or not defined',
-    ],
-    '0202' => [
-        'http_status_code' => 404,
-        'message' => 'Config item not found',
-    ],
-    '0300' => [
-        'http_status_code' => 400,
-        'message' => 'Wrong query params or not defined',
-    ],
-    '0301' => [
-        'http_status_code' => 400,
-        'message' => 'Wrong body params or not defined',
-    ],
-    '0302' => [
-        'http_status_code' => 404,
-        'message' => 'Registry item not found',
-    ],
-    '0400' => [
-        'http_status_code' => 400,
-        'message' => 'Wrong query params or not defined',
-    ],
-    '0401' => [
-        'http_status_code' => 400,
-        'message' => 'Wrong body params or not defined',
-    ],
-    '0402' => [
-        'http_status_code' => 404,
-        'message' => 'Image not found',
-    ],
-    '0500' => [
-        'http_status_code' => 400,
-        'message' => 'Wrong query params or not defined',
-    ],
-    '0501' => [
-        'http_status_code' => 400,
-        'message' => 'Wrong body params or not defined',
-    ],
-    '0502' => [
-        'http_status_code' => 404,
-        'message' => 'File not found',
-    ],
-    '0600' => [
-        'http_status_code' => 400,
-        'message' => 'Wrong query params or not defined',
-    ],
-    '0601' => [
-        'http_status_code' => 400,
-        'message' => 'Wrong body params or not defined',
-    ],
-    '0602' => [
-        'http_status_code' => 404,
-        'message' => 'Folder not found',
-    ],
-];
+function getApiResponseErrors(): array
+{
+    return [
+        '400' => [
+            'http_status_code' => 400,
+            'title' => 'Bad Request',
+            'message' => 'Validation for this particular item failed',
+        ],
+        '401' => [
+            'http_status_code' => 401,
+            'title' => 'Unauthorized',
+            'message' => 'Token is wrong',
+        ],
+        '404' => [
+            'http_status_code' => 404,
+            'title' => 'Not Found',
+            'message' => 'Not Found',
+        ],
+    ];
+}
+
+function getApiResponseWithError($response, $code)
+{
+    $response->getBody()->write(serializers()->json()->encode(getApiResponseErrors()[$code]));
+    $response->withStatus(getApiResponseErrors()[$code]['http_status_code']);
+    $response->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'));
+    return $response;
+}
