@@ -30,40 +30,24 @@ use function flextype;
  * Returns:
  * Image file
  */
-app()->get('/api/images/{path:.+}', function ($path, Request $request, Response $response) use ($apiErrors) {
+app()->get('/api/images/{path:.+}', function ($path, Request $request, Response $response) {
     
     // Get Query Params
     $queryParams = $request->getQueryParams();
 
-    // Set response 400
-    $response400 = function () use ($response, $apiErrors) {
-        $response->getBody()->write(serializers()->json()->encode($apiErrors['400']));
-        $response->withStatus($apiErrors['400']['http_status_code']);
-        $response->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'));
-        return $response;
-    };
-
-    // Set response 404
-    $response404 = function () use ($response, $apiErrors) {
-        $response->getBody()->write(serializers()->json()->encode($apiErrors['404']));
-        $response->withStatus($apiErrors['404']['http_status_code']);
-        $response->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'));
-        return $response;
-    };
-
     // Check is images api enabled
     if (! registry()->get('flextype.settings.api.images.enabled')) {
-        return $response400();
+        return getApiResponseWithError($response, 400);
     }
 
     // Check is token param exists
     if (! isset($queryParams['token'])) {
-        return $response400();
+        return getApiResponseWithError($response, 400);
     }
 
     // Check is token exists
     if (! tokens()->has($queryParams['token'])) {
-        return $response400();
+        return getApiResponseWithError($response, 400);
     }
 
     // Fetch token
@@ -72,7 +56,7 @@ app()->get('/api/images/{path:.+}', function ($path, Request $request, Response 
     // Check token state and limit_calls
     if ($tokenData['state'] === 'disabled' || 
         ($tokenData['limit_calls'] !== 0 && $tokenData['calls'] >= $tokenData['limit_calls'])) {
-        return $response400();
+        return getApiResponseWithError($response, 400);
     }
 
     // Update token calls
@@ -80,7 +64,7 @@ app()->get('/api/images/{path:.+}', function ($path, Request $request, Response 
 
     // Check is file exists
     if (! filesystem()->file(PATH['project'] . '/uploads/' . $path)->exists()) {
-        return $response404();
+        return getApiResponseWithError($response, 404);
     }
 
     // Return image response
