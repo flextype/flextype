@@ -3,6 +3,20 @@
 
 ### Features
 
+* **core**: Core updated from Slim 3 to Slim4!
+
+* **core**: PHP-DI added instead of Pimple DI.
+
+* **entries**: Added ability to setup high level collections for entries. 
+
+    Example: https://github.com/flextype/flextype/issues/563#issuecomment-893507342
+
+* **entries**: Added new method `getOptions`.
+
+* **media**: Added new Media API that's extend core Entries API.
+
+* **media**: Added new Content API that's extend core Entries API.
+
 * **csrf**: Added Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
 * **serializers**: Added new serializer `Neon`. Documentation [here](https://doc.nette.org/en/3.1/neon).
