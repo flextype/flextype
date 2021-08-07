@@ -5,14 +5,52 @@
 
 * **csrf**: Added Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
+* **helpers**: All core helpers are located in the `/src/flextype/helpers.php`.
+
+* **helpers**: Added helper function `app` to get Flextype Application instance.
+
+* **helpers**: Added helper function `container` to get Flextype Application Container instance.
+
+* **helpers**: Added helper function `emitter` to get Flextype Emitter Service.
+
+* **helpers**: Added helper function `cache` to get Flextype Cache Service.
+
+* **helpers**: Added helper function `content` to get Flextype Content Service.
+
+* **helpers**: Added helper function `media` to get Flextype Media Service.
+
+* **helpers**: Added helper function `parsers` to get Flextype Parsers Service.
+
+* **helpers**: Added helper function `serializers` to get Flextype Serializers Service.
+
+* **helpers**: Added helper function `logger` to get Flextype Logger Service.
+
+* **helpers**: Added helper function `session` to get Flextype Session Service.
+
+* **helpers**: Added helper function `csrf` to get Flextype CSRF Service.
+
+* **helpers**: Added helper function `plugins` to get Flextype Plugins Service.
+
+* **helpers**: Added helper function `image` to create a new image instance.
+
+* **helpers**: Added helper function `imageCanvas` to create a new image canvas instance.
+
+* **helpers**: Added helper function `imageCache` to create a new cached image instance.
+
+* **macros**: All core macros are located in the `/src/flextype/macros.php`.
+
 * **macros**: Added `onlyFromCollection` and `exceptFromCollection` macros for Arrays ([#553](https://github.com/flextype/flextype/issues/553))
 
 ### Bug Fixes
 
 * **htaccess**: Security fixes for `.htaccess`
+
 * **entries**: Fixed issue when entries collection fetch returns empty result.
+
 * **plugins**: Fixed Plugins API translation loading process.
+
 * **plugins**: Fixed Plugins API initialization ([#551](https://github.com/flextype/flextype/issues/551))
+
 * **plugins**: Fixed Plugins API issue with non valid plugins ([#551](https://github.com/flextype/flextype/issues/555))
 
 <a name="0.9.16"></a>
