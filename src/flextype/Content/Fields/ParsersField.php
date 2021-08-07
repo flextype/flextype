@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 emitter()->addListener('onContentFetchSingleHasResult', static function (): void {
     
-    if (registry()->get('flextype.settings.entries.content.fields.parsers.enabled')) {
+    if (! registry()->get('flextype.settings.entries.content.fields.parsers.enabled')) {
         return;
     }
 

@@ -11,7 +11,7 @@ use Ramsey\Uuid\Uuid;
 
 emitter()->addListener('onContentCreate', static function (): void {
 
-    if (registry()->get('flextype.settings.entries.content.fields.uuid.enabled')) {
+    if (! registry()->get('flextype.settings.entries.content.fields.uuid.enabled')) {
         return;
     }
 

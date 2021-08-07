@@ -15,7 +15,7 @@ emitter()->addListener('onContentFetchSingleHasResult', static function (): void
         'visible' => 'visible',
     ];
 
-    if (registry()->get('flextype.settings.entries.content.fields.visibility.enabled')) {
+    if (! registry()->get('flextype.settings.entries.content.fields.visibility.enabled')) {
         return;
     }
 
@@ -34,7 +34,7 @@ emitter()->addListener('onContentCreate', static function (): void {
         'visible' => 'visible',
     ];
 
-    if (registry()->get('flextype.settings.entries.content.fields.visibility.enabled')) {
+    if (! registry()->get('flextype.settings.entries.content.fields.visibility.enabled')) {
         return;
     }
     

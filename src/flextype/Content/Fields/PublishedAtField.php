@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 emitter()->addListener('onContentFetchSingleHasResult', static function (): void {
 
-    if (registry()->get('flextype.settings.entries.content.fields.published_at.enabled')) {
+    if (! registry()->get('flextype.settings.entries.content.fields.published_at.enabled')) {
         return;
     }
 
@@ -22,7 +22,7 @@ emitter()->addListener('onContentFetchSingleHasResult', static function (): void
 
 emitter()->addListener('onContentCreate', static function (): void {
 
-    if (registry()->get('flextype.settings.entries.content.fields.published_at.enabled')) {
+    if (! registry()->get('flextype.settings.entries.content.fields.published_at.enabled')) {
         return;
     }
 

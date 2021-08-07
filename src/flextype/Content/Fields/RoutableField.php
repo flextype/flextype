@@ -23,7 +23,7 @@ emitter()->addListener('onContentFetchSingleHasResult', static function (): void
 
 emitter()->addListener('onContentCreate', static function (): void {
 
-    if (registry()->get('flextype.settings.entries.content.fields.routable.enabled')) {
+    if (! registry()->get('flextype.settings.entries.content.fields.routable.enabled')) {
         return;
     }
 

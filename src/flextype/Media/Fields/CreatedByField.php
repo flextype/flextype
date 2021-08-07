@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 emitter()->addListener('onMediaCreate', static function (): void {
 
-    if (registry()->get('flextype.settings.entries.media.fields.created_by.enabled')) {
+    if (! registry()->get('flextype.settings.entries.media.fields.created_by.enabled')) {
         return;
     }
 

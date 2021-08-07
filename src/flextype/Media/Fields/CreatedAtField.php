@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 emitter()->addListener('onMediaFetchSingleHasResult', static function (): void {
 
-    if (registry()->get('flextype.settings.entries.media.fields.created_at.enabled')) {
+    if (! registry()->get('flextype.settings.entries.media.fields.created_at.enabled')) {
         return;
     }
 
@@ -22,7 +22,7 @@ emitter()->addListener('onMediaFetchSingleHasResult', static function (): void {
 
 emitter()->addListener('onMediaCreate', static function (): void {
     
-    if (registry()->get('flextype.settings.entries.media.fields.created_at.enabled')) {
+    if (! registry()->get('flextype.settings.entries.media.fields.created_at.enabled')) {
         return;
     }
 

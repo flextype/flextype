@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 emitter()->addListener('onMediaFetchSingleHasResult', static function (): void {
 
-    if (registry()->get('flextype.settings.entries.media.fields.id.enabled')) {
+    if (! registry()->get('flextype.settings.entries.media.fields.id.enabled')) {
         return;
     }
 

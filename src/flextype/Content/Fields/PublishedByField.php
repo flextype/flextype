@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 emitter()->addListener('onContentCreate', static function (): void {
     
-    if (registry()->get('flextype.settings.entries.content.fields.published_by.enabled')) {
+    if (! registry()->get('flextype.settings.entries.content.fields.published_by.enabled')) {
         return;
     }
 
