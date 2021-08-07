@@ -141,6 +141,16 @@ if (! function_exists('plugins')) {
     }
 }
 
+if (! function_exists('tokens')) {
+    /**
+     * Get Flextype Plugins Service.
+     */
+    function tokens()
+    {
+        return flextype()->container()->get('tokens');
+    }
+}
+
 if (! function_exists('find')) {
     /**
      * Create a Finder instance with predefined filter params or without them.
