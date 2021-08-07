@@ -33,7 +33,7 @@ use function flextype;
 app()->get('/api/images/{path:.+}', function ($path, Request $request, Response $response) use ($apiErrors) {
     
     // Get Query Params
-    $query = $request->getQueryParams();
+    $queryParams = $request->getQueryParams();
 
     // Set response 400
     $response400 = function () use ($response, $apiErrors) {
@@ -57,17 +57,17 @@ app()->get('/api/images/{path:.+}', function ($path, Request $request, Response 
     }
 
     // Check is token param exists
-    if (! isset($query['token'])) {
+    if (! isset($queryParams['token'])) {
         return $response400();
     }
 
     // Check is token exists
-    if (! tokens()->has($query['token'])) {
+    if (! tokens()->has($queryParams['token'])) {
         return $response400();
     }
 
     // Fetch token
-    $tokenData = tokens()->fetch($query['token']);
+    $tokenData = tokens()->fetch($queryParams['token']);
 
     // Check token state and limit_calls
     if ($tokenData['state'] === 'disabled' || 
@@ -76,7 +76,7 @@ app()->get('/api/images/{path:.+}', function ($path, Request $request, Response 
     }
 
     // Update token calls
-    tokens()->update($query['token'], ['calls' => $tokenData['calls'] + 1]);
+    tokens()->update($queryParams['token'], ['calls' => $tokenData['calls'] + 1]);
 
     // Check is file exists
     if (! filesystem()->file(PATH['project'] . '/uploads/' . $path)->exists()) {
@@ -84,5 +84,5 @@ app()->get('/api/images/{path:.+}', function ($path, Request $request, Response 
     }
 
     // Return image response
-    return container()->get('images')->getImageResponse($path, $_GET);
+    return container()->get('images')->getImageResponse($path, $queryParams);
 });
