@@ -17,18 +17,8 @@ class Tokens extends Entries
 {
     use Macroable;
 
-    public function create(string $id, array $data = []): bool
+    public function generateID(): string
     {
-        throw new Exception('Use generate method instead');
-        return false;
-    }
-
-    public function generate(array $data = []): string
-    {
-        $id = strings()->random()->toString();
-
-        parent::create($id, $data);
-
-        return $id;
+        return bin2hex(random_bytes(16));
     }
 }
