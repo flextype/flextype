@@ -7,49 +7,106 @@
 
 * **serializers**: Added new serializer `Neon`. Documentation [here](https://doc.nette.org/en/3.1/neon).
 
-* **parsers**: Markdown parser [Commonmark updated to v2](https://commonmark.thephpleague.com/2.0/upgrading/). 
-
 * **serializers**: Added ability to set global settings for all serializers. 
 
     `/src/flextype/settings.yaml`
     ```yaml
-      serializers:
-        json: 
-          decode:
-            cache: true
-            assoc: true
-            depth: 512
-            flags: 0
-          encode: 
-            options: 0
-            depth: 512
-        yaml:
-          decode:
-            cache: true
-            native: true
-            flags: 0
-          encode:    
-            inline: 5
-            indent: 2
-            flags: 0
-        frontmatter:
-          decode:
-            cache: true
-            header:
-              serializer: yaml
-              allowed: ['yaml', 'json', 'neon']
-          encode:    
-            header:
-              serializer: yaml
-              allowed: ['yaml', 'json', 'neon']
-        neon:
-          decode:
-            cache: true
-          encode:
-            flags: 1
+    serializers:
+      json: 
+        decode:
+          cache: true
+          assoc: true
+          depth: 512
+          flags: 0
+        encode: 
+          options: 0
+          depth: 512
+      yaml:
+        decode:
+          cache: true
+          native: true
+          flags: 0
+        encode:    
+          inline: 5
+          indent: 2
+          flags: 0
+      frontmatter:
+        decode:
+          cache: true
+          header:
+            serializer: yaml
+            allowed: ['yaml', 'json', 'neon']
+        encode:    
+          header:
+            serializer: yaml
+            allowed: ['yaml', 'json', 'neon']
+      neon:
+        decode:
+          cache: true
+        encode:
+          flags: 1
     ```
 
 * **serializers**: Added ability to set specific header serializer (default is YAML) for `Frontmatter` serializer.
+
+    `/src/flextype/settings.yaml`
+    ```yaml
+    frontmatter:
+      decode:
+        cache: true
+        header:
+          serializer: yaml
+          allowed: ['yaml', 'json', 'neon']
+      encode:    
+        header:
+          serializer: yaml
+          allowed: ['yaml', 'json', 'neon']
+    ```
+
+* **parsers**: Markdown parser [Commonmark updated to v2](https://commonmark.thephpleague.com/2.0/upgrading/). 
+
+* **parsers**: Added ability to set global settings for all parsers. 
+
+    `/src/flextype/settings.yaml`
+    ```yaml
+    parsers:
+      markdown:
+        cache: true
+        commonmark:
+          renderer:
+            block_separator: "\n"
+            inner_separator: "\n"
+            soft_break: "\n"
+          commonmark:
+            enable_em: true
+            enable_strong: true
+            use_asterisk: true
+            use_underscore: true
+            unordered_list_markers: ['-', '*', '+']
+          html_input: 'allow'
+          allow_unsafe_links: false
+          max_nesting_level: 9223372036854775807
+          slug_normalizer:
+            max_length: 255
+      shortcodes:
+        cache: true
+        shortcodes:
+          media:
+            enabled: true
+            path: "/src/flextype/Parsers/Shortcodes/MediaShortcode.php"
+          content:
+            enabled: true
+            path: "/src/flextype/Parsers/Shortcodes/ContentShortcode.php"
+          raw:
+            enabled: true
+            path: "/src/flextype/Parsers/Shortcodes/RawShortcode.php"
+          registry:
+            enabled: true
+            path: "/src/flextype/Parsers/Shortcodes/RegistryShortcode.php"
+          url:
+            enabled: true
+            path: "/src/flextype/Parsers/Shortcodes/UrlShortcode.php"
+    ```
 
 * **cache**: Added new cache driver `Phparray` to storage cache data in raw php arrays files.
 
