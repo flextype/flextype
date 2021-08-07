@@ -7,15 +7,15 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
+emitter()->addListener('onMediaFetchSingleHasResult', static function (): void {
 
-if (registry()->get('flextype.settings.entries.media.fields.id.enabled')) {
-    
-    emitter()->addListener('onMediaFetchSingleHasResult', static function (): void {
-   
-        if (media()->registry()->get('fetch.data.id') !== null) {
-            return;
-        }
+    if (registry()->get('flextype.settings.entries.media.fields.id.enabled')) {
+        return;
+    }
 
-        media()->registry()->set('fetch.data.id', (string) strings(media()->registry()->get('fetch.id'))->trimSlashes());
-    });
-}
+    if (media()->registry()->get('fetch.data.id') !== null) {
+        return;
+    }
+
+    media()->registry()->set('fetch.data.id', (string) strings(media()->registry()->get('fetch.id'))->trimSlashes());
+});

@@ -7,20 +7,28 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-if (registry()->get('flextype.settings.storage.content.fields.published_at.enabled')) {
-    emitter()->addListener('onContentFetchSingleHasResult', static function (): void {
-        if (content()->registry()->get('fetch.data.published_at') === null) {
-            content()->registry()->set('fetch.data.published_at', (int) filesystem()->file(content()->getFileLocation(content()->registry()->get('fetch.id')))->lastModified());
-        } else {
-            content()->registry()->set('fetch.data.published_at', (int) strtotime((string) content()->registry()->get('fetch.data.published_at')));
-        }
-    });
+emitter()->addListener('onContentFetchSingleHasResult', static function (): void {
 
-    emitter()->addListener('onContentCreate', static function (): void {
-        if (content()->registry()->get('create.data.published_at') !== null) {
-            return;
-        }
+    if (registry()->get('flextype.settings.entries.content.fields.published_at.enabled')) {
+        return;
+    }
 
-        content()->registry()->set('create.data.published_at', date(registry()->get('flextype.settings.date_format'), time()));
-    });
-}
+    if (content()->registry()->get('fetch.data.published_at') === null) {
+        content()->registry()->set('fetch.data.published_at', (int) filesystem()->file(content()->getFileLocation(content()->registry()->get('fetch.id')))->lastModified());
+    } else {
+        content()->registry()->set('fetch.data.published_at', (int) strtotime((string) content()->registry()->get('fetch.data.published_at')));
+    }
+});
+
+emitter()->addListener('onContentCreate', static function (): void {
+
+    if (registry()->get('flextype.settings.entries.content.fields.published_at.enabled')) {
+        return;
+    }
+
+    if (content()->registry()->get('create.data.published_at') !== null) {
+        return;
+    }
+
+    content()->registry()->set('create.data.published_at', date(registry()->get('flextype.settings.date_format'), time()));
+});

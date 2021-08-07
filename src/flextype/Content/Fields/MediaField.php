@@ -9,100 +9,53 @@ declare(strict_types=1);
 
 use Atomastic\Arrays\Arrays;
 
-if (registry()->get('flextype.settings.storage.content.fields.media.files.fetch.enabled')) {
-     emitter()->addListener('onContentFetchSingleHasResult', static function (): void {
-         if (content()->registry()->has('fetch.data.media.files.fetch')) {
-             // Get fetch.
-             $original = content()->registry()->get('fetch');
-             $data = [];
+emitter()->addListener('onContentFetchSingleHasResult', static function (): void {
+   
+    if (! registry()->get('flextype.settings.entries.content.fields.media.enabled')) {
+        return;
+    }
 
-             switch (registry()->get('flextype.settings.storage.content.fields.media.files.fetch.result')) {
-                 case 'toArray':
-                     $resultTo = 'toArray';
-                     break;
+    if (content()->registry()->has('fetch.data.media.fetch')) {
+        // Get fetch.
+        $original = content()->registry()->get('fetch');
+        $data = [];
 
-                 case 'toObject':
-                 default:
-                     $resultTo = 'copy';
-                     break;
-             }
+        switch (registry()->get('flextype.settings.entries.content.fields.media.files.fetch.result')) {
+            case 'toArray':
+                $resultTo = 'toArray';
+                break;
 
-             // Modify fetch.
-             foreach (content()->registry()->get('fetch.data.media.files.fetch') as $field => $body) {
+            case 'toObject':
+            default:
+                $resultTo = 'copy';
+                break;
+        }
 
-                 if (isset($body['options']['method']) &&
-                     strpos($body['options']['method'], 'fetch') !== false &&
-                     is_callable([flextype('media')->files(), $body['options']['method']])) {
-                     $fetchFromCallbackMethod = $body['options']['method'];
-                 } else {
-                     $fetchFromCallbackMethod = 'fetch';
-                 }
+        // Modify fetch.
+        foreach (content()->registry()->get('fetch.data.media.files.fetch') as $field => $body) {
 
-
-                 $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
-
-                 $data[$field] = flextype('media')->files()->{$fetchFromCallbackMethod}($body['id'],
-                                                            isset($body['options']) ?
-                                                                  $body['options'] :
-                                                                  []);
-
-                $data[$field] = ($data[$field] instanceof Arrays) ? $data[$field]->{$result}() : $data[$field];
-             }
-
-             // Save fetch.
-             content()->registry()->set('fetch.id', $original['id']);
-             content()->registry()->set('fetch.options', $original['options']);
-             content()->registry()->set('fetch.data', arrays($original['data'])->merge($data)->toArray());
-         }
-     });
-}
+            if (isset($body['options']['method']) &&
+                strpos($body['options']['method'], 'fetch') !== false &&
+                is_callable([flextype('media')->files(), $body['options']['method']])) {
+                $fetchFromCallbackMethod = $body['options']['method'];
+            } else {
+                $fetchFromCallbackMethod = 'fetch';
+            }
 
 
-if (registry()->get('flextype.settings.storage.content.fields.media.folders.fetch.enabled')) {
-     emitter()->addListener('onContentFetchSingleHasResult', static function (): void {
-         if (content()->registry()->has('fetch.data.media.folders.fetch')) {
+            $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
 
-             // Get fetch.
-             $original = content()->registry()->get('fetch');
-             $data = [];
+            $data[$field] = flextype('media')->files()->{$fetchFromCallbackMethod}($body['id'],
+                                                    isset($body['options']) ?
+                                                            $body['options'] :
+                                                            []);
 
-             switch (registry()->get('flextype.settings.storage.content.fields.media.folders.fetch.result')) {
-                 case 'toArray':
-                     $resultTo = 'toArray';
-                     break;
+        $data[$field] = ($data[$field] instanceof Arrays) ? $data[$field]->{$result}() : $data[$field];
+        }
 
-                 case 'toObject':
-                 default:
-                     $resultTo = 'copy';
-                     break;
-             }
-
-             // Modify fetch.
-             foreach (content()->registry()->get('fetch.data.media.folders.fetch') as $field => $body) {
-
-                 if (isset($body['options']['method']) &&
-                     strpos($body['options']['method'], 'fetch') !== false &&
-                     is_callable([flextype('media')->folders(), $body['options']['method']])) {
-                     $fetchFromCallbackMethod = $body['options']['method'];
-                 } else {
-                     $fetchFromCallbackMethod = 'fetch';
-                 }
-
-
-                 $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
-
-                 $data[$field] = flextype('media')->folders()->{$fetchFromCallbackMethod}($body['id'],
-                                                            isset($body['options']) ?
-                                                                  $body['options'] :
-                                                                  []);
-
-                $data[$field] = ($data[$field] instanceof Arrays) ? $data[$field]->{$result}() : $data[$field];
-             }
-
-             // Save fetch.
-             content()->registry()->set('fetch.id', $original['id']);
-             content()->registry()->set('fetch.options', $original['options']);
-             content()->registry()->set('fetch.data', arrays($original['data'])->merge($data)->toArray());
-         }
-     });
-}
+        // Save fetch.
+        content()->registry()->set('fetch.id', $original['id']);
+        content()->registry()->set('fetch.options', $original['options']);
+        content()->registry()->set('fetch.data', arrays($original['data'])->merge($data)->toArray());
+    }
+});

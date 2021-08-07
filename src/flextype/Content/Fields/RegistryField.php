@@ -7,25 +7,28 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-if (registry()->get('flextype.settings.storage.content.fields.registry.get.enabled')) {
-    emitter()->addListener('onContentFetchSingleHasResult', static function (): void {
-        if (content()->registry()->has('fetch.data.registry.get')) {
-            // Get fetch.
-            $original = content()->registry()->get('fetch');
+emitter()->addListener('onContentFetchSingleHasResult', static function (): void {
 
-            $data = [];
+    if (registry()->get('flextype.settings.entries.content.fields.registry.enabled')) {
+        return;
+    }
 
-            // Modify fetch.
-            foreach (content()->registry()->get('fetch.data.registry.get') as $field => $body) {
-                $data = arrays($data)->merge(arrays($data)->set($field, registry()->get($body['key'],
-                                                          isset($body['default']) ?
-                                                                $body['default'] :
-                                                                []))->toArray())->toArray();
+    if (content()->registry()->has('fetch.data.registry.get')) {
+        // Get fetch.
+        $original = content()->registry()->get('fetch');
 
-            }
+        $data = [];
 
-            // Save fetch.
-            content()->registry()->set('fetch.data', arrays($original['data'])->merge($data)->toArray());
+        // Modify fetch.
+        foreach (content()->registry()->get('fetch.data.registry.get') as $field => $body) {
+            $data = arrays($data)->merge(arrays($data)->set($field, registry()->get($body['key'],
+                                                        isset($body['default']) ?
+                                                            $body['default'] :
+                                                            []))->toArray())->toArray();
+
         }
-    });
-}
+
+        // Save fetch.
+        content()->registry()->set('fetch.data', arrays($original['data'])->merge($data)->toArray());
+    }
+});

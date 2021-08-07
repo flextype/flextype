@@ -62,20 +62,20 @@ entries:
     serializer: yaml
     fields:
       modified_at:
+        enabled: true
         path: "/src/flextype/Media/Fields/ModifiedAtField.php"
-        enabled: true
       created_at:
+        enabled: true
         path: "/src/flextype/Media/Fields/CreatedAtField.php"
-        enabled: true
       created_by:
+        enabled: true
         path: "/src/flextype/Media/Fields/CreatedByField.php"
-        enabled: true
       uuid:
+        enabled: true
         path: "/src/flextype/Media/Fields/UuidField.php"
-        enabled: true
       id:
-        path: "/src/flextype/Media/Fields/IdField.php"
         enabled: true
+        path: "/src/flextype/Media/Fields/IdField.php"
   content:
     directory: content
     filename: content
@@ -83,56 +83,51 @@ entries:
     serializer: yaml
     fields:
       media:
-        files:
-          fetch:
-            enabled: true
-            result: toObject
-        folders:
-          fetch:
-            enabled: true
-            result: toObject
+        enabled: true
+        path: "/src/flextype/Content/Fields/MediaField.php"
+        fetch:
+          result: toObject
       registry:
+        enabled: true
         path: "/src/flextype/Content/Fields/RegistryField.php"
-        get:
-          enabled: true
       content:
+        enabled: true
         path: "/src/flextype/Content/Fields/ContentField.php"
         fetch:
-          enabled: true
           result: toObject
       slug:
+        enabled: true
         path: "/src/flextype/Content/Fields/SlugField.php"
-        enabled: true
       published_at:
+        enabled: true
         path: "/src/flextype/Content/Fields/PublishedAtField.php"
-        enabled: true
       published_by:
+        enabled: true
         path: "/src/flextype/Content/Fields/PublishedByField.php"
-        enabled: true
       modified_at:
+        enabled: true
         path: "/src/flextype/Content/Fields/ModifiedAtField.php"
-        enabled: true
       created_at:
+        enabled: true
         path: "/src/flextype/Content/Fields/CreatedAtField.php"
-        enabled: true
       created_by:
+        enabled: true
         path: "/src/flextype/Content/Fields/CreatedByField.php"
-        enabled: true
       routable:
+        enabled: true
         path: "/src/flextype/Content/Fields/RoutableField.php"
-        enabled: true
       parsers:
+        enabled: true
         path: "/src/flextype/Content/Fields/ParsersField.php"
-        enabled: true
       visibility:
+        enabled: true
         path: "/src/flextype/Content/Fields/VisibilityField.php"
-        enabled: true
       uuid:
+        enabled: true
         path: "/src/flextype/Content/Fields/UuidField.php"
-        enabled: true
       id:
-        path: "/src/flextype/Content/Fields/IdField.php"
         enabled: true
+        path: "/src/flextype/Content/Fields/IdField.php"
 
 # Cache
 #
@@ -177,7 +172,7 @@ entries:
 # - drivers.files.cache_slams_timeout: This option defines the cache slams timeout in seconds.
 
 cache:
-  enabled: true
+  enabled: false
   router: routes
   auto_reload:
     storage: false
@@ -475,20 +470,20 @@ parsers:
     cache: true
     shortcodes:
       media:
+        enabled: true
         path: "/src/flextype/Parsers/Shortcodes/MediaShortcode.php"
-        enabled: true
       content:
+        enabled: true
         path: "/src/flextype/Parsers/Shortcodes/ContentShortcode.php"
-        enabled: true
       raw:
+        enabled: true
         path: "/src/flextype/Parsers/Shortcodes/RawShortcode.php"
-        enabled: true
       registry:
+        enabled: true
         path: "/src/flextype/Parsers/Shortcodes/RegistryShortcode.php"
-        enabled: true
       url:
-        path: "/src/flextype/Parsers/Shortcodes/UrlShortcode.php"
         enabled: true
+        path: "/src/flextype/Parsers/Shortcodes/UrlShortcode.php"
 
 # CORS
 #
