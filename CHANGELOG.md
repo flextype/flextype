@@ -15,7 +15,7 @@
 
 * **media**: Added new Media API that's extend core Entries API.
 
-* **media**: Added new Content API that's extend core Entries API.
+* **content**: Added new Content API that's extend core Entries API.
 
 * **csrf**: Added Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
@@ -171,6 +171,36 @@
 * **plugins**: Fixed Plugins API initialization ([#551](https://github.com/flextype/flextype/issues/551))
 
 * **plugins**: Fixed Plugins API issue with non valid plugins ([#551](https://github.com/flextype/flextype/issues/555))
+
+### BREAKING CHANGES
+
+* **core**: Use helper function `app` to access Flextype Application instance instead of old helper function `flextype()`.
+
+* **core**: Use helper function `container` to access Flextype Application container instead of old helper function `flextype()` with container name argument.
+
+  * use `container()->get('content')` instead of `flextype('entries')`
+  * use `container()->set('content', new Content())` instead of `flextype()['content'] = new Content()`
+
+* **entries**: Don't use Entries API directly. Instead, you should use API's based on Entries API. e.g. built-in Content API, Media API, or create your own by extending Entries API.
+
+* **entries**: Project entries moved from `/project/entries/` to `/project/entries/content/`.
+
+* **content**: Content API for content manipulations instead of base Entries API. 
+
+  * use `content()->fetch()` instead of `flextype('entries')->fetch()`
+  * use `content()->create()` instead of `flextype('entries')->create()`
+  * use `content()->delete()` instead of `flextype('entries')->delete()`
+  etc...
+
+* **content**: Changes for content(prev. entries) memory storage.
+
+    * use `content()->registry()->get()` instead of `flextype('entries')->storage()->get()`
+    * use `content()->registry()->set()` instead of `flextype('entries')->storage()->set()`
+    * use `content()->registry()->has()` instead of `flextype('entries')->storage()->has()`
+    * use `content()->registry()->delete()` instead of `flextype('entries')->storage()->delete()`
+
+    note: all method from Atomastic Arrays are available for Arrays Storage Object manipulations
+    docs: https://github.com/atomastic/arrays
 
 <a name="0.9.16"></a>
 # [0.9.16](https://github.com/flextype/flextype/compare/v0.9.15...v0.9.16) (2021-01-14)
