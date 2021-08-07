@@ -5,6 +5,54 @@
 
 * **csrf**: Added Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
+* **serializers**: Added new serializer `Neon`. Documentation [here](https://doc.nette.org/en/3.1/neon).
+
+* **parsers**: Markdown parser [Commonmark updated to v2](https://commonmark.thephpleague.com/2.0/upgrading/). 
+
+* **serializers**: Added ability to set global settings for all serializers. 
+
+    `/src/flextype/settings.yaml`
+    ```yaml
+      serializers:
+        json: 
+          decode:
+            cache: true
+            assoc: true
+            depth: 512
+            flags: 0
+          encode: 
+            options: 0
+            depth: 512
+        yaml:
+          decode:
+            cache: true
+            native: true
+            flags: 0
+          encode:    
+            inline: 5
+            indent: 2
+            flags: 0
+        frontmatter:
+          decode:
+            cache: true
+            header:
+              serializer: yaml
+              allowed: ['yaml', 'json', 'neon']
+          encode:    
+            header:
+              serializer: yaml
+              allowed: ['yaml', 'json', 'neon']
+        neon:
+          decode:
+            cache: true
+          encode:
+            flags: 1
+    ```
+
+* **serializers**: Added ability to set specific header serializer (default is YAML) for `Frontmatter` serializer.
+
+* **cache**: Added new cache driver `Phparray` to storage cache data in raw php arrays files.
+
 * **helpers**: All core helpers are located in the `/src/flextype/helpers.php`.
 
 * **helpers**: Added helper function `app` to get Flextype Application instance.
