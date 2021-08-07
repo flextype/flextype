@@ -332,17 +332,11 @@ whoops:
 #                     If 'append' or 'prepend', then any echo or print statements
 #                     are captured and are either appended or prepended to the Response
 #                     returned from the route callable.
-#
-# - response_chunk_size: Size of each chunk read from the Response body when sending to the browser.
-#
-# - http_version: The protocol version used by the Response object.
 display_error_details: false
 add_content_length_header: true
 router_cache_file: false
 determine_route_before_app_middleware: false
 output_buffering: append
-response_chunk_size: 4096
-http_version: '1.1'
 
 # Slugify
 #
