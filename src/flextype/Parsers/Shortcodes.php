@@ -87,12 +87,15 @@ final class Shortcodes
         }
 
         foreach ($shortcodes as $shortcode) {
-            if (! isset($shortcode['path'])) {
+            if (! isset($shortcode['enabled'])) {
+                continue;
+            }
+
+            if (! $shortcode['enabled']) {
                 continue;
             }
 
             if (! file_exists(ROOT_DIR . $shortcode['path'])) {
-                
                 continue;
             }
 

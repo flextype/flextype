@@ -8,8 +8,8 @@ declare(strict_types=1);
  */
 
 use Flextype\Flextype;
-use Symfony\Component\Finder\Finder as Finder;
-
+use Intervention\Image\ImageManagerStatic as Image;
+use Symfony\Component\Finder\Finder;
 
 if (! function_exists('flextype')) {
     /**
@@ -25,7 +25,8 @@ if (! function_exists('app')) {
     /**
      * Get Flextype App.
      */
-    function app() {
+    function app()
+    {
         return flextype()->app();
     }
 }
@@ -34,7 +35,8 @@ if (! function_exists('container')) {
     /**
      * Get Flextype Container.
      */
-    function container() {
+    function container()
+    {
         return flextype()->container();
     }
 }
@@ -43,7 +45,8 @@ if (! function_exists('emitter')) {
     /**
      * Get Flextype Emitter Service.
      */
-    function emitter() {
+    function emitter()
+    {
         return flextype()->container()->get('emitter');
     }
 }
@@ -52,7 +55,8 @@ if (! function_exists('cache')) {
     /**
      * Get Flextype Cache Service.
      */
-    function cache() {
+    function cache()
+    {
         return flextype()->container()->get('cache');
     }
 }
@@ -61,8 +65,19 @@ if (! function_exists('content')) {
     /**
      * Get Flextype Content Service.
      */
-    function content() {
+    function content()
+    {
         return flextype()->container()->get('content');
+    }
+}
+
+if (! function_exists('media')) {
+    /**
+     * Get Flextype Media Service.
+     */
+    function media()
+    {
+        return flextype()->container()->get('media');
     }
 }
 
@@ -70,7 +85,8 @@ if (! function_exists('parsers')) {
     /**
      * Get Flextype Parsers Service.
      */
-    function parsers() {
+    function parsers()
+    {
         return flextype()->container()->get('parsers');
     }
 }
@@ -79,7 +95,8 @@ if (! function_exists('serializers')) {
     /**
      * Get Flextype Serializers Service.
      */
-    function serializers() {
+    function serializers()
+    {
         return flextype()->container()->get('serializers');
     }
 }
@@ -88,7 +105,8 @@ if (! function_exists('logger')) {
     /**
      * Get Flextype Logger Service.
      */
-    function logger() {
+    function logger()
+    {
         return flextype()->container()->get('logger');
     }
 }
@@ -97,7 +115,8 @@ if (! function_exists('session')) {
     /**
      * Get Flextype Session Service.
      */
-    function session() {
+    function session()
+    {
         return flextype()->container()->get('session');
     }
 }
@@ -106,7 +125,8 @@ if (! function_exists('csrf')) {
     /**
      * Get Flextype CSRF Service.
      */
-    function csrf() {
+    function csrf()
+    {
         return flextype()->container()->get('csrf');
     }
 }
@@ -115,7 +135,8 @@ if (! function_exists('plugins')) {
     /**
      * Get Flextype Plugins Service.
      */
-    function plugins() {
+    function plugins()
+    {
         return flextype()->container()->get('plugins');
     }
 }
@@ -127,28 +148,28 @@ if (! function_exists('find')) {
      * @param  string $path     Path.
      * @param  array  $options  Options array.
      * @param  string $searchIn Search in 'files' or 'directories'. Default is 'files'.
-     *
-     * @return Finder
+     * 
+     * @return Finder Finder instance.
      */
-   function find(string $path = '', array $options = [], string $searchIn = 'files'): Finder
-   {
-       $find = filesystem()->find()->in($path);
+    function find(string $path = '', array $options = [], string $searchIn = 'files'): Finder
+    {
+        $find = filesystem()->find()->in($path);
 
-       isset($options['depth']) and $find->depth($options['depth']) or $find->depth(1);
-       isset($options['date']) and $find->date($options['date']);
-       isset($options['size']) and $find->size($options['size']);
-       isset($options['exclude']) and $find->exclude($options['exclude']);
-       isset($options['contains']) and $find->contains($options['contains']);
-       isset($options['not_contains']) and $find->notContains($options['not_contains']);
-       isset($options['filter']) and $find->filter($options['filter']);
-       isset($options['sort']) and $find->sort($options['sort']);
-       isset($options['path']) and $find->path($options['path']);
-       isset($options['sort_by']) && $options['sort_by'] === 'atime' and $find->sortByAccessedTime();
-       isset($options['sort_by']) && $options['sort_by'] === 'mtime' and $find->sortByModifiedTime();
-       isset($options['sort_by']) && $options['sort_by'] === 'ctime' and $find->sortByChangedTime();
+        isset($options['depth']) and $find->depth($options['depth']) or $find->depth(1);
+        isset($options['date']) and $find->date($options['date']);
+        isset($options['size']) and $find->size($options['size']);
+        isset($options['exclude']) and $find->exclude($options['exclude']);
+        isset($options['contains']) and $find->contains($options['contains']);
+        isset($options['not_contains']) and $find->notContains($options['not_contains']);
+        isset($options['filter']) and $find->filter($options['filter']);
+        isset($options['sort']) and $find->sort($options['sort']);
+        isset($options['path']) and $find->path($options['path']);
+        isset($options['sort_by']) && $options['sort_by'] === 'atime' and $find->sortByAccessedTime();
+        isset($options['sort_by']) && $options['sort_by'] === 'mtime' and $find->sortByModifiedTime();
+        isset($options['sort_by']) && $options['sort_by'] === 'ctime' and $find->sortByChangedTime();
 
-       return $searchIn === 'directories' ? $find->directories() : $find->files();
-   }
+        return $searchIn === 'directories' ? $find->directories() : $find->files();
+    }
 }
 
 if (! function_exists('filter')) {
@@ -231,5 +252,185 @@ if (! function_exists('filter')) {
         }
 
         return $result;
+    }
+}
+
+if (! function_exists('image')) {
+    /**
+     * Create a new image instance.
+     *
+     * @param  string $file    Image file.
+     * @param  array  $options Options array.
+     *
+     * @return Image|void
+     */
+    function image(string $file, array $options = [])
+    {
+        $image = Image::make($file);
+
+        if (count($options) === 0) {
+            return $image;
+        }
+
+        if (isset($options['driver'])) {
+            if (in_array($options['driver'], ['imagick', 'gd'])) {
+                Image::configure(['driver' => $options['driver']]);
+            }
+        }
+
+        if (isset($options['blur'])) {
+            $image->blur($options['blur']);
+        }
+
+        if (isset($options['brightness'])) {
+            $image->brightness($options['brightness']);
+        }
+
+        if (
+            isset($options['colorize']) &&
+            isset($options['colorize']['red']) &&
+            isset($options['colorize']['green']) &&
+            isset($options['colorize']['blue'])
+        ) {
+            $image->colorize(
+                $options['colorize']['red'],
+                $options['colorize']['green'],
+                $options['colorize']['blue']
+            );
+        }
+
+        if (isset($options['contrast'])) {
+            $image->contrast($options['contrast']);
+        }
+
+        if (isset($options['flip'])) {
+            $image->flip($options['flip']);
+        }
+
+        if (isset($options['gamma'])) {
+            $image->gamma($options['gamma']);
+        }
+
+        if (isset($options['rotate'])) {
+            $image->rotate($options['rotate']);
+        }
+
+        if (isset($options['pixelate'])) {
+            $image->pixelate($options['pixelate']);
+        }
+
+        if (isset($options['heighten'])) {
+            $image->heighten($options['heighten']['height'],
+                            function ($constraint) use ($options) {
+                                if (isset($options['heighten']['constraint']) &&
+                                    is_array($options['heighten']['constraint'])) {
+                                        foreach ($options['heighten']['constraint'] as $method) {
+                                            if (in_array($method, ['upsize'])) {
+                                                $constraint->{$method}();
+                                            }
+                                        }
+                                }
+                            });
+        }
+
+        if (isset($options['widen'])) {
+            $image->heighten($options['widen']['width'], 
+                            function ($constraint) use ($options) {
+                                if (isset($options['widen']['constraint']) &&
+                                    is_array($options['widen']['constraint'])) {
+                                        foreach ($options['widen']['constraint'] as $method) {
+                                            if (in_array($method, ['upsize'])) {
+                                                $constraint->{$method}();
+                                            }
+                                        }
+                                }
+                            });
+        }
+
+        if (isset($options['fit']) &&
+            isset($options['fit']['width'])) {
+            $image->fit($options['fit']['width'], 
+                        $options['fit']['height'] ?? null,
+                        function ($constraint) use ($options) {
+                            if (isset($options['fit']['constraint']) &&
+                                is_array($options['fit']['constraint'])) {
+                                    foreach ($options['fit']['constraint'] as $method) {
+                                        if (in_array($method, ['upsize'])) {
+                                            $constraint->{$method}();
+                                        }
+                                    }
+                            }
+                        },
+                        $options['fit']['position'] ?? 'center');
+        }
+
+        if (isset($options['crop']) &&
+            isset($options['crop']['width']) &&
+            isset($options['crop']['height'])) {
+            $image->crop($options['crop']['width'], 
+                                $options['crop']['height'],
+                                $options['crop']['x'] ?? null,
+                                $options['crop']['y'] ?? null);
+        }
+
+        
+        if (isset($options['invert']) &&
+            $options['invert'] == true) {
+            $image->invert();
+        }
+
+        if (isset($options['sharpen'])) {
+            $image->sharpen($options['sharpen']);
+        }
+
+        if (isset($options['resize'])) {
+            $image->resize($options['resize']['width'] ?? null,
+                            $options['resize']['height'] ?? null,
+                            function ($constraint) use ($options) {
+                                if (isset($options['resize']['constraint']) &&
+                                    is_array($options['resize']['constraint'])) {
+                                        foreach ($options['resize']['constraint'] as $method) {
+                                            if (in_array($method, ['aspectRatio', 'upsize'])) {
+                                                $constraint->{$method}();
+                                            }
+                                        }
+                                }
+                            });
+        }
+
+        $image->save($file, $options['quality'] ?? 70);
+        $image->destroy();
+    }
+}
+
+if (! function_exists('imageCanvas')) {
+    /**
+     * Create a new image canvas instance.
+     *
+     * @param  int   $width      Canvas width.
+     * @param  int   $height     Canvas height.
+     * @param  mixed $background Canvas background.
+     * 
+     * @return Image Image canvas instance.
+     */
+    function imageCanvas(int $width, int $height, $background = null): Image
+    {
+        return Image::canvas($width, $height, $background);
+    }
+}
+
+if (! function_exists('imageCache')) {
+    /**
+     * Create a new cached image instance.
+     *
+     * @param  Closure $callback   A closure containing the operations on an image, defining the cached image.
+     * @param  int     $lifetime   The lifetime in minutes of the image callback in the cache.
+     * @param  bool    $returnObj  Decide if you want the method to return an Intervention Image instance or (by default) the image stream.
+     *
+     * @return mixed Intervention Image instance as return value or just receive the image stream.
+     */
+    function imageCache(Closure $callback, int $lifetime = 5, bool $returnObj = false)
+    {
+        return Image::cache($callback, $lifetime, $returnObj);
     }
 }

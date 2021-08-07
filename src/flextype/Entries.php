@@ -75,6 +75,14 @@ class Entries
         }
 
         foreach ($this->options['fields'] as $field) {
+            if (! isset($field['enabled'])) {
+                continue;
+            }
+
+            if (! $field['enabled']) {
+                continue;
+            }
+
             if (! isset($field['path'])) {
                 continue;
             }

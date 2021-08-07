@@ -7,12 +7,16 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-if (registry()->get('flextype.settings.storage.content.fields.created_by.enabled')) {
-    emitter()->addListener('onContentCreate', static function (): void {
-        if (content()->registry()->get('create.data.created_by') !== null) {
-            return;
-        }
+emitter()->addListener('onContentCreate', static function (): void {
+   
+    if (! registry()->get('flextype.settings.entries.content.fields.created_by.enabled')) {
+        return;
+    }
+    
+    if (content()->registry()->get('create.data.created_by') !== null) {
+        return;
+    }
 
-        content()->registry()->set('create.data.created_by', '');
-    });
-}
+    content()->registry()->set('create.data.created_by', '');
+});
+

@@ -75,7 +75,7 @@ app()->get('/api/content', function (Request $request, Response $response) use (
                 }
 
                 // override content.fetch.result
-                registry()->set('flextype.settings.storage.content.fields.content.fetch.result', 'toArray');
+                registry()->set('flextype.settings.entries.content.fields.content.fetch.result', 'toArray');
 
                 if (isset($method) &&
                     strpos($method, 'fetch') !== false &&

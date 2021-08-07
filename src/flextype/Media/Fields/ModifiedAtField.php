@@ -7,12 +7,12 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-emitter()->addListener('onContentFetchSingleHasResult', static function (): void {
-    
-    if (! registry()->get('flextype.settings.entries.content.fields.modified_at.enabled')) {
+emitter()->addListener('onMediaFetchSingleHasResult', static function (): void {
+
+    if (! registry()->get('flextype.settings.entries.media.fields.modified_at.enabled')) {
         return;
     }
-    
+
     if (content()->registry()->get('fetch.data.modified_at') !== null) {
         return;
     }

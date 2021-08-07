@@ -9,12 +9,15 @@ declare(strict_types=1);
 
 use Ramsey\Uuid\Uuid;
 
-if (registry()->get('flextype.settings.storage.content.fields.uuid.enabled')) {
-    emitter()->addListener('onContentCreate', static function (): void {
-        if (content()->registry()->get('create.data.uuid') !== null) {
-            return;
-        }
+emitter()->addListener('onContentCreate', static function (): void {
 
-        content()->registry()->set('create.data.uuid', Uuid::uuid4()->toString());
-    });
-}
+    if (! registry()->get('flextype.settings.entries.content.fields.uuid.enabled')) {
+        return;
+    }
+
+    if (content()->registry()->get('create.data.uuid') !== null) {
+        return;
+    }
+
+    content()->registry()->set('create.data.uuid', Uuid::uuid4()->toString());
+});

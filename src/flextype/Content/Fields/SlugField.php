@@ -7,14 +7,16 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
+emitter()->addListener('onContentFetchSingleHasResult', static function (): void {
 
-if (registry()->get('flextype.settings.storage.content.fields.slug.enabled')) {
-    emitter()->addListener('onContentFetchSingleHasResult', static function (): void {
-        if (content()->registry()->get('fetch.data.slug') !== null) {
-            return;
-        }
+    if (! registry()->get('flextype.settings.entries.content.fields.slug.enabled')) {
+        return;
+    }
 
-        $parts = explode('/', ltrim(rtrim(content()->registry()->get('fetch.id'), '/'), '/'));
-        content()->registry()->set('fetch.data.slug', (string) end($parts));
-    });
-}
+    if (content()->registry()->get('fetch.data.slug') !== null) {
+        return;
+    }
+
+    $parts = explode('/', ltrim(rtrim(content()->registry()->get('fetch.id'), '/'), '/'));
+    content()->registry()->set('fetch.data.slug', (string) end($parts));
+});
