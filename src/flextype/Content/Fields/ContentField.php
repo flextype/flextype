@@ -12,7 +12,7 @@ use Atomastic\Arrays\Arrays;
 
 emitter()->addListener('onContentFetchSingleHasResult', static function (): void {
 
-    if (! registry()->get('flextype.settings.entries.content.fields.content.fetch.enabled')) {
+    if (! registry()->get('flextype.settings.entries.content.fields.content.enabled')) {
         return;
     }
 

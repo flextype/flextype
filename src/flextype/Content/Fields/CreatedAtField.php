@@ -22,7 +22,7 @@ emitter()->addListener('onContentFetchSingleHasResult', static function (): void
 
 emitter()->addListener('onContentCreate', static function (): void {
 
-    if (registry()->get('flextype.settings.entries.content.fields.created_at.enabled')) {
+    if (! registry()->get('flextype.settings.entries.content.fields.created_at.enabled')) {
         return;
     }
 
