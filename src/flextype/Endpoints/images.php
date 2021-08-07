@@ -47,7 +47,7 @@ app()->get('/api/images/{path:.+}', function ($path, Request $request, Response 
 
     // Check is token exists
     if (! tokens()->has($queryParams['token'])) {
-        return getApiResponseWithError($response, 400);
+        return getApiResponseWithError($response, 401);
     }
 
     // Fetch token
