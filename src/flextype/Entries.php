@@ -31,7 +31,7 @@ class Entries
      * Entries Registry.
      *
      * Local entries registry used for storing current requested
-     * storage data and allow to change them on fly.
+     * entries data and allow to change them on fly.
      *
      * @access private
      */
@@ -44,7 +44,7 @@ class Entries
      * filename    - Entries data filename.
      * extension   - Entries data extension.
      * serializer  - Entries data serializer.
-     * fields      - Array of fields for storage.
+     * fields      - Array of fields for entries.
      *
      * @var array
      * @access private
@@ -98,7 +98,7 @@ class Entries
     /**
      * Get Entries Registry.
      *
-     * @return Arrays Returns storage registry.
+     * @return Arrays Returns entries registry.
      *
      * @access public
      */
@@ -110,7 +110,7 @@ class Entries
     /**
      * Fetch.
      *
-     * @param string $id      Unique identifier of the storage entry.
+     * @param string $id      Unique identifier of the entry.
      * @param array  $options Options array.
      *
      * @return Arrays Returns instance of The Arrays class with items.
@@ -119,7 +119,7 @@ class Entries
      */
     public function fetch(string $id, array $options = []): Arrays
     {
-        // Store data
+        // Entry data
         $this->registry()->set('fetch.id', $id);
         $this->registry()->set('fetch.options', $options);
         $this->registry()->set('fetch.data', []);
@@ -130,7 +130,7 @@ class Entries
         // Single fetch helper
         $single = function ($id, $options) {
 
-            // Store data
+            // Entry data
             $this->registry()->set('fetch.id', $id);
             $this->registry()->set('fetch.options', $options);
             $this->registry()->set('fetch.data', []);
@@ -138,39 +138,39 @@ class Entries
             // Run event
             emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchSingle');
 
-            // Get Cache ID for current requested storage entry
-            $storageEntryCacheID = $this->getCacheID($this->registry()->get('fetch.id'));
+            // Get Cache ID for current requested entry
+            $entryCacheID = $this->getCacheID($this->registry()->get('fetch.id'));
 
-            // 1. Try to get current requested storage entry from cache
-            if (cache()->has($storageEntryCacheID)) {
+            // 1. Try to get current requested entry from cache
+            if (cache()->has($entryCacheID)) {
                 
-                // Fetch storage entry from cache and Apply filter for fetch data
-                $this->registry()->set('fetch.data', filter(cache()->get($storageEntryCacheID),
+                // Fetch entry from cache and Apply filter for fetch data
+                $this->registry()->set('fetch.data', filter(cache()->get($entryCacheID),
                                                         $this->registry()->get('fetch.options.filter', [])));
 
                 // Run event
                 emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchSingleCacheHasResult');
                 
-                // Return storage entry from cache
+                // Return entry from cache
                 return arrays($this->registry()->get('fetch.data'));
             }
             
-            // 2. Try to get current requested storage entry from filesystem
+            // 2. Try to get current requested entry from filesystem
             if ($this->has($this->registry()->get('fetch.id'))) {
-                // Get storage entry file location
-                $storageEntryFile = $this->getFileLocation($this->registry()->get('fetch.id'));
+                // Get entry file location
+                $entryFile = $this->getFileLocation($this->registry()->get('fetch.id'));
                 
-                // Try to get requested storage entry from the filesystem
-                $storageEntryFileContent = filesystem()->file($storageEntryFile)->get();
+                // Try to get requested entry from the filesystem
+                $entryFileContent = filesystem()->file($entryFile)->get();
 
-                if ($storageEntryFileContent === false) {
+                if ($entryFileContent === false) {
                     // Run event
                     emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchSingleNoResult');
                     return arrays($this->registry()->get('fetch.data'));
                 }
 
-                // Decode storage entry file content
-                $this->registry()->set('fetch.data', serializers()->{$this->options['serializer']}()->decode($storageEntryFileContent));
+                // Decode entry file content
+                $this->registry()->set('fetch.data', serializers()->{$this->options['serializer']}()->decode($entryFileContent));
 
                 // Run event
                 emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchSingleHasResult');
@@ -182,19 +182,19 @@ class Entries
                 $cache = $this->registry()->get('fetch.data.cache.enabled',
                                                registry()->get('flextype.settings.cache.enabled'));
 
-                // Save storage entry data to cache
+                // Save entry data to cache
                 if ($cache) {
-                    cache()->set($storageEntryCacheID, $this->registry()->get('fetch.data'));
+                    cache()->set($entryCacheID, $this->registry()->get('fetch.data'));
                 }
                 
-                // Return storage entry data
+                // Return entry data
                 return arrays($this->registry()->get('fetch.data'));
             }
 
             // Run event
             emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchSingleNoResult');
 
-            // Return empty array if storage entry is not founded
+            // Return empty array if entry is not founded
             return arrays($this->registry()->get('fetch.data'));
         };
 
@@ -285,10 +285,10 @@ class Entries
     }
 
     /**
-     * Move storage entry.
+     * Move entry.
      *
-     * @param string $id    Unique identifier of the storage entry.
-     * @param string $newID New Unique identifier of the storage entry.
+     * @param string $id    Unique identifier of the entry.
+     * @param string $newID New Unique identifier of the entry.
      *
      * @return bool True on success, false on failure.
      *
@@ -296,7 +296,7 @@ class Entries
      */
     public function move(string $id, string $newID): bool
     {
-        // Store data
+        // Entry data
         $this->registry()->set('move.id', $id);
         $this->registry()->set('move.newID', $newID);
 
@@ -313,10 +313,10 @@ class Entries
     }
 
     /**
-     * Update storage entry.
+     * Update entry.
      *
-     * @param string $id   Unique identifier of the storage entry.
-     * @param array  $data Data to update for the storage entry.
+     * @param string $id   Unique identifier of the entry.
+     * @param array  $data Data to update for the entry.
      *
      * @return bool True on success, false on failure.
      *
@@ -324,30 +324,30 @@ class Entries
      */
     public function update(string $id, array $data): bool
     {
-        // Store data
+        // Entry data
         $this->registry()->set('update.id', $id);
         $this->registry()->set('update.data', $data);
 
         // Run event
         emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'Update');
 
-        $storageEntryFile = $this->getFileLocation($this->registry()->get('update.id'));
+        $entryFile = $this->getFileLocation($this->registry()->get('update.id'));
 
-        if (filesystem()->file($storageEntryFile)->exists()) {
-            $body         = filesystem()->file($storageEntryFile)->get();
-            $storageEntry = serializers()->{$this->options['serializer']}()->decode($body);
+        if (filesystem()->file($entryFile)->exists()) {
+            $body         = filesystem()->file($entryFile)->get();
+            $entry = serializers()->{$this->options['serializer']}()->decode($body);
 
-            return (bool) filesystem()->file($storageEntryFile)->put(serializers()->{$this->options['serializer']}()->encode(array_merge($storageEntry, $this->registry()->get('update.data'))));
+            return (bool) filesystem()->file($entryFile)->put(serializers()->{$this->options['serializer']}()->encode(array_merge($entry, $this->registry()->get('update.data'))));
         }
 
         return false;
     }
 
     /**
-     * Create storage entry.
+     * Create entry.
      *
-     * @param string $id   Unique identifier of the storage entry.
-     * @param array  $data Data to create for the storage entry.
+     * @param string $id   Unique identifier of the entry.
+     * @param array  $data Data to create for the entry.
      *
      * @return bool True on success, false on failure.
      *
@@ -355,36 +355,36 @@ class Entries
      */
     public function create(string $id, array $data = []): bool
     {
-        // Store data
+        // Entry data
         $this->registry()->set('create.id', $id);
         $this->registry()->set('create.data', $data);
 
         // Run event
         emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'Create');
 
-        // Create storage entry directory first if it is not exists
-        $storageEntryDirectory = $this->getDirectoryLocation($this->registry()->get('create.id'));
+        // Create entry directory first if it is not exists
+        $entryDirectory = $this->getDirectoryLocation($this->registry()->get('create.id'));
 
         if (
-            ! filesystem()->directory($storageEntryDirectory)->exists() &&
-            ! filesystem()->directory($storageEntryDirectory)->create()
+            ! filesystem()->directory($entryDirectory)->exists() &&
+            ! filesystem()->directory($entryDirectory)->create()
         ) {
             return false;
         }
 
-        // Create storage entry file
-        $storageEntryFile = $storageEntryDirectory . '/' . $this->options['filename'] . '.' . $this->options['extension'];
-        if (! filesystem()->file($storageEntryFile)->exists()) {
-            return (bool) filesystem()->file($storageEntryFile)->put(serializers()->{$this->options['serializer']}()->encode($this->registry()->get('create.data')));
+        // Create entry file
+        $entryFile = $entryDirectory . '/' . $this->options['filename'] . '.' . $this->options['extension'];
+        if (! filesystem()->file($entryFile)->exists()) {
+            return (bool) filesystem()->file($entryFile)->put(serializers()->{$this->options['serializer']}()->encode($this->registry()->get('create.data')));
         }
 
         return false;
     }
 
     /**
-     * Delete storage entry.
+     * Delete entry.
      *
-     * @param string $id Unique identifier of the storage entry.
+     * @param string $id Unique identifier of the entry.
      *
      * @return bool True on success, false on failure.
      *
@@ -392,7 +392,7 @@ class Entries
      */
     public function delete(string $id): bool
     {
-        // Store data
+        // Entry data
         $this->registry()->set('delete.id', $id);
 
         // Run event
@@ -404,10 +404,10 @@ class Entries
     }
 
     /**
-     * Copy storage entry.
+     * Copy entry.
      *
-     * @param string $id    Unique identifier of the storage entry.
-     * @param string $newID New Unique identifier of the storage entry.
+     * @param string $id    Unique identifier of the entry.
+     * @param string $newID New Unique identifier of the entry.
      *
      * @return bool|null True on success, false on failure.
      *
@@ -415,7 +415,7 @@ class Entries
      */
     public function copy(string $id, string $newID): ?bool
     {
-        // Store data
+        // Entry data
         $this->registry()->set('copy.id', $id);
         $this->registry()->set('copy.newID', $newID);
 
@@ -428,9 +428,9 @@ class Entries
     }
 
     /**
-     * Check whether storage entry exists.
+     * Check whether entry exists.
      *
-     * @param string $id Unique identifier of the storage entry.
+     * @param string $id Unique identifier of the entry.
      *
      * @return bool True on success, false on failure.
      *
@@ -438,7 +438,7 @@ class Entries
      */
     public function has(string $id): bool
     {
-        // Store data
+        // Entry data
         $this->registry()->set('has.id', $id);
 
         // Run event:
@@ -450,7 +450,7 @@ class Entries
     /**
      * Get stoage entry file location.
      *
-     * @param string $id Unique identifier of the storage entry.
+     * @param string $id Unique identifier of the entry.
      *
      * @return string Entries entry file location
      *
@@ -462,9 +462,9 @@ class Entries
     }
 
     /**
-     * Get storage entry directory location.
+     * Get entry directory location.
      *
-     * @param string $id Unique identifier of the storage entry.
+     * @param string $id Unique identifier of the entry.
      *
      * @return string Entries entry directory location
      *
@@ -476,9 +476,9 @@ class Entries
     }
 
     /**
-     * Get Cache ID for storage entry
+     * Get Cache ID for entry
      *
-     * @param  string $id Unique identifier of the storage entry.
+     * @param  string $id Unique identifier of the entry.
      *
      * @return string Cache ID
      *
@@ -490,19 +490,19 @@ class Entries
             return '';
         }
 
-        $storageEntryFile = $this->getFileLocation($id);
+        $entryFile = $this->getFileLocation($id);
 
-        if (filesystem()->file($storageEntryFile)->exists()) {
-            return strings('storageEntry' . $storageEntryFile . (filesystem()->file($storageEntryFile)->lastModified() ?: ''))->hash()->toString();
+        if (filesystem()->file($entryFile)->exists()) {
+            return strings('entry' . $entryFile . (filesystem()->file($entryFile)->lastModified() ?: ''))->hash()->toString();
         }
 
-        return strings('storageEntry' . $storageEntryFile)->hash()->toString();
+        return strings('entry' . $entryFile)->hash()->toString();
     }
 
     /**
      * Get Entries options.
      *
-     * @return array Returns storage options.
+     * @return array Returns entries options.
      *
      * @access public
      */
