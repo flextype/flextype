@@ -3,18 +3,17 @@
 
 ### Features
 
-* **core** use `flextype.php` as common entry point instead of `bootstrap.php` and `dependencies.php`
+* **csrf** Added Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
-* **csrf** add Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
-
-* **macros** add `onlyFromCollection` and `exceptFromCollection` macros for Arrays ([#553](https://github.com/flextype/flextype/issues/553))
+* **macros** Added `onlyFromCollection` and `exceptFromCollection` macros for Arrays ([#553](https://github.com/flextype/flextype/issues/553))
 
 ### Bug Fixes
 
-* **htaccess** security fixes for `.htaccess`
-* **storage** fix issue when collection fetch returns no result
-* **plugins** fix plugins initialization ([#551](https://github.com/flextype/flextype/issues/551))
-* **plugins** fix Plugins API issue with non valid plugins ([#551](https://github.com/flextype/flextype/issues/555))
+* **htaccess** Security fixes for `.htaccess`
+* **entries** Fixed issue when entries collection fetch returns empty result.
+* **plugins** Fixed Plugins API translation loading process.
+* **plugins** Fixed Plugins API initialization ([#551](https://github.com/flextype/flextype/issues/551))
+* **plugins** Fixed Plugins API issue with non valid plugins ([#551](https://github.com/flextype/flextype/issues/555))
 
 <a name="0.9.16"></a>
 # [0.9.16](https://github.com/flextype/flextype/compare/v0.9.15...v0.9.16) (2021-01-14)
