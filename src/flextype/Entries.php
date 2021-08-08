@@ -476,11 +476,11 @@ class Entries
     }
 
     /**
-     * Get Cache ID for entry
+     * Get Cache ID for entry.
      *
      * @param  string $id Unique identifier of the entry.
      *
-     * @return string Cache ID
+     * @return string Cache ID.
      *
      * @access public
      */
