@@ -5,21 +5,60 @@
 
 * **core**: Core updated from Slim 3 to Slim4!
 
+    See: [Upgrade Guide](https://www.slimframework.com/docs/v4/start/upgrade.html)
+
 * **core**: PHP-DI added instead of Pimple DI.
 
-* **entries**: Added ability to setup high level collections for entries. 
+* **entries**: Added ability to create completely customizable high level collections for entries.
 
     Example: https://github.com/flextype/flextype/issues/563#issuecomment-893507342
 
 * **entries**: Added new method `getOptions`.
 
-* **media**: Added new Media API that's extend core Entries API.
+* **entries**: Added ability to override logic for built-in custom fields.
 
-* **content**: Added new Content API that's extend core Entries API.
+    Example: 
+    If you want to have your custom logic for processing field `uuid` just update flextype settings.
+
+    from:
+    ```yaml
+    ...
+    entries:
+      content:
+        fields:
+        ...
+          uuid:
+            enabled: true
+            path: "/src/flextype/Content/Fields/UuidField.php"
+        ...
+      ...
+    ...
+    ```
+
+    to:
+    ```yaml
+    ...
+    entries:
+      content:
+        fields:
+        ...
+          uuid:
+            enabled: true
+            path: "/project/plugins/your-custom-plugin/Content/Fields/UuidField.php"
+        ...
+      ...
+    ...
+    ```
+
+* **media**: Added new Media API that extends core Entries API.
+
+* **content**: Added new Content API that extends core Entries API.
 
 * **csrf**: Added Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
-* **serializers**: Added new serializer `Neon`. Documentation [here](https://doc.nette.org/en/3.1/neon).
+* **serializers**: Added new serializer `Neon`. 
+
+    Documentation [here](https://doc.nette.org/en/3.1/neon).
 
 * **serializers**: Added ability to set global settings for all serializers. 
 
@@ -120,6 +159,43 @@
           url:
             enabled: true
             path: "/src/flextype/Parsers/Shortcodes/UrlShortcode.php"
+    ```
+
+* **parsers**: Added ability to override logic for built-in shortcodes.
+
+    Example: 
+    If you want to have your custom logic for processing shortcode `url` just update flextype settings.
+
+    from:
+    ```yaml
+    ...
+    parsers:
+      shortcodes:
+        shortcodes:
+          ...
+          url:
+            enabled: true
+            path: "/src/flextype/Parsers/Shortcodes/UrlShortcode.php"
+          ...
+        ...
+      ...
+    ...
+    ```
+
+    to:
+    ```yaml
+    ...
+    parsers:
+      shortcodes:
+        shortcodes:
+          ...
+          url:
+            enabled: true
+            path: "/project/plugins/your-custom-plugin/Parsers/Shortcodes/UrlShortcode.php"
+          ...
+        ...
+      ...
+    ...
     ```
 
 * **cache**: Added new cache driver `Phparray` to storage cache data in raw php arrays files.
