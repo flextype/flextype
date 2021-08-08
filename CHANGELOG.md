@@ -52,9 +52,11 @@
     ...
     ```
 
-* **media**: Added new Media API that extends core Entries API.
+* **media**: Added new Media API based on core Entries API.
 
-* **content**: Added new Content API that extends core Entries API.
+* **content**: Added new Content API based on core Entries API.
+
+* **images** League Glide updated to Glide 2.
 
 * **csrf**: Added Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
