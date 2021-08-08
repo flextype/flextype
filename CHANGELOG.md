@@ -26,10 +26,11 @@
     entries:
       content:
         fields:
-        ...
+          ...
           uuid:
             enabled: true
             path: "/src/flextype/Content/Fields/UuidField.php"
+          ...
         ...
       ...
     ...
@@ -41,10 +42,11 @@
     entries:
       content:
         fields:
-        ...
+          ...
           uuid:
             enabled: true
             path: "/project/plugins/your-custom-plugin/Content/Fields/UuidField.php"
+          ...
         ...
       ...
     ...
@@ -250,6 +252,21 @@
 
 ### BREAKING CHANGES
 
+* **core** Use new helpers functions to access Flextype Services.
+
+  * use `content()` instead of `flextype('entries')`
+  * use `session()` instead of `flextype('session')`
+  * use `cache()` instead of `flextype('cache')`
+  * use `app()` instead of `flextype()`
+  * use `container()` instead of `flextype('container_name_here')`
+  * use `parsers()` instead of `flextype('parsers')`
+  * use `serializers()` instead of `flextype('serializers')`
+  * use `media()` instead of `flextype('media')`
+  * use `plugins()` instead of `flextype('plugins')`
+  * use `emitter()` instead of `flextype('emitter')`
+  * use `logger()` instead of `flextype('logger')`
+  * use `registry()` instead of `flextype('registry')`
+
 * **core**: Use helper function `app` to access Flextype Application instance instead of old helper function `flextype()`.
 
 * **core**: Use helper function `container` to access Flextype Application container instead of old helper function `flextype()` with container name argument.
@@ -270,13 +287,13 @@
 
 * **content**: Changes for content(prev. entries) memory storage.
 
-    * use `content()->registry()->get()` instead of `flextype('entries')->storage()->get()`
-    * use `content()->registry()->set()` instead of `flextype('entries')->storage()->set()`
-    * use `content()->registry()->has()` instead of `flextype('entries')->storage()->has()`
-    * use `content()->registry()->delete()` instead of `flextype('entries')->storage()->delete()`
+  * use `content()->registry()->get()` instead of `flextype('entries')->storage()->get()`
+  * use `content()->registry()->set()` instead of `flextype('entries')->storage()->set()`
+  * use `content()->registry()->has()` instead of `flextype('entries')->storage()->has()`
+  * use `content()->registry()->delete()` instead of `flextype('entries')->storage()->delete()`
 
-    note: all method from Atomastic Arrays are available for Arrays Storage Object manipulations
-    docs: https://github.com/atomastic/arrays
+  note: all method from Atomastic Arrays are available for Arrays Storage Object manipulations
+  docs: https://github.com/atomastic/arrays
 
 <a name="0.9.16"></a>
 # [0.9.16](https://github.com/flextype/flextype/compare/v0.9.15...v0.9.16) (2021-01-14)
