@@ -448,11 +448,11 @@ class Entries
     }
 
     /**
-     * Get stoage entry file location.
+     * Get entry file location.
      *
      * @param string $id Unique identifier of the entry.
      *
-     * @return string Entries entry file location
+     * @return string Entry file location.
      *
      * @access public
      */
@@ -466,7 +466,7 @@ class Entries
      *
      * @param string $id Unique identifier of the entry.
      *
-     * @return string Entries entry directory location
+     * @return string Entry directory location.
      *
      * @access public
      */
