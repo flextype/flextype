@@ -13,9 +13,9 @@ emitter()->addListener('onMediaFetchSingleHasResult', static function (): void {
         return;
     }
 
-    if (content()->registry()->get('fetch.data.modified_at') !== null) {
+    if (media()->registry()->get('fetch.data.modified_at') !== null) {
         return;
     }
 
-    content()->registry()->set('fetch.data.modified_at', (int) filesystem()->file(content()->getFileLocation(content()->registry()->get('fetch.id')))->lastModified());
+    media()->registry()->set('fetch.data.modified_at', (int) filesystem()->file(media()->getFileLocation(media()->registry()->get('fetch.id')))->lastModified());
 });
