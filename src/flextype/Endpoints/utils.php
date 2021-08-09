@@ -35,7 +35,7 @@ app()->post('/api/utils/cache/clear', function (ServerRequestInterface $request,
     // Get Query Params
     $data = $request->getParsedBody();
 
-    // Check is images api enabled
+    // Check is utils api enabled
     if (! registry()->get('flextype.settings.api.utils.enabled')) {
         return getApiResponseWithError($response, 400);
     }
@@ -65,11 +65,14 @@ app()->post('/api/utils/cache/clear', function (ServerRequestInterface $request,
     }
 
     // Update token calls
-    tokens()->update($data['token'], ['calls' => $data['calls'] + 1]);
+    tokens()->update($data['token'], ['calls' => $tokenData['calls'] + 1]);
 
     // Clear cache
     filesystem()->directory(PATH['tmp'])->delete();
 
     // Return success response
-    return ;
+    $response->getBody()->write(serializers()->json()->encode(['Cache cleared.']));
+    $response->withStatus(200);
+    $response->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'));
+    return $response;
 });
