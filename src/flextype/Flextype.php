@@ -25,17 +25,21 @@ final class Flextype
     /**
      * The Flextype instance.
      *
-     * @var array
+     * @var Flextype|null
      */
     private static ?Flextype $instance = null;
 
     /**
      * The Flextype Application.
+     * 
+     * @var App
      */
     private static App $app;
 
     /**
      * The Flextype Application Container.
+     * 
+     * @var Container
      */
     private static Container $container;
 
@@ -82,7 +86,7 @@ final class Flextype
     /**
      * Get Flextype Application Container.
      *
-     * @return Flextype Returns Flextype Application Container.
+     * @return Container Returns Flextype Application Container.
      *
      * @access public
      */
