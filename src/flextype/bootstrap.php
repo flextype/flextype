@@ -13,6 +13,7 @@ use Atomastic\Csrf\Csrf;
 use Atomastic\Session\Session;
 use Cocur\Slugify\Slugify;
 use DateTimeZone;
+use RuntimeException;
 use Flextype\Content\Content;
 use Flextype\Media\Media;
 use Flextype\Tokens\Tokens;
@@ -45,8 +46,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Phpfastcache\Drivers\Apcu\Config;
 use Phpfastcache\Helper\Psr16Adapter as Cache;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Factory\ServerRequestCreatorFactory;
@@ -463,7 +463,7 @@ if (registry()->get('flextype.settings.cors.enabled')) {
     });
 
     // Add headers
-    app()->add(function (Request $request, RequestHandlerInterface $handler): Response {
+    app()->add(function (ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         $response = $handler->handle($request);
 
         // Set variables
