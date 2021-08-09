@@ -76,6 +76,15 @@ entries:
       id:
         enabled: true
         path: "/src/flextype/Tokens/Fields/IdField.php"
+      calls:
+        enabled: true
+        path: "/src/flextype/Tokens/Fields/CallsField.php"
+      total_calls:
+        enabled: true
+        path: "/src/flextype/Tokens/Fields/TotalCallsField.php"
+      state:
+        enabled: true
+        path: "/src/flextype/Tokens/Fields/StateField.php"
   media:
     directory: media
     filename: media
