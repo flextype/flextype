@@ -145,7 +145,6 @@ final class Shortcodes
      * Parse and processes text to replaces shortcodes.
      *
      * @param string $input A text containing SHORTCODE
-     * @param bool   $cache Cache result data or no. Default is true.
      *
      * @access public
      */
