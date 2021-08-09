@@ -21,14 +21,12 @@ use function flextype;
  *
  * endpoint: POST /api/utils/cache/clear
  *
- * Parameters:
- * path - [REQUIRED] - The file path with valid params for image manipulations.
- *
- * Query:
- * token  - [REQUIRED] - Valid token.
+ * Body:
+ * token        - [REQUIRED] - Valid public token.
+ * access_token - [REQUIRED] - Valid access token.
  *
  * Returns:
- * Image file
+ * Returns an empty body with HTTP status 204
  */
 app()->post('/api/utils/cache/clear', function (ServerRequestInterface $request, ResponseInterface $response) {
 
@@ -49,7 +47,7 @@ app()->post('/api/utils/cache/clear', function (ServerRequestInterface $request,
     if (! tokens()->has($data['token'])) {
         return getApiResponseWithError($response, 401);
     }
-
+    
     // Fetch token
     $tokenData = tokens()->fetch($data['token']);
 
@@ -71,8 +69,7 @@ app()->post('/api/utils/cache/clear', function (ServerRequestInterface $request,
     filesystem()->directory(PATH['tmp'])->delete();
 
     // Return success response
-    $response->getBody()->write(serializers()->json()->encode(['Cache cleared.']));
-    $response->withStatus(200);
+    $response->withStatus(204);
     $response->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'));
     return $response;
 });
