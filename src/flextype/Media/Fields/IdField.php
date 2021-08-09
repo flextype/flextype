@@ -17,5 +17,5 @@ emitter()->addListener('onMediaFetchSingleHasResult', static function (): void {
         return;
     }
 
-    media()->registry()->set('fetch.data.id', (string) strings(media()->registry()->get('fetch.id'))->trimSlashes());
+    media()->registry()->set('fetch.data.id', strings(media()->registry()->get('fetch.id'))->trimSlashes()->toString());
 });
