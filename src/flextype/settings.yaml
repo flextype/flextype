@@ -60,7 +60,22 @@ entries:
     filename: tokens
     extension: yaml
     serializer: yaml
-    fields: []
+    fields: 
+      modified_at:
+        enabled: true
+        path: "/src/flextype/Tokens/Fields/ModifiedAtField.php"
+      created_at:
+        enabled: true
+        path: "/src/flextype/Tokens/Fields/CreatedAtField.php"
+      created_by:
+        enabled: true
+        path: "/src/flextype/Tokens/Fields/CreatedByField.php"
+      uuid:
+        enabled: true
+        path: "/src/flextype/Tokens/Fields/UuidField.php"
+      id:
+        enabled: true
+        path: "/src/flextype/Tokens/Fields/IdField.php"
   media:
     directory: media
     filename: media
