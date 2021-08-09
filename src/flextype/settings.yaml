@@ -51,10 +51,16 @@ date_display_format: 'd-m-Y H:i'
 #
 # - display: Display errors or not.
 errors:
-  display: false
+  display: true
 
 # Entries
 entries:
+  tokens:
+    directory: tokens
+    filename: tokens
+    extension: yaml
+    serializer: yaml
+    fields: []
   media:
     directory: media
     filename: media
@@ -174,7 +180,7 @@ entries:
 cache:
   enabled: false
   router: routes
-  auto_reload:
+  auto_reload: 
     storage: false
     plugins: false
     flextype: false
@@ -332,7 +338,7 @@ whoops:
 #                     If 'append' or 'prepend', then any echo or print statements
 #                     are captured and are either appended or prepended to the Response
 #                     returned from the route callable.
-display_error_details: false
+display_error_details: true
 add_content_length_header: true
 router_cache_file: false
 determine_route_before_app_middleware: false
@@ -587,4 +593,6 @@ api:
     enabled: true
     default_token:
   access:
+    enabled: true
+  utils:
     enabled: true
