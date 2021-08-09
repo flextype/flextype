@@ -11,6 +11,7 @@ namespace Flextype\Serializers;
 
 use Nette\Neon\Exception;
 use Nette\Neon\Neon as NeonSerializer;
+use RuntimeException;
 
 use function cache;
 use function registry;
