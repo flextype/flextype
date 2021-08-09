@@ -61,11 +61,7 @@ class Json
      * Takes a JSON encoded string and converts it into a PHP variable.
      *
      * @param string $input A string containing JSON
-     * @param bool   $cache Cache result data or no. Default is true
-     * @param bool   $assoc Decode assoc. When TRUE, returned objects will be converted into associative arrays.
-     * @param int    $depth Decode Depth. Set the maximum depth. Must be greater than zero.
-     * @param int    $flags Bitmask consisting of decode options
-     *
+     * 
      * @return mixed The JSON converted to a PHP value
      *
      * @throws RuntimeException If the JSON is not valid
