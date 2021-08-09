@@ -25,7 +25,7 @@ use function flextype;
  * path - [REQUIRED] - The file path with valid params for image manipulations.
  *
  * Query:
- * token  - [REQUIRED] - Valid token.
+ * token - [REQUIRED] - Valid public token.
  *
  * Returns:
  * Image file
