@@ -174,12 +174,14 @@ class Media extends Entries
         try {
             $result->confirm();
 
-            $mediaFile = $uploadFolder . '/media.' . filesystem()->file($result->name)->extension();
+            if (isset($result->name)) {
+                $mediaFile = $uploadFolder . '/media.' . filesystem()->file($result->name)->extension();
 
-            filesystem()->file($uploadFolder . '/' . $result->name)->move($mediaFile);
-
-            if (getimagesize($mediaFile)) {
-                image($mediaFile, $settings['process']['image']);
+                filesystem()->file($uploadFolder . '/' . $result->name)->move($mediaFile);
+    
+                if (getimagesize($mediaFile)) {
+                    image($mediaFile, $settings['process']['image']);
+                }
             }
         } catch (Throwable $e) {
             $result->clear();
