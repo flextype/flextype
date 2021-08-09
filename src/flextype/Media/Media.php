@@ -68,6 +68,16 @@ class Media extends Entries
         return parent::create($id, $data);
     }
 
+    /**
+     * Move media entry.
+     *
+     * @param string $id    Unique identifier of the media entry.
+     * @param string $newID New Unique identifier of the media entry.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
     public function move(string $id, string $newID): bool
     {
         $mediaResourceDirectoryCurrentLocation = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . '/' . $id;
