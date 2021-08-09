@@ -39,43 +39,87 @@ class Media extends Entries
     {
         parent::__construct($options);
 
-        emitter()->addListener('onMediaCreate', static function (): void {
-            if (! media()->registry()->has('create.data.file')) {
-                return;
-            }
+        filesystem()
+            ->directory(PATH['project'] . registry()->get('flextype.settings.media.upload.directory'))
+            ->ensureExists(0755, true);
+    }
 
-            $file = media()->registry()->get('create.data.file');
-            if (is_array($file)) {
-                $id    = media()->registry()->get('create.id');
-                $url   = registry()->get('flextype.settings.url');
-                $media = media()->upload($file, $id);
+    /**
+     * Create media entry.
+     *
+     * @param string $id   Unique identifier of the media entry.
+     * @param array  $data Data to create for the media entry.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function create(string $id, array $data = []): bool
+    {
+        $data['resource'] = $data['resource'] ?? '';
+
+        if (is_array($data['resource'])) {
+            media()->upload($data['resource'], $id);
+            unset($data['resource']);
+        } elseif (! strings($data['resource'])->isUrl()) {
+            unset($data['resource']);
+        }
         
-                if ($media->name) {
-                    media()->registry()->set('create.data.file', strings($url . '/project' . registry()->get('flextype.settings.media.upload.directory') . '/' . $id . '/media.' . filesystem()->file($media->name)->extension())->reduceSlashes()->toString());
-                } else {
-                    media()->registry()->set('create.data.file', '');
-                }
-            } else {
-                media()->registry()->set('create.data.file', $file);
-            }
-        });
+        return parent::create($id, $data);
+    }
 
-        emitter()->addListener('onMediaCopy', static function (): void {
-            $currentPath = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . media()->registry()->get('copy.id');
-            $newPath     = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . media()->registry()->get('copy.newID');
-            filesystem()->directory($currentPath)->copy($newPath);
-        });
+    public function move(string $id, string $newID): bool
+    {
+        $mediaResourceDirectoryCurrentLocation = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . '/' . $id;
+        $mediaResourceDirectoryNewLocation = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . '/' . $newID;
+       
+        if (filesystem()->directory($mediaResourceDirectoryCurrentLocation)->exists()) {
+            filesystem()->directory($mediaResourceDirectoryCurrentLocation)->move($mediaResourceDirectoryNewLocation);
+        } 
 
-        emitter()->addListener('onMediaMove', static function (): void {
-            $currentPath = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . media()->registry()->get('move.id');
-            $newPath     = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . media()->registry()->get('move.newID');
-            filesystem()->directory($currentPath)->move($newPath);
-        });
+        return parent::move($id, $newID);
+    }
 
-        emitter()->addListener('onMediaDelete', static function (): void {
-            $currentPath = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . media()->registry()->get('delete.id');
-            filesystem()->directory($currentPath)->delete();
-        });
+    /**
+     * Copy media entry.
+     *
+     * @param string $id    Unique identifier of the media entry.
+     * @param string $newID New Unique identifier of the media entry.
+     *
+     * @return bool|null True on success, false on failure.
+     *
+     * @access public
+     */
+    public function copy(string $id, string $newID): bool
+    {
+        $mediaResourceDirectoryCurrentLocation = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . '/' . $id;
+        $mediaResourceDirectoryNewLocation = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . '/' . $newID;
+       
+        if (filesystem()->directory($mediaResourceDirectoryCurrentLocation)->exists()) {
+            filesystem()->directory($mediaResourceDirectoryCurrentLocation)->copy($mediaResourceDirectoryNewLocation);
+        } 
+
+        return parent::copy($id, $newID);
+    }
+
+    /**
+     * Delete media entry.
+     *
+     * @param string $id Unique identifier of the media entry.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function delete(string $id): bool
+    {
+        $mediaResourceDirectoryCurrentLocation = PATH['project'] . registry()->get('flextype.settings.media.upload.directory') . '/' . $id;
+        
+        if (filesystem()->directory($mediaResourceDirectoryCurrentLocation)->exists()) {
+            filesystem()->directory($mediaResourceDirectoryCurrentLocation)->delete();
+        } 
+
+        return parent::delete($id);
     }
 
     /**
@@ -90,7 +134,7 @@ class Media extends Entries
     {
         $settings = registry()->get('flextype.settings.media.upload');
 
-        $uploadFolder = PATH['project'] . '/uploads/media/' . $folder . '/';
+        $uploadFolder = strings(PATH['project']  . '/' . registry()->get('flextype.settings.media.upload.directory') . '/' . $folder . '/')->reduceSlashes()->toString();
 
         filesystem()->directory($uploadFolder)->ensureExists(0755, true);
 
