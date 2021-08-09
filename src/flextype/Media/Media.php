@@ -59,10 +59,12 @@ class Media extends Entries
         $data['resource'] = $data['resource'] ?? '';
 
         if (is_array($data['resource'])) {
-            media()->upload($data['resource'], $id);
-            unset($data['resource']);
-        } elseif (! strings($data['resource'])->isUrl()) {
-            unset($data['resource']);
+            $media = media()->upload($data['resource'], $id);
+            if ($media->name) {
+                $data['resource'] = strings($id . '/media.' . filesystem()->file($media->name)->extension())->reduceSlashes()->toString();
+            } else {
+                $data['resource'] = '';
+            }
         }
         
         return parent::create($id, $data);
