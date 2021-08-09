@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 use function array_replace_recursive;
 use function filesystem;
@@ -30,8 +30,8 @@ use function flextype;
  * Returns:
  * Image file
  */
-app()->post('/api/utils/cache/clear', function (Request $request, Response $response) {
-    
+app()->post('/api/utils/cache/clear', function (ServerRequestInterface $request, ResponseInterface $response) {
+
     // Get Query Params
     $data = $request->getParsedBody();
 
