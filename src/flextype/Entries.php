@@ -59,6 +59,10 @@ class Entries
         $this->registry = arrays();
         $this->options  = $options;
         $this->initFields();
+
+        filesystem()
+            ->directory(PATH['project'] . '/entries/' . $options['directory'])
+            ->ensureExists(0755, true);
     }
 
     /**
