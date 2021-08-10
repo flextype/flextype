@@ -448,9 +448,9 @@ plugins()->init();
  * Include API ENDPOINTS
  */
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/utils.php';
-//include_once ROOT_DIR . '/src/flextype/Endpoints/errors.php';
-//include_once ROOT_DIR . '/src/flextype/Endpoints/images.php';
-//include_once ROOT_DIR . '/src/flextype/Endpoints/utils.php';
+require_once ROOT_DIR . '/src/flextype/routes/endpoints/images.php';
+require_once ROOT_DIR . '/src/flextype/routes/endpoints/content.php';
+
 
 // Enable lazy CORS
 //
