@@ -28,7 +28,7 @@ class Content extends Endpoints
         $queryParams = $request->getQueryParams();
 
         // Check is utils api enabled
-        if (! registry()->get('flextype.settings.api.images.enabled')) {
+        if (! registry()->get('flextype.settings.api.content.enabled')) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
         }
 
@@ -372,7 +372,7 @@ class Content extends Endpoints
         if (! isset($data['id'])) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
         }
-        
+
         // Check is token exists
         if (! tokens()->has($data['token'])) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
