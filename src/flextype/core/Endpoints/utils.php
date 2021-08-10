@@ -19,6 +19,14 @@ use function flextype;
 
 class Utils extends Endpoints
 {
+    /**
+     * Clear cache
+     * 
+     * @param ServerRequestInterface  $request  PSR7 request.
+     * @param ResponseInterface       $response PSR7 response.
+     * 
+     * @return ResponseInterface Response.
+     */
     public function clearCache(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         // Get Query Params
