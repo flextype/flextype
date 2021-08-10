@@ -51,7 +51,7 @@ class Utils extends Endpoints
         $tokenData = tokens()->fetch($data['token']);
 
         // Verify access token
-        if (password_verify($tokenData['hashed_access_token'], $data['access_token'])) {
+        if (! password_verify($data['access_token'], $tokenData['hashed_access_token'])) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
         }
 
