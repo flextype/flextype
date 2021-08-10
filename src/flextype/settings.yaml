@@ -63,28 +63,28 @@ entries:
     fields: 
       modified_at:
         enabled: true
-        path: "/src/flextype/Tokens/Fields/ModifiedAtField.php"
+        path: "/src/flextype/core/Tokens/Fields/ModifiedAtField.php"
       created_at:
         enabled: true
-        path: "/src/flextype/Tokens/Fields/CreatedAtField.php"
+        path: "/src/flextype/core/Tokens/Fields/CreatedAtField.php"
       created_by:
         enabled: true
-        path: "/src/flextype/Tokens/Fields/CreatedByField.php"
+        path: "/src/flextype/core/Tokens/Fields/CreatedByField.php"
       uuid:
         enabled: true
-        path: "/src/flextype/Tokens/Fields/UuidField.php"
+        path: "/src/flextype/core/Tokens/Fields/UuidField.php"
       id:
         enabled: true
-        path: "/src/flextype/Tokens/Fields/IdField.php"
+        path: "/src/flextype/core/Tokens/Fields/IdField.php"
       calls:
         enabled: true
-        path: "/src/flextype/Tokens/Fields/CallsField.php"
+        path: "/src/flextype/core/Tokens/Fields/CallsField.php"
       total_calls:
         enabled: true
-        path: "/src/flextype/Tokens/Fields/TotalCallsField.php"
+        path: "/src/flextype/core/Tokens/Fields/TotalCallsField.php"
       state:
         enabled: true
-        path: "/src/flextype/Tokens/Fields/StateField.php"
+        path: "/src/flextype/core/Tokens/Fields/StateField.php"
   media:
     directory: media
     filename: media
@@ -93,19 +93,19 @@ entries:
     fields:
       modified_at:
         enabled: true
-        path: "/src/flextype/Media/Fields/ModifiedAtField.php"
+        path: "/src/flextype/core/Media/Fields/ModifiedAtField.php"
       created_at:
         enabled: true
-        path: "/src/flextype/Media/Fields/CreatedAtField.php"
+        path: "/src/flextype/core/Media/Fields/CreatedAtField.php"
       created_by:
         enabled: true
-        path: "/src/flextype/Media/Fields/CreatedByField.php"
+        path: "/src/flextype/core/Media/Fields/CreatedByField.php"
       uuid:
         enabled: true
-        path: "/src/flextype/Media/Fields/UuidField.php"
+        path: "/src/flextype/core/Media/Fields/UuidField.php"
       id:
         enabled: true
-        path: "/src/flextype/Media/Fields/IdField.php"
+        path: "/src/flextype/core/Media/Fields/IdField.php"
   content:
     directory: content
     filename: content
@@ -114,50 +114,50 @@ entries:
     fields:
       media:
         enabled: true
-        path: "/src/flextype/Content/Fields/MediaField.php"
+        path: "/src/flextype/core/Content/Fields/MediaField.php"
         fetch:
           result: toObject
       registry:
         enabled: true
-        path: "/src/flextype/Content/Fields/RegistryField.php"
+        path: "/src/flextype/core/Content/Fields/RegistryField.php"
       content:
         enabled: true
-        path: "/src/flextype/Content/Fields/ContentField.php"
+        path: "/src/flextype/core/Content/Fields/ContentField.php"
         fetch:
           result: toObject
       slug:
         enabled: true
-        path: "/src/flextype/Content/Fields/SlugField.php"
+        path: "/src/flextype/core/Content/Fields/SlugField.php"
       published_at:
         enabled: true
-        path: "/src/flextype/Content/Fields/PublishedAtField.php"
+        path: "/src/flextype/core/Content/Fields/PublishedAtField.php"
       published_by:
         enabled: true
-        path: "/src/flextype/Content/Fields/PublishedByField.php"
+        path: "/src/flextype/core/Content/Fields/PublishedByField.php"
       modified_at:
         enabled: true
-        path: "/src/flextype/Content/Fields/ModifiedAtField.php"
+        path: "/src/flextype/core/Content/Fields/ModifiedAtField.php"
       created_at:
         enabled: true
-        path: "/src/flextype/Content/Fields/CreatedAtField.php"
+        path: "/src/flextype/core/Content/Fields/CreatedAtField.php"
       created_by:
         enabled: true
-        path: "/src/flextype/Content/Fields/CreatedByField.php"
+        path: "/src/flextype/core/Content/Fields/CreatedByField.php"
       routable:
         enabled: true
-        path: "/src/flextype/Content/Fields/RoutableField.php"
+        path: "/src/flextype/core/Content/Fields/RoutableField.php"
       parsers:
         enabled: true
-        path: "/src/flextype/Content/Fields/ParsersField.php"
+        path: "/src/flextype/core/Content/Fields/ParsersField.php"
       visibility:
         enabled: true
-        path: "/src/flextype/Content/Fields/VisibilityField.php"
+        path: "/src/flextype/core/Content/Fields/VisibilityField.php"
       uuid:
         enabled: true
-        path: "/src/flextype/Content/Fields/UuidField.php"
+        path: "/src/flextype/core/Content/Fields/UuidField.php"
       id:
         enabled: true
-        path: "/src/flextype/Content/Fields/IdField.php"
+        path: "/src/flextype/core/Content/Fields/IdField.php"
 
 # Cache
 #
@@ -495,19 +495,19 @@ parsers:
     shortcodes:
       media:
         enabled: true
-        path: "/src/flextype/Parsers/Shortcodes/MediaShortcode.php"
+        path: "/src/flextype/core/Parsers/Shortcodes/MediaShortcode.php"
       content:
         enabled: true
-        path: "/src/flextype/Parsers/Shortcodes/ContentShortcode.php"
+        path: "/src/flextype/core/Parsers/Shortcodes/ContentShortcode.php"
       raw:
         enabled: true
-        path: "/src/flextype/Parsers/Shortcodes/RawShortcode.php"
+        path: "/src/flextype/core/Parsers/Shortcodes/RawShortcode.php"
       registry:
         enabled: true
-        path: "/src/flextype/Parsers/Shortcodes/RegistryShortcode.php"
+        path: "/src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
       url:
         enabled: true
-        path: "/src/flextype/Parsers/Shortcodes/UrlShortcode.php"
+        path: "/src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
 
 # CORS
 #
