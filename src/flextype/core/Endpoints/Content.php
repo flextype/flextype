@@ -127,7 +127,7 @@ class Content extends Endpoints
         content()->create($data['id'], $data['data'] ?? []);
 
         // Fetch content
-        $contentData = content()->fetch($data['id']);
+        $contentData = content()->fetch($data['id'])->toArray();
 
         // Return response
         if (count($contentData) > 0) {
@@ -193,7 +193,7 @@ class Content extends Endpoints
         content()->update($data['id'], $data['data'] ?? []);
 
         // Fetch content
-        $contentData = content()->fetch($data['id']);
+        $contentData = content()->fetch($data['id'])->toArray();
 
         // Return response
         if (count($contentData) > 0) {
@@ -264,7 +264,7 @@ class Content extends Endpoints
         content()->move($data['id'], $data['new_id']);
 
         // Fetch content
-        $contentData = content()->fetch($data['new_id']);
+        $contentData = content()->fetch($data['new_id'])->toArray();
 
         // Return response
         if (count($contentData) > 0) {
@@ -335,7 +335,7 @@ class Content extends Endpoints
         content()->copy($data['id'], $data['new_id']);
 
         // Fetch content
-        $contentData = content()->fetch($data['new_id']);
+        $contentData = content()->fetch($data['new_id'])->toArray();
 
         // Return response
         if (count($contentData) > 0) {
