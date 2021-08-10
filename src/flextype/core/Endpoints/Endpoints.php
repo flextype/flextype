@@ -11,12 +11,16 @@ namespace Flextype\Endpoints;
 
 use Psr\Http\Message\ResponseInterface;
 
-class Endpoints 
+use function count;
+use function registry;
+use function serializers;
+
+class Endpoints
 {
     /**
      * Status code messages.
-     * 
-     * @var array 
+     *
+     * @var array
      * @access public
      */
     private array $statusCodeMessages = [
@@ -31,14 +35,14 @@ class Endpoints
         404 => [
             'title' => 'Not Found',
             'message' => 'Not Found',
-        ]
+        ],
     ];
 
     /**
      * Get Status Code Message.
-     * 
+     *
      * @param int $status Status Code.
-     * 
+     *
      * @return array Message.
      */
     public function getStatusCodeMessage(int $status): array
@@ -48,21 +52,22 @@ class Endpoints
 
     /**
      * Get API responce
-     * 
-     * @param ResponseInterface $response  PSR7 response.
-     * @param array             $body      Response body.
-     * @param int               $status    Status code.
-     * 
+     *
+     * @param ResponseInterface $response PSR7 response.
+     * @param array             $body     Response body.
+     * @param int               $status   Status code.
+     *
      * @return ResponseInterface Response.
      */
     public function getApiResponse(ResponseInterface $response, array $body = [], int $status = 200): ResponseInterface
     {
         if (count($body) > 0) {
             $response->getBody()->write(serializers()->json()->encode($body));
-        } 
+        }
 
         $response->withStatus($status);
         $response->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'));
+
         return $response;
     }
 }
