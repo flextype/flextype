@@ -17,9 +17,9 @@ class Endpoints
      * Status code messages.
      * 
      * @var array 
-     * @access private
+     * @access public
      */
-    private array $statusCodeMessages = [
+    public array $statusCodeMessages = [
         '400' => [
             'title' => 'Bad Request',
             'message' => 'Validation for this particular item failed',
