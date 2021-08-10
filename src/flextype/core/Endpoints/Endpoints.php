@@ -13,6 +13,12 @@ use Psr\Http\Message\ResponseInterface;
 
 class Endpoints 
 {
+    /**
+     * Status code messages.
+     * 
+     * @var array 
+     * @access private
+     */
     private array $statusCodeMessages = [
         '400' => [
             'title' => 'Bad Request',
@@ -28,6 +34,13 @@ class Endpoints
         ]
     ];
 
+    /**
+     * Get API responce
+     * 
+     * @param ResponseInterface $response  PSR7 response.
+     * @param array             $body      Response body.
+     * @param int               $status    Status code.
+     */
     public function getApiResponse(ResponseInterface $response, array $body = [], int $status = 200): ResponseInterface
     {
         if (count($body) > 0) {
