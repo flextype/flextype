@@ -11,20 +11,20 @@ namespace Flextype\Endpoints;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Flextype\Endpoints\Endpoints;
 
-use function array_replace_recursive;
 use function filesystem;
-use function flextype;
+use function password_verify;
+use function registry;
+use function tokens;
 
 class Utils extends Endpoints
 {
     /**
      * Clear cache
-     * 
-     * @param ServerRequestInterface  $request  PSR7 request.
-     * @param ResponseInterface       $response PSR7 response.
-     * 
+     *
+     * @param ServerRequestInterface $request  PSR7 request.
+     * @param ResponseInterface      $response PSR7 response.
+     *
      * @return ResponseInterface Response.
      */
     public function clearCache(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -46,7 +46,7 @@ class Utils extends Endpoints
         if (! tokens()->has($data['token'])) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
         }
-        
+
         // Fetch token
         $tokenData = tokens()->fetch($data['token']);
 
@@ -56,8 +56,10 @@ class Utils extends Endpoints
         }
 
         // Check token state and limit_calls
-        if ($tokenData['state'] === 'disabled' || 
-            ($tokenData['limit_calls'] !== 0 && $tokenData['calls'] >= $tokenData['limit_calls'])) {
+        if (
+            $tokenData['state'] === 'disabled' ||
+            ($tokenData['limit_calls'] !== 0 && $tokenData['calls'] >= $tokenData['limit_calls'])
+        ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
         }
 
