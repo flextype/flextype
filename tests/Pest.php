@@ -16,4 +16,4 @@ $flextype_loader = require_once $flextype_autoload;
 
 filesystem()->directory(PATH['tmp'])->exists() and filesystem()->directory(PATH['tmp'])->delete();
 
-include ROOT_DIR . '/src/flextype/bootstrap.php';
+include ROOT_DIR . '/src/flextype/flextype.php';
