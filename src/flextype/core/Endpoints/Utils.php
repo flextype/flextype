@@ -34,17 +34,17 @@ class Utils extends Endpoints
 
         // Check is utils api enabled
         if (! registry()->get('flextype.settings.api.utils.enabled')) {
-            return $this->getApiResponse($response, $this->statusCodeMessages['400'], 400);
+            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
         }
 
         // Check is token param exists
         if (! isset($data['token'])) {
-            return $this->getApiResponse($response, $this->statusCodeMessages['400'], 400);
+            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
         }
 
         // Check is token exists
         if (! tokens()->has($data['token'])) {
-            return $this->getApiResponse($response, $this->statusCodeMessages['401'], 401);
+            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
         }
         
         // Fetch token
@@ -52,13 +52,13 @@ class Utils extends Endpoints
 
         // Verify access token
         if (password_verify($tokenData['hashed_access_token'], $data['access_token'])) {
-            return $this->getApiResponse($response, $this->statusCodeMessages['401'], 401);
+            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
         }
 
         // Check token state and limit_calls
         if ($tokenData['state'] === 'disabled' || 
             ($tokenData['limit_calls'] !== 0 && $tokenData['calls'] >= $tokenData['limit_calls'])) {
-            return $this->getApiResponse($response, $this->statusCodeMessages['400'], 400);
+            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
         }
 
         // Update token calls

@@ -19,20 +19,32 @@ class Endpoints
      * @var array 
      * @access public
      */
-    public array $statusCodeMessages = [
-        '400' => [
+    private array $statusCodeMessages = [
+        400 => [
             'title' => 'Bad Request',
             'message' => 'Validation for this particular item failed',
         ],
-        '401' => [
+        401 => [
             'title' => 'Unauthorized',
             'message' => 'Token is wrong',
         ],
-        '404' => [
+        404 => [
             'title' => 'Not Found',
             'message' => 'Not Found',
         ]
     ];
+
+    /**
+     * Get Status Code Message.
+     * 
+     * @param int $status Status Code.
+     * 
+     * @return array Message.
+     */
+    public function getStatusCodeMessage(int $status): array
+    {
+        return $this->statusCodeMessages[$status];
+    }
 
     /**
      * Get API responce
