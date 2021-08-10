@@ -40,6 +40,8 @@ class Endpoints
      * @param ResponseInterface $response  PSR7 response.
      * @param array             $body      Response body.
      * @param int               $status    Status code.
+     * 
+     * @return ResponseInterface Response.
      */
     public function getApiResponse(ResponseInterface $response, array $body = [], int $status = 200): ResponseInterface
     {
