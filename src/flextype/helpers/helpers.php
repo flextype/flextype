@@ -265,6 +265,16 @@ if (! function_exists('filter')) {
     }
 }
 
+if (! function_exists('images')) {
+    /**
+     * Get Flextype Images Service.
+     */
+    function images()
+    {
+        return flextype()->container()->get('images');
+    }
+}
+
 if (! function_exists('image')) {
     /**
      * Create a new image instance.
