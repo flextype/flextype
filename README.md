@@ -11,15 +11,7 @@
 
 With Flextype, you are in complete control. Design your data structure the way you want. Update and share your data with others and teams using version control. Flextype does not require MySQL database, because all the data are collected in a simple files. Perfect portability when changing your hosting provider. Just copy all the files from one server to another.
 
-The underlying architecture of Flextype is built using well established and best-in-class technologies. This is to ensure that Flextype is simple to use and easy to extend. Some of these key technologies include:
-
-* [Slim PHP](https://www.slimframework.com): Framework for powerful web applications and APIs.
-* [Atomastic](https://atomastic.com): A set of decoupled and reusable PHP building blocks for kickass Web Applications.
-* [The PHP League](https://thephpleague.com): The League of Extraordinary PHP Packages well tested and using modern coding standards.
-* [Respect Validation](https://respect-validation.readthedocs.io/): The most awesome validation engine ever created for PHP.
-* [Built-in Parsers]() Various built-in parser: SHORTCODES, MARKDOWN
-* [Built-in Serializers]() Various built-in serializers: YAML, JSON, FRONTMATTER, NEON
-
+The underlying architecture of Flextype is built using well established and best-in-class technologies. This is to ensure that Flextype is simple to use and easy to extend.
 
 ## REQUIREMENTS
 
