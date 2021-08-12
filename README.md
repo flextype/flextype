@@ -17,8 +17,8 @@ The underlying architecture of Flextype is built using well established and best
 * [Atomastic](https://atomastic.com): A set of decoupled and reusable PHP building blocks for kickass Web Applications.
 * [The PHP League](https://thephpleague.com): The League of Extraordinary PHP Packages well tested and using modern coding standards.
 * [Respect Validation](https://respect-validation.readthedocs.io/): The most awesome validation engine ever created for PHP.
-* [Built-in Parsers] Various built-in parser: SHORTCODES, MARKDOWN
-* [Built-in Serializers] Various built-in serializers: YAML, JSON, FRONTMATTER, NEON
+* [Built-in Parsers]() Various built-in parser: SHORTCODES, MARKDOWN
+* [Built-in Serializers]() Various built-in serializers: YAML, JSON, FRONTMATTER, NEON
 
 
 ## REQUIREMENTS
