@@ -11,8 +11,9 @@ namespace Flextype\Endpoints;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Flextype\Endpoints\Api;
 
-class Content extends Endpoints
+class Content extends Api
 {
     /**
      * Fetch content.
@@ -24,51 +25,19 @@ class Content extends Endpoints
      */
     public function fetch(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        // Get Query Params
-        $queryParams = $request->getQueryParams();
+        // Get Request Query Params
+        $requestQueryParams = $request->getQueryParams();
 
-        // Check is utils api enabled
-        if (! registry()->get('flextype.settings.api.content.enabled')) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
+        // Validate Api Request    
+        if (count($result = $this->validateApiRequest([
+            'request' => $request, 
+            'api' => 'content',
+            'params' => ['token', 'id'],
+        ])) > 0) {
+            return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Check is token param exists
-        if (! isset($queryParams['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is id param exists
-        if (! isset($queryParams['id'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is token exists
-        if (! tokens()->has($queryParams['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
-        }
-
-        // Fetch token
-        $tokenData = tokens()->fetch($queryParams['token']);
-
-        // Check token state and limit_calls
-        if (
-            $tokenData['state'] === 'disabled' ||
-            ($tokenData['limit_calls'] !== 0 && $tokenData['calls'] >= $tokenData['limit_calls'])
-        ) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Update token calls
-        tokens()->update($queryParams['token'], ['calls' => $tokenData['calls'] + 1]);
-
-        // Get content data
-        $contentData = content()->fetch($queryParams['id'], $queryParams['options'] ?? [])->toArray();
-
-        if (count($contentData) > 0) {
-            return $this->getApiResponse($response, $contentData, 200);
-        } else {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(404), 404);
-        }
+        return $response;
     }
 
     /**
