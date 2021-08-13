@@ -102,8 +102,8 @@ $customFlextypeSettingsFilePath  = PATH['project'] . '/config/flextype/settings.
 $preflightFlextypePath           = PATH['tmp'] . '/config/flextype/';
 $customFlextypeSettingsPath      = PATH['project'] . '/config/flextype/';
 
-! filesystem()->directory($preflightFlextypePath)->exists() and filesystem()->directory($preflightFlextypePath)->create(0755, true);
-! filesystem()->directory($customFlextypeSettingsPath)->exists() and filesystem()->directory($customFlextypeSettingsPath)->create(0755, true);
+filesystem()->directory($preflightFlextypePath)->ensureExists(0755, true);
+filesystem()->directory($customFlextypeSettingsPath)->ensureExists(0755, true);
 
 $f1 = file_exists($flextypeManifestFilePath) ? filemtime($flextypeManifestFilePath) : '';
 $f2 = file_exists($defaultFlextypeSettingsFilePath) ? filemtime($defaultFlextypeSettingsFilePath) : '';
