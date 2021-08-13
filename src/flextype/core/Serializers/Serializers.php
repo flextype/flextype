@@ -14,6 +14,7 @@ use Flextype\Serializers\Json;
 use Flextype\Serializers\Yaml;
 use Flextype\Serializers\Frontmatter;
 use Flextype\Serializers\Neon;
+use Flextype\Serializers\PhpArray;
 
 class Serializers
 {
@@ -49,5 +50,13 @@ class Serializers
     public function neon(): Neon
     {
         return new Neon();
+    }
+
+    /**
+     * Create a PhpArray instance.
+     */
+    public function phparray(): PhpArray
+    {
+        return new PhpArray();
     }
 }

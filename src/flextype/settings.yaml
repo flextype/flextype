@@ -455,6 +455,9 @@ serializers:
       cache: true
     encode:
       flags: 1
+  phparray:
+    decode:
+      cache: true
 
 # Parsers
 #
