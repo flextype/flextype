@@ -12,7 +12,11 @@ namespace Flextype\Parsers;
 use Exception;
 use Thunder\Shortcode\ShortcodeFacade;
 
-use function flextype;
+use function cache;
+use function count;
+use function file_exists;
+use function is_array;
+use function registry;
 use function strings;
 
 final class Shortcodes

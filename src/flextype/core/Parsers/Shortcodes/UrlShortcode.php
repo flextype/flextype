@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace Flextype\Parsers\Shortcodes;
 
-use Slim\Http\Environment;
-use Slim\Http\Uri;
+use function app;
+use function parsers;
+use function registry;
 
 // Shortcode: [url]
 parsers()->shortcodes()->addHandler('url', static function () {
-    
-    if (!registry()->get('flextype.settings.parsers.shortcodes.shortcodes.url.enabled')) {
+    if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.url.enabled')) {
         return '';
     }
 

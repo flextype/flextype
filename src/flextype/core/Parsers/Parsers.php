@@ -10,8 +10,6 @@ declare(strict_types=1);
 namespace Flextype\Parsers;
 
 use Atomastic\Macroable\Macroable;
-use Flextype\Parsers\Shortcodes;
-use Flextype\Parsers\Markdown;
 
 class Parsers
 {

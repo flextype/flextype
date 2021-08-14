@@ -10,13 +10,14 @@ declare(strict_types=1);
 namespace Flextype\Parsers;
 
 use Exception;
-use League\CommonMark\MarkdownConverter;
 use League\CommonMark\Environment\Environment;
-use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\Table\TableExtension;
+use League\CommonMark\MarkdownConverter;
 
-use function flextype;
+use function cache;
+use function registry;
 use function strings;
 
 final class Markdown
