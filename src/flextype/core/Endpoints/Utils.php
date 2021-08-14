@@ -17,7 +17,7 @@ use function password_verify;
 use function registry;
 use function tokens;
 
-class Utils extends Endpoints
+class Utils extends Api
 {
     /**
      * Clear cache
@@ -29,42 +29,16 @@ class Utils extends Endpoints
      */
     public function clearCache(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        // Get Query Params
-        $data = $request->getParsedBody();
-
-        // Check is utils api enabled
-        if (! registry()->get('flextype.settings.api.utils.enabled')) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is token param exists
-        if (! isset($data['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is token exists
-        if (! tokens()->has($data['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
-        }
-
-        // Fetch token
-        $tokenData = tokens()->fetch($data['token']);
-
-        // Verify access token
-        if (! password_verify($data['access_token'], $tokenData['hashed_access_token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
-        }
-
-        // Check token state and limit_calls
+        // Validate Api Request
         if (
-            $tokenData['state'] === 'disabled' ||
-            ($tokenData['limit_calls'] !== 0 && $tokenData['calls'] >= $tokenData['limit_calls'])
+            count($result = $this->validateApiRequest([
+                'request' => $request,
+                'api' => 'utils',
+                'params' => ['token', 'access_token'],
+            ])) > 0
         ) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
+            return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
-
-        // Update token calls
-        tokens()->update($data['token'], ['calls' => $tokenData['calls'] + 1]);
 
         // Clear cache
         filesystem()->directory(PATH['tmp'])->delete();
