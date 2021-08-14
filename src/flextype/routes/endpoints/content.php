@@ -11,6 +11,8 @@ namespace Flextype;
 
 use Flextype\Endpoints\Content;
 
+use function app;
+
 /**
  * Fetch content
  *

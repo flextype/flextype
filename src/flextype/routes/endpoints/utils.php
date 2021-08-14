@@ -11,6 +11,8 @@ namespace Flextype;
 
 use Flextype\Endpoints\Utils;
 
+use function app;
+
 /**
  * Clear cache
  *

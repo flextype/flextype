@@ -11,6 +11,8 @@ namespace Flextype;
 
 use Flextype\Endpoints\Tokens;
 
+use function app;
+
 /**
  * Fetch token
  *

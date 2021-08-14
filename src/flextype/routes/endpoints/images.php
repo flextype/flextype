@@ -11,6 +11,8 @@ namespace Flextype;
 
 use Flextype\Endpoints\Images;
 
+use function app;
+
 /**
  * Fetch image
  *

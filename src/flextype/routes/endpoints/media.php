@@ -11,6 +11,8 @@ namespace Flextype;
 
 use Flextype\Endpoints\Media;
 
+use function app;
+
 /**
  * Fetch media
  *
