@@ -68,11 +68,33 @@ class Api
             return $this->getStatusCodeMessage(400);
         } 
 
-        $data = array_merge($options['request']->getQueryParams() ?? [], $options['request']->getParsedBody() ?? []);
+        if (! isset($options['params'])) {
+            return $this->getStatusCodeMessage(400);
+        }
+
+        $queryData = $options['request']->getQueryParams() ?? [];
+        $bodyData  = $options['request']->getParsedBody() ?? [];
+
+        $data = array_merge($queryData, $bodyData);
+
+        $dataTest = true;
+        foreach ($options['params'] as $key => $value) {
+            if (! in_array($value, array_flip($data))) {
+                $dataTest = false;
+            }
+        }
+
+        if (! $dataTest) {
+            return $this->getStatusCodeMessage(400);
+        }
 
         // Check is api enabled
         if (! registry()->get('flextype.settings.api.' . $options['api'] . '.enabled')) {
            return $this->getStatusCodeMessage(400);
+        }
+
+        if (! tokens()->has($data['token'])) {
+            return $this->getStatusCodeMessage(401);
         }
 
         // Fetch token
@@ -89,6 +111,16 @@ class Api
             ($tokenData['limit_calls'] !== 0 && $tokenData['calls'] >= $tokenData['limit_calls'])
         ) {
             return $this->getStatusCodeMessage(400);
+        }
+
+        if (isset($data['access_token'])) {
+            if (! isset($tokenData['hashed_access_token'])) {
+                return $this->getStatusCodeMessage(401);
+            }
+
+            if (! password_verify($data['access_token'], $tokenData['hashed_access_token'])) {
+                return $this->getStatusCodeMessage(401);
+            }
         }
 
         // Update token calls
