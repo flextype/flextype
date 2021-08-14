@@ -79,7 +79,7 @@ class Api
 
         $dataTest = true;
         foreach ($options['params'] as $key => $value) {
-            if (! in_array($value, array_flip($data))) {
+            if (! in_array($value, array_keys($data))) {
                 $dataTest = false;
             }
         }
