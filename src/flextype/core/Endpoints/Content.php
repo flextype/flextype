@@ -11,7 +11,12 @@ namespace Flextype\Endpoints;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Flextype\Endpoints\Api;
+
+use function content;
+use function count;
+use function password_verify;
+use function registry;
+use function tokens;
 
 class Content extends Api
 {
@@ -28,16 +33,25 @@ class Content extends Api
         // Get Request Query Params
         $requestQueryParams = $request->getQueryParams();
 
-        // Validate Api Request    
-        if (count($result = $this->validateApiRequest([
-            'request' => $request, 
-            'api' => 'content',
-            'params' => ['token', 'id'],
-        ])) > 0) {
+        // Validate Api Request
+        if (
+            count($result = $this->validateApiRequest([
+                'request' => $request,
+                'api' => 'content',
+                'params' => ['token', 'id'],
+            ])) > 0
+        ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        return $response;
+        // Get content data
+        $contentData = content()->fetch($requestQueryParams['id'], $requestQueryParams['options'] ?? [])->toArray();
+
+        if (count($contentData) > 0) {
+            return $this->getApiResponse($response, $contentData, 200);
+        }
+        
+        return $this->getApiResponse($response, $this->getStatusCodeMessage(404), 404);
     }
 
     /**
@@ -50,60 +64,32 @@ class Content extends Api
      */
     public function create(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        // Get Parser Body
-        $data = $request->getParsedBody();
-
-        // Check is content api enabled
-        if (! registry()->get('flextype.settings.api.images.enabled')) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is token param exists
-        if (! isset($data['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is id param exists
-        if (! isset($data['id'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is token exists
-        if (! tokens()->has($data['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
-        }
+        // Get Request Parsed Body
+        $requestParsedBody = $request->getParsedBody();
         
-        // Fetch token
-        $tokenData = tokens()->fetch($data['token']);
-
-        // Verify access token
-        if (! password_verify($data['access_token'], $tokenData['hashed_access_token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
-        }
-        
-        // Check token state and limit_calls
+        // Validate Api Request
         if (
-            $tokenData['state'] === 'disabled' ||
-            ($tokenData['limit_calls'] !== 0 && $tokenData['calls'] >= $tokenData['limit_calls'])
+            count($result = $this->validateApiRequest([
+                'request' => $request,
+                'api' => 'content',
+                'params' => ['token', 'id', 'access_token'],
+            ])) > 0
         ) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
+            return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
-
-        // Update token calls
-        tokens()->update($data['token'], ['calls' => $tokenData['calls'] + 1]);
 
         // Create new content
-        content()->create($data['id'], $data['data'] ?? []);
+        content()->create($requestParsedBody['id'], $requestParsedBody['data'] ?? []);
 
         // Fetch content
-        $contentData = content()->fetch($data['id'])->toArray();
+        $contentData = content()->fetch($requestParsedBody['id'])->toArray();
 
         // Return response
         if (count($contentData) > 0) {
             return $this->getApiResponse($response, $contentData, 200);
-        } else {
-            return $this->getApiResponse($response, [], 404);
         }
+
+        return $this->getApiResponse($response, [], 404);
     }
 
     /**
@@ -116,60 +102,32 @@ class Content extends Api
      */
     public function update(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        // Get Parser Body
-        $data = $request->getParsedBody();
-
-        // Check is content api enabled
-        if (! registry()->get('flextype.settings.api.images.enabled')) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is token param exists
-        if (! isset($data['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is id param exists
-        if (! isset($data['id'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is token exists
-        if (! tokens()->has($data['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
-        }
+        // Get Request Parsed Body
+        $requestParsedBody = $request->getParsedBody();
         
-        // Fetch token
-        $tokenData = tokens()->fetch($data['token']);
-
-        // Verify access token
-        if (! password_verify($data['access_token'], $tokenData['hashed_access_token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
-        }
-        
-        // Check token state and limit_calls
+        // Validate Api Request
         if (
-            $tokenData['state'] === 'disabled' ||
-            ($tokenData['limit_calls'] !== 0 && $tokenData['calls'] >= $tokenData['limit_calls'])
+            count($result = $this->validateApiRequest([
+                'request' => $request,
+                'api' => 'content',
+                'params' => ['token', 'id', 'access_token'],
+            ])) > 0
         ) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
+            return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
-
-        // Update token calls
-        tokens()->update($data['token'], ['calls' => $tokenData['calls'] + 1]);
 
         // Update content
-        content()->update($data['id'], $data['data'] ?? []);
+        content()->update($requestParsedBody['id'], $requestParsedBody['data'] ?? []);
 
         // Fetch content
-        $contentData = content()->fetch($data['id'])->toArray();
+        $contentData = content()->fetch($requestParsedBody['id'])->toArray();
 
         // Return response
         if (count($contentData) > 0) {
             return $this->getApiResponse($response, $contentData, 200);
-        } else {
-            return $this->getApiResponse($response, [], 404);
         }
+
+        return $this->getApiResponse($response, [], 404);
     }
 
     /**
@@ -182,65 +140,32 @@ class Content extends Api
      */
     public function move(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        // Get Parser Body
-        $data = $request->getParsedBody();
-
-        // Check is content api enabled
-        if (! registry()->get('flextype.settings.api.content.enabled')) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is token param exists
-        if (! isset($data['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is id param exists
-        if (! isset($data['id'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is new_id param exists
-        if (! isset($data['new_id'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is token exists
-        if (! tokens()->has($data['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
-        }
+        // Get Request Parsed Body
+        $requestParsedBody = $request->getParsedBody();
         
-        // Fetch token
-        $tokenData = tokens()->fetch($data['token']);
-
-        // Verify access token
-        if (! password_verify($data['access_token'], $tokenData['hashed_access_token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
-        }
-        
-        // Check token state and limit_calls
+        // Validate Api Request
         if (
-            $tokenData['state'] === 'disabled' ||
-            ($tokenData['limit_calls'] !== 0 && $tokenData['calls'] >= $tokenData['limit_calls'])
+            count($result = $this->validateApiRequest([
+                'request' => $request,
+                'api' => 'content',
+                'params' => ['token', 'id', 'new_id', 'access_token'],
+            ])) > 0
         ) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
+            return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
-
-        // Update token calls
-        tokens()->update($data['token'], ['calls' => $tokenData['calls'] + 1]);
 
         // Move content
-        content()->move($data['id'], $data['new_id']);
+        content()->move($requestParsedBody['id'], $requestParsedBody['new_id']);
 
         // Fetch content
-        $contentData = content()->fetch($data['new_id'])->toArray();
+        $contentData = content()->fetch($requestParsedBody['new_id'])->toArray();
 
         // Return response
         if (count($contentData) > 0) {
             return $this->getApiResponse($response, $contentData, 200);
-        } else {
-            return $this->getApiResponse($response, [], 404);
         }
+
+        return $this->getApiResponse($response, [], 404);
     }
 
     /**
@@ -253,65 +178,32 @@ class Content extends Api
      */
     public function copy(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        // Get Parser Body
-        $data = $request->getParsedBody();
+        // Get Request Parsed Body
+        $requestParsedBody = $request->getParsedBody();
 
-        // Check is content api enabled
-        if (! registry()->get('flextype.settings.api.content.enabled')) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is token param exists
-        if (! isset($data['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is id param exists
-        if (! isset($data['id'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is new_id param exists
-        if (! isset($data['new_id'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is token exists
-        if (! tokens()->has($data['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
-        }
-        
-        // Fetch token
-        $tokenData = tokens()->fetch($data['token']);
-
-        // Verify access token
-        if (! password_verify($data['access_token'], $tokenData['hashed_access_token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
-        }
-        
-        // Check token state and limit_calls
+        // Validate Api Request
         if (
-            $tokenData['state'] === 'disabled' ||
-            ($tokenData['limit_calls'] !== 0 && $tokenData['calls'] >= $tokenData['limit_calls'])
+            count($result = $this->validateApiRequest([
+                'request' => $request,
+                'api' => 'content',
+                'params' => ['token', 'id', 'new_id', 'access_token'],
+            ])) > 0
         ) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
+            return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
-
-        // Update token calls
-        tokens()->update($data['token'], ['calls' => $tokenData['calls'] + 1]);
 
         // Copy content
-        content()->copy($data['id'], $data['new_id']);
+        content()->copy($requestParsedBody['id'], $requestParsedBody['new_id']);
 
         // Fetch content
-        $contentData = content()->fetch($data['new_id'])->toArray();
+        $contentData = content()->fetch($requestParsedBody['new_id'])->toArray();
 
         // Return response
         if (count($contentData) > 0) {
             return $this->getApiResponse($response, $contentData, 200);
-        } else {
-            return $this->getApiResponse($response, [], 404);
         }
+
+        return $this->getApiResponse($response, [], 404);
     }
 
     /**
@@ -324,50 +216,22 @@ class Content extends Api
      */
     public function delete(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        // Get Parser Body
-        $data = $request->getParsedBody();
+        // Get Request Parsed Body
+        $requestParsedBody = $request->getParsedBody();
 
-        // Check is content api enabled
-        if (! registry()->get('flextype.settings.api.content.enabled')) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is token param exists
-        if (! isset($data['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is id param exists
-        if (! isset($data['id'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
-        }
-
-        // Check is token exists
-        if (! tokens()->has($data['token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
-        }
-        
-        // Fetch token
-        $tokenData = tokens()->fetch($data['token']);
-
-        // Verify access token
-        if (! password_verify($data['access_token'], $tokenData['hashed_access_token'])) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(401), 401);
-        }
-        
-        // Check token state and limit_calls
+        // Validate Api Request
         if (
-            $tokenData['state'] === 'disabled' ||
-            ($tokenData['limit_calls'] !== 0 && $tokenData['calls'] >= $tokenData['limit_calls'])
+            count($result = $this->validateApiRequest([
+                'request' => $request,
+                'api' => 'content',
+                'params' => ['token', 'id', 'access_token'],
+            ])) > 0
         ) {
-            return $this->getApiResponse($response, $this->getStatusCodeMessage(400), 400);
+            return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
-
-        // Update token calls
-        tokens()->update($data['token'], ['calls' => $tokenData['calls'] + 1]);
 
         // Copy content
-        content()->delete($data['id']);
+        content()->delete($requestParsedBody['id']);
 
         // Return success response
         return $this->getApiResponse($response, [], 204);
