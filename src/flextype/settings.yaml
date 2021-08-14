@@ -57,7 +57,7 @@ errors:
 entries:
   tokens:
     directory: tokens
-    filename: tokens
+    filename: token
     extension: yaml
     serializer: yaml
     fields: 
@@ -612,17 +612,13 @@ session:
 api:
   content:
     enabled: true
-    default_token:
-  registry:
-    enabled: true
-    default_token:
   media:
     enabled: true
-    default_token:
+  registry:
+    enabled: true
   images:
     enabled: true
-    default_token:
-  access:
+  tokens:
     enabled: true
   utils:
     enabled: true
