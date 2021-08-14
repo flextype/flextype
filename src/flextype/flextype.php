@@ -13,18 +13,17 @@ use Atomastic\Csrf\Csrf;
 use Atomastic\Session\Session;
 use Cocur\Slugify\Slugify;
 use DateTimeZone;
-use RuntimeException;
 use Flextype\Content\Content;
-use Flextype\Media\Media;
-use Flextype\Tokens\Tokens;
 use Flextype\Handlers\HttpErrorHandler;
 use Flextype\Handlers\ShutdownHandler;
+use Flextype\Media\Media;
 use Flextype\Parsers\Parsers;
 use Flextype\Serializers\Serializers;
+use Flextype\Tokens\Tokens;
 use Intervention\Image\ImageManager;
 use League\Event\Emitter;
-use League\Flysystem\Local\LocalFilesystemAdapter as Local;
 use League\Flysystem\Filesystem as Flysystem;
+use League\Flysystem\Local\LocalFilesystemAdapter as Local;
 use League\Glide\Api\Api;
 use League\Glide\Manipulators\Background;
 use League\Glide\Manipulators\Blur;
@@ -49,11 +48,13 @@ use Phpfastcache\Helper\Psr16Adapter as Cache;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use RuntimeException;
 use Slim\Factory\ServerRequestCreatorFactory;
 use Slim\Middleware\ContentLengthMiddleware;
 use Slim\Middleware\OutputBufferingMiddleware;
 use Slim\Middleware\RoutingMiddleware;
 use Slim\Psr7\Factory\StreamFactory;
+use Slim\Psr7\Response;
 use Slim\Psr7\Stream;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
@@ -63,10 +64,7 @@ use function container;
 use function count;
 use function date;
 use function date_default_timezone_set;
-use function dd;
-use function dump;
 use function emitter;
-use function content;
 use function extension_loaded;
 use function file_exists;
 use function filemtime;
@@ -80,6 +78,7 @@ use function mb_language;
 use function mb_regex_encoding;
 use function md5;
 use function parsers;
+use function plugins;
 use function register_shutdown_function;
 use function registry;
 use function session;
@@ -224,7 +223,7 @@ container()->set('slugify', new Slugify([
 ]));
 
 // Add Cache Service
-container()->set('cache', function () {
+container()->set('cache', static function () {
     $driverName = registry()->get('flextype.settings.cache.driver');
 
     $config = [];
@@ -346,8 +345,7 @@ parsers()->shortcodes()->initShortcodes();
 container()->set('serializers', new Serializers());
 
 // Add Image Service
-container()->set('images', function () {
-
+container()->set('images', static function () {
     // Get image settings
     $imagesSettings = ['driver' => registry()->get('flextype.settings.images.driver')];
 
@@ -399,8 +397,8 @@ container()->set('images', function () {
 
     $server->setResponseFactory(
         new PsrResponseFactory(
-            new \Slim\Psr7\Response(),
-            function ($stream) {
+            new Response(),
+            static function ($stream) {
                 return new Stream($stream);
             }
         )
