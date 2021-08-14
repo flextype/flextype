@@ -10,7 +10,7 @@ afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/entries/content')->delete();
 });
 
-test('test registry field', function () {
+test('test RegistryField', function () {
     content()->create('registry-root', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/registry-root/content.yaml')->get()));
     content()->create('registry-root/level-1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/registry-root/level-1/content.yaml')->get()));
     content()->create('registry-root/level-1/level-2', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/content/registry-root/level-1/level-2/content.yaml')->get()));
