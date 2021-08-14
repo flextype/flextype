@@ -192,16 +192,16 @@ if (! function_exists('find')) {
     }
 }
 
-if (! function_exists('filter')) {
+if (! function_exists('filterCollection')) {
     /**
-     * Create a collection from the given value and filter it.
+     * Filter collection.
      *
      * @param  mixed $items   Items.
      * @param  array $options Options array.
      *
      * @return array
      */
-    function filter($items = [], array $options = []): array
+    function filterCollection($items = [], array $options = []): array
     {
         $collection = arrays($items);
 

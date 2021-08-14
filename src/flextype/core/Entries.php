@@ -149,7 +149,7 @@ class Entries
             if (cache()->has($entryCacheID)) {
                 
                 // Fetch entry from cache and Apply filter for fetch data
-                $this->registry()->set('fetch.data', filter(cache()->get($entryCacheID),
+                $this->registry()->set('fetch.data', filterCollection(cache()->get($entryCacheID),
                                                         $this->registry()->get('fetch.options.filter', [])));
 
                 // Run event
@@ -180,7 +180,7 @@ class Entries
                 emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchSingleHasResult');
                 
                 // Apply filter for fetch data
-                $this->registry()->set('fetch.data', filter($this->registry()->get('fetch.data'), $this->registry()->get('fetch.options.filter', [])));
+                $this->registry()->set('fetch.data', filterCollection($this->registry()->get('fetch.data'), $this->registry()->get('fetch.options.filter', [])));
 
                 // Set cache state
                 $cache = $this->registry()->get('fetch.data.cache.enabled',
@@ -248,7 +248,7 @@ class Entries
 
                 // Process filter `only` for collection
                 // after process we need to unset $options['filter']['only']
-                // to avoid it's running inside filter() helper.
+                // to avoid it's running inside filterCollection() helper.
                 if (isset($options['filter']['only'])) {
                     $data = [];
                     foreach ($this->registry()->get('fetch.data') as $key => $value) {
@@ -260,7 +260,7 @@ class Entries
 
                 // Process filter `except` for collection
                 // after process we need to unset $options['filter']['except']
-                // to avoid it's running inside filter() helper.
+                // to avoid it's running inside filterCollection() helper.
                 if (isset($options['filter']['except'])) {
                     $data = [];
                     foreach ($this->registry()->get('fetch.data') as $key => $value) {
@@ -271,7 +271,7 @@ class Entries
                 }
 
                 // Apply filter for fetch data
-                $this->registry()->set('fetch.data', filter($this->registry()->get('fetch.data'), isset($options['filter']) ? $options['filter'] : []));
+                $this->registry()->set('fetch.data', filterCollection($this->registry()->get('fetch.data'), isset($options['filter']) ? $options['filter'] : []));
             } else {
                 // Run event:
                 emitter()->emit('on' . strings($this->options['directory'])->capitalize()->toString() . 'FetchCollectionNoResult');   
