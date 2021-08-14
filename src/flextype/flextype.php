@@ -453,6 +453,7 @@ require_once ROOT_DIR . '/src/flextype/routes/endpoints/images.php';
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/content.php';
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/media.php';
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/tokens.php';
+require_once ROOT_DIR . '/src/flextype/routes/endpoints/registry.php';
 
 
 // Enable lazy CORS
