@@ -143,7 +143,7 @@ if (! function_exists('plugins')) {
 
 if (! function_exists('tokens')) {
     /**
-     * Get Flextype Plugins Service.
+     * Get Flextype Tokens Service.
      */
     function tokens()
     {
@@ -275,7 +275,7 @@ if (! function_exists('images')) {
     }
 }
 
-if (! function_exists('image')) {
+if (! function_exists('imageFile')) {
     /**
      * Create a new image instance.
      *
@@ -284,7 +284,7 @@ if (! function_exists('image')) {
      *
      * @return Image|void
      */
-    function image(string $file, array $options = [])
+    function imageFile(string $file, array $options = [])
     {
         $image = Image::make($file);
 

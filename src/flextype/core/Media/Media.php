@@ -180,7 +180,7 @@ class Media extends Entries
                 filesystem()->file($uploadFolder . '/' . $result->name)->move($mediaFile);
     
                 if (getimagesize($mediaFile)) {
-                    image($mediaFile, $settings['process']['image']);
+                    imageFile($mediaFile, $settings['process']['image']);
                 }
             }
         } catch (Throwable $e) {
