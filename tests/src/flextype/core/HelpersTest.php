@@ -14,3 +14,11 @@ test('test flextype() helper', function () {
 test('test app() helper', function () {
     $this->assertSame(app(), Flextype::getInstance()->app());
 });
+
+test('test container() helper', function () {
+    $this->assertSame(container(), Flextype::getInstance()->container());
+});
+
+test('test emitter() helper', function () {
+    $this->assertSame(emitter(), Flextype::getInstance()->container()->get('emitter'));
+});
