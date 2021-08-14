@@ -12,8 +12,13 @@ namespace Flextype\Serializers;
 use RuntimeException;
 
 use function cache;
+use function error_get_last;
+use function error_reporting;
 use function registry;
 use function strings;
+use function var_export;
+
+use const E_ALL;
 
 class PhpCode
 {
@@ -47,22 +52,21 @@ class PhpCode
         $cache = registry()->get('flextype.settings.serializers.phpcode.decode.cache');
 
         $decode = static function (string $input) {
-            
             $currentErrorLevel = error_reporting();
             error_reporting(E_ALL);
             $return = null;
-            $eval = @eval('$return=' . $input . ';');
-            $error = error_get_last();
+            $eval   = @eval('$return=' . $input . ';');
+            $error  = error_get_last();
             error_reporting($currentErrorLevel);
 
             if ($eval === false || $error) {
                 $msg = 'Decoding PhpCode failed';
-    
+
                 if ($eval === false) {
                     $lastError = error_get_last();
-                    $msg    .= ': ' . $lastError['message'];
+                    $msg      .= ': ' . $lastError['message'];
                 }
-    
+
                 throw new RuntimeException($msg, 0, $error);
             }
 

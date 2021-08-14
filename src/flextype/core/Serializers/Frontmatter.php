@@ -14,6 +14,7 @@ use function arrays;
 use function cache;
 use function count;
 use function implode;
+use function in_array;
 use function ltrim;
 use function preg_replace;
 use function preg_split;
@@ -41,7 +42,7 @@ class Frontmatter
             $headerSerializer = 'yaml';
         }
 
-        if (! in_array($headerSerializer,  $allowed)) {
+        if (! in_array($headerSerializer, $allowed)) {
             $headerSerializer = 'yaml';
         }
 
@@ -74,7 +75,7 @@ class Frontmatter
             $headerSerializer = 'yaml';
         }
 
-        if (! in_array($headerSerializer,  $allowed)) {
+        if (! in_array($headerSerializer, $allowed)) {
             $headerSerializer = 'yaml';
         }
 

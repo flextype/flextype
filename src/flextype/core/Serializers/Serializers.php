@@ -10,12 +10,6 @@ declare(strict_types=1);
 namespace Flextype\Serializers;
 
 use Atomastic\Macroable\Macroable;
-use Flextype\Serializers\Json;
-use Flextype\Serializers\Yaml;
-use Flextype\Serializers\Frontmatter;
-use Flextype\Serializers\Neon;
-use Flextype\Serializers\PhpArray;
-use Flextype\Serializers\PhpCode;
 
 class Serializers
 {
@@ -44,7 +38,7 @@ class Serializers
     {
         return new Frontmatter();
     }
-    
+
     /**
      * Create a Neon instance.
      */

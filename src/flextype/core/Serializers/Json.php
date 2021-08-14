@@ -61,7 +61,7 @@ class Json
      * Takes a JSON encoded string and converts it into a PHP variable.
      *
      * @param string $input A string containing JSON
-     * 
+     *
      * @return mixed The JSON converted to a PHP value
      *
      * @throws RuntimeException If the JSON is not valid
