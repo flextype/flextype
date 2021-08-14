@@ -458,6 +458,9 @@ serializers:
   phparray:
     decode:
       cache: true
+  phpcode:
+    decode:
+      cache: true
 
 # Parsers
 #

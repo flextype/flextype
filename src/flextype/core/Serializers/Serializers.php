@@ -15,6 +15,7 @@ use Flextype\Serializers\Yaml;
 use Flextype\Serializers\Frontmatter;
 use Flextype\Serializers\Neon;
 use Flextype\Serializers\PhpArray;
+use Flextype\Serializers\PhpCode;
 
 class Serializers
 {
@@ -58,5 +59,13 @@ class Serializers
     public function phparray(): PhpArray
     {
         return new PhpArray();
+    }
+
+    /**
+     * Create a PhpCode instance.
+     */
+    public function phpcode(): PhpCode
+    {
+        return new PhpCode();
     }
 }
