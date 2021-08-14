@@ -16,9 +16,8 @@ use function media;
 use function count;
 use function password_verify;
 use function registry;
-use function tokens;
 
-class Content extends Api
+class Media extends Api
 {
     /**
      * Fetch media.

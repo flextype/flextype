@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Flextype\Endpoints\Content;
+use Flextype\Endpoints\Media;
 
 /**
  * Fetch media
@@ -24,7 +24,7 @@ use Flextype\Endpoints\Content;
  * Returns:
  * An array of media objects.
  */
-app()->get('/api/media', [Content::class, 'fetch']);
+app()->get('/api/media', [Media::class, 'fetch']);
 
 /**
  * Create media
@@ -40,7 +40,7 @@ app()->get('/api/media', [Content::class, 'fetch']);
  * Returns:
  * Returns the media object for the media that was just created.
  */
-app()->post('/api/media', [Content::class, 'create']);
+app()->post('/api/media', [Media::class, 'create']);
 
 /**
  * Update media
@@ -56,7 +56,7 @@ app()->post('/api/media', [Content::class, 'create']);
  * Returns:
  * Returns the media object for the media that was just updated.
  */
-app()->patch('/api/media', [Content::class, 'update']);
+app()->patch('/api/media', [Media::class, 'update']);
 
 /**
  * Move media
@@ -72,7 +72,7 @@ app()->patch('/api/media', [Content::class, 'update']);
  * Returns:
  * Returns the media object for the media that was just moved.
  */
-app()->put('/api/media', [Content::class, 'move']);
+app()->put('/api/media', [Media::class, 'move']);
 
 /**
  * Copy media
@@ -88,7 +88,7 @@ app()->put('/api/media', [Content::class, 'move']);
  * Returns:
  * Returns the media object for the media that was just copied.
  */
-app()->put('/api/media/copy', [Content::class, 'copy']);
+app()->put('/api/media/copy', [Media::class, 'copy']);
 
 /**
  * Delete media
@@ -103,4 +103,4 @@ app()->put('/api/media/copy', [Content::class, 'copy']);
  * Returns:
  * Returns an empty body with HTTP status 204
  */
-app()->delete('/api/media', [Content::class, 'delete']);
+app()->delete('/api/media', [Media::class, 'delete']);
