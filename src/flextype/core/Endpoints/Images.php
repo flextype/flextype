@@ -12,6 +12,10 @@ namespace Flextype\Endpoints;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function container;
+use function count;
+use function filesystem;
+
 class Images extends Api
 {
     /**
@@ -35,7 +39,7 @@ class Images extends Api
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
-        
+
         // Check is file exists
         if (! filesystem()->file(PATH['project'] . '/uploads/' . $path)->exists()) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage(404), 404);

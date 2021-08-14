@@ -12,10 +12,8 @@ namespace Flextype\Endpoints;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function count;
 use function filesystem;
-use function password_verify;
-use function registry;
-use function tokens;
 
 class Utils extends Api
 {

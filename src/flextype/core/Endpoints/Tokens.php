@@ -12,10 +12,8 @@ namespace Flextype\Endpoints;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use function tokens;
 use function count;
-use function password_verify;
-use function registry;
+use function tokens;
 
 class Tokens extends Api
 {
@@ -49,7 +47,7 @@ class Tokens extends Api
         if (count($contentData) > 0) {
             return $this->getApiResponse($response, $contentData, 200);
         }
-        
+
         return $this->getApiResponse($response, $this->getStatusCodeMessage(404), 404);
     }
 
@@ -65,7 +63,7 @@ class Tokens extends Api
     {
         // Get Request Parsed Body
         $requestParsedBody = $request->getParsedBody();
-        
+
         // Validate Api Request
         if (
             count($result = $this->validateApiRequest([
@@ -103,7 +101,7 @@ class Tokens extends Api
     {
         // Get Request Parsed Body
         $requestParsedBody = $request->getParsedBody();
-        
+
         // Validate Api Request
         if (
             count($result = $this->validateApiRequest([
@@ -141,7 +139,7 @@ class Tokens extends Api
     {
         // Get Request Parsed Body
         $requestParsedBody = $request->getParsedBody();
-        
+
         // Validate Api Request
         if (
             count($result = $this->validateApiRequest([

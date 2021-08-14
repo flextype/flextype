@@ -14,9 +14,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use function content;
 use function count;
-use function password_verify;
-use function registry;
-use function tokens;
 
 class Content extends Api
 {
@@ -50,7 +47,7 @@ class Content extends Api
         if (count($contentData) > 0) {
             return $this->getApiResponse($response, $contentData, 200);
         }
-        
+
         return $this->getApiResponse($response, $this->getStatusCodeMessage(404), 404);
     }
 
@@ -66,7 +63,7 @@ class Content extends Api
     {
         // Get Request Parsed Body
         $requestParsedBody = $request->getParsedBody();
-        
+
         // Validate Api Request
         if (
             count($result = $this->validateApiRequest([
@@ -104,7 +101,7 @@ class Content extends Api
     {
         // Get Request Parsed Body
         $requestParsedBody = $request->getParsedBody();
-        
+
         // Validate Api Request
         if (
             count($result = $this->validateApiRequest([
@@ -142,7 +139,7 @@ class Content extends Api
     {
         // Get Request Parsed Body
         $requestParsedBody = $request->getParsedBody();
-        
+
         // Validate Api Request
         if (
             count($result = $this->validateApiRequest([

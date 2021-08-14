@@ -10,14 +10,18 @@ declare(strict_types=1);
 namespace Flextype\Endpoints;
 
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Slim\Psr7\Response;
 
+use function array_keys;
+use function array_merge;
 use function count;
+use function in_array;
+use function is_string;
+use function password_verify;
 use function registry;
 use function serializers;
+use function tokens;
 
-class Api 
+class Api
 {
     /**
      * Status code messages.
@@ -29,17 +33,17 @@ class Api
         400 => [
             'title' => 'Bad Request',
             'message' => 'Validation for this particular item failed',
-            'http_status_code' => 400
+            'http_status_code' => 400,
         ],
         401 => [
             'title' => 'Unauthorized',
             'message' => 'Token is wrong',
-            'http_status_code' => 401
+            'http_status_code' => 401,
         ],
         404 => [
             'title' => 'Not Found',
             'message' => 'Not Found',
-            'http_status_code' => 404
+            'http_status_code' => 404,
         ],
     ];
 
@@ -55,18 +59,18 @@ class Api
         return $this->statusCodeMessages[$status];
     }
 
-    /** 
+    /**
      * Validate Api Request.
      */
     public function validateApiRequest(array $options)
     {
         if (! isset($options['api']) && ! is_string($options['api'])) {
             return $this->getStatusCodeMessage(400);
-        } 
+        }
 
         if (! isset($options['request'])) {
             return $this->getStatusCodeMessage(400);
-        } 
+        }
 
         if (! isset($options['params'])) {
             return $this->getStatusCodeMessage(400);
@@ -79,9 +83,11 @@ class Api
 
         $dataTest = true;
         foreach ($options['params'] as $key => $value) {
-            if (! in_array($value, array_keys($data))) {
-                $dataTest = false;
+            if (in_array($value, array_keys($data))) {
+                continue;
             }
+
+            $dataTest = false;
         }
 
         if (! $dataTest) {
@@ -90,7 +96,7 @@ class Api
 
         // Check is api enabled
         if (! registry()->get('flextype.settings.api.' . $options['api'] . '.enabled')) {
-           return $this->getStatusCodeMessage(400);
+            return $this->getStatusCodeMessage(400);
         }
 
         if (! tokens()->has($data['token'])) {
@@ -100,11 +106,13 @@ class Api
         // Fetch token
         $tokenData = tokens()->fetch($data['token']);
 
-        if (! isset($tokenData['state']) || 
-            ! isset($tokenData['limit_calls']) || 
-            ! isset($tokenData['calls'])) {
+        if (
+            ! isset($tokenData['state']) ||
+            ! isset($tokenData['limit_calls']) ||
+            ! isset($tokenData['calls'])
+        ) {
             return $this->getStatusCodeMessage(400);
-        } 
+        }
 
         if (
             $tokenData['state'] === 'disabled' ||
@@ -132,12 +140,12 @@ class Api
     /**
      * Get API response.
      *
-     * @param array             $body     Response body.
-     * @param int               $status   Status code.
+     * @param array $body   Response body.
+     * @param int   $status Status code.
      *
      * @return ResponseInterface Response.
      */
-    public function getApiResponse($response, array $body = [], int $status = 200)
+    public function getApiResponse($response, array $body = [], int $status = 200): ResponseInterface
     {
         if (count($body) > 0) {
             $response->getBody()->write(serializers()->json()->encode($body));

@@ -13,9 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function count;
-use function password_verify;
 use function registry;
-use function tokens;
 
 class Registry extends Api
 {
