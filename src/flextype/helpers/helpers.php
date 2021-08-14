@@ -121,6 +121,16 @@ if (! function_exists('session')) {
     }
 }
 
+if (! function_exists('registry')) {
+    /**
+     * Get Flextype Registry Service.
+     */
+    function registry()
+    {
+        return flextype()->container()->get('registry');
+    }
+}
+
 if (! function_exists('csrf')) {
     /**
      * Get Flextype CSRF Service.
