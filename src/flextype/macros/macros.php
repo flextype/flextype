@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 
 use Atomastic\Arrays\Arrays;
-use Atomastic\Macroable\Macroable;
 
 if (! Arrays::hasMacro('onlyFromCollection')) {
     /**
@@ -18,7 +17,7 @@ if (! Arrays::hasMacro('onlyFromCollection')) {
      *
      * @return Arrays Returns instance of The Arrays class.
      */
-    Arrays::macro('onlyFromCollection', function(array $keys) {
+    Arrays::macro('onlyFromCollection', function (array $keys) {
         $result = [];
 
         foreach ($this->toArray() as $key => $value) {
@@ -37,7 +36,7 @@ if (! Arrays::hasMacro('exceptFromCollection')) {
      *
      * @return Arrays Returns instance of The Arrays class.
      */
-    Arrays::macro('exceptFromCollection', function(array $keys) {
+    Arrays::macro('exceptFromCollection', function (array $keys) {
         $result = [];
 
         foreach ($this->toArray() as $key => $value) {
