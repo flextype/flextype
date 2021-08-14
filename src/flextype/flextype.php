@@ -345,10 +345,11 @@ parsers()->shortcodes()->initShortcodes();
 // Add Serializers Service
 container()->set('serializers', new Serializers());
 
-// Add Images Service
+// Add Image Service
 container()->set('images', function () {
-    // Get images settings
-    $imagesSettings = ['driver' => registry()->get('flextype.settings.media.image.driver')];
+
+    // Get image settings
+    $imagesSettings = ['driver' => registry()->get('flextype.settings.images.driver')];
 
     // Set source filesystem
     $source = new Flysystem(
@@ -450,6 +451,8 @@ plugins()->init();
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/utils.php';
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/images.php';
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/content.php';
+require_once ROOT_DIR . '/src/flextype/routes/endpoints/media.php';
+require_once ROOT_DIR . '/src/flextype/routes/endpoints/tokens.php';
 
 
 // Enable lazy CORS
