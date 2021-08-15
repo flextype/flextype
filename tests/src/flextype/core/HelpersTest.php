@@ -16,6 +16,8 @@ use DI\Container;
 use League\Event\Emitter;
 use Phpfastcache\Helper\Psr16Adapter as Cache;
 use Monolog\Logger;
+use Atomastic\Csrf\Csrf;
+use Cocur\Slugify\Slugify;
 
 
 test('test flextype() helper', function () {
@@ -77,4 +79,14 @@ test('test parsers() helper', function () {
 test('test serializers() helper', function () {
     $this->assertSame(serializers(), Flextype::getInstance()->container()->get('serializers'));
     expect(serializers())->toBeInstanceOf(Serializers::class);
+});
+
+test('test csrf() helper', function () {
+    $this->assertSame(csrf(), Flextype::getInstance()->container()->get('csrf'));
+    expect(csrf())->toBeInstanceOf(Csrf::class);
+});
+
+test('test slugify() helper', function () {
+    $this->assertSame(slugify(), Flextype::getInstance()->container()->get('slugify'));
+    expect(slugify())->toBeInstanceOf(Slugify::class);
 });
