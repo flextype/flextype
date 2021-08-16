@@ -40,11 +40,13 @@ class Entries
     /**
      * Entries options.
      *
-     * directory   - Entries data files directory.
-     * filename    - Entries data filename.
-     * extension   - Entries data extension.
-     * serializer  - Entries data serializer.
-     * fields      - Array of fields for entries.
+     * collections:
+     *   emitter     - Entries collection emitter name.
+     *   pattern     - Entries collection pattern.
+     *   filename    - Entries collection data filename.
+     *   extension   - Entries collection data extension.
+     *   serializer  - Entries collection data serializer.
+     *   fields      - Array of fields for entries collection.
      *
      * @var array
      * @access private
@@ -58,20 +60,19 @@ class Entries
     {
         $this->registry = arrays();
         $this->options  = $options;
-/*
-        filesystem()
-            ->directory(PATH['project'] . '/entries/' . $options['name'])
-            ->ensureExists(0755, true);
-            */
     }
 
     /**
-     * Init Entries Fields.
+     * Get Entries Collection Options.
+     * 
+     * @param string $id Unique identifier of the entry.
+     *
+     * @access public
      */
-    private function getEntryCollectionOptions($id): void
+    private function getCollectionOptions(string $id): void
     {      
         $this->registry()->set('collectionOptions', $this->options['collections']['default']);
-        
+
         foreach ($this->options['collections'] as $collection) {
             if (boolval(preg_match_all('#^' . $collection['pattern'] . '$#', $id, $matches, PREG_OFFSET_CAPTURE))) {
                 $this->registry()->set('collectionOptions', $collection);
@@ -87,6 +88,7 @@ class Entries
         }
 
         foreach ($this->registry()->get('collectionOptions.fields') as $field) {
+           
             if (! isset($field['enabled'])) {
                 continue;
             }
@@ -103,10 +105,10 @@ class Entries
                 continue;
             }
 
-            include_once ROOT_DIR . $field['path'];
+            if (filesystem()->file(ROOT_DIR . $field['path'])->exists()) {
+                include_once ROOT_DIR . $field['path'];
+            }
         }
-
-        
     }
 
     /**
@@ -138,16 +140,18 @@ class Entries
         $this->registry()->set('fetch.options', $options);
         $this->registry()->set('fetch.data', []);
 
-        $this->getEntryCollectionOptions($id);
+        // Get collection options
+        $this->getCollectionOptions($id);
 
         // Run event
         emitter()->emit('on' . strings($this->registry()->get('collectionOptions')['emitter'])->capitalize()->toString() . 'Fetch');
-
+   
         // Single fetch helper
         $single = function ($id, $options) {
-
-            $this->getEntryCollectionOptions($id);
-
+            
+            // Get collection options
+            $this->getCollectionOptions($id);
+            
             // Entry data
             $this->registry()->set('fetch.id', $id);
             $this->registry()->set('fetch.options', $options);
@@ -242,15 +246,19 @@ class Entries
                 $data = [];
 
                 foreach ($entries as $currenEntry) {
-                    if ($currenEntry->getType() !== 'file' || $currenEntry->getFilename() !== $this->registry()->get('collectionOptions')['filename'] . '.' . $this->registry()->get('collectionOptions')['extension']) {
-                        continue;
-                    }
 
                     $currentEntryID = strings($currenEntry->getPath())
-                                            ->replace('\\', '/')
-                                            ->replace(PATH['project'] . '/entries/' . $this->registry()->get('collectionOptions')['emitter'] . '/', '')
-                                            ->trim('/')
-                                            ->toString();
+                        ->replace('\\', '/')
+                        ->replace(PATH['project'] . '/entries/', '')
+                        ->trim('/')
+                        ->toString();
+
+                    // Get collection options
+                    $this->getCollectionOptions($currentEntryID);
+
+                    if ($currenEntry->getType() !== 'file' || $currenEntry->getFilename() !== $this->registry()->get('collectionOptions.filename') . '.' . $this->registry()->get('collectionOptions.extension')) {
+                        continue;
+                    }
 
                     $data[$currentEntryID] = $single($currentEntryID, [])->toArray();
                 }
@@ -315,10 +323,18 @@ class Entries
      */
     public function move(string $id, string $newID): bool
     {
+        // Slugify ID
+        if (registry()->get('flextype.settings.slugify.enabled')) {
+            $id = slugify()->slugify($newID);
+        }
+        
         // Entry data
         $this->registry()->set('move.id', $id);
         $this->registry()->set('move.newID', $newID);
 
+        // Get collection options
+        $this->getCollectionOptions($this->registry()->get('move.id'));
+        
         // Run event
         emitter()->emit('on' . strings($this->registry()->get('collectionOptions')['emitter'])->capitalize()->toString() . 'Move');
 
@@ -347,6 +363,9 @@ class Entries
         $this->registry()->set('update.id', $id);
         $this->registry()->set('update.data', $data);
 
+        // Get collection options
+        $this->getCollectionOptions($this->registry()->get('update.id'));
+        
         // Run event
         emitter()->emit('on' . strings($this->registry()->get('collectionOptions')['emitter'])->capitalize()->toString() . 'Update');
 
@@ -374,10 +393,18 @@ class Entries
      */
     public function create(string $id, array $data = []): bool
     {
+        // Slugify ID
+        if (registry()->get('flextype.settings.slugify.enabled')) {
+            $id = slugify()->slugify($id);
+        }
+
         // Entry data
         $this->registry()->set('create.id', $id);
         $this->registry()->set('create.data', $data);
 
+        // Get collection options
+        $this->getCollectionOptions($this->registry()->get('create.id'));
+        
         // Run event
         emitter()->emit('on' . strings($this->registry()->get('collectionOptions')['emitter'])->capitalize()->toString() . 'Create');
 
@@ -392,7 +419,7 @@ class Entries
         }
 
         // Create entry file
-        $entryFile = $entryDirectory . '/' . $this->registry()->get('collectionOptions')['filename'] . '.' . $this->registry()->get('collectionOptions')['extension'];
+        $entryFile = $entryDirectory . '/' . $this->registry()->get('collectionOptions.filename') . '.' . $this->registry()->get('collectionOptions.extension');
         if (! filesystem()->file($entryFile)->exists()) {
             return (bool) filesystem()->file($entryFile)->put(serializers()->{$this->registry()->get('collectionOptions')['serializer']}()->encode($this->registry()->get('create.data')));
         }
@@ -414,6 +441,9 @@ class Entries
         // Entry data
         $this->registry()->set('delete.id', $id);
 
+        // Get collection options
+        $this->getCollectionOptions($this->registry()->get('delete.id'));
+        
         // Run event
         emitter()->emit('on' . strings($this->registry()->get('collectionOptions')['emitter'])->capitalize()->toString() . 'Delete');
 
@@ -434,9 +464,17 @@ class Entries
      */
     public function copy(string $id, string $newID): ?bool
     {
+        // Slugify ID
+        if (registry()->get('flextype.settings.slugify.enabled')) {
+            $id = slugify()->slugify($newID);
+        }
+                
         // Entry data
         $this->registry()->set('copy.id', $id);
         $this->registry()->set('copy.newID', $newID);
+
+        // Get collection options
+        $this->getCollectionOptions($this->registry()->get('copy.id'));
 
         // Run event
         emitter()->emit('on' . strings($this->registry()->get('collectionOptions')['emitter'])->capitalize()->toString() . 'Copy');
@@ -460,10 +498,11 @@ class Entries
         // Entry data
         $this->registry()->set('has.id', $id);
 
+        // Get collection options
+        $this->getCollectionOptions($this->registry()->get('has.id'));
+
         // Run event:
         emitter()->emit('on' . strings($this->registry()->get('collectionOptions')['emitter'])->capitalize()->toString() . 'Has');
-       
-        $this->getEntryCollectionOptions($this->registry()->get('has.id'));
         
         return filesystem()->file($this->getFileLocation($this->registry()->get('has.id')))->exists();
     }
@@ -479,7 +518,10 @@ class Entries
      */
     public function getFileLocation(string $id): string
     {
-        return PATH['project'] . '/entries/' . $id . '/' . $this->registry()->get('collectionOptions')['filename'] . '.' . $this->registry()->get('collectionOptions')['extension'];
+        // Get collection options
+        $this->getCollectionOptions($id);
+
+        return PATH['project'] . '/entries/' . $id . '/' . $this->registry()->get('collectionOptions.filename') . '.' . $this->registry()->get('collectionOptions.extension');
     }
 
     /**

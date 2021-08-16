@@ -56,10 +56,17 @@ errors:
 # Entries
 entries:
   collections:
+    shop_settings:
+      emitter: ShopSettings
+      pattern: 'shop/settings'
+      filename: settings
+      extension: neon
+      serializer: neon
+      fields: []
     default:
       emitter: Default
-      pattern: content
-      filename: content
+      pattern: ''
+      filename: entry
       extension: yaml
       serializer: yaml
       fields:
@@ -449,6 +456,7 @@ output_buffering: append
 #
 # - strip_tags: Adds in an option to go through strip_tags() in case the string contains HTML etc.
 slugify:
+  enabled: true
   separator: "-"
   lowercase: true
   trim: true
