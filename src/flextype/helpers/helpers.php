@@ -141,6 +141,16 @@ if (! function_exists('csrf')) {
     }
 }
 
+if (! function_exists('slugify')) {
+    /**
+     * Get Flextype Slugify Service.
+     */
+    function slugify()
+    {
+        return flextype()->container()->get('slugify');
+    }
+}
+
 if (! function_exists('plugins')) {
     /**
      * Get Flextype Plugins Service.
