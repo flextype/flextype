@@ -55,109 +55,166 @@ errors:
 
 # Entries
 entries:
-  tokens:
-    directory: tokens
-    filename: token
-    extension: yaml
-    serializer: yaml
-    fields: 
-      modified_at:
-        enabled: true
-        path: "/src/flextype/core/Tokens/Fields/ModifiedAtField.php"
-      created_at:
-        enabled: true
-        path: "/src/flextype/core/Tokens/Fields/CreatedAtField.php"
-      created_by:
-        enabled: true
-        path: "/src/flextype/core/Tokens/Fields/CreatedByField.php"
-      uuid:
-        enabled: true
-        path: "/src/flextype/core/Tokens/Fields/UuidField.php"
-      id:
-        enabled: true
-        path: "/src/flextype/core/Tokens/Fields/IdField.php"
-      calls:
-        enabled: true
-        path: "/src/flextype/core/Tokens/Fields/CallsField.php"
-      total_calls:
-        enabled: true
-        path: "/src/flextype/core/Tokens/Fields/TotalCallsField.php"
-      state:
-        enabled: true
-        path: "/src/flextype/core/Tokens/Fields/StateField.php"
-  media:
-    directory: media
-    filename: media
-    extension: yaml
-    serializer: yaml
-    fields:
-      modified_at:
-        enabled: true
-        path: "/src/flextype/core/Media/Fields/ModifiedAtField.php"
-      created_at:
-        enabled: true
-        path: "/src/flextype/core/Media/Fields/CreatedAtField.php"
-      created_by:
-        enabled: true
-        path: "/src/flextype/core/Media/Fields/CreatedByField.php"
-      uuid:
-        enabled: true
-        path: "/src/flextype/core/Media/Fields/UuidField.php"
-      id:
-        enabled: true
-        path: "/src/flextype/core/Media/Fields/IdField.php"
-  content:
-    directory: content
-    filename: content
-    extension: yaml
-    serializer: yaml
-    fields:
-      media:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/MediaField.php"
-        fetch:
-          result: toObject
-      registry:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/RegistryField.php"
-      content:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/ContentField.php"
-        fetch:
-          result: toObject
-      slug:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/SlugField.php"
-      published_at:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/PublishedAtField.php"
-      published_by:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/PublishedByField.php"
-      modified_at:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/ModifiedAtField.php"
-      created_at:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/CreatedAtField.php"
-      created_by:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/CreatedByField.php"
-      routable:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/RoutableField.php"
-      parsers:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/ParsersField.php"
-      visibility:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/VisibilityField.php"
-      uuid:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/UuidField.php"
-      id:
-        enabled: true
-        path: "/src/flextype/core/Content/Fields/IdField.php"
+  collections:
+    default:
+      emitter: Default
+      pattern: content
+      filename: content
+      extension: yaml
+      serializer: yaml
+      fields:
+        media:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/MediaField.php"
+          fetch:
+            result: toObject
+        registry:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/RegistryField.php"
+        content:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/ContentField.php"
+          fetch:
+            result: toObject
+        slug:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/SlugField.php"
+        published_at:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/PublishedAtField.php"
+        published_by:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/PublishedByField.php"
+        modified_at:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/ModifiedAtField.php"
+        created_at:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/CreatedAtField.php"
+        created_by:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/CreatedByField.php"
+        routable:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/RoutableField.php"
+        parsers:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/ParsersField.php"
+        visibility:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/VisibilityField.php"
+        uuid:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/UuidField.php"
+        id:
+          enabled: true
+          path: "/src/flextype/core/Content/Fields/IdField.php"
+    tokens:
+      emitter: Tokens
+      pattern: tokens
+      filename: token
+      extension: yaml
+      serializer: yaml
+      fields: 
+        modified_at:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/ModifiedAtField.php"
+        created_at:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/CreatedAtField.php"
+        created_by:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/CreatedByField.php"
+        uuid:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/UuidField.php"
+        id:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/IdField.php"
+        calls:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/CallsField.php"
+        total_calls:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/TotalCallsField.php"
+        state:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/StateField.php"
+    token_item:
+      emitter: TokenItem
+      pattern: tokens/([a-zA-Z0-9_-]+)
+      filename: token
+      extension: yaml
+      serializer: yaml
+      fields: 
+        modified_at:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/ModifiedAtField.php"
+        created_at:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/CreatedAtField.php"
+        created_by:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/CreatedByField.php"
+        uuid:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/UuidField.php"
+        id:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/IdField.php"
+        calls:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/CallsField.php"
+        total_calls:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/TotalCallsField.php"
+        state:
+          enabled: true
+          path: "/src/flextype/core/Tokens/Fields/StateField.php"
+    media:
+      emitter: Media
+      pattern: media
+      filename: media
+      extension: yaml
+      serializer: yaml
+      fields:
+        modified_at:
+          enabled: true
+          path: "/src/flextype/core/Media/Fields/ModifiedAtField.php"
+        created_at:
+          enabled: true
+          path: "/src/flextype/core/Media/Fields/CreatedAtField.php"
+        created_by:
+          enabled: true
+          path: "/src/flextype/core/Media/Fields/CreatedByField.php"
+        uuid:
+          enabled: true
+          path: "/src/flextype/core/Media/Fields/UuidField.php"
+        id:
+          enabled: true
+          path: "/src/flextype/core/Media/Fields/IdField.php"
+    media_item:
+      emitter: MediaItem
+      pattern: media/([a-zA-Z0-9_-]+)
+      filename: media
+      extension: yaml
+      serializer: yaml
+      fields:
+        modified_at:
+          enabled: true
+          path: "/src/flextype/core/Media/Fields/ModifiedAtField.php"
+        created_at:
+          enabled: true
+          path: "/src/flextype/core/Media/Fields/CreatedAtField.php"
+        created_by:
+          enabled: true
+          path: "/src/flextype/core/Media/Fields/CreatedByField.php"
+        uuid:
+          enabled: true
+          path: "/src/flextype/core/Media/Fields/UuidField.php"
+        id:
+          enabled: true
+          path: "/src/flextype/core/Media/Fields/IdField.php"
 
 # Cache
 #
