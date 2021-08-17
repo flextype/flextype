@@ -7,9 +7,10 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype;
+namespace Flextype\Entries;
 
 use Atomastic\Arrays\Arrays;
+use Atomastic\Macroable\Macroable;
 
 use function array_merge;
 use function arrays;
@@ -27,6 +28,8 @@ use function strings;
 
 class Entries
 {
+    use Macroable;
+
     /**
      * Entries Registry.
      *
@@ -74,8 +77,10 @@ class Entries
         $this->registry()->set('collectionOptions', $this->options['collections']['default']);
 
         foreach ($this->options['collections'] as $collection) {
-            if (boolval(preg_match_all('#^' . $collection['pattern'] . '$#', $id, $matches, PREG_OFFSET_CAPTURE))) {
-                $this->registry()->set('collectionOptions', $collection);
+            if (isset($collection['pattern'])) {
+                if (boolval(preg_match_all('#^' . $collection['pattern'] . '$#', $id, $matches, PREG_OFFSET_CAPTURE))) {
+                    $this->registry()->set('collectionOptions', $collection);
+                }
             }
         }
 
@@ -310,7 +315,7 @@ class Entries
      * @access public
      */
     public function move(string $id, string $newID): bool
-    {   
+    {  
         // Entry data
         $this->registry()->set('move.id', $id);
         $this->registry()->set('move.newID', $newID);
