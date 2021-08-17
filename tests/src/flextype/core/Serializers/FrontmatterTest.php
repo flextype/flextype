@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-test('test encode() method', function () {
+test('encode', function () {
     $string = filesystem()->file(ROOT_DIR . '/tests/fixtures/serializers/frontmatter.md')->get();
     $this->assertEquals($string,
                         serializers()->frontmatter()
@@ -10,14 +10,14 @@ test('test encode() method', function () {
                                       'content' => 'Content is here.']));
 });
 
-test('test decode() method', function () {
+test('decode', function () {
     $this->assertEquals(['title' => 'Foo',
                          'content' => 'Content is here.'],
                         serializers()->frontmatter()
                             ->decode($string = filesystem()->file(ROOT_DIR . '/tests/fixtures/serializers/frontmatter.md')->get()));
 });
 
-test('test getCacheID() method', function () {
+test('get cache ID', function () {
     $string = filesystem()->file(ROOT_DIR . '/tests/fixtures/serializers/frontmatter.md')->get();;
     $cache_id = serializers()->frontmatter()
                     ->getCacheID($string);

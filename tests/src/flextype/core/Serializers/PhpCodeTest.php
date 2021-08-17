@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-test('test encode() method', function () {
+test('encode', function () {
     $this->assertEquals(35, strings(serializers()->phpcode()->encode(['flextype' => registry()->get("flextype.manifest.version")]))->length());
 });
 
-test('test decode() method', function () {
+test('decode', function () {
     $this->assertEquals('Flextype', serializers()->phpcode()->decode('registry()->get("flextype.manifest.name")'));
 });
 
-test('test getCacheID() method', function () {
+test('get cache ID', function () {
     $string = strings(serializers()->phpcode()->encode(['flextype' => registry()->get("flextype.manifest.version")]))->toString();
     $cache_id = serializers()->phparray()
                     ->getCacheID($string);

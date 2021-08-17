@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-test('test encode() method', function () {
+test('encode', function () {
     $string = filesystem()->file(ROOT_DIR . '/tests/fixtures/serializers/neon.neon')->get();
     $this->assertEquals(trim($string),
                         trim(serializers()->neon()->encode(['hello' => 'world'])));
 });
 
-test('test decode() method', function () {
+test('decode', function () {
     $this->assertEquals(['hello' => 'world'],
                         serializers()->neon()
                             ->decode($string = filesystem()->file(ROOT_DIR . '/tests/fixtures/serializers/neon.neon')->get()));
 });
 
-test('test getCacheID() method', function () {
+test('get cache ID', function () {
     $string = filesystem()->file(ROOT_DIR . '/tests/fixtures/serializers/neon.neon')->get();;
     $cache_id = serializers()->neon()
                     ->getCacheID($string);

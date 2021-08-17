@@ -7,15 +7,15 @@ use Thunder\Shortcode\EventHandler\FilterRawEventHandler;
 use Thunder\Shortcode\Events;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
-test('test getInstance() method', function () {
+test('get shortcodes instance', function () {
     $this->assertInstanceOf(Flextype\Parsers\Shortcodes::class, parsers()->shortcodes()->getInstance());
 });
 
-test('test addHandler() method', function () {
+test('add shortcodes handler', function () {
     $this->assertInstanceOf(Thunder\Shortcode\ShortcodeFacade::class, parsers()->shortcodes()->addHandler('foo', static function() { return ''; }));
 });
 
-test('test addEventHandler() method', function () {
+test('add shortcodes event handler', function () {
     parsers()->shortcodes()->addHandler('barz', static function () {
         return 'Barz';
     });
@@ -23,19 +23,19 @@ test('test addEventHandler() method', function () {
     $this->assertEquals('Barz', parsers()->shortcodes()->parse('[barz]'));
 });
 
-test('test parseText() method', function () {
+test('parse text', function () {
     $this->assertInstanceOf(Thunder\Shortcode\ShortcodeFacade::class, parsers()->shortcodes()->addHandler('bar', static function() { return ''; }));
     $this->assertTrue(is_array(parsers()->shortcodes()->parseText('[bar]')));
     $this->assertTrue(is_object(parsers()->shortcodes()->parseText('[bar]')[0]));
 });
 
-test('test parse() method', function () {
+test('parse shortcodes', function () {
     $this->assertInstanceOf(Thunder\Shortcode\ShortcodeFacade::class, parsers()->shortcodes()->addHandler('zed', static function() { return 'Zed'; }));
     $this->assertEquals('Zed', parsers()->shortcodes()->parse('[zed]'));
     $this->assertEquals('fòôBàřZed', parsers()->shortcodes()->parse('fòôBàř[zed]'));
 });
 
-test('test getCacheID() method', function () {
+test('get cache ID', function () {
     $this->assertNotEquals(parsers()->shortcodes()->getCacheID('fòôBàř[bar]'),
                            parsers()->shortcodes()->getCacheID('fòôBàř[foo]'));
 });

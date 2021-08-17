@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-test('test encode() method', function () {
+test('encode', function () {
     $this->assertEquals(67, strings(serializers()->phparray()->encode(['title' => 'Foo', 'content' => 'Bar']))->length());
 });
 
-test('test decode() method', function () {
+test('decode', function () {
     $this->assertEquals(['title' => 'Foo', 'content' => 'Bar'], serializers()->phparray()->decode(ROOT_DIR . '/tests/fixtures/serializers/phparray.php'));
 });
 
-test('test getCacheID() method', function () {
+test('get cache ID', function () {
     $string = strings(serializers()->phparray()->encode(['title' => 'Foo','content' => 'Bar']))->toString();
     $cache_id = serializers()->phparray()
                     ->getCacheID($string);
