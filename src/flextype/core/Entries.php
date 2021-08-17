@@ -112,18 +112,6 @@ class Entries
     }
 
     /**
-     * Get Entries Registry.
-     *
-     * @return Arrays Returns entries registry.
-     *
-     * @access public
-     */
-    public function registry(): Arrays
-    {
-        return $this->registry;
-    }
-
-    /**
      * Fetch.
      *
      * @param string $id      Unique identifier of the entry.
@@ -135,6 +123,11 @@ class Entries
      */
     public function fetch(string $id, array $options = []): Arrays
     {
+        // Slugify ID
+        if (registry()->get('flextype.settings.slugify.enabled')) {
+            $id = slugify()->slugify($id);
+        }
+        
         // Entry data
         $this->registry()->set('fetch.id', $id);
         $this->registry()->set('fetch.options', $options);
@@ -149,6 +142,11 @@ class Entries
         // Single fetch helper
         $single = function ($id, $options) {
             
+            // Slugify ID
+            if (registry()->get('flextype.settings.slugify.enabled')) {
+                $id = slugify()->slugify($id);
+            }
+
             // Get collection options
             $this->getCollectionOptions($id);
             
@@ -325,7 +323,7 @@ class Entries
     {
         // Slugify ID
         if (registry()->get('flextype.settings.slugify.enabled')) {
-            $id = slugify()->slugify($newID);
+            $newID = slugify()->slugify($newID);
         }
         
         // Entry data
@@ -438,6 +436,11 @@ class Entries
      */
     public function delete(string $id): bool
     {
+        // Slugify ID
+        if (registry()->get('flextype.settings.slugify.enabled')) {
+            $id = slugify()->slugify($id);
+        }
+
         // Entry data
         $this->registry()->set('delete.id', $id);
 
@@ -466,7 +469,7 @@ class Entries
     {
         // Slugify ID
         if (registry()->get('flextype.settings.slugify.enabled')) {
-            $id = slugify()->slugify($newID);
+            $newID = slugify()->slugify($newID);
         }
                 
         // Entry data
@@ -495,6 +498,11 @@ class Entries
      */
     public function has(string $id): bool
     {
+        // Slugify ID
+        if (registry()->get('flextype.settings.slugify.enabled')) {
+            $id = slugify()->slugify($id);
+        }
+                
         // Entry data
         $this->registry()->set('has.id', $id);
 
@@ -518,6 +526,11 @@ class Entries
      */
     public function getFileLocation(string $id): string
     {
+        // Slugify ID
+        if (registry()->get('flextype.settings.slugify.enabled')) {
+            $id = slugify()->slugify($id);
+        }
+        
         // Get collection options
         $this->getCollectionOptions($id);
 
@@ -535,6 +548,11 @@ class Entries
      */
     public function getDirectoryLocation(string $id): string
     {
+        // Slugify ID
+        if (registry()->get('flextype.settings.slugify.enabled')) {
+            $id = slugify()->slugify($id);
+        }
+        
         return PATH['project'] . '/entries/' . $id;
     }
 
@@ -548,9 +566,14 @@ class Entries
      * @access public
      */
     public function getCacheID(string $id): string
-    {
+    {   
         if (registry()->get('flextype.settings.cache.enabled') === false) {
             return '';
+        }
+        
+        // Slugify ID
+        if (registry()->get('flextype.settings.slugify.enabled')) {
+            $id = slugify()->slugify($id);
         }
 
         $entryFile = $this->getFileLocation($id);
@@ -563,6 +586,18 @@ class Entries
     }
 
     /**
+     * Get Entries Registry.
+     *
+     * @return Arrays Returns entries registry.
+     *
+     * @access public
+     */
+    public function registry(): Arrays
+    {
+        return $this->registry;
+    }
+
+    /**
      * Get Entries options.
      *
      * @return array Returns entries options.
@@ -571,6 +606,6 @@ class Entries
      */
     public function getOptions(): array 
     {
-        return $this->registry()->get('collectionOptions');
+        return $this->options;
     }
 }
