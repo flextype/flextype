@@ -21,22 +21,22 @@ afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/plugins/sandbox')->delete();
 });
 
-test('test getPluginsList() method', function () {
+test('get plugins list', function () {
     $this->assertTrue(is_array(plugins()->getPLuginsList()));
     $this->assertTrue(isset(plugins()->getPLuginsList()['sandbox']));
 });
 
-test('test getLocales() method', function () {
+test('get plugins locales', function () {
     $this->assertTrue(is_array(plugins()->getLocales()));
     $this->assertTrue(isset(plugins()->getLocales()['en_US']));
 });
 
-test('test getPluginsDictionary() method', function () {
+test('get plugins dictionary', function () {
     $this->assertTrue(is_array(plugins()->getPluginsDictionary(plugins()->getPLuginsList(), 'en_US')));
     $this->assertTrue(isset(plugins()->getPluginsDictionary(plugins()->getPLuginsList(), 'en_US')['en_US']['sandbox_title']));
 });
 
-test('test getPluginsCacheID() method', function () {
+test('get plugins cache ID', function () {
     $md5 = plugins()->getPluginsCacheID(plugins()->getPLuginsList());
     $this->assertTrue(strlen($md5) == 32 && ctype_xdigit($md5));
 });

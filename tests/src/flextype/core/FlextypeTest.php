@@ -6,11 +6,11 @@ use Flextype\Flextype;
 use Flextype\Content\Content;
 use Atomastic\Strings\Strings;
 
-test('test getVersion() method', function () {
+test('get flextype version', function () {
     $this->assertTrue(!Strings::create(Flextype::getInstance()->getVersion())->isEmpty());
 });
 
-test('test getInstance() method', function () {
+test('get flextype instance', function () {
     $firstCall = Flextype::getInstance();
     $secondCall = Flextype::getInstance();
 
