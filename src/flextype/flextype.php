@@ -13,7 +13,7 @@ use Atomastic\Csrf\Csrf;
 use Atomastic\Session\Session;
 use Cocur\Slugify\Slugify;
 use DateTimeZone;
-use Flextype\Content\Content;
+use Flextype\Entries\Entries;
 use Flextype\Handlers\HttpErrorHandler;
 use Flextype\Handlers\ShutdownHandler;
 use Flextype\Media\Media;
@@ -407,14 +407,8 @@ container()->set('images', static function () {
     return $server;
 });
 
-// Add Content Service
-container()->set('content', new Content(registry()->get('flextype.settings.entries.content')));
-
-// Add Media Service
-container()->set('media', new Media(registry()->get('flextype.settings.entries.media')));
-
-// Add Tokens Service
-container()->set('tokens', new Tokens(registry()->get('flextype.settings.entries.tokens')));
+// Add Entries Service
+container()->set('entries', new Entries(registry()->get('flextype.settings.entries')));
 
 // Add Plugins Service
 container()->set('plugins', new Plugins());
