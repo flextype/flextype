@@ -1,7 +1,0 @@
-title: blog
-content:
-  fetch:
-    posts:
-      id: blog
-      options:
-        collection: true
