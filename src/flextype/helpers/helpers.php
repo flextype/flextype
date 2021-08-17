@@ -61,23 +61,13 @@ if (! function_exists('cache')) {
     }
 }
 
-if (! function_exists('content')) {
+if (! function_exists('entries')) {
     /**
-     * Get Flextype Content Service.
+     * Get Flextype Entries Service.
      */
-    function content()
+    function entries()
     {
-        return flextype()->container()->get('content');
-    }
-}
-
-if (! function_exists('media')) {
-    /**
-     * Get Flextype Media Service.
-     */
-    function media()
-    {
-        return flextype()->container()->get('media');
+        return flextype()->container()->get('entries');
     }
 }
 
@@ -158,16 +148,6 @@ if (! function_exists('plugins')) {
     function plugins()
     {
         return flextype()->container()->get('plugins');
-    }
-}
-
-if (! function_exists('tokens')) {
-    /**
-     * Get Flextype Tokens Service.
-     */
-    function tokens()
-    {
-        return flextype()->container()->get('tokens');
     }
 }
 
@@ -472,5 +452,65 @@ if (! function_exists('imageCache')) {
     function imageCache(Closure $callback, int $lifetime = 5, bool $returnObj = false)
     {
         return Image::cache($callback, $lifetime, $returnObj);
+    }
+}
+
+if (! function_exists('upload')) {
+    /**
+     * Upload file.
+     *
+     * @param array  $file   Raw file data (multipart/form-data).
+     * @param string $folder The folder you're targetting.
+     *
+     * @access public
+     */
+    function upload(array $file, string $folder)
+    {
+        $settings = registry()->get('flextype.settings.media.upload');
+
+        $uploadFolder = strings(PATH['project']  . '/' . registry()->get('flextype.settings.media.upload.directory') . '/' . $folder . '/')->reduceSlashes()->toString();
+
+        filesystem()->directory($uploadFolder)->ensureExists(0755, true);
+
+        $uploadHandler = new UploadHandler($uploadFolder);
+        $uploadHandler->setOverwrite($settings['overwrite']);
+        $uploadHandler->setAutoconfirm($settings['autoconfirm']);
+        $uploadHandler->setPrefix($settings['prefix']);
+
+        // Set up the validation rules
+        $uploadHandler->addRule('extension', ['allowed' => $settings['validation']['allowed_file_extensions']], 'Should be a valid image');
+        $uploadHandler->addRule('size', ['max' => $settings['validation']['max_file_size']], 'Should have less than {max}');
+        $uploadHandler->addRule('imagewidth', 'min=' . $settings['validation']['image']['width']['min'] . '&max=' . $settings['validation']['image']['width']['max']);
+        $uploadHandler->addRule('imageheight', 'min=' . $settings['validation']['image']['height']['min'] . '&max=' . $settings['validation']['image']['width']['max']);
+
+        if (isset($settings['validation']['image']['ratio'])) {
+            $uploadHandler->addRule('imageratio', 'ratio=' . $settings['validation']['image']['ratio']['size'] . '&error_margin=' . $settings['validation']['image']['ratio']['error_margin']);
+        }
+
+        $result = $uploadHandler->process($_FILES['file']);
+
+        if (! $result->isValid()) {
+            return $result->getMessages();
+        }
+
+        try {
+            $result->confirm();
+
+            if (isset($result->name)) {
+                $mediaFile = $uploadFolder . '/media.' . filesystem()->file($result->name)->extension();
+
+                filesystem()->file($uploadFolder . '/' . $result->name)->move($mediaFile);
+    
+                if (getimagesize($mediaFile)) {
+                    imageFile($mediaFile, $settings['process']['image']);
+                }
+            }
+        } catch (Throwable $e) {
+            $result->clear();
+
+            throw $e;
+        }
+
+        return $result;
     }
 }
