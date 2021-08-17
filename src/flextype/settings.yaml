@@ -545,9 +545,9 @@ parsers:
       media:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/MediaShortcode.php"
-      content:
+      entries:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/ContentShortcode.php"
+        path: "/src/flextype/core/Parsers/Shortcodes/EntriesShortcode.php"
       raw:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/RawShortcode.php"
