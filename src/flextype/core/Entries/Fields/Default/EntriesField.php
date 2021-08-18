@@ -11,7 +11,7 @@ use Atomastic\Arrays\Arrays;
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
-    if (! entries()->registry()->get('collectionOptions.fields.entries.enabled')) {
+    if (! entries()->registry()->get('collection.options.fields.entries.enabled')) {
         return;
     }
 

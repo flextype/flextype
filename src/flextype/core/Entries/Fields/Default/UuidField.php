@@ -11,7 +11,7 @@ use Ramsey\Uuid\Uuid;
 
 emitter()->addListener('onEntriesCreate', static function (): void {
 
-    if (! entries()->registry()->get('collectionOptions.fields.uuid.enabled')) {
+    if (! entries()->registry()->get('collection.options.fields.uuid.enabled')) {
         return;
     }
 

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
-    if (! entries()->registry()->get('collectionOptions.fields.routable.enabled')) {
+    if (! entries()->registry()->get('collection.options.fields.routable.enabled')) {
         return;
     }
 
@@ -23,7 +23,7 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
 
 emitter()->addListener('onEntriesCreate', static function (): void {
 
-    if (! entries()->registry()->get('collectionOptions.fields.routable.enabled')) {
+    if (! entries()->registry()->get('collection.options.fields.routable.enabled')) {
         return;
     }
 

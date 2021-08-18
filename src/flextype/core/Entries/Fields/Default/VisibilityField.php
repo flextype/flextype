@@ -15,7 +15,7 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         'visible' => 'visible',
     ];
 
-    if (! entries()->registry()->get('collectionOptions.fields.visibility.enabled')) {
+    if (! entries()->registry()->get('collection.options.fields.visibility.enabled')) {
         return;
     }
 
@@ -34,7 +34,7 @@ emitter()->addListener('onEntriesCreate', static function (): void {
         'visible' => 'visible',
     ];
 
-    if (! entries()->registry()->get('collectionOptions.fields.visibility.enabled')) {
+    if (! entries()->registry()->get('collection.options.fields.visibility.enabled')) {
         return;
     }
     

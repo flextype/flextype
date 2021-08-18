@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
-    if (! entries()->registry()->get('collectionOptions.fields.parsers.enabled')) {
+    if (! entries()->registry()->get('collection.options.fields.parsers.enabled')) {
         return;
     }
 

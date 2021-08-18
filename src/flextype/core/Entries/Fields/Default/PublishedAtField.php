@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
-    if (! entries()->registry()->get('collectionOptions.fields.published_at.enabled')) {
+    if (! entries()->registry()->get('collection.options.fields.published_at.enabled')) {
         return;
     }
 
@@ -22,7 +22,7 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
 
 emitter()->addListener('onEntriesCreate', static function (): void {
 
-    if (! entries()->registry()->get('collectionOptions.fields.published_at.enabled')) {
+    if (! entries()->registry()->get('collection.options.fields.published_at.enabled')) {
         return;
     }
 

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesCreate', static function (): void {
     
-    if (! entries()->registry()->get('collectionOptions.fields.published_by.enabled')) {
+    if (! entries()->registry()->get('collection.options.fields.published_by.enabled')) {
         return;
     }
 
