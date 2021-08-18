@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 use Ramsey\Uuid\Uuid;
 
-emitter()->addListener('onDefaultCreate', static function (): void {
+emitter()->addListener('onEntriesCreate', static function (): void {
 
-    if (! registry()->get('flextype.settings.entries.collections.default.fields.uuid.enabled')) {
+    if (! entries()->registry()->get('collectionOptions.fields.uuid.enabled')) {
         return;
     }
 

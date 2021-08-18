@@ -7,9 +7,9 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-emitter()->addListener('onDefaultCreate', static function (): void {
+emitter()->addListener('onEntriesCreate', static function (): void {
     
-    if (! registry()->get('flextype.settings.entries.collections.default.fields.published_by.enabled')) {
+    if (! entries()->registry()->get('collectionOptions.fields.published_by.enabled')) {
         return;
     }
 

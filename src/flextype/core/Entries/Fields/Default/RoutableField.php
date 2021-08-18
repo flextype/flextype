@@ -7,9 +7,9 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-emitter()->addListener('onDefaultFetchSingleHasResult', static function (): void {
-    
-    if (registry()->get('flextype.settings.entries.collections.default.fields.routable.enabled')) {
+emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
+
+    if (! entries()->registry()->get('collectionOptions.fields.routable.enabled')) {
         return;
     }
 
@@ -21,9 +21,9 @@ emitter()->addListener('onDefaultFetchSingleHasResult', static function (): void
 
 });
 
-emitter()->addListener('onDefaultCreate', static function (): void {
+emitter()->addListener('onEntriesCreate', static function (): void {
 
-    if (! registry()->get('flextype.settings.entries.collections.default.fields.routable.enabled')) {
+    if (! entries()->registry()->get('collectionOptions.fields.routable.enabled')) {
         return;
     }
 

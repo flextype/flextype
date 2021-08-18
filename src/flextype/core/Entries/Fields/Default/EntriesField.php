@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 use Atomastic\Arrays\Arrays;
 
-emitter()->addListener('onDefaultFetchSingleHasResult', static function (): void {
+emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
-    if (! registry()->get('flextype.settings.entries.collections.default.fields.entries.enabled')) {
+    if (! entries()->registry()->get('collectionOptions.fields.entries.enabled')) {
         return;
     }
 

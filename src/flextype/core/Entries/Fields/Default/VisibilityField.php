@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-emitter()->addListener('onDefaultFetchSingleHasResult', static function (): void {
+emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
     
     $visibility = [
         'draft' => 'draft',
@@ -15,7 +15,7 @@ emitter()->addListener('onDefaultFetchSingleHasResult', static function (): void
         'visible' => 'visible',
     ];
 
-    if (! registry()->get('flextype.settings.entries.collections.default.fields.visibility.enabled')) {
+    if (! entries()->registry()->get('collectionOptions.fields.visibility.enabled')) {
         return;
     }
 
@@ -26,7 +26,7 @@ emitter()->addListener('onDefaultFetchSingleHasResult', static function (): void
     }
 });
 
-emitter()->addListener('onDefaultCreate', static function (): void {
+emitter()->addListener('onEntriesCreate', static function (): void {
 
     $visibility = [
         'draft' => 'draft',
@@ -34,7 +34,7 @@ emitter()->addListener('onDefaultCreate', static function (): void {
         'visible' => 'visible',
     ];
 
-    if (! registry()->get('flextype.settings.entries.collections.default.fields.visibility.enabled')) {
+    if (! entries()->registry()->get('collectionOptions.fields.visibility.enabled')) {
         return;
     }
     

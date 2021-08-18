@@ -7,9 +7,9 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-emitter()->addListener('onTokensItemsCreate', static function (): void {
+emitter()->addListener('onEntriesCreate', static function (): void {
     
-    if (! registry()->get('flextype.settings.entries.tokens_items.fields.total_calls.enabled')) {
+    if (! entries()->registry()->get('collectionOptions.fields.total_calls.enabled')) {
         return;
     }
 
