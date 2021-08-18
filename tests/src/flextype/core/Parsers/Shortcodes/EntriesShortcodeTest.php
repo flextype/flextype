@@ -10,7 +10,7 @@ afterEach(function () {
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
-test('test entries_fetch  shortcode', function () {
+test('[entries_fetch] shortcode', function () {
     $this->assertTrue(entries()->create('foo', ['title' => 'Foo']));
     $this->assertEquals('Foo', parsers()->shortcodes()->parse('[entries_fetch id="foo" field="title"]'));
     $this->assertEquals('Bar', parsers()->shortcodes()->parse('[entries_fetch id="foo" field="bar" default="Bar"]'));

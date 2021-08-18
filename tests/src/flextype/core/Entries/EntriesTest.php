@@ -10,24 +10,24 @@ afterEach(function () {
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
-test('create new entry foo', function () {
+test('create new entry', function () {
     expect(entries()->create('foo', []))->toBeTrue();
     expect(entries()->create('foo', []))->toBeFalse();
 });
 
-test('has entry foo', function () {
+test('has entry', function () {
     expect(entries()->create('foo', []))->toBeTrue();
     expect(entries()->has('foo'))->toBeTrue();
     expect(entries()->has('bar'))->toBeFalse();
 });
 
-test('update entry foo', function () {
+test('update entry', function () {
     expect(entries()->create('foo', []))->toBeTrue();
     expect(entries()->update('foo', ['title' => 'Foo']))->toBeTrue();
     expect(entries()->update('bar', ['title' => 'Bar']))->toBeFalse();
 });
 
-test('delete entry foo', function () {
+test('delete entry', function () {
     expect(entries()->create('foo', []))->toBeTrue();
     expect(entries()->create('foo/bar', []))->toBeTrue();
     expect(entries()->create('foo/zed', []))->toBeTrue();
@@ -36,7 +36,7 @@ test('delete entry foo', function () {
     expect(entries()->has('foo'))->toBeFalse();
 });
 
-test('move entry foo into bar', function () {
+test('move entry', function () {
     expect(entries()->create('foo', []))->toBeTrue();
     expect(entries()->create('bar', []))->toBeTrue();
 
@@ -44,7 +44,7 @@ test('move entry foo into bar', function () {
     expect(entries()->has('bar/foo'))->toBeTrue();
 });
 
-test('copy entry foo into bar', function () {
+test('copy entry', function () {
     expect(entries()->create('foo', []))->toBeTrue();
     expect(entries()->create('bar', []))->toBeTrue();
 
@@ -53,38 +53,41 @@ test('copy entry foo into bar', function () {
     expect(entries()->has('foo'))->toBeTrue();
 });
 
-test('fetch entry foo', function () {
+test('fetch entry', function () {
     expect(entries()->create('foo', []))->toBeTrue();
+    expect(entries()->create('foo/bar', []))->toBeTrue();
+    expect(entries()->create('foo/zed', []))->toBeTrue();
     
     expect(entries()->fetch('foo'))->toBeInstanceOf(Arrays::class);
     expect(count(entries()->fetch('foo')->toArray()) > 0)->toBeTrue();
+    expect(count(entries()->fetch('foo', ['collection' => true])->toArray()))->toEqual(2);
 });
 
-test('get file location for entry foo', function () {
+test('get file location for entry', function () {
     expect(entries()->create('foo', []))->toBeTrue();
 
     expect(entries()->getFileLocation('foo'))->toContain('/foo/entry.yaml');
 });
 
-test('get directory location for entry foo', function () {
+test('get directory location for entry', function () {
     expect(entries()->create('foo', []))->toBeTrue();
 
     expect(entries()->getDirectoryLocation('foo'))->toContain('/foo');
 });
 
-test('get cache ID for entry foo with cache enabled false', function () {
+test('get cache ID for entry with cache enabled false', function () {
     registry()->set('flextype.settings.cache.enabled', false);
     expect(entries()->create('foo', []))->toBeTrue();
     expect(entries()->getCacheID('foo'))->toBeEmpty();
 });
 
-test('get cache ID for entry foo with cache enabled true', function () {
+test('get cache ID for entry with cache enabled true', function () {
     registry()->set('flextype.settings.cache.enabled', true);
     expect(entries()->create('foo', []))->toBeTrue();
     expect(strlen(entries()->getCacheID('foo')))->toEqual(32);
 });
 
-test('registry for entry foo', function() {
+test('registry for entry', function() {
     entries()->registry()->set('foo', ['title' => 'Foo']);
     expect(entries()->registry()->get('foo.title'))->toEqual('Foo');
     entries()->registry()->set('bar', ['title' => 'Bar']);

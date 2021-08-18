@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-test('test registry_get shortcode', function () {
+test('[registry_get] shortcode', function () {
     $this->assertEquals('Flextype',
                         parsers()->shortcodes()->parse('[registry_get name="flextype.manifest.name"]'));
     $this->assertEquals('default-value',
