@@ -57,7 +57,6 @@ errors:
 entries:
   collections:
     default:
-      emitter: Default
       filename: entry
       extension: yaml
       serializer: yaml
@@ -104,7 +103,6 @@ entries:
           enabled: true
           path: "/src/flextype/core/Entries/Fields/Default/IdField.php"
     tokens:
-      emitter: Tokens
       pattern: tokens
       filename: token
       extension: yaml
@@ -126,7 +124,6 @@ entries:
           enabled: true
           path: "/src/flextype/core/Entries/Fields/Default/IdField.php"
     tokens_item:
-      emitter: TokensItem
       pattern: tokens/([a-zA-Z0-9_-]+)
       filename: token
       extension: yaml
@@ -157,7 +154,6 @@ entries:
           enabled: true
           path: "/src/flextype/core/Entries/Fields/Tokens/Items/StateField.php"
     media:
-      emitter: Media
       pattern: media
       filename: media
       extension: yaml
@@ -179,7 +175,6 @@ entries:
           enabled: true
           path: "/src/flextype/core/Entries/Fields/Default/IdField.php"
     media_item:
-      emitter: MediaItem
       pattern: media/([a-zA-Z0-9_-]+)
       filename: media
       extension: yaml
@@ -200,6 +195,7 @@ entries:
         id:
           enabled: true
           path: "/src/flextype/core/Entries/Fields/Default/IdField.php"
+
 
 # Cache
 #
