@@ -371,7 +371,7 @@ container()->set('images', static function () {
     $manipulators = [
         new Orientation(),
         new Crop(),
-        new Size(2000 * 2000),
+        new Size(),
         new Brightness(),
         new Contrast(),
         new Gamma(),
@@ -437,16 +437,12 @@ if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listId
 // Init Plugins
 plugins()->init();
 
-/**
- * Include API ENDPOINTS
- */
+
+// Include API ENDPOINTS
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/utils.php';
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/images.php';
-require_once ROOT_DIR . '/src/flextype/routes/endpoints/content.php';
-require_once ROOT_DIR . '/src/flextype/routes/endpoints/media.php';
-require_once ROOT_DIR . '/src/flextype/routes/endpoints/tokens.php';
+require_once ROOT_DIR . '/src/flextype/routes/endpoints/entries.php';
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/registry.php';
-
 
 // Enable lazy CORS
 //
