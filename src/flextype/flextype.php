@@ -437,8 +437,7 @@ if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listId
 // Init Plugins
 plugins()->init();
 
-
-// Include API ENDPOINTS
+// Api Endpoints
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/utils.php';
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/images.php';
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/entries.php';
