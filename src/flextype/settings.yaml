@@ -13,7 +13,7 @@ charset: UTF-8
 
 # The locale that'll be used by the Flextype.
 #
-# Available locales to use: flextype/config/locales.yaml
+# Available locales to use: src/flextype/config/locales.yaml
 locale: en_US
 
 # Application URL
@@ -238,7 +238,6 @@ entries:
 # - drivers.files.prevent_cache_slams: This option will allow you to prevent cache slams when making use of heavy cache items.
 #
 # - drivers.files.cache_slams_timeout: This option defines the cache slams timeout in seconds.
-
 cache:
   enabled: false
   router: routes
@@ -460,6 +459,10 @@ slugify:
 #
 # neon.decode.cache: Cache result data or no. Default is true.
 # neon.encode.flags: The flag can be 1, which will create multiline output.
+#
+# phparray.decode.cache: Cache result data or no. Default is true.
+#
+# phpcode.decode.cache: Cache result data or no. Default is true.
 serializers:
   json: 
     decode:
@@ -591,53 +594,52 @@ cors:
   expose: []
   credentials: false
 
-# Media
+# Upload
 #
-# - upload.directory: Uploads directory
+# - directory: Uploads directory
 #
-# - upload.overwrite: Overwrite existing files.
+# - overwrite: Overwrite existing files.
 #
-# - upload.autoconfirm: Auto-confirm uploads.
+# - autoconfirm: Auto-confirm uploads.
 #
-# - upload.prefix: Prefixing uploads.
+# - prefix: Prefixing uploads.
 #
-# - upload.validation.allowed_file_extensions: Allowed file extensions.
+# - validation.allowed_file_extensions: Allowed file extensions.
 #
-# - upload.validation.max_file_size: Maximum file size.
+# - validation.max_file_size: Maximum file size.
 #
-# - upload.validation.image.width.max: Image maxiumum width.
+# - validation.image.width.max: Image maxiumum width.
 #
-# - upload.validation.image.width.min: Image minimum width.
+# - validation.image.width.min: Image minimum width.
 #
-# - upload.validation.image.height.max: Image maxiumum height.
+# - validation.image.height.max: Image maxiumum height.
 #
-# - upload.validation.image.height.min: Image minimum height.
+# - validation.image.height.min: Image minimum height.
 #
-# - upload.validation.image.ratio.size: The option can be a number (eg: 1.3) or a ratio-like string (eg: 4:3, 16:9). 
+# - validation.image.ratio.size: The option can be a number (eg: 1.3) or a ratio-like string (eg: 4:3, 16:9). 
 #
-# - upload.validation.image.ratio.error_margin: The option error_margin specifies how much the image is allowed to 
+# - validation.image.ratio.error_margin: The option error_margin specifies how much the image is allowed to 
 #                                               deviate from the target ratio. Default value is 0.
 #  
-# - upload.process.image.quality: 
-media:
-  upload:
-    directory: '/uploads/media'
-    overwrite: true
-    autoconfirm: false
-    prefix: ''
-    validation:
-      allowed_file_extensions: ['gif', 'jpg', 'jpeg', 'png', 'ico', 'webm', 'svg']
-      max_file_size: '24M'
-      image:
-        width:
-          max: 4920
-          min: 100
-        height: 
-          max: 3264
-          min: 100
-    process:
-      image:
-        quality: 70
+# - process.image.quality: 
+upload:
+  directory: '/uploads/media'
+  overwrite: true
+  autoconfirm: false
+  prefix: ''
+  validation:
+    allowed_file_extensions: ['gif', 'jpg', 'jpeg', 'png', 'ico', 'webm', 'svg']
+    max_file_size: '24M'
+    image:
+      width:
+        max: 4920
+        min: 100
+      height: 
+        max: 3264
+        min: 100
+  process:
+    image:
+      quality: 70
 
 # Session
 #
@@ -649,15 +651,11 @@ session:
 
 # Flextype Rest APIs
 api:
-  content:
-    enabled: true
-  media:
+  entries:
     enabled: true
   registry:
     enabled: true
   images:
-    enabled: true
-  tokens:
     enabled: true
   utils:
     enabled: true
