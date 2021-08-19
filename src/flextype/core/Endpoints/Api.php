@@ -99,12 +99,12 @@ class Api
             return $this->getStatusCodeMessage(400);
         }
 
-        if (! tokens()->has($data['token'])) {
+        if (! entries()->has('tokens/' . $data['token'])) {
             return $this->getStatusCodeMessage(401);
         }
 
         // Fetch token
-        $tokenData = tokens()->fetch($data['token']);
+        $tokenData = entries()->fetch('tokens/' . $data['token']);
 
         if (
             ! isset($tokenData['state']) ||
@@ -132,7 +132,7 @@ class Api
         }
 
         // Update token calls
-        tokens()->update($data['token'], ['calls' => $tokenData['calls'] + 1]);
+        entries()->update('tokens/' . $data['token'], ['calls' => $tokenData['calls'] + 1]);
 
         return [];
     }

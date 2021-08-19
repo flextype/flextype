@@ -12,13 +12,13 @@ namespace Flextype\Endpoints;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function content;
 use function count;
-use function media;
 
-class Media extends Api
+class Content extends Api
 {
     /**
-     * Fetch media.
+     * Fetch content.
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
@@ -34,15 +34,15 @@ class Media extends Api
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'media',
+                'api' => 'content',
                 'params' => ['token', 'id'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Get media data
-        $contentData = media()->fetch($requestQueryParams['id'], $requestQueryParams['options'] ?? [])->toArray();
+        // Get content data
+        $contentData = entries()->fetch($requestQueryParams['id'], $requestQueryParams['options'] ?? [])->toArray();
 
         if (count($contentData) > 0) {
             return $this->getApiResponse($response, $contentData, 200);
@@ -52,7 +52,7 @@ class Media extends Api
     }
 
     /**
-     * Create media.
+     * Create content.
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
@@ -68,18 +68,18 @@ class Media extends Api
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'media',
+                'api' => 'content',
                 'params' => ['token', 'id', 'access_token'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Create new media
-        media()->create($requestParsedBody['id'], $requestParsedBody['data'] ?? []);
+        // Create new content
+        entries()->create($requestParsedBody['id'], $requestParsedBody['data'] ?? []);
 
-        // Fetch media
-        $contentData = media()->fetch($requestParsedBody['id'])->toArray();
+        // Fetch content
+        $contentData = entries()->fetch($requestParsedBody['id'])->toArray();
 
         // Return response
         if (count($contentData) > 0) {
@@ -90,7 +90,7 @@ class Media extends Api
     }
 
     /**
-     * Update media.
+     * Update content.
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
@@ -106,18 +106,18 @@ class Media extends Api
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'media',
+                'api' => 'content',
                 'params' => ['token', 'id', 'access_token'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Update media
-        media()->update($requestParsedBody['id'], $requestParsedBody['data'] ?? []);
+        // Update content
+        entries()->update($requestParsedBody['id'], $requestParsedBody['data'] ?? []);
 
-        // Fetch media
-        $contentData = media()->fetch($requestParsedBody['id'])->toArray();
+        // Fetch content
+        $contentData = entries()->fetch($requestParsedBody['id'])->toArray();
 
         // Return response
         if (count($contentData) > 0) {
@@ -128,7 +128,7 @@ class Media extends Api
     }
 
     /**
-     * Move media.
+     * Move content.
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
@@ -144,18 +144,18 @@ class Media extends Api
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'media',
+                'api' => 'content',
                 'params' => ['token', 'id', 'new_id', 'access_token'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Move media
-        media()->move($requestParsedBody['id'], $requestParsedBody['new_id']);
+        // Move content
+        entries()->move($requestParsedBody['id'], $requestParsedBody['new_id']);
 
-        // Fetch media
-        $contentData = media()->fetch($requestParsedBody['new_id'])->toArray();
+        // Fetch content
+        $contentData = entries()->fetch($requestParsedBody['new_id'])->toArray();
 
         // Return response
         if (count($contentData) > 0) {
@@ -166,7 +166,7 @@ class Media extends Api
     }
 
     /**
-     * Copy media.
+     * Copy content.
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
@@ -182,18 +182,18 @@ class Media extends Api
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'media',
+                'api' => 'content',
                 'params' => ['token', 'id', 'new_id', 'access_token'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Copy media
-        media()->copy($requestParsedBody['id'], $requestParsedBody['new_id']);
+        // Copy content
+        entries()->copy($requestParsedBody['id'], $requestParsedBody['new_id']);
 
-        // Fetch media
-        $contentData = media()->fetch($requestParsedBody['new_id'])->toArray();
+        // Fetch content
+        $contentData = entries()->fetch($requestParsedBody['new_id'])->toArray();
 
         // Return response
         if (count($contentData) > 0) {
@@ -204,7 +204,7 @@ class Media extends Api
     }
 
     /**
-     * Delete media.
+     * Delete content.
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
@@ -220,15 +220,15 @@ class Media extends Api
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'media',
+                'api' => 'content',
                 'params' => ['token', 'id', 'access_token'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Copy media
-        media()->delete($requestParsedBody['id']);
+        // Copy content
+        entries()->delete($requestParsedBody['id']);
 
         // Return success response
         return $this->getApiResponse($response, [], 204);
