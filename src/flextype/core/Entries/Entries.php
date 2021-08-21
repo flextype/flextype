@@ -65,7 +65,52 @@ class Entries
     {
         $this->setRegistry($registry);
         $this->setOptions($options);
+        $this->initCollectionsActions();
         $this->initCollectionsFields();
+    }
+
+    /** 
+     * Init Collections Actions
+     *
+     * @access public
+     */
+    private function initCollectionsActions(): void
+    {
+        $actions = [];
+
+        if (! isset($this->options['collections']) ||
+            ! is_array($this->options['collections'])) {
+            return;
+        }
+
+        foreach ($this->options['collections'] as $collection) {
+            
+            if (
+                ! isset($collection['actions']) ||
+                ! is_array($collection['actions']) ||
+                count($collection['actions']) <= 0
+            ) {
+                continue;
+            }
+
+            foreach ($collection['actions'] as $action) {
+
+                if (! isset($action['path'])) {
+                    continue;
+                }
+
+                $actions[] = ROOT_DIR . $action['path'];
+            }
+        }
+
+        $actions = arrays($actions)->unique()->toArray();
+
+        foreach ($actions as $action) {
+            if (filesystem()->file($action)->exists()) {
+               
+                include_once $action; 
+            }
+        } 
     }
 
     /** 
