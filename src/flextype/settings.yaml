@@ -623,7 +623,7 @@ cors:
 #  
 # - process.image.quality: 
 upload:
-  directory: '/uploads/media'
+  directory: '/uploads'
   overwrite: true
   autoconfirm: false
   prefix: ''
