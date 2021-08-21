@@ -26,7 +26,7 @@ use function app;
  * Returns:
  * An array of entry objects.
  */
-app()->get('/api/entries', [Content::class, 'fetch']);
+app()->get('/api/entries', [Entries::class, 'fetch']);
 
 /**
  * Create entry
@@ -43,7 +43,7 @@ app()->get('/api/entries', [Content::class, 'fetch']);
  * Returns:
  * Returns the entry object for the entry that was just created.
  */
-app()->post('/api/entries', [Content::class, 'create']);
+app()->post('/api/entries', [Entries::class, 'create']);
 
 /**
  * Update entry
@@ -59,7 +59,7 @@ app()->post('/api/entries', [Content::class, 'create']);
  * Returns:
  * Returns the entry object for the entry that was just updated.
  */
-app()->patch('/api/entries', [Content::class, 'update']);
+app()->patch('/api/entries', [Entries::class, 'update']);
 
 /**
  * Move entry
@@ -75,7 +75,7 @@ app()->patch('/api/entries', [Content::class, 'update']);
  * Returns:
  * Returns the entry object for the entry that was just moved.
  */
-app()->put('/api/entries', [Content::class, 'move']);
+app()->put('/api/entries', [Entries::class, 'move']);
 
 /**
  * Copy entry
@@ -91,7 +91,7 @@ app()->put('/api/entries', [Content::class, 'move']);
  * Returns:
  * Returns the entry object for the entry that was just copied.
  */
-app()->put('/api/entries/copy', [Content::class, 'copy']);
+app()->put('/api/entries/copy', [Entries::class, 'copy']);
 
 /**
  * Delete entry
@@ -106,4 +106,4 @@ app()->put('/api/entries/copy', [Content::class, 'copy']);
  * Returns:
  * Returns an empty body with HTTP status 204
  */
-app()->delete('/api/entries', [Content::class, 'delete']);
+app()->delete('/api/entries', [Entries::class, 'delete']);
