@@ -133,7 +133,7 @@ class Entries
                 ! is_array($collection['fields']) ||
                 count($collection['fields']) <= 0
             ) {
-                return;
+                continue;
             }
 
             foreach ($collection['fields'] as $field) {
