@@ -10,6 +10,8 @@ declare(strict_types=1);
 use Flextype\Flextype;
 use Intervention\Image\ImageManagerStatic as Image;
 use Symfony\Component\Finder\Finder;
+use Sirius\Upload\Handler as UploadHandler;
+use Sirius\Upload\Result\File as UploadResultFile;
 
 if (! function_exists('flextype')) {
     /**
@@ -463,12 +465,14 @@ if (! function_exists('upload')) {
      * @param string $folder The folder you're targetting.
      *
      * @access public
+     * 
+     * @return UploadResultFile Result file.
      */
-    function upload(array $file, string $folder)
+    function upload(array $file, string $folder): UploadResultFile
     {
-        $settings = registry()->get('flextype.settings.media.upload');
+        $settings = registry()->get('flextype.settings.upload');
 
-        $uploadFolder = strings(PATH['project']  . '/' . registry()->get('flextype.settings.media.upload.directory') . '/' . $folder . '/')->reduceSlashes()->toString();
+        $uploadFolder = strings(PATH['project']  . '/' . registry()->get('flextype.settings.upload.directory') . '/' . $folder . '/')->reduceSlashes()->toString();
 
         filesystem()->directory($uploadFolder)->ensureExists(0755, true);
 
@@ -477,7 +481,7 @@ if (! function_exists('upload')) {
         $uploadHandler->setAutoconfirm($settings['autoconfirm']);
         $uploadHandler->setPrefix($settings['prefix']);
 
-        // Set up the validation rules
+        // Set the validation rules
         $uploadHandler->addRule('extension', ['allowed' => $settings['validation']['allowed_file_extensions']], 'Should be a valid image');
         $uploadHandler->addRule('size', ['max' => $settings['validation']['max_file_size']], 'Should have less than {max}');
         $uploadHandler->addRule('imagewidth', 'min=' . $settings['validation']['image']['width']['min'] . '&max=' . $settings['validation']['image']['width']['max']);
@@ -496,11 +500,8 @@ if (! function_exists('upload')) {
         try {
             $result->confirm();
 
+            // If upload file is image, do image file processing  
             if (isset($result->name)) {
-                $mediaFile = $uploadFolder . '/media.' . filesystem()->file($result->name)->extension();
-
-                filesystem()->file($uploadFolder . '/' . $result->name)->move($mediaFile);
-    
                 if (getimagesize($mediaFile)) {
                     imageFile($mediaFile, $settings['process']['image']);
                 }
