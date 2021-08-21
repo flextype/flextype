@@ -36,7 +36,7 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
 
             if (isset($body['options']['method']) &&
                 strpos($body['options']['method'], 'fetch') !== false &&
-                is_callable([content(), $body['options']['method']])) {
+                is_callable([entries(), $body['options']['method']])) {
                 $fetchFromCallbackMethod = $body['options']['method'];
             } else {
                 $fetchFromCallbackMethod = 'fetch';
