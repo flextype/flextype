@@ -44,7 +44,6 @@ class Entries
      * Entries options.
      *
      * collections:
-     *   emitter     - Entries collection emitter name.
      *   pattern     - Entries collection pattern.
      *   filename    - Entries collection data filename.
      *   extension   - Entries collection data extension.
