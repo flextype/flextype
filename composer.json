@@ -59,7 +59,8 @@
         "middlewares/whoops": "^2.0",
         "nette/neon": "^3.2",
         "league/commonmark": "^2.0",
-        "siriusphp/upload": "^3.0"
+        "siriusphp/upload": "^3.0",
+        "symfony/console": "^5.3"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
@@ -76,6 +77,9 @@
             "src/flextype/macros/macros.php"
         ]
     },
+    "bin": [
+        "bin/flextype"
+    ],
     "require-dev": {
         "doctrine/coding-standard": "9.0.0",
         "pestphp/pest": "^1.12.0",
