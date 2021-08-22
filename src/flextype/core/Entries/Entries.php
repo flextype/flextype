@@ -65,16 +65,16 @@ class Entries
     {
         $this->setRegistry($registry);
         $this->setOptions($options);
-        $this->initCollectionsActions();
-        $this->initCollectionsFields();
+        $this->loadCollectionsActions();
+        $this->loadCollectionsFields();
     }
 
     /** 
-     * Init Collections Actions
+     * Load Collections Actions
      *
      * @access public
      */
-    private function initCollectionsActions(): void
+    private function loadCollectionsActions(): void
     {
         $actions = [];
 
@@ -114,11 +114,11 @@ class Entries
     }
 
     /** 
-     * Init Collections Fields
+     * Load Collections Fields
      *
      * @access public
      */
-    private function initCollectionsFields(): void
+    private function loadCollectionsFields(): void
     {
         $fields = [];
 
