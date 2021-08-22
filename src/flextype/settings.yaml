@@ -175,10 +175,23 @@ entries:
           enabled: true
           path: "/src/flextype/core/Entries/Fields/Default/IdField.php"
     media_item:
-      pattern: media/([a-zA-Z0-9_-]+)
+      pattern: media/(.*)
       filename: media
       extension: yaml
       serializer: yaml
+      actions:
+        create:
+          enabled: true
+          path: "/src/flextype/core/Entries/Actions/Media/CreateAction.php"
+        move:
+          enabled: true
+          path: "/src/flextype/core/Entries/Actions/Media/MoveAction.php"
+        copy:
+          enabled: true
+          path: "/src/flextype/core/Entries/Actions/Media/CopyAction.php"
+        delete:
+          enabled: true
+          path: "/src/flextype/core/Entries/Actions/Media/DeleteAction.php"
       fields:
         modified_at:
           enabled: true
