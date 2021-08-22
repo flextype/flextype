@@ -49,6 +49,7 @@ class Entries
      *   extension   - Entries collection data extension.
      *   serializer  - Entries collection data serializer.
      *   fields      - Array of fields for entries collection.
+     *   actions     - Array of actions for entries collection.
      *
      * @var array
      * @access private
