@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Flextype\Flextype;
+
 if (! function_exists('flextype')) {
     /**
      * Get the available Flextype instance.
