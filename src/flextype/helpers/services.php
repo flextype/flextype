@@ -144,16 +144,6 @@ if (! function_exists('plugins')) {
     }
 }
 
-if (! function_exists('router')) {
-    /**
-     * Get Flextype Router Service.
-     */
-    function router()
-    {
-        return flextype()->container()->get('router');
-    }
-}
-
 if (! function_exists('images')) {
     /**
      * Get Flextype Images Service.
