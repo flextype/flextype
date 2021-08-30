@@ -41,7 +41,7 @@ class CsrfMiddleware
 
 
     /**
-     * Example middleware invokable class
+     * Invoke
      *
      * @param  ServerRequest  $request PSR-7 request
      * @param  RequestHandler $handler PSR-15 request handler
