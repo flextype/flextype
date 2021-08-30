@@ -8,3 +8,4 @@ require_once ROOT_DIR . '/src/flextype/helpers/finder.php';
 require_once ROOT_DIR . '/src/flextype/helpers/image.php';
 require_once ROOT_DIR . '/src/flextype/helpers/upload.php';
 require_once ROOT_DIR . '/src/flextype/helpers/tokens.php';
+require_once ROOT_DIR . '/src/flextype/helpers/urls.php';
