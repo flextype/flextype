@@ -2,4 +2,4 @@
 
 declare(strict_types=1);
 
-require_once ROOT_DIR . '/src/flextype/macros/arrays.php';
+require_once __DIR__ . '/arrays.php';
