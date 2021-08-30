@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 use Slim\Interfaces\RouteParserInterface;
 use Psr\Http\Message\UriInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
