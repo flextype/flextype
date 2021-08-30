@@ -162,7 +162,7 @@ if (filesystem()->file($preflightFlextypePath . '/' . $cacheID . '.php')->exists
 registry()->set('flextype', $flextypeData);
 
 // Set Flextype base path
-app()->setBasePath(registry()->get('flextype.settings.url'));
+setBasePath(registry()->get('flextype.settings.url'));
 
 // Add Routing Middleware
 app()->add(new RoutingMiddleware(app()->getRouteResolver(), app()->getRouteCollector()->getRouteParser()));
@@ -410,9 +410,6 @@ container()->set('images', static function () {
 // Add Entries Service
 container()->set('entries', new Entries(registry()->get('flextype.settings.entries')));
 
-// Add Plugins Service
-container()->set('plugins', new Plugins());
-
 // Set session options before you start the session
 // Standard PHP session configuration options
 // https://secure.php.net/manual/en/session.configuration.php
@@ -434,8 +431,8 @@ if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listId
     date_default_timezone_set(registry()->get('flextype.settings.timezone'));
 }
 
-// Init Plugins
-plugins()->init();
+// Add Plugins Service
+container()->set('plugins', new Plugins());
 
 // Api Endpoints
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/utils.php';
