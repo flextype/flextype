@@ -676,7 +676,6 @@ images:
     directory: '/images'
   presets: []
     
-
 # Session
 #
 # Set session options before you start the session
