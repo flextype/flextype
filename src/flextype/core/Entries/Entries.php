@@ -304,7 +304,7 @@ class Entries
 
                     $currentEntryID = strings($currenEntry->getPath())
                         ->replace('\\', '/')
-                        ->replace(PATH['project'] . '/entries/', '')
+                        ->replace(PATH['project'] . $this->options['directory'] . '/', '')
                         ->trim('/')
                         ->toString();
 
@@ -561,7 +561,7 @@ class Entries
         // Set collection options
         $this->registry()->set('collection.options', $this->getCollectionOptions($id));
 
-        return PATH['project'] . '/entries/' . $id . '/' . $this->registry()->get('collection.options.filename') . '.' . $this->registry()->get('collection.options.extension');
+        return PATH['project'] . $this->options['directory'] . '/' . $id . '/' . $this->registry()->get('collection.options.filename') . '.' . $this->registry()->get('collection.options.extension');
     }
 
     /**
@@ -575,7 +575,7 @@ class Entries
      */
     public function getDirectoryLocation(string $id): string
     {
-        return PATH['project'] . '/entries/' . $id;
+        return PATH['project'] . $this->options['directory'] . '/' . $id;
     }
 
     /**

@@ -55,6 +55,7 @@ errors:
 
 # Entries
 entries:
+  directory: '/entries'
   collections:
     default:
       filename: entry
