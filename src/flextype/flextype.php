@@ -367,11 +367,14 @@ container()->set('images', static function () {
     // Set image manager
     $imageManager = new ImageManager($imagesSettings);
 
+    // Set max image size
+    $maxImageSize = registry()->get('flextype.settings.images.max_image_size.width') * registry()->get('flextype.settings.images.max_image_size.height');
+
     // Set manipulators
     $manipulators = [
         new Orientation(),
         new Crop(),
-        new Size(),
+        new Size($maxImageSize),
         new Brightness(),
         new Contrast(),
         new Gamma(),
