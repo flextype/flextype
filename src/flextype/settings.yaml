@@ -519,19 +519,31 @@ serializers:
 
 # Parsers
 #
-# markdown.cache: Cache result data or no. Default is true.
-# markdown.commonmark.renderer.block_separator: String to use for separating renderer block elements.
-# markdown.commonmark.renderer.inner_separator: String to use for separating inner block contents.
-# markdown.commonmark.renderer.soft_break: String to use for rendering soft breaks.
-# markdown.commonmark.commonmark.enable_em: Disable <em> parsing by setting to false; enable with true (default: true)
-# markdown.commonmark.commonmark.enable_strong: Disable <strong> parsing by setting to false; enable with true (default: true)
-# markdown.commonmark.commonmark.use_asterisk: Disable parsing of * for emphasis by setting to false; enable with true (default: true)
-# markdown.commonmark.commonmark.use_underscore: Disable parsing of _ for emphasis by setting to false; enable with true (default: true)
-# markdown.commonmark.commonmark.unordered_list_markers: Array of characters that can be used to indicate a bulleted list.
-# markdown.commonmark.html_input: `strip` all HTML (equivalent to 'safe' => true). `allow` all HTML input as-is (default value; equivalent to `‘safe’ => false) `escape` Escape all HTML.
-# markdown.commonmark.allow_unsafe_links: Remove risky link and image URLs by setting this to false (default: true).
-# markdown.commonmark.max_nesting_level: The maximum nesting level for blocks (default: PHP_INT_MAX). Setting this to a positive integer can help protect against long parse times and/or segfaults if blocks are too deeply-nested.
-# markdown.commonmark.slug_normalizer.max_length: Limits the size of generated slugs (defaults to 255 characters)
+# - markdown.cache:                                 Cache result data or no. Default is true.
+#
+# - markdown.commonmark.renderer.block_separator:   String to use for separating renderer block elements.
+#
+# - markdown.commonmark.renderer.inner_separator:   String to use for separating inner block contents.
+#
+# - markdown.commonmark.renderer.soft_break:        String to use for rendering soft breaks.
+#
+# - markdown.commonmark.commonmark.enable_em:       Disable <em> parsing by setting to false; enable with true (default: true)
+#
+# - markdown.commonmark.commonmark.enable_strong:   Disable <strong> parsing by setting to false; enable with true (default: true)
+#
+# - markdown.commonmark.commonmark.use_asterisk:    Disable parsing of * for emphasis by setting to false; enable with true (default: true)
+#
+# - markdown.commonmark.commonmark.use_underscore:  Disable parsing of _ for emphasis by setting to false; enable with true (default: true)
+#
+# - markdown.commonmark.commonmark.unordered_list_markers: Array of characters that can be used to indicate a bulleted list.
+#
+# - markdown.commonmark.html_input:                `strip` all HTML (equivalent to 'safe' => true). `allow` all HTML input as-is (default value; equivalent to `‘safe’ => false) `escape` Escape all HTML.
+#
+# - markdown.commonmark.allow_unsafe_links:         Remove risky link and image URLs by setting this to false (default: true).
+#
+# - markdown.commonmark.max_nesting_level:          The maximum nesting level for blocks (default: PHP_INT_MAX). Setting this to a positive integer can help protect against long parse times and/or segfaults if blocks are too deeply-nested.
+#
+# - markdown.commonmark.slug_normalizer.max_length: Limits the size of generated slugs (defaults to 255 characters)
 parsers:
   markdown:
     cache: true
@@ -576,24 +588,24 @@ parsers:
 # This is important for third party web apps using Flextype, as without CORS, a JavaScript app hosted on example.com
 # couldn't access our APIs because they're hosted on another.com which is a different domain.
 #
-# - enabled: Set to true to enable cors
+# - enabled:     Set to true to enable cors
 #
-# - origin:   The Access-Control-Allow-Origin response header indicates whether
-#             the response can be shared with requesting code from the given origin.
-#             read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
+# - origin:      The Access-Control-Allow-Origin response header indicates whether
+#                the response can be shared with requesting code from the given origin.
+#                read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
 #
-# - headers:  The Access-Control-Allow-Headers response header is used in response
-#             to a preflight request which includes the Access-Control-Request-Headers
-#             to indicate which HTTP headers can be used during the actual request.
-#             read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
+# - headers:     The Access-Control-Allow-Headers response header is used in response
+#                to a preflight request which includes the Access-Control-Request-Headers
+#                to indicate which HTTP headers can be used during the actual request.
+#                read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
 #
-# - methods: The Access-Control-Allow-Methods response header specifies the method
-#            or methods allowed when accessing the resource in response to a preflight request.
-#            read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods
+# - methods:     The Access-Control-Allow-Methods response header specifies the method
+#                or methods allowed when accessing the resource in response to a preflight request.
+#                read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods
 #
-# - expose:  The Access-Control-Expose-Headers response header indicates which headers
-#            can be exposed as part of the response by listing their names.
-#            read more: https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Access-Control-Expose-Headers
+# - expose:      The Access-Control-Expose-Headers response header indicates which headers
+#                can be exposed as part of the response by listing their names.
+#                read more: https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Access-Control-Expose-Headers
 #
 # - credentials: The Access-Control-Allow-Credentials response header tells browsers whether
 #                to expose the response to frontend JavaScript code when the request's credentials
@@ -609,27 +621,27 @@ cors:
 
 # Upload
 #
-# - directory: Uploads directory
+# - directory:                           Uploads directory
 #
-# - overwrite: Overwrite existing files.
+# - overwrite:                           Overwrite existing files.
 #
-# - autoconfirm: Auto-confirm uploads.
+# - autoconfirm:                         Auto-confirm uploads.
 #
-# - prefix: Prefixing uploads.
+# - prefix:                              Prefixing uploads.
 #
-# - validation.allowed_file_extensions: Allowed file extensions.
+# - validation.allowed_file_extensions:  Allowed file extensions.
 #
-# - validation.max_file_size: Maximum file size.
+# - validation.max_file_size:            Maximum file size.
 #
-# - validation.image.width.max: Image maxiumum width.
+# - validation.image.width.max:          Image maxiumum width.
 #
-# - validation.image.width.min: Image minimum width.
+# - validation.image.width.min:          Image minimum width.
 #
-# - validation.image.height.max: Image maxiumum height.
+# - validation.image.height.max:         Image maxiumum height.
 #
-# - validation.image.height.min: Image minimum height.
+# - validation.image.height.min:         Image minimum height.
 #
-# - validation.image.ratio.size: The option can be a number (eg: 1.3) or a ratio-like string (eg: 4:3, 16:9). 
+# - validation.image.ratio.size:         The option can be a number (eg: 1.3) or a ratio-like string (eg: 4:3, 16:9). 
 #
 # - validation.image.ratio.error_margin: The option error_margin specifies how much the image is allowed to 
 #                                               deviate from the target ratio. Default value is 0.
