@@ -120,7 +120,7 @@ if (! function_exists('redirect')) {
     function redirect(string $routeName, array $data = [], array $queryParams = []): Response
     {
         $response = new Response();
-        $response->withHeader('Location', urlFor($routeName, $data, $queryParams));
+        $response = $response->withHeader('Location', urlFor($routeName, $data, $queryParams));
 
         return $response;
     }
