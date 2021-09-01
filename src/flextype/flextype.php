@@ -395,6 +395,10 @@ container()->set('images', static function () {
         'api' => $api,
     ]);
 
+    // Set presets
+    $server->setPresets(registry()->get('flextype.settings.images.presets'));
+
+    // Set Glide response factory
     $server->setResponseFactory(
         new PsrResponseFactory(
             new Response(),

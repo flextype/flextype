@@ -665,6 +665,8 @@ upload:
 # - cache.enabled:        Set to true to enable images caching.
 #
 # - cache.directory:      Images cache directory.
+#
+# - presets:              Group of presets for images processing.
 images:
   driver: gd
   directory: '/uploads'
@@ -672,6 +674,7 @@ images:
     directory: '/watermarks'
   cache:
     directory: '/images'
+  presets: []
     
 
 # Session
