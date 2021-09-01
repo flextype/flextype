@@ -654,6 +654,26 @@ upload:
     image:
       quality: 70
 
+# Images
+#
+# - driver:               Images driver (gd, imagick)
+#
+# - directory:            Images directory.
+#
+# - watermarks.directory: Watermarks directory.
+#
+# - cache.enabled:        Set to true to enable images caching.
+#
+# - cache.directory:      Images cache directory.
+images:
+  driver: gd
+  directory: '/uploads'
+  watermarks: 
+    directory: '/watermarks'
+  cache:
+    directory: '/images'
+    
+
 # Session
 #
 # Set session options before you start the session

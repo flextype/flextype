@@ -344,24 +344,24 @@ parsers()->shortcodes()->initShortcodes();
 // Add Serializers Service
 container()->set('serializers', new Serializers());
 
-// Add Image Service
+// Add Images Service
 container()->set('images', static function () {
     // Get image settings
     $imagesSettings = ['driver' => registry()->get('flextype.settings.images.driver')];
 
     // Set source filesystem
     $source = new Flysystem(
-        new Local(PATH['project'] . '/uploads/')
+        new Local(PATH['project'] . registry()->get('flextype.settings.images.directory')),
     );
 
     // Set cache filesystem
     $cache = new Flysystem(
-        new Local(PATH['tmp'] . '/glide')
+        new Local(PATH['tmp'] . registry()->get('flextype.settings.images.cache.directory'))
     );
 
     // Set watermarks filesystem
     $watermarks = new Flysystem(
-        new Local(PATH['project'] . '/watermarks')
+        new Local(PATH['project'] . registry()->get('flextype.settings.images.watermarks.directory'))
     );
 
     // Set image manager
