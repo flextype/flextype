@@ -346,8 +346,9 @@ container()->set('serializers', new Serializers());
 
 // Add Images Service
 container()->set('images', static function () {
-    // Get image settings
-    $imagesSettings = ['driver' => registry()->get('flextype.settings.images.driver')];
+
+    // Get image settings driver
+    $imagesSettingsDriver = ['driver' => registry()->get('flextype.settings.images.driver')];
 
     // Set source filesystem
     $source = new Flysystem(
@@ -365,7 +366,7 @@ container()->set('images', static function () {
     );
 
     // Set image manager
-    $imageManager = new ImageManager($imagesSettings);
+    $imageManager = new ImageManager($imagesSettingsDriver);
 
     // Set max image size
     $maxImageSize = registry()->get('flextype.settings.images.max_image_size.width') * registry()->get('flextype.settings.images.max_image_size.height');
