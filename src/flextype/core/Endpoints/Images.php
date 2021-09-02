@@ -41,7 +41,7 @@ class Images extends Api
         }
 
         // Check is file exists
-        if (! filesystem()->file(flextype()->registry()->get('flextype.settings.images.directory') . $path)->exists()) {
+        if (! filesystem()->file(flextype()->registry()->get('flextype.settings.images.directory') . '/' . $path)->exists()) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage(404), 404);
         }
 
