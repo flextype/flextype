@@ -23,18 +23,18 @@ url: '/flextype'
 
 # Valid date format
 #
-# - date_format: Valid date format
-#
-# - date_display_format: Valid date format to display
-#
 # Date format variants:
 #
-# d-m-Y H:i" - 02-02-2020 09:41
-# Y-m-d H:i" - 2020-02-02 09:41
-# m/d/Y h:i a - 02/02/2020 09:41 pm
-# H:i d-m-Y - 09:41 02-02-2020
-# h:i a m/d/Y - 09:41 pm 02/02/2020
+#   d-m-Y H:i" - 02-02-2020 09:41
+#   Y-m-d H:i" - 2020-02-02 09:41
+#   m/d/Y h:i a - 02/02/2020 09:41 pm
+#   H:i d-m-Y - 09:41 02-02-2020
+#   h:i a m/d/Y - 09:41 pm 02/02/2020
+
+# Valid date format
 date_format: 'd-m-Y H:i'
+
+# Valid date format to display
 date_display_format: 'd-m-Y H:i'
 
 # Display errors
@@ -48,9 +48,9 @@ date_display_format: 'd-m-Y H:i'
 # - Detailed error messages for login failures could leak information to attackers
 #
 # In a production environment, always log errors to your PHP error logs.
-#
-# - display: Display errors or not.
 errors:
+
+  # Set true to display errors.
   display: true
 
 # Entries
@@ -420,35 +420,37 @@ determine_route_before_app_middleware: false
 output_buffering: append
 
 # Slugify
-#
-# - separator: By default Slugify will use dashes as separators.
-#              If you want to use a different default separator,
-#              you can set the separator option.
-#
-# - lowercase: By default Slugify will convert the slug to lowercase.
-#              If you want to preserve the case of the string you can set the
-#              lowercase option to false.
-#
-# - trim:      By default Slugify will remove leading and trailing separators before
-#              returning the slug. If you do not want the slug to be trimmed you can
-#              set the trim option to false.
-#
-# - regexp:    You can also change the regular expression that is used to replace
-#              characters with the separator.
-#
-# - lowercase_after_regexp: Lowercasing is done before using the regular expression.
-#                           If you want to keep the lowercasing behavior but your
-#                           regular expression needs to match uppercase letters,
-#                           you can set the lowercase_after_regexp option to true.
-#
-# - strip_tags: Adds in an option to go through strip_tags() in case the string contains HTML etc.
 slugify:
+
+  # Set true to enable slugify.
   enabled: true
+
+  # By default Slugify will use dashes as separators.
+  # If you want to use a different default separator,
+  # you can set the separator option.
   separator: "-"
+
+  # By default Slugify will convert the slug to lowercase.
+  # If you want to preserve the case of the string you can set the
+  # lowercase option to false.
   lowercase: true
+
+  # By default Slugify will remove leading and trailing separators before
+  # returning the slug. If you do not want the slug to be trimmed you can
+  # set the trim option to false.
   trim: true
+
+  # You can also change the regular expression that is used to replace
+  # characters with the separator.
   regexp: "/[^A-Za-z0-9]+/"
+
+  # Lowercasing is done before using the regular expression.
+  # If you want to keep the lowercasing behavior but your
+  # regular expression needs to match uppercase letters,
+  # you can set the lowercase_after_regexp option to true.
   lowercase_after_regexp: false
+
+  # Adds in an option to go through strip_tags() in case the string contains HTML etc.
   strip_tags: false
 
 # Serializers
@@ -588,83 +590,96 @@ parsers:
 # CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.
 # This is important for third party web apps using Flextype, as without CORS, a JavaScript app hosted on example.com
 # couldn't access our APIs because they're hosted on another.com which is a different domain.
-#
-# - enabled:     Set to true to enable cors
-#
-# - origin:      The Access-Control-Allow-Origin response header indicates whether
-#                the response can be shared with requesting code from the given origin.
-#                read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
-#
-# - headers:     The Access-Control-Allow-Headers response header is used in response
-#                to a preflight request which includes the Access-Control-Request-Headers
-#                to indicate which HTTP headers can be used during the actual request.
-#                read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
-#
-# - methods:     The Access-Control-Allow-Methods response header specifies the method
-#                or methods allowed when accessing the resource in response to a preflight request.
-#                read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods
-#
-# - expose:      The Access-Control-Expose-Headers response header indicates which headers
-#                can be exposed as part of the response by listing their names.
-#                read more: https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Access-Control-Expose-Headers
-#
-# - credentials: The Access-Control-Allow-Credentials response header tells browsers whether
-#                to expose the response to frontend JavaScript code when the request's credentials
-#                mode (Request.credentials) is include.
-#                read more: https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials
 cors:
+
+  # Set to true to enable cors
   enabled: true
+
+  # The Access-Control-Allow-Origin response header indicates whether
+  # the response can be shared with requesting code from the given origin.
+  #
+  # read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
   origin: "*"
+
+  # The Access-Control-Allow-Headers response header is used in response
+  # to a preflight request which includes the Access-Control-Request-Headers
+  # to indicate which HTTP headers can be used during the actual request.
+  #
+  # read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
   headers: ["X-Requested-With", "Content-Type", "Accept", "Origin", "Authorization"]
+  
+  # The Access-Control-Allow-Methods response header specifies the method
+  # or methods allowed when accessing the resource in response to a preflight request.
+  #
+  # read more: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods
   methods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+  
+  # The Access-Control-Expose-Headers response header indicates which headers
+  # can be exposed as part of the response by listing their names.
+  #
+  # read more: https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Access-Control-Expose-Headers
   expose: []
+
+  # The Access-Control-Allow-Credentials response header tells browsers whether
+  # to expose the response to frontend JavaScript code when the request's credentials
+  # mode (Request.credentials) is include.
+  #
+  # read more: https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials
   credentials: false
 
 # Upload
-#
-# - directory:                           Uploads directory
-#
-# - overwrite:                           Overwrite existing files.
-#
-# - autoconfirm:                         Auto-confirm uploads.
-#
-# - prefix:                              Prefixing uploads.
-#
-# - validation.allowed_file_extensions:  Allowed file extensions.
-#
-# - validation.max_file_size:            Maximum file size.
-#
-# - validation.image.width.max:          Image maxiumum width.
-#
-# - validation.image.width.min:          Image minimum width.
-#
-# - validation.image.height.max:         Image maxiumum height.
-#
-# - validation.image.height.min:         Image minimum height.
-#
-# - validation.image.ratio.size:         The option can be a number (eg: 1.3) or a ratio-like string (eg: 4:3, 16:9). 
-#
-# - validation.image.ratio.error_margin: The option error_margin specifies how much the image is allowed to 
-#                                               deviate from the target ratio. Default value is 0.
-#  
-# - process.image.quality: 
 upload:
+
+  # Uploads directory
   directory: '/uploads'
+
+  # Overwrite existing files.
   overwrite: true
+
+  # Auto-confirm uploads.
   autoconfirm: false
+
+  # Prefixing uploads.
   prefix: ''
+
+  # Validation options
   validation:
+
+    # Allowed file extensions.
     allowed_file_extensions: ['gif', 'jpg', 'jpeg', 'png', 'ico', 'webm', 'svg']
+
+    # Maximum file size.
     max_file_size: '24M'
+
+    # Image validation options
     image:
+    
+      # Image maxiumum and minimum width
       width:
         max: 4920
         min: 100
+
+      # Image maxiumum and minimum height
       height: 
         max: 3264
         min: 100
+    
+      # Image ratio
+      #ratio:
+      #  The option can be a number (eg: 1.3) or a ratio-like string (eg: 4:3, 16:9).
+      #  size: 1.3
+
+      #  The option error_margin specifies how much the image is allowed to 
+      #  deviate from the target ratio. Default value is 0.
+      #  error_margin: 0
+
+  # Process uploaded files
   process:
+
+    # Images process settings
     image:
+
+      # Image quality
       quality: 70
     
 # Session
