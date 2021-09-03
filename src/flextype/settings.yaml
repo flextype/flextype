@@ -53,6 +53,15 @@ errors:
   # Set true to display errors.
   display: true
 
+  # Editor (emacs, idea, macvim, phpstorm, sublime, textmate, xdebug, vscode, atom, espresso)
+  editor: atom
+
+  # Error page title
+  page_title: Error!
+
+  # Handler (pretty, plain, json, xml)
+  handler: pretty
+
 # Entries
 entries:
   directory: '/entries'
@@ -379,21 +388,7 @@ cache:
     zenddisk: {}
     zendshm: {}
 
-# Whoops
-#
-# Error handler framework for PHP.
-#
-# - editor: emacs, idea, macvim, phpstorm, sublime, textmate, xdebug, vscode, atom, espresso
-#
-# - page_title: page title
-whoops:
-  editor: atom
-  page_title: Error!
-
 # Slim
-#
-# - display_error_details: When true, additional information about exceptions are
-#                          displayed by the default error handler.
 #
 # - add_content_length_header: When true, Slim will add a Content-Length header to
 #                              the response. If you are using a runtime analytics tool,
@@ -413,7 +408,6 @@ whoops:
 #                     If 'append' or 'prepend', then any echo or print statements
 #                     are captured and are either appended or prepended to the Response
 #                     returned from the route callable.
-display_error_details: true
 add_content_length_header: true
 router_cache_file: false
 determine_route_before_app_middleware: false

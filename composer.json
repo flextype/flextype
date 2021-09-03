@@ -36,8 +36,6 @@
 
         "slim/slim": "^4.8.1",
 
-        "filp/whoops": "^2.14",
-
         "league/event": "^2.2.0",
         "league/glide": "^2.0.0",
 
@@ -56,10 +54,11 @@
         "slim/psr7": "^1.4",
         "php-di/php-di": "^6.3.4",
         "php-di/slim-bridge": "^3.1.1",
-        "middlewares/whoops": "^2.0",
         "nette/neon": "^3.2", 
         "league/commonmark": "^2.0",
-        "siriusphp/upload": "^3.0"
+        "siriusphp/upload": "^3.0",
+
+        "filp/whoops": "^2.14"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",

@@ -16,7 +16,6 @@ use DateTimeZone;
 use Flextype\Entries\Entries;
 use Flextype\Handlers\HttpErrorHandler;
 use Flextype\Handlers\ShutdownHandler;
-use Flextype\Media\Media;
 use Flextype\Parsers\Parsers;
 use Flextype\Serializers\Serializers;
 use Flextype\Tokens\Tokens;
@@ -57,6 +56,7 @@ use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Response;
 use Slim\Psr7\Stream;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
+use Flextype\Middlewares\WhoopsMiddleware;
 
 use function app;
 use function array_replace_recursive;
@@ -87,11 +87,11 @@ use function sys_get_temp_dir;
 use function trim;
 use function var_export;
 
-// Init Flextype Instance
-// Creates $app Application and $container Container objects
+// Init Flextype Instance.
+// Creates $app Application and $container Container objects.
 flextype();
 
-// Add Registry Service
+// Add Registry Service.
 container()->set('registry', registry());
 
 // Init Flextype config (manifest and settings)
@@ -108,7 +108,7 @@ $f1 = file_exists($flextypeManifestFilePath) ? filemtime($flextypeManifestFilePa
 $f2 = file_exists($defaultFlextypeSettingsFilePath) ? filemtime($defaultFlextypeSettingsFilePath) : '';
 $f3 = file_exists($customFlextypeSettingsFilePath) ? filemtime($customFlextypeSettingsFilePath) : '';
 
-// Create Unique Cache ID
+// Create Unique Cache ID.
 $cacheID = md5($flextypeManifestFilePath . $defaultFlextypeSettingsFilePath . $customFlextypeSettingsFilePath . $f1 . $f2 . $f3);
 
 if (filesystem()->file($preflightFlextypePath . '/' . $cacheID . '.php')->exists()) {
@@ -194,15 +194,6 @@ if (registry()->get('flextype.settings.cache.routes')) {
     app()->getRouteCollector()->setCacheFile(PATH['tmp'] . '/routes/routes.php');
 }
 
-$callableResolver     = app()->getCallableResolver();
-$responseFactory      = app()->getResponseFactory();
-$serverRequestCreator = ServerRequestCreatorFactory::create();
-$request              = $serverRequestCreator->createServerRequestFromGlobals();
-
-$errorHandler    = new HttpErrorHandler($callableResolver, $responseFactory);
-$shutdownHandler = new ShutdownHandler($request, $errorHandler, registry()->get('flextype.settings.errors.display'));
-register_shutdown_function($shutdownHandler);
-
 // Add Session Service
 container()->set('session', new Session());
 
@@ -216,8 +207,8 @@ container()->set('emitter', new Emitter());
 container()->set('slugify', new Slugify([
     'separator' => registry()->get('flextype.settings.slugify.separator'),
     'lowercase' => registry()->get('flextype.settings.slugify.lowercase'),
-    'trim' => registry()->get('flextype.settings.slugify.trim'),
-    'regexp' => registry()->get('flextype.settings.slugify.regexp'),
+    'trim'      => registry()->get('flextype.settings.slugify.trim'),
+    'regexp'    => registry()->get('flextype.settings.slugify.regexp'),
     'lowercase_after_regexp' => registry()->get('flextype.settings.slugify.lowercase_after_regexp'),
     'strip_tags' => registry()->get('flextype.settings.slugify.strip_tags'),
 ]));
@@ -395,8 +386,8 @@ container()->set('images', static function () {
     // Setup Glide server
     $server = ServerFactory::create([
         'source' => $source,
-        'cache' => $cache,
-        'api' => $api,
+        'cache'  => $cache,
+        'api'    => $api,
     ]);
 
     // Set presets
@@ -482,11 +473,16 @@ if (registry()->get('flextype.settings.cors.enabled')) {
 // Add Routing Middleware
 app()->addRoutingMiddleware();
 
-// Add Error Handling Middleware
-app()->addErrorMiddleware(registry()->get('flextype.settings.errors.display'), false, false)->setDefaultErrorHandler($errorHandler);
-
 // Run high priority event: onFlextypeBeforeRun before Flextype Application starts.
 emitter()->emit('onFlextypeBeforeRun');
+
+// Add Whoops Error Handling Middleware
+app()->add(new WhoopsMiddleware([
+    'enable'  => registry()->get('flextype.settings.errors.display'),
+    'editor'  => registry()->get('flextype.settings.errors.editor'),
+    'title'   => registry()->get('flextype.settings.errors.page_title'),
+    'handler' => registry()->get('flextype.settings.errors.handler'),
+]));
 
 // Run Flextype Application
 app()->run();
