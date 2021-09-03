@@ -15,6 +15,10 @@
 
 * **entries**: Added new method `getOptions`.
 
+* **entries**: Added new method `setOptions`.
+
+* **entries**: Added new method `setRegistry`.
+
 * **entries**: Added ability to override logic for built-in custom fields.
 
     Example: 
@@ -214,7 +218,7 @@
 
 * **helpers**: Added helper function `cache` to get Flextype Cache Service.
 
-* **helpers**: Added helper function `content` to get Flextype Content Service.
+* **helpers**: Added helper function `entries` to get Flextype Entries Service.
 
 * **helpers**: Added helper function `media` to get Flextype Media Service.
 
@@ -230,11 +234,29 @@
 
 * **helpers**: Added helper function `plugins` to get Flextype Plugins Service.
 
-* **helpers**: Added helper function `image` to create a new image instance.
+* **helpers**: Added helper function `imageFile` to create a new image instance for image file.
 
 * **helpers**: Added helper function `imageCanvas` to create a new image canvas instance.
 
-* **helpers**: Added helper function `imageCache` to create a new cached image instance.
+* **helpers**: Added helper function `token` to generate unique token.
+
+* **helpers**: Added helper function `tokenHash` to generate unique token hash.
+
+* **helpers**: Added helper function `tokenHashValidate` to validate token hash.
+
+* **helpers**: Added helper function `urlFor` to get url for a named route.
+
+* **helpers**: Added helper function `fullUrlFor` to get full url for a named route.
+
+* **helpers**: Added helper function `isCurrentUrl` to determine is current url equal to route name.
+
+* **helpers**: Added helper function `getCurrentUrl` to get current path on given Uri.
+
+* **helpers**: Added helper function `getBasePath` to get base path.
+
+* **helpers**: Added helper function `setBasePath` to set base path.
+
+* **helpers**: Added helper function `redirect` to create redirect.
 
 * **macros**: All core macros are located in the `/src/flextype/macros.php`.
 
