@@ -6,7 +6,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 if (! function_exists('imageFile')) {
     /**
-     * Create a new image instance.
+     * Create a new image instance for image file.
      *
      * @param  string $file    Image file.
      * @param  array  $options Options array.
