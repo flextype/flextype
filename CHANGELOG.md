@@ -3,21 +3,23 @@
 
 ### Features
 
-* **core**: Core updated from Slim 3 to Slim4!
+* **core**: Core updated from Slim 3 to Slim 4!
 
     See: [Upgrade Guide](https://www.slimframework.com/docs/v4/start/upgrade.html)
 
 * **core**: PHP-DI added instead of Pimple DI.
 
+  See: [Usage Guide](https://php-di.org/doc/frameworks/slim.html)
+
 * **entries**: Added ability to create completely customizable high level collections for entries.
 
-    Example: https://github.com/flextype/flextype/issues/563#issuecomment-893507342
+    Example: https://github.com/flextype/flextype/issues/563
 
-* **entries**: Added new method `getOptions`.
+* **entries**: Added new method `getOptions` to get entries options.
 
-* **entries**: Added new method `setOptions`.
+* **entries**: Added new method `setOptions` to set entries options.
 
-* **entries**: Added new method `setRegistry`.
+* **entries**: Added new method `setRegistry` to set entries registry.
 
 * **entries**: Added ability to override logic for built-in custom fields.
 
@@ -61,6 +63,46 @@
 * **content**: Added new Content API based on core Entries API.
 
 * **images** League Glide updated to Glide 2.
+
+* **images** added ablity to define League Glide settings.
+
+    ```yaml
+    api:
+      images:
+        
+        # Set to true to enable Images API
+        enabled: true
+
+        # Images driver (gd, imagick)
+        driver: gd
+
+        # Images directory.
+        directory: '/uploads'
+
+        # Images max size
+        max_image_size: 
+
+          # Image max width
+          width: 2000 
+
+          # Image max height
+          height: 2000
+
+        # Images watermarks
+        watermarks: 
+
+          # Images watermarks directory
+          directory: '/watermarks'
+
+        # Images cache
+        cache:
+
+          # Images cache directory
+          directory: '/images'
+        
+        # Group of presets for images processing.
+        presets: []
+    ```
 
 * **csrf**: Added Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
@@ -258,6 +300,67 @@
 
 * **helpers**: Added helper function `redirect` to create redirect.
 
+* **helpers**: Added helper function `upload` to upload files and process uloaded images.
+
+* **uploder**: Added Sirius Uploader for file upload. 
+
+    ```yaml
+    # Upload
+    upload:
+
+      # Uploads directory
+      directory: '/uploads'
+
+      # Overwrite existing files.
+      overwrite: true
+
+      # Auto-confirm uploads.
+      autoconfirm: false
+
+      # Prefixing uploads.
+      prefix: ''
+
+      # Validation options
+      validation:
+
+        # Allowed file extensions.
+        allowed_file_extensions: ['gif', 'jpg', 'jpeg', 'png', 'ico', 'webm', 'svg']
+
+        # Maximum file size.
+        max_file_size: '24M'
+
+        # Image validation options
+        image:
+        
+          # Image maxiumum and minimum width
+          width:
+            max: 4920
+            min: 100
+
+          # Image maxiumum and minimum height
+          height: 
+            max: 3264
+            min: 100
+        
+          # Image ratio
+          #ratio:
+          #  The option can be a number (eg: 1.3) or a ratio-like string (eg: 4:3, 16:9).
+          #  size: 1.3
+
+          #  The option error_margin specifies how much the image is allowed to 
+          #  deviate from the target ratio. Default value is 0.
+          #  error_margin: 0
+
+      # Process uploaded files
+      process:
+
+        # Images process settings
+        image:
+
+          # Image quality
+          quality: 70
+    ```
+
 * **macros**: All core macros are located in the `/src/flextype/macros.php`.
 
 * **macros**: Added `onlyFromCollection` and `exceptFromCollection` macros for Arrays ([#553](https://github.com/flextype/flextype/issues/553))
@@ -278,14 +381,13 @@
 
 * **core** Use new helpers functions to access Flextype Services.
 
-  * use `content()` instead of `flextype('entries')`
+  * use `entries()` instead of `flextype('entries')`
   * use `session()` instead of `flextype('session')`
   * use `cache()` instead of `flextype('cache')`
   * use `app()` instead of `flextype()`
   * use `container()` instead of `flextype('container_name_here')`
   * use `parsers()` instead of `flextype('parsers')`
   * use `serializers()` instead of `flextype('serializers')`
-  * use `media()` instead of `flextype('media')`
   * use `plugins()` instead of `flextype('plugins')`
   * use `emitter()` instead of `flextype('emitter')`
   * use `logger()` instead of `flextype('logger')`
@@ -295,26 +397,26 @@
 
 * **core**: Use helper function `container` to access Flextype Application container instead of old helper function `flextype()` with container name argument.
 
-  * use `container()->get('content')` instead of `flextype('entries')`
-  * use `container()->set('content', new Content())` instead of `flextype()['content'] = new Content()`
+  * use `container()->get('entries')` instead of `flextype('entries')`
+  * use `container()->set('content', new Entries())` instead of `flextype()['entries'] = new Entries()`
 
 * **entries**: Don't use Entries API directly. Instead, you should use API's based on Entries API. e.g. built-in Content API, Media API, or create your own by extending Entries API.
 
 * **entries**: Project entries moved from `/project/entries/` to `/project/entries/content/`.
 
-* **content**: Content API for content manipulations instead of base Entries API. 
+* **content**: Entries API for content manipulations instead of base Entries API. 
 
-  * use `content()->fetch()` instead of `flextype('entries')->fetch()`
-  * use `content()->create()` instead of `flextype('entries')->create()`
-  * use `content()->delete()` instead of `flextype('entries')->delete()`
+  * use `entries()->fetch()` instead of `flextype('entries')->fetch()`
+  * use `entries()->create()` instead of `flextype('entries')->create()`
+  * use `entries()->delete()` instead of `flextype('entries')->delete()`
   etc...
 
 * **content**: Changes for content(prev. entries) memory storage.
 
-  * use `content()->registry()->get()` instead of `flextype('entries')->storage()->get()`
-  * use `content()->registry()->set()` instead of `flextype('entries')->storage()->set()`
-  * use `content()->registry()->has()` instead of `flextype('entries')->storage()->has()`
-  * use `content()->registry()->delete()` instead of `flextype('entries')->storage()->delete()`
+  * use `entries()->registry()->get()` instead of `flextype('entries')->storage()->get()`
+  * use `entries()->registry()->set()` instead of `flextype('entries')->storage()->set()`
+  * use `entries()->registry()->has()` instead of `flextype('entries')->storage()->has()`
+  * use `entries()->registry()->delete()` instead of `flextype('entries')->storage()->delete()`
 
   note: all method from Atomastic Arrays are available for Arrays Storage Object manipulations
   docs: https://github.com/atomastic/arrays
