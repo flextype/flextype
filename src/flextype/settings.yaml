@@ -666,31 +666,6 @@ upload:
   process:
     image:
       quality: 70
-
-# Images
-#
-# - driver:               Images driver (gd, imagick)
-#
-# - directory:            Images directory.
-#
-# - watermarks.directory: Watermarks directory.
-#
-# - cache.enabled:        Set to true to enable images caching.
-#
-# - cache.directory:      Images cache directory.
-#
-# - presets:              Group of presets for images processing.
-images:
-  driver: gd
-  directory: '/uploads'
-  max_image_size: 
-    width: 2000 
-    height: 2000
-  watermarks: 
-    directory: '/watermarks'
-  cache:
-    directory: '/images'
-  presets: []
     
 # Session
 #
@@ -698,15 +673,63 @@ images:
 # Standard PHP session configuration options
 # https://secure.php.net/manual/en/session.configuration.php
 session:
+
+  # Session name
   name: Flextype
 
 # Flextype Rest APIs
 api:
+
+  # Entries API
   entries:
+
+    # Set to true to enable Entries API
     enabled: true
+
+  # Registry API
   registry:
+
+    # Set to true to enable Registry API
     enabled: true
+
+  # Images API
   images:
+
+    # Set to true to enable Images API
     enabled: true
+
+    # Images driver (gd, imagick)
+    driver: gd
+
+    # Images directory.
+    directory: '/uploads'
+
+    # Images max size
+    max_image_size: 
+
+      # Image max width
+      width: 2000 
+
+      # Image max height
+      height: 2000
+
+    # Images watermarks
+    watermarks: 
+
+      # Images watermarks directory
+      directory: '/watermarks'
+
+    # Images cache
+    cache:
+
+      # Images cache directory
+      directory: '/images'
+    
+    # Group of presets for images processing.
+    presets: []
+
+  # Utils API
   utils:
+
+    # Set to true to enable Utils API
     enabled: true

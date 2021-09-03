@@ -348,28 +348,28 @@ container()->set('serializers', new Serializers());
 container()->set('images', static function () {
 
     // Get image settings driver
-    $imagesSettingsDriver = ['driver' => registry()->get('flextype.settings.images.driver')];
+    $imagesSettingsDriver = ['driver' => registry()->get('flextype.settings.api.images.driver')];
 
     // Set source filesystem
     $source = new Flysystem(
-        new Local(PATH['project'] . registry()->get('flextype.settings.images.directory')),
+        new Local(PATH['project'] . registry()->get('flextype.settings.api.images.directory')),
     );
 
     // Set cache filesystem
     $cache = new Flysystem(
-        new Local(PATH['tmp'] . registry()->get('flextype.settings.images.cache.directory'))
+        new Local(PATH['tmp'] . registry()->get('flextype.settings.api.images.cache.directory'))
     );
 
     // Set watermarks filesystem
     $watermarks = new Flysystem(
-        new Local(PATH['project'] . registry()->get('flextype.settings.images.watermarks.directory'))
+        new Local(PATH['project'] . registry()->get('flextype.settings.api.images.watermarks.directory'))
     );
 
     // Set image manager
     $imageManager = new ImageManager($imagesSettingsDriver);
 
     // Set max image size
-    $maxImageSize = registry()->get('flextype.settings.images.max_image_size.width') * registry()->get('flextype.settings.images.max_image_size.height');
+    $maxImageSize = registry()->get('flextype.settings.api.images.max_image_size.width') * registry()->get('flextype.settings.api.images.max_image_size.height');
 
     // Set manipulators
     $manipulators = [
@@ -400,7 +400,7 @@ container()->set('images', static function () {
     ]);
 
     // Set presets
-    $server->setPresets(registry()->get('flextype.settings.images.presets'));
+    $server->setPresets(registry()->get('flextype.settings.api.images.presets'));
 
     // Set Glide response factory
     $server->setResponseFactory(
