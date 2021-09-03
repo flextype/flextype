@@ -36,6 +36,8 @@ class Entries
      * Local entries registry used for storing current requested
      * entries data and allow to change them on fly.
      *
+     * @var Arrays
+     * 
      * @access private
      */
     private Arrays $registry;
@@ -52,6 +54,7 @@ class Entries
      *   actions     - Array of actions for entries collection.
      *
      * @var array
+     * 
      * @access private
      */
     private array $options = [];
