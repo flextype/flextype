@@ -15,6 +15,8 @@
 
     Example: https://github.com/flextype/flextype/issues/563
 
+* **entries**: Added ability to set custom actions for each entries collections.
+
 * **entries**: Added new method `getOptions` to get entries options.
 
 * **entries**: Added new method `setOptions` to set entries options.
@@ -58,9 +60,22 @@
     ...
     ```
 
-* **media**: Added new Media API based on core Entries API.
+* **endpoints** All Rest API Endpoints codebase were rewritten from scratch.
 
-* **content**: Added new Content API based on core Entries API.
+* **endpoints** New Rest API Endpoint `/api/utils/cache/clear`.
+
+    ```
+    Clear cache
+    
+    endpoint: POST /api/utils/cache/clear
+    
+    Body:
+      token        - [REQUIRED] - Valid public token.
+      access_token - [REQUIRED] - Valid access token.
+    
+    Returns:
+      Returns an empty body with HTTP status 204
+    ```
 
 * **images** League Glide updated to Glide 2.
 
@@ -166,7 +181,7 @@
           allowed: ['yaml', 'json', 'neon']
     ```
 
-* **parsers**: Markdown parser [Commonmark updated to v2](https://commonmark.thephpleague.com/2.0/upgrading/). 
+* **parsers**: Markdown parser [Commonmark updated to v2](https://commonmark.thephpleague.com/2.0/upgrading/)
 
 * **parsers**: Added ability to set global settings for all parsers. 
 
@@ -379,7 +394,7 @@
 
 ### BREAKING CHANGES
 
-* **core** Use new helpers functions to access Flextype Services.
+* **helpers** Use new helpers functions to access Flextype Services.
 
   * use `entries()` instead of `flextype('entries')`
   * use `session()` instead of `flextype('session')`
@@ -393,25 +408,18 @@
   * use `logger()` instead of `flextype('logger')`
   * use `registry()` instead of `flextype('registry')`
 
-* **core**: Use helper function `app` to access Flextype Application instance instead of old helper function `flextype()`.
+* **helpers**: Use helper function `app` to access Flextype Application instance instead of old helper function `flextype()`.
 
-* **core**: Use helper function `container` to access Flextype Application container instead of old helper function `flextype()` with container name argument.
+* **helpers**: Use helper function `container` to access Flextype Application container instead of old helper function `flextype()` with container name argument.
 
   * use `container()->get('entries')` instead of `flextype('entries')`
   * use `container()->set('content', new Entries())` instead of `flextype()['entries'] = new Entries()`
 
-* **entries**: Don't use Entries API directly. Instead, you should use API's based on Entries API. e.g. built-in Content API, Media API, or create your own by extending Entries API.
+* **helpers**: Use helper function `filterCollection` instead of old `filter`.
 
-* **entries**: Project entries moved from `/project/entries/` to `/project/entries/content/`.
+* **tokens**: Project tokens moved from `/project/tokens/` to `/project/entries/tokens/`.
 
-* **content**: Entries API for content manipulations instead of base Entries API. 
-
-  * use `entries()->fetch()` instead of `flextype('entries')->fetch()`
-  * use `entries()->create()` instead of `flextype('entries')->create()`
-  * use `entries()->delete()` instead of `flextype('entries')->delete()`
-  etc...
-
-* **content**: Changes for content(prev. entries) memory storage.
+* **entries**: Changes for etnries memory storage.
 
   * use `entries()->registry()->get()` instead of `flextype('entries')->storage()->get()`
   * use `entries()->registry()->set()` instead of `flextype('entries')->storage()->set()`
@@ -420,6 +428,12 @@
 
   note: all method from Atomastic Arrays are available for Arrays Storage Object manipulations
   docs: https://github.com/atomastic/arrays
+
+### Refactoring
+
+* **core**: general code refactoring and improvements.
+
+* **tests**: All unit tests were rewritten.
 
 <a name="0.9.16"></a>
 # [0.9.16](https://github.com/flextype/flextype/compare/v0.9.15...v0.9.16) (2021-01-14)
