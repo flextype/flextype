@@ -83,7 +83,7 @@ if (! function_exists('getCurrentUrl')) {
 
 if (! function_exists('getBasePath')) {
     /**
-     * Get the base path
+     * Get the base path.
      *
      * @return string Base Path.
      */
@@ -95,7 +95,7 @@ if (! function_exists('getBasePath')) {
 
 if (! function_exists('setBasePath')) {
     /**
-     * Set the base path
+     * Set the base path.
      *
      * @param string $basePath Base path.
      *
@@ -109,7 +109,7 @@ if (! function_exists('setBasePath')) {
 
 if (! function_exists('redirect')) {
     /**
-     * Redirect
+     * Redirect.
      *
      * @param string                $routeName   Route name
      * @param array<string, string> $data        Route placeholders
