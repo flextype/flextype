@@ -15,7 +15,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Flextype\WhoopsGuard;
 
-class WhoopsMiddleware implements MiddlewareInterface {
+class WhoopsMiddleware implements MiddlewareInterface 
+{
 
     protected $settings = [];
     protected $handlers = [];
@@ -26,7 +27,8 @@ class WhoopsMiddleware implements MiddlewareInterface {
      * @param array $settings
      * @param array $handlers
      */
-    public function __construct(array $settings = [], array $handlers = []) {
+    public function __construct(array $settings = [], array $handlers = []) 
+    {
         $this->settings = $settings;
         $this->handlers = $handlers;
     }
@@ -38,7 +40,8 @@ class WhoopsMiddleware implements MiddlewareInterface {
      * @param RequestHandlerInterface $handler
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface 
+    {
         $whoopsGuard = new WhoopsGuard($this->settings);
         $whoopsGuard->setRequest($request);
         $whoopsGuard->setHandlers($this->handlers);
