@@ -33,7 +33,6 @@
         "atomastic/strings": "^3.0.2",
         "atomastic/macroable": "^2.0.0",
         "atomastic/csrf": "^1.0.1",
-        "atomastic/view": "dev-dev",
 
         "slim/slim": "^4.8.1",
 
@@ -47,9 +46,9 @@
         "respect/validation": "^2.2.3",
         "monolog/monolog": "^2.3.2",
         "cocur/slugify": "^4.0.0",
-        "ramsey/uuid": "^4.1.1",
+        "ramsey/uuid": "^4.2.1",
         "symfony/yaml": "^5.3.6",
-        "symfony/finder": "^5.3.4",
+        "symfony/finder": "^5.3.7",
 
         "thunderer/shortcode": "^0.7.4",
 
