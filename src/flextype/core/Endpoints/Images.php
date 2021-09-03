@@ -40,12 +40,12 @@ class Images extends Api
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Check is file exists
+        // Determine if the image file exists
         if (! filesystem()->file(flextype()->registry()->get('flextype.settings.images.directory') . '/' . $path)->exists()) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage(404), 404);
         }
 
         // Return image response
-        return container()->get('images')->getImageResponse($path, $request->getQueryParams());
+        return images()->getImageResponse($path, $request->getQueryParams());
     }
 }
