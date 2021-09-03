@@ -265,7 +265,7 @@
 
 * **cache**: Added new cache driver `Phparray` to storage cache data in raw php arrays files.
 
-* **helpers**: All core helpers are located in the `/src/flextype/helpers.php`.
+* **helpers**: All core helpers are located in the `/src/flextype/helpers/`.
 
 * **helpers**: Added helper function `app` to get Flextype Application instance.
 
@@ -376,7 +376,7 @@
           quality: 70
     ```
 
-* **macros**: All core macros are located in the `/src/flextype/macros.php`.
+* **macros**: All core macros are located in the `/src/flextype/macros/`.
 
 * **macros**: Added `onlyFromCollection` and `exceptFromCollection` macros for Arrays ([#553](https://github.com/flextype/flextype/issues/553))
 
