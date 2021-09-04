@@ -16,10 +16,10 @@ charset: UTF-8
 # Available locales to use: src/flextype/config/locales.yaml
 locale: en_US
 
-# Application URL
+# Application Base Path
 #
-# Define custom application url
-url: '/flextype'
+# Define application base path
+base_path: '/flextype'
 
 # Valid date format
 #

@@ -161,8 +161,8 @@ if (filesystem()->file($preflightFlextypePath . '/' . $cacheID . '.php')->exists
 // Store flextype merged data in the flextype registry.
 registry()->set('flextype', $flextypeData);
 
-// Set Flextype base path
-setBasePath(registry()->get('flextype.settings.url'));
+// Set Flextype Aplication base path
+setBasePath(registry()->get('flextype.settings.base_path'));
 
 // Add Routing Middleware
 app()->add(new RoutingMiddleware(app()->getRouteResolver(), app()->getRouteCollector()->getRouteParser()));
