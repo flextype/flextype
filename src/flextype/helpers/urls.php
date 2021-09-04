@@ -107,6 +107,91 @@ if (! function_exists('setBasePath')) {
     }
 }
 
+if (! function_exists('getBaseUrl')) {
+    /**
+     * Get the application base url.
+     *
+     * @return string Application base url.
+     */
+    function getBaseUrl(): string
+    {
+        $baseUrl  = registry()->get('flextype.settings.base_url') ?? '';
+        $basePath = registry()->get('flextype.settings.base_path') ?? '';
+
+        if ($baseUrl != '') {
+            return $baseUrl . $basePath;
+        }
+
+        $getAuth = static function (): string {
+            $result = '';
+            if ($user = $_SERVER['PHP_AUTH_USER'] ?? '') {
+                $result .= $user;
+
+                if ($password = $_SERVER['PHP_AUTH_PW'] ?? '') {
+                    $result .= ':' . $password;
+                }
+
+                $result .= '@';
+            }
+
+            return $result;
+        };
+
+        $isHttps = static function (): bool {
+            if (array_key_exists('HTTPS', $_SERVER)) {
+                return !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+            }
+    
+            return false;
+        };
+
+        $url = '';
+
+        $isHttps = $isHttps();
+
+        $url .= $getAuth();
+      
+        $serverData = arrays($_SERVER);
+
+        $host = (string) $serverData->get('HTTP_HOST');
+        $port = (int) $serverData->get('SERVER_PORT');
+        $url .= str_replace(':' . $port, '', $host);
+
+        if ($isHttps && $port !== 443) {
+            $url .= $port ? ":{$port}" : '';
+        } elseif (!$isHttps && $port !== 80) {
+            $url .= $port ? ":{$port}" : '';
+        }
+
+        if ($url) {
+            if ($isHttps) {
+                $url = 'https://' . $url;
+            } else {
+                $url = 'http://' . $url;
+            }
+        }
+
+        $url .= $basePath;
+
+        return $url;
+    }
+}
+
+if (! function_exists('getAbsoluteUrl')) {
+    /**
+     * Get the application absolute url.
+     *
+     * @return string Application absolute url.
+     */
+    function getAbsoluteUrl(): string
+    {
+        $url  = getBaseUrl();
+        $url .= $_SERVER['REQUEST_URI'];
+
+        return $url;
+    }
+}
+
 if (! function_exists('redirect')) {
     /**
      * Redirect.
