@@ -599,10 +599,10 @@ class Entries
         $entryFile = $this->getFileLocation($id);
 
         if (filesystem()->file($entryFile)->exists()) {
-            return strings('entry' . $entryFile . (filesystem()->file($entryFile)->lastModified() ?: ''))->hash()->toString();
+            return strings($this->options['directory'] . $entryFile . (filesystem()->file($entryFile)->lastModified() ?: ''))->hash()->toString();
         }
 
-        return strings('entry' . $entryFile)->hash()->toString();
+        return strings($this->options['directory'] . $entryFile)->hash()->toString();
     }
 
     /**
