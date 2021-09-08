@@ -37,7 +37,7 @@
         "slim/slim": "^4.8.1",
 
         "league/event": "^2.2.0",
-        "league/glide": "^2.0.0",
+        "intervention/image":  "^2.6.1",
 
         "phpfastcache/phpfastcache": "^8.0.6",
 

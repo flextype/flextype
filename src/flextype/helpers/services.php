@@ -143,13 +143,3 @@ if (! function_exists('plugins')) {
         return flextype()->container()->get('plugins');
     }
 }
-
-if (! function_exists('images')) {
-    /**
-     * Get Flextype Images Service.
-     */
-    function images()
-    {
-        return flextype()->container()->get('images');
-    }
-}

@@ -23,23 +23,6 @@ use Intervention\Image\ImageManager;
 use League\Event\Emitter;
 use League\Flysystem\Filesystem as Flysystem;
 use League\Flysystem\Local\LocalFilesystemAdapter as Local;
-use League\Glide\Api\Api;
-use League\Glide\Manipulators\Background;
-use League\Glide\Manipulators\Blur;
-use League\Glide\Manipulators\Border;
-use League\Glide\Manipulators\Brightness;
-use League\Glide\Manipulators\Contrast;
-use League\Glide\Manipulators\Crop;
-use League\Glide\Manipulators\Encode;
-use League\Glide\Manipulators\Filter;
-use League\Glide\Manipulators\Gamma;
-use League\Glide\Manipulators\Orientation;
-use League\Glide\Manipulators\Pixelate;
-use League\Glide\Manipulators\Sharpen;
-use League\Glide\Manipulators\Size;
-use League\Glide\Manipulators\Watermark;
-use League\Glide\Responses\PsrResponseFactory;
-use League\Glide\ServerFactory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Phpfastcache\Drivers\Apcu\Config;
@@ -334,77 +317,6 @@ parsers()->shortcodes()->initShortcodes();
 
 // Add Serializers Service
 container()->set('serializers', new Serializers());
-
-// Add Images Service
-container()->set('images', static function () {
-
-    // Get image settings driver
-    $imagesSettingsDriver = ['driver' => registry()->get('flextype.settings.api.images.driver')];
-
-    // Set source filesystem
-    $source = new Flysystem(
-        new Local(PATH['project'] . registry()->get('flextype.settings.api.images.directory')),
-    );
-
-    // Set cache filesystem
-    $cache = new Flysystem(
-        new Local(PATH['tmp'] . registry()->get('flextype.settings.api.images.cache.directory'))
-    );
-
-    // Set watermarks filesystem
-    $watermarks = new Flysystem(
-        new Local(PATH['project'] . registry()->get('flextype.settings.api.images.watermarks.directory'))
-    );
-
-    // Set image manager
-    $imageManager = new ImageManager($imagesSettingsDriver);
-
-    // Set max image size
-    $maxImageSize = registry()->get('flextype.settings.api.images.max_image_size.width') * registry()->get('flextype.settings.api.images.max_image_size.height');
-
-    // Set manipulators
-    $manipulators = [
-        new Orientation(),
-        new Crop(),
-        new Size($maxImageSize),
-        new Brightness(),
-        new Contrast(),
-        new Gamma(),
-        new Sharpen(),
-        new Filter(),
-        new Blur(),
-        new Pixelate(),
-        new Watermark($watermarks),
-        new Background(),
-        new Border(),
-        new Encode(),
-    ];
-
-    // Set API
-    $api = new Api($imageManager, $manipulators);
-
-    // Setup Glide server
-    $server = ServerFactory::create([
-        'source' => $source,
-        'cache'  => $cache,
-        'api'    => $api,
-    ]);
-
-    // Set presets
-    $server->setPresets(registry()->get('flextype.settings.api.images.presets'));
-
-    // Set Glide response factory
-    $server->setResponseFactory(
-        new PsrResponseFactory(
-            new Response(),
-            static function ($stream) {
-                return new Stream($stream);
-            }
-        )
-    );
-
-    return $server;
-});
 
 // Add Entries Service
 container()->set('entries', new Entries(registry()->get('flextype.settings.entries')));
