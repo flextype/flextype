@@ -706,42 +706,6 @@ api:
     # Set to true to enable Registry API
     enabled: true
 
-  # Images API
-  images:
-
-    # Set to true to enable Images API
-    enabled: true
-
-    # Images driver (gd, imagick)
-    driver: gd
-
-    # Images directory.
-    directory: '/uploads'
-
-    # Images max size
-    max_image_size: 
-
-      # Image max width
-      width: 2000 
-
-      # Image max height
-      height: 2000
-
-    # Images watermarks
-    watermarks: 
-
-      # Images watermarks directory
-      directory: '/watermarks'
-
-    # Images cache
-    cache:
-
-      # Images cache directory
-      directory: '/images'
-    
-    # Group of presets for images processing.
-    presets: []
-
   # Utils API
   utils:
 
