@@ -35,8 +35,7 @@ app()->get('/api/entries', [Entries::class, 'fetch']);
  *
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
- * token         -
- *  [REQUIRED] - Valid public token.
+ * token         - [REQUIRED] - Valid public token.
  * access_token  - [REQUIRED] - Valid access token.
  * data          - [REQUIRED] - Data to store for the entry.
  *
