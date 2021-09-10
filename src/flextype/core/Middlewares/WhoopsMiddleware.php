@@ -13,7 +13,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Flextype\WhoopsGuard;
+use Flextype\Whoops;
 
 class WhoopsMiddleware implements MiddlewareInterface 
 {
@@ -42,7 +42,7 @@ class WhoopsMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface 
     {
-        $whoopsGuard = new WhoopsGuard($this->settings);
+        $whoopsGuard = new Whoops($this->settings);
         $whoopsGuard->setRequest($request);
         $whoopsGuard->setHandlers($this->handlers);
         $whoopsGuard->install();

@@ -17,7 +17,7 @@ use Whoops\Handler\PlainTextHandler;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\XmlResponseHandler;
 
-class WhoopsGuard 
+class Whoops
 {
 
     protected $settings = [];
