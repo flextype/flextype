@@ -168,61 +168,6 @@ entries:
         state:
           enabled: true
           path: "/src/flextype/core/Entries/Fields/Tokens/Items/StateField.php"
-    media:
-      pattern: media
-      filename: media
-      extension: yaml
-      serializer: yaml
-      fields:
-        modified_at:
-          enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/ModifiedAtField.php"
-        created_at:
-          enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/CreatedAtField.php"
-        created_by:
-          enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/CreatedByField.php"
-        uuid:
-          enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/UuidField.php"
-        id:
-          enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/IdField.php"
-    media_item:
-      pattern: media/(.*)
-      filename: media
-      extension: yaml
-      serializer: yaml
-      actions:
-        create:
-          enabled: true
-          path: "/src/flextype/core/Entries/Actions/Media/CreateAction.php"
-        move:
-          enabled: true
-          path: "/src/flextype/core/Entries/Actions/Media/MoveAction.php"
-        copy:
-          enabled: true
-          path: "/src/flextype/core/Entries/Actions/Media/CopyAction.php"
-        delete:
-          enabled: true
-          path: "/src/flextype/core/Entries/Actions/Media/DeleteAction.php"
-      fields:
-        modified_at:
-          enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/ModifiedAtField.php"
-        created_at:
-          enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/CreatedAtField.php"
-        created_by:
-          enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/CreatedByField.php"
-        uuid:
-          enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/UuidField.php"
-        id:
-          enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/IdField.php"
 
 
 # Cache
@@ -494,7 +439,7 @@ serializers:
       native: true
       flags: 0
     encode:    
-      inline: 5
+      inline: 10
       indent: 2
       flags: 0
   frontmatter:
@@ -568,9 +513,6 @@ parsers:
   shortcodes:
     cache: true
     shortcodes:
-      media:
-        enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/MediaShortcode.php"
       entries:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/EntriesShortcode.php"
