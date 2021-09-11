@@ -114,6 +114,16 @@ if (! function_exists('registry')) {
     }
 }
 
+if (! function_exists('actions')) {
+    /**
+     * Get Flextype Actions Service.
+     */
+    function actions()
+    {
+        return flextype()->container()->get('actions');
+    }
+}
+
 if (! function_exists('csrf')) {
     /**
      * Get Flextype CSRF Service.

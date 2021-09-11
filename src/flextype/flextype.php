@@ -77,6 +77,9 @@ flextype();
 // Add Registry Service.
 container()->set('registry', registry());
 
+// Add Actions Service.
+container()->set('actions', Actions::getInstance());
+
 // Init Flextype config (manifest and settings)
 $flextypeManifestFilePath        = ROOT_DIR . '/src/flextype/flextype.yaml';
 $defaultFlextypeSettingsFilePath = ROOT_DIR . '/src/flextype/settings.yaml';
