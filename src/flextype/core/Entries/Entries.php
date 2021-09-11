@@ -69,18 +69,18 @@ class Entries
     {
         $this->setRegistry($registry);
         $this->setOptions($options);
-        $this->loadCollectionsActions();
+        $this->loadCollectionsEvents();
         $this->loadCollectionsFields();
     }
 
     /** 
-     * Load Collections Actions
+     * Load Collections Events
      *
      * @access public
      */
-    private function loadCollectionsActions(): void
+    private function loadCollectionsEvents(): void
     {
-        $actions = [];
+        $events = [];
 
         if (! isset($this->options['collections']) ||
             ! is_array($this->options['collections'])) {
@@ -90,29 +90,29 @@ class Entries
         foreach ($this->options['collections'] as $collection) {
             
             if (
-                ! isset($collection['actions']) ||
-                ! is_array($collection['actions']) ||
-                count($collection['actions']) <= 0
+                ! isset($collection['events']) ||
+                ! is_array($collection['events']) ||
+                count($collection['events']) <= 0
             ) {
                 continue;
             }
 
-            foreach ($collection['actions'] as $action) {
+            foreach ($collection['events'] as $event) {
 
-                if (! isset($action['path'])) {
+                if (! isset($event['path'])) {
                     continue;
                 }
 
-                $actions[] = ROOT_DIR . $action['path'];
+                $events[] = ROOT_DIR . $event['path'];
             }
         }
 
-        $actions = arrays($actions)->unique()->toArray();
+        $events = arrays($events)->unique()->toArray();
 
-        foreach ($actions as $action) {
-            if (filesystem()->file($action)->exists()) {
+        foreach ($events as $event) {
+            if (filesystem()->file($event)->exists()) {
                
-                include_once $action; 
+                include_once $event; 
             }
         } 
     }
