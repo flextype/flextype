@@ -399,4 +399,8 @@ app()->add(new WhoopsMiddleware([
 ]));
 
 // Run Flextype Application
-app()->run();
+if (php_sapi_name() === 'cli') {
+    require_once ROOT_DIR . '/src/flextype/core/Console/console.php';
+} else {
+    app()->run();
+}
