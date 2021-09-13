@@ -1,0 +1,157 @@
+title: Edit token
+icon:
+  set: bootstrap
+  name: file-text
+blocks:
+  - type: Container
+    properties:
+      breakpoint: medium
+    blocks:
+      - type: Row
+        blocks:
+          - type: Column
+            blocks:
+              - type: Form
+                properties:
+                  name: form_token_edit
+                  process:
+                    fields:
+                      - name: title
+                        properties:
+                          type: string
+                      - name: limit_calls
+                        properties:
+                          type: int
+                      - name: icon.name
+                        properties:
+                          type: string
+                      - name: icon.set
+                        properties:
+                          type: string
+                      - name: state
+                        properties:
+                          type: string
+                      - name: calls
+                        properties:
+                          type: int
+                      - name: api
+                        properties:
+                          type: string
+                          value: "{{ query.api }}"
+                      - name: token
+                        properties:
+                          type: string
+                          value: "{{ query.token }}"
+                    messages: 
+                      error: "{{ __('admin_message_entries_api_token_was_not_updated') }}"
+                      success: "{{ __('admin_message_entries_api_token_updated') }}"
+                    redirect:
+                      route: "admin.api.edit"
+                      args:
+                        api: "{{ query.api }}"
+                        token: "{{ query.token }}"
+                blocks:
+                  - type: Row
+                    properties:
+                      class: mt-4 mb-4
+                    blocks:
+                      - type: Column
+                        properties:
+                          size: 6/12
+                        blocks:
+                          - type: Heading
+                            properties:
+                              size: large
+                              id: title
+                              value: "{{ __('admin_edit_token') }}"
+                      - type: Column
+                        properties:
+                          size: 6/12
+                          class: d-flex align-items-center justify-content-end text-end 
+                        blocks:
+                          - type: InputSubmit
+                            properties:
+                              type: primary
+                              value: "{{ __('admin_save') }}"
+                  - type: Row
+                    properties:
+                      class: g-3
+                    blocks:
+                      - type: Column
+                        properties:
+                          size: 12
+                        blocks:
+                          - type: InputHidden
+                            properties:
+                              name: redirect  
+                          - type: InputText
+                            properties:
+                              name: title
+                              label:
+                                value: "{{ __('admin_title') }}"
+                              class: js-title
+                              help: "{{ __('admin_help_text_for_tokens_label') }}"
+                              validation:
+                                required: true
+                                minlength: 1
+                                errorMessage: "{{ __('admin_error_title_empty_input') }}"
+                      - type: Column
+                        properties:
+                          size: 3/12
+                        blocks:
+                          - type: InputNumber
+                            properties:
+                              name: limit_calls
+                              label:
+                                value: "{{ __('admin_api_calls_limit') }}"
+                              value: 0
+                              help: "{{ __('admin_help_text_for_api_calls_limit_label') }}"
+                              validation:
+                                required: true
+                                minlength: 1
+                                errorMessage: "{{ __('admin_error_api_calls_empty_input') }}"
+                      - type: Column
+                        properties:
+                          size: 3/12
+                        blocks:
+                          - type: Select2
+                            properties:
+                              name: state
+                              value: enabled
+                              items: 
+                                enabled: "{{ __('admin_enabled') }}"
+                                disabled: "{{ __('admin_disabled') }}"
+                              label:
+                                value: "{{ __('admin_state') }}"
+                      - type: Column
+                        properties:
+                          size: 3/12
+                        blocks:
+                          - type: InputText
+                            properties:
+                              name: icon.name
+                              label:
+                                value: "{{ __('admin_icon_name') }}"
+                              value: "newspaper"
+                              class: js-title
+                              help: "{{ __('admin_help_text_for_tokens_label') }}"
+                              validation:
+                                required: true
+                                minlength: 1
+                                errorMessage: "{{ __('form_admin_error_icon_empty_input') }}" 
+                      - type: Column
+                        properties:
+                          size: 3/12
+                        blocks:
+                          - type: InputText
+                            properties:
+                              name: icon.set
+                              label:
+                                value: "{{ __('admin_icon_set') }}"
+                              value: "bootstrap"
+                              class: js-title
+                              help: "{{ __('admin_help_text_for_tokens_label') }}"
+                              validation:
+                                required: true
+                                minlength: 1
+                                errorMessage: "{{ __('form_admin_error_icon_empty_input') }}" 

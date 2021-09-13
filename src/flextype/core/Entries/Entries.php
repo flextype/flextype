@@ -36,6 +36,8 @@ class Entries
      * Local entries registry used for storing current requested
      * entries data and allow to change them on fly.
      *
+     * @var Arrays
+     * 
      * @access private
      */
     private Arrays $registry;
@@ -52,6 +54,7 @@ class Entries
      *   actions     - Array of actions for entries collection.
      *
      * @var array
+     * 
      * @access private
      */
     private array $options = [];
@@ -66,18 +69,18 @@ class Entries
     {
         $this->setRegistry($registry);
         $this->setOptions($options);
-        $this->loadCollectionsActions();
+        $this->loadCollectionsEvents();
         $this->loadCollectionsFields();
     }
 
     /** 
-     * Load Collections Actions
+     * Load Collections Events
      *
      * @access public
      */
-    private function loadCollectionsActions(): void
+    private function loadCollectionsEvents(): void
     {
-        $actions = [];
+        $events = [];
 
         if (! isset($this->options['collections']) ||
             ! is_array($this->options['collections'])) {
@@ -87,29 +90,29 @@ class Entries
         foreach ($this->options['collections'] as $collection) {
             
             if (
-                ! isset($collection['actions']) ||
-                ! is_array($collection['actions']) ||
-                count($collection['actions']) <= 0
+                ! isset($collection['events']) ||
+                ! is_array($collection['events']) ||
+                count($collection['events']) <= 0
             ) {
                 continue;
             }
 
-            foreach ($collection['actions'] as $action) {
+            foreach ($collection['events'] as $event) {
 
-                if (! isset($action['path'])) {
+                if (! isset($event['path'])) {
                     continue;
                 }
 
-                $actions[] = ROOT_DIR . $action['path'];
+                $events[] = ROOT_DIR . $event['path'];
             }
         }
 
-        $actions = arrays($actions)->unique()->toArray();
+        $events = arrays($events)->unique()->toArray();
 
-        foreach ($actions as $action) {
-            if (filesystem()->file($action)->exists()) {
+        foreach ($events as $event) {
+            if (filesystem()->file($event)->exists()) {
                
-                include_once $action; 
+                include_once $event; 
             }
         } 
     }
@@ -304,7 +307,7 @@ class Entries
 
                     $currentEntryID = strings($currenEntry->getPath())
                         ->replace('\\', '/')
-                        ->replace(PATH['project'] . '/entries/', '')
+                        ->replace(PATH['project'] . $this->options['directory'] . '/', '')
                         ->trim('/')
                         ->toString();
 
@@ -561,7 +564,7 @@ class Entries
         // Set collection options
         $this->registry()->set('collection.options', $this->getCollectionOptions($id));
 
-        return PATH['project'] . '/entries/' . $id . '/' . $this->registry()->get('collection.options.filename') . '.' . $this->registry()->get('collection.options.extension');
+        return PATH['project'] . $this->options['directory'] . '/' . $id . '/' . $this->registry()->get('collection.options.filename') . '.' . $this->registry()->get('collection.options.extension');
     }
 
     /**
@@ -575,7 +578,7 @@ class Entries
      */
     public function getDirectoryLocation(string $id): string
     {
-        return PATH['project'] . '/entries/' . $id;
+        return PATH['project'] . $this->options['directory'] . '/' . $id;
     }
 
     /**
@@ -596,10 +599,10 @@ class Entries
         $entryFile = $this->getFileLocation($id);
 
         if (filesystem()->file($entryFile)->exists()) {
-            return strings('entry' . $entryFile . (filesystem()->file($entryFile)->lastModified() ?: ''))->hash()->toString();
+            return strings($this->options['directory'] . $entryFile . (filesystem()->file($entryFile)->lastModified() ?: ''))->hash()->toString();
         }
 
-        return strings('entry' . $entryFile)->hash()->toString();
+        return strings($this->options['directory'] . $entryFile)->hash()->toString();
     }
 
     /**

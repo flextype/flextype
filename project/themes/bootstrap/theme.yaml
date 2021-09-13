@@ -1,0 +1,15 @@
+name: Bootstrap
+version: 1.0.0
+description: Twitter Bootstrap theme for Flextype.
+author:
+  name: Sergey Romanenko
+  email: sergey.romanenko@flextype.org
+  url: https://flextype.org
+homepage: https://github.com/flextype-themes/bootstrap
+documentation: https://github.com/flextype-themes/bootstrap
+bugs: https://github.com/flextype-themes/bootstrap/issues
+license: MIT
+
+dependencies:
+  flextype: 0.9.16
+  site: '>=1.0.0'

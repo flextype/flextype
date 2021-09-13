@@ -16,7 +16,6 @@ use DateTimeZone;
 use Flextype\Entries\Entries;
 use Flextype\Handlers\HttpErrorHandler;
 use Flextype\Handlers\ShutdownHandler;
-use Flextype\Media\Media;
 use Flextype\Parsers\Parsers;
 use Flextype\Serializers\Serializers;
 use Flextype\Tokens\Tokens;
@@ -24,23 +23,6 @@ use Intervention\Image\ImageManager;
 use League\Event\Emitter;
 use League\Flysystem\Filesystem as Flysystem;
 use League\Flysystem\Local\LocalFilesystemAdapter as Local;
-use League\Glide\Api\Api;
-use League\Glide\Manipulators\Background;
-use League\Glide\Manipulators\Blur;
-use League\Glide\Manipulators\Border;
-use League\Glide\Manipulators\Brightness;
-use League\Glide\Manipulators\Contrast;
-use League\Glide\Manipulators\Crop;
-use League\Glide\Manipulators\Encode;
-use League\Glide\Manipulators\Filter;
-use League\Glide\Manipulators\Gamma;
-use League\Glide\Manipulators\Orientation;
-use League\Glide\Manipulators\Pixelate;
-use League\Glide\Manipulators\Sharpen;
-use League\Glide\Manipulators\Size;
-use League\Glide\Manipulators\Watermark;
-use League\Glide\Responses\PsrResponseFactory;
-use League\Glide\ServerFactory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Phpfastcache\Drivers\Apcu\Config;
@@ -57,6 +39,7 @@ use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Response;
 use Slim\Psr7\Stream;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
+use Flextype\Middlewares\WhoopsMiddleware;
 
 use function app;
 use function array_replace_recursive;
@@ -87,12 +70,15 @@ use function sys_get_temp_dir;
 use function trim;
 use function var_export;
 
-// Init Flextype Instance
-// Creates $app Application and $container Container objects
+// Init Flextype Instance.
+// Creates $app Application and $container Container objects.
 flextype();
 
-// Add Registry Service
+// Add Registry Service.
 container()->set('registry', registry());
+
+// Add Actions Service.
+container()->set('actions', Actions::getInstance());
 
 // Init Flextype config (manifest and settings)
 $flextypeManifestFilePath        = ROOT_DIR . '/src/flextype/flextype.yaml';
@@ -108,7 +94,7 @@ $f1 = file_exists($flextypeManifestFilePath) ? filemtime($flextypeManifestFilePa
 $f2 = file_exists($defaultFlextypeSettingsFilePath) ? filemtime($defaultFlextypeSettingsFilePath) : '';
 $f3 = file_exists($customFlextypeSettingsFilePath) ? filemtime($customFlextypeSettingsFilePath) : '';
 
-// Create Unique Cache ID
+// Create Unique Cache ID.
 $cacheID = md5($flextypeManifestFilePath . $defaultFlextypeSettingsFilePath . $customFlextypeSettingsFilePath . $f1 . $f2 . $f3);
 
 if (filesystem()->file($preflightFlextypePath . '/' . $cacheID . '.php')->exists()) {
@@ -161,8 +147,8 @@ if (filesystem()->file($preflightFlextypePath . '/' . $cacheID . '.php')->exists
 // Store flextype merged data in the flextype registry.
 registry()->set('flextype', $flextypeData);
 
-// Set Flextype base path
-app()->setBasePath(registry()->get('flextype.settings.url'));
+// Set Flextype Aplication base path
+setBasePath(registry()->get('flextype.settings.base_path'));
 
 // Add Routing Middleware
 app()->add(new RoutingMiddleware(app()->getRouteResolver(), app()->getRouteCollector()->getRouteParser()));
@@ -194,15 +180,6 @@ if (registry()->get('flextype.settings.cache.routes')) {
     app()->getRouteCollector()->setCacheFile(PATH['tmp'] . '/routes/routes.php');
 }
 
-$callableResolver     = app()->getCallableResolver();
-$responseFactory      = app()->getResponseFactory();
-$serverRequestCreator = ServerRequestCreatorFactory::create();
-$request              = $serverRequestCreator->createServerRequestFromGlobals();
-
-$errorHandler    = new HttpErrorHandler($callableResolver, $responseFactory);
-$shutdownHandler = new ShutdownHandler($request, $errorHandler, registry()->get('flextype.settings.errors.display'));
-register_shutdown_function($shutdownHandler);
-
 // Add Session Service
 container()->set('session', new Session());
 
@@ -216,8 +193,8 @@ container()->set('emitter', new Emitter());
 container()->set('slugify', new Slugify([
     'separator' => registry()->get('flextype.settings.slugify.separator'),
     'lowercase' => registry()->get('flextype.settings.slugify.lowercase'),
-    'trim' => registry()->get('flextype.settings.slugify.trim'),
-    'regexp' => registry()->get('flextype.settings.slugify.regexp'),
+    'trim'      => registry()->get('flextype.settings.slugify.trim'),
+    'regexp'    => registry()->get('flextype.settings.slugify.regexp'),
     'lowercase_after_regexp' => registry()->get('flextype.settings.slugify.lowercase_after_regexp'),
     'strip_tags' => registry()->get('flextype.settings.slugify.strip_tags'),
 ]));
@@ -344,74 +321,8 @@ parsers()->shortcodes()->initShortcodes();
 // Add Serializers Service
 container()->set('serializers', new Serializers());
 
-// Add Image Service
-container()->set('images', static function () {
-    // Get image settings
-    $imagesSettings = ['driver' => registry()->get('flextype.settings.images.driver')];
-
-    // Set source filesystem
-    $source = new Flysystem(
-        new Local(PATH['project'] . '/uploads/')
-    );
-
-    // Set cache filesystem
-    $cache = new Flysystem(
-        new Local(PATH['tmp'] . '/glide')
-    );
-
-    // Set watermarks filesystem
-    $watermarks = new Flysystem(
-        new Local(PATH['project'] . '/watermarks')
-    );
-
-    // Set image manager
-    $imageManager = new ImageManager($imagesSettings);
-
-    // Set manipulators
-    $manipulators = [
-        new Orientation(),
-        new Crop(),
-        new Size(),
-        new Brightness(),
-        new Contrast(),
-        new Gamma(),
-        new Sharpen(),
-        new Filter(),
-        new Blur(),
-        new Pixelate(),
-        new Watermark($watermarks),
-        new Background(),
-        new Border(),
-        new Encode(),
-    ];
-
-    // Set API
-    $api = new Api($imageManager, $manipulators);
-
-    // Setup Glide server
-    $server = ServerFactory::create([
-        'source' => $source,
-        'cache' => $cache,
-        'api' => $api,
-    ]);
-
-    $server->setResponseFactory(
-        new PsrResponseFactory(
-            new Response(),
-            static function ($stream) {
-                return new Stream($stream);
-            }
-        )
-    );
-
-    return $server;
-});
-
 // Add Entries Service
 container()->set('entries', new Entries(registry()->get('flextype.settings.entries')));
-
-// Add Plugins Service
-container()->set('plugins', new Plugins());
 
 // Set session options before you start the session
 // Standard PHP session configuration options
@@ -434,12 +345,11 @@ if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listId
     date_default_timezone_set(registry()->get('flextype.settings.timezone'));
 }
 
-// Init Plugins
-plugins()->init();
+// Add Plugins Service
+container()->set('plugins', new Plugins());
 
 // Api Endpoints
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/utils.php';
-require_once ROOT_DIR . '/src/flextype/routes/endpoints/images.php';
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/entries.php';
 require_once ROOT_DIR . '/src/flextype/routes/endpoints/registry.php';
 
@@ -477,11 +387,16 @@ if (registry()->get('flextype.settings.cors.enabled')) {
 // Add Routing Middleware
 app()->addRoutingMiddleware();
 
-// Add Error Handling Middleware
-app()->addErrorMiddleware(registry()->get('flextype.settings.errors.display'), false, false)->setDefaultErrorHandler($errorHandler);
-
 // Run high priority event: onFlextypeBeforeRun before Flextype Application starts.
 emitter()->emit('onFlextypeBeforeRun');
+
+// Add Whoops Error Handling Middleware
+app()->add(new WhoopsMiddleware([
+    'enable'  => registry()->get('flextype.settings.errors.display'),
+    'editor'  => registry()->get('flextype.settings.errors.editor'),
+    'title'   => registry()->get('flextype.settings.errors.page_title'),
+    'handler' => registry()->get('flextype.settings.errors.handler'),
+]));
 
 // Run Flextype Application
 app()->run();

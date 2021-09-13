@@ -1,0 +1,22 @@
+# enabled: true or false to disable the plugin
+enabled: true
+
+# Sitemap plugin priority
+priority: 100
+
+# Route
+route: sitemap.xml
+
+# Ignore list
+ignore:
+
+# Addition list
+additions:
+
+# Default values for entries
+default:
+  changefreq: daily
+  priority: !!float 1
+
+# Date format
+date_format: Y-m-d

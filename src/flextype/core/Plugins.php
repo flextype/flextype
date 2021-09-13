@@ -44,6 +44,7 @@ class Plugins
     public function __construct()
     {
         $this->locales = serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/src/flextype/locales.yaml')->get());
+        $this->init();
     }
 
     /**
@@ -61,9 +62,9 @@ class Plugins
     /**
      * Init Plugins
      *
-     * @access public
+     * @access protected
      */
-    public function init(): void
+    protected function init(): void
     {
         // Set empty plugins item
         registry()->set('plugins', []);
@@ -74,7 +75,7 @@ class Plugins
         // Get plugins list
         $pluginsList = $this->getPluginsList();
         
-        $pluginsList = arrays($pluginsList)->only(['box'])->toArray();
+       // $pluginsList = arrays($pluginsList)->only(['twig', 'blueprints'])->toArray();
 
         // Get plugins Cache ID
         $pluginsCacheID = $this->getPluginsCacheID($pluginsList);
@@ -184,8 +185,6 @@ class Plugins
         }
 
         $this->includeEnabledPlugins();
-
-       
 
         emitter()->emit('onPluginsInitialized');
     }
@@ -393,7 +392,7 @@ class Plugins
                 continue;
             }
 
-            include_once PATH['project'] . '/plugins/' . $pluginName . '/plugin.php';
+            require_once PATH['project'] . '/plugins/' . $pluginName . '/plugin.php';
         }
     }
 }

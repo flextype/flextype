@@ -36,19 +36,17 @@
 
         "slim/slim": "^4.8.1",
 
-        "filp/whoops": "^2.14",
-
         "league/event": "^2.2.0",
-        "league/glide": "^2.0.0",
+        "intervention/image":  "^2.6.1",
 
         "phpfastcache/phpfastcache": "^8.0.6",
 
         "respect/validation": "^2.2.3",
         "monolog/monolog": "^2.3.2",
         "cocur/slugify": "^4.0.0",
-        "ramsey/uuid": "^4.1.1",
+        "ramsey/uuid": "^4.2.1",
         "symfony/yaml": "^5.3.6",
-        "symfony/finder": "^5.3.4",
+        "symfony/finder": "^5.3.7",
 
         "thunderer/shortcode": "^0.7.4",
 
@@ -56,11 +54,15 @@
         "slim/psr7": "^1.4",
         "php-di/php-di": "^6.3.4",
         "php-di/slim-bridge": "^3.1.1",
-        "middlewares/whoops": "^2.0",
-        "nette/neon": "^3.2",
+        "nette/neon": "^3.2", 
         "league/commonmark": "^2.0",
         "siriusphp/upload": "^3.0",
+<<<<<<< HEAD
         "symfony/console": "^5.3"
+=======
+
+        "filp/whoops": "^2.14"
+>>>>>>> dev
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",

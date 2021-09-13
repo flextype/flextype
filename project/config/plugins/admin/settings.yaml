@@ -1,0 +1,49 @@
+# enabled: true or false to disable the plugin
+enabled: true
+
+# custom admin pane route
+route: admin
+
+# entries settings
+entries:
+  slugify: true
+
+# plugin priority
+priority: 50
+
+# admin navigation
+navigation:
+  dropdown: 
+
+  links: []
+  actions: 
+    - properties:
+        href: "{{ urlFor('admin.entries.index') }}"
+        icon:
+          set: bootstrap
+          name: newspaper
+    - properties:
+        href: "{{ urlFor('admin.media.index') }}"
+        icon:
+          set: bootstrap
+          name: images
+    - properties:
+        href: "{{ urlFor('admin.plugins.index') }}"
+        icon:
+          set: bootstrap
+          name: box
+    - properties:
+        href: "{{ urlFor('admin.tools.index') }}"
+        icon:
+          set: bootstrap
+          name: briefcase
+    - properties:
+        href: "{{ urlFor('admin.api.index') }}"
+        icon:
+          set: bootstrap
+          name: diagram-3
+    - properties:
+        href: "{{ urlFor('admin.settings.index') }}"
+        icon:
+          set: bootstrap
+          name: gear

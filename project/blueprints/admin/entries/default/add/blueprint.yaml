@@ -1,0 +1,229 @@
+title: Create new entry
+icon:
+  set: bootstrap
+  name: file-text
+emitter:
+  addListener:
+    - name: onAdminThemeTail
+      properties:
+        value: |
+          <script>
+            $('.js-submit-entry-create-form').click(function () {
+              $("input[name=redirect]").val($(this).data('redirect'));
+              $("input[name=submit_form_entries_create]").click();
+            });
+
+            {% if registry().get('plugins.admin.settings.entries.slugify') %}
+              $("input[name=title]").on("keyup change", function () {
+                $("input[name=name]").val(getSlug($("input[name=title]").val()));
+              });
+            {% else %}
+              $("input[name=title]").on("keyup change", function () {
+                $("input[name=name]").val($("input[name=title]").val()));
+              });
+            {% endif %}
+          </script>
+blocks:
+  - type: Container
+    properties:
+      breakpoint: medium
+    blocks:
+      - type: Row
+        blocks:
+          - type: Column
+            blocks:
+            - type: Form
+              properties:
+                name: form_entries_create
+                process:
+                  fields:
+                    - name: title
+                      properties:
+                        type: string
+                    - name: id
+                      properties:
+                        type: string
+                        value: |
+                          {% if registry().get('plugins.admin.settings.entries.slugify') %}
+                            {{ strings(query.id ~ '/' ~ flextype.slugify.slugify(_form.registry.data.name)).trimLeft('/') }}
+                          {% else %}
+                            {{ strings(query.id ~ '/' ~ _form.registry.data.name).trimLeft('/') }}
+                          {% endif %}
+                    - name: routable
+                      properties:
+                        type: bool
+                    - name: visibility
+                      properties:
+                        type: string
+                    - name: blueprint
+                      properties:
+                        type: string
+                    - name: published_at
+                      properties:
+                        type: string
+                    - name: publised_by
+                      properties:
+                        type: string
+                        value: "{{ acl().getUserLoggedInUuid() }}"
+                    - name: created_by
+                      properties:
+                        type: string
+                        value: "{{ acl().getUserLoggedInUuid() }}"
+                    - name: template
+                      properties: 
+                        type: string
+                        ignore: "{{ registry().has('plugins.site') ? false : true }}"
+                        value: |
+                          @parsers:twig;
+                          {% if registry().has('plugins.site') %}
+                            {% if filesystem().file(PATH_PROJECT ~ '/themes/' ~ registry().get('plugins.site.settings.theme') ~ '/templates/' ~ _form.registry.data.blueprint ~ '.html').exists() %}
+                              {{ _form.registry.data.blueprint }}
+                            {% else %}
+                              default
+                            {% endif %}
+                          {% endif %}
+                  messages: 
+                    error: "{{ __('admin_message_entries_was_not_created') }}"
+                    success: "{{ __('admin_message_entries_created') }}"
+                  redirect:
+                    route: |
+                      @parsers:twig;
+                      {% if _form.registry.data.redirect == 'index' %}
+                        admin.entries.index
+                      {% elseif _form.registry.data.redirect == 'edit' %}
+                        admin.entries.edit
+                      {% elseif _form.registry.data.redirect == 'add' %}
+                        admin.entries.add
+                      {% endif %}
+                    args:
+                      id: "{{ (_form.registry.data.redirect == 'add' or _form.registry.data.redirect == 'index') ? query.id : (strings(query.id).contains('/') ? arraysFromString(query.id, '/').slice(0, -1).toString('/') : query.id) ~ '/' ~ _form.registry.data.name }}"
+              blocks:
+                - type: Row
+                  properties:
+                    class: mt-4 mb-4
+                  blocks:
+                    - type: Column
+                      properties:
+                        size: 6/12
+                      blocks:
+                        - type: Heading
+                          properties:
+                            size: large
+                            value: "{{ __('admin_create_new_content') }}"
+                    - type: Column
+                      properties:
+                        size: 6/12
+                        class: d-flex align-items-center justify-content-end text-end 
+                      blocks:
+                        - type: InputSubmit
+                          properties:
+                            name: submit_form_entries_create
+                            style:
+                              display: none
+                        - type: ButtonGroup
+                          properties:
+                            buttons:
+                              - type: Button
+                                properties:
+                                  value: "{{ __('admin_create') }}"
+                                  class: js-submit-entry-create-form
+                                  data: 
+                                    redirect: index
+                              - type: ButtonToggle
+                                properties:
+                                  type: secondary
+                                  value: "{{ __('admin_create_and_edit') }}"    
+                                  items:
+                                    - href: "#"
+                                      value: "{{ __('admin_create_and_edit') }}"
+                                      class: js-submit-entry-create-form
+                                      data:
+                                        redirect: edit
+                                    - href: "#"
+                                      value: "{{ __('admin_create_and_add') }}"
+                                      class: js-submit-entry-create-form
+                                      data:
+                                        redirect: add
+                - type: InputHidden
+                  properties:
+                    name: current_id
+                    value: "{{ query.id }}"
+                - type: InputHidden
+                  properties:
+                    name: redirect    
+                - type: Row
+                  properties:
+                    class: g-3
+                  blocks:
+                    - type: Column
+                      properties:
+                        size: 6/12
+                      blocks:
+                        - type: InputText
+                          properties:
+                            name: title
+                            label:
+                              value: "{{ __('admin_title') }}"
+                            class: js-title
+                            help: "{{ __('admin_help_text_for_entries_label') }}"
+                            validation:
+                              required: true
+                              minlength: 1
+                              errorMessage: "{{ __('admin_error_title_empty_input') }}"
+                    - type: Column
+                      properties:
+                        size: 6/12
+                      blocks:
+                        - type: InputText
+                          properties:
+                            name: name
+                            label:
+                              value: "{{ __('admin_name') }}"
+                            class: js-name
+                            help: "{{ __('admin_help_text_for_entries_name') }}"
+                            validation:
+                              required: true
+                              minlength: 1
+                              errorMessage: "{{ __('admin_error_name_empty_input') }}"
+                    - type: Column
+                      properties:
+                        size: 3/12
+                      blocks:
+                        - type: Select2
+                          properties:
+                            name: routable
+                            value: true
+                            items: "{{ serializers().json.encode(routable) }}"
+                            label:
+                              value: "{{ __('admin_routable') }}"
+                    - type: Column
+                      properties:
+                        size: 3/12
+                      blocks:
+                        - type: Select2
+                          properties:
+                            name: visibility
+                            value: visible
+                            items: "{{ serializers().json.encode(visibility) }}"
+                            label:
+                              value: "{{ __('admin_visibility') }}"
+                    - type: Column
+                      properties:
+                        size: 3/12
+                      blocks:
+                        - type: Select2
+                          properties:
+                            name: blueprint
+                            items: "{{ serializers().json.encode(blueprints) }}"
+                            label:
+                              value: "{{ __('admin_blueprint') }}"          
+                    - type: Column
+                      properties:
+                        size: 3/12
+                      blocks:
+                        - type: Flatpickr 
+                          properties:
+                            name: published_at
+                            label:
+                              value: "{{ __('admin_published_at') }}"
+                              

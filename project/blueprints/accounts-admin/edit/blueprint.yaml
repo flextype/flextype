@@ -1,0 +1,159 @@
+title: Edit account
+icon:
+  set: bootstrap
+  name: file-text
+blocks:
+  - type: Container
+    properties:
+      breakpoint: medium
+    blocks:
+      - type: Row
+        blocks:
+          - type: Column
+            blocks:
+              - type: Form
+                properties:
+                  name: form_account_edit
+                  process:
+                    fields:
+                      - name: name
+                        properties:
+                          type: string
+                      - name: bio
+                        properties:
+                          type: string
+                      - name: location
+                        properties:
+                          type: string
+                      - name: website
+                        properties:
+                          type: string
+                      - name: roles
+                        properties:
+                          type: string
+                      - name: state
+                        properties:
+                          type: string
+                      - name: new_password
+                        properties:
+                          type: string
+                      - name: id
+                        properties:
+                          type: string
+                          value: "{{ query.id }}"
+                    messages: 
+                      error: "{{ __('admin_message_entries_api_token_was_not_updated') }}"
+                      success: "{{ __('admin_message_entries_api_token_updated') }}"
+                    redirect:
+                      route: "admin.accounts.edit"
+                      args:
+                        id: "{{ query.id }}"
+                blocks:
+                  - type: Row
+                    properties:
+                      class: mt-4 mb-4
+                    blocks:
+                      - type: Column
+                        properties:
+                          size: 6/12
+                        blocks:
+                          - type: Heading
+                            properties:
+                              size: large
+                              id: title
+                              value: "{{ __('accounts_admin_edit_account') }}"
+                      - type: Column
+                        properties:
+                          size: 6/12
+                          class: d-flex align-items-center justify-content-end text-end 
+                        blocks:
+                          - type: InputSubmit
+                            properties:
+                              type: primary
+                              value: "{{ __('admin_save') }}"
+                  - type: Row
+                    blocks:
+                      - type: Column
+                        properties:
+                          size: 6/12
+                        blocks:
+                          - type: Row
+                            properties:
+                              class: g-3
+                            blocks:
+                              - type: Column
+                                properties:
+                                  size: 12
+                                blocks:
+                                  - type: InputText
+                                    properties:
+                                      name: name
+                                      label:
+                                        value: "{{ __('accounts_admin_name') }}"
+                              - type: Column
+                                properties:
+                                  size: 12
+                                blocks:
+                                  - type: InputTextarea
+                                    properties:
+                                      name: bio
+                                      rows: 8
+                                      label:
+                                        value: "{{ __('accounts_admin_bio') }}"
+                      - type: Column
+                        properties:
+                          size: 6/12
+                        blocks:
+                          - type: Row
+                            properties:
+                              class: g-3
+                            blocks:
+                              - type: Column
+                                properties:
+                                  size: 6/12
+                                blocks:
+                                  - type: InputText
+                                    properties:
+                                      name: location
+                                      label:
+                                        value: "{{ __('accounts_admin_location') }}"
+                              - type: Column
+                                properties:
+                                  size: 6/12
+                                blocks:
+                                  - type: InputText
+                                    properties:
+                                      name: website
+                                      label:
+                                        value: "{{ __('accounts_admin_website') }}"
+                              - type: Column
+                                properties:
+                                  size: 12
+                                blocks:
+                                  - type: Tagify
+                                    properties:
+                                      name: roles
+                                      label:
+                                        value: "{{ __('accounts_admin_roles') }}"
+                              - type: Column
+                                properties:
+                                  size: 6/12
+                                blocks:
+                                  - type: Select2
+                                    properties:
+                                      name: state
+                                      value: enabled
+                                      items: 
+                                        enabled: "{{ __('admin_enabled') }}"
+                                        disabled: "{{ __('admin_disabled') }}"
+                                      label:
+                                        value: "{{ __('admin_state') }}"
+                              - type: Column
+                                properties:
+                                  size: 6/12
+                                blocks:
+                                  - type: InputPassword
+                                    properties:
+                                      name: new_password
+                                      label:
+                                        value: "{{ __('accounts_admin_new_password') }}"

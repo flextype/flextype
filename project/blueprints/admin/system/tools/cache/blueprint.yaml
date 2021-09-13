@@ -1,0 +1,32 @@
+title: Cache
+type: system
+icon:
+  set: bootstrap
+  name: file-text
+blocks:
+  - type: Container
+    properties:
+      class: mt-4 mb-4
+    blocks:
+      - type: Row
+        blocks:
+          - type: Column
+            properties:
+              size: 6/12
+            blocks:
+              - type: Heading
+                properties:
+                  size: large
+                  value: "{{ __('admin_cache') }}"
+          - type: Column
+            properties:
+              size: 6/12
+              class: d-flex align-items-center justify-content-end text-end
+            blocks:
+              - type: Anchor
+                properties:
+                  value: "{{ __('admin_clear_cache_all') }}"
+                  href: "#"
+                  class: btn btn-primary
+                  events: 
+                    onclick: "clearCache('all');" 

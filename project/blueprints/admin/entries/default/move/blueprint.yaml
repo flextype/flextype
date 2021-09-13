@@ -1,0 +1,90 @@
+title: Move entry
+icon:
+  set: bootstrap
+  name: file-alt
+blocks:
+  - type: Container
+    properties:
+      class: mt-4
+    blocks:
+      - type: Row
+        properties:
+          class: justify-content-center
+        blocks:
+          - type: Column
+            properties:
+              size: 6/12
+            blocks:
+              - type: Heading
+                properties:
+                  size: large
+                  value: "{{ __('admin_entries_move') }}"
+                  class: mb-4
+              - type: Form
+                properties:
+                  name: form_entries_move
+                  process:
+                    fields:
+                      - name: id
+                        properties:
+                          type: string
+                          value: "{{ query.id }}"
+                      - name: entry_current_id
+                        properties:
+                          type: string
+                          value: "{{ entryCurrentID }}"
+                      - name: entry_parent_id
+                        properties:
+                          type: string
+                          value: "{{ entryParentID }}"
+                      - name: from
+                        properties:
+                          type: string
+                      - name: to
+                        properties:
+                          type: string
+                    messages: 
+                      error: "{{ __('admin_message_entries_was_not_moved') }}"
+                      success: "{{ __('admin_message_entries_moved') }}"
+                    redirect:
+                      route: admin.entries.index
+                      args:
+                        id: "{{ _form.registry.data.to }}"
+                blocks:  
+                  - type: Row
+                    properties:
+                      class: g-3
+                    blocks:
+                      - type: Column
+                        properties:
+                          size: 12
+                        blocks:
+                          - type: InputText
+                            properties:
+                              name: from
+                              value: "{{ entryParentID }}"
+                              label:
+                                value: "{{ __('admin_from') }}"
+                              disabled: true
+                      - type: Column
+                        properties:
+                          size: 12
+                        blocks:
+                          - type: Select2
+                            properties:
+                              name: to
+                              items: "{{ serializers().json.encode(entries) }}"
+                              label:
+                                value: "{{ __('admin_to') }}"
+                      - type: Column
+                        properties:
+                          size: 12
+                          class: pt-2
+                        blocks:
+                          - type: InputSubmit
+                            properties:
+                              name: submit_form_entries_create
+                              type: primary
+                              value: "{{ __('admin_move') }}"
+                              class: js-submit-entry-move-form
+      

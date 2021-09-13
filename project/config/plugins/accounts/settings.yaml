@@ -1,0 +1,77 @@
+# enabled: true or false to disable the plugin
+enabled: true
+
+# Accounts plugin priority
+priority: 100
+
+# From email
+from:
+  name: Flextype
+  email: sergey.romanenko@flextype.org
+
+# Index(accounts)
+index:
+  enabled: true
+
+# Registraton
+registration:
+  enabled: true
+  default_roles: user
+  default_state: enabled
+  redirect:
+    route:
+      name: accounts.login
+
+# Login
+login:
+  enabled: true
+  redirect:
+    route:
+      name: accounts.profile
+
+# Profile
+profile:
+  enabled: true
+
+# Profile Edit
+profile_edit:
+  enabled: true
+  redirect:
+    route:
+      name: accounts.profile
+
+# New Password
+new_password:
+  enabled: true
+  redirect:
+    route:
+      name: accounts.login
+
+# Reset Password
+reset_password:
+  enabled: true
+  redirect:
+    route:
+      name: accounts.login
+
+# Logout
+logout:
+  redirect:
+    route:
+      name: accounts.login
+
+
+# Entries
+entries:
+  accounts:
+    collection: accounts
+    fields:
+      uuid:
+        enabled: true
+        path: "/project/plugins/accounts/app/Fields/UuidField.php"
+      id:
+        enabled: true
+        path: "/project/plugins/accounts/app/Fields/IdField.php"
+      registered_at:
+        enabled: true
+        path: "/project/plugins/accounts/app/Fields/RegisteredAtField.php"
