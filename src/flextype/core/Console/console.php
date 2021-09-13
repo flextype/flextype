@@ -11,7 +11,9 @@ namespace Flextype;
 
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Flextype\Console\Commands\Entries\EntriesCreateCommand;
+use Flextype\Console\Commands\Entries\EntriesDeleteCommand;
 
-$app = new ConsoleApplication();
-$app->add(new EntriesCreateCommand());
-$app->run();
+$console = new ConsoleApplication();
+$console->add(new EntriesCreateCommand());
+$console->add(new EntriesDeleteCommand());
+$console->run();
