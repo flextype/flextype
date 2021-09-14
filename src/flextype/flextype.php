@@ -401,6 +401,7 @@ app()->add(new WhoopsMiddleware([
 
 // Run Flextype Application
 if (php_sapi_name() === 'cli') {
+    emitter()->emit('onFlextypeConsoleBeforeRun');
     console()->run();
 } else {
     emitter()->emit('onFlextypeBeforeRun');

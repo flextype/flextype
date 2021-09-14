@@ -22,9 +22,7 @@ class FlextypeConsoleApplication extends ConsoleApplication
         // Add Console Commands
         console()->add(new EntriesCreateCommand());
         console()->add(new EntriesDeleteCommand());
-
-        // Run Flextype Console Application
-        emitter()->emit('onFlextypeConsoleBeforeRun');
+        
         parent::run();
     }
 }
