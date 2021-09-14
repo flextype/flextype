@@ -362,6 +362,8 @@ add_content_length_header: true
 router_cache_file: false
 determine_route_before_app_middleware: false
 output_buffering: append
+cli: true
+web: true
 
 # Slugify
 slugify:
