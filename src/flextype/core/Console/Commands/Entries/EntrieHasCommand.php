@@ -20,7 +20,7 @@ class EntriesHasCommand extends Command
     protected function configure(): void
     {
         $this->setName('entries:has');
-        $this->setDescription('Check whether entry exists..');
+        $this->setDescription('Check whether entry exists.');
         $this->addOption('id', null, InputOption::VALUE_REQUIRED, 'Unique identifier of the entry.');
     }
 
@@ -32,7 +32,7 @@ class EntriesHasCommand extends Command
             $io->success('Entry ' . $input->getOption('id') . ' exists');
             return Command::SUCCESS;
         } else {
-            $io->error('Entry ' . $input->getOption('id') . ' ins\'t exists');
+            $io->error('Entry ' . $input->getOption('id') . ' doesn\'t exists');
             return Command::FAILURE;
         }
     }
