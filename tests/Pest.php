@@ -16,4 +16,6 @@ $flextype_loader = require_once $flextype_autoload;
 
 filesystem()->directory(PATH['tmp'])->exists() and filesystem()->directory(PATH['tmp'])->delete();
 
+filesystem()->file(ROOT_DIR . '/tests/fixtures/settings.yaml')->copy(ROOT_DIR . '/project/config/flextype/settings.yaml');
+
 include ROOT_DIR . '/src/flextype/flextype.php';
