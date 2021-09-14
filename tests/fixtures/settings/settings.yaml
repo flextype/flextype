@@ -363,7 +363,7 @@ router_cache_file: false
 determine_route_before_app_middleware: false
 output_buffering: append
 cli: false
-web: false
+web: true
 
 # Slugify
 slugify:
