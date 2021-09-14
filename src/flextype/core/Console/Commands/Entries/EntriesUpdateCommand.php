@@ -29,10 +29,10 @@ class EntriesUpdateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $data = serializers()->json()->decode($input->getOption('data') ?? []);
+        $data = $input->getOption('data') ? serializers()->json()->decode($input->getOption('data')) : [];
 
         if (entries()->update($input->getOption('id'), $data)) {
-            $io->success('Updated entry ' . $input->getOption('id'));
+            $io->success('Entry ' . $input->getOption('id') . ' updated.');
             return Command::SUCCESS;
         } else {
             $io->error('Entry ' . $input->getOption('id') . ' wasn\'t updated.');
