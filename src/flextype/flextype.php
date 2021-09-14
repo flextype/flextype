@@ -181,6 +181,7 @@ if (registry()->get('flextype.settings.output_buffering')) {
 
 // Add Router Cache
 if (registry()->get('flextype.settings.router.cache')) {
+    filesystem()->directory(PATH['tmp'] . '/routes')->ensureExists(0755, true);
     app()->getRouteCollector()->setCacheFile(PATH['tmp'] . '/routes/routes.php');
 }
 
