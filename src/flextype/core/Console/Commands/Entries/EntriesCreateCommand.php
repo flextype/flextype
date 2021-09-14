@@ -29,10 +29,10 @@ class EntriesCreateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $data = serializers()->json()->decode($input->getOption('data') ?? []);
+        $data = $input->getOption('data') ? serializers()->json()->decode($input->getOption('data')) : [];
 
         if (entries()->create($input->getOption('id'), $data)) {
-            $io->success('Created entry ' . $input->getOption('id'));
+            $io->success('Entry ' . $input->getOption('id') . ' created.');
             return Command::SUCCESS;
         } else {
             $io->error('Entry ' . $input->getOption('id') . ' wasn\'t created.');
