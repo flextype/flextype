@@ -40,6 +40,7 @@ use Slim\Psr7\Response;
 use Slim\Psr7\Stream;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 use Flextype\Middlewares\WhoopsMiddleware;
+use Flextype\Console\FlextypeConsoleApplication;
 
 use function app;
 use function array_replace_recursive;
@@ -73,6 +74,9 @@ use function var_export;
 // Init Flextype Instance.
 // Creates $app Application and $container Container objects.
 flextype();
+
+// Create Flextype Console Application
+container()->set('console', new FlextypeConsoleApplication());
 
 // Add Registry Service.
 container()->set('registry', registry());
@@ -387,9 +391,6 @@ if (registry()->get('flextype.settings.cors.enabled')) {
 // Add Routing Middleware
 app()->addRoutingMiddleware();
 
-// Run high priority event: onFlextypeBeforeRun before Flextype Application starts.
-emitter()->emit('onFlextypeBeforeRun');
-
 // Add Whoops Error Handling Middleware
 app()->add(new WhoopsMiddleware([
     'enable'  => registry()->get('flextype.settings.errors.display'),
@@ -400,7 +401,8 @@ app()->add(new WhoopsMiddleware([
 
 // Run Flextype Application
 if (php_sapi_name() === 'cli') {
-    require_once ROOT_DIR . '/src/flextype/core/Console/console.php';
+    console()->run();
 } else {
+    emitter()->emit('onFlextypeBeforeRun');
     app()->run();
 }

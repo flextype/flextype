@@ -34,6 +34,16 @@ if (! function_exists('container')) {
     }
 }
 
+if (! function_exists('console')) {
+    /**
+     * Get Flextype Console Service.
+     */
+    function console()
+    {
+        return flextype()->container()->get('console');
+    }
+}
+
 if (! function_exists('emitter')) {
     /**
      * Get Flextype Emitter Service.
