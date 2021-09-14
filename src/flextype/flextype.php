@@ -72,7 +72,7 @@ use function trim;
 use function var_export;
 
 // Init Flextype Instance.
-// Creates $app Application and $container Container objects.
+// Creates $app Flextype Application and $container Flextype Application Container objects.
 flextype();
 
 // Create Flextype CLI Application
@@ -180,7 +180,7 @@ if (registry()->get('flextype.settings.output_buffering')) {
 }
 
 // Add Router Cache
-if (registry()->get('flextype.settings.cache.routes')) {
+if (registry()->get('flextype.settings.router.cache')) {
     app()->getRouteCollector()->setCacheFile(PATH['tmp'] . '/routes/routes.php');
 }
 
@@ -399,8 +399,10 @@ app()->add(new WhoopsMiddleware([
     'handler' => registry()->get('flextype.settings.errors.handler'),
 ]));
 
+// Run high level event onFlextypeBeforeRun
 emitter()->emit('onFlextypeBeforeRun');
 
+// Run Flextype Application / CLI Application
 if (php_sapi_name() === 'cli') {
     registry()->get('flextype.settings.cli') and console()->run();
 } else {
