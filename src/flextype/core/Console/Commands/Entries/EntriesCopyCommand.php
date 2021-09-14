@@ -29,8 +29,6 @@ class EntriesCopyCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $data = serializers()->json()->decode($input->getOption('data') ?? []);
-
         if (entries()->copy($input->getOption('id'), $input->getOption('newID'))) {
             $io->success('Entry ' . $input->getOption('id') . ' coppied to ' . $input->getOption('newID'));
             return Command::SUCCESS;
