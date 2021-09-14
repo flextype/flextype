@@ -29,7 +29,7 @@ class EntriesDeleteCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         if (entries()->delete($input->getOption('id'))) {
-            $io->success('Deleted entry ' . $input->getOption('id'));
+            $io->success('Entry ' . $input->getOption('id') . ' deleted.');
             return Command::SUCCESS;
         } else {
             $io->error('Entry ' . $input->getOption('id') . ' wasn\'t deleted.');
