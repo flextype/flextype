@@ -75,8 +75,8 @@ use function var_export;
 // Creates $app Application and $container Container objects.
 flextype();
 
-// Create Flextype Console Application
-container()->set('console', new FlextypeConsoleApplication());
+// Create Flextype CLI Application
+container()->set('console', new FlextypeConsoleApplication('Flextype CLI Application', Flextype::VERSION));
 
 // Add Registry Service.
 container()->set('registry', registry());
@@ -399,11 +399,10 @@ app()->add(new WhoopsMiddleware([
     'handler' => registry()->get('flextype.settings.errors.handler'),
 ]));
 
-// Run Flextype Application
+emitter()->emit('onFlextypeBeforeRun');
+
 if (php_sapi_name() === 'cli') {
-    emitter()->emit('onFlextypeConsoleBeforeRun');
-    console()->run();
+    registry()->get('flextype.settings.cli') and console()->run();
 } else {
-    emitter()->emit('onFlextypeBeforeRun');
-    app()->run();
+    registry()->get('flextype.settings.app') and app()->run();
 }
