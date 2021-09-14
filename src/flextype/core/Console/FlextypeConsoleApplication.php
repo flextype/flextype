@@ -15,6 +15,7 @@ use Flextype\Console\Commands\Entries\EntriesUpdateCommand;
 use Flextype\Console\Commands\Entries\EntriesDeleteCommand;
 use Flextype\Console\Commands\Entries\EntriesCopyCommand;
 use Flextype\Console\Commands\Entries\EntriesMoveCommand;
+use Flextype\Console\Commands\Entries\EntriesHasCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,6 +29,7 @@ class FlextypeConsoleApplication extends ConsoleApplication
         console()->add(new EntriesUpdateCommand());
         console()->add(new EntriesCopyCommand());
         console()->add(new EntriesMoveCommand());
+        console()->add(new EntriesHasCommand());
         
         parent::run();
     }
