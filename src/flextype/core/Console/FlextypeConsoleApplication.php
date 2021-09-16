@@ -11,6 +11,7 @@ namespace Flextype\Console;
 
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Flextype\Console\Commands\Entries\EntriesCreateCommand;
+use Flextype\Console\Commands\Entries\EntriesFetchCommand;
 use Flextype\Console\Commands\Entries\EntriesUpdateCommand;
 use Flextype\Console\Commands\Entries\EntriesDeleteCommand;
 use Flextype\Console\Commands\Entries\EntriesCopyCommand;
@@ -30,6 +31,7 @@ class FlextypeConsoleApplication extends ConsoleApplication
         console()->add(new EntriesCopyCommand());
         console()->add(new EntriesMoveCommand());
         console()->add(new EntriesHasCommand());
+        console()->add(new EntriesFetchCommand());
         
         parent::run();
     }
