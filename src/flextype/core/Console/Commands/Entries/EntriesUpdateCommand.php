@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Flextype\Console\Commands\Entries;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -21,21 +21,21 @@ class EntriesUpdateCommand extends Command
     {
         $this->setName('entries:update');
         $this->setDescription('Update entry.');
-        $this->addOption('id', null, InputOption::VALUE_REQUIRED, 'Unique identifier of the entry.');
-        $this->addOption('data', null, InputOption::VALUE_OPTIONAL, 'Data to update for the entry.');
+        $this->addArgument('id', InputArgument::REQUIRED, 'Unique identifier of the entry.');
+        $this->addArgument('data', InputArgument::OPTIONAL, 'Data to update for the entry.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $data = $input->getOption('data') ? serializers()->json()->decode($input->getOption('data')) : [];
+        $data = $input->getArgument('data') ? serializers()->json()->decode($input->getArgument('data')) : [];
 
-        if (entries()->update($input->getOption('id'), $data)) {
-            $io->success('Entry ' . $input->getOption('id') . ' updated.');
+        if (entries()->update($input->getArgument('id'), $data)) {
+            $io->success('Entry ' . $input->getArgument('id') . ' updated.');
             return Command::SUCCESS;
         } else {
-            $io->error('Entry ' . $input->getOption('id') . ' wasn\'t updated.');
+            $io->error('Entry ' . $input->getArgument('id') . ' wasn\'t updated.');
             return Command::FAILURE;
         }
     }
