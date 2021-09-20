@@ -11,6 +11,7 @@ namespace Flextype\Console\Commands\Entries;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -22,9 +23,9 @@ class EntriesFetchCommand extends Command
     {
         $this->setName('entries:fetch');
         $this->setDescription('Fetch entry.');
-        $this->addOption('id', null, InputOption::VALUE_REQUIRED, 'Unique identifier of the entry.');
-        $this->addOption('options', null, InputOption::VALUE_OPTIONAL, 'Options array.');
-        $this->addOption('collection', null, InputOption::VALUE_OPTIONAL, 'Set true to fetch entries collection.');
+        $this->addArgument('id', InputArgument::OPTIONAL, 'Unique identifier of the entry.');
+        $this->addArgument('options', InputArgument::OPTIONAL, 'Options array.');
+        $this->addOption('collection', null, InputOption::VALUE_NEGATABLE, 'Set true to fetch entries collection.');
         $this->addOption('find-depth-from', null, InputOption::VALUE_OPTIONAL, 'Restrict the depth of traversing from.');
         $this->addOption('find-depth-to', null, InputOption::VALUE_OPTIONAL, 'Restrict the depth of traversing to.');
         $this->addOption('find-date-from', null, InputOption::VALUE_OPTIONAL, 'Restrict by a date range from.');
@@ -49,9 +50,10 @@ class EntriesFetchCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $options = $input->getOption('options') ? serializers()->json()->decode($input->getOption('options')) : [];
+        $id      = $input->getArgument('id') ? $input->getArgument('id') : '';
+        $options = $input->getArgument('options') ? serializers()->json()->decode($input->getArgument('options')) : [];
         
-        $input->getOption('collection') and $options['collection'] = strings($input->getOption('collection'))->toBoolean();
+        $input->getOption('collection') and $options['collection'] = true;
         
         if ($input->getOption('find-depth-from') || $input->getOption('find-depth-to')) {
             $options['find']['depth'] = [];
@@ -92,7 +94,7 @@ class EntriesFetchCommand extends Command
 
         $output->writeln('');
 
-        if ($data = entries()->fetch($input->getOption('id'), $options)) {
+        if ($data = entries()->fetch($id, $options)) {
             if (isset($options['collection']) && $options['collection'] == true) {
                 foreach ($data->toArray() as $item) {
                     foreach(arrays($item)->dot() as $key => $value) {
@@ -109,7 +111,7 @@ class EntriesFetchCommand extends Command
 
             return Command::SUCCESS;
         } else {
-            $io->error('Entry ' . $input->getOption('id') . ' doesn\'t exists');
+            $io->error('Entry ' . $id . ' doesn\'t exists');
             return Command::FAILURE;
         }
     }
