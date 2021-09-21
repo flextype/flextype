@@ -20,6 +20,7 @@ use Flextype\Console\Commands\Entries\EntriesHasCommand;
 use Flextype\Console\Commands\Cache\CacheDeleteCommand;
 use Flextype\Console\Commands\Cache\CacheSetCommand;
 use Flextype\Console\Commands\Cache\CacheGetCommand;
+use Flextype\Console\Commands\Cache\CacheClearCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -38,6 +39,7 @@ class FlextypeConsoleApplication extends ConsoleApplication
         console()->add(new CacheSetCommand());
         console()->add(new CacheGetCommand());
         console()->add(new CacheDeleteCommand());
+        console()->add(new CacheClearCommand());
         
         parent::run();
     }
