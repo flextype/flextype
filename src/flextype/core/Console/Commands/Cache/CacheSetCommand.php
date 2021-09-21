@@ -20,7 +20,7 @@ class CacheSetCommand extends Command
     protected function configure(): void
     {
         $this->setName('cache:set');
-        $this->setDescription('Set value');
+        $this->setDescription('Set item.');
         $this->addArgument('key', InputArgument::REQUIRED, 'Key.');
         $this->addArgument('value', InputArgument::REQUIRED, 'Value.');
         $this->addArgument('ttl', InputArgument::OPTIONAL, 'Time To Live.');
