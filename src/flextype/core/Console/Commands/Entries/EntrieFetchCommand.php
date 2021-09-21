@@ -25,7 +25,7 @@ class EntriesFetchCommand extends Command
         $this->setDescription('Fetch entry.');
         $this->addArgument('id', InputArgument::OPTIONAL, 'Unique identifier of the entry.');
         $this->addArgument('options', InputArgument::OPTIONAL, 'Options array.');
-        $this->addOption('collection', null, InputOption::VALUE_NONE, 'Set true to fetch entries collection.');
+        $this->addOption('collection', null, InputOption::VALUE_NONE, 'Set this flag to fetch entries collection.');
         $this->addOption('find-depth-from', null, InputOption::VALUE_OPTIONAL, 'Restrict the depth of traversing from.');
         $this->addOption('find-depth-to', null, InputOption::VALUE_OPTIONAL, 'Restrict the depth of traversing to.');
         $this->addOption('find-date-from', null, InputOption::VALUE_OPTIONAL, 'Restrict by a date range from.');
