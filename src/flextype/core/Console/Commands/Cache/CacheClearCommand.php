@@ -30,7 +30,7 @@ class CacheClearCommand extends Command
             $io->success('Cache cleared.');
             return Command::SUCCESS;
         } else {
-            $io->error('Key wasn\'t cleared.');
+            $io->error('Cache wasn\'t cleared.');
             return Command::FAILURE;
         }
     }
