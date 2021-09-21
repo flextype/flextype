@@ -20,7 +20,7 @@ class CacheGetCommand extends Command
     protected function configure(): void
     {
         $this->setName('cache:get');
-        $this->setDescription('Get key');
+        $this->setDescription('Get item.');
         $this->addArgument('key', InputArgument::REQUIRED, 'Key.');
         $this->addArgument('default', InputArgument::OPTIONAL, 'Default.');
     }
