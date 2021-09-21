@@ -35,10 +35,10 @@ class CacheSetCommand extends Command
         $ttl   = $input->getArgument('ttl') ?? 300;
 
         if (cache()->set($key, $value, $ttl)) {
-            $io->success('Value for key ' . $key . ' stored.');
+            $io->success('Cache item with key ' . $key . ' create.');
             return Command::SUCCESS;
         } else {
-            $io->error('Value for key ' . $key . ' wasn\'t created.');
+            $io->error('Cache item with key ' . $key . ' wasn\'t created.');
             return Command::FAILURE;
         }
     }
