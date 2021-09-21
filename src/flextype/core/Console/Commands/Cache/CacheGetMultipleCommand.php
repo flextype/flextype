@@ -20,7 +20,7 @@ class CacheGetMultipleCommand extends Command
     protected function configure(): void
     {
         $this->setName('cache:get-multiple');
-        $this->setDescription('Get multiple keys');
+        $this->setDescription('Get multiple items.');
         $this->addArgument('keys', InputArgument::REQUIRED, 'Keys.');
         $this->addArgument('default', InputArgument::OPTIONAL, 'Default.');
     }
