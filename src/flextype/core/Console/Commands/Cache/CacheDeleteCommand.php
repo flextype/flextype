@@ -19,7 +19,7 @@ class CacheDeleteCommand extends Command
     protected function configure(): void
     {
         $this->setName('cache:delete');
-        $this->setDescription('Delete key');
+        $this->setDescription('Delete item.');
         $this->addArgument('key', InputArgument::REQUIRED, 'Key.');
     }
 
