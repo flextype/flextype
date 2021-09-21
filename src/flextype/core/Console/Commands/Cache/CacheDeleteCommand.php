@@ -28,10 +28,10 @@ class CacheDeleteCommand extends Command
         $key = $input->getArgument('key');
 
         if (cache()->delete($key)) {
-            $io->success('Key ' . $key . ' deleted.');
+            $io->success('Cache item with key ' . $key . ' deleted.');
             return Command::SUCCESS;
         } else {
-            $io->error('Key ' . $key . ' wasn\'t deleted.');
+            $io->error('Cache item with key ' . $key . ' wasn\'t deleted.');
             return Command::FAILURE;
         }
     }
