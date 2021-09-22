@@ -299,7 +299,7 @@
 
 * **helpers**: Added helper function `tokenHash` to generate unique token hash.
 
-* **helpers**: Added helper function `tokenHashValidate` to validate token hash.
+* **helpers**: Added helper function `validateTokenHash` to validate token hash.
 
 * **helpers**: Added helper function `urlFor` to get url for a named route.
 
