@@ -151,8 +151,8 @@ class Api
             $response->getBody()->write(serializers()->json()->encode($body));
         }
 
-        $response->withStatus($status);
-        $response->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'));
+        $response = $response->withStatus($status);
+        $response = $response->withHeader('Content-Type', 'application/json;charset=' . registry()->get('flextype.settings.charset'));
 
         return $response;
     }
