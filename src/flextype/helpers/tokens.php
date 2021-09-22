@@ -16,30 +16,30 @@ if (! function_exists('generateToken')) {
     }
 }
 
-if (! function_exists('tokenHash')) {
+if (! function_exists('generateTokenHash')) {
     /**
      * Generate token hash.
      *
-     * @param int $length Token string length.
+     * @return strings Token string.
      * 
-     * @return string Token string.
+     * @return string Token string hashed.
      */
-    function generateTokenHash(int $length = 16): string
+    function generateTokenHash(string $token): string
     {
-        return password_hash(generateToken($length), PASSWORD_BCRYPT);
+        return password_hash($token, PASSWORD_BCRYPT);
     }
 }
 
-if (! function_exists('validateTokenHash')) {
+if (! function_exists('verifyTokenHash')) {
     /**
-     * Validate token hash.
+     * Verify token hash.
      *
      * @param string $token       Token.
      * @param string $tokenHashed Token hash.
      * 
      * @return bool Token string.
      */
-    function validateTokenHash(string $token, string $tokenHashed): bool
+    function verifyTokenHash(string $token, string $tokenHashed): bool
     {
         return password_verify($token, $tokenHashed);
     }
