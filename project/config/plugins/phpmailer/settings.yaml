@@ -1,5 +1,0 @@
-# enabled: true or false to disable the plugin
-enabled: true
-
-# PHP Mailer plugin priority
-priority: 100
