@@ -25,6 +25,9 @@ use Flextype\Console\Commands\Cache\CacheSetMultipleCommand;
 use Flextype\Console\Commands\Cache\CacheDeleteMultipleCommand;
 use Flextype\Console\Commands\Cache\CacheClearCommand;
 use Flextype\Console\Commands\Cache\CacheHasCommand;
+use Flextype\Console\Commands\Utils\GenerateTokenCommand;
+use Flextype\Console\Commands\Utils\GenerateTokenHashCommand;
+use Flextype\Console\Commands\Utils\VerifyTokenHashCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -48,6 +51,9 @@ class FlextypeConsoleApplication extends ConsoleApplication
         console()->add(new CacheDeleteCommand());
         console()->add(new CacheClearCommand());
         console()->add(new CacheHasCommand());
+        console()->add(new GenerateTokenCommand());
+        console()->add(new GenerateTokenHashCommand());
+        console()->add(new VerifyTokenHashCommand());
         
         parent::run();
     }
