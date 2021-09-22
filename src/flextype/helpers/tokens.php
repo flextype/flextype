@@ -34,8 +34,8 @@ if (! function_exists('validateTokenHash')) {
     /**
      * Validate token hash.
      *
-     * @param string $token       Token string length.
-     * @param string $tokenHashed Token string length.
+     * @param string $token       Token.
+     * @param string $tokenHashed Token hash.
      * 
      * @return bool Token string.
      */
