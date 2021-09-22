@@ -77,8 +77,6 @@
       Returns an empty body with HTTP status 204
     ```
 
-* **images** League Glide updated to Glide 2.
-
 * **images** added ablity to define League Glide settings.
 
     ```yaml
