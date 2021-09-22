@@ -2,44 +2,44 @@
 
 declare(strict_types=1);
 
-if (! function_exists('token')) {
+if (! function_exists('generateToken')) {
     /**
-     * Token.
+     * Generate token.
      *
      * @param int $length Token string length.
      * 
      * @return strings Token string.
      */
-    function token(int $length = 16): string
+    function generateToken(int $length = 16): string
     {
         return bin2hex(random_bytes($length));
     }
 }
 
-if (! function_exists('tokenHash')) {
+if (! function_exists('generateTokenHash')) {
     /**
-     * Token hash.
+     * Generate token hash.
      *
-     * @param int $length Token string length.
+     * @return strings Token string.
      * 
-     * @return string Token string.
+     * @return string Token string hashed.
      */
-    function tokenHash(int $length = 16): string
+    function generateTokenHash(string $token): string
     {
-        return password_hash(token($length), PASSWORD_BCRYPT);
+        return password_hash($token, PASSWORD_BCRYPT);
     }
 }
 
-if (! function_exists('tokenHashValidate')) {
+if (! function_exists('verifyTokenHash')) {
     /**
-     * Token hash validate.
+     * Verify token hash.
      *
-     * @param string $token       Token string length.
-     * @param string $tokenHashed Token string length.
+     * @param string $token       Token.
+     * @param string $tokenHashed Token hash.
      * 
      * @return bool Token string.
      */
-    function tokenHashValidate(string $token, string $tokenHashed): bool
+    function verifyTokenHash(string $token, string $tokenHashed): bool
     {
         return password_verify($token, $tokenHashed);
     }

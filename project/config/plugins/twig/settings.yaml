@@ -1,0 +1,42 @@
+# enabled: true or false to disable the plugin
+enabled: true
+
+# Twig
+#
+# - auto_reload: When developing with Twig, it's useful to recompile the template
+#                whenever the source code changes. If you don't provide a value
+#                for the auto_reload option, it will be determined automatically
+#                based on the debug value.
+#
+# - debug:       When set to true, the generated templates have a __toString()
+#                method that you can use to display the generated nodes
+#
+# - charset:     The charset used by the templates.
+#
+# - cache:       Set false to disable caching.
+#
+# - extensions   Flextype Twig Extension to load.
+auto_reload: true
+cache: true
+debug: false
+charset: "UTF-8"
+extensions: 
+  - I18n
+  - Filesystem
+  - Csrf
+  - Constants
+  - Strings
+  - Arrays
+  - Filters
+  - Functions
+  - Tests
+  - Emitter
+  - Registry
+  - Entries
+  - Serializers
+  - Parsers
+  - Flash
+  - Slugify
+
+# Twig plugin priority
+priority: 0

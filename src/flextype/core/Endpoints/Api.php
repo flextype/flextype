@@ -126,7 +126,7 @@ class Api
                 return $this->getStatusCodeMessage(401);
             }
 
-            if (! tokenHashValidate($data['access_token'], $tokenData['hashed_access_token'])) {
+            if (! verifyTokenHash($data['access_token'], $tokenData['hashed_access_token'])) {
                 return $this->getStatusCodeMessage(401);
             }
         }

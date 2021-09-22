@@ -1,0 +1,102 @@
+title: Registration
+icon:
+  set: bootstrap
+  name: file-text
+vars:
+  - name: version
+    type: string
+    value: "@parsers:twig; {{ registry().get('flextype.manifest.version') }}"
+actions:
+  get:
+    - name: foo
+      properties:
+        vars:
+          - name: version
+            type: string
+            value: "@parsers:twig; {{ registry().get('flextype.manifest.version') }}"     
+emitter:
+  addListener:
+    - name: onAdminThemeTail
+      properties:
+        vars: 
+          - name: version
+            type: string
+            value: "@parsers:twig; {{ registry().get('flextype.manifest.version') }}"
+        value: |
+          @parsers:twig; 
+          Flextype: {{ version }}
+blocks:
+  - type: Container
+    properties:
+      breakpoint: medium
+    blocks:
+      - type: Row
+        blocks:
+          - type: Column
+            blocks:
+              - type: Form
+                properties:
+                  name: form_account_registration
+                  process:
+                    fields:
+                      - name: id
+                        properties:
+                          type: string
+                      - name: password
+                        properties:
+                          type: string
+                blocks:
+                  - type: Row
+                    properties:
+                      class: mt-4 mb-4
+                    blocks:
+                      - type: Column
+                        properties:
+                          size: 4/12
+                          style:
+                            margin: 0 auto
+                        blocks:
+                          - type: Heading
+                            properties:
+                              size: large
+                              id: title
+                              value: "@parsers:twig;{{ __('accounts_admin_create_new_account') }} - {{ version }}"
+                          - type: Row
+                            properties:
+                              class: g-3 mt-2
+                            blocks:
+                              - type: Column
+                                properties:
+                                  size: 12
+                                blocks:
+                                  - type: InputEmail
+                                    properties:
+                                      name: id
+                                      label:
+                                        value: "@parsers:twig;{{ __('accounts_admin_email') }}"
+                                      validation:
+                                        required: true
+                                        pattern: '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$'
+                                      help: "@parsers:twig;{{ __('accounts_admin_installation_email_tip') }}"
+                              - type: Column
+                                properties:
+                                  size: 12
+                                blocks:
+                                  - type: InputPassword
+                                    properties:
+                                      name: password
+                                      label:
+                                        value: "@parsers:twig;{{ __('accounts_admin_password') }}"
+                                      validation:
+                                        required: true 
+                                        pattern: '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
+                                      help: "@parsers:twig;{{ __('accounts_admin_installation_password_tip') }}"
+                              - type: Column
+                                properties:
+                                  size: 12
+                                  class: mt-4
+                                blocks:
+                                  - type: InputSubmit
+                                    properties:
+                                      name: submit
+                                      value: "@parsers:twig;{{ __('accounts_admin_create') }}"

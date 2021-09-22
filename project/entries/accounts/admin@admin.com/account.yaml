@@ -1,0 +1,11 @@
+hashed_password: $2y$10$lAEa.dne32mIfa5qxdsOL.zbPPk1n4cpZgtvz4Iit7TyRYLcXy/Fy
+roles: admin
+state: enabled
+published_at: '09-09-2021 17:41'
+published_by: ''
+created_at: '09-09-2021 17:41'
+created_by: ''
+routable: true
+visibility: visible
+uuid: 1b22573f-4c8a-45c6-a860-5f24a1d6ae5b
+blueprint: admin/entries/default

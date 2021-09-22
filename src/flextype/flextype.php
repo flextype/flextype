@@ -40,6 +40,7 @@ use Slim\Psr7\Response;
 use Slim\Psr7\Stream;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 use Flextype\Middlewares\WhoopsMiddleware;
+use Flextype\Console\FlextypeConsoleApplication;
 
 use function app;
 use function array_replace_recursive;
@@ -71,8 +72,11 @@ use function trim;
 use function var_export;
 
 // Init Flextype Instance.
-// Creates $app Application and $container Container objects.
+// Creates $app Flextype Application and $container Flextype Application Container objects.
 flextype();
+
+// Create Flextype CLI Application
+container()->set('console', new FlextypeConsoleApplication('Flextype CLI Application', Flextype::VERSION));
 
 // Add Registry Service.
 container()->set('registry', registry());
@@ -176,7 +180,8 @@ if (registry()->get('flextype.settings.output_buffering')) {
 }
 
 // Add Router Cache
-if (registry()->get('flextype.settings.cache.routes')) {
+if (registry()->get('flextype.settings.router.cache')) {
+    filesystem()->directory(PATH['tmp'] . '/routes')->ensureExists(0755, true);
     app()->getRouteCollector()->setCacheFile(PATH['tmp'] . '/routes/routes.php');
 }
 
@@ -387,9 +392,6 @@ if (registry()->get('flextype.settings.cors.enabled')) {
 // Add Routing Middleware
 app()->addRoutingMiddleware();
 
-// Run high priority event: onFlextypeBeforeRun before Flextype Application starts.
-emitter()->emit('onFlextypeBeforeRun');
-
 // Add Whoops Error Handling Middleware
 app()->add(new WhoopsMiddleware([
     'enable'  => registry()->get('flextype.settings.errors.display'),
@@ -398,5 +400,12 @@ app()->add(new WhoopsMiddleware([
     'handler' => registry()->get('flextype.settings.errors.handler'),
 ]));
 
-// Run Flextype Application
-app()->run();
+// Run high level event onFlextypeBeforeRun
+emitter()->emit('onFlextypeBeforeRun');
+
+// Run Flextype Application / CLI Application
+if (php_sapi_name() === 'cli') {
+    registry()->get('flextype.settings.cli') and console()->run();
+} else {
+    registry()->get('flextype.settings.app') and app()->run();
+}
