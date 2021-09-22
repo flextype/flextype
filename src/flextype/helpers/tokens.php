@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-if (! function_exists('token')) {
+if (! function_exists('generateToken')) {
     /**
-     * Token.
+     * Generate token.
      *
      * @param int $length Token string length.
      * 
      * @return strings Token string.
      */
-    function token(int $length = 16): string
+    function generateToken(int $length = 16): string
     {
         return bin2hex(random_bytes($length));
     }
@@ -18,28 +18,28 @@ if (! function_exists('token')) {
 
 if (! function_exists('tokenHash')) {
     /**
-     * Token hash.
+     * Generate token hash.
      *
      * @param int $length Token string length.
      * 
      * @return string Token string.
      */
-    function tokenHash(int $length = 16): string
+    function generateTokenHash(int $length = 16): string
     {
-        return password_hash(token($length), PASSWORD_BCRYPT);
+        return password_hash(generateToken($length), PASSWORD_BCRYPT);
     }
 }
 
-if (! function_exists('tokenHashValidate')) {
+if (! function_exists('validateTokenHash')) {
     /**
-     * Token hash validate.
+     * Validate token hash.
      *
      * @param string $token       Token string length.
      * @param string $tokenHashed Token string length.
      * 
      * @return bool Token string.
      */
-    function tokenHashValidate(string $token, string $tokenHashed): bool
+    function validateTokenHash(string $token, string $tokenHashed): bool
     {
         return password_verify($token, $tokenHashed);
     }
