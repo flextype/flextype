@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesCreate', static function (): void {
     
-    if (! entries()->registry()->get('collection.options.fields.total_calls.enabled')) {
+    if (! entries()->registry()->get('collection.options.fields.limit_calls.enabled')) {
         return;
     }
 
-    if (entries()->registry()->get('create.data.total_calls') !== null) {
+    if (entries()->registry()->get('create.data.limit_calls') !== null) {
         return;
     }
 
-    entries()->registry()->set('create.data.total_calls', 0);
+    entries()->registry()->set('create.data.limit_calls', 0);
 });

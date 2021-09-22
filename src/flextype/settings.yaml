@@ -24,7 +24,7 @@ base_url: ''
 # Application Base Path
 #
 # Define application base path if application located in subdirectory
-base_path: '/flextype'
+base_path: '/'
 
 # Valid date format
 #
@@ -162,9 +162,9 @@ entries:
         calls:
           enabled: true
           path: "/src/flextype/core/Entries/Fields/Tokens/Items/CallsField.php"
-        total_calls:
+        limit_calls:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Tokens/Items/TotalCallsField.php"
+          path: "/src/flextype/core/Entries/Fields/Tokens/Items/LimitCallsField.php"
         state:
           enabled: true
           path: "/src/flextype/core/Entries/Fields/Tokens/Items/StateField.php"
@@ -635,6 +635,9 @@ api:
 
     # Set to true to enable Entries API
     enabled: true
+
+    # exclude fields
+    exclude:
 
   # Registry API
   registry:
