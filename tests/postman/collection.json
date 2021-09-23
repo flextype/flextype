@@ -66,7 +66,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/v0/entries?id={{entry_id}}&options={{entry_options}}&token={{token}}",
+              "raw": "{{base_url}}/api/v0/entries?id={{entry_id}}&options{{entry_options}}&token={{token}}",
               "host": [
                 "{{base_url}}"
               ],
@@ -81,8 +81,8 @@
                   "value": "{{entry_id}}"
                 },
                 {
-                  "key": "options",
-                  "value": "{{entry_options}}"
+                  "key": "options{{entry_options}}",
+                  "value": null
                 },
                 {
                   "key": "token",
@@ -229,8 +229,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"response status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
+                  "pm.test(\"response status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
                   "});"
                 ]
               }
@@ -318,7 +318,7 @@
   ],
   "variable": [
     {
-      "id": "ce868297-5fed-4de7-a784-bfbe5e1a63ee",
+      "id": "552583cd-cae9-42b9-a22d-ff0b342ada75",
       "key": "entry_id",
       "value": ""
     }
