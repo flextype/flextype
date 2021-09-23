@@ -16,7 +16,7 @@ use function app;
 /**
  * Clear cache
  *
- * endpoint: POST /api/utils/cache/clear
+ * endpoint: POST /api/v0/utils/cache/clear
  *
  * Body:
  * token        - [REQUIRED] - Valid public token.
@@ -25,4 +25,4 @@ use function app;
  * Returns:
  * Returns an empty body with HTTP status 204
  */
-app()->post('/api/utils/cache/clear', [Utils::class, 'clearCache']);
+app()->post('/api/v0/utils/cache/clear', [Utils::class, 'clearCache']);

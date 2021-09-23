@@ -16,7 +16,7 @@ use function app;
 /**
  * Get registry item
  *
- * endpoint: GET /api/registry
+ * endpoint: GET /api/v0/registry
  *
  * Query:
  * key     - [REQUIRED] - Unique identifier of the registry item key.
@@ -26,4 +26,4 @@ use function app;
  * Returns:
  * An array of registry objects.
  */
-app()->get('/api/registry', [Registry::class, 'get']);
+app()->get('/api/v0/registry', [Registry::class, 'get']);

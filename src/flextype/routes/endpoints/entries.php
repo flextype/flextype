@@ -16,7 +16,7 @@ use function app;
 /**
  * Fetch entry
  *
- * endpoint: GET /api/entries
+ * endpoint: GET /api/v0/entries
  *
  * Query:
  * id      - [REQUIRED] - Unique identifier of the entry.
@@ -26,12 +26,12 @@ use function app;
  * Returns:
  * An array of entry objects.
  */
-app()->get('/api/entries', [Entries::class, 'fetch']);
+app()->get('/api/v0/entries', [Entries::class, 'fetch']);
 
 /**
  * Create entry
  *
- * endpoint: POST /api/entries
+ * endpoint: POST /api/v0/entries
  *
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
@@ -42,12 +42,12 @@ app()->get('/api/entries', [Entries::class, 'fetch']);
  * Returns:
  * Returns the entry object for the entry that was just created.
  */
-app()->post('/api/entries', [Entries::class, 'create']);
+app()->post('/api/v0/entries', [Entries::class, 'create']);
 
 /**
  * Update entry
  *
- * endpoint: PATCH /api/entries
+ * endpoint: PATCH /api/v0/entries
  *
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
@@ -58,12 +58,12 @@ app()->post('/api/entries', [Entries::class, 'create']);
  * Returns:
  * Returns the entry object for the entry that was just updated.
  */
-app()->patch('/api/entries', [Entries::class, 'update']);
+app()->patch('/api/v0/entries', [Entries::class, 'update']);
 
 /**
  * Move entry
  *
- * endpoint: PUT /api/entries
+ * endpoint: PUT /api/v0/entries
  *
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
@@ -74,12 +74,12 @@ app()->patch('/api/entries', [Entries::class, 'update']);
  * Returns:
  * Returns the entry object for the entry that was just moved.
  */
-app()->put('/api/entries', [Entries::class, 'move']);
+app()->put('/api/v0/entries', [Entries::class, 'move']);
 
 /**
  * Copy entry
  *
- * endpoint: PUT /api/entries/copy
+ * endpoint: PUT /api/v0/entries/copy
  *
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
@@ -90,12 +90,12 @@ app()->put('/api/entries', [Entries::class, 'move']);
  * Returns:
  * Returns the entry object for the entry that was just copied.
  */
-app()->put('/api/entries/copy', [Entries::class, 'copy']);
+app()->put('/api/v0/entries/copy', [Entries::class, 'copy']);
 
 /**
  * Delete entry
  *
- * endpoint: DELETE /api/entries
+ * endpoint: DELETE /api/v0/entries
  *
  * Body:
  * id           - [REQUIRED] - Unique identifier of the entry.
@@ -105,4 +105,4 @@ app()->put('/api/entries/copy', [Entries::class, 'copy']);
  * Returns:
  * Returns an empty body with HTTP status 204
  */
-app()->delete('/api/entries', [Entries::class, 'delete']);
+app()->delete('/api/v0/entries', [Entries::class, 'delete']);
