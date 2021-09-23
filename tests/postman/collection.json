@@ -217,7 +217,7 @@
                 }
               }
             },
-            "url": "{{base_url}}/api/v0/content/copy"
+            "url": "{{base_url}}/api/v0/entries/copy"
           },
           "response": []
         },
@@ -249,7 +249,7 @@
                 }
               }
             },
-            "url": "{{base_url}}/api/v0/content"
+            "url": "{{base_url}}/api/v0/entries"
           },
           "response": []
         }
@@ -318,7 +318,7 @@
   ],
   "variable": [
     {
-      "id": "ba671ffb-fcd0-4bc8-bd15-ae28ee610ad7",
+      "id": "ce868297-5fed-4de7-a784-bfbe5e1a63ee",
       "key": "entry_id",
       "value": ""
     }
