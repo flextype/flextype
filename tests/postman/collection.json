@@ -16,8 +16,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Status code is 200\", () => {",
-                  "  pm.expect(pm.response.code).to.eql(200);",
+                  "pm.test(\"response status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
                   "});"
                 ]
               }
@@ -48,24 +48,41 @@
       "item": [
         {
           "name": "Fetch entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "id": "f2dd409b-c395-4610-8b50-493f6dab8571",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/v0/content?id={{entry_id}}&token={{token}}",
+              "raw": "{{base_url}}/api/v0/entries?id={{entry_id}}&options={{entry_options}}&token={{token}}",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
                 "v0",
-                "content"
+                "entries"
               ],
               "query": [
                 {
                   "key": "id",
                   "value": "{{entry_id}}"
+                },
+                {
+                  "key": "options",
+                  "value": "{{entry_options}}"
                 },
                 {
                   "key": "token",
@@ -78,6 +95,19 @@
         },
         {
           "name": "Create entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "id": "38392a86-0dee-4d75-80fd-31d7504ebdf5",
           "request": {
             "method": "POST",
@@ -97,6 +127,19 @@
         },
         {
           "name": "Update entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "id": "9f045111-f130-406e-a369-c6ca002b0d26",
           "request": {
             "method": "PATCH",
@@ -116,6 +159,19 @@
         },
         {
           "name": "Move entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "id": "274afb61-dda3-4c06-b2f6-3e70d945520b",
           "request": {
             "method": "PUT",
@@ -135,6 +191,19 @@
         },
         {
           "name": "Copy entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "id": "25d04444-9c92-4803-8565-c3c1e9778dfe",
           "request": {
             "method": "PUT",
@@ -154,6 +223,19 @@
         },
         {
           "name": "Delete entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "id": "d38ae443-1d01-485d-b166-5ba694de497a",
           "request": {
             "method": "DELETE",
@@ -185,7 +267,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"response is ok\", function () {",
+                  "pm.test(\"response status code is 200\", function () {",
                   "    pm.response.to.have.status(200);",
                   "});",
                   "",
@@ -232,6 +314,13 @@
         }
       ],
       "id": "07206fde-26e3-47d6-958f-cbbffd5b2eb9"
+    }
+  ],
+  "variable": [
+    {
+      "id": "ba671ffb-fcd0-4bc8-bd15-ae28ee610ad7",
+      "key": "entry_id",
+      "value": ""
     }
   ]
 }
