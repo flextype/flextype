@@ -185,10 +185,18 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "",
-                  "",
-                  "pm.test(\"Status code is 200\", function () {",
+                  "pm.test(\"response is ok\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"response json data should not have errors\", function () {",
+                  "    pm.response.to.have.jsonBody();",
+                  "    pm.response.to.not.have.jsonBody('error');",
+                  "});",
+                  "",
+                  "pm.test(\"response json data should contain correct value for registry item key\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.value).to.eql('Flextype');",
                   "});"
                 ]
               }
