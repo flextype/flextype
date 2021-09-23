@@ -56,6 +56,11 @@
                 "exec": [
                   "pm.test(\"response status code is 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"title field exists and eq Foo\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.title).to.eql(\"Foo\");",
                   "});"
                 ]
               }
@@ -103,6 +108,11 @@
                 "exec": [
                   "pm.test(\"response status code is 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"title field exists and eq Foo\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.title).to.eql(\"Foo\");",
                   "});"
                 ]
               }
@@ -135,6 +145,11 @@
                 "exec": [
                   "pm.test(\"response status code is 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"title field exists and eq Foo\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.title).to.eql(\"Foo\");",
                   "});"
                 ]
               }
@@ -167,6 +182,11 @@
                 "exec": [
                   "pm.test(\"response status code is 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"title field exists and eq Foo\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.title).to.eql(\"Foo\");",
                   "});"
                 ]
               }
@@ -199,6 +219,11 @@
                 "exec": [
                   "pm.test(\"response status code is 200\", function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"title field exists and eq Foo\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.title).to.eql(\"Foo\");",
                   "});"
                 ]
               }
@@ -271,11 +296,6 @@
                   "    pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "pm.test(\"response json data should not have errors\", function () {",
-                  "    pm.response.to.have.jsonBody();",
-                  "    pm.response.to.not.have.jsonBody('error');",
-                  "});",
-                  "",
                   "pm.test(\"response json data should contain correct value for registry item key\", function () {",
                   "    var jsonData = pm.response.json();",
                   "    pm.expect(jsonData.value).to.eql('Flextype');",
@@ -318,7 +338,7 @@
   ],
   "variable": [
     {
-      "id": "552583cd-cae9-42b9-a22d-ff0b342ada75",
+      "id": "5aa9912d-1df7-4dce-8c6a-cd65ab966078",
       "key": "entry_id",
       "value": ""
     }
