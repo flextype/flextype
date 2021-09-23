@@ -13,7 +13,7 @@ charset: UTF-8
 
 # The locale that'll be used by the Flextype.
 #
-# Available locales to use: src/flextype/config/locales.yaml
+# Available locales to use: src/flextype/locales.yaml
 locale: en_US
 
 # Application Base url
