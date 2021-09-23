@@ -51,7 +51,7 @@
         "thunderer/shortcode": "^0.7.4",
 
         "composer/semver": "^3.2.5",
-        "slim/psr7": "^1.4",
+        "slim/psr7": "^1.5",
         "php-di/php-di": "^6.3.4",
         "php-di/slim-bridge": "^3.1.1",
         "nette/neon": "^3.2.2", 
