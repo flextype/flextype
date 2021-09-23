@@ -129,7 +129,7 @@
                 }
               }
             },
-            "url": "{{base_url}}/api/entries"
+            "url": "{{base_url}}/api/v0/entries"
           },
           "response": []
         },
@@ -148,7 +148,7 @@
                 }
               }
             },
-            "url": "{{base_url}}/api/content/copy"
+            "url": "{{base_url}}/api/v0/content/copy"
           },
           "response": []
         },
@@ -167,7 +167,7 @@
                 }
               }
             },
-            "url": "{{base_url}}/api/content"
+            "url": "{{base_url}}/api/v0/content"
           },
           "response": []
         }
@@ -185,6 +185,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
+                  "",
+                  "",
                   "pm.test(\"Status code is 200\", function () {",
                   "    pm.response.to.have.status(200);",
                   "});"
@@ -197,18 +199,19 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/registry?name={{registry_item_name}}&token={{token}}",
+              "raw": "{{base_url}}/api/v0/registry?key={{registry_item_key}}&token={{token}}",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
+                "v0",
                 "registry"
               ],
               "query": [
                 {
-                  "key": "name",
-                  "value": "{{registry_item_name}}"
+                  "key": "key",
+                  "value": "{{registry_item_key}}"
                 },
                 {
                   "key": "token",
