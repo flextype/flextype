@@ -15,7 +15,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use function content;
 use function count;
 
-class Content extends Api
+class Entries extends Api
 {
     /**
      * Fetch content.
