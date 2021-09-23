@@ -12,13 +12,13 @@ namespace Flextype\Endpoints;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use function content;
+use function entries;
 use function count;
 
 class Entries extends Api
 {
     /**
-     * Fetch content.
+     * Fetch entry.
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
@@ -34,25 +34,25 @@ class Entries extends Api
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'content',
+                'api' => 'entries',
                 'params' => ['token', 'id'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Get content data
-        $contentData = entries()->fetch($requestQueryParams['id'], $requestQueryParams['options'] ?? [])->toArray();
+        // Get entry data
+        $entryData = entries()->fetch($requestQueryParams['id'], $requestQueryParams['options'] ?? [])->toArray();
 
-        if (count($contentData) > 0) {
-            return $this->getApiResponse($response, $contentData, 200);
+        if (count($entryData) > 0) {
+            return $this->getApiResponse($response, $entryData, 200);
         }
 
         return $this->getApiResponse($response, $this->getStatusCodeMessage(404), 404);
     }
 
     /**
-     * Create content.
+     * Create entry.
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
@@ -68,29 +68,29 @@ class Entries extends Api
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'content',
+                'api' => 'entries',
                 'params' => ['token', 'id', 'access_token'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Create new content
+        // Create new entry
         entries()->create($requestParsedBody['id'], $requestParsedBody['data'] ?? []);
 
-        // Fetch content
-        $contentData = entries()->fetch($requestParsedBody['id'])->toArray();
+        // Fetch entry
+        $entryData = entries()->fetch($requestParsedBody['id'])->toArray();
 
         // Return response
-        if (count($contentData) > 0) {
-            return $this->getApiResponse($response, $contentData, 200);
+        if (count($entryData) > 0) {
+            return $this->getApiResponse($response, $entryData, 200);
         }
 
         return $this->getApiResponse($response, [], 404);
     }
 
     /**
-     * Update content.
+     * Update entry.
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
@@ -106,29 +106,29 @@ class Entries extends Api
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'content',
+                'api' => 'entries',
                 'params' => ['token', 'id', 'access_token'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Update content
+        // Update entry
         entries()->update($requestParsedBody['id'], $requestParsedBody['data'] ?? []);
 
-        // Fetch content
-        $contentData = entries()->fetch($requestParsedBody['id'])->toArray();
+        // Fetch entry
+        $entryData = entries()->fetch($requestParsedBody['id'])->toArray();
 
         // Return response
-        if (count($contentData) > 0) {
-            return $this->getApiResponse($response, $contentData, 200);
+        if (count($entryData) > 0) {
+            return $this->getApiResponse($response, $entryData, 200);
         }
 
         return $this->getApiResponse($response, [], 404);
     }
 
     /**
-     * Move content.
+     * Move entry.
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
@@ -144,29 +144,29 @@ class Entries extends Api
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'content',
+                'api' => 'entries',
                 'params' => ['token', 'id', 'new_id', 'access_token'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Move content
+        // Move entry
         entries()->move($requestParsedBody['id'], $requestParsedBody['new_id']);
 
-        // Fetch content
-        $contentData = entries()->fetch($requestParsedBody['new_id'])->toArray();
+        // Fetch entry
+        $entryData = entries()->fetch($requestParsedBody['new_id'])->toArray();
 
         // Return response
-        if (count($contentData) > 0) {
-            return $this->getApiResponse($response, $contentData, 200);
+        if (count($entryData) > 0) {
+            return $this->getApiResponse($response, $entryData, 200);
         }
 
         return $this->getApiResponse($response, [], 404);
     }
 
     /**
-     * Copy content.
+     * Copy entry.
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
@@ -182,29 +182,29 @@ class Entries extends Api
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'content',
+                'api' => 'entries',
                 'params' => ['token', 'id', 'new_id', 'access_token'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Copy content
+        // Copy entry
         entries()->copy($requestParsedBody['id'], $requestParsedBody['new_id']);
 
-        // Fetch content
-        $contentData = entries()->fetch($requestParsedBody['new_id'])->toArray();
+        // Fetch entry
+        $entryData = entries()->fetch($requestParsedBody['new_id'])->toArray();
 
         // Return response
-        if (count($contentData) > 0) {
-            return $this->getApiResponse($response, $contentData, 200);
+        if (count($entryData) > 0) {
+            return $this->getApiResponse($response, $entryData, 200);
         }
 
         return $this->getApiResponse($response, [], 404);
     }
 
     /**
-     * Delete content.
+     * Delete entry.
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
@@ -220,14 +220,14 @@ class Entries extends Api
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'content',
+                'api' => 'entries',
                 'params' => ['token', 'id', 'access_token'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Copy content
+        // Copy entry
         entries()->delete($requestParsedBody['id']);
 
         // Return success response
