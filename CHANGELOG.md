@@ -11,11 +11,51 @@
 
   See: [Usage Guide](https://php-di.org/doc/frameworks/slim.html)
 
+* **core** Added Flextype CLI Application. 
+
+    ```
+    Usage:
+      command [options] [arguments]
+
+    Options:
+      -h, --help            Display help for the given command. When no command is given display help for the list command
+      -q, --quiet           Do not output any message
+      -V, --version         Display this application version
+          --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+      -n, --no-interaction  Do not ask any interactive question
+      -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+    Available commands:
+      help                       Display help for a command
+      list                       List commands
+    cache
+      cache:clear                Clear cache.
+      cache:delete               Delete item.
+      cache:delete-multiple      Delete mutiple items.
+      cache:get                  Get item.
+      cache:get-multiple         Get multiple items.
+      cache:has                  Check whether cache item exists.
+      cache:set                  Set item.
+      cache:set-multiple         Set multiple items.
+    entries
+      entries:copy               Copy entry.
+      entries:create             Create entry.
+      entries:delete             Delete entry.
+      entries:fetch              Fetch entry.
+      entries:has                Check whether entry exists.
+      entries:move               Move entry.
+      entries:update             Update entry.
+    utils
+      utils:generate-token       Generate token.
+      utils:generate-token-hash  Generate token hash.
+      utils:verify-token-hash    Verify token hash.
+    ```
+
 * **entries**: Added ability to create completely customizable high level collections for entries.
 
     Example: https://github.com/flextype/flextype/issues/563
 
-* **entries**: Added ability to set custom actions for each entries collections.
+* **entries**: Added ability to set custom events for each entries collections.
 
 * **entries**: Added new method `getOptions` to get entries options.
 
@@ -60,7 +100,7 @@
     ...
     ```
 
-* **endpoints** All Rest API Endpoints codebase were rewritten from scratch.
+* **endpoints** All Rest API Endpoints codebase was rewritten from scratch.
 
 * **endpoints** New Rest API Endpoint `/api/utils/cache/clear`.
 
@@ -75,46 +115,6 @@
     
     Returns:
       Returns an empty body with HTTP status 204
-    ```
-
-* **images** added ablity to define League Glide settings.
-
-    ```yaml
-    api:
-      images:
-        
-        # Set to true to enable Images API
-        enabled: true
-
-        # Images driver (gd, imagick)
-        driver: gd
-
-        # Images directory.
-        directory: '/uploads'
-
-        # Images max size
-        max_image_size: 
-
-          # Image max width
-          width: 2000 
-
-          # Image max height
-          height: 2000
-
-        # Images watermarks
-        watermarks: 
-
-          # Images watermarks directory
-          directory: '/watermarks'
-
-        # Images cache
-        cache:
-
-          # Images cache directory
-          directory: '/images'
-        
-        # Group of presets for images processing.
-        presets: []
     ```
 
 * **csrf**: Added Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
@@ -289,6 +289,8 @@
 
 * **helpers**: Added helper function `plugins` to get Flextype Plugins Service.
 
+* **helpers**: Added helper function `console` to get Flextype Console Service.
+
 * **helpers**: Added helper function `imageFile` to create a new image instance for image file.
 
 * **helpers**: Added helper function `imageCanvas` to create a new image canvas instance.
@@ -411,7 +413,7 @@
 * **helpers**: Use helper function `container` to access Flextype Application container instead of old helper function `flextype()` with container name argument.
 
   * use `container()->get('entries')` instead of `flextype('entries')`
-  * use `container()->set('content', new Entries())` instead of `flextype()['entries'] = new Entries()`
+  * use `container()->set('entries', new Entries())` instead of `flextype()['entries'] = new Entries()`
 
 * **helpers**: Use helper function `filterCollection` instead of old `filter`.
 
@@ -429,7 +431,7 @@
 
 ### Refactoring
 
-* **core**: general code refactoring and improvements.
+* **core**: General code refactoring and improvements.
 
 * **tests**: All unit tests were rewritten.
 
