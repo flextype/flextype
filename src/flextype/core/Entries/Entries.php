@@ -193,12 +193,12 @@ class Entries
      */
     public function fetch(string $id, array $options = []): Arrays
     {
-        // Entry data
+        // Set registry initial data for this method.
         $this->registry()->set('fetch.id', $id);
         $this->registry()->set('fetch.options', $options);
         $this->registry()->set('fetch.data', []);
 
-        // Set collection options
+        // Set registry current collection options.
         $this->registry()->set('collection.options', $this->getCollectionOptions($id));
 
         // Run event
@@ -381,11 +381,11 @@ class Entries
      */
     public function move(string $id, string $newID): bool
     {  
-        // Entry data
+        // Set registry initial data for this method.
         $this->registry()->set('move.id', $id);
         $this->registry()->set('move.newID', $newID);
 
-        // Set collection options
+        // Set registry current collection options.
         $this->registry()->set('collection.options', $this->getCollectionOptions($this->registry()->get('move.id')));
         
         // Run event
@@ -412,11 +412,11 @@ class Entries
      */
     public function update(string $id, array $data): bool
     {
-        // Entry data
+        // Set registry initial data for this method.
         $this->registry()->set('update.id', $id);
         $this->registry()->set('update.data', $data);
 
-        // Set collection options
+        // Set registry current collection options.
         $this->registry()->set('collection.options', $this->getCollectionOptions($this->registry()->get('update.id')));
         
         // Run event
@@ -446,11 +446,11 @@ class Entries
      */
     public function create(string $id, array $data = []): bool
     {
-        // Entry data
+        // Set registry initial data for this method.
         $this->registry()->set('create.id', $id);
         $this->registry()->set('create.data', $data);
 
-        // Set collection options
+        // Set registry current collection options.
         $this->registry()->set('collection.options', $this->getCollectionOptions($this->registry()->get('create.id')));
         
         // Run event
@@ -486,10 +486,10 @@ class Entries
      */
     public function delete(string $id): bool
     {
-        // Entry data
+        // Set registry initial data for this method.
         $this->registry()->set('delete.id', $id);
 
-        // Set collection options
+        // Set registry current collection options.
         $this->registry()->set('collection.options', $this->getCollectionOptions($this->registry()->get('delete.id')));
         
         // Run event
@@ -512,11 +512,11 @@ class Entries
      */
     public function copy(string $id, string $newID): ?bool
     {  
-        // Entry data
+        // Set registry initial data for this method.
         $this->registry()->set('copy.id', $id);
         $this->registry()->set('copy.newID', $newID);
 
-        // Set collection options
+        // Set registry current collection options.
         $this->registry()->set('collection.options', $this->getCollectionOptions($this->registry()->get('copy.id')));
 
         // Run event
@@ -538,10 +538,10 @@ class Entries
      */
     public function has(string $id): bool
     {   
-        // Entry data
+        // Set registry initial data for this method.
         $this->registry()->set('has.id', $id);
 
-        // Set collection options
+        // Set registry current collection options.
         $this->registry()->set('collection.options', $this->getCollectionOptions($this->registry()->get('has.id')));
 
         // Run event:
@@ -561,10 +561,16 @@ class Entries
      */
     public function getFileLocation(string $id): string
     {
-        // Set collection options
+        // Set registry initial data for this method.
+        $this->registry()->set('getFileLocation.id', $id);
+        
+        // Set registry initial data for this method.
         $this->registry()->set('collection.options', $this->getCollectionOptions($id));
 
-        return PATH['project'] . $this->options['directory'] . '/' . $id . '/' . $this->registry()->get('collection.options.filename') . '.' . $this->registry()->get('collection.options.extension');
+        // Run event:
+        emitter()->emit('onEntriesGetFileLocation');
+        
+        return PATH['project'] . $this->options['directory'] . '/' . $this->registry()->get('getFileLocation.id') . '/' . $this->registry()->get('collection.options.filename') . '.' . $this->registry()->get('collection.options.extension');
     }
 
     /**
@@ -578,7 +584,16 @@ class Entries
      */
     public function getDirectoryLocation(string $id): string
     {
-        return PATH['project'] . $this->options['directory'] . '/' . $id;
+        // Set registry initial data for this method.
+        $this->registry()->set('getDirectoryLocation.id', $id);
+        
+        // Set registry initial data for this method.
+        $this->registry()->set('collection.options', $this->getCollectionOptions($id));
+
+        // Run event:
+        emitter()->emit('onEntriesGetDirectoryLocation');
+        
+        return PATH['project'] . $this->options['directory'] . '/' . $this->registry()->get('getDirectoryLocation.id');
     }
 
     /**
@@ -592,11 +607,20 @@ class Entries
      */
     public function getCacheID(string $id): string
     {   
+        // Set registry initial data for this method.
+        $this->registry()->set('getCacheID.id', $id);
+
+        // Set registry initial data for this method.
+        $this->registry()->set('collection.options', $this->getCollectionOptions($id));
+
+        // Run event:
+        emitter()->emit('onEntriesGetCacheID');
+
         if (registry()->get('flextype.settings.cache.enabled') === false) {
             return '';
         }
     
-        $entryFile = $this->getFileLocation($id);
+        $entryFile = $this->getFileLocation($this->registry()->get('getCacheID.id'));
 
         if (filesystem()->file($entryFile)->exists()) {
             return strings($this->options['directory'] . $entryFile . (filesystem()->file($entryFile)->lastModified() ?: ''))->hash()->toString();
