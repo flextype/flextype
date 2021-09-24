@@ -428,7 +428,7 @@
     // Set new action entries.create
     actions()->set('entries.create', function($id, $data) {
       if(registry()->get('database') == 'MySQL') {
-      // ... create new content in the MySQL database.
+        // ... create new entry in the MySQL database.
       } else {
         return entries()->create($id, $data);
       }
