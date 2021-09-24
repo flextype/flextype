@@ -307,11 +307,11 @@
 
 * **helpers**: Added helper function `imageCanvas` to create a new image canvas instance.
 
-* **helpers**: Added helper function `token` to generate unique token.
+* **helpers**: Added helper function `generateToken` to generate unique token.
 
-* **helpers**: Added helper function `tokenHash` to generate unique token hash.
+* **helpers**: Added helper function `generateTokenHash` to generate unique token hash.
 
-* **helpers**: Added helper function `validateTokenHash` to validate token hash.
+* **helpers**: Added helper function `verifyTokenHash` to validate token hash.
 
 * **helpers**: Added helper function `urlFor` to get url for a named route.
 
