@@ -72,12 +72,13 @@
     ```yaml
     ...
     entries:
-      content:
+      default:
+        ...
         fields:
           ...
           uuid:
             enabled: true
-            path: "/src/flextype/Content/Fields/UuidField.php"
+            path: "/src/flextype/core/Entries/Fields/Default/UuidField.php"
           ...
         ...
       ...
@@ -88,12 +89,13 @@
     ```yaml
     ...
     entries:
-      content:
+      default:
+        ...
         fields:
           ...
           uuid:
             enabled: true
-            path: "/project/plugins/your-custom-plugin/Content/Fields/UuidField.php"
+            path: "/project/plugins/your-custom-plugin/Entries/Fields/Default/UuidField.php"
           ...
         ...
       ...
@@ -123,7 +125,7 @@
 
     Documentation [here](https://doc.nette.org/en/3.1/neon).
 
-* **serializers**: Added ability to set global settings for all serializers. 
+* **serializers**: Added ability to set global settings for all built-in serializers. 
 
     `/src/flextype/settings.yaml`
     ```yaml
@@ -143,7 +145,7 @@
           native: true
           flags: 0
         encode:    
-          inline: 5
+          inline: 10
           indent: 2
           flags: 0
       frontmatter:
@@ -161,9 +163,15 @@
           cache: true
         encode:
           flags: 1
+      phparray:
+        decode:
+          cache: true
+      phpcode:
+        decode:
+          cache: true
     ```
 
-* **serializers**: Added ability to set specific header serializer (default is YAML) for `Frontmatter` serializer.
+* **serializers**: Added ability to set specific header serializer for `Frontmatter` serializer (default is YAML).
 
     `/src/flextype/settings.yaml`
     ```yaml
@@ -209,19 +217,19 @@
         shortcodes:
           media:
             enabled: true
-            path: "/src/flextype/Parsers/Shortcodes/MediaShortcode.php"
+            path: "/src/flextype/core/Parsers/Shortcodes/MediaShortcode.php"
           content:
             enabled: true
-            path: "/src/flextype/Parsers/Shortcodes/ContentShortcode.php"
+            path: "/src/flextype/core/Parsers/Shortcodes/ContentShortcode.php"
           raw:
             enabled: true
-            path: "/src/flextype/Parsers/Shortcodes/RawShortcode.php"
+            path: "/src/flextype/core/Parsers/Shortcodes/RawShortcode.php"
           registry:
             enabled: true
-            path: "/src/flextype/Parsers/Shortcodes/RegistryShortcode.php"
+            path: "/src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
           url:
             enabled: true
-            path: "/src/flextype/Parsers/Shortcodes/UrlShortcode.php"
+            path: "/src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
     ```
 
 * **parsers**: Added ability to override logic for built-in shortcodes.
@@ -238,7 +246,7 @@
           ...
           url:
             enabled: true
-            path: "/src/flextype/Parsers/Shortcodes/UrlShortcode.php"
+            path: "/src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
           ...
         ...
       ...
