@@ -394,28 +394,28 @@
 
 * **actions** Added new Actions API ([#549](https://github.com/flextype/flextype/issues/549))
 
-    ### Usage
+    #### Usage
     
-    #### Example 1
+    ##### Example 1
     ```php
     // Set new action entries.create
     actions()->set('entries.create', function($id, $data) {
-      return flextype('content')->create($id, $data);
+      return entries()->create($id, $data);
     });
 
     // Get action entries.create
     actions()->get('entries.create')('hello-world', []);
     ```
 
-    #### Example 2
+    ##### Example 2
     ```php
     // Set new action entries.update
     actions()->set('entries.update', function($id, $data) {
       if (flextype('entries')->update($id, $data)) {
-        flextype('logger')->info("Content {$id} successfully updated");
-        flextype('cache')->delete($id);
+        logger()->info("Content {$id} successfully updated");
+        cache()->delete($id);
       } else {
-        flextype('logger')->error("Content {$id} was not updated");
+        logger()->error("Content {$id} was not updated");
       }
     });
 
@@ -423,14 +423,14 @@
     actions()->get('entries.update')('hello-world', []);
     ```
 
-    #### Example 3
+    ##### Example 3
     ```php
     // Set new action entries.create
     actions()->set('entries.create', function($id, $data) {
-      if(flextype('registry')->get('database') == 'MySQL') {
+      if(registry()->get('database') == 'MySQL') {
       // ... create new content in the MySQL database.
       } else {
-        return flextype('content')->create($id, $data);
+        return entries()->create($id, $data);
       }
     });
 
