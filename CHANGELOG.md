@@ -51,6 +51,8 @@
       utils:verify-token-hash    Verify token hash.
     ```
 
+* **core** Added ability to run Flextype in silent mode by disabling settings `app` and `cli`. 
+
 * **entries**: Added ability to create completely customizable high level collections for entries.
 
     Example: https://github.com/flextype/flextype/issues/563
@@ -269,7 +271,9 @@
     ...
     ```
 
-* **cache**: Added new cache driver `Phparray` to storage cache data in raw php arrays files.
+* **cache**: Added new cache driver `Phparray` to store cache data in raw php arrays files.
+
+* **cache**: Added router cache.
 
 * **helpers**: All core helpers are located in the `/src/flextype/helpers/`.
 
@@ -387,6 +391,58 @@
 * **macros**: All core macros are located in the `/src/flextype/macros/`.
 
 * **macros**: Added `onlyFromCollection` and `exceptFromCollection` macros for Arrays ([#553](https://github.com/flextype/flextype/issues/553))
+
+* **actions** Added new Actions API ([#549](https://github.com/flextype/flextype/issues/549))
+
+    ### Usage
+    
+    #### Example 1
+    ```php
+    // Set new action entries.create
+    actions()->set('entries.create', function($id, $data) {
+      return flextype('content')->create($id, $data);
+    });
+
+    // Get action entries.create
+    actions()->get('entries.create')('hello-world', []);
+    ```
+
+    #### Example 2
+    ```php
+    // Set new action entries.update
+    actions()->set('entries.update', function($id, $data) {
+      if (flextype('entries')->update($id, $data)) {
+        flextype('logger')->info("Content {$id} successfully updated");
+        flextype('cache')->delete($id);
+      } else {
+        flextype('logger')->error("Content {$id} was not updated");
+      }
+    });
+
+    // Get action entries.update
+    actions()->get('entries.update')('hello-world', []);
+    ```
+
+    #### Example 3
+    ```php
+    // Set new action entries.create
+    actions()->set('entries.create', function($id, $data) {
+      if(flextype('registry')->get('database') == 'MySQL') {
+      // ... create new content in the MySQL database.
+      } else {
+        return flextype('content')->create($id, $data);
+      }
+    });
+
+    // Get action entries.create
+    actions()->get('entries.create')('blog/post-1', []);
+    actions()->get('entries.create')('blog/post-2', []);
+    actions()->get('entries.create')('blog/post-3', []);
+    ```
+
+    The Flextype Actions API provides new capabilities to extend the Flextype core by registering and reusing useful code snippets from global actions namespace.
+
+    _**Note:** For security reason - actions should be executable only for PHP Backend and YAML Blueprints, and no possibility to execute them in the templates or inside entries entries._
 
 ### Bug Fixes
 
@@ -1746,7 +1802,7 @@
 * **core**: New lightweight and powerful core for kickass Applications!
 * **core**: New Content Management API (CMA) for Entries. #421
 
-    The Content Management API (CMA), is a read-write API for managing content.
+    The Content Management API (CMA), is a read-write API for managing entries.
 
     You could use the CMA for several use cases, such as:
 
