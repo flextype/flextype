@@ -46,12 +46,12 @@ class Entries
      * Entries options.
      *
      * collections:
-     *   pattern     - Entries collection pattern.
-     *   filename    - Entries collection data filename.
-     *   extension   - Entries collection data extension.
-     *   serializer  - Entries collection data serializer.
-     *   fields      - Array of fields for entries collection.
-     *   actions     - Array of actions for entries collection.
+     *   pattern    - string - Entries collection pattern.
+     *   filename   - string - Entries collection data filename.
+     *   extension  - string - Entries collection data extension.
+     *   serializer - string - Entries collection data serializer.
+     *   fields     - array  - Array of fields for entries collection.
+     *   events     - array  - Array of events for entries collection.
      *
      * @var array
      * 
@@ -648,7 +648,7 @@ class Entries
      *
      * @access public
      */
-    public function setRegistry(array $registry = [])
+    public function setRegistry(array $registry = []): void 
     {
         $this->registry = arrays($registry);
     }
