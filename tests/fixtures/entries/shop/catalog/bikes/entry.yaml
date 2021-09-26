@@ -1,0 +1,7 @@
+title: Bikes
+entries:
+  fetch:
+    items:
+      id: shop/catalog/bikes
+      options:
+        collection: true

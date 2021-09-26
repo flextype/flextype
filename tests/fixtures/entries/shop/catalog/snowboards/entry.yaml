@@ -1,0 +1,7 @@
+title: Snowboards
+entries:
+  fetch:
+    items:
+      id: shop/catalog/snowboards
+      options:
+        collection: true

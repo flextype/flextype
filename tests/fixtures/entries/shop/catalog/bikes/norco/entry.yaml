@@ -1,0 +1,7 @@
+title: Norco
+entries:
+  fetch:
+    items:
+      id: shop/catalog/bikes/norco
+      options:
+        collection: true

@@ -1,0 +1,7 @@
+title: Catalog
+entries:
+  fetch:
+    bikes:
+      id: shop/catalog/bikes
+    snowboards:
+      id: shop/catalog/snowboards

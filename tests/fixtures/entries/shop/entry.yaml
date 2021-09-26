@@ -1,0 +1,7 @@
+title: Shop
+entries:
+  fetch:
+    catalog:
+      id: shop/catalog
+    discounts:
+      id: shop/discounts

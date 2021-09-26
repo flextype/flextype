@@ -1,0 +1,7 @@
+title: Burton
+entries:
+  fetch:
+    items:
+      id: shop/catalog/snowboards/burton
+      options:
+        collection: true

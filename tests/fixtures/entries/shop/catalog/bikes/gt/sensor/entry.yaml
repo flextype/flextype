@@ -1,0 +1,14 @@
+title: Sensor
+price: 1700
+entries: 
+  fetch:
+    discounts_available:
+      id: shop/discounts
+      options:
+        collection: true
+        filter:
+          where:
+            -
+              key: category
+              operator: eq
+              value: bikes

@@ -1,0 +1,7 @@
+title: GT
+entries:
+  fetch:
+    items:
+      id: shop/catalog/bikes/gt
+      options:
+        collection: true
