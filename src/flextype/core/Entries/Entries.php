@@ -45,13 +45,15 @@ class Entries
     /**
      * Entries options.
      *
-     * collections:
-     *   pattern    - string - Entries collection pattern.
-     *   filename   - string - Entries collection data filename.
-     *   extension  - string - Entries collection data extension.
-     *   serializer - string - Entries collection data serializer.
-     *   fields     - array  - Array of fields for entries collection.
-     *   events     - array  - Array of events for entries collection.
+     * directory:      - string - Entries directory.
+     * collections:    - array  - Array of entries collections.
+     *   name:         - string - Unique name of entries collection.
+     *     pattern:    - string - Entries collection pattern.
+     *     filename:   - string - Entries collection data filename.
+     *     extension:  - string - Entries collection data extension.
+     *     serializer: - string - Entries collection data serializer.
+     *     fields:     - array  - Array of fields for entries collection.
+     *     events:     - array  - Array of events for entries collection.
      *
      * @var array
      * 
@@ -164,6 +166,8 @@ class Entries
      * 
      * @param string $id Unique identifier of the entry.
      *
+     * @return array Returns array of collection options.
+     * 
      * @access public
      */
     private function getCollectionOptions(string $id): array
@@ -193,50 +197,60 @@ class Entries
      */
     public function fetch(string $id, array $options = []): Arrays
     {
-        // Set registry initial data for this method.
-        $this->registry()->set('fetch.id', $id);
-        $this->registry()->set('fetch.options', $options);
-        $this->registry()->set('fetch.data', []);
-
-        // Set registry current collection options.
-        $this->registry()->set('collection.options', $this->getCollectionOptions($id));
-
+        // Set initial data.
+        $this->registry()
+                ->set('collection.options', $this->getCollectionOptions($id))
+                ->set('fetch.id', $id)
+                ->set('fetch.options', $options)
+                ->set('fetch.result', []);
+  
         // Run event
         emitter()->emit('onEntriesFetch');
-   
+
+        // Check if `fetch.result` already contains data.
+        if (is_array($this->registry()->get('fetch.result')) && count($this->registry()->get('fetch.result')) > 0) {
+            return arrays($this->registry()->get('fetch.result'));
+        }
+        
         // Single fetch helper
         $single = function ($id, $options) {
             
-            // Set collection options
-            $this->registry()->set('collection.options', $this->getCollectionOptions($id));
-            
-            // Entry data
-            $this->registry()->set('fetch.id', $id);
-            $this->registry()->set('fetch.options', $options);
-            $this->registry()->set('fetch.data', []);
+            // Set initial data.
+            $this->registry()
+                    ->set('collection.options', $this->getCollectionOptions($id))
+                    ->set('fetch.id', $id)
+                    ->set('fetch.options', $options)
+                    ->set('fetch.result', []);
 
             // Run event
             emitter()->emit('onEntriesFetchSingle');
 
+            // Check if `fetch.result` aleady contains data.
+            if (is_array($this->registry()->get('fetch.result')) && count($this->registry()->get('fetch.result')) > 0) {
+                return arrays($this->registry()->get('fetch.result'));
+            }
+
             // Get Cache ID for current requested entry
             $entryCacheID = $this->getCacheID($this->registry()->get('fetch.id'));
-
-            // 1. Try to get current requested entry from cache
+            
+            // 1. Try to get current requested entry from the cache.
             if (cache()->has($entryCacheID)) {
                 
-                // Fetch entry from cache and Apply filter for fetch data
-                $this->registry()->set('fetch.data', filterCollection(cache()->get($entryCacheID),
+                // Fetch entry from cache and apply `filterCollection` filter for fetch result
+                $this->registry()->set('fetch.result', 
+                                       filterCollection(cache()->get($entryCacheID),
                                                         $this->registry()->get('fetch.options.filter', [])));
 
                 // Run event
                 emitter()->emit('onEntriesFetchSingleCacheHasResult');
                 
-                // Return entry from cache
-                return arrays($this->registry()->get('fetch.data'));
+                // Return result from the cache.
+                return arrays($this->registry()->get('fetch.result'));
             }
             
-            // 2. Try to get current requested entry from filesystem
+            // 2. Try to get requested entry from the filesystem
             if ($this->has($this->registry()->get('fetch.id'))) {
+
                 // Get entry file location
                 $entryFile = $this->getFileLocation($this->registry()->get('fetch.id'));
                 
@@ -246,57 +260,71 @@ class Entries
                 if ($entryFileContent === false) {
                     // Run event
                     emitter()->emit('onEntriesFetchSingleNoResult');
-                    return arrays($this->registry()->get('fetch.data'));
+                    return arrays($this->registry()->get('fetch.result'));
                 }
 
                 // Decode entry file content
-                $this->registry()->set('fetch.data', serializers()->{$this->registry()->get('collection.options')['serializer']}()->decode($entryFileContent));
+                $this->registry()->set('fetch.result', serializers()->{$this->registry()->get('collection.options')['serializer']}()->decode($entryFileContent));
 
                 // Run event
                 emitter()->emit('onEntriesFetchSingleHasResult');
                 
-                // Apply filter for fetch data
-                $this->registry()->set('fetch.data', filterCollection($this->registry()->get('fetch.data'), $this->registry()->get('fetch.options.filter', [])));
+                // Apply `filterCollection` filter for fetch result
+                $this->registry()->set('fetch.result', filterCollection($this->registry()->get('fetch.result'), $this->registry()->get('fetch.options.filter', [])));
 
                 // Set cache state
-                $cache = $this->registry()->get('fetch.data.cache.enabled',
+                $cache = $this->registry()->get('fetch.result.cache.enabled',
                                                registry()->get('flextype.settings.cache.enabled'));
 
                 // Save entry data to cache
                 if ($cache) {
-                    cache()->set($entryCacheID, $this->registry()->get('fetch.data'));
+                    cache()->set($entryCacheID, $this->registry()->get('fetch.result'));
                 }
                 
-                // Return entry data
-                return arrays($this->registry()->get('fetch.data'));
+                // Return entry fetch result
+                return arrays($this->registry()->get('fetch.result'));
             }
 
             // Run event
             emitter()->emit('onEntriesFetchSingleNoResult');
 
-            // Return empty array if entry is not founded
-            return arrays($this->registry()->get('fetch.data'));
+            // Return entry fetch result
+            return arrays($this->registry()->get('fetch.result'));
         };
 
-        if (isset($this->registry['fetch']['options']['collection']) &&
-            strings($this->registry['fetch']['options']['collection'])->isTrue()) {
+        if ($this->registry()->has('fetch.options.collection') &&
+            strings($this->registry()->get('fetch.options.collection'))->isTrue()) {
+
+            // Set initial data.
+            $this->registry()
+                    ->set('collection.options', $this->getCollectionOptions($id))
+                    ->set('fetch.id', $id)
+                    ->set('fetch.options', $options)
+                    ->set('fetch.result', []);
 
             // Run event
             emitter()->emit('onEntriesFetchCollection');
 
-            if (! $this->getDirectoryLocation($id)) {
+            // Check if `fetch.result` aleady contains data.
+            if (is_array($this->registry()->get('fetch.result')) && count($this->registry()->get('fetch.result')) > 0) {
+                return arrays($this->registry()->get('fetch.result'));
+            }
+
+            // Determine if collection exists
+            if (! $this->has($this->registry()->get('fetch.id'))) {
+
                 // Run event
                 emitter()->emit('onEntriesFetchCollectionNoResult');
 
                 // Return entries array
-                return arrays($this->registry()->get('fetch.data'));
+                return arrays($this->registry()->get('fetch.result'));
             }
 
-            // Find entries in the filesystem
-            $entries = find($this->getDirectoryLocation($id),
-                                                        isset($options['find']) ?
-                                                            $options['find'] :
-                                                            []);
+            // Find entries in the filesystem.
+            $entries = find($this->getDirectoryLocation($this->registry()->get('fetch.id')),
+                            $this->registry()->has('fetch.options.find') ?
+                            $this->registry()->get('fetch.options.find') :
+                            []);
 
             // Walk through entries results
             if ($entries->hasResults()) {
@@ -320,53 +348,60 @@ class Entries
 
                     $data[$currentEntryID] = $single($currentEntryID, [])->toArray();
                 }
-
-                $this->registry()->set('fetch.data', $data);
-
+     
+                // Re-init data.
+                $this->registry()
+                    ->set('collection.options', $this->getCollectionOptions($id))
+                    ->set('fetch.id', $id)
+                    ->set('fetch.options', $options)
+                    ->set('fetch.result', $data);
+                    
                 // Run event
                 emitter()->emit('onEntriesFetchCollectionHasResult');
 
                 // Process filter `only` for collection
                 // after process we need to unset $options['filter']['only']
                 // to avoid it's running inside filterCollection() helper.
-                if (isset($options['filter']['only'])) {
+                if ($this->registry()->has('fetch.options.filter.only')) {
                     $data = [];
-                    foreach ($this->registry()->get('fetch.data') as $key => $value) {
-                        $data[$key] = arrays($value)->only($options['filter']['only'])->toArray();
+                    foreach ($this->registry()->get('fetch.result') as $key => $value) {
+                        $data[$key] = arrays($value)->only($this->registry()->get('fetch.options.filter.only'))->toArray();
                     }
-                    unset($options['filter']['only']);
-                    $this->registry()->set('fetch.data', $data);
+                    $this->registry()->delete('fetch.options.filter.only');
+                    $this->registry()->set('fetch.result', $data);
                 }
 
                 // Process filter `except` for collection
                 // after process we need to unset $options['filter']['except']
                 // to avoid it's running inside filterCollection() helper.
-                if (isset($options['filter']['except'])) {
+                if ($this->registry()->has('fetch.options.filter.except')) {
                     $data = [];
-                    foreach ($this->registry()->get('fetch.data') as $key => $value) {
-                        $data[$key] = arrays($value)->except($options['filter']['except'])->toArray();
+                    foreach ($this->registry()->get('fetch.result') as $key => $value) {
+                        $data[$key] = arrays($value)->except($this->registry()->get('fetch.options.filter.except'))->toArray();
                     }
-                    unset($options['filter']['except']);
-                    $this->registry()->set('fetch.data', $data);
+                    $this->registry()->delete('fetch.options.filter.except');
+                    $this->registry()->set('fetch.result', $data);
                 }
 
                 // Apply filter for fetch data
-                $this->registry()->set('fetch.data', filterCollection($this->registry()->get('fetch.data'), isset($options['filter']) ? $options['filter'] : []));
+                $this->registry()->set('fetch.result', filterCollection($this->registry()->get('fetch.result'), $this->registry()->has('fetch.options.filter') ? $this->registry()->get('fetch.options.filter') : []));
+                
+                return arrays($this->registry()->get('fetch.result'));
+
             } else {
-                // Run event:
+                // Run event
                 emitter()->emit('onEntriesFetchCollectionNoResult');   
 
                 // Return entries array
-                return arrays($this->registry()->get('fetch.data'));
+                return arrays($this->registry()->get('fetch.result'));
             }
 
             // Return entries array
-            return arrays($this->registry()->get('fetch.data'));
-        } else {
-        
-            return $single($this->registry()->get('fetch.id'),
-                            $this->registry()->get('fetch.options'));
+            return arrays($this->registry()->get('fetch.result'));
         }
+
+        // Fetch single entry.
+        return $single($id, $options);
     }
 
     /**
@@ -381,16 +416,52 @@ class Entries
      */
     public function move(string $id, string $newID): bool
     {  
-        // Set registry initial data for this method.
-        $this->registry()->set('move.id', $id);
-        $this->registry()->set('move.newID', $newID);
+        // Collections validation helper.
+        // Check if collections are identical.
+        $isValidCollections = function ($id, $newID) {
+            $collectionForCurrentEntry = $this->getCollectionOptions($id); 
+            $collectionForNewEntry     = $this->getCollectionOptions($newID); 
 
-        // Set registry current collection options.
-        $this->registry()->set('collection.options', $this->getCollectionOptions($this->registry()->get('move.id')));
-        
+            $result = true;
+
+            if (! isset($collectionForCurrentEntry['filename']) ||
+                ! isset($collectionForCurrentEntry['extension']) ||
+                ! isset($collectionForCurrentEntry['serializer']) ||
+                ! isset($collectionForNewEntry['filename']) ||
+                ! isset($collectionForNewEntry['extension']) ||
+                ! isset($collectionForNewEntry['serializer'])) {
+                $result = false;
+            }
+
+            if (($collectionForCurrentEntry['filename'] != $collectionForNewEntry['filename']) ||
+                ($collectionForCurrentEntry['extension'] != $collectionForNewEntry['extension']) ||
+                ($collectionForCurrentEntry['serializer'] != $collectionForNewEntry['serializer'])) {
+                $result = false;
+            }
+
+            return $result;
+        };
+
+        if (! $isValidCollections($id, $newID)) {
+            return false;
+        }
+
+        // Set initial data.
+        $this->registry()
+                ->set('collection.options', $this->getCollectionOptions($id))
+                ->set('move.id', $id)
+                ->set('move.newID', $newID)
+                ->set('move.result', null);
+
         // Run event
         emitter()->emit('onEntriesMove');
 
+        // Return result from registy `move.result` if it's value boolean.
+        if (is_bool($this->registry()->get('move.result'))) {
+            return $this->registry()->get('move.result');
+        }
+
+        // Do move.
         if (! $this->has($this->registry()->get('move.newID'))) {
             return filesystem()
                         ->directory($this->getDirectoryLocation($this->registry()->get('move.id')))
@@ -412,20 +483,25 @@ class Entries
      */
     public function update(string $id, array $data): bool
     {
-        // Set registry initial data for this method.
-        $this->registry()->set('update.id', $id);
-        $this->registry()->set('update.data', $data);
+        // Set initial data.
+        $this->registry()
+                ->set('collection.options', $this->getCollectionOptions($id))
+                ->set('update.id', $id)
+                ->set('update.data', $data)
+                ->set('update.result', null);
 
-        // Set registry current collection options.
-        $this->registry()->set('collection.options', $this->getCollectionOptions($this->registry()->get('update.id')));
-        
         // Run event
         emitter()->emit('onEntriesUpdate');
+
+        // Return result from registy `update.result` if it's value boolean.
+        if (is_bool($this->registry()->get('update.result'))) {
+            return $this->registry()->get('update.result');
+        }
 
         $entryFile = $this->getFileLocation($this->registry()->get('update.id'));
 
         if (filesystem()->file($entryFile)->exists()) {
-            $body         = filesystem()->file($entryFile)->get();
+            $body  = filesystem()->file($entryFile)->get();
             $entry = serializers()->{$this->registry()->get('collection.options')['serializer']}()->decode($body);
 
             return (bool) filesystem()->file($entryFile)->put(serializers()->{$this->registry()->get('collection.options')['serializer']}()->encode(array_merge($entry, $this->registry()->get('update.data'))));
@@ -446,15 +522,20 @@ class Entries
      */
     public function create(string $id, array $data = []): bool
     {
-        // Set registry initial data for this method.
-        $this->registry()->set('create.id', $id);
-        $this->registry()->set('create.data', $data);
+        // Set initial data.
+        $this->registry()
+                ->set('collection.options', $this->getCollectionOptions($id))
+                ->set('create.id', $id)
+                ->set('create.data', $data)
+                ->set('create.result', null);
 
-        // Set registry current collection options.
-        $this->registry()->set('collection.options', $this->getCollectionOptions($this->registry()->get('create.id')));
-        
         // Run event
         emitter()->emit('onEntriesCreate');
+
+        // Return result from registy `create.result` if it's value boolean.
+        if (is_bool($this->registry()->get('create.result'))) {
+            return $this->registry()->get('create.result');
+        }
 
         // Create entry directory first if it is not exists
         $entryDirectory = $this->getDirectoryLocation($this->registry()->get('create.id'));
@@ -486,14 +567,19 @@ class Entries
      */
     public function delete(string $id): bool
     {
-        // Set registry initial data for this method.
-        $this->registry()->set('delete.id', $id);
+        // Set initial data.
+        $this->registry()
+                ->set('collection.options', $this->getCollectionOptions($id))
+                ->set('delete.id', $id)
+                ->set('delete.result', null);
 
-        // Set registry current collection options.
-        $this->registry()->set('collection.options', $this->getCollectionOptions($this->registry()->get('delete.id')));
-        
         // Run event
         emitter()->emit('onEntriesDelete');
+
+        // Return result from registy `delete.result` if it's value boolean.
+        if (is_bool($this->registry()->get('delete.result'))) {
+            return $this->registry()->get('delete.result');
+        }
 
         return filesystem()
                     ->directory($this->getDirectoryLocation($this->registry()->get('delete.id')))
@@ -506,21 +592,56 @@ class Entries
      * @param string $id    Unique identifier of the entry.
      * @param string $newID New Unique identifier of the entry.
      *
-     * @return bool|null True on success, false on failure.
+     * @return boolы True on success, false on failure.
      *
      * @access public
      */
-    public function copy(string $id, string $newID): ?bool
+    public function copy(string $id, string $newID): bool
     {  
-        // Set registry initial data for this method.
-        $this->registry()->set('copy.id', $id);
-        $this->registry()->set('copy.newID', $newID);
+        // Collections validation helper.
+        // Check if collections are identical.
+        $isValidCollections = function ($id, $newID) {
+            $collectionForCurrentEntry = $this->getCollectionOptions($id); 
+            $collectionForNewEntry     = $this->getCollectionOptions($newID); 
 
-        // Set registry current collection options.
-        $this->registry()->set('collection.options', $this->getCollectionOptions($this->registry()->get('copy.id')));
+            $result = true;
+
+            if (! isset($collectionForCurrentEntry['filename']) ||
+                ! isset($collectionForCurrentEntry['extension']) ||
+                ! isset($collectionForCurrentEntry['serializer']) ||
+                ! isset($collectionForNewEntry['filename']) ||
+                ! isset($collectionForNewEntry['extension']) ||
+                ! isset($collectionForNewEntry['serializer'])) {
+                $result = false;
+            }
+
+            if (($collectionForCurrentEntry['filename'] != $collectionForNewEntry['filename']) ||
+                ($collectionForCurrentEntry['extension'] != $collectionForNewEntry['extension']) ||
+                ($collectionForCurrentEntry['serializer'] != $collectionForNewEntry['serializer'])) {
+                $result = false;
+            }
+
+            return $result;
+        };
+
+        if (! $isValidCollections($id, $newID)) {
+            return false;
+        }
+
+        // Set initial data.
+        $this->registry()
+                ->set('collection.options', $this->getCollectionOptions($id))
+                ->set('copy.id', $id)
+                ->set('copy.newID', $newID)
+                ->set('copy.result', null);
 
         // Run event
         emitter()->emit('onEntriesCopy');
+
+        // Return result from registy `move.result` if it's value boolean.
+        if (is_bool($this->registry()->get('copy.result'))) {
+            return $this->registry()->get('copy.result');
+        }
 
         return filesystem()
                     ->directory($this->getDirectoryLocation($this->registry()->get('copy.id')))
@@ -538,15 +659,20 @@ class Entries
      */
     public function has(string $id): bool
     {   
-        // Set registry initial data for this method.
-        $this->registry()->set('has.id', $id);
+        // Set initial data.
+        $this->registry()
+            ->set('collection.options', $this->getCollectionOptions($id))
+            ->set('has.id', $id)
+            ->set('has.result', null);
 
-        // Set registry current collection options.
-        $this->registry()->set('collection.options', $this->getCollectionOptions($this->registry()->get('has.id')));
-
-        // Run event:
+        // Run event
         emitter()->emit('onEntriesHas');
-        
+
+        // Return result from registy `has.result` if it's value boolean.
+        if (is_bool($this->registry()->get('has.result'))) {
+            return $this->registry()->get('has.result');
+        }
+
         return filesystem()->file($this->getFileLocation($this->registry()->get('has.id')))->exists();
     }
 
@@ -561,15 +687,20 @@ class Entries
      */
     public function getFileLocation(string $id): string
     {
-        // Set registry initial data for this method.
-        $this->registry()->set('getFileLocation.id', $id);
-        
-        // Set registry initial data for this method.
-        $this->registry()->set('collection.options', $this->getCollectionOptions($id));
+        // Set initial data.
+        $this->registry()
+                ->set('collection.options', $this->getCollectionOptions($id))
+                ->set('getFileLocation.id', $id)
+                ->set('getFileLocation.result', null);
 
-        // Run event:
+        // Run event
         emitter()->emit('onEntriesGetFileLocation');
-        
+
+        // Return result from registy `getFileLocation.result` if it's value not empty string.
+        if (strings($this->registry()->get('getFileLocation.result'))->length() > 0) {
+            return $this->registry()->get('getFileLocation.result');
+        }
+
         return PATH['project'] . $this->options['directory'] . '/' . $this->registry()->get('getFileLocation.id') . '/' . $this->registry()->get('collection.options.filename') . '.' . $this->registry()->get('collection.options.extension');
     }
 
@@ -584,15 +715,20 @@ class Entries
      */
     public function getDirectoryLocation(string $id): string
     {
-        // Set registry initial data for this method.
-        $this->registry()->set('getDirectoryLocation.id', $id);
-        
-        // Set registry initial data for this method.
-        $this->registry()->set('collection.options', $this->getCollectionOptions($id));
+        // Set initial data.
+        $this->registry()
+                ->set('collection.options', $this->getCollectionOptions($id))
+                ->set('getDirectoryLocation.id', $id)
+                ->set('getDirectoryLocation.result', '');
 
-        // Run event:
+        // Run event
         emitter()->emit('onEntriesGetDirectoryLocation');
-        
+
+        // Return result from registy `getDirectoryLocation.result` if it's not empty string.
+        if (strings($this->registry()->get('getDirectoryLocation.result'))->length() > 0) {
+            return $this->registry()->get('getDirectoryLocation.result');
+        }
+
         return PATH['project'] . $this->options['directory'] . '/' . $this->registry()->get('getDirectoryLocation.id');
     }
 
@@ -606,16 +742,21 @@ class Entries
      * @access public
      */
     public function getCacheID(string $id): string
-    {   
-        // Set registry initial data for this method.
-        $this->registry()->set('getCacheID.id', $id);
+    {
+        // Set initial data.
+        $this->registry()
+                ->set('collection.options', $this->getCollectionOptions($id))
+                ->set('getCacheID.id', $id)
+                ->set('getCacheID.result', '');
 
-        // Set registry initial data for this method.
-        $this->registry()->set('collection.options', $this->getCollectionOptions($id));
-
-        // Run event:
+        // Run event
         emitter()->emit('onEntriesGetCacheID');
 
+        // Return result from registy `getCacheID.result` if it's not empty string.
+        if (strings($this->registry()->get('getCacheID.result'))->length() > 0) {
+            return $this->registry()->get('getCacheID.result');
+        }
+   
         if (registry()->get('flextype.settings.cache.enabled') === false) {
             return '';
         }

@@ -13,9 +13,9 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         return;
     }
 
-    if (entries()->registry()->get('fetch.data.id') !== null) {
+    if (entries()->registry()->get('fetch.result.id') !== null) {
         return;
     }
 
-    entries()->registry()->set('fetch.data.id', strings(entries()->registry()->get('fetch.id'))->trimSlashes()->toString());
+    entries()->registry()->set('fetch.result.id', strings(entries()->registry()->get('fetch.id'))->trimSlashes()->toString());
 });

@@ -13,10 +13,10 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         return;
     }
 
-    if (entries()->registry()->get('fetch.data.slug') !== null) {
+    if (entries()->registry()->get('fetch.result.slug') !== null) {
         return;
     }
 
     $parts = explode('/', ltrim(rtrim(entries()->registry()->get('fetch.id'), '/'), '/'));
-    entries()->registry()->set('fetch.data.slug', (string) end($parts));
+    entries()->registry()->set('fetch.result.slug', (string) end($parts));
 });

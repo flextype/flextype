@@ -15,12 +15,13 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         return;
     }
 
-    if (entries()->registry()->has('fetch.data.entries.fetch')) {
+    if (entries()->registry()->has('fetch.result.entries.fetch')) {
+
         // Get fetch.
         $original = entries()->registry()->get('fetch');
         $data = [];
 
-        switch (registry()->get('flextype.settings.entries.collections.default.fields.entries.fetch.result')) {
+        switch (entries()->registry()->get('collection.options.fields.entries.fetch.result')) {
             case 'toArray':
                 $resultTo = 'toArray';
                 break;
@@ -32,7 +33,7 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         }
 
         // Modify fetch.
-        foreach (entries()->registry()->get('fetch.data.entries.fetch') as $field => $body) {
+        foreach (entries()->registry()->get('fetch.result.entries.fetch') as $field => $body) {
 
             if (isset($body['options']['method']) &&
                 strpos($body['options']['method'], 'fetch') !== false &&
@@ -49,12 +50,20 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
                                                             $body['options'] :
                                                             []);
 
+
             $data[$field] = ($data[$field] instanceof Arrays) ? $data[$field]->{$result}() : $data[$field];
         }
 
-        // Save fetch.
+        $result = arrays($original['result'])->merge($data)->toArray();
+
+        if (boolval(entries()->registry()->get('collection.options.fields.entries.dump')) === false) {
+            unset($result['entries']);
+        }
+
+        // Save fetch data.
         entries()->registry()->set('fetch.id', $original['id']);
         entries()->registry()->set('fetch.options', $original['options']);
-        entries()->registry()->set('fetch.data', arrays($original['data'])->merge($data)->toArray());
+        entries()->registry()->set('fetch.result', $result);
+        
     }
 });

@@ -13,10 +13,10 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         return;
     }
 
-    if (entries()->registry()->get('fetch.data.created_at') === null) {
-        entries()->registry()->set('fetch.data.created_at', (int) filesystem()->file(entries()->getFileLocation(entries()->registry()->get('fetch.id')))->lastModified());
+    if (entries()->registry()->get('fetch.result.created_at') === null) {
+        entries()->registry()->set('fetch.result.created_at', (int) filesystem()->file(entries()->getFileLocation(entries()->registry()->get('fetch.id')))->lastModified());
     } else {
-        entries()->registry()->set('fetch.data.created_at', (int) strtotime((string) entries()->registry()->get('fetch.data.created_at')));
+        entries()->registry()->set('fetch.result.created_at', (int) strtotime((string) entries()->registry()->get('fetch.result.created_at')));
     }
 });
 

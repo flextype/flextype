@@ -13,10 +13,10 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         return;
     }
 
-    if (entries()->registry()->get('fetch.data.routable') === null) {
-        entries()->registry()->set('fetch.data.routable', true);
+    if (entries()->registry()->get('fetch.result.routable') === null) {
+        entries()->registry()->set('fetch.result.routable', true);
     } else {
-        entries()->registry()->set('fetch.data.routable', (bool) entries()->registry()->get('fetch.data.routable'));
+        entries()->registry()->set('fetch.result.routable', (bool) entries()->registry()->get('fetch.result.routable'));
     }
 
 });

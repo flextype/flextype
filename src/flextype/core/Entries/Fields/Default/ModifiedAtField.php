@@ -13,9 +13,9 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         return;
     }
     
-    if (entries()->registry()->get('fetch.data.modified_at') !== null) {
+    if (entries()->registry()->get('fetch.result.modified_at') !== null) {
         return;
     }
 
-    entries()->registry()->set('fetch.data.modified_at', (int) filesystem()->file(entries()->getFileLocation(entries()->registry()->get('fetch.id')))->lastModified());
+    entries()->registry()->set('fetch.result.modified_at', (int) filesystem()->file(entries()->getFileLocation(entries()->registry()->get('fetch.id')))->lastModified());
 });

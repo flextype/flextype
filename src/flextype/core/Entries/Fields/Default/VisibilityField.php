@@ -19,10 +19,10 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         return;
     }
 
-    if (entries()->registry()->get('fetch.data.visibility') !== null && in_array(entries()->registry()->get('fetch.data.visibility'), $visibility)) {
-        entries()->registry()->set('fetch.data.visibility', (string) $visibility[entries()->registry()->get('fetch.data.visibility')]);
+    if (entries()->registry()->get('fetch.result.visibility') !== null && in_array(entries()->registry()->get('fetch.result.visibility'), $visibility)) {
+        entries()->registry()->set('fetch.result.visibility', (string) $visibility[entries()->registry()->get('fetch.result.visibility')]);
     } else {
-        entries()->registry()->set('fetch.data.visibility', (string) $visibility['visible']);
+        entries()->registry()->set('fetch.result.visibility', (string) $visibility['visible']);
     }
 });
 

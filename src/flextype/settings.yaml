@@ -78,6 +78,7 @@ entries:
       fields:
         registry:
           enabled: true
+          dump: false
           path: "/src/flextype/core/Entries/Fields/Default/RegistryField.php"
         entries:
           enabled: true
