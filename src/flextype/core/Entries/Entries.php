@@ -191,25 +191,25 @@ class Entries
      * @param string $id      Unique identifier of the entry.
      * @param array  $options Options array.
      *
-     * @return Arrays Returns instance of The Arrays class with items.
+     * @return mixed Returns mixed results from APIs or default is an instance of The Arrays class with founded items.
      *
      * @access public
      */
-    public function fetch(string $id, array $options = []): Arrays
+    public function fetch(string $id, array $options = [])
     {
         // Set initial data.
         $this->registry()
                 ->set('collection.options', $this->getCollectionOptions($id))
                 ->set('fetch.id', $id)
                 ->set('fetch.options', $options)
-                ->set('fetch.result', []);
+                ->set('fetch.result', null);
   
         // Run event
         emitter()->emit('onEntriesFetch');
 
-        // Check if `fetch.result` already contains data.
-        if (is_array($this->registry()->get('fetch.result')) && count($this->registry()->get('fetch.result')) > 0) {
-            return arrays($this->registry()->get('fetch.result'));
+        // Check if `fetch.result` contains data to return.
+        if (! is_null($this->registry()->get('fetch.result'))) {
+            return $this->registry()->get('fetch.result');
         }
         
         // Single fetch helper
@@ -220,14 +220,14 @@ class Entries
                     ->set('collection.options', $this->getCollectionOptions($id))
                     ->set('fetch.id', $id)
                     ->set('fetch.options', $options)
-                    ->set('fetch.result', []);
+                    ->set('fetch.result', null);
 
             // Run event
             emitter()->emit('onEntriesFetchSingle');
 
-            // Check if `fetch.result` aleady contains data.
-            if (is_array($this->registry()->get('fetch.result')) && count($this->registry()->get('fetch.result')) > 0) {
-                return arrays($this->registry()->get('fetch.result'));
+            // Check if `fetch.result` contains data to return.
+            if (! is_null($this->registry()->get('fetch.result'))) {
+                return $this->registry()->get('fetch.result');
             }
 
             // Get Cache ID for current requested entry
@@ -300,14 +300,14 @@ class Entries
                     ->set('collection.options', $this->getCollectionOptions($id))
                     ->set('fetch.id', $id)
                     ->set('fetch.options', $options)
-                    ->set('fetch.result', []);
+                    ->set('fetch.result', null);
 
             // Run event
             emitter()->emit('onEntriesFetchCollection');
 
-            // Check if `fetch.result` aleady contains data.
-            if (is_array($this->registry()->get('fetch.result')) && count($this->registry()->get('fetch.result')) > 0) {
-                return arrays($this->registry()->get('fetch.result'));
+            // Check if `fetch.result` contains data to return.
+            if (! is_null($this->registry()->get('fetch.result'))) {
+                return $this->registry()->get('fetch.result');
             }
 
             // Determine if collection exists
@@ -383,8 +383,11 @@ class Entries
                     $this->registry()->set('fetch.result', $data);
                 }
 
-                // Apply filter for fetch data
-                $this->registry()->set('fetch.result', filterCollection($this->registry()->get('fetch.result'), $this->registry()->has('fetch.options.filter') ? $this->registry()->get('fetch.options.filter') : []));
+                // Apply filter `filterCollection` for fetch result data.
+                $this->registry()->set('fetch.result', 
+                                       filterCollection($this->registry()->get('fetch.result'), 
+                                                        $this->registry()->has('fetch.options.filter') ? 
+                                                        $this->registry()->get('fetch.options.filter') : []));
                 
                 return arrays($this->registry()->get('fetch.result'));
 
@@ -457,7 +460,7 @@ class Entries
         emitter()->emit('onEntriesMove');
 
         // Return result from registy `move.result` if it's value boolean.
-        if (is_bool($this->registry()->get('move.result'))) {
+        if (! is_null($this->registry()->get('move.result')) && is_bool($this->registry()->get('move.result'))) {
             return $this->registry()->get('move.result');
         }
 
@@ -494,7 +497,7 @@ class Entries
         emitter()->emit('onEntriesUpdate');
 
         // Return result from registy `update.result` if it's value boolean.
-        if (is_bool($this->registry()->get('update.result'))) {
+        if (! is_null($this->registry()->get('update.result')) && is_bool($this->registry()->get('update.result'))) {
             return $this->registry()->get('update.result');
         }
 
@@ -533,7 +536,7 @@ class Entries
         emitter()->emit('onEntriesCreate');
 
         // Return result from registy `create.result` if it's value boolean.
-        if (is_bool($this->registry()->get('create.result'))) {
+        if (! is_null($this->registry()->get('create.result')) && is_bool($this->registry()->get('create.result'))) {
             return $this->registry()->get('create.result');
         }
 
@@ -577,7 +580,7 @@ class Entries
         emitter()->emit('onEntriesDelete');
 
         // Return result from registy `delete.result` if it's value boolean.
-        if (is_bool($this->registry()->get('delete.result'))) {
+        if (! is_null($this->registry()->get('delete.result')) && is_bool($this->registry()->get('delete.result'))) {
             return $this->registry()->get('delete.result');
         }
 
@@ -639,7 +642,7 @@ class Entries
         emitter()->emit('onEntriesCopy');
 
         // Return result from registy `move.result` if it's value boolean.
-        if (is_bool($this->registry()->get('copy.result'))) {
+        if (! is_null($this->registry()->get('copy.result')) && is_bool($this->registry()->get('copy.result'))) {
             return $this->registry()->get('copy.result');
         }
 
@@ -669,7 +672,7 @@ class Entries
         emitter()->emit('onEntriesHas');
 
         // Return result from registy `has.result` if it's value boolean.
-        if (is_bool($this->registry()->get('has.result'))) {
+        if (! is_null($this->registry()->get('has.result')) && is_bool($this->registry()->get('has.result'))) {
             return $this->registry()->get('has.result');
         }
 
@@ -696,8 +699,8 @@ class Entries
         // Run event
         emitter()->emit('onEntriesGetFileLocation');
 
-        // Return result from registy `getFileLocation.result` if it's value not empty string.
-        if (strings($this->registry()->get('getFileLocation.result'))->length() > 0) {
+        // Return result from registy `getFileLocation.result` if it's not null and it's a string.
+        if (! is_null($this->registry()->get('getFileLocation.result')) && is_string($this->registry()->get('getFileLocation.result'))) {
             return $this->registry()->get('getFileLocation.result');
         }
 
@@ -719,13 +722,13 @@ class Entries
         $this->registry()
                 ->set('collection.options', $this->getCollectionOptions($id))
                 ->set('getDirectoryLocation.id', $id)
-                ->set('getDirectoryLocation.result', '');
+                ->set('getDirectoryLocation.result', null);
 
         // Run event
         emitter()->emit('onEntriesGetDirectoryLocation');
 
-        // Return result from registy `getDirectoryLocation.result` if it's not empty string.
-        if (strings($this->registry()->get('getDirectoryLocation.result'))->length() > 0) {
+        // Return result from registy `getDirectoryLocation.result` if it's not null and it's a string.
+        if (! is_null($this->registry()->get('getDirectoryLocation.result')) && is_string($this->registry()->get('getDirectoryLocation.result'))) {
             return $this->registry()->get('getDirectoryLocation.result');
         }
 
@@ -747,13 +750,13 @@ class Entries
         $this->registry()
                 ->set('collection.options', $this->getCollectionOptions($id))
                 ->set('getCacheID.id', $id)
-                ->set('getCacheID.result', '');
+                ->set('getCacheID.result', null);
 
         // Run event
         emitter()->emit('onEntriesGetCacheID');
 
-        // Return result from registy `getCacheID.result` if it's not empty string.
-        if (strings($this->registry()->get('getCacheID.result'))->length() > 0) {
+        // Return result from registy `getCacheID.result` if it's not null and it's a string.
+        if (! is_null($this->registry()->get('getCacheID.result')) && is_string($this->registry()->get('getCacheID.result'))) {
             return $this->registry()->get('getCacheID.result');
         }
    
