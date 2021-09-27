@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype\Serializers;
 
+use Symfony\Component\VarExporter\VarExporter;
+
 use RuntimeException;
 
 use function cache;
@@ -31,8 +33,14 @@ class PhpCode
      */
     public function encode($input): string
     {
+        $wrap = registry()->get('flextype.settings.serializers.phpcode.encode.wrap');
+
         try {
-            $data = var_export($input, true);
+            if ($wrap) {
+                $data = "<?php\n return " . VarExporter::export($input) . ";\n";
+            } else {
+                $data = VarExporter::export($input);
+            }
         } catch (Exception $e) {
             throw new RuntimeException('Encoding PhpCode failed');
         }

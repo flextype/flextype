@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype\Serializers;
 
+use Symfony\Component\VarExporter\VarExporter;
+
 use RuntimeException;
 
 use function cache;
@@ -27,8 +29,14 @@ class PhpArray
      */
     public function encode($input): string
     {
+        $wrap = registry()->get('flextype.settings.serializers.phparray.encode.wrap');
+
         try {
-            $data = "<?php\n return " . var_export($input, true) . ";\n";
+            if ($wrap) {
+                $data = "<?php\n return " . VarExporter::export($input) . ";\n";
+            } else {
+                $data = VarExporter::export($input);
+            }
         } catch (Exception $e) {
             throw new RuntimeException('Encoding PhpArray failed');
         }
