@@ -81,6 +81,7 @@ entries:
           path: "/src/flextype/core/Entries/Fields/Default/RegistryField.php"
         entries:
           enabled: true
+          dump: false
           path: "/src/flextype/core/Entries/Fields/Default/EntriesField.php"
           fetch:
             result: toObject
