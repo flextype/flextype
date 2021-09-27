@@ -642,9 +642,6 @@ api:
     # Set to true to enable Entries API
     enabled: true
 
-    # exclude fields
-    exclude:
-
   # Registry API
   registry:
 
