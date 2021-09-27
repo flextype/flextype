@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 test('encode', function () {
-    $this->assertEquals(67, strings(serializers()->phparray()->encode(['title' => 'Foo', 'content' => 'Bar']))->length());
+    $this->assertEquals(65, strings(serializers()->phparray()->encode(['title' => 'Foo', 'content' => 'Bar']))->length());
 });
 
 test('decode', function () {

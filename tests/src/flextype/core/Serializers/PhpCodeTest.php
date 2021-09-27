@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 test('encode', function () {
-    $this->assertEquals(35, strings(serializers()->phpcode()->encode(['flextype' => registry()->get("flextype.manifest.version")]))->length());
+    $this->assertEquals(31, strings(serializers()->phpcode()->encode(['flextype' => registry()->get("flextype.manifest.version")]))->length());
 });
 
 test('decode', function () {
