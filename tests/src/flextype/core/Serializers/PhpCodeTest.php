@@ -29,6 +29,6 @@ class Foo
 {
     public function __serialize()
     {
-        throw new RuntimeException();
+        throw new RuntimeException('Encoding PhpCode failed');
     }
 }
