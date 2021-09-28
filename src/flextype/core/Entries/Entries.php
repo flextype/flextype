@@ -254,8 +254,8 @@ class Entries
                 // Get entry file location
                 $entryFile = $this->getFileLocation($this->registry()->get('fetch.id'));
                 
-                // Try to get requested entry from the filesystem
-                $entryFileContent = filesystem()->file($entryFile)->get();
+                // Try to get requested entry from the filesystem.
+                $entryFileContent = filesystem()->file($entryFile)->get(true);
 
                 if ($entryFileContent === false) {
                     // Run event
@@ -504,10 +504,10 @@ class Entries
         $entryFile = $this->getFileLocation($this->registry()->get('update.id'));
 
         if (filesystem()->file($entryFile)->exists()) {
-            $body  = filesystem()->file($entryFile)->get();
+            $body  = filesystem()->file($entryFile)->get(true);
             $entry = serializers()->{$this->registry()->get('collection.options')['serializer']}()->decode($body);
 
-            return (bool) filesystem()->file($entryFile)->put(serializers()->{$this->registry()->get('collection.options')['serializer']}()->encode(array_merge($entry, $this->registry()->get('update.data'))));
+            return (bool) filesystem()->file($entryFile)->put(serializers()->{$this->registry()->get('collection.options')['serializer']}()->encode(array_merge($entry, $this->registry()->get('update.data'))), true);
         }
 
         return false;
@@ -553,7 +553,7 @@ class Entries
         // Create entry file
         $entryFile = $entryDirectory . '/' . $this->registry()->get('collection.options.filename') . '.' . $this->registry()->get('collection.options.extension');
         if (! filesystem()->file($entryFile)->exists()) {
-            return (bool) filesystem()->file($entryFile)->put(serializers()->{$this->registry()->get('collection.options')['serializer']}()->encode($this->registry()->get('create.data')));
+            return (bool) filesystem()->file($entryFile)->put(serializers()->{$this->registry()->get('collection.options')['serializer']}()->encode($this->registry()->get('create.data')), true);
         }
 
         return false;
