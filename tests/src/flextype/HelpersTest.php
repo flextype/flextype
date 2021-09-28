@@ -6,6 +6,7 @@ use Flextype\Flextype;
 use Flextype\Parsers\Parsers;
 use Flextype\Serializers\Serializers;
 use Flextype\Entries\Entries;
+use Flextype\Console\FlextypeConsole;
 use Atomastic\Strings\Strings;
 use Atomastic\Registry\Registry;
 use Atomastic\Session\Session;
@@ -55,6 +56,11 @@ test('registry helper', function () {
 test('session helper', function () {
     $this->assertSame(session(), Flextype::getInstance()->container()->get('session'));
     expect(session())->toBeInstanceOf(Session::class);
+});
+
+test('console helper', function () {
+    $this->assertSame(console(), Flextype::getInstance()->container()->get('console'));
+    expect(console())->toBeInstanceOf(FlextypeConsole::class);
 });
 
 test('cache helper', function () {
