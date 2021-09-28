@@ -31,7 +31,7 @@ use Flextype\Console\Commands\Utils\VerifyTokenHashCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FlextypeConsoleApplication extends ConsoleApplication
+class FlextypeConsole extends ConsoleApplication
 {
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
