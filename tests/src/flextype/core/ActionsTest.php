@@ -8,9 +8,9 @@ test('test getInstance() method', function() {
     $this->assertInstanceOf(Actions::class, Actions::getInstance());
 });
 
-test('test registry() helper', function() {
-    $this->assertEquals(Actions::getInstance(), registry());
-    $this->assertInstanceOf(Actions::class, registry());
+test('test actions() helper', function() {
+    $this->assertEquals(Actions::getInstance(), actions());
+    $this->assertInstanceOf(Actions::class, actions());
 });
 
 test('test actions uniqueness', function() {
@@ -28,6 +28,6 @@ test('test macro() method', function (): void {
         return $this->count();
     });
 
-    $registry = Actions::getInstance();
-    $this->assertEquals(1, $registry->customMethod());
+    $actions = Actions::getInstance();
+    $this->assertEquals(1, $actions->customMethod());
 });
