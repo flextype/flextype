@@ -167,9 +167,10 @@ test('filterCollection helper', function () {
     $this->assertEquals(['home'  => ['title' => 'Home']], 
                          filterCollection($data, ['return' => 'all',
                                                   'only' => ['home']]));
+
     $this->assertEquals(['home'  => ['title' => 'Home']], 
                          filterCollection($data, ['return' => 'all',
-                                                  'only' => ['home']]));
+                                                  'except' => ['blog', 'about']]));
 
     // param: where and return: all
     $this->assertEquals(['about' => ['title' => 'About']],
