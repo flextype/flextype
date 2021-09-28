@@ -9,6 +9,10 @@ test('encode', function () {
     $this->assertEquals(47, strings(serializers()->phpcode()->encode(['flextype' => registry()->get("flextype.manifest.version")]))->length());
 });
 
+test('test encode() throws exception RuntimeException', function (): void {
+    serializers()->phpcode()->encode(new Foo());
+})->throws(RuntimeException::class);
+
 test('decode', function () {
     $this->assertEquals('Flextype', serializers()->phpcode()->decode('registry()->get("flextype.manifest.name")'));
 });
@@ -20,3 +24,11 @@ test('get cache ID', function () {
     $this->assertEquals(32, strlen($cache_id));
     $this->assertNotEquals($string, $cache_id);
 });
+
+class Foo
+{
+    public function __serialize()
+    {
+        throw new RuntimeException();
+    }
+}
