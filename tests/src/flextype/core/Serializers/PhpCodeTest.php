@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 test('encode', function () {
     $this->assertEquals(31, strings(serializers()->phpcode()->encode(['flextype' => registry()->get("flextype.manifest.version")]))->length());
+
+    registry()->set('flextype.settings.serializers.phpcode.encode.wrap', true);
+    $this->assertEquals(47, strings(serializers()->phpcode()->encode(['flextype' => registry()->get("flextype.manifest.version")]))->length());
 });
 
 test('decode', function () {

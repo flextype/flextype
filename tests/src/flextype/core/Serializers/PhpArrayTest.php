@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 test('encode', function () {
     $this->assertEquals(65, strings(serializers()->phparray()->encode(['title' => 'Foo', 'content' => 'Bar']))->length());
+
+    registry()->set('flextype.settings.serializers.phparray.encode.wrap', false);
+    $this->assertEquals(49, strings(serializers()->phparray()->encode(['title' => 'Foo', 'content' => 'Bar']))->length());
 });
 
 test('decode', function () {
