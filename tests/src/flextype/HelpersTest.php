@@ -163,6 +163,14 @@ test('filterCollection helper', function () {
                           'Blog' => [0 => ['title' => 'Blog']]],
                              filterCollection($data, ['return' => 'all',
                                                     'group_by' => 'title']));
+
+    $this->assertEquals(['home'  => ['title' => 'Home']], 
+                         filterCollection($data, ['return' => 'all',
+                                                  'only' => ['home']]));
+    $this->assertEquals(['home'  => ['title' => 'Home']], 
+                         filterCollection($data, ['return' => 'all',
+                                                  'only' => ['home']]));
+
     // param: where and return: all
     $this->assertEquals(['about' => ['title' => 'About']],
                         filterCollection($data, ['return' => 'all',
