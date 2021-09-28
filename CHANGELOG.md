@@ -53,6 +53,8 @@
 
 * **core** Added ability to run Flextype in silent mode by disabling settings `app` and `cli`. 
 
+* **entries** Added new functiontionality for Virtual Entries with CRUD.
+
 * **entries**: Added ability to create completely customizable high level collections for entries.
 
     Example: https://github.com/flextype/flextype/issues/563
@@ -168,9 +170,13 @@
       phparray:
         decode:
           cache: true
+        encode:
+          wrap: true
       phpcode:
         decode:
           cache: true
+        encode:
+          wrap: false
     ```
 
 * **serializers**: Added ability to set specific header serializer for `Frontmatter` serializer (default is YAML).
