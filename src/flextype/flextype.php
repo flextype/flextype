@@ -40,7 +40,7 @@ use Slim\Psr7\Response;
 use Slim\Psr7\Stream;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 use Flextype\Middlewares\WhoopsMiddleware;
-use Flextype\Console\FlextypeConsoleApplication;
+use Flextype\Console\FlextypeConsole;
 
 use function app;
 use function array_replace_recursive;
@@ -76,7 +76,7 @@ use function var_export;
 flextype();
 
 // Create Flextype CLI Application
-container()->set('console', new FlextypeConsoleApplication('Flextype CLI Application', Flextype::VERSION));
+container()->set('console', new FlextypeConsole('Flextype CLI Application', Flextype::VERSION));
 
 // Add Registry Service.
 container()->set('registry', registry());
@@ -349,7 +349,7 @@ function_exists('mb_internal_encoding') and mb_internal_encoding(registry()->get
 if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listIdentifiers())) {
     date_default_timezone_set(registry()->get('flextype.settings.timezone'));
 }
-
+  
 // Add Plugins Service
 container()->set('plugins', new Plugins());
 
