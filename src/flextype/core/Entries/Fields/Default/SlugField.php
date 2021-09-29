@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
-    if (! entries()->registry()->get('collection.options.fields.slug.enabled')) {
+    if (! entries()->registry()->get('methods.fetch.collection.fields.slug.enabled')) {
         return;
     }
 
-    if (entries()->registry()->get('fetch.result.slug') !== null) {
+    if (entries()->registry()->get('methods.fetch.result.slug') !== null) {
         return;
     }
 
-    $parts = explode('/', ltrim(rtrim(entries()->registry()->get('fetch.id'), '/'), '/'));
-    entries()->registry()->set('fetch.result.slug', (string) end($parts));
+    $parts = explode('/', ltrim(rtrim(entries()->registry()->get('methods.fetch.params.id'), '/'), '/'));
+    entries()->registry()->set('methods.fetch.result.slug', (string) end($parts));
 });

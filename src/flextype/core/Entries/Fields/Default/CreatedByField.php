@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesCreate', static function (): void {
    
-    if (! entries()->registry()->get('collection.options.fields.created_by.enabled')) {
+    if (! entries()->registry()->get('methods.create.collection.fields.created_by.enabled')) {
         return;
     }
     
-    if (entries()->registry()->get('create.data.created_by') !== null) {
+    if (entries()->registry()->get('methods.create.params.data.created_by') !== null) {
         return;
     }
 
-    entries()->registry()->set('create.data.created_by', '');
+    entries()->registry()->set('methods.create.params.data.created_by', '');
 });
 

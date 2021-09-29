@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesCreate', static function (): void {
     
-    if (! entries()->registry()->get('collection.options.fields.calls.enabled')) {
+    if (! entries()->registry()->get('methods.create.collection.fields.calls.enabled')) {
         return;
     }
 
-    if (entries()->registry()->get('create.data.calls') !== null) {
+    if (entries()->registry()->get('methods.create.params.data.calls') !== null) {
         return;
     }
 
-    entries()->registry()->set('create.data.calls', 0);
+    entries()->registry()->set('methods.create.params.data.calls', 0);
 });

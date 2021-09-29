@@ -11,13 +11,13 @@ use Ramsey\Uuid\Uuid;
 
 emitter()->addListener('onEntriesCreate', static function (): void {
 
-    if (! entries()->registry()->get('collection.options.fields.uuid.enabled')) {
+    if (! entries()->registry()->get('methods.create.collection.fields.uuid.enabled')) {
         return;
     }
 
-    if (entries()->registry()->get('create.data.uuid') !== null) {
+    if (entries()->registry()->get('methods.create.params.data.uuid') !== null) {
         return;
     }
 
-    entries()->registry()->set('create.data.uuid', Uuid::uuid4()->toString());
+    entries()->registry()->set('methods.create.params.data.uuid', Uuid::uuid4()->toString());
 });

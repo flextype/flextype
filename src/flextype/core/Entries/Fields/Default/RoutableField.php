@@ -9,27 +9,27 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
-    if (! entries()->registry()->get('collection.options.fields.routable.enabled')) {
+    if (! entries()->registry()->get('methods.fetch.collection.fields.routable.enabled')) {
         return;
     }
 
-    if (entries()->registry()->get('fetch.result.routable') === null) {
-        entries()->registry()->set('fetch.result.routable', true);
+    if (entries()->registry()->get('methods.fetch.result.routable') === null) {
+        entries()->registry()->set('methods.fetch.result.routable', true);
     } else {
-        entries()->registry()->set('fetch.result.routable', (bool) entries()->registry()->get('fetch.result.routable'));
+        entries()->registry()->set('methods.fetch.result.routable', (bool) entries()->registry()->get('methods.fetch.result.routable'));
     }
 
 });
 
 emitter()->addListener('onEntriesCreate', static function (): void {
 
-    if (! entries()->registry()->get('collection.options.fields.routable.enabled')) {
+    if (! entries()->registry()->get('methods.create.collection.fields.routable.enabled')) {
         return;
     }
 
-    if (entries()->registry()->get('create.data.routable') === null) {
-        entries()->registry()->set('create.data.routable', true);
+    if (entries()->registry()->get('methods.create.params.data.routable') === null) {
+        entries()->registry()->set('methods.create.params.data.routable', true);
     } else {
-        entries()->registry()->set('create.data.routable', (bool) entries()->registry()->get('create.data.routable'));
+        entries()->registry()->set('methods.create.params.data.routable', (bool) entries()->registry()->get('methods.create.params.data.routable'));
     }
 });

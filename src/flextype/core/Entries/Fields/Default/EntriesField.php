@@ -11,17 +11,17 @@ use Atomastic\Arrays\Arrays;
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
-    if (! entries()->registry()->get('collection.options.fields.entries.enabled')) {
+    if (! entries()->registry()->get('methods.fetch.collection.fields.entries.enabled')) {
         return;
     }
 
-    if (entries()->registry()->has('fetch.result.entries.fetch')) {
+    if (entries()->registry()->has('methods.fetch.result.entries.fetch')) {
 
-        // Get fetch.
-        $original = entries()->registry()->get('fetch');
+        // Get 
+        $original = entries()->registry()->get('methods.fetch');
         $data = [];
 
-        switch (entries()->registry()->get('collection.options.fields.entries.fetch.result')) {
+        switch (entries()->registry()->get('methods.fetch.collection.fields.entries.result')) {
             case 'toArray':
                 $resultTo = 'toArray';
                 break;
@@ -32,8 +32,8 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
                 break;
         }
 
-        // Modify fetch.
-        foreach (entries()->registry()->get('fetch.result.entries.fetch') as $field => $body) {
+        // Modify 
+        foreach (entries()->registry()->get('methods.fetch.result.entries.fetch') as $field => $body) {
 
             if (isset($body['options']['method']) &&
                 strpos($body['options']['method'], 'fetch') !== false &&
@@ -56,14 +56,14 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
 
         $result = arrays($original['result'])->merge($data)->toArray();
 
-        if (boolval(entries()->registry()->get('collection.options.fields.entries.dump')) === false) {
+        if (boolval(entries()->registry()->get('methods.fetch.collection.fields.entries.dump')) === false) {
             unset($result['entries']);
         }
 
         // Save fetch data.
-        entries()->registry()->set('fetch.id', $original['id']);
-        entries()->registry()->set('fetch.options', $original['options']);
-        entries()->registry()->set('fetch.result', $result);
+        entries()->registry()->set('methods.fetch.params.id', $original['params']['id']);
+        entries()->registry()->set('methods.fetch.params.options', $original['params']['options']);
+        entries()->registry()->set('methods.fetch.result', $result);
         
     }
 });

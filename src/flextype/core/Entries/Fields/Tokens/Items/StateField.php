@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesCreate', static function (): void {
     
-    if (! entries()->registry()->get('collection.options.fields.state.enabled')) {
+    if (! entries()->registry()->get('methods.create.collection.fields.state.enabled')) {
         return;
     }
 
-    if (entries()->registry()->get('create.data.state') !== null) {
+    if (entries()->registry()->get('methods.create.params.data.state') !== null) {
         return;
     }
 
-    entries()->registry()->set('create.data.state', 'enabled');
+    entries()->registry()->set('methods.create.params.data.state', 'enabled');
 });

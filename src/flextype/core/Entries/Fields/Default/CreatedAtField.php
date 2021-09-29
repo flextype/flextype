@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
-    if (! entries()->registry()->get('collection.options.fields.created_at.enabled')) {
+    if (! entries()->registry()->get('methods.fetch.collection.fields.created_at.enabled')) {
         return;
     }
 
-    if (entries()->registry()->get('fetch.result.created_at') === null) {
-        entries()->registry()->set('fetch.result.created_at', (int) filesystem()->file(entries()->getFileLocation(entries()->registry()->get('fetch.id')))->lastModified());
+    if (entries()->registry()->get('methods.fetch.result.created_at') === null) {
+        entries()->registry()->set('methods.fetch.result.created_at', (int) filesystem()->file(entries()->getFileLocation(entries()->registry()->get('methods.fetch.params.id')))->lastModified());
     } else {
-        entries()->registry()->set('fetch.result.created_at', (int) strtotime((string) entries()->registry()->get('fetch.result.created_at')));
+        entries()->registry()->set('methods.fetch.result.created_at', (int) strtotime((string) entries()->registry()->get('methods.fetch.result.created_at')));
     }
 });
 
@@ -26,9 +26,9 @@ emitter()->addListener('onEntriesCreate', static function (): void {
         return;
     }
 
-    if (entries()->registry()->get('create.data.created_at') !== null) {
+    if (entries()->registry()->get('methods.create.params.data.created_at') !== null) {
         return;
     }
 
-    entries()->registry()->set('create.data.created_at', date(registry()->get('flextype.settings.date_format'), time()));
+    entries()->registry()->set('methods.create.params.data.created_at', date(registry()->get('flextype.settings.date_format'), time()));
 });

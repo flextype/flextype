@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
-    if (! entries()->registry()->get('collection.options.fields.id.enabled')) {
+    if (! entries()->registry()->get('methods.fetch.collection.fields.id.enabled')) {
         return;
     }
 
-    if (entries()->registry()->get('fetch.result.id') !== null) {
+    if (entries()->registry()->get('methods.fetch.result.id') !== null) {
         return;
     }
 
-    entries()->registry()->set('fetch.result.id', strings(entries()->registry()->get('fetch.id'))->trimSlashes()->toString());
+    entries()->registry()->set('methods.fetch.result.id', strings(entries()->registry()->get('methods.fetch.params.id'))->trimSlashes()->toString());
 });

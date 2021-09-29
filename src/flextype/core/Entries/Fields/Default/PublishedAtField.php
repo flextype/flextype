@@ -9,26 +9,26 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
-    if (! entries()->registry()->get('collection.options.fields.published_at.enabled')) {
+    if (! entries()->registry()->get('methods.fetch.collection.fields.published_at.enabled')) {
         return;
     }
 
-    if (entries()->registry()->get('fetch.result.published_at') === null) {
-        entries()->registry()->set('fetch.result.published_at', (int) filesystem()->file(entries()->getFileLocation(entries()->registry()->get('fetch.id')))->lastModified());
+    if (entries()->registry()->get('methods.fetch.result.published_at') === null) {
+        entries()->registry()->set('methods.fetch.result.published_at', (int) filesystem()->file(entries()->getFileLocation(entries()->registry()->get('methods.fetch.params.id')))->lastModified());
     } else {
-        entries()->registry()->set('fetch.result.published_at', (int) strtotime((string) entries()->registry()->get('fetch.result.published_at')));
+        entries()->registry()->set('methods.fetch.result.published_at', (int) strtotime((string) entries()->registry()->get('methods.fetch.result.published_at')));
     }
 });
 
 emitter()->addListener('onEntriesCreate', static function (): void {
 
-    if (! entries()->registry()->get('collection.options.fields.published_at.enabled')) {
+    if (! entries()->registry()->get('methods.create.collection.fields.published_at.enabled')) {
         return;
     }
 
-    if (entries()->registry()->get('create.data.published_at') !== null) {
+    if (entries()->registry()->get('methods.create.params.data.published_at') !== null) {
         return;
     }
 
-    entries()->registry()->set('create.data.published_at', date(registry()->get('flextype.settings.date_format'), time()));
+    entries()->registry()->set('methods.create.params.data.published_at', date(registry()->get('flextype.settings.date_format'), time()));
 });

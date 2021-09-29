@@ -15,14 +15,14 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         'visible' => 'visible',
     ];
 
-    if (! entries()->registry()->get('collection.options.fields.visibility.enabled')) {
+    if (! entries()->registry()->get('methods.fetch.collection.fields.visibility.enabled')) {
         return;
     }
 
-    if (entries()->registry()->get('fetch.result.visibility') !== null && in_array(entries()->registry()->get('fetch.result.visibility'), $visibility)) {
-        entries()->registry()->set('fetch.result.visibility', (string) $visibility[entries()->registry()->get('fetch.result.visibility')]);
+    if (entries()->registry()->get('methods.fetch.result.visibility') !== null && in_array(entries()->registry()->get('methods.fetch.result.visibility'), $visibility)) {
+        entries()->registry()->set('methods.fetch.result.visibility', (string) $visibility[entries()->registry()->get('methods.fetch.result.visibility')]);
     } else {
-        entries()->registry()->set('fetch.result.visibility', (string) $visibility['visible']);
+        entries()->registry()->set('methods.fetch.result.visibility', (string) $visibility['visible']);
     }
 });
 
@@ -34,13 +34,13 @@ emitter()->addListener('onEntriesCreate', static function (): void {
         'visible' => 'visible',
     ];
 
-    if (! entries()->registry()->get('collection.options.fields.visibility.enabled')) {
+    if (! entries()->registry()->get('methods.create.collection.fields.visibility.enabled')) {
         return;
     }
     
-    if (entries()->registry()->get('create.data.visibility') !== null && in_array(entries()->registry()->get('create.data.visibility'), $visibility)) {
-        entries()->registry()->set('create.data.visibility', (string) $visibility[entries()->registry()->get('create.data.visibility')]);
+    if (entries()->registry()->get('methods.create.params.data.visibility') !== null && in_array(entries()->registry()->get('methods.create.params.data.visibility'), $visibility)) {
+        entries()->registry()->set('methods.create.params.data.visibility', (string) $visibility[entries()->registry()->get('methods.create.params.data.visibility')]);
     } else {
-        entries()->registry()->set('create.data.visibility', (string) $visibility['visible']);
+        entries()->registry()->set('methods.create.params.data.visibility', (string) $visibility['visible']);
     }
 });

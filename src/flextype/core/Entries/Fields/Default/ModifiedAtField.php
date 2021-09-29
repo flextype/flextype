@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
     
-    if (! entries()->registry()->get('collection.options.fields.modified_at.enabled')) {
+    if (! entries()->registry()->get('methods.fetch.collection.fields.modified_at.enabled')) {
         return;
     }
     
-    if (entries()->registry()->get('fetch.result.modified_at') !== null) {
+    if (entries()->registry()->get('methods.fetch.result.modified_at') !== null) {
         return;
     }
 
-    entries()->registry()->set('fetch.result.modified_at', (int) filesystem()->file(entries()->getFileLocation(entries()->registry()->get('fetch.id')))->lastModified());
+    entries()->registry()->set('methods.fetch.result.modified_at', (int) filesystem()->file(entries()->getFileLocation(entries()->registry()->get('methods.fetch.params.id')))->lastModified());
 });
