@@ -295,7 +295,7 @@ class Entries
             emitter()->emit('onEntriesFetchSingleNoResult');
 
             // Return entry fetch result
-            return arrays($this->registry()->get('methodss.fetch.result'));
+            return arrays($this->registry()->get('methods.fetch.result'));
         };
 
         if ($this->registry()->has('methods.fetch.params.options.collection') &&
