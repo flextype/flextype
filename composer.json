@@ -60,7 +60,8 @@
 
         "filp/whoops": "^2.14.3",
         "symfony/console": "^5.3.7",
-        "symfony/var-exporter": "^5.3"
+        "symfony/var-exporter": "^5.3",
+        "termage/termage": "^0.14.0"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
