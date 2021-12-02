@@ -34,33 +34,33 @@
         "atomastic/macroable": "^2.0.0",
         "atomastic/csrf": "^1.0.1",
 
-        "slim/slim": "^4.8.1",
+        "slim/slim": "^4.9.0",
 
         "league/event": "^2.2.0",
-        "intervention/image":  "^2.6.1",
+        "intervention/image":  "^2.7.0",
 
         "phpfastcache/phpfastcache": "^8.0.8",
 
         "respect/validation": "^2.2.3",
-        "monolog/monolog": "^2.3.4",
+        "monolog/monolog": "^2.3.5",
         "cocur/slugify": "^4.0.0",
-        "ramsey/uuid": "^4.2.1",
-        "symfony/yaml": "^5.3.6",
-        "symfony/finder": "^5.3.7",
+        "ramsey/uuid": "^4.2.3",
+        "symfony/yaml": "^5.4.0",
+        "symfony/finder": "^5.4.0",
 
         "thunderer/shortcode": "^0.7.4",
 
-        "composer/semver": "^3.2.5",
+        "composer/semver": "^3.2.6",
         "slim/psr7": "^1.5",
-        "php-di/php-di": "^6.3.4",
-        "php-di/slim-bridge": "^3.1.1",
-        "nette/neon": "^3.2.2", 
+        "php-di/php-di": "^6.3.5",
+        "php-di/slim-bridge": "^3.2.0",
+        "nette/neon": "^3.3.2", 
         "league/commonmark": "^2.0.2",
         "siriusphp/upload": "^3.0.1",
 
-        "filp/whoops": "^2.14.3",
-        "symfony/console": "^5.3.7",
-        "symfony/var-exporter": "^5.3",
+        "filp/whoops": "^2.14.4",
+        "symfony/console": "^5.4.0",
+        "symfony/var-exporter": "^5.4.0",
         "termage/termage": "^0.14.0"
     },
     "suggest": {
@@ -80,9 +80,9 @@
     },
     "require-dev": {
         "doctrine/coding-standard": "9.0.0",
-        "pestphp/pest": "^1.19.0",
-        "phpstan/phpstan": "^0.12.99",
-        "symfony/var-dumper": "^5.3.7",
+        "pestphp/pest": "^1.21.1",
+        "phpstan/phpstan": "^1.2.0",
+        "symfony/var-dumper": "^5.4.0",
         "victorjonsson/markdowndocs": "^1.3.8",
         "kint-php/kint": "^3.3"
     }
