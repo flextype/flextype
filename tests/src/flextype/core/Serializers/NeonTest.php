@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 test('encode', function () {
     $string = filesystem()->file(ROOT_DIR . '/tests/fixtures/serializers/neon.neon')->get();
-    $this->assertEquals(trim($string),
+    $this->assertEquals(trim("{" . $string . "}"),
                         trim(serializers()->neon()->encode(['hello' => 'world'])));
 });
 
