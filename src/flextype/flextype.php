@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Atomastic\Csrf\Csrf;
-use Atomastic\Session\Session;
+use Glowy\Csrf\Csrf;
+use Glowy\Session\Session;
 use Cocur\Slugify\Slugify;
 use DateTimeZone;
 use Flextype\Entries\Entries;

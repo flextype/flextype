@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Atomastic\Macroable\Macroable;
+use Glowy\Macroable\Macroable;
 use Composer\Semver\Semver;
 use Flextype\Component\I18n\I18n;
 use RuntimeException;

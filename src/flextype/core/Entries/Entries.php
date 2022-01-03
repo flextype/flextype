@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Flextype\Entries;
 
-use Atomastic\Arrays\Arrays;
-use Atomastic\Macroable\Macroable;
+use Glowy\Arrays\Arrays;
+use Glowy\Macroable\Macroable;
 
 use function array_merge;
 use function arrays;

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Atomastic\Arrays\Arrays;
+use Glowy\Arrays\Arrays;
 
 class Actions extends Arrays
 {

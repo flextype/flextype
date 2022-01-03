@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Parsers;
 
-use Atomastic\Macroable\Macroable;
+use Glowy\Macroable\Macroable;
 
 class Parsers
 {

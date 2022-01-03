@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Atomastic\Arrays\Arrays;
+use Glowy\Arrays\Arrays;
 
 if (! Arrays::hasMacro('onlyFromCollection')) {
     /**

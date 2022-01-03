@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Serializers;
 
-use Atomastic\Macroable\Macroable;
+use Glowy\Macroable\Macroable;
 
 class Serializers
 {

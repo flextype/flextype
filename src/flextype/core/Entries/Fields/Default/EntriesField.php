@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-use Atomastic\Arrays\Arrays;
+use Glowy\Arrays\Arrays;
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
