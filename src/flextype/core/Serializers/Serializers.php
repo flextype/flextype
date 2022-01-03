@@ -54,12 +54,4 @@ class Serializers
     {
         return new PhpArray();
     }
-
-    /**
-     * Create a PhpCode instance.
-     */
-    public function phpcode(): PhpCode
-    {
-        return new PhpCode();
-    }
 }

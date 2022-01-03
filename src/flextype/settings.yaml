@@ -459,11 +459,6 @@ serializers:
       cache: true
     encode:
       wrap: true
-  phpcode:
-    decode:
-      cache: true
-    encode:
-      wrap: false
 
 # Parsers
 #
