@@ -26,13 +26,13 @@
 
         "flextype-components/i18n" : "1.3.0",
 
-        "atomastic/session": "^2.0.0",
-        "atomastic/filesystem": "^2.2.0",
-        "atomastic/arrays": "^3.0.5",
-        "atomastic/registry": "^3.0.1",
-        "atomastic/strings": "^3.0.2",
-        "atomastic/macroable": "^2.0.0",
-        "atomastic/csrf": "^1.0.1",
+        "glowy/session": "^3.0.0",
+        "glowy/filesystem": "^3.0.0",
+        "glowy/arrays": "^4.0.0",
+        "glowy/registry": "^4.0.0",
+        "glowy/strings": "^4.2.0",
+        "glowy/macroable": "^3.1.0",
+        "glowy/csrf": "^2.0.0",
 
         "slim/slim": "^4.9.0",
 
@@ -61,7 +61,7 @@
         "filp/whoops": "^2.14.4",
         "symfony/console": "^5.4.0",
         "symfony/var-exporter": "^5.4.0",
-        "termage/termage": "^0.14.0"
+        "thermage/thermage": "^0.15.2"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
@@ -83,7 +83,6 @@
         "pestphp/pest": "^1.21.1",
         "phpstan/phpstan": "^1.2.0",
         "symfony/var-dumper": "^5.4.0",
-        "victorjonsson/markdowndocs": "^1.3.8",
-        "kint-php/kint": "^3.3"
+        "victorjonsson/markdowndocs": "^1.3.8"
     }
 }
