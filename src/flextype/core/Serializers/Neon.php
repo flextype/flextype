@@ -28,10 +28,11 @@ class Neon
      */
     public function encode($input): string
     {
-        $flags = registry()->get('flextype.settings.serializers.neon.encode.flags');
+        $blockMode   = registry()->get('flextype.settings.serializers.neon.encode.blockMode');
+        $indentation = registry()->get('flextype.settings.serializers.neon.encode.indentation');
 
         try {
-            $neon = NeonSerializer::encode($input, $flags);
+            $neon = NeonSerializer::encode($input, $blockMode, $indentation);
         } catch (Exception $e) {
             throw new RuntimeException('Encoding NEON failed');
         }

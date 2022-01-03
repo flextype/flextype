@@ -452,7 +452,8 @@ serializers:
     decode:
       cache: true
     encode:
-      flags: 1
+      blockMode: false
+      indentation: "\t"
   phparray:
     decode:
       cache: true
