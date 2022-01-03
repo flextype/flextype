@@ -75,7 +75,7 @@ class PhpCode
                     $msg      .= ': ' . $lastError['message'];
                 }
 
-                throw new RuntimeException($msg, 0, $error);
+                throw new RuntimeException($msg, 0);
             }
 
             return $return;
