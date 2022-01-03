@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Flextype\Flextype;
-use Atomastic\Strings\Strings;
+use Glowy\Strings\Strings;
 
 beforeEach(function() {
     // Create sandbox plugin

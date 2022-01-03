@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Flextype\Flextype;
 use Flextype\Content\Content;
-use Atomastic\Strings\Strings;
+use Glowy\Strings\Strings;
 
 test('get flextype version', function () {
     $this->assertTrue(!Strings::create(Flextype::getInstance()->getVersion())->isEmpty());

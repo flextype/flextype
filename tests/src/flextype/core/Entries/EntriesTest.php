@@ -1,6 +1,6 @@
 <?php
 
-use Atomastic\Arrays\Arrays;
+use Glowy\Arrays\Arrays;
 
 beforeEach(function() {
     filesystem()->directory(PATH['project'] . '/entries')->ensureExists(0755, true);

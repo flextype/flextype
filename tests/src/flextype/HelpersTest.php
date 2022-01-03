@@ -7,17 +7,17 @@ use Flextype\Parsers\Parsers;
 use Flextype\Serializers\Serializers;
 use Flextype\Entries\Entries;
 use Flextype\Console\FlextypeConsole;
-use Atomastic\Strings\Strings;
-use Atomastic\Registry\Registry;
-use Atomastic\Session\Session;
+use Glowy\Strings\Strings;
+use Glowy\Registry\Registry;
+use Glowy\Session\Session;
 use Slim\App;
 use DI\Container;
 use League\Event\Emitter;
 use Phpfastcache\Helper\Psr16Adapter as Cache;
 use Monolog\Logger;
-use Atomastic\Csrf\Csrf;
+use Glowy\Csrf\Csrf;
 use Cocur\Slugify\Slugify;
-use Atomastic\Arrays\Arrays;
+use Glowy\Arrays\Arrays;
 
 beforeEach(function() {
     filesystem()->directory(PATH['project'] . '/entries')->ensureExists(0755, true);
