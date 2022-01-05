@@ -215,7 +215,7 @@ entries:
 # - drivers.files.cache_slams_timeout: This option defines the cache slams timeout in seconds.
 cache:
   enabled: false
-  driver: files
+  driver: auto
   drivers:
     apcu: {}
     cassandra:
