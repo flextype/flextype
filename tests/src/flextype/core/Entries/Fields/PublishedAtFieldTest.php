@@ -16,5 +16,5 @@ test('PublishedAtField', function () {
     $published_at = entries()->fetch('foo')['published_at'];
 
     $this->assertTrue(strlen($published_at) > 0);
-    $this->assertTrue((ctype_digit($published_at) && strtotime(date('Y-m-d H:i:s', $published_at)) === (int)$published_at));
+    $this->assertTrue((strtotime(date('Y-m-d H:i:s', $published_at)) === (int)$published_at));
 });
