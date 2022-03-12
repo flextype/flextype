@@ -36,11 +36,10 @@ APC, APCu, XCache, Memcached, or Redis for better performance.
 
 ## QUICK INSTALLATION
 
-1. [Download the latest version of Flextype](https://flextype.org/downloads).
-2. Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, create directory <code>/project</code> and be sure to chmod the following directory to <code>755</code> (or <code>777</code>), so it is readable and writable by Flextype.<br>
-3. Create Rest API's tokens for your project using this [webpage](https://flextype.org/api-token-generator).
+1. [Download the latest version of Flextype](https://awilum.github.io/flextype/downloads).
+2. Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, create directory <code>/project</code> and be sure to chmod the following directory to <code>755</code> (or <code>777</code>), so it is readable and writable by Flextype.
 
-[read the documentation](https://flextype.org/documentation)
+[read the documentation](https://awilum.github.io/flextype/documentation)
 
 ## COMMUNITY
 Flextype is open source, community driven project, and maintained by community!
@@ -49,7 +48,7 @@ Flextype is open source, community driven project, and maintained by community!
 
 You may use GitHub Discussions to start discussion about core, plugin and themes development or If you want to report a bug, you can use the GitHub Issues.
 
-#### [Discord](https://flextype.org/discord)
+#### [Discord](https://discord.com/invite/CCKPKVG)
 
 Got a question about setting up or using Flextype? We'll do our best to help you out. Also here you may start discussions about core, plugin and themes development.
 
@@ -70,9 +69,7 @@ Flextype is an MIT-licensed open source project and completely free to use.
 However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing.
 
 You can support it's ongoing development by being a project backer or a sponsor:
-* [Become a backer or sponsor on Patreon](https://www.patreon.com/awilum).
-* [One-time donation via PayPal, QIWI, Sberbank](https://flextype.org/one-time-donation)
-* [Visit our Sponsors & Backers page](https://flextype.org/sponsors)
+* [Visit our Sponsors page](https://awilum.github.io/flextype/sponsors)
 
 ### PLATFORM CONTRIBUTIONS
 
