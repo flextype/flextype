@@ -1,7 +1,7 @@
 <img src="https://images2.imgbox.com/49/8d/4ipHqUcj_o.jpg" alt="Flextype" align="center">
 
 <p align="center">
-<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version&color=black"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?color=black" alt="Total downloads"></a> <img src="https://github.com/atomastic/strings/workflows/Static%20Analysis/badge.svg?branch=dev"> <img src="https://github.com/atomastic/strings/workflows/Tests/badge.svg"> <a href="https://codeclimate.com/github/flextype/flextype/maintainability"><img src="https://api.codeclimate.com/v1/badges/5ba8b0c7dc4fecf738d0/maintainability" /></a>  <a href="https://app.codacy.com/gh/flextype/flextype?utm_source=github.com&utm_medium=referral&utm_content=flextype/flextype&utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/2d7159d9372c414a99d62fe564fdea48"></a> <a href="https://flextype.org/discord"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat" alt="Discord"></a> <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fflextype%2Fflextype?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflextype%2Fflextype.svg?type=shield"/></a>
+<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version&color=black"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?color=black" alt="Total downloads"></a> <img src="https://github.com/atomastic/strings/workflows/Static%20Analysis/badge.svg?branch=dev"> <img src="https://github.com/atomastic/strings/workflows/Tests/badge.svg"> <a href="https://codeclimate.com/github/flextype/flextype/maintainability"><img src="https://api.codeclimate.com/v1/badges/5ba8b0c7dc4fecf738d0/maintainability" /></a>  <a href="https://app.codacy.com/gh/flextype/flextype?utm_source=github.com&utm_medium=referral&utm_content=flextype/flextype&utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/2d7159d9372c414a99d62fe564fdea48"></a> <a href="https://discord.gg/CCKPKVG"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat" alt="Discord"></a> <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fflextype%2Fflextype?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflextype%2Fflextype.svg?type=shield"/></a>
 </p>
 <br>
 
@@ -69,17 +69,11 @@ Flextype is an MIT-licensed open source project and completely free to use.
 However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing.
 
 You can support it's ongoing development by being a project backer or a sponsor:
-* [Visit our Sponsors page](https://awilum.github.io/flextype/sponsors)
+* [Visit our Sponsors page](https://awilum.github.io/sponsors)
 
 ### PLATFORM CONTRIBUTIONS
 
 Another excellent way to help out is by contributing your time or services.
-
-#### TRANSLATION
-
-We are on a mission to build high quality platform to develop fast, flexible, easier to manage websites with Flextype!
-
-If you wish to participate in the translation of Flextype, please [Join Flextype International Translator Team](https://flextype.org/international-translator-team) and start translating!
 
 #### BUG REPORTING
 

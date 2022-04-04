@@ -1932,7 +1932,7 @@
     ```
 7. Rename `/site/` to `/project/`
 8. Clear browser cache!
-9. Create CDA, CMA and Access tokens for your project using this [webpage](https://flextype.org/en/api-token-generator).
+9. Create CDA, CMA and Access tokens for your project using this [webpage](https://awilum.github.io/flextype/en/api-token-generator).
 
 <a name="0.9.7"></a>
 # [0.9.7](https://github.com/flextype/flextype/compare/v0.9.6...v0.9.7) (2020-03-03)

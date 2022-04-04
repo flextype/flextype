@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Flextype (https://flextype.org)
+ * Flextype (https://awilum.github.io/flextype)
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 

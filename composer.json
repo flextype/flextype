@@ -3,13 +3,13 @@
     "type": "project",
     "description": "Hybrid Content Management System with the freedom of a headless CMS and with the full functionality of a traditional CMS",
     "keywords": ["flextype", "php", "cms", "flat-file cms", "flat cms", "flatfile cms", "headless", "API", "html"],
-    "homepage": "https://flextype.org",
+    "homepage": "https://awilum.github.io/flextype",
     "license": "MIT",
     "authors": [
         {
             "name": "Sergey Romanenko",
             "email": "sergey.romaneko@flextype.org",
-            "homepage": "https://flextype.org"
+            "homepage": "https://awilum.github.io/flextype"
         }
     ],
     "support": {

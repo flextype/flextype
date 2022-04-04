@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 test('[url] shortcode', function () {
-    registry()->set('flextype.settings.url', 'https://flextype.org');
+    registry()->set('flextype.settings.url', 'https://awilum.github.io/flextype');
 
-    $this->assertStringContainsString('https://flextype.org', parsers()->shortcodes()->parse('[url]'));
+    $this->assertStringContainsString('https://awilum.github.io/flextype', parsers()->shortcodes()->parse('[url]'));
 });
