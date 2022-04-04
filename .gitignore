@@ -2,6 +2,8 @@
 .composer
 composer.lock
 vendor/
+project/
+.phpunit.result.cache
 
 # Flextype Site Specific
 var/
