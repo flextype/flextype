@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Flextype\Entries;
 
-use Glowy\Arrays\Arrays;
+use Glowy\Arrays\Arrays as Collection;
 use Glowy\Macroable\Macroable;
 
 use function array_merge;
@@ -36,11 +36,11 @@ class Entries
      * Local entries registry used for storing current requested
      * entries data and allow to change them on fly.
      *
-     * @var Arrays
+     * @var Collection
      * 
      * @access private
      */
-    private Arrays $registry;
+    private Collection $registry;
 
     /**
      * Entries options.
@@ -191,7 +191,7 @@ class Entries
      * @param string $id      Unique identifier of the entry.
      * @param array  $options Options array.
      *
-     * @return mixed Returns mixed results from APIs or default is an instance of The Arrays class with founded items.
+     * @return mixed Returns mixed results from APIs or default is an instance of The Collection class with founded items.
      *
      * @access public
      */
@@ -816,11 +816,11 @@ class Entries
     /**
      * Get Entries Registry.
      *
-     * @return Arrays Returns entries registry.
+     * @return Collection Returns entries registry.
      *
      * @access public
      */
-    public function registry(): Arrays
+    public function registry(): Collection
     {
         return $this->registry;
     }
