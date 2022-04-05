@@ -16,19 +16,10 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use function define;
 use function getcwd;
 use function is_file;
 use function sprintf;
 use function str_replace;
-use function version_compare;
-use const DIRECTORY_SEPARATOR;
-use const PHP_VERSION;
-
-/**
- * Define the application minimum supported PHP version.
- */
-define('FLEXTYPE_MINIMUM_PHP', '7.4.0');
 
 /**
  * Define the PATH to the root directory (without trailing slash).
@@ -42,11 +33,6 @@ define('PATH', [
     'project' => ROOT_DIR . '/project',
     'tmp'     => ROOT_DIR . '/var/tmp',
 ]);
-
-/**
- * Check PHP Version
- */
-version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(sprintf('You are running PHP %s, but Flextype needs at least <strong>PHP %s</strong> to run.', $ver, $req));
 
 /**
  * Ensure vendor libraries exist

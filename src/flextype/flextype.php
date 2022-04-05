@@ -55,6 +55,7 @@ use function container;
 use function count;
 use function date;
 use function date_default_timezone_set;
+use function define;
 use function emitter;
 use function extension_loaded;
 use function file_exists;
@@ -77,9 +78,18 @@ use function strings;
 use function sys_get_temp_dir;
 use function trim;
 use function var_export;
+use function version_compare;
+use const DIRECTORY_SEPARATOR;
+use const PHP_VERSION;
+
+// Define the Flextype Application minimum supported PHP version.
+define('FLEXTYPE_MINIMUM_PHP', '7.4.0');
+
+// Check PHP Version
+version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(sprintf('You are running PHP %s, but Flextype needs at least <strong>PHP %s</strong> to run.', $ver, $req));
 
 // Init Flextype Instance.
-// Creates $app Flextype Application and $container Flextype Application Container objects.
+// Creates Flextype Application and Flextype Application Container objects.
 flextype();
 
 // Create Flextype CLI Application
