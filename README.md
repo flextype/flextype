@@ -99,4 +99,4 @@ You may help us to create amazing knowledge base for Flextype. Fix spelling, add
 
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
-Copyright (c) 2022 [Sergey Romanenko](https://github.com/Awilum)
+Copyright (c) [Sergey Romanenko](https://awilum.github.io)
