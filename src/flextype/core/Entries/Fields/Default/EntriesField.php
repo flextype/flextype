@@ -61,7 +61,7 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
             $data[$field] = ($data[$field] instanceof Arrays) ? $data[$field]->{$result}() : $data[$field];
         }
 
-        $result = arrays($original['result'])->merge($data)->toArray();
+        $result = collection($original['result'])->merge($data)->toArray();
 
         if (boolval(entries()->registry()->get('methods.fetch.collection.fields.entries.dump')) === false) {
             unset($result['entries']);

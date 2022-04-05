@@ -29,5 +29,5 @@ parsers()->shortcodes()->addHandler('entries_fetch', static function (ShortcodeI
         return '';
     }
 
-    return arrays(entries()->fetch($s->getParameter('id')))->get($s->getParameter('field'), $s->getParameter('default'));
+    return collection(entries()->fetch($s->getParameter('id')))->get($s->getParameter('field'), $s->getParameter('default'));
 });

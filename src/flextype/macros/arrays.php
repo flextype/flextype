@@ -16,10 +16,10 @@ if (! Arrays::hasMacro('onlyFromCollection')) {
         $result = [];
 
         foreach ($this->toArray() as $key => $value) {
-            $result[$key] = arrays($value)->only($keys)->toArray();
+            $result[$key] = collection($value)->only($keys)->toArray();
         }
 
-        return arrays($result);
+        return collection($result);
     });
 }
 
@@ -35,9 +35,9 @@ if (! Arrays::hasMacro('exceptFromCollection')) {
         $result = [];
 
         foreach ($this->toArray() as $key => $value) {
-            $result[$key] = arrays($value)->except($keys)->toArray();
+            $result[$key] = collection($value)->except($keys)->toArray();
         }
 
-        return arrays($result);
+        return collection($result);
     });
 }

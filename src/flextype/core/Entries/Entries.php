@@ -116,7 +116,7 @@ class Entries
             }
         }
 
-        $events = arrays($events)->unique()->toArray();
+        $events = collection($events)->unique()->toArray();
 
         foreach ($events as $event) {
             if (filesystem()->file($event)->exists()) {
@@ -159,7 +159,7 @@ class Entries
             }
         }
 
-        $fields = arrays($fields)->unique()->toArray();
+        $fields = collection($fields)->unique()->toArray();
 
         foreach ($fields as $field) {
             if (filesystem()->file($field)->exists()) {
@@ -258,7 +258,7 @@ class Entries
                 emitter()->emit('onEntriesFetchSingleCacheHasResult');
                 
                 // Return result from the cache.
-                return arrays($this->registry()->get('methods.fetch.result'));
+                return collection($this->registry()->get('methods.fetch.result'));
             }
             
             // 2. Try to get requested entry from the filesystem
@@ -273,7 +273,7 @@ class Entries
                 if ($entryFileContent === false) {
                     // Run event
                     emitter()->emit('onEntriesFetchSingleNoResult');
-                    return arrays($this->registry()->get('methods.fetch.params.result'));
+                    return collection($this->registry()->get('methods.fetch.params.result'));
                 }
 
                 // Decode entry file content
@@ -295,14 +295,14 @@ class Entries
                 }
                 
                 // Return entry fetch result
-                return arrays($this->registry()->get('methods.fetch.result'));
+                return collection($this->registry()->get('methods.fetch.result'));
             }
 
             // Run event
             emitter()->emit('onEntriesFetchSingleNoResult');
 
             // Return entry fetch result
-            return arrays($this->registry()->get('methods.fetch.result'));
+            return collection($this->registry()->get('methods.fetch.result'));
         };
 
         if ($this->registry()->has('methods.fetch.params.options.collection') &&
@@ -333,7 +333,7 @@ class Entries
                 emitter()->emit('onEntriesFetchCollectionNoResult');
 
                 // Return entries array
-                return arrays($this->registry()->get('methods.fetch.result'));
+                return collection($this->registry()->get('methods.fetch.result'));
             }
 
             // Find entries in the filesystem.
@@ -384,7 +384,7 @@ class Entries
                 if ($this->registry()->has('methods.fetch.params.options.filter.only')) {
                     $data = [];
                     foreach ($this->registry()->get('methods.fetch.result') as $key => $value) {
-                        $data[$key] = arrays($value)->only($this->registry()->get('methods.fetch.params.options.filter.only'))->toArray();
+                        $data[$key] = collection($value)->only($this->registry()->get('methods.fetch.params.options.filter.only'))->toArray();
                     }
                     $this->registry()->delete('methods.fetch.params.options.filter.only');
                     $this->registry()->set('methods.fetch.result', $data);
@@ -396,7 +396,7 @@ class Entries
                 if ($this->registry()->has('methods.fetch.params.options.filter.except')) {
                     $data = [];
                     foreach ($this->registry()->get('methods.fetch.result') as $key => $value) {
-                        $data[$key] = arrays($value)->except($this->registry()->get('methods.fetch.params.options.filter.except'))->toArray();
+                        $data[$key] = collection($value)->except($this->registry()->get('methods.fetch.params.options.filter.except'))->toArray();
                     }
                     $this->registry()->delete('methods.fetch.params.options.filter.except');
                     $this->registry()->set('methods.fetch.result', $data);
@@ -408,18 +408,18 @@ class Entries
                                                         $this->registry()->has('methods.fetch.params.options.filter') ? 
                                                         $this->registry()->get('methods.fetch.params.options.filter') : []));
                 
-                return arrays($this->registry()->get('methods.fetch.result'));
+                return collection($this->registry()->get('methods.fetch.result'));
 
             } else {
                 // Run event
                 emitter()->emit('onEntriesFetchCollectionNoResult');   
 
                 // Return entries array
-                return arrays($this->registry()->get('methods.fetch.result'));
+                return collection($this->registry()->get('methods.fetch.result'));
             }
 
             // Return entries array
-            return arrays($this->registry()->get('methods.fetch.result'));
+            return collection($this->registry()->get('methods.fetch.result'));
         }
 
         // Fetch single entry.
@@ -841,7 +841,7 @@ class Entries
      */
     public function setRegistry(array $registry = []): void 
     {
-        $this->registry = arrays($registry);
+        $this->registry = collection($registry);
     }
 
     /**

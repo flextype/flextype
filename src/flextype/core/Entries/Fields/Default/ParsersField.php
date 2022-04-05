@@ -37,14 +37,14 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
                             foreach (entries()->registry()->get('methods.fetch.result.parsers.'.$parserName.'.fields') as $field) {
                                 if (! in_array($field, registry()->get('flextype.settings.entries.collections.default.fields'))) {
                                     if ($parserName == 'markdown') {
-                                        if (arrays(entries()->registry()->get('methods.fetch.result'))->has($field)) {
+                                        if (collection(entries()->registry()->get('methods.fetch.result'))->has($field)) {
                                             entries()->registry()->set('methods.fetch.result.'.$field,
                                                                             parsers()->markdown()->parse(entries()->registry()->get('methods.fetch.result.'.$field), $cache));
                                         }
                                     }
                                     
                                     if ($parserName == 'shortcodes') {
-                                        if (arrays(entries()->registry()->get('methods.fetch.result'))->has($field)) {
+                                        if (collection(entries()->registry()->get('methods.fetch.result'))->has($field)) {
                                             entries()->registry()->set('methods.fetch.result.'.$field,
                                                                             parsers()->shortcodes()->parse(entries()->registry()->get('methods.fetch.result.'.$field), $cache));
                                         }

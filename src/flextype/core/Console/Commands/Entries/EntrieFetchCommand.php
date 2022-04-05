@@ -105,13 +105,13 @@ class EntriesFetchCommand extends Command
         if ($data = entries()->fetch($id, $options)) {
             if (isset($options['collection']) && $options['collection'] == true) {
                 foreach ($data->toArray() as $item) {
-                    foreach(arrays($item)->dot() as $key => $value) {
+                    foreach(collection($item)->dot() as $key => $value) {
                         $output->writeln('<info>'.$key.':</info> ' . $value);
                     }
                     $output->writeln('');
                 }          
             } else {
-                foreach(arrays($data)->dot() as $key => $value) {
+                foreach(collection($data)->dot() as $key => $value) {
                     $output->writeln('<info>'.$key.':</info> ' . $value);
                 }
                 $output->writeln('');

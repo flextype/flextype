@@ -55,7 +55,7 @@ class Frontmatter
 
         if (isset($input['content'])) {
             $content = $input['content'];
-            $input   = arrays($input)->delete('content')->toArray();
+            $input   = collection($input)->delete('content')->toArray();
             $matter  = serializers()->{$headerSerializer}()->encode($input);
         } else {
             $content = '';

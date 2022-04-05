@@ -2,6 +2,73 @@
 
 declare(strict_types=1);
 
+use Glowy\Arrays\Arrays as Collection;
+
+if (! function_exists('collection')) {
+    /**
+     * Create a new arrayable collection object from the given elements.
+     *
+     * Initializes a Collection object and assigns $items the supplied values.
+     *
+     * @param  mixed $items Items
+     *
+     * @return Collection
+     */
+    function collection($items = null): Collection
+    {
+        return Collection::create($items);
+    }
+}
+
+if (! function_exists('collectionFromJson')) {
+    /**
+     * Create a new arrayable collection object from the given JSON string.
+     *
+     * @param string $input A string containing JSON.
+     * @param bool   $assoc Decode assoc. When TRUE, returned objects will be converted into associative array collection.
+     * @param int    $depth Decode Depth. Set the maximum depth. Must be greater than zero.
+     * @param int    $flags Bitmask consisting of decode options
+     *
+     * @return Collection
+     */
+    function collectionFromJson(string $input, bool $assoc = true, int $depth = 512, int $flags = 0): Collection
+    {
+        return Collection::createFromJson($input, $assoc, $depth, $flags);
+    }
+}
+
+if (! function_exists('collectionFromString')) {
+    /**
+     * Create a new arrayable collection object from the given string.
+     *
+     * @param string $string    Input string.
+     * @param string $separator Elements separator.
+     *
+     * @return Collection
+     */
+    function collectionFromString(string $string, string $separator): Collection
+    {
+        return Collection::createFromString($string, $separator);
+    }
+}
+
+if (! function_exists('collectionWithRange')) {
+    /**
+     * Create a new arrayable object with a range of elements.
+     *
+     * @param float|int|string $low  First value of the sequence.
+     * @param float|int|string $high The sequence is ended upon reaching the end value.
+     * @param int              $step If a step value is given, it will be used as the increment between elements in the sequence.
+     *                               step should be given as a positive number. If not specified, step will default to 1.
+     *
+     * @return Collection
+     */
+    function collectionWithRange($low, $high, int $step = 1): Arrays
+    {
+        return Collection::createWithRange($low, $high, $step);
+    }
+}
+
 if (! function_exists('filterCollection')) {
     /**
      * Filter collection.
@@ -13,7 +80,7 @@ if (! function_exists('filterCollection')) {
      */
     function filterCollection($items = [], array $options = []): array
     {
-        $collection = arrays($items);
+        $collection = collection($items);
 
         ! isset($options['return']) and $options['return'] = 'all';
 

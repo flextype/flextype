@@ -151,7 +151,7 @@ if (! function_exists('getBaseUrl')) {
 
         $url .= $getAuth();
       
-        $serverData = arrays($_SERVER);
+        $serverData = collection($_SERVER);
 
         $host = (string) $serverData->get('HTTP_HOST');
         $port = (int) $serverData->get('SERVER_PORT');

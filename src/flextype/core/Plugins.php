@@ -82,7 +82,7 @@ class Plugins
         // Get plugins list
         $pluginsList = $this->getPluginsList();
         
-       // $pluginsList = arrays($pluginsList)->only(['twig', 'blueprints'])->toArray();
+       // $pluginsList = collection($pluginsList)->only(['twig', 'blueprints'])->toArray();
 
         // Get plugins Cache ID
         $pluginsCacheID = $this->getPluginsCacheID($pluginsList);
@@ -171,11 +171,11 @@ class Plugins
             }
 
             // Sort plugins list by priority.
-            $plugins = arrays($plugins)->sortBy('_priority', 'ASC')->toArray();
+            $plugins = collection($plugins)->sortBy('_priority', 'ASC')->toArray();
 
             // ... and delete tmp _priority field for sorting
             foreach ($plugins as $pluginName => $pluginData) {
-                $plugins = arrays($plugins)->delete($pluginName . '._priority')->toArray();
+                $plugins = collection($plugins)->delete($pluginName . '._priority')->toArray();
             }
     
             // Get Valid Plugins Dependencies

@@ -82,5 +82,11 @@
         "phpstan/phpstan": "^1.4.4",
         "symfony/var-dumper": "^5.4.3",
         "victorjonsson/markdowndocs": "^1.3.8"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }
