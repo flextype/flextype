@@ -1,5 +1,5 @@
-<a name="0.9.17"></a>
-# [0.9.17](https://github.com/flextype/flextype/compare/v0.9.16...v0.9.17) (2021-XX-XX)
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/flextype/flextype/compare/v0.9.16...v0.10.0) (2021-XX-XX)
 
 ### Features
 
@@ -53,7 +53,7 @@
 
 * **core** Added ability to run Flextype in silent mode by disabling settings `app` and `cli`. 
 
-* **entries** Added new functiontionality for Virtual Entries with CRUD.
+* **entries** Added new functionality for Virtual Entries + CRUD opertations.
 
 * **entries**: Added ability to create completely customizable high level collections for entries.
 
