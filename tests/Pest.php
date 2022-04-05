@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-define('FLEXTYPE_MINIMUM_PHP', '7.4.0');
 define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
 define('PATH', [
     'project'   => ROOT_DIR . '/project',
@@ -15,7 +14,6 @@ define('PATH', [
 $flextype_loader = require_once $flextype_autoload;
 
 filesystem()->directory(PATH['tmp'])->exists() and filesystem()->directory(PATH['tmp'])->delete();
-
 filesystem()->directory(ROOT_DIR . '/project/config/flextype/')->ensureExists(0755, true);
 filesystem()->file(ROOT_DIR . '/tests/fixtures/settings/settings.yaml')->copy(ROOT_DIR . '/project/config/flextype/settings.yaml');
 
