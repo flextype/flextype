@@ -11,7 +11,7 @@ namespace Flextype;
 
 use Glowy\Macroable\Macroable;
 use Composer\Semver\Semver;
-use Flextype\Component\I18n\I18n;
+use Flextype\I18n;
 use RuntimeException;
 
 use function array_diff_key;
