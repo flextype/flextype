@@ -24,8 +24,6 @@
         "ext-mbstring": "*",
         "ext-fileinfo": "*",
 
-        "flextype-components/i18n" : "1.3.0",
-
         "glowy/session": "^3.0.0",
         "glowy/filesystem": "^3.0.0",
         "glowy/arrays": "^4.0.0",
