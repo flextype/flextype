@@ -27,6 +27,7 @@
         "glowy/session": "^3.0.0",
         "glowy/filesystem": "^3.0.0",
         "glowy/arrays": "^4.0.0",
+        "glowy/view": "^1.0.0",
         "glowy/registry": "^4.0.0",
         "glowy/strings": "^4.2.0",
         "glowy/macroable": "^3.1.0",
