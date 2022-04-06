@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Glowy\Arrays\Arrays;
+use Glowy\Arrays\Arrays as Collection;
 
-if (! Arrays::hasMacro('onlyFromCollection')) {
+if (! Collection::hasMacro('onlyFromCollection')) {
     /**
      * Return slice of an array with just a given keys.
      *
@@ -12,7 +12,7 @@ if (! Arrays::hasMacro('onlyFromCollection')) {
      *
      * @return Arrays Returns instance of The Arrays class.
      */
-    Arrays::macro('onlyFromCollection', function (array $keys) {
+    Collection::macro('onlyFromCollection', function (array $keys) {
         $result = [];
 
         foreach ($this->toArray() as $key => $value) {
@@ -23,7 +23,7 @@ if (! Arrays::hasMacro('onlyFromCollection')) {
     });
 }
 
-if (! Arrays::hasMacro('exceptFromCollection')) {
+if (! Collection::hasMacro('exceptFromCollection')) {
     /**
      * Return slice of an array except given keys.
      *
@@ -31,7 +31,7 @@ if (! Arrays::hasMacro('exceptFromCollection')) {
      *
      * @return Arrays Returns instance of The Arrays class.
      */
-    Arrays::macro('exceptFromCollection', function (array $keys) {
+    Collection::macro('exceptFromCollection', function (array $keys) {
         $result = [];
 
         foreach ($this->toArray() as $key => $value) {
