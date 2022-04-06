@@ -370,10 +370,8 @@ if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listId
 // Add Plugins Service
 container()->set('plugins', new Plugins());
 
-// Api Endpoints
-require_once ROOT_DIR . '/src/flextype/routes/endpoints/utils.php';
-require_once ROOT_DIR . '/src/flextype/routes/endpoints/entries.php';
-require_once ROOT_DIR . '/src/flextype/routes/endpoints/registry.php';
+// Add Routes
+require_once ROOT_DIR . '/src/flextype/routes/routes.php';
 
 // Enable lazy CORS
 //
@@ -406,10 +404,10 @@ if (registry()->get('flextype.settings.cors.enabled')) {
     });
 }
 
-// Add Routing Middleware
+// Add Routing Middleware.
 app()->addRoutingMiddleware();
 
-// Add Whoops Error Handling Middleware
+// Add Whoops Error Handling Middleware.
 app()->add(new WhoopsMiddleware([
     'enable'  => registry()->get('flextype.settings.errors.display'),
     'editor'  => registry()->get('flextype.settings.errors.editor'),
@@ -420,7 +418,7 @@ app()->add(new WhoopsMiddleware([
 // Run high level event onFlextypeBeforeRun
 emitter()->emit('onFlextypeBeforeRun');
 
-// Run Flextype Application / CLI Application
+// Run Flextype Application / Flexype CLI Application.
 if (php_sapi_name() === 'cli') {
     registry()->get('flextype.settings.cli') and console()->run();
 } else {
