@@ -17,7 +17,7 @@ declare(strict_types=1);
 use Glowy\Arrays\Arrays as Collection;
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
-    dump(entries()->registry()->get('methods.fetch.collection'));
+
     if (! entries()->registry()->get('methods.fetch.collection.fields.entries.enabled')) {
         return;
     }
