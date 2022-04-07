@@ -38,7 +38,7 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
 
         $result = collection($original['result'])->merge($data)->toArray();
 
-        if (boolval(entries()->registry()->get('methods.fetch.collection.fields.entries.dump')) === false) {
+        if (boolval(entries()->registry()->get('methods.fetch.collection.fields.registry.dump')) === false) {
             unset($result['registry']);
         }
 
