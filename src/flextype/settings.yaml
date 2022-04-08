@@ -73,8 +73,8 @@ entries:
   collections:
     default:
       filename: entry
-      extension: yaml
-      serializer: yaml
+      extension: md
+      serializer: frontmatter
       fields:
         registry:
           enabled: true
