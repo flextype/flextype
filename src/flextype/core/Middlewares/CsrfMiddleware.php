@@ -23,31 +23,6 @@ use Slim\Psr7\Response;
 class CsrfMiddleware
 {
     /**
-     * __invoke
-     *
-     * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
-     * @param callable $next     Next middleware
-     */
-    /*public function __invoke(Request $request, Response $response, callable $next) : Response
-    {
-        $data = $request->getParsedBody();
-
-        if (isset($data[flextype('csrf')->getTokenName()])) {
-            if (flextype('csrf')->isValid($data[flextype('csrf')->getTokenName()])) {
-                $response = $next($request, $response);
-            } else {
-                die('This looks like a cross-site request forgery!');
-            }
-        } else {
-            $response = $next($request, $response);
-        }
-
-        return $response;
-    }*/
-
-
-    /**
      * Invoke
      *
      * @param  ServerRequest  $request PSR-7 request
