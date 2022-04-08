@@ -33,4 +33,4 @@ use function app;
  * Returns:
  * An array of registry objects.
  */
-app()->get('/api/v0/registry', [Registry::class, 'get']);
+app()->get('/api/v0/registry', [Registry::class, 'get'])->setName('registry.get');
