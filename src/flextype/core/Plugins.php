@@ -175,7 +175,10 @@ class Plugins
             foreach ($plugins as $pluginName => $pluginData) {
                 $plugins = collection($plugins)->delete($pluginName . '._priority')->toArray();
             }
-    
+
+            // Get Enabled Plugins
+            $plugins = $this->getEnabledPlugins($plugins);
+
             // Get Valid Plugins Dependencies
             $plugins = $this->getValidPluginsDependencies($plugins);
 
@@ -380,6 +383,26 @@ class Plugins
 
         return $pluginsList;
     }
+
+    /**
+     * Get enabled plugins
+     *
+     * @access private
+     */
+    private function getEnabledPlugins($plugins): array
+    {
+        $enabledPlugins = [];
+
+        foreach ($plugins as $name => $plugin) {
+            if (! collection($plugin)->has('settings.enabled') || collection($plugin)->get('settings.enabled') == false) {
+                continue;
+            }
+
+            $enabledPlugins[$name] = $plugin;
+        }
+
+        return $enabledPlugins;
+    } 
 
     /**
      * Include enabled plugins
