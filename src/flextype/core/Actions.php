@@ -16,9 +16,9 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Glowy\Arrays\Arrays;
+use Glowy\Arrays\Arrays as Collection;
 
-class Actions extends Arrays
+class Actions extends Collection
 {
     /**
      * Actions instance
@@ -28,7 +28,7 @@ class Actions extends Arrays
     /**
      * Actions registry storage
      */
-    private static ?Arrays $registry = null;
+    private static ?Collection $registry = null;
 
     /**
      * Gets the instance via lazy initialization (created on first usage)
@@ -40,7 +40,7 @@ class Actions extends Arrays
         }
 
         if (static::$registry === null) {
-            static::$registry = new Arrays();
+            static::$registry = new Collection();
         }
 
         return static::$instance;
