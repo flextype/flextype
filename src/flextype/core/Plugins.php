@@ -81,9 +81,7 @@ class Plugins
 
         // Get plugins list
         $pluginsList = $this->getPluginsList();
-        
-       // $pluginsList = collection($pluginsList)->only(['twig', 'blueprints'])->toArray();
-
+       
         // Get plugins Cache ID
         $pluginsCacheID = $this->getPluginsCacheID($pluginsList);
 
