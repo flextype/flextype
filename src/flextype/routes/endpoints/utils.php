@@ -32,4 +32,4 @@ use function app;
  * Returns:
  * Returns an empty body with HTTP status 204
  */
-app()->post('/api/v0/utils/cache/clear', [Utils::class, 'clearCache']);
+app()->post('/api/v0/utils/cache/clear', [Utils::class, 'clearCache'])->setName('cache.clear');
