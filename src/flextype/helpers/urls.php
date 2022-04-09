@@ -192,6 +192,18 @@ if (! function_exists('getAbsoluteUrl')) {
     }
 }
 
+if (! function_exists('getUriString')) {
+    /**
+     * Get uri string.
+     *
+     * @return string
+     */
+    function getUriString(): string
+    {
+        return $_SERVER['REQUEST_URI'];
+    }
+}
+
 if (! function_exists('redirect')) {
     /**
      * Redirect.
