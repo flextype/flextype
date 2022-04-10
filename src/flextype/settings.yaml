@@ -35,11 +35,15 @@ base_path: '/'
 #   m/d/Y h:i a - 02/02/2020 09:41 pm
 #   H:i d-m-Y - 09:41 02-02-2020
 #   h:i a m/d/Y - 09:41 pm 02/02/2020
-
-# Valid date format
 date_format: 'd-m-Y H:i'
 
 # Valid date format to display
+#
+#   d-m-Y H:i" - 02-02-2020 09:41
+#   Y-m-d H:i" - 2020-02-02 09:41
+#   m/d/Y h:i a - 02/02/2020 09:41 pm
+#   H:i d-m-Y - 09:41 02-02-2020
+#   h:i a m/d/Y - 09:41 pm 02/02/2020
 date_display_format: 'd-m-Y H:i'
 
 # Display errors
