@@ -49,7 +49,7 @@ class Api
         ],
         404 => [
             'title' => 'Not Found',
-            'message' => 'Not Found',
+            'message' => 'The requested resource or endpoint could not be found',
             'http_status_code' => 404,
         ],
     ];
