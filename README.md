@@ -1,7 +1,7 @@
 <img src="https://images2.imgbox.com/49/8d/4ipHqUcj_o.jpg" alt="Flextype" align="center">
 
 <p align="center">
-<a href="https://github.com/flextype/flextype/releases"><img alt="Version" src="https://img.shields.io/github/release/flextype/flextype.svg?label=version&color=black"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black" alt="License"></a> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/github/downloads/flextype/flextype/total.svg?color=black" alt="Total downloads"></a> <img src="https://github.com/flextype/flextype/actions/workflows/ci.yml/badge.svg"></a> <img src="http://poser.pugx.org/flextype/flextype/require/php"> <a href="https://discord.gg/CCKPKVG"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat" alt="Discord"></a> <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fflextype%2Fflextype?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflextype%2Fflextype.svg?type=shield"/></a>
+<a href="https://github.com/flextype/flextype"> <a href="https://github.com/flextype/flextype"><img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black&style=for-the-badge" alt="License MIT"></a> <img src="http://poser.pugx.org/flextype/flextype/require/php?style=for-the-badge"> <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/flextype/flextype?style=for-the-badge"> <img alt="GitHub forks" src="https://img.shields.io/github/forks/flextype/flextype?style=for-the-badge"> <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/flextype/flextype/total?style=for-the-badge">
 </p>
 <br>
 
