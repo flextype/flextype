@@ -69,7 +69,7 @@ Flextype is an MIT-licensed open source project and completely free to use.
 However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing.
 
 You can support it's ongoing development by being a project backer or a sponsor:
-* [Visit our Sponsors page](https://awilum.github.io/sponsors)
+* [Visit Sponsors page](https://awilum.github.io/sponsors)
 
 ### PLATFORM CONTRIBUTIONS
 
@@ -88,14 +88,6 @@ If you need help with Git or our workflow, please ask in our community chat. We 
 #### DOCS
 
 You may help us to create amazing knowledge base for Flextype. Fix spelling, add code examples, help organize, write new articles, and etc...
-
-## SPONSORS
-
-### Gold Sponsor
-
-### Silver Sponsor
-
-### Bronze Sponsor
 
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
