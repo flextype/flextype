@@ -522,6 +522,9 @@ parsers:
       raw:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/RawShortcode.php"
+      markdown:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/MarkdownShortcode.php"
       registry:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
