@@ -27,7 +27,7 @@ test('EntriesField for shop', function() {
         ->copy(ROOT_DIR . '/project/entries/shop');
 
     $shop = entries()->fetch('shop');
-});
+})->skip();
 
 test('EntriesField for catalog', function () {
 
@@ -70,7 +70,7 @@ test('EntriesField for catalog', function () {
     $banner = entries()->fetch('banner');
     $this->assertEquals('Banner', $banner['title']);
     $this->assertEquals('banner', $banner['id']);
-});
+})->skip();
 
 test('EntriesField for albmus', function () {
     entries()->create('root', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/root/entry.yaml')->get()));
