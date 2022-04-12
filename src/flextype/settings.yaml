@@ -516,6 +516,9 @@ parsers:
       entries:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/EntriesShortcode.php"
+      php:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/PhpShortcode.php"
       raw:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/RawShortcode.php"
