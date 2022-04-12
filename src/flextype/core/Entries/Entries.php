@@ -282,8 +282,11 @@ class Entries
                 // Run event
                 emitter()->emit('onEntriesFetchSingleHasResult');
                 
+                // Process fields
+                $result = $this->processFields($this->registry()->get('methods.fetch.result'));
+
                 // Apply `filterCollection` filter for fetch result
-                $this->registry()->set('methods.fetch.result', filterCollection($this->registry()->get('methods.fetch.result'), $this->registry()->get('methods.fetch.params.options.filter', [])));
+                $this->registry()->set('methods.fetch.result', filterCollection($result, $this->registry()->get('methods.fetch.params.options.filter', [])));
 
                 // Set cache state
                 $cache = $this->registry()->get('methods.fetch.result.cache.enabled',
@@ -866,5 +869,87 @@ class Entries
     public function getOptions(): array 
     {
         return $this->options;
+    }
+
+    /**
+     * Process entry field value.
+     *
+     * @param array $entry Entry array.
+     * 
+     * @return array Entry with processed fields.
+     *
+     * @access public
+     */
+    public function processFields(array $entry): array 
+    {
+        $flatEntry = collection($entry)->dot()->toArray();
+
+        $removeDirectives = function($value) {
+            return strings($value)
+                    ->replace('@type:array;', '')
+                    ->replace('@type:string;', '')
+                    ->replace('@type:bool;', '')
+                    ->replace('@type:boolean;', '')
+                    ->replace('@type:int;', '')
+                    ->replace('@type:integer;', '')
+                    ->replace('@type:float;', '')
+                    ->replace('@type:double;', '')
+                    ->trim()->toString();
+        };
+
+        foreach($flatEntry as $key => $value) {
+
+            // Process shortcodes for value if it's string type.
+            $value = gettype($value) == 'string' ? parsers()->shortcodes()->parse($value) : $value;
+           
+            if (strings($value)->startsWith('@type:')) {
+                $type = strings($value)->after('@type:')->toString();
+                $argument = strtok($type, ';');
+
+                switch ($argument) {
+                    case 'array':
+                        $value = $removeDirectives($value);
+                        if (strings($value)->isJson()) {
+                            $value = collectionFromJson($value)->toArray();
+                        } else {
+                            $value = collectionFromString($value, ',')->toArray();
+                        }
+                        break; 
+                    case 'string': 
+                        $value = $removeDirectives($value);
+                        $value = (string) $value;
+                        break;
+                    case 'integer':
+                    case 'int': 
+                        $value = $removeDirectives($value);
+                        $value = (int) $value;  
+                        break;
+                    case 'boolean':
+                    case 'bool': 
+                        $value = $removeDirectives($value);
+                        $value = (bool) $value;  
+                    break;
+                    case 'float': 
+                        $value = $removeDirectives($value);
+                        $value = (float) $value;  
+                    break;
+                    case 'double': 
+                        $value = $removeDirectives($value);
+                        $value = (double) $value; 
+                    break; 
+                    default:
+                        $value = (string) $value;
+                        break;
+                }
+
+                $processedEntry[$key] = $value;
+            } else {
+                $processedEntry[$key] = $value;
+            }
+
+            $processedEntry[$key] = $value;
+        }
+        
+        return collection($processedEntry)->undot()->toArray();
     }
 }
