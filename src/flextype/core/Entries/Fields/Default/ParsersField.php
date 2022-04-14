@@ -45,8 +45,12 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
                                     
                                     if ($parserName == 'shortcodes') {
                                         if (collection(entries()->registry()->get('methods.fetch.result'))->has($field)) {
+                                            $r = parsers()->shortcodes()->parse(entries()->registry()->get('methods.fetch.result.'.$field), $cache);
+                                            if (strings($r)->isJson()) {
+                                                $r = collectionFromJson($r)->toArray();
+                                            }
                                             entries()->registry()->set('methods.fetch.result.'.$field,
-                                                                            parsers()->shortcodes()->parse(entries()->registry()->get('methods.fetch.result.'.$field), $cache));
+                                                                            $r);
                                         }
                                     }
                                 }
