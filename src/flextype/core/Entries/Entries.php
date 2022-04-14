@@ -185,6 +185,7 @@ class Entries
             if (isset($collection['pattern'])) {
                 if (boolval(preg_match_all('#^' . $collection['pattern'] . '$#', $id, $matches, PREG_OFFSET_CAPTURE))) {
                     $result = $collection;
+                    
                 }
             }
         }
@@ -842,9 +843,11 @@ class Entries
      *
      * @access public
      */
-    public function setRegistry(array $registry = []): void 
+    public function setRegistry(array $registry = []): self 
     {
         $this->registry = collection($registry);
+
+        return $this;
     }
 
     /**
@@ -854,9 +857,11 @@ class Entries
      *
      * @access public
      */
-    public function setOptions(array $options = []): void 
+    public function setOptions(array $options = []): self 
     {
         $this->options = $options;
+
+        return $this;
     }
 
     /**
@@ -896,6 +901,8 @@ class Entries
                     ->replace('@type:double;', '')
                     ->trim()->toString();
         };
+
+        $processedEntry= [];
 
         foreach($flatEntry as $key => $value) {
 
