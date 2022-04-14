@@ -200,7 +200,7 @@ if (! function_exists('getUriString')) {
      */
     function getUriString(): string
     {
-        return $_SERVER['REQUEST_URI'];
+        return $_SERVER['REQUEST_URI'] ?? '';
     }
 }
 
