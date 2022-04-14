@@ -8,7 +8,7 @@ This isn’t an exhaustive list of things that you can’t do. Rather, take it i
 
 This code of conduct applies to all spaces used by the Flextype community for communication. This includes Flextype Discord, GitHub, Twitter, Facebook, meetups, conferences, and any other relevant forums. Violations of this code outside of any spaces managed by the Flextype team will still affect a person’s ability to participate within them.
 
-If you believe someone is violating the code of conduct, we ask that you report it by contacting us from [&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#064;&#102;&#108;&#101;&#120;&#116;&#121;&#112;&#101;&#046;&#111;&#114;&#103;](mailto:awilum@msn.com). We take all reports seriously, and your identity will remain confidential.
+If you believe someone is violating the code of conduct, we ask that you report it by contacting us from [&#97;&#119;&#105;&#108;&#117;&#109;&#64;&#109;&#115;&#110;&#46;&#99;&#111;&#109;](mailto:awilum@msn.com). We take all reports seriously, and your identity will remain confidential.
 
 - **Be friendly and patient.**
 - **Be welcoming.** We strive to be a community that welcomes and supports people of all backgrounds and identities. This includes, but is not limited to members of any race, ethnicity, culture, national origin, colour, immigration status, social and economic class, educational level, sex, sexual orientation, gender identity and expression, age, size, family status, political belief, religion, and mental and physical ability.
