@@ -85,10 +85,11 @@ class EntriesFetchCommand extends Command
         $input->getOption('find-contains') and $options['find']['contains'] = $input->getOption('find-contains');
         $input->getOption('find-not-contains') and $options['find']['not_contains'] = $input->getOption('find-not-contains');
         $input->getOption('find-path') and $options['find']['path'] = $input->getOption('find-path');
-        $input->getOption('find-sort-by') and $options['find']['sort-by'] = $input->getOption('find-sort-by');
+        $input->getOption('find-sort-by-key') and $options['find']['sort_by']['key'] = $input->getOption('find-sort-by');
+        $input->getOption('find-sort-by-direction') and $options['find']['sort_by']['direction'] = $input->getOption('find-sort-by');
 
-        $input->getOption('filter-group-by') and $options['filter']['group_by'] = $input->getOption('filter-sort-by');
-        $input->getOption('filter-return') and $options['filter']['return'] = $input->getOption('filter-sort-by');
+        $input->getOption('filter-group-by') and $options['filter']['group_by'] = $input->getOption('filter-group-by');
+        $input->getOption('filter-return') and $options['filter']['return'] = $input->getOption('filter-return');
  
         if ($input->getOption('filter-where')) {
             $filterWhere = $input->getOption('filter-where');
