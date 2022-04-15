@@ -14,4 +14,8 @@ test('[entries-fetch] shortcode', function () {
     $this->assertTrue(entries()->create('foo', ['title' => 'Foo']));
     $this->assertEquals('Foo', parsers()->shortcodes()->parse('[entries-fetch id="foo" field="title"]'));
     $this->assertEquals('Bar', parsers()->shortcodes()->parse('[entries-fetch id="foo" field="bar" default="Bar"]'));
+
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.entries.enabled', false);
+    $this->assertEquals('', parsers()->shortcodes()->parse('[entries-fetch id="foo" field="bar" default="Bar"]'));
+
 });
