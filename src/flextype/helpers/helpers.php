@@ -9,4 +9,4 @@ require_once __DIR__ . '/finder.php';
 require_once __DIR__ . '/image.php';
 require_once __DIR__ . '/upload.php';
 require_once __DIR__ . '/tokens.php';
-require_once __DIR__ . '/urls.php';
+require_once __DIR__ . '/url.php';
