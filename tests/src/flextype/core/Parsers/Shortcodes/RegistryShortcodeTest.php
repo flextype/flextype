@@ -7,4 +7,7 @@ test('[registry-get] shortcode', function () {
                         parsers()->shortcodes()->parse('[registry-get name="flextype.manifest.name"]'));
     $this->assertEquals('default-value',
                         parsers()->shortcodes()->parse('[registry-get name="item-name" default="default-value"]'));
+
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.registry.enabled', false);
+    $this->assertEquals('', parsers()->shortcodes()->parse('[registry-get name="item-name" default="default-value"]'));
 });
