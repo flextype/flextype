@@ -191,3 +191,17 @@ test('find helper', function () {
     $this->assertTrue(find(PATH['project'] . '/entries', [], 'files')->hasResults());
     $this->assertTrue(find(PATH['project'], [], 'directories')->hasResults());
 });
+
+test('generateToken helper', function () {
+    $this->assertTrue(strings(generateToken())->length() == 32);
+});
+
+test('generateTokenHash helper', function () {
+    $this->assertTrue(generateTokenHash(generateToken()) != generateTokenHash(generateToken()));
+});
+
+test('verifyTokenHash helper', function () {
+    $token = generateToken();
+    $tokenHashed = generateTokenHash($token);
+    $this->assertTrue(verifyTokenHash($token, $tokenHashed));
+});
