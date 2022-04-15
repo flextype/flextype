@@ -186,7 +186,7 @@ if (! function_exists('getAbsoluteUrl')) {
     function getAbsoluteUrl(): string
     {
         $url  = getBaseUrl();
-        $url .= $_SERVER['REQUEST_URI'];
+        $url .= $_SERVER['REQUEST_URI'] ?? '';
 
         return $url;
     }
