@@ -31,6 +31,14 @@ class Serializers
     }
 
     /**
+     * Create a Json instance.
+     */
+    public function json5(): Json5
+    {
+        return new Json5();
+    }
+
+    /**
      * Create a Yaml instance.
      */
     public function yaml(): Yaml

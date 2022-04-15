@@ -433,6 +433,15 @@ serializers:
     encode: 
       options: 0
       depth: 512
+  json5: 
+    decode:
+      cache: true
+      assoc: true
+      depth: 512
+      flags: 0
+    encode: 
+      options: 0
+      depth: 512
   yaml:
     decode:
       cache: true
