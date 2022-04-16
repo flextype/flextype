@@ -141,6 +141,18 @@ test('mixin for entries', function() {
     expect(entries()->bar('Bar'))->toEqual('Bar');
 });
 
-test('get entries options', function () {
-    expect(entries()->getOptions())->toBeArray();
+test('registry and setRegistry', function () {
+    entries()->setRegistry(['foo' => 'Foo']);
+    expect(entries()->registry()->toArray())->toEqual(['foo' => 'Foo']);
 });
+
+
+test('options and setOptions', function () {
+    $originalOptions = entries()->options();
+    
+    entries()->setOptions(registry()->get('flextype.settings.entries'));
+    expect(entries()->options()->toArray())->toEqual(registry()->get('flextype.settings.entries'));
+
+    entries()->setOptions($originalOptions->toArray());
+});
+
