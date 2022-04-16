@@ -62,19 +62,19 @@ class Entries
      *     fields:     - array  - Array of fields for entries collection.
      *     events:     - array  - Array of events for entries collection.
      *
-     * @var array
+     * @var Collection
      * 
      * @access private
      */
-    private array $options = [];
+    private Collection $options;
 
     /**
      * Create a new entries object.
      * 
-     * @param array $options  Entries options.
-     * @param array $registry Entries registry.
+     * @param mixed $options  Entries options.
+     * @param mixed $registry Entries registry.
      */
-    public function __construct(array $options = [], array $registry = [])
+    public function __construct($options = null, $registry = null)
     {
         $this->setRegistry($registry);
         $this->setOptions($options);
@@ -843,7 +843,7 @@ class Entries
      *
      * @access public
      */
-    public function setRegistry(array $registry = []): self 
+    public function setRegistry($registry = null): self 
     {
         $this->registry = collection($registry);
 
@@ -857,9 +857,9 @@ class Entries
      *
      * @access public
      */
-    public function setOptions(array $options = []): self 
+    public function setOptions($options = null): self 
     {
-        $this->options = $options;
+        $this->options = collection($options);
 
         return $this;
     }
@@ -871,7 +871,7 @@ class Entries
      *
      * @access public
      */
-    public function getOptions(): array 
+    public function options(): Collection 
     {
         return $this->options;
     }
