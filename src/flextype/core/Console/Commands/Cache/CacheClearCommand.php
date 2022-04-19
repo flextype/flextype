@@ -44,12 +44,30 @@ class CacheClearCommand extends Command
         if ($input->getOption('data')) {
             if (filesystem()->directory(PATH['tmp'] . '/data')->exists()) {
                 if (filesystem()->directory(PATH['tmp'] . '/data')->delete()) {
-                    $io->success('Data were successfully cleared from the cache.');
+                    $output->write(
+                        renderToString(
+                            div('Success: Data were successfully cleared from the cache.', 
+                                'bg-success px-2 py-1')
+                        )
+                    );
                     $result = Command::SUCCESS;
                 } else {
-                    $io->error('Data cache wasn\'t cleared.');
+                    $output->write(
+                        renderToString(
+                            div('Failure: Data cache wasn\'t cleared.', 
+                                'bg-danger px-2 py-1')
+                        )
+                    );
                     $result = Command::FAILURE;
                 }
+            } else {
+                $output->write(
+                    renderToString(
+                        div('Failure: Data cache directory ' . PATH['tmp'] . '/data' . ' doesn\'t exist.', 
+                            'bg-danger px-2 py-1')
+                    )
+                );
+                $result = Command::FAILURE;
             }
         }
 
