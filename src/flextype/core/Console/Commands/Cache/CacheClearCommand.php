@@ -21,6 +21,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputOption;
+use function Thermage\div;
+use function Thermage\renderToString;
 
 class CacheClearCommand extends Command
 {
@@ -54,24 +56,60 @@ class CacheClearCommand extends Command
         if ($input->getOption('config')) {
             if (filesystem()->directory(PATH['tmp'] . '/config')->exists()) {
                 if (filesystem()->directory(PATH['tmp'] . '/config')->delete()) {
-                    $io->success('Config were successfully cleared from the cache.');
+                    $output->write(
+                        renderToString(
+                            div('Success: Config were successfully cleared from the cache.', 
+                                'bg-success px-2 py-1')
+                        )
+                    );
                     $result = Command::SUCCESS;
                 } else {
-                    $io->error('Config cache wasn\'t cleared.');
+                    $output->write(
+                        renderToString(
+                            div('Failure: Config cache wasn\'t cleared.', 
+                                'bg-danger px-2 py-1')
+                        )
+                    );
                     $result = Command::FAILURE;
                 }
+            } else {
+                $output->write(
+                    renderToString(
+                        div('Failure: Config cache directory ' . PATH['tmp'] . '/config' . ' doesn\'t exist.', 
+                            'bg-danger px-2 py-1')
+                    )
+                );
+                $result = Command::FAILURE;
             }
         }
 
         if ($input->getOption('routes')) {
             if (filesystem()->directory(PATH['tmp'] . '/routes')->exists()) {
                 if (filesystem()->directory(PATH['tmp'] . '/routes')->delete()) {
-                    $io->success('Routes were successfully cleared from the cache.');
+                    $output->write(
+                        renderToString(
+                            div('Success: Routes were successfully cleared from the cache.', 
+                                'bg-success px-2 py-1')
+                        )
+                    );
                     $result = Command::SUCCESS;
                 } else {
-                    $io->error('Routes cache wasn\'t cleared.');
+                    $output->write(
+                        renderToString(
+                            div('Failure: Routes cache wasn\'t cleared.', 
+                                'bg-danger px-2 py-1')
+                        )
+                    );
                     $result = Command::FAILURE;
                 }
+            } else {
+                $output->write(
+                    renderToString(
+                        div('Failure: Routes cache directory ' . PATH['tmp'] . '/routes' . ' doesn\'t exist.', 
+                            'bg-danger px-2 py-1')
+                    )
+                );
+                $result = Command::FAILURE;
             }
         }
 
@@ -80,12 +118,30 @@ class CacheClearCommand extends Command
              $input->getOption('routes') == false)) {
             if (filesystem()->directory(PATH['tmp'])->exists()) {
                 if (filesystem()->directory(PATH['tmp'])->delete()) {
-                    $io->success('All cache items were successfully cleared from the cache.');
+                    $output->write(
+                        renderToString(
+                            div('Success: All items were successfully cleared from the cache.', 
+                                'bg-success px-2 py-1')
+                        )
+                    );
                     $result = Command::SUCCESS;
                 } else {
-                    $io->error('Cache wasn\'t cleared.');
+                    $output->write(
+                        renderToString(
+                            div('Failure: Cache wasn\'t cleared.', 
+                                'bg-danger px-2 py-1')
+                        )
+                    );
                     $result = Command::FAILURE;
                 }
+            } else {
+                $output->write(
+                    renderToString(
+                        div('Failure: Cache directory ' . PATH['tmp'] . ' doesn\'t exist.', 
+                            'bg-danger px-2 py-1')
+                    )
+                );
+                $result = Command::FAILURE;
             }
         }
 
