@@ -29,7 +29,7 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
 
         // Modify fetch.
         foreach (entries()->registry()->get('methods.fetch.result.registry.get') as $field => $body) {
-            $data = collection($data)->merge(collection($data)->set($field, registry()->get($body['key'],
+            $data = collection($data)->merge(collection($data)->set($field, registry()->get($body['id'],
                                                         isset($body['default']) ?
                                                             $body['default'] :
                                                             []))->toArray())->toArray();
