@@ -26,9 +26,9 @@ use function app;
  * endpoint: GET /api/v0/registry
  *
  * Query:
- * key     - [REQUIRED] - Unique identifier of the registry item key.
+ * id      - [REQUIRED] - Unique identifier of the registry item.
  * token   - [REQUIRED] - Valid public token.
- * default - [OPTIONAL] - Default value for registry item key.
+ * default - [OPTIONAL] - Default value for registry item.
  *
  * Returns:
  * An array of registry objects.
