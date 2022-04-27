@@ -7,8 +7,8 @@ entries:
 registry:
   get:
     flextype:
-      key: flextype.manifest.name
+      id: flextype.manifest.name
     author.name:
-      key: flextype.manifest.author.name
+      id: flextype.manifest.author.name
     license:
-      key: flextype.manifest.license
+      id: flextype.manifest.license
