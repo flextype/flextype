@@ -25,14 +25,14 @@ use function filesystem;
 class Utils extends Api
 {
     /**
-     * Clear cache
+     * Generate token
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
      *
      * @return ResponseInterface Response.
      */
-    public function clearCache(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function generateToken(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         // Validate Api Request
         if (
@@ -45,10 +45,72 @@ class Utils extends Api
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
-        // Clear cache
-        filesystem()->directory(PATH['tmp'])->delete();
+        // Generate token
+        $token = generateToken();
 
         // Return success response
-        return $this->getApiResponse($response, [], 204);
+        return $this->getApiResponse($response, ['token' => $token], 200);
+    }
+
+    /**
+     * Generate token hash
+     *
+     * @param ServerRequestInterface $request  PSR7 request.
+     * @param ResponseInterface      $response PSR7 response.
+     *
+     * @return ResponseInterface Response.
+     */
+    public function generateTokenHash(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        // Get Request Parsed Body
+        $requestParsedBody = $request->getParsedBody();
+        
+        // Validate Api Request
+       if (
+            count($result = $this->validateApiRequest([
+                'request' => $request,
+                'api' => 'utils',
+                'params' => ['token', 'access_token', 'string'],
+            ])) > 0
+        ) {
+            return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
+        }
+
+        // Generate token
+        $token = generateTokenHash($requestParsedBody['string']);
+
+        // Return success response
+        return $this->getApiResponse($response, ['hashed_token' => $token], 200);
+    }
+
+    /**
+     * Verify token hash
+     *
+     * @param ServerRequestInterface $request  PSR7 request.
+     * @param ResponseInterface      $response PSR7 response.
+     *
+     * @return ResponseInterface Response.
+     */
+    public function verifyTokenHash(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        // Get Request Parsed Body
+        $requestParsedBody = $request->getParsedBody();
+        
+        // Validate Api Request
+       if (
+            count($result = $this->validateApiRequest([
+                'request' => $request,
+                'api' => 'utils',
+                'params' => ['token', 'access_token', 'string', 'hash'],
+            ])) > 0
+        ) {
+            return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
+        }
+
+        // Verify
+        $verified = verifyTokenHash($requestParsedBody['string'], $requestParsedBody['hash']);
+
+        // Return success response
+        return $this->getApiResponse($response, ['verified' => $verified], 200);
     }
 }

@@ -21,15 +21,46 @@ use Flextype\Endpoints\Utils;
 use function app;
 
 /**
- * Clear cache
+ * Generate token
  *
- * endpoint: POST /api/v0/utils/cache/clear
+ * endpoint: POST /api/v0/utils/generate-token
  *
  * Body:
  * token        - [REQUIRED] - Valid public token.
  * access_token - [REQUIRED] - Valid access token.
- *
+ * 
  * Returns:
- * Returns an empty body with HTTP status 204
+ * Generated token object.
  */
-app()->post('/api/v0/utils/cache/clear', [Utils::class, 'clearCache'])->setName('cache.clear');
+app()->post('/api/v0/utils/generate-token', [Utils::class, 'generateToken'])->setName('utils.generate-token');
+
+/**
+ * Generate token hash
+ *
+ * endpoint: POST /api/v0/utils/generate-token-hash
+ *
+ * Body:
+ * token        - [REQUIRED] - Valid public token.
+ * access_token - [REQUIRED] - Valid access token.
+ * string       - [REQUIRED] - String to hash.
+ * 
+ * Returns:
+ * Generated token hash object.
+ */
+app()->post('/api/v0/utils/generate-token-hash', [Utils::class, 'generateTokenHash'])->setName('utils.generate-token-hash');
+
+/**
+ * Verify token hash
+ *
+ * endpoint: POST /api/v0/utils/verify-token-hash
+ *
+ * Body:
+ * token        - [REQUIRED] - Valid public token.
+ * access_token - [REQUIRED] - Valid access token.
+ * string       - [REQUIRED] - String to verify.
+ * hash         - [REQUIRED] - Hash to verify.
+ * 
+ * Returns:
+ * Token verification object.
+ */
+app()->post('/api/v0/utils/verify-token-hash', [Utils::class, 'verifyTokenHash'])->setName('utils.verify-token-hash');
