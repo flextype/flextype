@@ -42,15 +42,15 @@ class Registry extends Api
             count($result = $this->validateApiRequest([
                 'request' => $request,
                 'api' => 'registry',
-                'params' => ['token', 'key'],
+                'params' => ['token', 'id'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
         // Get registry data
-        $registryData = registry()->get($requestQueryParams['key'], $requestQueryParams['default'] ?? null);
+        $registryData = registry()->get($requestQueryParams['id'], $requestQueryParams['default'] ?? null);
 
-        return $this->getApiResponse($response, ['key' => $requestQueryParams['key'], 'value' => $registryData], 200);
+        return $this->getApiResponse($response, ['id' => $requestQueryParams['id'], 'value' => $registryData], 200);
     }
 }
