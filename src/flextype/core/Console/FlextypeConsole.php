@@ -35,6 +35,7 @@ use Flextype\Console\Commands\Cache\CacheHasCommand;
 use Flextype\Console\Commands\Utils\GenerateTokenCommand;
 use Flextype\Console\Commands\Utils\GenerateTokenHashCommand;
 use Flextype\Console\Commands\Utils\VerifyTokenHashCommand;
+use Flextype\Console\Commands\Utils\CreateTokenCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -61,7 +62,8 @@ class FlextypeConsole extends ConsoleApplication
         console()->add(new GenerateTokenCommand());
         console()->add(new GenerateTokenHashCommand());
         console()->add(new VerifyTokenHashCommand());
-        
+        console()->add(new CreateTokenCommand());
+
         parent::run();
     }
 }
