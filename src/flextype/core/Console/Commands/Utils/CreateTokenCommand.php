@@ -37,7 +37,7 @@ class CreateTokenCommand extends Command
         $access_token        = generateToken();
         $hashed_access_token = generateTokenHash($access_token);
 
-        filesystem()->directory(PATH['project'] . '/entries/tokens')->ensureExists();
+        ! entries()->has('tokens') and entries()->create('tokens', ['title' => 'Tokens']);
 
         if (entries()->create('tokens/' . $token, ['hashed_access_token' => $hashed_access_token])) {
             $output->write(
