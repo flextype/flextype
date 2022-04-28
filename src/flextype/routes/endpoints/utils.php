@@ -64,3 +64,17 @@ app()->post('/api/v0/utils/generate-token-hash', [Utils::class, 'generateTokenHa
  * Token verification object.
  */
 app()->post('/api/v0/utils/verify-token-hash', [Utils::class, 'verifyTokenHash'])->setName('utils.verify-token-hash');
+
+/**
+ * Create token
+ *
+ * endpoint: POST /api/v0/utils/create-token
+ *
+ * Body:
+ * token        - [REQUIRED] - Valid public token.
+ * access_token - [REQUIRED] - Valid private access token.
+ * 
+ * Returns:
+ * Token entry object with the token entry that was just created.
+ */
+app()->post('/api/v0/utils/create-token', [Utils::class, 'createToken'])->setName('utils.create-token');

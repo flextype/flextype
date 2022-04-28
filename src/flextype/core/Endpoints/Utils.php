@@ -113,4 +113,45 @@ class Utils extends Api
         // Return success response
         return $this->getApiResponse($response, ['verified' => $verified], 200);
     }
+
+    /**
+     * Create token
+     *
+     * @param ServerRequestInterface $request  PSR7 request.
+     * @param ResponseInterface      $response PSR7 response.
+     *
+     * @return ResponseInterface Response.
+     */
+    public function createToken(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        // Validate Api Request
+        if (
+            count($result = $this->validateApiRequest([
+                'request' => $request,
+                'api' => 'utils',
+                'params' => ['token', 'access_token'],
+            ])) > 0
+        ) {
+            return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
+        }
+
+        $token               = generateToken();
+        $access_token        = generateToken();
+        $hashed_access_token = generateTokenHash($access_token);
+
+        ! entries()->has('tokens') and entries()->create('tokens', ['title' => 'Tokens']);
+
+        // Create new entry
+        entries()->create('tokens/' . $token, ['hashed_access_token' => $hashed_access_token]);
+
+        // Fetch entry
+        $entryData = entries()->fetch('tokens/' . $token)->toArray();
+
+        // Return response
+        if (count($entryData) > 0) {
+            return $this->getApiResponse($response, ['token' => $token, 'access_token' => $access_token], 200);
+        }
+
+        return $this->getApiResponse($response, [], 404);
+    }
 }
