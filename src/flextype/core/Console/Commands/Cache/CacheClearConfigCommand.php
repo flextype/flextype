@@ -24,25 +24,25 @@ use Symfony\Component\Console\Input\InputOption;
 use function Thermage\div;
 use function Thermage\renderToString;
 
-class CacheClearCommand extends Command
+class CacheClearConfigCommand extends Command
 {
     protected function configure(): void
     {
-        $this->setName('cache:clear');
-        $this->setDescription('Clear cache.');
+        $this->setName('cache:clear-config');
+        $this->setDescription('Clear cache config.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $path = PATH['tmp'];
+        $configPath = PATH['tmp'] . '/config';
 
-        if (filesystem()->directory($path)->exists()) {
-            if (filesystem()->directory($path)->delete()) {
+        if (filesystem()->directory($configPath)->exists()) {
+            if (filesystem()->directory($configPath)->delete()) {
                 $output->write(
                     renderToString(
-                        div('Success: All items were successfully cleared from the cache.', 
+                        div('Success: Config were successfully cleared from the cache.', 
                             'bg-success px-2 py-1')
                     )
                 );
@@ -50,7 +50,7 @@ class CacheClearCommand extends Command
             } else {
                 $output->write(
                     renderToString(
-                        div('Failure: Cache wasn\'t cleared.', 
+                        div('Failure: Config cache wasn\'t cleared.', 
                             'bg-danger px-2 py-1')
                     )
                 );
@@ -59,13 +59,13 @@ class CacheClearCommand extends Command
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Cache directory ' . $path . ' doesn\'t exist.', 
+                    div('Failure: Config cache directory ' . $configPath . ' doesn\'t exist.', 
                         'bg-danger px-2 py-1')
                 )
             );
             $result = Command::FAILURE;
         }
-    
+
         return $result;
     }
 }
