@@ -27,7 +27,7 @@ use function app;
  *
  * Body:
  * token        - [REQUIRED] - Valid public token.
- * access_token - [REQUIRED] - Valid access token.
+ * access_token - [REQUIRED] - Valid private access token.
  * 
  * Returns:
  * Generated token object.
@@ -41,7 +41,7 @@ app()->post('/api/v0/utils/generate-token', [Utils::class, 'generateToken'])->se
  *
  * Body:
  * token        - [REQUIRED] - Valid public token.
- * access_token - [REQUIRED] - Valid access token.
+ * access_token - [REQUIRED] - Valid private access token.
  * string       - [REQUIRED] - String to hash.
  * 
  * Returns:
@@ -56,7 +56,7 @@ app()->post('/api/v0/utils/generate-token-hash', [Utils::class, 'generateTokenHa
  *
  * Body:
  * token        - [REQUIRED] - Valid public token.
- * access_token - [REQUIRED] - Valid access token.
+ * access_token - [REQUIRED] - Valid private access token.
  * string       - [REQUIRED] - String to verify.
  * hash         - [REQUIRED] - Hash to verify.
  * 

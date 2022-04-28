@@ -31,6 +31,6 @@ use function app;
  * default - [OPTIONAL] - Default value for registry item.
  *
  * Returns:
- * An array of registry objects.
+ * Registry object.
  */
 app()->get('/api/v0/registry', [Registry::class, 'get'])->setName('registry.get');

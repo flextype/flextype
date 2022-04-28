@@ -31,7 +31,7 @@ use function app;
  * options - [OPTIONAL] - Select items in collection by given conditions.
  *
  * Returns:
- * An array of entry objects.
+ * Entry object.
  */
 app()->get('/api/v0/entries', [Entries::class, 'fetch'])->setName('entries.fetch');
 
@@ -43,11 +43,11 @@ app()->get('/api/v0/entries', [Entries::class, 'fetch'])->setName('entries.fetch
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
  * token         - [REQUIRED] - Valid public token.
- * access_token  - [REQUIRED] - Valid access token.
+ * access_token  - [REQUIRED] - Valid private access token.
  * data          - [REQUIRED] - Data to store for the entry.
  *
  * Returns:
- * Returns the entry object for the entry that was just created.
+ * Entry object with the entry that was just created.
  */
 app()->post('/api/v0/entries', [Entries::class, 'create'])->setName('entries.create');
 
@@ -59,11 +59,11 @@ app()->post('/api/v0/entries', [Entries::class, 'create'])->setName('entries.cre
  * Body:
  * id            - [REQUIRED] - Unique identifier of the entry.
  * token         - [REQUIRED] - Valid public token.
- * access_token  - [REQUIRED] - Valid access token.
+ * access_token  - [REQUIRED] - Valid private access token.
  * data          - [REQUIRED] - Data to update for the entry.
  *
  * Returns:
- * Returns the entry object for the entry that was just updated.
+ * Entry object for the entry that was just updated.
  */
 app()->patch('/api/v0/entries', [Entries::class, 'update'])->setName('entries.update');
 
@@ -76,10 +76,10 @@ app()->patch('/api/v0/entries', [Entries::class, 'update'])->setName('entries.up
  * id            - [REQUIRED] - Unique identifier of the entry.
  * new_id        - [REQUIRED] - New Unique identifier of the entry.
  * token         - [REQUIRED] - Valid public token.
- * access_token  - [REQUIRED] - Valid access token.
+ * access_token  - [REQUIRED] - Valid private access token.
  *
  * Returns:
- * Returns the entry object for the entry that was just moved.
+ * Entry object with the entry that was just moved.
  */
 app()->put('/api/v0/entries', [Entries::class, 'move']);
 
@@ -92,10 +92,10 @@ app()->put('/api/v0/entries', [Entries::class, 'move']);
  * id            - [REQUIRED] - Unique identifier of the entry.
  * new_id        - [REQUIRED] - New Unique identifier of the entry.
  * token         - [REQUIRED] - Valid public token.
- * access_token  - [REQUIRED] - Valid access token.
+ * access_token  - [REQUIRED] - Valid private access token.
  *
  * Returns:
- * Returns the entry object for the entry that was just copied.
+ * Entry object with the entry that was just copied.
  */
 app()->put('/api/v0/entries/copy', [Entries::class, 'copy'])->setName('entries.copy');
 
@@ -107,9 +107,9 @@ app()->put('/api/v0/entries/copy', [Entries::class, 'copy'])->setName('entries.c
  * Body:
  * id           - [REQUIRED] - Unique identifier of the entry.
  * token        - [REQUIRED] - Valid pulbic token.
- * access_token - [REQUIRED] - Valid access token.
+ * access_token - [REQUIRED] - Valid private access token.
  *
  * Returns:
- * Returns an empty body with HTTP status 204
+ * Empty body with HTTP status 204
  */
 app()->delete('/api/v0/entries', [Entries::class, 'delete'])->setName('entries.delete');
