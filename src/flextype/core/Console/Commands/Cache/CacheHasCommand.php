@@ -21,6 +21,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use function Thermage\div;
+use function Thermage\renderToString;
 
 class CacheHasCommand extends Command
 {
@@ -33,15 +35,23 @@ class CacheHasCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-
         $key = $input->getArgument('key');
 
         if (cache()->has($key)) {
-            $io->success('Cache item with key ' . $key . ' exists.');
+            $output->write(
+                renderToString(
+                    div('Success: Cache item with key [b]' . $key . '[/b] exists.', 
+                        'bg-success px-2 py-1')
+                )
+            );
             return Command::SUCCESS;
         } else {
-            $io->error('Cache item with key ' . $key . ' doesn\'t exists.');
+            $output->write(
+                renderToString(
+                    div('Failure: Cache item with key [b]' . $key . '[/b] doesn\'t exists.', 
+                        'bg-success px-2 py-1')
+                )
+            );
             return Command::FAILURE;
         }
     }
