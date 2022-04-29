@@ -23,7 +23,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use function Thermage\div;
 use function Thermage\renderToString;
 
-
 class CacheSetCommand extends Command
 {
     protected function configure(): void
