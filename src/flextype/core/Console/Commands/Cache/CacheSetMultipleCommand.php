@@ -19,8 +19,9 @@ namespace Flextype\Console\Commands\Cache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputArgument;
+use function Thermage\div;
+use function Thermage\renderToString;
 
 class CacheSetMultipleCommand extends Command
 {
@@ -34,16 +35,29 @@ class CacheSetMultipleCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        if (strings($input->getArgument('values'))->isJson()) {
+            $values = serializers()->json()->decode($input->getArgument('values'));
+        } else {
+            parse_str($input->getArgument('values'), $values);
+        }
 
-        $values = $input->getArgument('values') ? serializers()->json()->decode($input->getArgument('values')) : [];
-        $ttl    = $input->getArgument('ttl') ?? 300;
+        $ttl = $input->getArgument('ttl') ?? 300;
 
         if (cache()->setMultiple($values, $ttl)) {
-            $io->success('Cache items with keys ' . implode(', ', array_keys($values)) . ' create.');
+            $output->write(
+                renderToString(
+                    div('Success: Cache items with keys [b]' . implode('[/b], [b]', array_keys($values)) . '[/b] created.', 
+                        'bg-success px-2 py-1')
+                )
+            );
             return Command::SUCCESS;
         } else {
-            $io->error('Cache items with keys ' . implode(', ', array_keys($values))  . ' wasn\'t created.');
+            $output->write(
+                renderToString(
+                    div('Failure: Cache items with keys [b]' . implode('[/b], [b]', array_keys($values)) . '[/b] wasn\'t created.', 
+                        'bg-success px-2 py-1')
+                )
+            );
             return Command::FAILURE;
         }
     }
