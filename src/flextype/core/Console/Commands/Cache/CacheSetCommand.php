@@ -19,8 +19,10 @@ namespace Flextype\Console\Commands\Cache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputArgument;
+use function Thermage\div;
+use function Thermage\renderToString;
+
 
 class CacheSetCommand extends Command
 {
@@ -42,10 +44,20 @@ class CacheSetCommand extends Command
         $ttl   = $input->getArgument('ttl') ?? 300;
 
         if (cache()->set($key, $value, $ttl)) {
-            $io->success('Cache item with keys ' . $key . ' create.');
+            $output->write(
+                renderToString(
+                    div('Success: Cache item with key ' . $key . ' created.', 
+                        'bg-success px-2 py-1')
+                )
+            );
             return Command::SUCCESS;
         } else {
-            $io->error('Cache item with keys ' . $key . ' wasn\'t created.');
+            $output->write(
+                renderToString(
+                    div('Failure: Cache item with key ' . $key . ' wasn\'t created.', 
+                        'bg-danger px-2 py-1')
+                )
+            );
             return Command::FAILURE;
         }
     }
