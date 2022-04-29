@@ -37,8 +37,6 @@ class CacheSetCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-
         $key   = $input->getArgument('key');
         $value = $input->getArgument('value');
         $ttl   = $input->getArgument('ttl') ?? 300;
