@@ -20,6 +20,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use function Thermage\div;
+use function Thermage\renderToString;
 
 class GenerateTokenCommand extends Command
 {
@@ -32,7 +34,13 @@ class GenerateTokenCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln(generateToken($input->getArgument('length') ?? 16));
+        $output->write(
+            renderToString(
+                div('Success: Token [b]' . generateToken($input->getArgument('length') ?? 16) . '[/b] generated.', 
+                    'bg-success px-2 py-1')
+            )
+        );
+
         return Command::SUCCESS;
     }
 }

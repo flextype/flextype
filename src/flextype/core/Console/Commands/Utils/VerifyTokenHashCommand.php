@@ -21,6 +21,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use function Thermage\div;
+use function Thermage\renderToString;
 
 class VerifyTokenHashCommand extends Command
 {
@@ -34,13 +36,23 @@ class VerifyTokenHashCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-
         if (verrifyTokenHash($input->getArgument('token'), $input->getArgument('token-hash') )) {
-            $io->success('Token ' . $input->getArgument('token') . ' is verified');
+            $output->write(
+                renderToString(
+                    div('Success: Token [b]' . $input->getArgument('token') . ' is verified', 
+                        'bg-success px-2 py-1')
+                )
+            );
+
             return Command::SUCCESS;
         } else {
-            $io->error('Token ' . $input->getArgument('token') . ' isn\'t verified');
+            $output->write(
+                renderToString(
+                    div('Failure: Token [b]' . $input->getArgument('token') . ' isn\'t verified', 
+                        'bg-success px-2 py-1')
+                )
+            );
+
             return Command::FAILURE;
         }
     }

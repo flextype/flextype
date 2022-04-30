@@ -20,6 +20,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use function Thermage\div;
+use function Thermage\renderToString;
 
 class GenerateTokenHashCommand extends Command
 {
@@ -27,12 +29,20 @@ class GenerateTokenHashCommand extends Command
     {
         $this->setName('utils:generate-token-hash');
         $this->setDescription('Generate token hash.');
-        $this->addArgument('token', InputArgument::REQUIRED, 'Token string.');
+        $this->addArgument('token', InputArgument::OPTIONAL, 'Token string.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln(generateTokenHash($input->getArgument('token')));
+        $token = $input->getArgument('token') ?? generateToken();
+
+        $output->write(
+            renderToString(
+                div('Success: Hash [b]' . generateTokenHash($token) . '[/b] for token [b]' . $token . '[/b] generated.', 
+                    'bg-success px-2 py-1')
+            )
+        );
+
         return Command::SUCCESS;
     }
 }
