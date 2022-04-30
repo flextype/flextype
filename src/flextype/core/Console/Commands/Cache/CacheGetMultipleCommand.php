@@ -32,7 +32,7 @@ class CacheGetMultipleCommand extends Command
         $this->setDescription('Get multiple items.');
         $this->addArgument('keys', InputArgument::REQUIRED, 'Keys.');
         $this->addArgument('default', InputArgument::OPTIONAL, 'Default.');
-        $this->addOption('template', null, InputOption::VALUE_REQUIRED, 'Set this flag to set result print style: pretty(default), json.');
+        $this->addOption('output', null, InputOption::VALUE_REQUIRED, 'Set this flag to set result output style: pretty(default), json.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -52,8 +52,8 @@ class CacheGetMultipleCommand extends Command
             }
         };
 
-        if ($input->getOption('template')) {
-            switch ($input->getOption('template')) {
+        if ($input->getOption('output')) {
+            switch ($input->getOption('output')) {
                 case 'json':
                     $output->write(
                         renderToString(
