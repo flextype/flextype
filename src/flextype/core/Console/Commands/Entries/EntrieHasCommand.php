@@ -22,7 +22,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use function Thermage\div;
-use function Thermage\span;
 use function Thermage\renderToString;
 
 class EntriesHasCommand extends Command
