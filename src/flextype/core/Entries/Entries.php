@@ -222,7 +222,7 @@ class Entries
         if (! is_null($this->registry()->get('methods.fetch.result'))) {
             return $this->registry()->get('methods.fetch.result');
         }
-        
+
         // Single fetch helper
         $single = function ($id, $options) {
             
@@ -245,7 +245,7 @@ class Entries
             }
 
             // Get Cache ID for current requested entry
-            $entryCacheID = $this->getCacheID($this->registry()->get('methods.fetch.params.id'));
+            $entryCacheID = $this->getCacheID($this->registry()->get('methods.fetch.params.id'), 'single');
             
             // 1. Try to get current requested entry from the cache.
             if (cache()->has($entryCacheID)) {
@@ -786,19 +786,21 @@ class Entries
     /**
      * Get Cache ID for entry.
      *
-     * @param  string $id Unique identifier of the entry.
+     * @param  string $id   Unique identifier of the Cache Entry Item.
+     * @param  string $salt Salt to append to the Cache ID.
      *
      * @return string Cache ID.
      *
      * @access public
      */
-    public function getCacheID(string $id): string
+    public function getCacheID(string $id, string $salt = ''): string
     {
         // Setup registry.
         $this->registry()->set('methods.getCacheID', [
                 'collection' => $this->getCollectionOptions($id),
                 'params' => [
                     'id' => $id,
+                    'salt' => $salt,
                 ],
                 'result' => null,
             ]); 
@@ -818,10 +820,10 @@ class Entries
         $entryFile = $this->getFileLocation($this->registry()->get('methods.getCacheID.params.id'));
 
         if (filesystem()->file($entryFile)->exists()) {
-            return strings($this->options['directory'] . $entryFile . (filesystem()->file($entryFile)->lastModified() ?: ''))->hash()->toString();
+            return strings($this->options['directory'] . $entryFile . $salt . (filesystem()->file($entryFile)->lastModified() ?: ''))->hash()->toString();
         }
 
-        return strings($this->options['directory'] . $entryFile)->hash()->toString();
+        return strings($this->options['directory'] . $entryFile . $salt)->hash()->toString();
     }
 
     /**
