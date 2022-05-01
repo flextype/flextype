@@ -490,6 +490,11 @@ class Entries
             return $this->registry()->get('methods.move.result');
         }
 
+        // Check if the original entry exists.
+        if (! $this->has($this->registry()->get('methods.move.params.id'))) {
+            return false;
+        }
+
         // Do move.
         if (! $this->has($this->registry()->get('methods.move.params.newID'))) {
             return filesystem()
