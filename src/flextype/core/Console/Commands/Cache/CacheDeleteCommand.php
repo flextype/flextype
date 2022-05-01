@@ -20,6 +20,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use function Thermage\div;
+use function Thermage\renderToString;
 
 class CacheDeleteCommand extends Command
 {
@@ -36,9 +38,21 @@ class CacheDeleteCommand extends Command
 
         if (cache()->delete($key)) {
             $io->success('Cache item with key ' . $key . ' deleted.');
+            $output->write(
+                renderToString(
+                    div('Success: Cache item with key ' . $key . ' created.', 
+                        'bg-success px-2 py-1')
+                )
+            );
             return Command::SUCCESS;
         } else {
             $io->error('Cache item with key ' . $key . ' wasn\'t deleted.');
+            $output->write(
+                renderToString(
+                    div('Success: Cache item with key ' . $key . ' created.', 
+                        'bg-success px-2 py-1')
+                )
+            );
             return Command::FAILURE;
         }
     }
