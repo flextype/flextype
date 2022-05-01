@@ -19,8 +19,9 @@ namespace Flextype\Console\Commands\Cache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputArgument;
+use function Thermage\div;
+use function Thermage\renderToString;
 
 class CacheGetCommand extends Command
 {
@@ -37,7 +38,11 @@ class CacheGetCommand extends Command
         $key     = $input->getArgument('key');
         $default = $input->getArgument('default') ?? null;
 
-        $output->writeln(cache()->get($key, $default));
+        $output->write(
+            renderToString(
+                div('[b][color=success]Key:[/color][/b] ' . $key . "\n" . '[b][color=success]Value:[/color][/b] ' . cache()->get($key, $default), 'px-2 border-square border-color-success')
+            )
+        );
 
         return Command::SUCCESS;
     }

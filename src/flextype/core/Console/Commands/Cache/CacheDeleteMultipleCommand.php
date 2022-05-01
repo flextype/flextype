@@ -20,7 +20,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use function Thermage\div;
+use function Thermage\renderToString;
 
 class CacheDeleteMultipleCommand extends Command
 {
@@ -33,15 +34,27 @@ class CacheDeleteMultipleCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-
-        $keys = $input->getArgument('keys') ? serializers()->json()->decode($input->getArgument('keys')) : [];
+        if ($input->getArgument('keys')) {
+            $keys = collectionFromString($input->getArgument('keys'), ',')->map(fn($key) => trim($key))->toArray();
+        } else {
+            $keys = [];
+        }
 
         if (cache()->deleteMultiple($keys)) {
-            $io->success('Cache items with keys ' . implode(', ', $keys) . ' deleted.');
+            $output->write(
+                renderToString(
+                    div('Cache items with keys [b]' . implode('[/b], [b]', $keys) . '[/b] deleted.', 
+                        'bg-success px-2 py-1')
+                )
+            );
             return Command::SUCCESS;
         } else {
-            $io->error('Cache items with keys ' . implode(', ', $keys) . ' wasn\'t deleted.');
+            $output->write(
+                renderToString(
+                    div('Cache items with keys [b]' . implode('[/b], [b]', $keys) . '[/b] wasn\'t deleted.', 
+                        'bg-danger px-2 py-1')
+                )
+            );
             return Command::FAILURE;
         }
     }

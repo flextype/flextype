@@ -37,20 +37,18 @@ class CacheDeleteCommand extends Command
         $key = $input->getArgument('key');
 
         if (cache()->delete($key)) {
-            $io->success('Cache item with key ' . $key . ' deleted.');
             $output->write(
                 renderToString(
-                    div('Success: Cache item with key ' . $key . ' created.', 
+                    div('Success: Cache item with key ' . $key . ' deleted.', 
                         'bg-success px-2 py-1')
                 )
             );
             return Command::SUCCESS;
         } else {
-            $io->error('Cache item with key ' . $key . ' wasn\'t deleted.');
             $output->write(
                 renderToString(
-                    div('Success: Cache item with key ' . $key . ' created.', 
-                        'bg-success px-2 py-1')
+                    div('Failure: Cache item with key ' . $key . ' wasn\'t deleted.', 
+                        'bg-danger px-2 py-1')
                 )
             );
             return Command::FAILURE;
