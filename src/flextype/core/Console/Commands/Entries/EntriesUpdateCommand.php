@@ -20,7 +20,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use function Thermage\div;
+use function Thermage\renderToString;
 
 class EntriesUpdateCommand extends Command
 {
@@ -34,15 +35,44 @@ class EntriesUpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $id   = $input->getArgument('id');
+        $data = $input->getArgument('data');
 
-        $data = $input->getArgument('data') ? serializers()->json()->decode($input->getArgument('data')) : [];
+        if ($data) {
+            if (strings($data)->isJson()) {
+                $dataToSave = serializers()->json()->decode($data);
+            } else {
+                parse_str($data, $dataToSave);
+            }
+        } else {
+            $dataToSave = [];
+        }
 
-        if (entries()->update($input->getArgument('id'), $data)) {
-            $io->success('Entry ' . $input->getArgument('id') . ' updated.');
+        if (! entries()->has($id)) {
+            $output->write(
+                renderToString(
+                    div('Failure: Entry [b]' . $id . '[/b] doesn\'t exists.', 
+                        'bg-danger px-2 py-1')
+                )
+            );
+            return Command::FAILURE;
+        }
+        
+        if (entries()->update($id, $dataToSave)) {
+            $output->write(
+                renderToString(
+                    div('Success: Entry [b]' . $id . '[/b] updated.', 
+                        'bg-success px-2 py-1')
+                )
+            );
             return Command::SUCCESS;
         } else {
-            $io->error('Entry ' . $input->getArgument('id') . ' wasn\'t updated.');
+            $output->write(
+                renderToString(
+                    div('Failure: Entry [b]' . $id . '[/b] wasn\'t updated.', 
+                        'bg-danger px-2 py-1')
+                )
+            );
             return Command::FAILURE;
         }
     }
