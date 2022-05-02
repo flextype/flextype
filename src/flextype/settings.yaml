@@ -670,7 +670,7 @@ api:
     enabled: true
 
   # Cache API
-  tokens:
+  cache:
 
     # Set to true to enable Cache API
     enabled: true
