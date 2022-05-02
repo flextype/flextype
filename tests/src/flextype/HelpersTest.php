@@ -99,19 +99,19 @@ test('slugify helper', function () {
 });
 
 test('collection helper', function () {
-    $this->assertEquals([], collection([]));
+    $this->assertEquals([], collection([])->toArray());
 });
 
 test('collectionFromJson helper', function () {
-    $this->assertEquals(['foo'], collectionFromJson("{\"foo\"}"));
+    $this->assertEquals(['foo'], collectionFromJson("{\"foo\"}")->toArray());
 });
 
 test('collectionFromString helper', function () {
-    $this->assertEquals(['foo', 'bar'], collectionFromString('foo, bar', ','));
+    $this->assertEquals(['foo', 'bar'], collectionFromString('foo, bar', ',')->toArray());
 });
 
 test('collectionWithRange helper', function () {
-    $this->assertEquals([0, 1], collectionWithRange(0, 1, 1));
+    $this->assertEquals([0, 1], collectionWithRange(0, 1, 1)->toArray());
 });
 
 test('filterCollection helper', function () {
