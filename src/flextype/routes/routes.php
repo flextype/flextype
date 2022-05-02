@@ -3,7 +3,8 @@
 declare(strict_types=1);
 
 // Add endpoints routes
-require_once __DIR__ . '/endpoints/utils.php';
+require_once __DIR__ . '/endpoints/tokens.php';
+require_once __DIR__ . '/endpoints/cache.php';
 require_once __DIR__ . '/endpoints/entries.php';
 require_once __DIR__ . '/endpoints/registry.php';
 
