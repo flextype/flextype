@@ -638,17 +638,20 @@ api:
     # Set to true to enable Entries API
     enabled: true
 
-    # exclude fields
-    exclude:
-
   # Registry API
   registry:
 
     # Set to true to enable Registry API
     enabled: true
 
-  # Utils API
-  utils:
+  # Tokens API
+  tokens:
 
-    # Set to true to enable Utils API
+    # Set to true to enable Tokens API
+    enabled: true
+
+  # Cache API
+  tokens:
+
+    # Set to true to enable Cache API
     enabled: true
