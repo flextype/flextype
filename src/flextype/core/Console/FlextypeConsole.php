@@ -35,10 +35,10 @@ use Flextype\Console\Commands\Cache\CacheClearRoutesCommand;
 use Flextype\Console\Commands\Cache\CacheClearConfigCommand;
 use Flextype\Console\Commands\Cache\CacheClearDataCommand;
 use Flextype\Console\Commands\Cache\CacheHasCommand;
-use Flextype\Console\Commands\Utils\GenerateTokenCommand;
-use Flextype\Console\Commands\Utils\GenerateTokenHashCommand;
-use Flextype\Console\Commands\Utils\VerifyTokenHashCommand;
-use Flextype\Console\Commands\Utils\CreateTokenCommand;
+use Flextype\Console\Commands\Tokens\TokensGenerateCommand;
+use Flextype\Console\Commands\Tokens\TokensGenerateHashCommand;
+use Flextype\Console\Commands\Tokens\TokensVerifyHashCommand;
+use Flextype\Console\Commands\Tokens\TokensCreateCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -65,10 +65,10 @@ class FlextypeConsole extends ConsoleApplication
         console()->add(new CacheClearConfigCommand());
         console()->add(new CacheClearDataCommand());
         console()->add(new CacheHasCommand());
-        console()->add(new GenerateTokenCommand());
-        console()->add(new GenerateTokenHashCommand());
-        console()->add(new VerifyTokenHashCommand());
-        console()->add(new CreateTokenCommand());
+        console()->add(new TokensGenerateCommand());
+        console()->add(new TokensGenerateHashCommand());
+        console()->add(new TokensVerifyHashCommand());
+        console()->add(new TokensCreateCommand());
 
         parent::run();
     }

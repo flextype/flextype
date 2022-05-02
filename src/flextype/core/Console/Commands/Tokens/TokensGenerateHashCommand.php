@@ -14,7 +14,7 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-namespace Flextype\Console\Commands\Utils;
+namespace Flextype\Console\Commands\Tokens;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,11 +23,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use function Thermage\div;
 use function Thermage\renderToString;
 
-class GenerateTokenHashCommand extends Command
+class TokensGenerateHashCommand extends Command
 {
     protected function configure(): void
     {
-        $this->setName('utils:generate-token-hash');
+        $this->setName('tokens:generate-hash');
         $this->setDescription('Generate token hash.');
         $this->addArgument('token', InputArgument::OPTIONAL, 'Token string.');
     }

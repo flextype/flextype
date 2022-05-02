@@ -14,7 +14,7 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-namespace Flextype\Console\Commands\Utils;
+namespace Flextype\Console\Commands\Tokens;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,11 +23,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use function Thermage\div;
 use function Thermage\renderToString;
 
-class GenerateTokenCommand extends Command
+class TokensGenerateCommand extends Command
 {
     protected function configure(): void
     {
-        $this->setName('utils:generate-token');
+        $this->setName('tokens:generate');
         $this->setDescription('Generate token.');
         $this->addArgument('length', InputArgument::OPTIONAL, 'Token string length.');
     }

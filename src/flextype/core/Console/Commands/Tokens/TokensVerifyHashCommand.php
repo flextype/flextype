@@ -14,46 +14,45 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-namespace Flextype\Console\Commands\Utils;
+namespace Flextype\Console\Commands\Tokens;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use function Thermage\div;
 use function Thermage\renderToString;
 
-class CreateTokenCommand extends Command
+class TokensVerifyHashCommand extends Command
 {
     protected function configure(): void
     {
-        $this->setName('utils:create-token');
-        $this->setDescription('Create a new unique token.');
+        $this->setName('tokens:verify-hash');
+        $this->setDescription('Verify token hash.');
+        $this->addArgument('token', InputArgument::REQUIRED, 'Token.');
+        $this->addArgument('token-hash', InputArgument::REQUIRED, 'Token hash.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $token               = generateToken();
-        $access_token        = generateToken();
-        $hashed_access_token = generateTokenHash($access_token);
-
-        ! entries()->has('tokens') and entries()->create('tokens', ['title' => 'Tokens']);
-
-        if (entries()->create('tokens/' . $token, ['hashed_access_token' => $hashed_access_token])) {
+        if (verrifyTokenHash($input->getArgument('token'), $input->getArgument('token-hash') )) {
             $output->write(
                 renderToString(
-                    div('Success: Token [b]' . $token . '[/b] with secret access token [b]' . $access_token . '[/b] created.', 
+                    div('Success: Token [b]' . $input->getArgument('token') . ' is verified', 
                         'bg-success px-2 py-1')
                 )
             );
+
             return Command::SUCCESS;
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Token wasn\'t created.', 
-                        'bg-danger px-2 py-1')
+                    div('Failure: Token [b]' . $input->getArgument('token') . ' isn\'t verified', 
+                        'bg-success px-2 py-1')
                 )
             );
+
             return Command::FAILURE;
         }
     }
