@@ -22,7 +22,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use function count;
 use function filesystem;
 
-class Utils extends Api
+class Tokens extends Api
 {
     /**
      * Generate token
@@ -38,7 +38,7 @@ class Utils extends Api
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'utils',
+                'api' => 'tokens',
                 'params' => ['token', 'access_token'],
             ])) > 0
         ) {
@@ -69,7 +69,7 @@ class Utils extends Api
        if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'utils',
+                'api' => 'tokens',
                 'params' => ['token', 'access_token', 'string'],
             ])) > 0
         ) {
@@ -100,7 +100,7 @@ class Utils extends Api
        if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'utils',
+                'api' => 'tokens',
                 'params' => ['token', 'access_token', 'string', 'hash'],
             ])) > 0
         ) {
@@ -115,20 +115,20 @@ class Utils extends Api
     }
 
     /**
-     * Create token
+     * Create token entry
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
      *
      * @return ResponseInterface Response.
      */
-    public function createToken(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function create(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         // Validate Api Request
         if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
-                'api' => 'utils',
+                'api' => 'tokens',
                 'params' => ['token', 'access_token'],
             ])) > 0
         ) {
@@ -142,7 +142,7 @@ class Utils extends Api
         ! entries()->has('tokens') and entries()->create('tokens', ['title' => 'Tokens']);
 
         // Create new entry
-        entries()->create('tokens/' . $token, ['hashed_access_token' => $hashed_access_token]);
+        entries()->create('tokens/' . $token, array_merge($requestParsedBody['data'], ['hashed_access_token' => $hashed_access_token]));
 
         // Fetch entry
         $entryData = entries()->fetch('tokens/' . $token)->toArray();
@@ -153,5 +153,109 @@ class Utils extends Api
         }
 
         return $this->getApiResponse($response, [], 404);
+    }
+
+    /**
+     * Fetch token entry.
+     *
+     * @param ServerRequestInterface $request  PSR7 request.
+     * @param ResponseInterface      $response PSR7 response.
+     *
+     * @return ResponseInterface Response.
+     */
+    public function fetch(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        // Get Request Query Params
+        $requestQueryParams = $request->getQueryParams();
+
+        // Validate Api Request
+        if (
+            count($result = $this->validateApiRequest([
+                'request' => $request,
+                'api' => 'tokens',
+                'params' => ['token', 'id'],
+            ])) > 0
+        ) {
+            return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
+        }
+
+        // Get entry data
+        $entryData = entries()->fetch('tokens/' . $requestQueryParams['id'], $requestQueryParams['options'] ?? [])->toArray();
+
+        if (count($entryData) > 0) {
+            return $this->getApiResponse($response, $entryData, 200);
+        }
+
+        return $this->getApiResponse($response, $this->getStatusCodeMessage(404), 404);
+    }
+
+    /**
+     * Update token entry.
+     *
+     * @param ServerRequestInterface $request  PSR7 request.
+     * @param ResponseInterface      $response PSR7 response.
+     *
+     * @return ResponseInterface Response.
+     */
+    public function update(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        // Get Request Parsed Body
+        $requestParsedBody = $request->getParsedBody();
+
+        // Validate Api Request
+        if (
+            count($result = $this->validateApiRequest([
+                'request' => $request,
+                'api' => 'tokens',
+                'params' => ['token', 'id', 'access_token'],
+            ])) > 0
+        ) {
+            return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
+        }
+
+        // Update entry
+        entries()->update('tokens/' . $requestParsedBody['id'], $requestParsedBody['data'] ?? []);
+
+        // Fetch entry
+        $entryData = entries()->fetch('tokens/' . $requestParsedBody['id'])->toArray();
+
+        // Return response
+        if (count($entryData) > 0) {
+            return $this->getApiResponse($response, $entryData, 200);
+        }
+
+        return $this->getApiResponse($response, [], 404);
+    }
+
+
+    /**
+     * Delete token entry.
+     *
+     * @param ServerRequestInterface $request  PSR7 request.
+     * @param ResponseInterface      $response PSR7 response.
+     *
+     * @return ResponseInterface Response.
+     */
+    public function delete(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        // Get Request Parsed Body
+        $requestParsedBody = $request->getParsedBody();
+
+        // Validate Api Request
+        if (
+            count($result = $this->validateApiRequest([
+                'request' => $request,
+                'api' => 'tokens',
+                'params' => ['token', 'id', 'access_token'],
+            ])) > 0
+        ) {
+            return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
+        }
+
+        // Copy entry
+        entries()->delete('tokens/' . $requestParsedBody['id']);
+
+        // Return success response
+        return $this->getApiResponse($response, [], 204);
     }
 }
