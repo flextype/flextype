@@ -76,6 +76,8 @@ class Entries
      */
     public function __construct($options = null, $registry = null)
     {
+        filesystem()->directory(PATH['project'] . registry()->get('flextype.settings.entries.directory'))->ensureExists(0755, true);
+
         $this->setRegistry($registry);
         $this->setOptions($options);
         $this->loadCollectionsEvents();
