@@ -81,7 +81,7 @@ app()->patch('/api/v0/entries', [Entries::class, 'update'])->setName('entries.up
  * Returns:
  * Entry object with the entry that was just moved.
  */
-app()->put('/api/v0/entries', [Entries::class, 'move']);
+app()->put('/api/v0/entries', [Entries::class, 'move'])->setName('entries.move');
 
 /**
  * Copy entry
