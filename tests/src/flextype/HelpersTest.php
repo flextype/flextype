@@ -98,6 +98,22 @@ test('slugify helper', function () {
     expect(slugify())->toBeInstanceOf(Slugify::class);
 });
 
+test('collection helper', function () {
+    $this->assertEquals([], collection([]));
+});
+
+test('collectionFromJson helper', function () {
+    $this->assertEquals(['foo'], collectionFromJson("{\"foo\"}"));
+});
+
+test('collectionFromString helper', function () {
+    $this->assertEquals(['foo', 'bar'], collectionFromString('foo, bar', ','));
+});
+
+test('collectionWithRange helper', function () {
+    $this->assertEquals([0, 1], collectionWithRange(0, 1, 1));
+});
+
 test('filterCollection helper', function () {
     $this->assertEquals([], filterCollection());
     $this->assertEquals([], filterCollection([]));
