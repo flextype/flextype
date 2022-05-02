@@ -17,27 +17,25 @@ declare(strict_types=1);
 namespace Flextype\Console\Commands\Tokens;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use function Thermage\div;
 use function Thermage\renderToString;
 
-class TokensCreateCommand extends Command
+class TokensUpdateCommand extends Command
 {
     protected function configure(): void
     {
-        $this->setName('tokens:create');
-        $this->setDescription('Create a new unique token.');
-        $this->addArgument('data', InputArgument::OPTIONAL, 'Data to create for the token entry.');
+        $this->setName('tokens:update');
+        $this->setDescription('Update tokens entry.');
+        $this->addArgument('id', InputArgument::REQUIRED, 'Unique identifier of the token entry.');
+        $this->addArgument('data', InputArgument::OPTIONAL, 'Data to update for the token entry.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $token               = generateToken();
-        $access_token        = generateToken();
-        $hashed_access_token = generateTokenHash($access_token);
-
+        $id   = $input->getArgument('id');
         $data = $input->getArgument('data');
 
         if ($data) {
@@ -50,12 +48,20 @@ class TokensCreateCommand extends Command
             $dataToSave = [];
         }
 
-        ! entries()->has('tokens') and entries()->create('tokens', ['title' => 'Tokens']);
-
-        if (entries()->create('tokens/' . $token, array_merge($dataToSave, ['hashed_access_token' => $hashed_access_token]))) {
+        if (! entries()->has($id)) {
             $output->write(
                 renderToString(
-                    div('Success: Token [b]' . $token . '[/b] with secret access token [b]' . $access_token . '[/b] created.', 
+                    div('Failure: Token entry [b]' . $id . '[/b] doesn\'t exists.', 
+                        'bg-danger px-2 py-1')
+                )
+            );
+            return Command::FAILURE;
+        }
+        
+        if (entries()->update($id, $dataToSave)) {
+            $output->write(
+                renderToString(
+                    div('Success: Token entry [b]' . $id . '[/b] updated.', 
                         'bg-success px-2 py-1')
                 )
             );
@@ -63,7 +69,7 @@ class TokensCreateCommand extends Command
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Token wasn\'t created.', 
+                    div('Failure: Token entry [b]' . $id . '[/b] wasn\'t updated.', 
                         'bg-danger px-2 py-1')
                 )
             );

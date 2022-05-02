@@ -39,6 +39,12 @@ use Flextype\Console\Commands\Tokens\TokensGenerateCommand;
 use Flextype\Console\Commands\Tokens\TokensGenerateHashCommand;
 use Flextype\Console\Commands\Tokens\TokensVerifyHashCommand;
 use Flextype\Console\Commands\Tokens\TokensCreateCommand;
+use Flextype\Console\Commands\Tokens\TokensFetchCommand;
+use Flextype\Console\Commands\Tokens\TokensUpdateCommand;
+use Flextype\Console\Commands\Tokens\TokensDeleteCommand;
+use Flextype\Console\Commands\Tokens\TokensCopyCommand;
+use Flextype\Console\Commands\Tokens\TokensMoveCommand;
+use Flextype\Console\Commands\Tokens\TokensHasCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -69,6 +75,10 @@ class FlextypeConsole extends ConsoleApplication
         console()->add(new TokensGenerateHashCommand());
         console()->add(new TokensVerifyHashCommand());
         console()->add(new TokensCreateCommand());
+        console()->add(new TokensDeleteCommand());
+        console()->add(new TokensUpdateCommand());
+        console()->add(new TokensHasCommand());
+        console()->add(new TokensFetchCommand());
 
         parent::run();
     }
