@@ -103,11 +103,11 @@ test('collection helper', function () {
 });
 
 test('collectionFromJson helper', function () {
-    $this->assertEquals(['foo'], collectionFromJson("{\"foo\"}")->toArray());
+    $this->assertEquals(['foo'], collectionFromJson("[\"foo\"]")->toArray());
 });
 
 test('collectionFromString helper', function () {
-    $this->assertEquals(['foo', 'bar'], collectionFromString('foo, bar', ',')->toArray());
+    $this->assertEquals(['foo', 'bar'], collectionFromString('foo,bar', ',')->toArray());
 });
 
 test('collectionWithRange helper', function () {
