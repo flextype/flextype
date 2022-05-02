@@ -63,7 +63,7 @@ if (! function_exists('collectionWithRange')) {
      *
      * @return Collection
      */
-    function collectionWithRange($low, $high, int $step = 1): Arrays
+    function collectionWithRange($low, $high, int $step = 1): Collection
     {
         return Collection::createWithRange($low, $high, $step);
     }
