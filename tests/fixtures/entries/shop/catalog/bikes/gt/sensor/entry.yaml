@@ -1,8 +1,10 @@
 title: Sensor
 price: 1700
 entries: 
+  dump: false
   fetch:
     discounts_available:
+      result: toArray
       id: shop/discounts
       options:
         collection: true

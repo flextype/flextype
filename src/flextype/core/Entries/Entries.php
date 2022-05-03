@@ -209,227 +209,251 @@ class Entries
     {
         // Setup registry.
         $this->registry()->set('methods.fetch', [
-                'collection' => $this->getCollectionOptions($id),
-                'params' => [
-                    'id' => $id,
-                    'options' => $options,
-                ],
-                'result' => null,
-            ]);
+            'collection' => $this->getCollectionOptions($id),
+            'params' => [
+                'id' => $id,
+                'options' => $options,
+            ],
+            'result' => null,
+        ]);
   
         // Run event
         emitter()->emit('onEntriesFetch');
+
+        // Check if `result` contains data to return then return existing result.
+        if (! is_null($this->registry()->get('methods.fetch.result'))) {
+            return $this->registry()->get('methods.fetch.result');
+        }
+        
+        // Fetch collection or single
+        if ($this->registry()->has('methods.fetch.params.options.collection') &&
+            strings($this->registry()->get('methods.fetch.params.options.collection'))->isTrue()) {
+            return $this->fetchCollection($this->registry()->get('methods.fetch.params.id'), 
+                                          $this->registry()->get('methods.fetch.params.options'));
+        } else {
+            return $this->fetchSingle($this->registry()->get('methods.fetch.params.id'), 
+                                      $this->registry()->get('methods.fetch.params.options'));
+        }
+    }
+
+    /**
+     * Fetch single.
+     *
+     * @param string $id      Unique identifier of the entry.
+     * @param array  $options Options array.
+     *
+     * @return mixed Returns mixed results from APIs or default is an instance of The Collection class with founded items.
+     *
+     * @access public
+     */
+    private function fetchSingle(string $id, array $options = [])
+    {
+        // Setup registry.
+        $this->registry()->set('methods.fetch', [
+            'collection' => $this->getCollectionOptions($id),
+            'params' => [
+                'id' => $id,
+                'options' => $options,
+            ],
+            'result' => null,
+        ]);
+
+        // Run event
+        emitter()->emit('onEntriesFetchSingle');
 
         // Check if `result` contains data to return.
         if (! is_null($this->registry()->get('methods.fetch.result'))) {
             return $this->registry()->get('methods.fetch.result');
         }
 
-        // Single fetch helper
-        $single = function ($id, $options) {
+        // Get Cache ID for current requested entry
+        $entryCacheID = $this->getCacheID($this->registry()->get('methods.fetch.params.id'), 'single');
+        
+        // 1. Try to get current requested entry from the cache.
+        if (cache()->has($entryCacheID)) {
             
-            // Setup registry.
-            $this->registry()->set('methods.fetch', [
-                    'collection' => $this->getCollectionOptions($id),
-                    'params' => [
-                        'id' => $id,
-                        'options' => $options,
-                    ],
-                    'result' => null,
-                ]);
+            // Fetch entry from cache and apply `filterCollection` filter for fetch result
+            $this->registry()->set('methods.fetch.result', 
+                                   filterCollection(cache()->get($entryCacheID),
+                                                    $this->registry()->get('methods.fetch.params.options.filter', [])));
 
             // Run event
-            emitter()->emit('onEntriesFetchSingle');
-
-            // Check if `result` contains data to return.
-            if (! is_null($this->registry()->get('methods.fetch.result'))) {
-                return $this->registry()->get('methods.fetch.result');
-            }
-
-            // Get Cache ID for current requested entry
-            $entryCacheID = $this->getCacheID($this->registry()->get('methods.fetch.params.id'), 'single');
+            emitter()->emit('onEntriesFetchSingleCacheHasResult');
             
-            // 1. Try to get current requested entry from the cache.
-            if (cache()->has($entryCacheID)) {
-                
-                // Fetch entry from cache and apply `filterCollection` filter for fetch result
-                $this->registry()->set('methods.fetch.result', 
-                                       filterCollection(cache()->get($entryCacheID),
-                                                        $this->registry()->get('methods.fetch.params.options.filter', [])));
+            // Return result from the cache.
+            return collection($this->registry()->get('methods.fetch.result'));
+        }
+        
+        // 2. Try to get requested entry from the filesystem
+        if ($this->has($this->registry()->get('methods.fetch.params.id'))) {
 
-                // Run event
-                emitter()->emit('onEntriesFetchSingleCacheHasResult');
-                
-                // Return result from the cache.
-                return collection($this->registry()->get('methods.fetch.result'));
-            }
+            // Get entry file location
+            $entryFile = $this->getFileLocation($this->registry()->get('methods.fetch.params.id'));
             
-            // 2. Try to get requested entry from the filesystem
-            if ($this->has($this->registry()->get('methods.fetch.params.id'))) {
+            // Try to get requested entry from the filesystem.
+            $entryFileContent = filesystem()->file($entryFile)->get(true);
 
-                // Get entry file location
-                $entryFile = $this->getFileLocation($this->registry()->get('methods.fetch.params.id'));
-                
-                // Try to get requested entry from the filesystem.
-                $entryFileContent = filesystem()->file($entryFile)->get(true);
-
-                if ($entryFileContent === false) {
-                    // Run event
-                    emitter()->emit('onEntriesFetchSingleNoResult');
-                    return collection($this->registry()->get('methods.fetch.params.result'));
-                }
-
-                // Decode entry file content
-                $this->registry()->set('methods.fetch.result', serializers()->{$this->registry()->get('methods.fetch.collection')['serializer']}()->decode($entryFileContent));
-
+            if ($entryFileContent === false) {
                 // Run event
-                emitter()->emit('onEntriesFetchSingleHasResult');
-                
-                // Get the result.
-                $result = $this->registry()->get('methods.fetch.result');
-
-                // Apply `filterCollection` filter for fetch result
-                $this->registry()->set('methods.fetch.result', filterCollection($result, $this->registry()->get('methods.fetch.params.options.filter', [])));
-
-                // Set cache state
-                $cache = $this->registry()->get('methods.fetch.result.cache.enabled',
-                                               registry()->get('flextype.settings.cache.enabled'));
-
-                // Save entry data to cache
-                if ($cache) {
-                    cache()->set($entryCacheID, $this->registry()->get('methods.fetch.result'));
-                }
-                
-                // Return entry fetch result
-                return collection($this->registry()->get('methods.fetch.result'));
+                emitter()->emit('onEntriesFetchSingleNoResult');
+                return collection($this->registry()->get('methods.fetch.params.result'));
             }
+
+            // Decode entry file content
+            $this->registry()->set('methods.fetch.result', serializers()->{$this->registry()->get('methods.fetch.collection')['serializer']}()->decode($entryFileContent));
 
             // Run event
-            emitter()->emit('onEntriesFetchSingleNoResult');
+            emitter()->emit('onEntriesFetchSingleHasResult');
+            
+            // Get the result.
+            $result = $this->registry()->get('methods.fetch.result');
 
+            // Apply `filterCollection` filter for fetch result
+            $this->registry()->set('methods.fetch.result', filterCollection($result, $this->registry()->get('methods.fetch.params.options.filter', [])));
+
+            // Set cache state
+            $cache = $this->registry()->get('methods.fetch.result.cache.enabled',
+                                           registry()->get('flextype.settings.cache.enabled'));
+
+            // Save entry data to cache
+            if ($cache) {
+                cache()->set($entryCacheID, $this->registry()->get('methods.fetch.result'));
+            }
+            
             // Return entry fetch result
             return collection($this->registry()->get('methods.fetch.result'));
-        };
+        }
 
-        if ($this->registry()->has('methods.fetch.params.options.collection') &&
-            strings($this->registry()->get('methods.fetch.params.options.collection'))->isTrue()) {
+        // Run event
+        emitter()->emit('onEntriesFetchSingleNoResult');
 
-            // Setup registry.
-            $this->registry()->set('methods.fetch', [
-                    'collection' => $this->getCollectionOptions($id),
-                    'params' => [
-                        'id' => $id,
-                        'options' => $options,
-                    ],
-                    'result' => null,
-                ]);
+        // Return entry fetch result
+        return collection($this->registry()->get('methods.fetch.result'));
+    }
+
+    /**
+     * Fetch collection.
+     *
+     * @param string $id      Unique identifier of the entry.
+     * @param array  $options Options array.
+     *
+     * @return mixed Returns mixed results from APIs or default is an instance of The Collection class with founded items.
+     *
+     * @access public
+     */
+    private function fetchCollection(string $id, array $options = [])
+    {
+        // Setup registry.
+        $this->registry()->set('methods.fetch', [
+            'collection' => $this->getCollectionOptions($id),
+            'params' => [
+                'id' => $id,
+                'options' => $options,
+            ],
+            'result' => null,
+        ]);
+    
+        emitter()->emit('onEntriesFetchCollection');
+
+        // Check if `result` contains data to return.
+        if (! is_null($this->registry()->get('methods.fetch.result'))) {
+            return $this->registry()->get('methods.fetch.result');
+        }
+
+        // Determine if collection exists
+        if (! $this->has($this->registry()->get('methods.fetch.params.id'))) {
 
             // Run event
-            emitter()->emit('onEntriesFetchCollection');
-
-            // Check if `result` contains data to return.
-            if (! is_null($this->registry()->get('methods.fetch.result'))) {
-                return $this->registry()->get('methods.fetch.result');
-            }
-
-            // Determine if collection exists
-            if (! $this->has($this->registry()->get('methods.fetch.params.id'))) {
-
-                // Run event
-                emitter()->emit('onEntriesFetchCollectionNoResult');
-
-                // Return entries array
-                return collection($this->registry()->get('methods.fetch.result'));
-            }
-
-            // Find entries in the filesystem.
-            $entries = find($this->getDirectoryLocation($this->registry()->get('methods.fetch.params.id')),
-                            $this->registry()->has('methods.fetch.params.options.find') ?
-                            $this->registry()->get('methods.fetch.params.options.find') :
-                            []);
-
-            // Walk through entries results
-            if ($entries->hasResults()) {
-
-                $data = [];
-
-                foreach ($entries as $currenEntry) {
-
-                    $currentEntryID = strings($currenEntry->getPath())
-                        ->replace('\\', '/')
-                        ->replace(PATH['project'] . $this->options['directory'] . '/', '')
-                        ->trim('/')
-                        ->toString();
-
-                    // Set collection options
-                    $this->registry()->set('methods.fetch.collection', $this->getCollectionOptions($currentEntryID));
-
-                    if ($currenEntry->getType() !== 'file' || $currenEntry->getFilename() !== $this->registry()->get('methods.fetch.collection.filename') . '.' . $this->registry()->get('methods.fetch.collection.extension')) {
-                        continue;
-                    }
-
-                    $data[$currentEntryID] = $single($currentEntryID, [])->toArray();
-                }
-     
-                // Re-init registry.
-                $this->registry()->set('methods.fetch', [
-                        'collection' => $this->getCollectionOptions($id),
-                        'params' => [
-                            'id' => $id,
-                            'options' => $options,
-                        ],
-                        'result' => $data,
-                    ]);
-                    
-                // Run event
-                emitter()->emit('onEntriesFetchCollectionHasResult');
-
-                // Process filter `only` for collection
-                // after process we need to unset $options['filter']['only']
-                // to avoid it's running inside filterCollection() helper.
-                if ($this->registry()->has('methods.fetch.params.options.filter.only')) {
-                    $data = [];
-                    foreach ($this->registry()->get('methods.fetch.result') as $key => $value) {
-                        $data[$key] = collection($value)->only($this->registry()->get('methods.fetch.params.options.filter.only'))->toArray();
-                    }
-                    $this->registry()->delete('methods.fetch.params.options.filter.only');
-                    $this->registry()->set('methods.fetch.result', $data);
-                }
-
-                // Process filter `except` for collection
-                // after process we need to unset $options['filter']['except']
-                // to avoid it's running inside filterCollection() helper.
-                if ($this->registry()->has('methods.fetch.params.options.filter.except')) {
-                    $data = [];
-                    foreach ($this->registry()->get('methods.fetch.result') as $key => $value) {
-                        $data[$key] = collection($value)->except($this->registry()->get('methods.fetch.params.options.filter.except'))->toArray();
-                    }
-                    $this->registry()->delete('methods.fetch.params.options.filter.except');
-                    $this->registry()->set('methods.fetch.result', $data);
-                }
-
-                // Apply filter `filterCollection` for fetch result data.
-                $this->registry()->set('methods.fetch.result', 
-                                       filterCollection($this->registry()->get('methods.fetch.result'), 
-                                                        $this->registry()->has('methods.fetch.params.options.filter') ? 
-                                                        $this->registry()->get('methods.fetch.params.options.filter') : []));
-                
-                return collection($this->registry()->get('methods.fetch.result'));
-
-            } else {
-                // Run event
-                emitter()->emit('onEntriesFetchCollectionNoResult');   
-
-                // Return entries array
-                return collection($this->registry()->get('methods.fetch.result'));
-            }
+            emitter()->emit('onEntriesFetchCollectionNoResult');
 
             // Return entries array
             return collection($this->registry()->get('methods.fetch.result'));
         }
 
-        // Fetch single entry.
-        return $single($id, $options);
+        // Find entries in the filesystem.
+        $entries = find($this->getDirectoryLocation($this->registry()->get('methods.fetch.params.id')),
+                        $this->registry()->has('methods.fetch.params.options.find') ?
+                        $this->registry()->get('methods.fetch.params.options.find') :
+                        []);
+
+        // Walk through entries results
+        if ($entries->hasResults()) {
+
+            $data = [];
+
+            foreach ($entries as $currenEntry) {
+
+                $currentEntryID = strings($currenEntry->getPath())
+                    ->replace('\\', '/')
+                    ->replace(PATH['project'] . $this->options['directory'] . '/', '')
+                    ->trim('/')
+                    ->toString();
+
+                // Set collection options
+                $this->registry()->set('methods.fetch.collection', $this->getCollectionOptions($currentEntryID));
+
+                if ($currenEntry->getType() !== 'file' || $currenEntry->getFilename() !== $this->registry()->get('methods.fetch.collection.filename') . '.' . $this->registry()->get('methods.fetch.collection.extension')) {
+                    continue;
+                }
+
+                $data[$currentEntryID] = $this->fetchSingle($currentEntryID, [])->toArray();
+            }
+ 
+            // Re-init registry after single fetch calls.
+            $this->registry()->set('methods.fetch', [
+                'collection' => $this->getCollectionOptions($id),
+                'params' => [
+                    'id' => $id,
+                    'options' => $options,
+                ],
+                'result' => $data,
+            ]);
+                
+            // Run event
+            emitter()->emit('onEntriesFetchCollectionHasResult');
+
+            // Process filter `only` for collection
+            // after process we need to unset $options['filter']['only']
+            // to avoid it's running inside filterCollection() helper.
+            if ($this->registry()->has('methods.fetch.params.options.filter.only')) {
+                $data = [];
+                foreach ($this->registry()->get('methods.fetch.result') as $key => $value) {
+                    $data[$key] = collection($value)->only($this->registry()->get('methods.fetch.params.options.filter.only'))->toArray();
+                }
+                $this->registry()->delete('methods.fetch.params.options.filter.only');
+                $this->registry()->set('methods.fetch.result', $data);
+            }
+
+            // Process filter `except` for collection
+            // after process we need to unset $options['filter']['except']
+            // to avoid it's running inside filterCollection() helper.
+            if ($this->registry()->has('methods.fetch.params.options.filter.except')) {
+                $data = [];
+                foreach ($this->registry()->get('methods.fetch.result') as $key => $value) {
+                    $data[$key] = collection($value)->except($this->registry()->get('methods.fetch.params.options.filter.except'))->toArray();
+                }
+                $this->registry()->delete('methods.fetch.params.options.filter.except');
+                $this->registry()->set('methods.fetch.result', $data);
+            }
+
+            // Apply filter `filterCollection` for fetch result data.
+            $this->registry()->set('methods.fetch.result', 
+                                   filterCollection($this->registry()->get('methods.fetch.result'), 
+                                                    $this->registry()->has('methods.fetch.params.options.filter') ? 
+                                                    $this->registry()->get('methods.fetch.params.options.filter') : []));
+                                                    
+            return collection($this->registry()->get('methods.fetch.result'));
+
+        } else {
+            // Run event
+            emitter()->emit('onEntriesFetchCollectionNoResult');   
+
+            // Return entries array
+            return collection($this->registry()->get('methods.fetch.result'));
+        }
+
+        // Return entries array
+        return collection($this->registry()->get('methods.fetch.result'));
     }
 
     /**

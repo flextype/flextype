@@ -1,7 +1,9 @@
 title: Discounts
 entries:
+  dump: false
   fetch:
     items:
+      result: toArray
       id: shop/discounts
       options:
         collection: true

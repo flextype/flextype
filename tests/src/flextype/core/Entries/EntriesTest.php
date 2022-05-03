@@ -57,9 +57,11 @@ test('fetch entry', function () {
     expect(entries()->create('foo', []))->toBeTrue();
     expect(entries()->create('foo/bar', []))->toBeTrue();
     expect(entries()->create('foo/zed', []))->toBeTrue();
-    
+
     expect(entries()->fetch('foo'))->toBeInstanceOf(Arrays::class);
     expect(count(entries()->fetch('foo')->toArray()) > 0)->toBeTrue();
+    expect(count(entries()->fetch('foo')->toArray()))->toEqual(10);
+    expect(count(entries()->fetch('foo', ['collection' => false])->toArray()))->toEqual(10);
     expect(count(entries()->fetch('foo', ['collection' => true])->toArray()))->toEqual(2);
 });
 

@@ -52,17 +52,17 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
                 break;
         }
 
-        // Modify 
+        // Modify data
         foreach (entries()->registry()->get('methods.fetch.result.entries.fetch') as $field => $body) {
-            $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] : $resultTo;
+            $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] == 'toObject' ? 'copy' : 'toArray' : $resultTo;
             $data[$field] = entries()->fetch($body['id'], isset($body['options']) ? $body['options'] : []);
             $data[$field] = ($data[$field] instanceof Collection) ? $data[$field]->{$result}() : $data[$field];
         }
 
         $result = collection($original['result'])->merge($data)->toArray();
 
-        // Remove entries field
-        if (boolval(entries()->registry()->get('methods.fetch.collection.fields.entries.dump')) === false) {
+        // Remove entries field when dump === false
+        if (boolval(arrays($result)->get('entries.dump', entries()->registry()->get('methods.fetch.collection.fields.entries.dump'))) === false) {
             unset($result['entries']);
         }
 

@@ -16,10 +16,11 @@ test('EntriesField for blog', function () {
     entries()->create('blog/post-2', serializers()->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/blog/post-2/post.md')->get()));
 
     $blog = entries()->fetch('blog');
+    $posts = entries()->fetch('blog', ['collection' => true]);
 
     $this->assertEquals(11, $blog->count());
-})->skip();
-
+    $this->assertEquals(2, $posts->count());
+});
 
 test('EntriesField for shop', function() {
     filesystem()
@@ -27,7 +28,12 @@ test('EntriesField for shop', function() {
         ->copy(ROOT_DIR . '/project/entries/shop');
 
     $shop = entries()->fetch('shop');
-})->skip();
+
+    $this->assertEquals('Shop', $shop['title']);
+    $this->assertEquals('Catalog', $shop['catalog']['title']);
+    $this->assertEquals('Bikes', $shop['catalog']['bikes']['title']);
+    $this->assertEquals('Discounts', $shop['discounts']['title']);
+});
 
 test('EntriesField for catalog', function () {
 
@@ -70,7 +76,7 @@ test('EntriesField for catalog', function () {
     $banner = entries()->fetch('banner');
     $this->assertEquals('Banner', $banner['title']);
     $this->assertEquals('banner', $banner['id']);
-})->skip();
+});
 
 test('EntriesField for albmus', function () {
     entries()->create('root', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/root/entry.yaml')->get()));
@@ -86,7 +92,7 @@ test('EntriesField for albmus', function () {
     $root = entries()->fetch('root');
 
     $this->assertEquals(15, $root->count());
-})->skip();
+});
 
 test('EntriesField for long nested entries', function () {
     entries()->create('level1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/level1/entry.yaml')->get()));
@@ -100,17 +106,4 @@ test('EntriesField for long nested entries', function () {
     $this->assertEquals('level1/level2', $level['root']['id']);
     $this->assertEquals('level1/level2/level3', $level['root']['root']['id']);
     $this->assertEquals('level1/level2/level3/level4', $level['root']['root']['root']['id']);
-})->skip();
-
-test('EntriesField for macroable fetch entries', function () {
-    entries()->create('macroable', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/macroable/entry.yaml')->get()));
-
-    entries()::macro('fetchExtraData', function ($id, $options) {
-        return ['id' => $id, 'options' => $options];
-    });
-
-    $macroable = entries()->fetch('macroable');
-
-    $this->assertEquals('table', $macroable['table']['id']);
-    $this->assertEquals('world', $macroable['table']['options']['hello']);
-})->skip();
+});

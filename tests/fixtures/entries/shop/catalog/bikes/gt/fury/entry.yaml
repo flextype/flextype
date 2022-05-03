@@ -1,8 +1,10 @@
 title: GT
 price: 2000
-entries: 
+entries:
+  dump: false 
   fetch:
     discounts_available:
+      result: toArray
       id: shop/discounts
       options:
         collection: true

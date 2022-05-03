@@ -1,7 +1,9 @@
 title: Norco
 entries:
+  dump: false
   fetch:
     items:
+      result: toArray
       id: shop/catalog/bikes/norco
       options:
         collection: true
