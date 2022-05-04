@@ -84,6 +84,11 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         if ($key == 'at') {
             $content = strings($content)->{'at'}((int) $values)->toString();
         }
+        
+        if ($key == 'base64Decode') {
+            $content = strings($content)->{'base64Decode'}()->toString();
+        }
+
     }
     
     return (string) $content;
