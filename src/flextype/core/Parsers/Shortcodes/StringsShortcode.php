@@ -100,6 +100,10 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         if ($key == 'camel') {
             $content = strings($content)->{'camel'}()->toString();
         }
+
+        if ($key == 'capitalize') {
+            $content = strings($content)->{'capitalize'}()->toString();
+        }
     }
     
     return (string) $content;

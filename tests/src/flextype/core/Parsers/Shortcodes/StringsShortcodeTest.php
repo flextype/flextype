@@ -52,4 +52,7 @@ test('[strings] shortcode', function () {
     // camel
     $this->assertEquals("fooBar", parsers()->shortcodes()->parse('[strings camel]foo_bar[/strings]'));
 
+    // capitalize
+    $this->assertEquals("That Country Was At The Same Stage Of Development As The United States In The 1940S", parsers()->shortcodes()->parse('[strings capitalize]that country was at the same stage of development as the United States in the 1940s[/strings]'));
+
 });
