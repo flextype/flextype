@@ -49,4 +49,7 @@ test('[strings] shortcode', function () {
     // between
     $this->assertEquals("b", parsers()->shortcodes()->parse('[strings between=a|c]abc[/strings]'));
 
+    // camel
+    $this->assertEquals("fooBar", parsers()->shortcodes()->parse('[strings camel]foo_bar[/strings]'));
+
 });

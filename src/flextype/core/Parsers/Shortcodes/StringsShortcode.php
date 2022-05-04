@@ -96,6 +96,10 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         if ($key == 'between') {
             $content = strings($content)->{'between'}(isset($values[0]) ? (string) $values[0] : '', isset($values[1]) ? (string) $values[1] : '')->toString();
         }
+
+        if ($key == 'camel') {
+            $content = strings($content)->{'camel'}()->toString();
+        }
     }
     
     return (string) $content;
