@@ -537,9 +537,9 @@ parsers:
       registry:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
-      url:
+      strings:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
+        path: "/src/flextype/core/Parsers/Shortcodes/StringsShortcode.php"
 
 # CORS
 #

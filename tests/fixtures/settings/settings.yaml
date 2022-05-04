@@ -521,7 +521,10 @@ parsers:
       url:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
-
+      strings:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/StringsShortcode.php"
+        
 # CORS
 #
 # CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.
