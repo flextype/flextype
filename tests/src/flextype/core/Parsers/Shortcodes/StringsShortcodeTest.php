@@ -45,4 +45,8 @@ test('[strings] shortcode', function () {
 
     // base64Encode
     $this->assertEquals("dGVzdA==", parsers()->shortcodes()->parse('[strings base64Encode]test[/strings]'));
+
+    // between
+    $this->assertEquals("b", parsers()->shortcodes()->parse('[strings between=a|c]abc[/strings]'));
+
 });

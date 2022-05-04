@@ -92,6 +92,10 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         if ($key == 'base64Encode') {
             $content = strings($content)->{'base64Encode'}()->toString();
         }
+
+        if ($key == 'between') {
+            $content = strings($content)->{'between'}(isset($values[0]) ? (string) $values[0] : '', isset($values[1]) ? (string) $values[1] : '')->toString();
+        }
     }
     
     return (string) $content;
