@@ -20,7 +20,7 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use function parsers;
 use function registry;
 
-// Shortcode: [strings at=1 sort=desc transform=lower,upper]
+// Shortcode: [strings] strings to modify [/strings]
 parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.strings.enabled')) {
         return '';
@@ -79,6 +79,10 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
 
         if ($key == 'wordsLimit') {
             $content = strings($content)->{'wordsLimit'}(isset($values[0]) ? (int) $values[0] : 100, isset($values[1]) ? (string) $values[1] : '...')->toString();
+        }
+
+        if ($key == 'at') {
+            $content = strings($content)->{'at'}((int) $values)->toString();
         }
     }
     

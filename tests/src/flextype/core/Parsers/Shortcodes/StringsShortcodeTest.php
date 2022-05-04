@@ -34,4 +34,9 @@ test('[strings] shortcode', function () {
     // wordsLimit
     $this->assertEquals("foo...", parsers()->shortcodes()->parse('[strings wordsLimit="1"]foo bar zed[/strings]'));
     $this->assertEquals("foo >>>", parsers()->shortcodes()->parse('[strings wordsLimit="1| >>>"]foo bar zed[/strings]'));
+
+    // at
+    $this->assertEquals("a", parsers()->shortcodes()->parse('[strings at=0]abc[/strings]'));
+    $this->assertEquals("b", parsers()->shortcodes()->parse('[strings at=1]abc[/strings]'));
+    $this->assertEquals("c", parsers()->shortcodes()->parse('[strings at=2]abc[/strings]'));
 });
