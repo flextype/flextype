@@ -22,7 +22,7 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 use function parsers;
 
-// Shortcode: [raw]
+// Shortcode: [raw] shortcodes to escape [/raw]
 parsers()->shortcodes()->addHandler('raw', static function (ShortcodeInterface $s) {
     return $s->getContent();
 });

@@ -57,7 +57,8 @@ parsers()->shortcodes()->addHandler('getUriString', static function () {
     return getUriString();
 });
 
-// Shortcode: [urlFor routeName="route-name" data='{"foo": "Foo"}' queryParams='{"foo": "Foo"}']
+// Shortcode: [urlFor routeName="STRING" data="STRING(JSON)" queryParams="STRING(JSON)"]
+// Example: [urlFor routeName="route-name" data='{"foo": "Foo"}' queryParams='{"foo": "Foo"}']
 parsers()->shortcodes()->addHandler('urlFor', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.url.enabled')) {
         return '';

@@ -21,7 +21,7 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use function parsers;
 use function registry;
 
-// Shortcode: [registry-get id="item-id" default="default-value"]
+// Shortcode: [registry-get id="STRING" default="STRING"]
 parsers()->shortcodes()->addHandler('registry-get', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.registry.enabled')) {
         return '';

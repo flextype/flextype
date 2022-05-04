@@ -24,7 +24,7 @@ use function entries;
 use function parsers;
 use function registry;
 
-// Shortcode: [entries-fetch id="entry-id" field="field-name" default="default-value"]
+// Shortcode: [entries-fetch id="STRING" field="STRING" default="STRING"]
 parsers()->shortcodes()->addHandler('entries-fetch', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.entries.enabled')) {
         return '';
