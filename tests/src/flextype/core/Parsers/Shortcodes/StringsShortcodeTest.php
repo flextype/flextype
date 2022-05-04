@@ -42,4 +42,7 @@ test('[strings] shortcode', function () {
 
     // base64Decode
     $this->assertEquals("test", parsers()->shortcodes()->parse('[strings base64Decode]dGVzdA==[/strings]'));
+
+    // base64Encode
+    $this->assertEquals("dGVzdA==", parsers()->shortcodes()->parse('[strings base64Encode]test[/strings]'));
 });
