@@ -162,7 +162,7 @@ class Entries
         }
 
         $fields = collection($fields)->unique()->toArray();
-
+        
         foreach ($fields as $field) {
             if (filesystem()->file($field)->exists()) {
                 include_once $field; 
@@ -182,12 +182,21 @@ class Entries
     private function getCollectionOptions(string $id): array
     {      
         $result = $this->options['collections']['default'];
+        $fieldsToInclude = [];
 
         foreach ($this->options['collections'] as $collection) {
+            if (isset($collection['fields']['_include']['collection'])) {
+                $fieldsToInclude = $this->options['collections'][$collection['fields']['_include']['collection']]['fields'];
+
+                if (isset($collection['fields']['_include']['except'])) {
+                    $fieldsToInclude = collection($fieldsToInclude)->except($collection['fields']['_include']['except'])->toArray();
+                }
+            }
+
             if (isset($collection['pattern'])) {
                 if (boolval(preg_match_all('#^' . $collection['pattern'] . '$#', $id, $matches, PREG_OFFSET_CAPTURE))) {
                     $result = $collection;
-                    
+                    $result['fields'] = array_merge($fieldsToInclude, $result['fields'] ?? []);
                 }
             }
         }
