@@ -145,6 +145,10 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         if ($key == 'finish') {
             $content = strings($content)->{'finish'}(isset($vars[0]) ? (string) $vars[0] : '')->toString();
         }
+
+        if ($key == 'firstSegment') {
+            $content = strings($content)->{'firstSegment'}(isset($vars[0]) ? (string) $vars[0] : ' ')->toString();
+        }
     }
     
     return (string) $content;

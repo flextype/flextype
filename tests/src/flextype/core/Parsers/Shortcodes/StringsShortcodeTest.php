@@ -94,4 +94,8 @@ test('[strings] shortcode', function () {
 
     // finish
     $this->assertEquals("/movies/sg-1/season-5/episode-21/", parsers()->shortcodes()->parse('[strings finish="/"]/movies/sg-1/season-5/episode-21[/strings]'));
+
+    // firstSegment
+    $this->assertEquals("SG-1", parsers()->shortcodes()->parse('[strings firstSegment]SG-1 returns from an off-world mission[/strings]'));
+    $this->assertEquals("SG", parsers()->shortcodes()->parse('[strings firstSegment="-"]SG-1 returns from an off-world mission[/strings]'));
 });
