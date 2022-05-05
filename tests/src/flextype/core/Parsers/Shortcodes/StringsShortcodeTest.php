@@ -101,4 +101,127 @@ test('[strings] shortcode', function () {
 
     // format
     $this->assertEquals("There are 5 monkeys in the tree", parsers()->shortcodes()->parse('[strings format=5,tree]There are %d monkeys in the %s[/strings]'));
+
+    // getEncoding
+    $this->assertEquals("UTF-8", parsers()->shortcodes()->parse('[strings getEncoding]Foo[/strings]'));
+
+    // hash
+    $this->assertEquals("1356c67d7ad1638d816bfb822dd2c25d", parsers()->shortcodes()->parse('[strings hash]Foo[/strings]'));
+    $this->assertEquals("201a6b3053cc1422d2c3670b62616221d2290929", parsers()->shortcodes()->parse('[strings hash=sha1]Foo[/strings]'));
+
+    // increment
+    $this->assertEquals("Page_2", parsers()->shortcodes()->parse('[strings increment]Page_1[/strings]'));
+    $this->assertEquals("Page-2", parsers()->shortcodes()->parse('[strings increment=1|-]Page-1[/strings]'));
+
+    // indexOf
+    $this->assertEquals(1, parsers()->shortcodes()->parse('[strings indexOf=e]hello[/strings]'));
+
+    // indexOfLast
+    $this->assertEquals(3, parsers()->shortcodes()->parse('[strings indexOfLast=l]hello[/strings]'));
+
+    // insert
+    $this->assertEquals("hello world", parsers()->shortcodes()->parse('[strings insert="hello |0"]world[/strings]'));
+    $this->assertEquals("hello world", parsers()->shortcodes()->parse('[strings insert=" world|5"]hello[/strings]'));
+
+    // isAlpha
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isAlpha]foo[/strings]'));
+
+    // isAlphanumeric
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isAlphanumeric]fòôbàřs12345[/strings]'));
+
+    // isAscii
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isAscii]#@$%[/strings]'));
+
+    // isBase64
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isBlank][/strings]'));
+
+    // isDigit
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isDigit]01234569[/strings]'));
+
+    // isEmail
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isEmail]awilum@msn.com[/strings]'));
+
+    // isEmpty
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isEmpty][/strings]'));
+
+    // isEqual
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isEqual=Foo]Foo[/strings]'));
+
+    // isTrue
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isTrue]true[/strings]'));
+
+    // isFalse
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isFalse]false[/strings]'));
+
+    // isHexadecimal
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isHexadecimal]19FDE[/strings]'));
+
+    // isHTML
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isHTML]<p>Hello</p>[/strings]'));
+
+    // isIP
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isIP]127.0.0.1[/strings]'));
+
+    // isJSON
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isJson]{"foo":"bar"}[/strings]'));
+
+    // isLower
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isLower]foo[/strings]'));
+
+    // isMAC
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isMAC]00:00:00:00:00:00[/strings]'));
+
+    // isUpper 
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isUpper]FOO[/strings]'));
+
+    // isNumeric    
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isNumeric]12345[/strings]'));
+
+    // isPrintable 
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isPrintable]!@#$%^&*()_+-=[]{};\':\",./<>?\\|`~"[/strings]'));
+
+    // isPunctuation
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isPunctuation],[/strings]'));
+
+    // isUrl    
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isUrl]http://awilum.github.io[/strings]'));
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isUrl]https://awilum.github.io[/strings]'));
+    
+    // isSimilar
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isSimilar=Foo]Foo[/strings]'));
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isSimilar=Foo|50]Foo[/strings]'));
+
+    // isSerialized
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isSerialized]a:1:{i:0;s:3:"foo";}[/strings]'));
+
+    // kebab
+    $this->assertEquals("foo-bar", parsers()->shortcodes()->parse('[strings kebab]Foo Bar[/strings]'));
+
+    // lastSegment
+    $this->assertEquals("baz", parsers()->shortcodes()->parse('[strings lastSegment]foo bar baz[/strings]'));
+    $this->assertEquals("baz", parsers()->shortcodes()->parse('[strings lastSegment="/"]foo/bar/baz[/strings]'));
+    
+    // length
+    $this->assertEquals(11, parsers()->shortcodes()->parse('[strings length]foo bar baz[/strings]'));
+
+    // lines
+    $this->assertEquals('["Fòô òô"," fòô fò fò ","fò"]', parsers()->shortcodes()->parse("[strings lines]Fòô òô\n fòô fò fò \nfò\r[/strings]"));
+
+    // md5
+    $this->assertEquals("01677e4c0ae5468b9b8b823487f14524", parsers()->shortcodes()->parse('[strings md5]Foo Bar[/strings]'));
+
+    // move
+    $this->assertEquals("worldhello", parsers()->shortcodes()->parse('[strings move=0|5|10]helloworld[/strings]'));
+
+    // normalizeNewLines
+    $this->assertEquals("\n \n", parsers()->shortcodes()->parse("[strings normalizeNewLines]\r\n \r[/strings]"));
+
+    // normalizeSpaces
+    $this->assertEquals("foo bar baz", parsers()->shortcodes()->parse("[strings normalizeSpaces]foo  bar  baz[/strings]"));
+
+    // offsetExists
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings offsetExists=0]foo bar baz[/strings]'));
+
+    // offsetGet
+    $this->assertEquals("f", parsers()->shortcodes()->parse('[strings offsetGet=0]foo bar baz[/strings]'));
 });

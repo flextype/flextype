@@ -139,7 +139,7 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         }
 
         if ($key == 'endsWith') {
-            $content = strings($content)->{'endsWith'}(isset($vars[0]) ? (string) $vars[0] : '')  ? "true" : "false";
+            $content = strings($content)->{'endsWith'}(isset($vars[0]) ? (string) $vars[0] : '') ? "true" : "false";
         }
 
         if ($key == 'finish') {
@@ -156,6 +156,179 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
                 $content = strings($content)->{'format'}(...$formatVars)->toString();
             }
         }
+    
+        if ($key == 'getEncoding') {
+            $content = strings($content)->{'getEncoding'}();
+        }
+
+        if ($key == 'setEncoding') {
+            $content = strings($content)->{'setEncoding'}(isset($vars[0]) ? (string) $vars[0] : '');
+        }
+
+        if ($key == 'hash') {
+            $content = strings($content)->{'hash'}(isset($vars[0]) ? (string) $vars[0] : 'md5', isset($vars[1]) ? strings($vars[1])->toBoolean() : false)->toString();
+        }
+
+        if ($key == 'increment') {
+            $content = strings($content)->{'increment'}(isset($vars[0]) ? (int) $vars[0] : 1, isset($vars[1]) ? (string) $vars[1] : '_')->toString();
+        }
+
+        if ($key == 'indexOf') {
+            $content = strings($content)->{'indexOf'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? (int) $vars[1] : 0, isset($vars[2]) ? strings($vars[2])->toBoolean() : true);
+        }
+
+        if ($key == 'indexOfLast') {
+            $content = strings($content)->{'indexOfLast'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? (int) $vars[1] : 0, isset($vars[2]) ? strings($vars[2])->toBoolean() : true);
+        }
+
+        if ($key == 'insert') {
+            $content = strings($content)->{'insert'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? (int) $vars[1] : 0);
+        }
+
+        if ($key == 'isAlpha') {
+            $content = strings($content)->{'isAlpha'}() ? "true" : "false";
+        }
+
+        if ($key == 'isAlphanumeric') {
+            $content = strings($content)->{'isAlphanumeric'}() ? "true" : "false";
+        }
+
+        if ($key == 'isAscii') {
+            $content = strings($content)->{'isAscii'}() ? "true" : "false";
+        }
+
+        if ($key == 'isBase64') {
+            $content = strings($content)->{'isBase64'}() ? "true" : "false";
+        }
+
+        if ($key == 'isBlank') {
+            $content = strings($content)->{'isBlank'}() ? "true" : "false";
+        }
+
+        if ($key == 'isBoolean') {
+            $content = strings($content)->{'isBoolean'}() ? "true" : "false";
+        }
+
+        if ($key == 'isDigit') {
+            $content = strings($content)->{'isDigit'}() ? "true" : "false";
+        }
+
+        if ($key == 'isEmail') {
+            $content = strings($content)->{'isEmail'}() ? "true" : "false";
+        }
+
+        if ($key == 'isEmpty') {
+            $content = strings($content)->{'isEmpty'}() ? "true" : "false";
+        }
+        
+        if ($key == 'isEqual') {
+            $content = strings($content)->{'isEqual'}(isset($vars[0]) ? (string) $vars[0] : '') ? "true" : "false";
+        }
+
+        if ($key == 'isFalse') {
+            $content = strings($content)->{'isFalse'}() ? "true" : "false";
+        }
+
+        if ($key == 'isTrue') {
+            $content = strings($content)->{'isTrue'}() ? "true" : "false";
+        }
+
+        if ($key == 'isHexadecimal') {
+            $content = strings($content)->{'isHexadecimal'}() ? "true" : "false";
+        }
+
+        if ($key == 'isHTML') {
+            $content = strings($content)->{'isHTML'}() ? "true" : "false";
+        }
+
+        if ($key == 'isIP') {
+            $content = strings($content)->{'isIP'}() ? "true" : "false";
+        }
+
+        if ($key == 'isJson') {
+            $content = strings($content)->{'isJson'}() ? "true" : "false";
+        }
+
+        if ($key == 'isUpper') {
+            $content = strings($content)->{'isUpper'}() ? "true" : "false";
+        }
+
+        if ($key == 'isLower') {
+            $content = strings($content)->{'isLower'}() ? "true" : "false";
+        }
+
+        if ($key == 'isMAC') {
+            $content = strings($content)->{'isMAC'}() ? "true" : "false";
+        }
+
+        if  ($key == 'isNumeric') {
+            $content = strings($content)->{'isNumeric'}() ? "true" : "false";
+        }
+
+        if ($key == 'isPrintable') {
+            $content = strings($content)->{'isPrintable'}() ? "true" : "false";
+        }
+
+        if  ($key == 'isPunctuation') {
+            $content = strings($content)->{'isPunctuation'}() ? "true" : "false";
+        }
+
+        if ($key == 'isUrl') {
+            $content = strings($content)->{'isUrl'}() ? "true" : "false";
+        }
+
+        if ($key == 'isSimilar') {
+            $content = strings($content)->{'isSimilar'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? (float) $vars[1] : 80.0) ? "true" : "false";
+        }
+
+        if ($key == 'isSerialized') {
+            $content = strings($content)->{'isSerialized'}() ? "true" : "false";
+        }
+
+        if ($key == 'kebab') {
+            $content = strings($content)->{'kebab'}()->toString();
+        }
+
+        if ($key == 'lastSegment') {
+            $content = strings($content)->{'lastSegment'}(isset($vars[0]) ? (string) $vars[0] : ' ')->toString();
+        }
+
+        if ($key == 'length') {
+            $content = strings($content)->{'length'}();
+        }
+
+        if ($key == 'limit') {
+            $content = strings($content)->{'limit'}(isset($vars[0]) ? strings($vars[0])->toInteger() : 100, isset($vars[1]) ? (string) $vars[1] : '...')->toString();
+        }
+
+        if ($key == 'lines') {
+            $content = serializers()->json()->encode(strings($content)->{'lines'}());
+        }
+
+        if ($key == 'md5') {
+            $content = strings($content)->{'md5'}()->toString();
+        }
+
+        if ($key == 'move') {
+            $content = strings($content)->{'move'}(isset($vars[0]) ? strings($vars[0])->toInteger() : 0, isset($vars[1]) ? strings($vars[1])->toInteger() : 0, isset($vars[2]) ? strings($vars[2])->toInteger() : 0)->toString();
+        }
+
+        if ($key == 'normalizeNewLines') {
+            $content = strings($content)->{'normalizeNewLines'}()->toString();
+        }
+
+        if ($key == 'normalizeSpaces') {
+            $content = strings($content)->{'normalizeSpaces'}()->toString();
+        }
+
+        if ($key == 'offsetExists') {
+            $content = strings($content)->{'offsetExists'}(isset($vars[0]) ? strings($vars[0])->toInteger() : 0) ? "true" : "false";
+        }
+
+        if ($key == 'offsetGet') {
+            $content = strings($content)->{'offsetGet'}(isset($vars[0]) ? strings($vars[0])->toString() : 0);
+        }
+
     }
     
     return (string) $content;
