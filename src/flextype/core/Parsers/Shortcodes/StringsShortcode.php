@@ -26,43 +26,43 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         return '';
     }
     
-    $content       = $s->getContent();
-    $varsDelimeter = $s->getParameter('delimeter') ?: '|';
+    $content        = $s->getContent();
+    $varsDelimeter  = $s->getParameter('varsDelimeter') ?: '|';
 
     foreach($s->getParameters() as $key => $value) {
 
-        $values = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : $value : [];
-        
+        $vars  = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : $value : [];
+
         if ($key == 'append') {
-            if (is_iterable($values)) {
-                $content = strings($content)->{'append'}(...$values)->toString();
+            if (is_iterable($vars)) {
+                $content = strings($content)->{'append'}(...$vars)->toString();
             } else {
-                $content = strings($content)->{'append'}($values)->toString();
+                $content = strings($content)->{'append'}($vars)->toString();
             }
         }
 
         if ($key == 'prepend') {
-            if (is_iterable($values)) {
-                $content = strings($content)->{'prepend'}(...$values)->toString();
+            if (is_iterable($vars)) {
+                $content = strings($content)->{'prepend'}(...$vars)->toString();
             } else {
-                $content = strings($content)->{'prepend'}($values)->toString();
+                $content = strings($content)->{'prepend'}($vars)->toString();
             }
         }
 
         if ($key == 'after') {
-            $content = strings($content)->{'after'}($values)->toString();
+            $content = strings($content)->{'after'}($vars)->toString();
         }
 
         if ($key == 'afterLast') {
-            $content = strings($content)->{'afterLast'}($values)->toString();
+            $content = strings($content)->{'afterLast'}($vars)->toString();
         }
 
         if ($key == 'before') {
-            $content = strings($content)->{'before'}($values)->toString();
+            $content = strings($content)->{'before'}($vars)->toString();
         }
         
         if ($key == 'beforeLast') {
-            $content = strings($content)->{'beforeLast'}($values)->toString();
+            $content = strings($content)->{'beforeLast'}($vars)->toString();
         }
 
         if ($key == 'lower') {
@@ -74,15 +74,15 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         }
 
         if ($key == 'sort') {
-            $content = strings($content)->{'wordsSort' . strings($values)->ucfirst()}()->toString();
+            $content = strings($content)->{'wordsSort' . strings($vars)->ucfirst()}()->toString();
         }
 
         if ($key == 'wordsLimit') {
-            $content = strings($content)->{'wordsLimit'}(isset($values[0]) ? (int) $values[0] : 100, isset($values[1]) ? (string) $values[1] : '...')->toString();
+            $content = strings($content)->{'wordsLimit'}(isset($vars[0]) ? (int) $vars[0] : 100, isset($vars[1]) ? (string) $vars[1] : '...')->toString();
         }
 
         if ($key == 'at') {
-            $content = strings($content)->{'at'}((int) $values)->toString();
+            $content = strings($content)->{'at'}((int) $vars)->toString();
         }
         
         if ($key == 'base64Decode') {
@@ -94,7 +94,7 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         }
 
         if ($key == 'between') {
-            $content = strings($content)->{'between'}(isset($values[0]) ? (string) $values[0] : '', isset($values[1]) ? (string) $values[1] : '')->toString();
+            $content = strings($content)->{'between'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? (string) $vars[1] : '')->toString();
         }
 
         if ($key == 'camel') {
@@ -114,7 +114,7 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         }
 
         if ($key == 'contains') {
-            $content = strings($content)->{'contains'}(isset($values[0]) ? (string) $values[0] : '', isset($values[1]) ? (bool) $values[1] : true) ? "true" : "false"; 
+            $content = strings($content)->{'contains'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? (bool) $vars[1] : true) ? "true" : "false"; 
         }
     }
     
