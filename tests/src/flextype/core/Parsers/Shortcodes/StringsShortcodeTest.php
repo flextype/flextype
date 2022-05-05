@@ -58,4 +58,7 @@ test('[strings] shortcode', function () {
     // chars
     $this->assertEquals('["c","a","r","_","f","ò","ô","_","b","à","ř","s","_","a","p","p","l","e"]', parsers()->shortcodes()->parse('[strings chars]car_fòô_bàřs_apple[/strings]'));
 
+    // charsFrequency
+    $this->assertEquals('{"_":"16.67","a":"11.11","p":"11.11","c":"5.56","r":"5.56","f":"5.56","ò":"5.56","ô":"5.56","b":"5.56","à":"5.56","ř":"5.56","s":"5.56","l":"5.56","e":"5.56"}', parsers()->shortcodes()->parse('[strings charsFrequency]car_fòô_bàřs_apple[/strings]'));
+
 });

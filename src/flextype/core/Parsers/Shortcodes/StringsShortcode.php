@@ -108,6 +108,10 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         if ($key == 'chars') {
             $content = serializers()->json()->encode(strings($content)->{'chars'}());
         }
+
+        if ($key == 'charsFrequency') {
+            $content = serializers()->json()->encode(strings($content)->{'charsFrequency'}());
+        }
     }
     
     return (string) $content;
