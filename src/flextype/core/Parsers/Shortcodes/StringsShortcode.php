@@ -112,6 +112,10 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         if ($key == 'charsFrequency') {
             $content = serializers()->json()->encode(strings($content)->{'charsFrequency'}());
         }
+
+        if ($key == 'contains') {
+            $content = strings($content)->{'contains'}(isset($values[0]) ? (string) $values[0] : '', isset($values[1]) ? (bool) $values[1] : true) ? "true" : "false"; 
+        }
     }
     
     return (string) $content;

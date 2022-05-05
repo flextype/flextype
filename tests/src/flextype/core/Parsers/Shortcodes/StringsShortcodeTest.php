@@ -61,4 +61,8 @@ test('[strings] shortcode', function () {
     // charsFrequency
     $this->assertEquals('{"_":"16.67","a":"11.11","p":"11.11","c":"5.56","r":"5.56","f":"5.56","ò":"5.56","ô":"5.56","b":"5.56","à":"5.56","ř":"5.56","s":"5.56","l":"5.56","e":"5.56"}', parsers()->shortcodes()->parse('[strings charsFrequency]car_fòô_bàřs_apple[/strings]'));
 
+    // contains
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings contains=SG-1]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+    $this->assertEquals("false", parsers()->shortcodes()->parse('[strings contains=sg-1|false]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+
 });
