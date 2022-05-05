@@ -116,6 +116,11 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         if ($key == 'contains') {
             $content = strings($content)->{'contains'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? (bool) $vars[1] : true) ? "true" : "false"; 
         }
+
+        if ($key == 'count') {
+            $content = (string) strings($content)->{'count'}();
+        }
+
     }
     
     return (string) $content;
