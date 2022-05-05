@@ -141,6 +141,10 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         if ($key == 'endsWith') {
             $content = strings($content)->{'endsWith'}(isset($vars[0]) ? (string) $vars[0] : '')  ? "true" : "false";
         }
+
+        if ($key == 'finish') {
+            $content = strings($content)->{'finish'}(isset($vars[0]) ? (string) $vars[0] : '')->toString();
+        }
     }
     
     return (string) $content;
