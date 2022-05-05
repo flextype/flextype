@@ -85,4 +85,7 @@ test('[strings] shortcode', function () {
     $this->assertEquals(1, parsers()->shortcodes()->parse('[strings countSubString=test]Test string here for test[/strings]'));
     $this->assertEquals(2, parsers()->shortcodes()->parse('[strings countSubString=test|false]Test string here for test[/strings]'));
 
+    // crc32
+    $this->assertEquals(3632233996, parsers()->shortcodes()->parse('[strings crc32]test[/strings]'));
+
 });

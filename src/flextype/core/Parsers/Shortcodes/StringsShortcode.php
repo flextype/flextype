@@ -130,6 +130,10 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
             $content = (string) strings($content)->{'count'}();
         }
 
+        if ($key == 'crc32') {
+            $content = (string) strings($content)->{'crc32'}();
+        }
+
         if ($key == 'countSubString') {
             $content = (string) strings($content)->{'countSubString'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : true);
         }
