@@ -38,7 +38,7 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
             if (is_iterable($vars)) {
                 $content = strings($content)->{'append'}(...$vars)->toString();
             } else {
-                $content = strings($content)->{'append'}($vars)->toString();
+                $content = strings($content)->{'append'}($vars[0])->toString();
             }
         }
 
@@ -46,7 +46,7 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
             if (is_iterable($vars)) {
                 $content = strings($content)->{'prepend'}(...$vars)->toString();
             } else {
-                $content = strings($content)->{'prepend'}($vars)->toString();
+                $content = strings($content)->{'prepend'}($vars[0])->toString();
             }
         }
 
@@ -148,6 +148,13 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
 
         if ($key == 'firstSegment') {
             $content = strings($content)->{'firstSegment'}(isset($vars[0]) ? (string) $vars[0] : ' ')->toString();
+        }
+
+        if ($key == 'format') {
+            $formatVars = isset($vars[0]) ? explode($itemsDelimeter, $vars[0]) : [];
+            if (count($formatVars) > 0) {
+                $content = strings($content)->{'format'}(...$formatVars)->toString();
+            }
         }
     }
     

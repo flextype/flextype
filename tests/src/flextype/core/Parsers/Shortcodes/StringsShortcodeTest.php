@@ -98,4 +98,7 @@ test('[strings] shortcode', function () {
     // firstSegment
     $this->assertEquals("SG-1", parsers()->shortcodes()->parse('[strings firstSegment]SG-1 returns from an off-world mission[/strings]'));
     $this->assertEquals("SG", parsers()->shortcodes()->parse('[strings firstSegment="-"]SG-1 returns from an off-world mission[/strings]'));
+
+    // format
+    $this->assertEquals("There are 5 monkeys in the tree", parsers()->shortcodes()->parse('[strings format=5,tree]There are %d monkeys in the %s[/strings]'));
 });
