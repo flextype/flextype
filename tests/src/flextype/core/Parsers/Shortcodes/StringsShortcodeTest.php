@@ -72,6 +72,12 @@ test('[strings] shortcode', function () {
     $this->assertEquals("false", parsers()->shortcodes()->parse('[strings containsAll=SG-1,XXX-3C3]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
     $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAll=sg-1,P9Y-3C3|false]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
 
+    // containsAny
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAny=SG-1]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAny=SG-1,P9Y-3C3]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAny=SG-1,XXX-3C3]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAny=sg-1,P9Y-3C3|false]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+
     // count
     $this->assertEquals(49, parsers()->shortcodes()->parse('[strings count]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
 

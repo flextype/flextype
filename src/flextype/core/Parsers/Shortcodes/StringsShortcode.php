@@ -122,6 +122,10 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
             $content = strings($content)->{'containsAll'}(isset($vars[0]) ? explode($itemsDelimeter, $vars[0]) : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : true) ? "true" : "false"; 
         }
 
+        if ($key == 'containsAny') {
+            $content = strings($content)->{'containsAny'}(isset($vars[0]) ? explode($itemsDelimeter, $vars[0]) : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : true) ? "true" : "false"; 
+        }
+
         if ($key == 'count') {
             $content = (string) strings($content)->{'count'}();
         }
