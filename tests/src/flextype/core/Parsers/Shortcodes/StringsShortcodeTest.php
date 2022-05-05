@@ -63,9 +63,13 @@ test('[strings] shortcode', function () {
 
     // contains
     $this->assertEquals("true", parsers()->shortcodes()->parse('[strings contains=SG-1]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
-    $this->assertEquals("false", parsers()->shortcodes()->parse('[strings contains=sg-1|false]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+    $this->assertEquals("false", parsers()->shortcodes()->parse('[strings contains=sg-1]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
 
     // count
     $this->assertEquals(49, parsers()->shortcodes()->parse('[strings count]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+
+    // count
+    $this->assertEquals(1, parsers()->shortcodes()->parse('[strings countSubString=test]Test string here for test[/strings]'));
+    $this->assertEquals(2, parsers()->shortcodes()->parse('[strings countSubString=test|false]Test string here for test[/strings]'));
 
 });

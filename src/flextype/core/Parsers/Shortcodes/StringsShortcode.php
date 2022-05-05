@@ -31,7 +31,7 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
 
     foreach($s->getParameters() as $key => $value) {
 
-        $vars  = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : $value : [];
+        $vars = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [];
 
         if ($key == 'append') {
             if (is_iterable($vars)) {
@@ -50,19 +50,19 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         }
 
         if ($key == 'after') {
-            $content = strings($content)->{'after'}($vars)->toString();
+            $content = strings($content)->{'after'}($vars[0])->toString();
         }
 
         if ($key == 'afterLast') {
-            $content = strings($content)->{'afterLast'}($vars)->toString();
+            $content = strings($content)->{'afterLast'}($vars[0])->toString();
         }
 
         if ($key == 'before') {
-            $content = strings($content)->{'before'}($vars)->toString();
+            $content = strings($content)->{'before'}($vars[0])->toString();
         }
         
         if ($key == 'beforeLast') {
-            $content = strings($content)->{'beforeLast'}($vars)->toString();
+            $content = strings($content)->{'beforeLast'}($vars[0])->toString();
         }
 
         if ($key == 'lower') {
@@ -74,15 +74,15 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         }
 
         if ($key == 'sort') {
-            $content = strings($content)->{'wordsSort' . strings($vars)->ucfirst()}()->toString();
+            $content = strings($content)->{'wordsSort' . strings($vars[0])->ucfirst()}()->toString();
         }
 
         if ($key == 'wordsLimit') {
-            $content = strings($content)->{'wordsLimit'}(isset($vars[0]) ? (int) $vars[0] : 100, isset($vars[1]) ? (string) $vars[1] : '...')->toString();
+            $content = strings($content)->{'wordsLimit'}(isset($vars[0]) ? strings($vars[0])->toInteger() : 100, isset($vars[1]) ? (string) $vars[1] : '...')->toString();
         }
 
         if ($key == 'at') {
-            $content = strings($content)->{'at'}((int) $vars)->toString();
+            $content = strings($content)->{'at'}(strings($vars[0])->toInteger())->toString();
         }
         
         if ($key == 'base64Decode') {
@@ -114,13 +114,16 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         }
 
         if ($key == 'contains') {
-            $content = strings($content)->{'contains'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? (bool) $vars[1] : true) ? "true" : "false"; 
+            $content = strings($content)->{'contains'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : true) ? "true" : "false"; 
         }
 
         if ($key == 'count') {
             $content = (string) strings($content)->{'count'}();
         }
 
+        if ($key == 'countSubString') {
+            $content = (string) strings($content)->{'countSubString'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : true);
+        }
     }
     
     return (string) $content;
