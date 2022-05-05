@@ -306,7 +306,7 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         }
 
         if ($key == 'md5') {
-            $content = strings($content)->{'md5'}()->toString();
+            $content = strings($content)->{'md5'}(isset($vars[0]) ? strings($vars[0])->toBoolean() : false)->toString();
         }
 
         if ($key == 'move') {
@@ -329,7 +329,150 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
             $content = strings($content)->{'offsetGet'}(isset($vars[0]) ? strings($vars[0])->toString() : 0);
         }
 
-    }
+        if ($key === 'padBoth') {
+            $content = strings($content)->{'padBoth'}(isset($vars[0]) ? strings($vars[0])->toInteger() : 0, isset($vars[1]) ? (string) $vars[1] : ' ')->toString();
+        }
+
+        if ($key === 'padLeft') {
+            $content = strings($content)->{'padLeft'}(isset($vars[0]) ? strings($vars[0])->toInteger() : 0, isset($vars[1]) ? (string) $vars[1] : ' ')->toString();
+        }
+
+        if ($key === 'padRight') {
+            $content = strings($content)->{'padRight'}(isset($vars[0]) ? strings($vars[0])->toInteger() : 0, isset($vars[1]) ? (string) $vars[1] : ' ')->toString();
+        }
+
+        if ($key == 'quotesToEntities') {
+            $content = strings($content)->{'quotesToEntities'}()->toString();
+        }
+
+        if ($key == 'random') {
+            $content = strings($content)->{'random'}(isset($vars[0]) ? strings($vars[0])->toInteger() : 64, isset($vars[1]) ? (string) $vars[1] : '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')->toString();
+        }
+
+        if ($key == 'reduceSlashes') {
+            $content = strings($content)->{'reduceSlashes'}()->toString();
+        }
+
+        if ($key == 'repeat') {
+            $content = strings($content)->{'repeat'}(isset($vars[0]) ? strings($vars[0])->toInteger() : 1)->toString();
+        }
+
+        if ($key == 'replace') {
+            $content = strings($content)->{'replace'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? (string) $vars[1] : '')->toString();
+        }
+
+        if ($key == 'replaceDashes') {
+            $content = strings($content)->{'replaceDashes'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : false)->toString();
+        }
+
+        if ($key == 'replaceFirst') {
+            $content = strings($content)->{'replaceFirst'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? (string) $vars[1] : '')->toString();
+        }
+
+        if ($key == 'replaceLast') {
+            $content = strings($content)->{'replaceLast'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? (string) $vars[1] : '')->toString();
+        }
+
+        if ($key == 'replaceNonAlpha') {
+            $content = strings($content)->{'replaceNonAlpha'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : false)->toString();
+        }
+
+        if ($key == 'replaceNonAlphanumeric') {
+            $content = strings($content)->{'replaceNonAlphanumeric'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : false)->toString();
+        }
+
+        if ($key == 'replacePunctuations') {
+            $content = strings($content)->{'replacePunctuations'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : false)->toString();
+        }
+
+        if ($key == 'reverse') {
+            $content = strings($content)->{'reverse'}()->toString();
+        }
+
+        if ($key == 'segment') {
+            $content = strings($content)->{'segment'}(isset($vars[0]) ? strings($vars[0])->toInteger() : 1, isset($vars[1]) ? (string) $vars[1] : ' ')->toString();
+        }
+
+        if ($key == 'segments') {
+            $content = serializers()->json()->encode(strings($content)->{'segments'}(isset($vars[0]) ? (string) $vars[0] : ' '));
+        }
+    
+        if ($key == 'sha1') {
+            $content = strings($content)->{'sha1'}(isset($vars[0]) ? strings($vars[0])->toBoolean() : false)->toString();
+        }
+
+        if ($key == 'sha256') {
+            $content = strings($content)->{'sha256'}(isset($vars[0]) ? strings($vars[0])->toBoolean() : false)->toString();
+        }
+
+        if ($key == 'shuffle') {
+            $content = strings($content)->{'shuffle'}()->toString();
+        }
+
+        if ($key == 'similarity') {
+            $content = (string) strings($content)->{'similarity'}(isset($vars[0]) ? (string) $vars[0] : '');
+        }
+
+        if ($key == 'snake') {
+            $content = strings($content)->{'snake'}(isset($vars[0]) ? (string) $vars[0] : '_')->toString();
+        }
+
+        if ($key == 'start') {
+            $content = strings($content)->{'start'}(isset($vars[0]) ? (string) $vars[0] : '')->toString();
+        }
+
+        if ($key == 'startsWith') {
+            $content = strings($content)->{'startsWith'}(isset($vars[0]) ? (string) $vars[0] : '') ? "true" : "false";
+        }
+
+        if ($key == 'stripQuotes') {
+            $content = strings($content)->{'stripQuotes'}()->toString();
+        }
+
+        if ($key == 'stripSpaces') {
+            $content = strings($content)->{'stripSpaces'}()->toString();
+        }
+
+        if ($key == 'studly') {
+            $content = strings($content)->{'studly'}()->toString();
+        }
+
+        if ($key == 'substr') {
+            $content = strings($content)->{'substr'}(isset($vars[0]) ? strings($vars[0])->toInteger() : 0, isset($vars[1]) ? (string) $vars[1] : null)->toString();
+        }
+
+        if ($key == 'trim') {
+            $content = strings($content)->{'trim'}()->toString();
+        }
+
+        if ($key == 'trimLeft') {
+            $content = strings($content)->{'trimLeft'}()->toString();
+        }
+
+        if ($key == 'trimRight') {
+            $content = strings($content)->{'trimRight'}()->toString();
+        }
+
+        if ($key == 'trimSlashes') {
+            $content = strings($content)->{'trimSlashes'}()->toString();
+        }
+
+        if ($key == 'ucfirst') {
+            $content = strings($content)->{'ucfirst'}()->toString();
+        }
+
+        if ($key == 'wordsCount') {
+            $content = (string) strings($content)->{'wordsCount'}(isset($vars[0]) ? (string) $vars[0] : '?!;:,.');
+        }
+
+        if ($key == 'words') {
+            $content = serializers()->json()->encode(strings($content)->{'words'}(isset($vars[0]) ? (string) $vars[0] : '?!;:,.'));
+        }
+
+        if ($key == 'wordsFrequency') {
+            $content = serializers()->json()->encode(strings($content)->{'wordsFrequency'}(isset($vars[0]) ? strings($vars[0])->toInteger() : 2, isset($vars[1]) ? (string) $vars[1] : '.', isset($vars[2]) ? (string) $vars[2] : ','));
+        }
+     }
     
     return (string) $content;
 });

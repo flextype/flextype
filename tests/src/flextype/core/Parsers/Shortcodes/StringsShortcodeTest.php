@@ -224,4 +224,119 @@ test('[strings] shortcode', function () {
 
     // offsetGet
     $this->assertEquals("f", parsers()->shortcodes()->parse('[strings offsetGet=0]foo bar baz[/strings]'));
+
+    // padBoth
+    $this->assertEquals("   foo   ", parsers()->shortcodes()->parse('[strings padBoth=9]foo[/strings]'));
+
+    // padLeft
+    $this->assertEquals("   foo", parsers()->shortcodes()->parse('[strings padLeft=6]foo[/strings]'));
+
+    // padRight
+    $this->assertEquals("foo   ", parsers()->shortcodes()->parse('[strings padRight=6]foo[/strings]'));
+
+    // quotesToEntities
+    $this->assertEquals("&quot;foo&quot;", parsers()->shortcodes()->parse('[strings quotesToEntities]"foo"[/strings]'));
+
+    // random
+    $test1 = parsers()->shortcodes()->parse('[strings random /]');
+    $test2 = parsers()->shortcodes()->parse('[strings random=10 /]');
+    $test3 = parsers()->shortcodes()->parse('[strings random=4|1234 /]');
+    $this->assertEquals(64, strings($test1)->length());
+    $this->assertEquals(10, strings($test2)->length());
+    $this->assertEquals(4, strings($test3)->length());
+
+    // reduceSlashes
+    $this->assertEquals("foo/bar/baz", parsers()->shortcodes()->parse('[strings reduceSlashes]foo//bar/baz[/strings]'));
+
+    // repeat
+    $this->assertEquals("foofoofoo", parsers()->shortcodes()->parse('[strings repeat=3]foo[/strings]'));
+
+    // replace
+    $this->assertEquals("bar baz", parsers()->shortcodes()->parse('[strings replace=foo|bar]foo baz[/strings]'));
+
+    // replaceDashes
+    $this->assertEquals("foobarbaz", parsers()->shortcodes()->parse('[strings replaceDashes]foo-bar-baz[/strings]'));
+    $this->assertEquals("foo_bar_baz", parsers()->shortcodes()->parse('[strings replaceDashes="_"]foo-bar-baz[/strings]'));
+
+    // replaceFirst
+    $this->assertEquals("bar foo bar", parsers()->shortcodes()->parse('[strings replaceFirst=foo|bar]foo foo bar[/strings]'));
+
+    // replaceLast
+    $this->assertEquals("foo bar bar", parsers()->shortcodes()->parse('[strings replaceLast=foo|bar]foo foo bar[/strings]'));
+
+    // replaceNonAlpha
+    $this->assertEquals("foo  baz  bar", parsers()->shortcodes()->parse('[strings replaceNonAlpha]foo 123 baz 345 bar[/strings]'));
+
+    // replaceNonAlphanumeric
+    $this->assertEquals("Fòôbàřs123", parsers()->shortcodes()->parse('[strings replaceNonAlphanumeric]Fòô-bàřs-123[/strings]'));
+
+    // replacePunctuations
+    $this->assertEquals("foo 123 baz 345 bar", parsers()->shortcodes()->parse('[strings replacePunctuations]foo 123, baz, 345 bar[/strings]'));
+
+    // reverse
+    $this->assertEquals("oof", parsers()->shortcodes()->parse('[strings reverse]foo[/strings]'));
+
+    // segement
+    $this->assertEquals("foo", parsers()->shortcodes()->parse('[strings segment=0]foo bar baz[/strings]'));
+    $this->assertEquals("foo", parsers()->shortcodes()->parse('[strings segment="0|/"]foo/bar/baz[/strings]'));
+
+    // segements
+    $this->assertEquals('["foo","bar","baz"]', parsers()->shortcodes()->parse('[strings segments]foo bar baz[/strings]'));
+
+    // sha1
+    $this->assertEquals("5cb8681884af2923487a6034d8dbe753828e2660", parsers()->shortcodes()->parse('[strings sha1]Foo Bar[/strings]'));
+
+    // sha256
+    $this->assertEquals("55282c18206b9beb9998f5eaa15b85c9388463965678af5209e2cc3a3ff5b947", parsers()->shortcodes()->parse('[strings sha256]Foo Bar[/strings]'));
+
+    // shuffle
+    $this->assertEquals(9, strings(parsers()->shortcodes()->parse('[strings shuffle]123456890[/strings]'))->length());
+
+    // similarity
+    $this->assertEquals(100, parsers()->shortcodes()->parse('[strings similarity=foo]foo[/strings]'));
+
+    // snake    
+    $this->assertEquals("foo_bar", parsers()->shortcodes()->parse('[strings snake]fooBar[/strings]'));
+
+    // start
+    $this->assertEquals("/movies/sg-1/season-5/episode-21/", parsers()->shortcodes()->parse('[strings start="/"]movies/sg-1/season-5/episode-21/[/strings]'));
+
+    // startsWith
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings startsWith="/"]/foo/[/strings]'));
+
+    // stripQuotes
+    $this->assertEquals("some text here", parsers()->shortcodes()->parse('[strings stripQuotes]some "text" here[/strings]'));
+
+    // stripSpaces
+    $this->assertEquals("foobarbaz", parsers()->shortcodes()->parse('[strings stripSpaces]foo bar baz[/strings]'));
+
+    // studly   
+    $this->assertEquals("FooBar", parsers()->shortcodes()->parse('[strings studly]foo_bar[/strings]'));
+
+    // substr
+    $this->assertEquals("bar baz", parsers()->shortcodes()->parse('[strings substr=4]foo bar baz[/strings]'));
+
+    // trim
+    $this->assertEquals("foo bar baz", parsers()->shortcodes()->parse('[strings trim] foo bar baz [/strings]'));
+
+    // trimLeft
+    $this->assertEquals("foo bar baz", parsers()->shortcodes()->parse('[strings trimLeft] foo bar baz[/strings]'));
+
+    // trimRight
+    $this->assertEquals("foo bar baz", parsers()->shortcodes()->parse('[strings trimRight]foo bar baz [/strings]'));
+
+    // trimSlashes
+    $this->assertEquals("foo/bar/baz", parsers()->shortcodes()->parse('[strings trimSlashes]/foo/bar/baz/[/strings]'));
+
+    // ucfirst
+    $this->assertEquals("Foo", parsers()->shortcodes()->parse('[strings ucfirst]foo[/strings]'));
+
+    // wordsCount
+    $this->assertEquals(3, parsers()->shortcodes()->parse('[strings wordsCount]foo bar baz[/strings]'));
+
+    // words
+    $this->assertEquals('["foo","bar","baz"]', parsers()->shortcodes()->parse('[strings words]foo bar baz[/strings]'));
+
+    // wordsFrequency
+    $this->assertEquals('{"foo":"33.33","bar":"33.33","baz":"33.33"}', parsers()->shortcodes()->parse('[strings wordsFrequency]foo bar baz[/strings]'));
 });
