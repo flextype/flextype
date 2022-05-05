@@ -55,4 +55,7 @@ test('[strings] shortcode', function () {
     // capitalize
     $this->assertEquals("That Country Was At The Same Stage Of Development As The United States In The 1940S", parsers()->shortcodes()->parse('[strings capitalize]that country was at the same stage of development as the United States in the 1940s[/strings]'));
 
+    // chars
+    $this->assertEquals('["c","a","r","_","f","ò","ô","_","b","à","ř","s","_","a","p","p","l","e"]', parsers()->shortcodes()->parse('[strings chars]car_fòô_bàřs_apple[/strings]'));
+
 });

@@ -104,6 +104,10 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         if ($key == 'capitalize') {
             $content = strings($content)->{'capitalize'}()->toString();
         }
+
+        if ($key == 'chars') {
+            $content = serializers()->json()->encode(strings($content)->{'chars'}());
+        }
     }
     
     return (string) $content;
