@@ -137,6 +137,10 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         if ($key == 'countSubString') {
             $content = (string) strings($content)->{'countSubString'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : true);
         }
+
+        if ($key == 'endsWith') {
+            $content = strings($content)->{'endsWith'}(isset($vars[0]) ? (string) $vars[0] : '')  ? "true" : "false";
+        }
     }
     
     return (string) $content;

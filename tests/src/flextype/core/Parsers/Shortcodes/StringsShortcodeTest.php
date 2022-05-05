@@ -88,4 +88,7 @@ test('[strings] shortcode', function () {
     // crc32
     $this->assertEquals(3632233996, parsers()->shortcodes()->parse('[strings crc32]test[/strings]'));
 
+    // endsWith
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings endsWith="/"]/movies/sg-1/season-5/episode-21/[/strings]'));
+    $this->assertEquals("false", parsers()->shortcodes()->parse('[strings endsWith="/"]/movies/sg-1/season-5/episode-21[/strings]'));
 });
