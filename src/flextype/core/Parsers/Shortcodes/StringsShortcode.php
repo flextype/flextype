@@ -28,6 +28,7 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
     
     $content        = $s->getContent();
     $varsDelimeter  = $s->getParameter('varsDelimeter') ?: '|';
+    $itemsDelimeter = $s->getParameter('itemsDelimeter') ?: ',';
 
     foreach($s->getParameters() as $key => $value) {
 
@@ -114,7 +115,11 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         }
 
         if ($key == 'contains') {
-            $content = strings($content)->{'contains'}(isset($vars[0]) ? (string) $vars[0] : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : true) ? "true" : "false"; 
+            $content = strings($content)->{'contains'}(isset($vars[0]) ? explode($itemsDelimeter, $vars[0]) : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : true) ? "true" : "false"; 
+        }
+
+        if ($key == 'containsAll') {
+            $content = strings($content)->{'containsAll'}(isset($vars[0]) ? explode($itemsDelimeter, $vars[0]) : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : true) ? "true" : "false"; 
         }
 
         if ($key == 'count') {
