@@ -80,6 +80,7 @@ class Entries
 
         $this->setRegistry($registry);
         $this->setOptions($options);
+        $this->loadCollectionsDirectives();
         $this->loadCollectionsMacros();
         $this->loadCollectionsEvents();
         $this->loadCollectionsFields();
@@ -117,6 +118,20 @@ class Entries
                 continue;
             }
             
+            if (filesystem()->file(ROOT_DIR . $value['path'])->exists()) {
+                include_once ROOT_DIR . $value['path']; 
+            }
+        } 
+    }
+
+    /** 
+     * Load Collections Directives
+     *
+     * @access public
+     */
+    private function loadCollectionsDirectives(): void
+    {
+        foreach (registry()->get('flextype.settings.entries.directives') as $key => $value) {
             if (filesystem()->file(ROOT_DIR . $value['path'])->exists()) {
                 include_once ROOT_DIR . $value['path']; 
             }
@@ -353,6 +368,20 @@ class Entries
             
             // Get the result.
             $result = $this->registry()->get('methods.fetch.result');
+
+            // Directives processor
+            $result = collection($result)->dot()->map(function ($field) { 
+                $this->registry()->set('methods.fetch.field', $field);
+                if (is_string($field)) {
+
+                    // Run event
+                    emitter()->emit('onEntriesFetchSingleDirectives');
+
+                    return $this->registry()->get('methods.fetch.field');
+                } else {
+                    return $this->registry()->get('methods.fetch.field');
+                }
+            })->undot();
 
             // Apply `filterCollection` filter for fetch result
             $this->registry()->set('methods.fetch.result', filterCollection($result, $this->registry()->get('methods.fetch.params.options.filter', [])));

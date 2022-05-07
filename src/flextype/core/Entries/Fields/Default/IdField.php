@@ -19,7 +19,7 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
     if (! entries()->registry()->get('methods.fetch.collection.fields.id.enabled')) {
         return;
     }
-
+    
     if (entries()->registry()->get('methods.fetch.result.id') !== null) {
         return;
     }

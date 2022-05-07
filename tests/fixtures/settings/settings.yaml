@@ -70,6 +70,19 @@ errors:
 # Entries
 entries:
   directory: '/entries'
+  parsers:
+    shortcodes:
+      enabled: true
+  directives:
+    markdown:
+      enabled: true
+      path: "/src/flextype/core/Entries/Directives/MarkdownDirective.php"
+    shortcodes:
+      enabled: true
+      path: "/src/flextype/core/Entries/Directives/ShortcodesDirective.php"
+    types:
+      enabled: true
+      path: "/src/flextype/core/Entries/Directives/TypesDirective.php"
   macros:
     debug: false
     registry:
