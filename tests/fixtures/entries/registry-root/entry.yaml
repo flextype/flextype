@@ -1,14 +1,15 @@
 title: Root
-registry:
-  get:
-    flextype:
-      id: flextype.manifest.name
-    author.name:
-      id: flextype.manifest.author.name
-    license:
-      id: flextype.manifest.license
-entries:
-  fetch:
-    level1:
-      id: registry-root/level-1
-      result: toArray
+macros:
+  registry:
+    get:
+      flextype:
+        id: flextype.manifest.name
+      author.name:
+        id: flextype.manifest.author.name
+      license:
+        id: flextype.manifest.license
+  entries:
+    fetch:
+      level1:
+        id: registry-root/level-1
+        result: toArray

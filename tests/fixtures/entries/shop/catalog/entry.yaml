@@ -1,10 +1,10 @@
 title: Catalog
-entries:
-  dump: false
-  fetch:
-    bikes:
-      result: toArray
-      id: shop/catalog/bikes
-    snowboards:
-      result: toArray
-      id: shop/catalog/snowboards
+macros:
+  entries:
+    fetch:
+      bikes:
+        result: toArray
+        id: shop/catalog/bikes
+      snowboards:
+        result: toArray
+        id: shop/catalog/snowboards

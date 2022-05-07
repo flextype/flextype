@@ -10,7 +10,7 @@ afterEach(function (): void {
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
-test('EntriesField for blog', function () {
+test('EntriesMacros for blog', function () {
     entries()->create('blog', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/blog/blog.yaml')->get()));
     entries()->create('blog/post-1', serializers()->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/blog/post-1/post.md')->get()));
     entries()->create('blog/post-2', serializers()->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/blog/post-2/post.md')->get()));
@@ -22,7 +22,7 @@ test('EntriesField for blog', function () {
     $this->assertEquals(2, $posts->count());
 });
 
-test('EntriesField for shop', function() {
+test('EntriesMacros for shop', function() {
     filesystem()
         ->directory(ROOT_DIR . '/tests/fixtures/entries/shop')
         ->copy(ROOT_DIR . '/project/entries/shop');
@@ -35,7 +35,7 @@ test('EntriesField for shop', function() {
     $this->assertEquals('Discounts', $shop['discounts']['title']);
 });
 
-test('EntriesField for catalog', function () {
+test('EntriesMacros for catalog', function () {
 
     // Create catalog
     entries()->create('catalog', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/catalog/entry.yaml')->get()));
@@ -55,13 +55,13 @@ test('EntriesField for catalog', function () {
 
     $catalogSingle = entries()->fetch('catalog');
 
-    $this->assertEquals(15, $catalogSingle->count());
+    $this->assertEquals(14, $catalogSingle->count());
     $this->assertEquals('Catalog', $catalogSingle['title']);
     $this->assertEquals('catalog', $catalogSingle['id']);
-    $this->assertEquals(1, $catalogSingle['bikes']->count());
+    $this->assertEquals(1, collection($catalogSingle['bikes'])->count());
     $this->assertTrue(isset($catalogSingle['bikes']['catalog/bikes/gt']));
     $this->assertEquals('GT', $catalogSingle['bikes']['catalog/bikes/gt']['title']);
-    $this->assertEquals(1, $catalogSingle['discounts']->count());
+    $this->assertEquals(1, collection($catalogSingle['discounts'])->count());
     $this->assertTrue(isset($catalogSingle['discounts']['discounts/30-off']));
     $this->assertEquals('30% off', $catalogSingle['discounts']['discounts/30-off']['title']);
 
@@ -71,14 +71,14 @@ test('EntriesField for catalog', function () {
     $this->assertEquals('catalog/bikes', $catalogCollection['catalog/bikes']['id']);
 
     $catalogLongCollecion = entries()->fetch('catalog', ['collection' => true, 'find' => ['depth' => ['>0', '<4']]]);
-    $this->assertEquals(5, $catalogLongCollecion->count());
+    $this->assertEquals(5, collection($catalogLongCollecion)->count());
 
     $banner = entries()->fetch('banner');
     $this->assertEquals('Banner', $banner['title']);
     $this->assertEquals('banner', $banner['id']);
 });
 
-test('EntriesField for albmus', function () {
+test('EntriesMacros for albmus', function () {
     entries()->create('root', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/root/entry.yaml')->get()));
 
     entries()->create('albums', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/root/albums/entry.yaml')->get()));
@@ -91,10 +91,10 @@ test('EntriesField for albmus', function () {
 
     $root = entries()->fetch('root');
 
-    $this->assertEquals(15, $root->count());
+    $this->assertEquals(14, $root->count());
 });
 
-test('EntriesField for long nested entries', function () {
+test('EntriesMacros for long nested entries', function () {
     entries()->create('level1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/level1/entry.yaml')->get()));
     entries()->create('level1/level2', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/level1/level2/entry.yaml')->get()));
     entries()->create('level1/level2/level3', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/level1/level2/level3/entry.yaml')->get()));
@@ -102,7 +102,7 @@ test('EntriesField for long nested entries', function () {
 
     $level = entries()->fetch('level1');
 
-    $this->assertEquals(13, $level->count());
+    $this->assertEquals(12, $level->count());
     $this->assertEquals('level1/level2', $level['root']['id']);
     $this->assertEquals('level1/level2/level3', $level['root']['root']['id']);
     $this->assertEquals('level1/level2/level3/level4', $level['root']['root']['root']['id']);

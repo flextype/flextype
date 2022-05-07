@@ -1,16 +1,16 @@
 title: Rage
 price: 2100
-entries: 
-  dump: false
-  fetch:
-    discounts_available:
-      result: toArray
-      id: shop/discounts
-      options:
-        collection: true
-        filter:
-          where:
-            -
-              key: category
-              operator: eq
-              value: bikes
+macros:
+  entries:
+    fetch:
+      discounts_available:
+        result: toArray
+        id: shop/discounts
+        options:
+          collection: true
+          filter:
+            where:
+              -
+                key: category
+                operator: eq
+                value: bikes

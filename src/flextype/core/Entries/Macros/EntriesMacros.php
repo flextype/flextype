@@ -18,17 +18,17 @@ use Glowy\Arrays\Arrays as Collection;
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
-    if (! entries()->registry()->get('methods.fetch.collection.fields.entries.enabled')) {
+    if (! registry()->get('flextype.settings.entries.macros.entries.enabled')) {
         return;
     }
     
-    if (entries()->registry()->has('methods.fetch.result.entries.fetch')) {
+    if (entries()->registry()->has('methods.fetch.result.macros.entries.fetch')) {
 
         // Get 
         $original = entries()->registry()->get('methods.fetch');
         $data = [];
 
-        switch (entries()->registry()->get('methods.fetch.collection.fields.entries.result')) {
+        switch (registry()->get('flextype.settings.entries.macros.entries.result')) {
             case 'toArray':
                 $resultTo = 'toArray';
                 break;
@@ -38,9 +38,9 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
                 break;
 
             default:
-                if (entries()->registry()->has('methods.fetch.collection.fields.entries.fetch.result')) {
-                    if (in_array(entries()->registry()->get('methods.fetch.collection.fields.entries.fetch.result'), ['toArray', 'toObject'])) {
-                        $resultTo = entries()->registry()->get('methods.fetch.collection.fields.entries.fetch.result');
+                if (registry()->has('flextype.settings.entries.macros.entries.fetch.result')) {
+                    if (in_array(registry()->get('flextype.settings.entries.macros.entries.fetch.result'), ['toArray', 'toObject'])) {
+                        $resultTo = registry()->get('flextype.settings.entries.macros.entries.fetch.result');
 
                         if ($resultTo == 'toObject') {
                             $resultTo = 'copy';
@@ -53,18 +53,13 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         }
 
         // Modify data
-        foreach (entries()->registry()->get('methods.fetch.result.entries.fetch') as $field => $body) {
+        foreach (entries()->registry()->get('methods.fetch.result.macros.entries.fetch') as $field => $body) {
             $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] == 'toObject' ? 'copy' : 'toArray' : $resultTo;
             $data[$field] = entries()->fetch($body['id'], isset($body['options']) ? $body['options'] : []);
             $data[$field] = ($data[$field] instanceof Collection) ? $data[$field]->{$result}() : $data[$field];
         }
 
         $result = collection($original['result'])->merge($data)->toArray();
-
-        // Remove entries field when dump === false
-        if (boolval(arrays($result)->get('entries.dump', entries()->registry()->get('methods.fetch.collection.fields.entries.dump'))) === false) {
-            unset($result['entries']);
-        }
 
         // Save fetch data.
         entries()->registry()->set('methods.fetch.params.id', $original['params']['id']);

@@ -1,9 +1,9 @@
 title: Snowboards
-entries:
-  dump: false
-  fetch:
-    items:
-      result: toArray
-      id: shop/catalog/snowboards
-      options:
-        collection: true
+macros:
+  entries:
+    fetch:
+      items:
+        result: toArray
+        id: shop/catalog/snowboards
+        options:
+          collection: true

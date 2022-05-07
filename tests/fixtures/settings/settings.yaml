@@ -70,22 +70,22 @@ errors:
 # Entries
 entries:
   directory: '/entries'
+  macros:
+    debug: false
+    registry:
+      enabled: true
+      path: "/src/flextype/core/Entries/Macros/RegistryMacros.php"
+    entries:
+      enabled: true
+      path: "/src/flextype/core/Entries/Macros/EntriesMacros.php"
+      fetch:
+        result: toArray
   collections:
     default:
       filename: entry
       extension: yaml
       serializer: yaml
       fields:
-        registry:
-          enabled: true
-          dump: true
-          path: "/src/flextype/core/Entries/Fields/Default/RegistryField.php"
-        entries:
-          enabled: true
-          dump: true
-          path: "/src/flextype/core/Entries/Fields/Default/EntriesField.php"
-          fetch:
-            result: toObject
         slug:
           enabled: true
           path: "/src/flextype/core/Entries/Fields/Default/SlugField.php"
@@ -107,9 +107,6 @@ entries:
         routable:
           enabled: true
           path: "/src/flextype/core/Entries/Fields/Default/RoutableField.php"
-        parsers:
-          enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/ParsersField.php"
         visibility:
           enabled: true
           path: "/src/flextype/core/Entries/Fields/Default/VisibilityField.php"

@@ -1,10 +1,10 @@
 title: Shop
-entries:
-  dump: false
-  fetch:
-    catalog:
-      id: shop/catalog
-      result: toArray
-    discounts:
-      id: shop/discounts
-      result: toArray
+macros:
+  entries:
+    fetch:
+      catalog:
+        id: shop/catalog
+        result: toArray
+      discounts:
+        id: shop/discounts
+        result: toArray

@@ -16,11 +16,11 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
-    if (! entries()->registry()->get('methods.fetch.collection.fields.registry.enabled')) {
+    if (! registry()->get('flextype.settings.entries.macros.registry.enabled')) {
         return;
     }
 
-    if (entries()->registry()->has('methods.fetch.result.registry.get')) {
+    if (entries()->registry()->has('methods.fetch.result.macros.registry.get')) {
 
         // Get fetch.
         $original = entries()->registry()->get('methods.fetch');
@@ -28,7 +28,7 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         $data = [];
 
         // Modify fetch.
-        foreach (entries()->registry()->get('methods.fetch.result.registry.get') as $field => $body) {
+        foreach (entries()->registry()->get('methods.fetch.result.macros.registry.get') as $field => $body) {
             $data = collection($data)->merge(collection($data)->set($field, registry()->get($body['id'],
                                                         isset($body['default']) ?
                                                             $body['default'] :
@@ -37,10 +37,6 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         }
 
         $result = collection($original['result'])->merge($data)->toArray();
-
-        if (boolval(entries()->registry()->get('methods.fetch.collection.fields.registry.dump')) === false) {
-            unset($result['registry']);
-        }
 
         // Save fetch.
         entries()->registry()->set('methods.fetch.result', $result);

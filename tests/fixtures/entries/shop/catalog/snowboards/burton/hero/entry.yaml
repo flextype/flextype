@@ -1,16 +1,16 @@
 title: Burton Family Tree Hometown Hero Camber Splitboard
 price: 849.95 
-entries: 
-  dump: false
-  fetch:
-    discounts_available:
-      result: toArray
-      id: shop/discounts
-      options:
-        collection: true
-        filter:
-          where:
-            -
-              key: category
-              operator: eq
-              value: snowboards
+macros:
+  entries:
+    fetch:
+      discounts_available:
+        result: toArray
+        id: shop/discounts
+        options:
+          collection: true
+          filter:
+            where:
+              -
+                key: category
+                operator: eq
+                value: snowboards

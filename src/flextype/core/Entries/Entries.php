@@ -80,8 +80,47 @@ class Entries
 
         $this->setRegistry($registry);
         $this->setOptions($options);
+        $this->loadCollectionsMacros();
         $this->loadCollectionsEvents();
         $this->loadCollectionsFields();
+    }
+
+    /**
+     * Remove Collection Macros.
+     * 
+     * @param mixed $data Entry data.
+     * 
+     * @return mixed
+     * 
+     * @access private
+     */
+    private function removeCollectionsMacros($data) 
+    {
+        if (is_array($data)) {
+            if (boolval(arrays($data)->get('macros.dump', registry()->get('flextype.settings.entries.macros.dump'))) === false) {
+                unset($data['macros']);
+            }
+        }
+
+        return $data;
+    }
+
+    /** 
+     * Load Collections Macros
+     *
+     * @access public
+     */
+    private function loadCollectionsMacros(): void
+    {
+        foreach (registry()->get('flextype.settings.entries.macros') as $key => $value) {
+            if ($key == 'debug') {
+                continue;
+            }
+            
+            if (filesystem()->file(ROOT_DIR . $value['path'])->exists()) {
+                include_once ROOT_DIR . $value['path']; 
+            }
+        } 
     }
 
     /** 
@@ -122,7 +161,6 @@ class Entries
 
         foreach ($events as $event) {
             if (filesystem()->file($event)->exists()) {
-               
                 include_once $event; 
             }
         } 
@@ -152,7 +190,6 @@ class Entries
             }
 
             foreach ($collection['fields'] as $field) {
-
                 if (! isset($field['path'])) {
                     continue;
                 }
@@ -231,7 +268,7 @@ class Entries
 
         // Check if `result` contains data to return then return existing result.
         if (! is_null($this->registry()->get('methods.fetch.result'))) {
-            return $this->registry()->get('methods.fetch.result');
+            return $this->removeCollectionsMacros($this->registry()->get('methods.fetch.result'));
         }
         
         // Fetch collection or single
@@ -272,7 +309,7 @@ class Entries
 
         // Check if `result` contains data to return.
         if (! is_null($this->registry()->get('methods.fetch.result'))) {
-            return $this->registry()->get('methods.fetch.result');
+            return $this->removeCollectionsMacros($this->registry()->get('methods.fetch.result'));
         }
 
         // Get Cache ID for current requested entry
@@ -290,7 +327,7 @@ class Entries
             emitter()->emit('onEntriesFetchSingleCacheHasResult');
             
             // Return result from the cache.
-            return collection($this->registry()->get('methods.fetch.result'));
+            return collection($this->removeCollectionsMacros($this->registry()->get('methods.fetch.result')));
         }
         
         // 2. Try to get requested entry from the filesystem
@@ -305,7 +342,7 @@ class Entries
             if ($entryFileContent === false) {
                 // Run event
                 emitter()->emit('onEntriesFetchSingleNoResult');
-                return collection($this->registry()->get('methods.fetch.params.result'));
+                return collection($this->removeCollectionsMacros($this->registry()->get('methods.fetch.params.result')));
             }
 
             // Decode entry file content
@@ -330,14 +367,14 @@ class Entries
             }
             
             // Return entry fetch result
-            return collection($this->registry()->get('methods.fetch.result'));
+            return collection($this->removeCollectionsMacros($this->registry()->get('methods.fetch.result')));
         }
 
         // Run event
         emitter()->emit('onEntriesFetchSingleNoResult');
 
         // Return entry fetch result
-        return collection($this->registry()->get('methods.fetch.result'));
+        return collection($this->removeCollectionsMacros($this->registry()->get('methods.fetch.result')));
     }
 
     /**
@@ -366,7 +403,7 @@ class Entries
 
         // Check if `result` contains data to return.
         if (! is_null($this->registry()->get('methods.fetch.result'))) {
-            return $this->registry()->get('methods.fetch.result');
+            return $this->removeCollectionsMacros($this->registry()->get('methods.fetch.result'));
         }
 
         // Determine if collection exists
