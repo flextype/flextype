@@ -19,6 +19,8 @@ test('types directive', function () {
     entries()->create('type-array', ['foo' => '@type:array 1,2,3,4,5']);
     entries()->create('type-array-2', ['foo' => '@type:array [1,2,3,4,5]']);
     entries()->create('type-array-3', ['foo' => '@type:array {"foo": "Foo"}']);
+    entries()->create('type-array-4', ['foo' => '@type:array foo']);
+
 
     $this->assertEquals(100, entries()->fetch('type-int')['foo']);
     $this->assertEquals(100, entries()->fetch('type-integer')['foo']);
@@ -28,4 +30,6 @@ test('types directive', function () {
     $this->assertEquals([1,2,3,4,5], entries()->fetch('type-array')['foo']);
     $this->assertEquals([1,2,3,4,5], entries()->fetch('type-array-2')['foo']);
     $this->assertEquals(['foo' => 'Foo'], entries()->fetch('type-array-3')['foo']);
+    $this->assertEquals(['foo'], entries()->fetch('type-array-4')['foo']);
+
 });
