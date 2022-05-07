@@ -97,7 +97,7 @@ class Entries
     private function removeCollectionsMacros($data) 
     {
         if (is_array($data)) {
-            if (boolval(arrays($data)->get('macros.dump', registry()->get('flextype.settings.entries.macros.dump'))) === false) {
+            if (boolval(arrays($data)->get('macros.debug', registry()->get('flextype.settings.entries.macros.debug'))) === false) {
                 unset($data['macros']);
             }
         }
