@@ -11,11 +11,13 @@ afterEach(function () {
 });
 
 test('[entries-fetch] shortcode', function () {
-    $this->assertTrue(entries()->create('foo', ['title' => 'Foo']));
-    $this->assertEquals('Foo', parsers()->shortcodes()->parse('[entries-fetch id="foo" field="title"]'));
-    $this->assertEquals('Bar', parsers()->shortcodes()->parse('[entries-fetch id="foo" field="bar" default="Bar"]'));
+    $this->assertTrue(entries()->create('blog', ['title' => 'Blog', 'categories' => "@type:array [entries fetch=\"blog|collection=true&filter[sort_by][key]=date&filter[sort_by][direction]=ASC\" /]"]));
+    $this->assertTrue(entries()->create('blog/post-1', ['title' => 'Post 1']));
+    $this->assertTrue(entries()->create('blog/post-2', ['title' => 'Post 2']));
+    $this->assertTrue(entries()->create('blog/post-3', ['title' => 'Post 3']));
+    $this->assertTrue(entries()->create('categories', ['title' => 'Categories']));
+    $this->assertTrue(entries()->create('categories/cat', ['title' => 'Cat']));
+    $this->assertTrue(entries()->create('categories/dog', ['title' => 'Dog']));
 
-    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.entries.enabled', false);
-    $this->assertEquals('', parsers()->shortcodes()->parse('[entries-fetch id="foo" field="bar" default="Bar"]'));
-
+    expect(entries()->fetch('blog')->dot()->count())->toBe(44);
 });
