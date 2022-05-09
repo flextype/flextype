@@ -102,7 +102,7 @@ entries:
       path: "/src/flextype/core/Entries/Macros/EntriesMacros.php"
       fetch:
         enabled: true
-        result: toArray
+        type: array
   collections:
     default:
       filename: entry
