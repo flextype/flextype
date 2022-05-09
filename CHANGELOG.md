@@ -66,6 +66,8 @@
 
 * **core**: Added Glowy PHP View Package.
 
+* **core**: Added built-in I18n module.
+
 * **entries** Added new functionality for Virtual Entries with CRUD opertations.
 
 * **entries**: Added ability to create completely customizable high level collections for entries.
