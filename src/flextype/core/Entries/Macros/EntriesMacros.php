@@ -25,46 +25,40 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
     if (entries()->registry()->has('methods.fetch.result.macros.entries.fetch') &&
         registry()->get('flextype.settings.entries.macros.entries.fetch.enabled') === true) {
 
-        // Get 
+        // Backup current entry data
         $original = entries()->registry()->get('methods.fetch');
         $data = [];
 
-        switch (registry()->get('flextype.settings.entries.macros.entries.result')) {
-            case 'toArray':
-                $resultTo = 'toArray';
-                break;
-
-            case 'toObject':
-                $resultTo = 'copy';
-                break;
-
-            default:
-                if (registry()->has('flextype.settings.entries.macros.entries.fetch.result')) {
-                    if (in_array(registry()->get('flextype.settings.entries.macros.entries.fetch.result'), ['toArray', 'toObject'])) {
-                        $resultTo = registry()->get('flextype.settings.entries.macros.entries.fetch.result');
-
-                        if ($resultTo == 'toObject') {
-                            $resultTo = 'copy';
-                        }
-                    }
-                } else {
+        foreach (entries()->registry()->get('methods.fetch.result.macros.entries.fetch') as $key => $value) {
+            if (isset($value['type'])) {
+                $type = $value['type'];
+                if ($type == 'collection') {
                     $resultTo = 'copy';
+                } elseif ($type == 'array') {
+                    $resultTo = 'toArray';
+                } elseif ($type == 'json') {
+                    $resultTo = 'toJson';
+                } else {
+                    $resultTo = 'toArray';
                 }
-                break;
+            } else {
+                $type = registry()->get('flextype.settings.entries.macros.entries.fetch.type');
+                if ($type == 'collection') {
+                    $resultTo = 'copy';
+                } elseif ($type == 'array') {
+                    $resultTo = 'toArray';
+                } elseif ($type == 'json') {
+                    $resultTo = 'toJson';
+                } else {
+                    $resultTo = 'toArray';
+                }
+            }
+            $data[$key] = entries()->fetch($value['id'], isset($value['options']) ? $value['options'] : [])->{$resultTo}();
         }
 
-        // Modify data
-        foreach (entries()->registry()->get('methods.fetch.result.macros.entries.fetch') as $field => $body) {
-            $result = isset($body['result']) && in_array($body['result'], ['toArray', 'toObject']) ? $body['result'] == 'toObject' ? 'copy' : 'toArray' : $resultTo;
-            $data[$field] = entries()->fetch($body['id'], isset($body['options']) ? $body['options'] : []);
-            $data[$field] = ($data[$field] instanceof Collection) ? $data[$field]->{$result}() : $data[$field];
-        }
-
-        $result = collection($original['result'])->merge($data)->toArray();
-
-        // Save fetch data.
+        // Restore original entry data and merge new data.
         entries()->registry()->set('methods.fetch.params.id', $original['params']['id']);
         entries()->registry()->set('methods.fetch.params.options', $original['params']['options']);
-        entries()->registry()->set('methods.fetch.result', $result);
+        entries()->registry()->set('methods.fetch.result', collection($original['result'])->merge($data)->toArray());
     }
 });
