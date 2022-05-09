@@ -69,6 +69,20 @@ if (! function_exists('collectionWithRange')) {
     }
 }
 
+if (! function_exists('collectionFromQueryString')) {
+    /**
+     * Create a new arrayable object from the given query string.
+     *
+     * @param string $string    Input query string.
+     *
+     * @return Collection
+     */
+    function collectionFromQueryString(string $string): Collection
+    {
+        return Collection::createFromQueryString($string);
+    }
+}
+
 if (! function_exists('filterCollection')) {
     /**
      * Filter collection.
