@@ -20,6 +20,10 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Shortcode: [php] php code here [/php]
 parsers()->shortcodes()->addHandler('php', static function (ShortcodeInterface $s) {
+    if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.php.enabled')) {
+        return '';
+    }
+    
     ob_start();
     eval($s->getContent());
     return ob_get_clean();
