@@ -20,6 +20,9 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Shortcode: [filesystem]
 parsers()->shortcodes()->addHandler('filesystem', static function (ShortcodeInterface $s) {
+    if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.filesystem.enabled')) {
+        return '';
+    }
 
     $varsDelimeter = $s->getParameter('varsDelimeter') ?: '|';
 
