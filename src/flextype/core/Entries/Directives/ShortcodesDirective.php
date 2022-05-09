@@ -24,10 +24,12 @@ emitter()->addListener('onEntriesFetchSingleDirectives', static function (): voi
 
     $field = entries()->registry()->get('methods.fetch.field');
 
-    if (strings($field)->contains('@parser:shortcodes')) {
-        $field = strings(parsers()->shortcodes()->parse($field))->replace('@parser:shortcodes', '')->trim()->toString();
-    } elseif (registry()->get('flextype.settings.entries.parsers.shortcodes.enabled') !== false) {
-        $field = parsers()->shortcodes()->parse($field);
+    if (is_string($field)) {
+        if (strings($field)->contains('@parser:shortcodes')) {
+            $field = strings(parsers()->shortcodes()->parse($field))->replace('@parser:shortcodes', '')->trim()->toString();
+        } elseif (registry()->get('flextype.settings.entries.parsers.shortcodes.enabled') !== false) {
+            $field = parsers()->shortcodes()->parse($field);
+        }
     }
 
     entries()->registry()->set('methods.fetch.field', $field);

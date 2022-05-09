@@ -24,9 +24,11 @@ emitter()->addListener('onEntriesFetchSingleDirectives', static function (): voi
 
     $field = entries()->registry()->get('methods.fetch.field');
 
-    if (strings($field)->contains('@parser:markdown')) {
-        $field = strings(parsers()->markdown()->parse($field))->replace('@parser:markdown', '')->trim()->toString();
-     }
+    if (is_string($field)) {
+        if (strings($field)->contains('@parser:markdown')) {
+            $field = strings(parsers()->markdown()->parse($field))->replace('@parser:markdown', '')->trim()->toString();
+        }
+    }
     
     entries()->registry()->set('methods.fetch.field', $field);
 });
