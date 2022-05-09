@@ -24,6 +24,10 @@ use function parsers;
 
 // Shortcode: [raw] shortcodes to escape [/raw]
 parsers()->shortcodes()->addHandler('raw', static function (ShortcodeInterface $s) {
+    if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.raw.enabled')) {
+        return '';
+    }
+
     return $s->getContent();
 });
 
