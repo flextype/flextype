@@ -528,6 +528,8 @@ parsers:
       entries:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/EntriesShortcode.php"
+        fetch:
+          enabled: true
       raw:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/RawShortcode.php"

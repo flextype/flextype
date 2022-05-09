@@ -541,6 +541,8 @@ parsers:
       entries:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/EntriesShortcode.php"
+        fetch:
+          enabled: true
       php:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/PhpShortcode.php"

@@ -32,7 +32,7 @@ parsers()->shortcodes()->addHandler('entries', static function (ShortcodeInterfa
 
     $varsDelimeter = $s->getParameter('varsDelimeter') ?: '|';
 
-    if ($s->getParameter('fetch') != null) {
+    if ($s->getParameter('fetch') != null && registry()->get('flextype.settings.parsers.shortcodes.shortcodes.entries.fetch.enabled') === true) {
 
         // Get vars
         foreach($s->getParameters() as $key => $value) {
