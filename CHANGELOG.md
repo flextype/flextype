@@ -64,13 +64,19 @@
 
 * **core** Added ability to run Flextype in silent mode by disabling settings `app` and `cli`. 
 
-* **entries** Added new functionality for Virtual Entries + CRUD opertations.
+* **core**: Added Glowy PHP View Package.
+
+* **entries** Added new functionality for Virtual Entries with CRUD opertations.
 
 * **entries**: Added ability to create completely customizable high level collections for entries.
 
     Example: https://github.com/flextype/flextype/issues/563
 
 * **entries**: Added ability to set custom events for each entries collections.
+
+* **entries**: Added ability to set custom entries directives. Built-in directives: `@type`, `@parsers`, `const`.
+
+* **entries**: Added ability to set custom entries macros. Built-in macros: `entries`, `php`, `registry`.
 
 * **entries**: Added new method `getOptions` to get entries options.
 
@@ -314,9 +320,13 @@
 
 * **shortcodes**: Added new shortcode `[getUriString]` to get uri string.
 
+* **shortcodes**: Added new shortcode `[filesystem]`.
+
 * **cache**: Added new cache driver `Phparray` to store cache data in raw php arrays files.
 
 * **cache**: Added router cache.
+
+* **tokens** Added new Tokens API.
 
 * **helpers**: All core helpers are located in the `/src/flextype/helpers/`.
 
