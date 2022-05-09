@@ -21,5 +21,9 @@ use function parsers;
 
 // Shortcode: [markdown] markdown text here [/markdown]
 parsers()->shortcodes()->addHandler('markdown', static function (ShortcodeInterface $s) {
+    if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.markdown.enabled')) {
+        return '';
+    }
+    
     return parsers()->markdown()->parse($s->getContent());
 });
