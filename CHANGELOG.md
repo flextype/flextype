@@ -1,5 +1,5 @@
 <a name="0.10.0"></a>
-# [0.10.0](https://github.com/flextype/flextype/compare/v0.9.16...v0.10.0) (2021-XX-XX)
+# [0.10.0](https://github.com/flextype/flextype/compare/v0.9.16...v0.10.0) (2022-XX-XX)
 
 ### Features
 
@@ -14,6 +14,8 @@
 * **core** Added Flextype CLI Application. 
 
     ```
+    Flextype CLI Application 0.10.0
+
     Usage:
       command [options] [arguments]
 
@@ -26,29 +28,38 @@
       -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
     Available commands:
-      help                       Display help for a command
-      list                       List commands
+      completion             Dump the shell completion script
+      help                   Display help for a command
+      list                   List commands
     cache
-      cache:clear                Clear cache.
-      cache:delete               Delete item.
-      cache:delete-multiple      Delete mutiple items.
-      cache:get                  Get item.
-      cache:get-multiple         Get multiple items.
-      cache:has                  Check whether cache item exists.
-      cache:set                  Set item.
-      cache:set-multiple         Set multiple items.
+      cache:clear            Clear cache.
+      cache:clear-config     Clear cache config.
+      cache:clear-data       Clear cache data.
+      cache:clear-routes     Clear cache routes.
+      cache:delete           Delete item.
+      cache:delete-multiple  Delete mutiple items.
+      cache:get              Get item.
+      cache:get-multiple     Get multiple items.
+      cache:has              Check whether cache item exists.
+      cache:set              Set item.
+      cache:set-multiple     Set multiple items.
     entries
-      entries:copy               Copy entry.
-      entries:create             Create entry.
-      entries:delete             Delete entry.
-      entries:fetch              Fetch entry.
-      entries:has                Check whether entry exists.
-      entries:move               Move entry.
-      entries:update             Update entry.
-    utils
-      utils:generate-token       Generate token.
-      utils:generate-token-hash  Generate token hash.
-      utils:verify-token-hash    Verify token hash.
+      entries:copy           Copy entry.
+      entries:create         Create entry.
+      entries:delete         Delete entry.
+      entries:fetch          Fetch entry.
+      entries:has            Check whether entry exists.
+      entries:move           Move entry.
+      entries:update         Update entry.
+    tokens
+      tokens:create          Create a new unique token.
+      tokens:delete          Delete token entry.
+      tokens:fetch           Fetch token entry.
+      tokens:generate        Generate token.
+      tokens:generate-hash   Generate token hash.
+      tokens:has             Check whether token entry exists.
+      tokens:update          Update tokens entry.
+      tokens:verify-hash     Verify token hash.
     ```
 
 * **core** Added ability to run Flextype in silent mode by disabling settings `app` and `cli`. 
@@ -277,6 +288,32 @@
     ...
     ```
 
+* **routes** Added ability to set custom projects routes in `/projects/routes/routes.php`.
+
+* **shortcodes**: Added new shortcode `[uuid1]` to generate uuid1.
+
+* **shortcodes**: Added new shortcode `[uuid2]` to generate uuid2.
+
+* **shortcodes**: Added new shortcode `[uuid3]` to generate uuid3 .
+
+* **shortcodes**: Added new shortcode `[uuid4]` to generate uuid4.
+
+* **shortcodes**: Added new shortcode `[strings]` for strings manipulation.
+
+* **shortcodes**: Added new shortcode `[php]` to execute php code.
+
+* **shortcodes**: Added new shortcode `[markdown]` to parse markdown text.
+
+* **shortcodes**: Added new shortcode `[getBaseUrl]` to get base url.
+
+* **shortcodes**: Added new shortcode `[getBasePath]` to get base path.
+
+* **shortcodes**: Added new shortcode `[getAbsoluteUrl]` to get absolute url.
+
+* **shortcodes**: Added new shortcode `[urlFor]` to get url for route.
+
+* **shortcodes**: Added new shortcode `[getUriString]` to get uri string.
+
 * **cache**: Added new cache driver `Phparray` to store cache data in raw php arrays files.
 
 * **cache**: Added router cache.
@@ -461,6 +498,8 @@
 * **plugins**: Fixed Plugins API initialization ([#551](https://github.com/flextype/flextype/issues/551))
 
 * **plugins**: Fixed Plugins API issue with non valid plugins ([#551](https://github.com/flextype/flextype/issues/555))
+
+* **plugins**: Fixed Plugins API loader issue with disabled plugins.
 
 ### BREAKING CHANGES
 
