@@ -20,7 +20,8 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
         return;
     }
 
-    if (entries()->registry()->has('methods.fetch.result.macros.registry.get')) {
+    if (entries()->registry()->has('methods.fetch.result.macros.registry.get') &&
+        registry()->get('flextype.settings.entries.macros.registry.get.enabled') === true) {
 
         // Get fetch.
         $original = entries()->registry()->get('methods.fetch');

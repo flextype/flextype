@@ -95,10 +95,13 @@ entries:
     registry:
       enabled: true
       path: "/src/flextype/core/Entries/Macros/RegistryMacros.php"
+      get:
+        enabled: true
     entries:
       enabled: true
       path: "/src/flextype/core/Entries/Macros/EntriesMacros.php"
       fetch:
+        enabled: true
         result: toArray
   collections:
     default:
