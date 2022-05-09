@@ -34,19 +34,26 @@ emitter()->addListener('onEntriesFetchSingleDirectives', static function (): voi
         $field = strings(strings($field)->replace('@type:boolean', '')->trim())->toBoolean();
     } elseif (strings($field)->contains('@type:bool')) {
         $field = strings(strings($field)->replace('@type:bool', '')->trim())->toBoolean();
+    } elseif (strings($field)->contains('@type:json')) {
+        $field = strings($field)->replace('@type:json', '')->trim();
+        if (strings($field)->isJson()) {
+            $field = $field;
+        } else {
+            $field = collectionFromQueryString($field->toString())->toJson();
+        }
     } elseif (strings($field)->contains('@type:array')) {
         $field = strings($field)->replace('@type:array', '')->trim();
         if (strings($field)->isJson()) {
             $field = serializers()->json()->decode($field->toString());
         } else {
-            $field = strings($field)->toArray(',');
+            $field = collectionFromQueryString($field->toString())->toArray();
         }
     } elseif (strings($field)->contains('@type:collection')) {
         $field = strings($field)->replace('@type:collection', '')->trim();
         if (strings($field)->isJson()) {
             $field = collection(serializers()->json()->decode($field->toString()));
         } else {
-            $field = collection(strings($field)->toArray(','));
+            $field = collectionFromQueryString($field->toString());
         }
     } elseif (strings($field)->contains('@type:null')) {
         $field = null;
