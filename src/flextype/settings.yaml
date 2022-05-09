@@ -556,7 +556,11 @@ parsers:
       strings:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/StringsShortcode.php"
-
+      filesystem:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/FilesystemShortcode.php"
+        get:
+          enabled: true
 
 # CORS
 #
