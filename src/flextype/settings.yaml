@@ -89,6 +89,9 @@ entries:
       path: "/src/flextype/core/Entries/Directives/TypesDirective.php"
   macros:
     debug: false
+    php:
+      enabled: true
+      path: "/src/flextype/core/Entries/Macros/PhpMacros.php"
     registry:
       enabled: true
       path: "/src/flextype/core/Entries/Macros/RegistryMacros.php"

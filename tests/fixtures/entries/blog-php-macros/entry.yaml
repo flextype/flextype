@@ -1,0 +1,6 @@
+title: Blog
+macros:
+  php: |
+    $entry = entries()->registry()->get('methods.fetch');
+    $entry['result']['posts'] = entries()->fetch('blog', ['collection' => true, 'filter' => ['sort_by' => ['key' => 'date', 'direction' => 'ASC']]])->toArray();
+    entries()->registry()->set('methods.fetch', $entry); 
