@@ -21,11 +21,25 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use function parsers;
 use function registry;
 
-// Shortcode: [registry-get id="STRING" default="STRING"]
-parsers()->shortcodes()->addHandler('registry-get', static function (ShortcodeInterface $s) {
+// Shortcode: [registry]
+parsers()->shortcodes()->addHandler('registry', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.registry.enabled')) {
         return '';
     }
 
-    return registry()->get($s->getParameter('id'), $s->getParameter('default'));
+    $varsDelimeter = $s->getParameter('varsDelimeter') ?: '|';
+
+    if ($s->getParameter('get') != null) {
+
+        // Get vars
+        foreach($s->getParameters() as $key => $value) {
+            $vars = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [];
+        }
+        
+        $result = registry()->get($vars[0], $vars[1] ?? null);
+
+        return is_array($result) ? serializers()->json()->encode($result) : $result;
+    }
+
+    return '';
 });
