@@ -533,21 +533,32 @@ parsers:
         path: "/src/flextype/core/Parsers/Shortcodes/EntriesShortcode.php"
         fetch:
           enabled: true
+      php:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/PhpShortcode.php"
       raw:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/RawShortcode.php"
+      markdown:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/MarkdownShortcode.php"
       registry:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
-      url:
-        enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
       strings:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/StringsShortcode.php"
+      url:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
       filesystem:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/FilesystemShortcode.php"
+        get:
+          enabled: true
+      i18n:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/I18nShortcode.php"
 # CORS
 #
 # CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.

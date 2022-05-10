@@ -558,6 +558,9 @@ parsers:
       registry:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
+      url:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
       strings:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/StringsShortcode.php"
@@ -566,6 +569,10 @@ parsers:
         path: "/src/flextype/core/Parsers/Shortcodes/FilesystemShortcode.php"
         get:
           enabled: true
+      i18n:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/I18nShortcode.php"
+        
 
 # CORS
 #
