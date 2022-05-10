@@ -23,7 +23,7 @@ use function registry;
 
 // Shortcode: [tr]
 parsers()->shortcodes()->addHandler('tr', static function (ShortcodeInterface $s) {
-    if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.I18n.enabled')) {
+    if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.i18n.enabled')) {
         return '';
     }
 
