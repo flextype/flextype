@@ -25,41 +25,41 @@ emitter()->addListener('onEntriesFetchSingleDirectives', static function (): voi
     $field = entries()->registry()->get('methods.fetch.field');
 
     if (is_string($field)) {
-        if (strings($field)->contains('@type:integer')) {
-            $field = strings(strings($field)->replace('@type:integer', '')->trim())->toInteger();
-        } elseif (strings($field)->contains('@type:int')) {
-            $field = strings(strings($field)->replace('@type:int', '')->trim())->toInteger();
-        } elseif (strings($field)->contains('@type:float')) {
-            $field = strings(strings($field)->replace('@type:float', '')->trim())->toFloat();
-        } elseif (strings($field)->contains('@type:boolean')) {
-            $field = strings(strings($field)->replace('@type:boolean', '')->trim())->toBoolean();
-        } elseif (strings($field)->contains('@type:bool')) {
-            $field = strings(strings($field)->replace('@type:bool', '')->trim())->toBoolean();
-        } elseif (strings($field)->contains('@type:json')) {
-            $field = strings($field)->replace('@type:json', '')->trim();
+        if (strings($field)->contains('@type(integer)')) {
+            $field = strings(strings($field)->replace('@type(integer)', '')->trim())->toInteger();
+        } elseif (strings($field)->contains('@type(int)')) {
+            $field = strings(strings($field)->replace('@type(int)', '')->trim())->toInteger();
+        } elseif (strings($field)->contains('@type(float)')) {
+            $field = strings(strings($field)->replace('@type(float)', '')->trim())->toFloat();
+        } elseif (strings($field)->contains('@type(boolean)')) {
+            $field = strings(strings($field)->replace('@type(boolean)', '')->trim())->toBoolean();
+        } elseif (strings($field)->contains('@type(bool)')) {
+            $field = strings(strings($field)->replace('@type(bool)', '')->trim())->toBoolean();
+        } elseif (strings($field)->contains('@type(json)')) {
+            $field = strings($field)->replace('@type(json)', '')->trim();
             if (strings($field)->isJson()) {
                 $field = $field;
             } else {
                 $field = collectionFromQueryString($field->toString())->toJson();
             }
-        } elseif (strings($field)->contains('@type:array')) {
-            $field = strings($field)->replace('@type:array', '')->trim();
+        } elseif (strings($field)->contains('@type(array)')) {
+            $field = strings($field)->replace('@type(array)', '')->trim();
             if (strings($field)->isJson()) {
                 $field = serializers()->json()->decode($field->toString());
             } else {
                 $field = collectionFromQueryString($field->toString())->toArray();
             }
-        } elseif (strings($field)->contains('@type:collection')) {
-            $field = strings($field)->replace('@type:collection', '')->trim();
+        } elseif (strings($field)->contains('@type(collection)')) {
+            $field = strings($field)->replace('@type(collection)', '')->trim();
             if (strings($field)->isJson()) {
                 $field = collection(serializers()->json()->decode($field->toString()));
             } else {
                 $field = collectionFromQueryString($field->toString());
             }
-        } elseif (strings($field)->contains('@type:null')) {
+        } elseif (strings($field)->contains('@type(null)')) {
             $field = null;
         }
     }
-    
+
     entries()->registry()->set('methods.fetch.field', $field);
 });

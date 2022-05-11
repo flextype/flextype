@@ -23,13 +23,11 @@ emitter()->addListener('onEntriesFetchSingleDirectives', static function (): voi
     }
     
     $field = entries()->registry()->get('methods.fetch.field');
-
     if (is_string($field)) {
-        if (strings($field)->contains('@const:ROOT_DIR')) {
-            $field = strings($field)->replace('@const:ROOT_DIR', ROOT_DIR)->trim()->toString();
-        } elseif (strings($field)->contains('@const:PATH_PROJECT')) {
-            $field = strings($field)->replace('@const:PATH_PROJECT', PATH['project'])->trim()->toString();
-        }
+        $field = strings($field)
+                    ->replace('@const(ROOT_DIR)', ROOT_DIR)
+                    ->replace('@const(PATH_PROJECT)', PATH['project'])
+                    ->toString();
     }
 
     entries()->registry()->set('methods.fetch.field', $field);

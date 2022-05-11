@@ -11,7 +11,7 @@ afterEach(function (): void {
 });
 
 test('markdown directive', function () {
-    entries()->create('markdown', ['foo' => '@parser:markdown **Hello world!**']);
+    entries()->create('markdown', ['foo' => '@markdown **Hello world!**']);
 
     $this->assertEquals('<p> <strong>Hello world!</strong></p>', entries()->fetch('markdown')['foo']);
 });

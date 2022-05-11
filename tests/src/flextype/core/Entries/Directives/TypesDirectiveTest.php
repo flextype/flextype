@@ -11,20 +11,20 @@ afterEach(function (): void {
 });
 
 test('types directive', function () {
-    entries()->create('type-int', ['foo' => '@type:int 100']);
-    entries()->create('type-integer', ['foo' => '@type:integer 100']);
-    entries()->create('type-bool', ['foo' => '@type:bool true']);
-    entries()->create('type-boolean', ['foo' => '@type:boolean false']);
-    entries()->create('type-float', ['foo' => '@type:float 1.5']);
-    entries()->create('type-array', ['foo' => '@type:array foo=bar']);
-    entries()->create('type-array-2', ['foo' => '@type:array [1,2,3,4,5]']);
-    entries()->create('type-array-3', ['foo' => '@type:array {"foo": "Foo"}']);
-    entries()->create('type-array-4', ['foo' => '@type:array foo']);
-    entries()->create('type-collection', ['foo' => '@type:collection foo']);
-    entries()->create('type-null', ['foo' => '@type:null foo']);
-    entries()->create('type-json', ['foo' => '@type:json foo=Foo']);
-    entries()->create('type-json-2', ['foo' => '@type:json {"foo": "Foo"}']);
-    entries()->create('type-json-3', ['foo' => '@type:json [1,2,3,4,5]']);
+    entries()->create('type-int', ['foo' => '@type(int) 100']);
+    entries()->create('type-integer', ['foo' => '@type(integer) 100']);
+    entries()->create('type-bool', ['foo' => '@type(bool) true']);
+    entries()->create('type-boolean', ['foo' => '@type(boolean) false']);
+    entries()->create('type-float', ['foo' => '@type(float) 1.5']);
+    entries()->create('type-array', ['foo' => '@type(array) foo=bar']);
+    entries()->create('type-array-2', ['foo' => '@type(array) [1,2,3,4,5]']);
+    entries()->create('type-array-3', ['foo' => '@type(array) {"foo": "Foo"}']);
+    entries()->create('type-array-4', ['foo' => '@type(array) foo']);
+    entries()->create('type-collection', ['foo' => '@type(collection) foo']);
+    entries()->create('type-null', ['foo' => '@type(null) foo']);
+    entries()->create('type-json', ['foo' => '@type(json) foo=Foo']);
+    entries()->create('type-json-2', ['foo' => '@type(json) {"foo": "Foo"}']);
+    entries()->create('type-json-3', ['foo' => '@type(json) [1,2,3,4,5]']);
 
     $this->assertEquals(100, entries()->fetch('type-int')['foo']);
     $this->assertEquals(100, entries()->fetch('type-integer')['foo']);

@@ -11,7 +11,7 @@ afterEach(function () {
 });
 
 test('[entries-fetch] shortcode', function () {
-    $this->assertTrue(entries()->create('blog', ['title' => 'Blog', 'categories' => "@type:array [entries fetch=\"blog|collection=true&filter[sort_by][key]=date&filter[sort_by][direction]=ASC\" /]"]));
+    $this->assertTrue(entries()->create('blog', ['title' => 'Blog', 'categories' => "@type(array) [entries fetch=\"blog|collection=true&filter[sort_by][key]=date&filter[sort_by][direction]=ASC\" /]"]));
     $this->assertTrue(entries()->create('blog/post-1', ['title' => 'Post 1']));
     $this->assertTrue(entries()->create('blog/post-2', ['title' => 'Post 2']));
     $this->assertTrue(entries()->create('blog/post-3', ['title' => 'Post 3']));
