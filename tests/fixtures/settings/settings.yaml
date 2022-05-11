@@ -86,6 +86,9 @@ entries:
     constants:
       enabled: true
       path: "/src/flextype/core/Entries/Directives/ConstantsDirective.php"
+    fields:
+      enabled: true
+      path: "/src/flextype/core/Entries/Directives/FieldsDirective.php"
   macros:
     debug: false
     php:
