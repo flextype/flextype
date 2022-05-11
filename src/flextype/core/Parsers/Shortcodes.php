@@ -84,11 +84,13 @@ final class Shortcodes
 
     /**
      * Init Shortcodes
+     * 
+     * @param array $shortcodes Shortcoes to init.
+     * 
+     * @return void
      */
-    public function initShortcodes(): void
+    public function initShortcodes(array $shortcodes): void
     {
-        $shortcodes = registry()->get('flextype.settings.parsers.shortcodes.shortcodes');
-
         if (
             ! isset($shortcodes) ||
             ! is_array($shortcodes) ||
