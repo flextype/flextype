@@ -73,6 +73,8 @@ entries:
   parsers:
     shortcodes:
       enabled: true
+  vars:
+    debug: false
   directives:
     markdown:
       enabled: true
@@ -89,8 +91,14 @@ entries:
     fields:
       enabled: true
       path: "/src/flextype/core/Entries/Directives/FieldsDirective.php"
+    vars:
+      enabled: true
+      path: "/src/flextype/core/Entries/Directives/VarsDirective.php"
   macros:
     debug: false
+    vars:
+      enabled: true
+      path: "/src/flextype/core/Entries/Macros/VarsMacros.php"
     php:
       enabled: true
       path: "/src/flextype/core/Entries/Macros/PhpMacros.php"
