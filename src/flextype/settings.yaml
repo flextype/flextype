@@ -80,12 +80,6 @@ entries:
   vars:
     debug: false
   directives:
-    markdown:
-      enabled: true
-      path: "/src/flextype/core/Entries/Directives/MarkdownDirective.php"
-    textile:
-      enabled: true
-      path: "/src/flextype/core/Entries/Directives/TextileDirective.php"
     shortcodes:
       enabled: true
       path: "/src/flextype/core/Entries/Directives/ShortcodesDirective.php"
@@ -101,6 +95,15 @@ entries:
     vars:
       enabled: true
       path: "/src/flextype/core/Entries/Directives/VarsDirective.php"
+    calc:
+      enabled: true
+      path: "/src/flextype/core/Entries/Directives/CalcDirective.php"
+    markdown:
+      enabled: true
+      path: "/src/flextype/core/Entries/Directives/MarkdownDirective.php"
+    textile:
+      enabled: true
+      path: "/src/flextype/core/Entries/Directives/TextileDirective.php"
   macros:
     debug: false
     vars:
