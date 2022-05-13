@@ -454,8 +454,6 @@ slugify:
 # neon.encode.flags: The flag can be 1, which will create multiline output.
 #
 # phparray.decode.cache: Cache result data or no. Default is true.
-#
-# phpcode.decode.cache: Cache result data or no. Default is true.
 serializers:
   json: 
     decode:
@@ -489,11 +487,11 @@ serializers:
       cache: true
       header:
         serializer: yaml
-        allowed: ['yaml', 'json', 'neon']
+        allowed: ['yaml', 'json', 'json5', 'neon']
     encode:    
       header:
         serializer: yaml
-        allowed: ['yaml', 'json', 'neon']
+        allowed: ['yaml', 'json', 'json5', 'neon']
   neon:
     decode:
       cache: true

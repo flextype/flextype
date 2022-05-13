@@ -14,6 +14,11 @@ test('decode', function () {
                          'content' => 'Bar'],
                         serializers()->yaml()
                             ->decode("title: Foo\ncontent: Bar"));
+
+    $this->assertEquals(['title' => 'Foo',
+                        'content' => 'Bar'],
+                        serializers()->yaml()
+                            ->decode("{\"title\": \"Foo\", \"content\": \"Bar\"}"));
 });
 
 test('get cache ID', function () {

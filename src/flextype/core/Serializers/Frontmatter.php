@@ -86,7 +86,7 @@ class Frontmatter
             $headerSerializer = 'yaml';
         }
 
-        $decode = static function (string $input) use ($headerSerializer) {
+        $decode = static function (string $input) use ($headerSerializer, $allowed) {
             // Remove UTF-8 BOM if it exists.
             $input = ltrim($input, "\xef\xbb\xbf");
 
@@ -96,11 +96,27 @@ class Frontmatter
             // Parse Frontmatter and Body
             $parts = preg_split('/^[\s\r\n]?---[\s\r\n]?$/sm', PHP_EOL . strings($input)->trimLeft()->toString());
 
-            if (count($parts) < 3) {
-                return ['content' => strings($input)->trim()->toString()];
+            // Replace empty array item with empty string and reindex array.
+            if (empty($parts[0])) {
+                unset($parts[0]);
+                $parts = array_values(array_filter($parts));
             }
+           
+            // Check for custom frontmatter header serializers
+            if (strings(strings($parts[0])->lines()[1])->trim()->contains('---')) {
+                $headerSerializer = strings(strings($parts[0])->lines()[1])->trim()->after('---')->toString();
+                
+                $parts[0] = strings($parts[0])->replaceFirst('---' . $headerSerializer, '')->toString();
 
-            return serializers()->{$headerSerializer}()->decode(strings($parts[1])->trim()->toString(), false) + ['content' => strings(implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2)))->trim()->toString()];
+                if (! in_array($headerSerializer, $allowed)) {
+                    $headerSerializer = 'yaml';
+                } 
+            }
+    
+            $frontmatter = serializers()->{$headerSerializer}()->decode(strings($parts[0])->trim()->toString(), false);
+            $content     = ['content' => strings($parts[1] ?? '')->trim()->toString()];
+
+            return (is_array($frontmatter) ? $frontmatter : []) + $content;
         };
 
         if ($cache === true && registry()->get('flextype.settings.cache.enabled') === true) {

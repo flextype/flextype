@@ -476,11 +476,11 @@ serializers:
       cache: true
       header:
         serializer: yaml
-        allowed: ['yaml', 'json', 'neon']
+        allowed: ['yaml', 'json', 'json5', 'neon']
     encode:    
       header:
         serializer: yaml
-        allowed: ['yaml', 'json', 'neon']
+        allowed: ['yaml', 'json', 'json5', 'neon']
   neon:
     decode:
       cache: true
