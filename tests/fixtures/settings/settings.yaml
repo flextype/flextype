@@ -79,6 +79,9 @@ entries:
     markdown:
       enabled: true
       path: "/src/flextype/core/Entries/Directives/MarkdownDirective.php"
+    textile:
+      enabled: true
+      path: "/src/flextype/core/Entries/Directives/TextileDirective.php"
     shortcodes:
       enabled: true
       path: "/src/flextype/core/Entries/Directives/ShortcodesDirective.php"
