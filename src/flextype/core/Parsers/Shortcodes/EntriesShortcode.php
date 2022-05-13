@@ -30,50 +30,59 @@ parsers()->shortcodes()->addHandler('entries', static function (ShortcodeInterfa
         return '';
     }
 
-    $varsDelimeter = $s->getParameter('varsDelimeter') ?: '|';
+    $varsDelimeter = $s->getParameter('varsDelimeter') ?: ',';
+    $result = '';
 
-    if ($s->getParameter('fetch') != null && registry()->get('flextype.settings.parsers.shortcodes.shortcodes.entries.fetch.enabled') === true) {
+    foreach($s->getParameters() as $key => $value) {
+        
+        if ($key == 'fetch' && registry()->get('flextype.settings.parsers.shortcodes.shortcodes.entries.fetch.enabled') === true) {
 
-        // Get vars
-        foreach($s->getParameters() as $key => $value) {
             $vars = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [];
-        }
 
-        // Set options
-        if (isset($vars[1])) {
-            parse_str($vars[1], $options);
-        } else {
-            $options = [];
-        }
-
-        // Prepare options
-        $options = collection($options)->dot()->map(function($value) {
-            if(strings($value)->isInteger()) {
-                $value = strings($value)->toInteger();
-            } elseif(strings($value)->isFloat()) {
-                $value = strings($value)->toFloat();
-            } elseif(strings($value)->isBoolean()) {
-                $value = strings($value)->toBoolean();
-            } elseif(strings($value)->isNull()) {
-                $value = strings($value)->toNull();
+            // Set options
+            if (isset($vars[1])) {
+                parse_str($vars[1], $options);
             } else {
-                $value = (string) $value;
+                $options = [];
             }
-            return $value;
-        })->undot()->toArray();
-        
-        // Backup current entry data
-        $original = entries()->registry()['methods.fetch'];
-        
-        // Fetch entry
-        $result = entries()->fetch($vars[0], $options);
 
-        // Restore original entry data
-        entries()->registry()->set('methods.fetch', $original);
+            // Prepare options
+            $options = collection($options)->dot()->map(function($value) {
+                if(strings($value)->isInteger()) {
+                    $value = strings($value)->toInteger();
+                } elseif(strings($value)->isFloat()) {
+                    $value = strings($value)->toFloat();
+                } elseif(strings($value)->isBoolean()) {
+                    $value = strings($value)->toBoolean();
+                } elseif(strings($value)->isNull()) {
+                    $value = strings($value)->toNull();
+                } else {
+                    $value = (string) $value;
+                }
+                return $value;
+            })->undot()->toArray();
+            
+            // Backup current entry data
+            $original = entries()->registry()['methods.fetch'];
+            
+            // Fetch entry
+            $result = entries()->fetch($vars[0], $options);
 
-        // Return entry as a json string
-        return $result->toJson();
+            // Restore original entry data
+            entries()->registry()->set('methods.fetch', $original);
+
+            // Convert entry as a json string
+            $result = $result->toJson();
+        }
+
+        // Get specific field value or return default value.
+        if ($key == 'field' && $value !== null) {
+
+            $vars = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [''];
+
+            $result = collectionFromJson($result)->get($vars[0], $vars[1] ?? '');
+        }
     }
 
-    return '';
+    return $result;
 });
