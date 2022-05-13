@@ -19,7 +19,6 @@ namespace Flextype\Parsers\Shortcodes;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use Flextype\Entries\Entries;
 
-use function arrays;
 use function entries;
 use function parsers;
 use function registry;
