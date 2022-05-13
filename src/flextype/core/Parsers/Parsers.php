@@ -37,4 +37,12 @@ class Parsers
     {
         return Markdown::getInstance();
     }
+
+    /**
+     * Create a Textile instance.
+     */
+    public function textile(): Textile
+    {
+        return Textile::getInstance();
+    }
 }

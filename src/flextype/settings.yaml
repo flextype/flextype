@@ -549,6 +549,21 @@ parsers:
       max_nesting_level: 9223372036854775807
       slug_normalizer:
         max_length: 255
+  textile:
+    cache: true
+    restricted: false
+    document_type: 'xhtml'
+    document_root_directory: ''
+    lite: false
+    images: true
+    link_relation_ship: ''
+    raw_blocks: false
+    block_tags: true
+    line_wrap: true
+    image_prefix: ''
+    link_prefix: ''
+    symbol: []
+    dimensionless_images: true
   shortcodes:
     cache: true
     shortcodes:

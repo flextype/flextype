@@ -61,7 +61,8 @@
         "symfony/console": "^5.4.3",
         "symfony/var-exporter": "^5.4.3",
         "thermage/thermage": "^0.19.0",
-        "colinodell/json5": "^2.2"
+        "colinodell/json5": "^2.2",
+        "netcarver/textile": "^3.7"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",
