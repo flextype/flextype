@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 use Glowy\Arrays\Arrays as Collection;
 
-emitter()->addListener('onEntriesFetchSingleDirectives', static function (): void {
+emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     if (! registry()->get('flextype.settings.entries.directives.shortcodes.enabled')) {
         return;
@@ -24,13 +24,14 @@ emitter()->addListener('onEntriesFetchSingleDirectives', static function (): voi
 
     $field = entries()->registry()->get('methods.fetch.field');
 
-    if (is_string($field)) {
-        if (strings($field)->contains('@shortcodes')) {
-            $field = strings(parsers()->shortcodes()->parse($field))->replace('@shortcodes', '')->trim()->toString();
+    if (is_string($field['value'])) {
+        if (strings($field['value'])->contains('@shortcodes')) {
+            $field['value'] = strings(parsers()->shortcodes()->parse($field['value']))->replace('@shortcodes', '')->trim()->toString();
         } elseif (registry()->get('flextype.settings.entries.parsers.shortcodes.enabled') !== false) {
-            $field = parsers()->shortcodes()->parse($field);
+            $field['value'] = parsers()->shortcodes()->parse($field['value']);
         }
     }
 
-    entries()->registry()->set('methods.fetch.field', $field);
+    entries()->registry()->set('methods.fetch.field.key', $field['key']);
+    entries()->registry()->set('methods.fetch.field.value', $field['value']);
 });

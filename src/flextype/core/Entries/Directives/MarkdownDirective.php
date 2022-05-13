@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 use Glowy\Arrays\Arrays as Collection;
 
-emitter()->addListener('onEntriesFetchSingleDirectives', static function (): void {
+emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     if (! registry()->get('flextype.settings.entries.directives.markdown.enabled')) {
         return;
@@ -24,11 +24,12 @@ emitter()->addListener('onEntriesFetchSingleDirectives', static function (): voi
 
     $field = entries()->registry()->get('methods.fetch.field');
 
-    if (is_string($field)) {
-        if (strings($field)->contains('@markdown')) {
-            $field = strings(parsers()->markdown()->parse($field))->replace('@markdown', '')->trim()->toString();
+    if (is_string($field['value'])) {
+        if (strings($field['value'])->contains('@markdown')) {
+            $field['value'] = strings(parsers()->markdown()->parse($field['value']))->replace('@markdown', '')->trim()->toString();
         }
     }
     
-    entries()->registry()->set('methods.fetch.field', $field);
+    entries()->registry()->set('methods.fetch.field.key', $field['key']);
+    entries()->registry()->set('methods.fetch.field.value', $field['value']);
 });

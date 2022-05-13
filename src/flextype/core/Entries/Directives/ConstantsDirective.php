@@ -16,19 +16,21 @@ declare(strict_types=1);
 
 use Glowy\Arrays\Arrays as Collection;
 
-emitter()->addListener('onEntriesFetchSingleDirectives', static function (): void {
+emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     if (! registry()->get('flextype.settings.entries.directives.constants.enabled')) {
         return;
     }
     
     $field = entries()->registry()->get('methods.fetch.field');
-    if (is_string($field)) {
-        $field = strings($field)
+
+    if (is_string($field['value'])) {
+        $field['value'] = strings($field['value'])
                     ->replace('@const(ROOT_DIR)', ROOT_DIR)
                     ->replace('@const(PATH_PROJECT)', PATH['project'])
                     ->toString();
     }
 
-    entries()->registry()->set('methods.fetch.field', $field);
+    entries()->registry()->set('methods.fetch.field.key', $field['key']);
+    entries()->registry()->set('methods.fetch.field.value', $field['value']);
 });
