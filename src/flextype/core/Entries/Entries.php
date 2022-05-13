@@ -95,11 +95,14 @@ class Entries
      * 
      * @access private
      */
-    private function removeCollectionsMacros($data) 
+    private function removeSystemFields($data) 
     {
         if (is_array($data)) {
             if (boolval(arrays($data)->get('macros.debug', registry()->get('flextype.settings.entries.macros.debug'))) === false) {
                 unset($data['macros']);
+            }
+            if (boolval(arrays($data)->get('vars.debug', registry()->get('flextype.settings.entries.vars.debug'))) === false) {
+                unset($data['vars']);
             }
         }
 
@@ -283,7 +286,7 @@ class Entries
 
         // Check if `result` contains data to return then return existing result.
         if (! is_null($this->registry()->get('methods.fetch.result'))) {
-            return $this->removeCollectionsMacros($this->registry()->get('methods.fetch.result'));
+            return $this->removeSystemFields($this->registry()->get('methods.fetch.result'));
         }
         
         // Fetch collection or single
@@ -324,7 +327,7 @@ class Entries
 
         // Check if `result` contains data to return.
         if (! is_null($this->registry()->get('methods.fetch.result'))) {
-            return $this->removeCollectionsMacros($this->registry()->get('methods.fetch.result'));
+            return $this->removeSystemFields($this->registry()->get('methods.fetch.result'));
         }
 
         // Get Cache ID for current requested entry
@@ -342,7 +345,7 @@ class Entries
             emitter()->emit('onEntriesFetchSingleCacheHasResult');
             
             // Return result from the cache.
-            return collection($this->removeCollectionsMacros($this->registry()->get('methods.fetch.result')));
+            return collection($this->removeSystemFields($this->registry()->get('methods.fetch.result')));
         }
         
         // 2. Try to get requested entry from the filesystem
@@ -357,7 +360,7 @@ class Entries
             if ($entryFileContent === false) {
                 // Run event
                 emitter()->emit('onEntriesFetchSingleNoResult');
-                return collection($this->removeCollectionsMacros($this->registry()->get('methods.fetch.params.result')));
+                return collection($this->removeSystemFields($this->registry()->get('methods.fetch.params.result')));
             }
 
             // Decode entry file content
@@ -369,22 +372,20 @@ class Entries
             // Get the result.
             $result = $this->registry()->get('methods.fetch.result');
 
-            // Directives processor
-            $result = collection($result)->dot()->map(function ($field) { 
-                $this->registry()->set('methods.fetch.field', $field);
-                if (is_string($field)) {
+            // Fields processor
+            foreach (collection($result)->dot() as $key => $value) {
+                
+                $this->registry()->set('methods.fetch.field.key', $key);
+                $this->registry()->set('methods.fetch.field.value', $value);
+                
+                // Run event
+                emitter()->emit('onEntriesFetchSingleField');
 
-                    // Run event
-                    emitter()->emit('onEntriesFetchSingleDirectives');
-
-                    return $this->registry()->get('methods.fetch.field');
-                } else {
-                    return $this->registry()->get('methods.fetch.field');
-                }
-            })->undot();
+                $this->registry()->set('methods.fetch.result.' . $this->registry()->get('methods.fetch.field.key'), $this->registry()->get('methods.fetch.field.value'));
+            }
 
             // Apply `filterCollection` filter for fetch result
-            $this->registry()->set('methods.fetch.result', filterCollection($result, $this->registry()->get('methods.fetch.params.options.filter', [])));
+            $this->registry()->set('methods.fetch.result', filterCollection(collection($this->registry()->get('methods.fetch.result'))->undot(), $this->registry()->get('methods.fetch.params.options.filter', [])));
 
             // Set cache state
             $cache = $this->registry()->get('methods.fetch.result.cache.enabled',
@@ -396,14 +397,14 @@ class Entries
             }
             
             // Return entry fetch result
-            return collection($this->removeCollectionsMacros($this->registry()->get('methods.fetch.result')));
+            return collection($this->removeSystemFields($this->registry()->get('methods.fetch.result')));
         }
 
         // Run event
         emitter()->emit('onEntriesFetchSingleNoResult');
 
         // Return entry fetch result
-        return collection($this->removeCollectionsMacros($this->registry()->get('methods.fetch.result')));
+        return collection($this->removeSystemFields($this->registry()->get('methods.fetch.result')));
     }
 
     /**
@@ -432,7 +433,7 @@ class Entries
 
         // Check if `result` contains data to return.
         if (! is_null($this->registry()->get('methods.fetch.result'))) {
-            return $this->removeCollectionsMacros($this->registry()->get('methods.fetch.result'));
+            return $this->removeSystemFields($this->registry()->get('methods.fetch.result'));
         }
 
         // Determine if collection exists
