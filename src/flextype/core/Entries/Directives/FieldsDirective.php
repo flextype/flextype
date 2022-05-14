@@ -26,7 +26,7 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
     $result = entries()->registry()->get('methods.fetch.result');
 
     if (is_string($field['value'])) {
-        $field['value'] = preg_replace_callback('/@field\((.*?)\)/', function($matches) use ($result) {
+        $field['value'] = preg_replace_callback('/@field\((.*?)\)/s', function($matches) use ($result) {
             return collection($result)->get($matches[1]);
         }, $field['value']);
     }
