@@ -17,6 +17,7 @@ declare(strict_types=1);
 use Glowy\Arrays\Arrays as Collection;
 use ChrisKonnertz\StringCalc\StringCalc;
 
+// Directive: @calc()
 emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     if (! registry()->get('flextype.settings.entries.directives.calc.enabled')) {
@@ -35,3 +36,4 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
     entries()->registry()->set('methods.fetch.field.key', $field['key']);
     entries()->registry()->set('methods.fetch.field.value', $field['value']);
 });
+

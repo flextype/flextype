@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 use Glowy\Arrays\Arrays as Collection;
 
+// Directive: @var()
 emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     if (! registry()->get('flextype.settings.entries.directives.vars.enabled')) {
