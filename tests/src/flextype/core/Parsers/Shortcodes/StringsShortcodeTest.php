@@ -33,7 +33,7 @@ test('[strings] shortcode', function () {
 
     // wordsLimit
     $this->assertEquals("foo...", parsers()->shortcodes()->parse('[strings wordsLimit="1"]foo bar zed[/strings]'));
-    $this->assertEquals("foo >>>", parsers()->shortcodes()->parse('[strings wordsLimit="1| >>>"]foo bar zed[/strings]'));
+    $this->assertEquals("foo >>>", parsers()->shortcodes()->parse('[strings wordsLimit="1, >>>"]foo bar zed[/strings]'));
 
     // at
     $this->assertEquals("a", parsers()->shortcodes()->parse('[strings at=0]abc[/strings]'));
@@ -47,7 +47,7 @@ test('[strings] shortcode', function () {
     $this->assertEquals("dGVzdA==", parsers()->shortcodes()->parse('[strings base64Encode]test[/strings]'));
 
     // between
-    $this->assertEquals("b", parsers()->shortcodes()->parse('[strings between=a|c]abc[/strings]'));
+    $this->assertEquals("b", parsers()->shortcodes()->parse('[strings between=a,c]abc[/strings]'));
 
     // camel
     $this->assertEquals("fooBar", parsers()->shortcodes()->parse('[strings camel]foo_bar[/strings]'));
@@ -68,22 +68,22 @@ test('[strings] shortcode', function () {
 
     // containsAll
     $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAll=SG-1]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
-    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAll=SG-1,P9Y-3C3]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
-    $this->assertEquals("false", parsers()->shortcodes()->parse('[strings containsAll=SG-1,XXX-3C3]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
-    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAll=sg-1,P9Y-3C3|false]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAll=SG-1&P9Y-3C3]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+    $this->assertEquals("false", parsers()->shortcodes()->parse('[strings containsAll=SG-1&XXX-3C3]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAll=sg-1&P9Y-3C3,false]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
 
     // containsAny
     $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAny=SG-1]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
-    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAny=SG-1,P9Y-3C3]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
-    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAny=SG-1,XXX-3C3]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
-    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAny=sg-1,P9Y-3C3|false]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAny=SG-1&P9Y-3C3]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAny=SG-1&XXX-3C3]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings containsAny=sg-1&P9Y-3C3,false]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
 
     // count
     $this->assertEquals(49, parsers()->shortcodes()->parse('[strings count]SG-1 returns from an off-world mission to P9Y-3C3[/strings]'));
 
     // countSubString
     $this->assertEquals(1, parsers()->shortcodes()->parse('[strings countSubString=test]Test string here for test[/strings]'));
-    $this->assertEquals(2, parsers()->shortcodes()->parse('[strings countSubString=test|false]Test string here for test[/strings]'));
+    $this->assertEquals(2, parsers()->shortcodes()->parse('[strings countSubString=test,false]Test string here for test[/strings]'));
 
     // crc32
     $this->assertEquals(3632233996, parsers()->shortcodes()->parse('[strings crc32]test[/strings]'));
@@ -100,7 +100,7 @@ test('[strings] shortcode', function () {
     $this->assertEquals("SG", parsers()->shortcodes()->parse('[strings firstSegment="-"]SG-1 returns from an off-world mission[/strings]'));
 
     // format
-    $this->assertEquals("There are 5 monkeys in the tree", parsers()->shortcodes()->parse('[strings format=5,tree]There are %d monkeys in the %s[/strings]'));
+    $this->assertEquals("There are 5 monkeys in the tree", parsers()->shortcodes()->parse('[strings format="5,tree"]There are %d monkeys in the %s[/strings]'));
 
     // getEncoding
     $this->assertEquals("UTF-8", parsers()->shortcodes()->parse('[strings getEncoding]Foo[/strings]'));
@@ -111,7 +111,7 @@ test('[strings] shortcode', function () {
 
     // increment
     $this->assertEquals("Page_2", parsers()->shortcodes()->parse('[strings increment]Page_1[/strings]'));
-    $this->assertEquals("Page-2", parsers()->shortcodes()->parse('[strings increment=1|-]Page-1[/strings]'));
+    $this->assertEquals("Page-2", parsers()->shortcodes()->parse('[strings increment=1,-]Page-1[/strings]'));
 
     // indexOf
     $this->assertEquals(1, parsers()->shortcodes()->parse('[strings indexOf=e]hello[/strings]'));
@@ -120,8 +120,8 @@ test('[strings] shortcode', function () {
     $this->assertEquals(3, parsers()->shortcodes()->parse('[strings indexOfLast=l]hello[/strings]'));
 
     // insert
-    $this->assertEquals("hello world", parsers()->shortcodes()->parse('[strings insert="hello |0"]world[/strings]'));
-    $this->assertEquals("hello world", parsers()->shortcodes()->parse('[strings insert=" world|5"]hello[/strings]'));
+    $this->assertEquals("hello world", parsers()->shortcodes()->parse('[strings insert="hello ,0"]world[/strings]'));
+    $this->assertEquals("hello world", parsers()->shortcodes()->parse('[strings insert=" world,5"]hello[/strings]'));
 
     // isAlpha
     $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isAlpha]foo[/strings]'));
@@ -178,7 +178,7 @@ test('[strings] shortcode', function () {
     $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isNumeric]12345[/strings]'));
 
     // isPrintable 
-    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isPrintable]!@#$%^&*()_+-=[]{};\':\",./<>?\\|`~"[/strings]'));
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isPrintable]!@#$%^&*()_+-=[]{};\':\"./<>?\\`~"[/strings]'));
 
     // isPunctuation
     $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isPunctuation],[/strings]'));
@@ -189,7 +189,7 @@ test('[strings] shortcode', function () {
     
     // isSimilar
     $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isSimilar=Foo]Foo[/strings]'));
-    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isSimilar=Foo|50]Foo[/strings]'));
+    $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isSimilar=Foo,50]Foo[/strings]'));
 
     // isSerialized
     $this->assertEquals("true", parsers()->shortcodes()->parse('[strings isSerialized]a:1:{i:0;s:3:"foo";}[/strings]'));
@@ -211,7 +211,7 @@ test('[strings] shortcode', function () {
     $this->assertEquals("01677e4c0ae5468b9b8b823487f14524", parsers()->shortcodes()->parse('[strings md5]Foo Bar[/strings]'));
 
     // move
-    $this->assertEquals("worldhello", parsers()->shortcodes()->parse('[strings move=0|5|10]helloworld[/strings]'));
+    $this->assertEquals("worldhello", parsers()->shortcodes()->parse('[strings move=0,5,10]helloworld[/strings]'));
 
     // normalizeNewLines
     $this->assertEquals("\n \n", parsers()->shortcodes()->parse("[strings normalizeNewLines]\r\n \r[/strings]"));
@@ -240,7 +240,7 @@ test('[strings] shortcode', function () {
     // random
     $test1 = parsers()->shortcodes()->parse('[strings random /]');
     $test2 = parsers()->shortcodes()->parse('[strings random=10 /]');
-    $test3 = parsers()->shortcodes()->parse('[strings random=4|1234 /]');
+    $test3 = parsers()->shortcodes()->parse('[strings random=4,1234 /]');
     $this->assertEquals(64, strings($test1)->length());
     $this->assertEquals(10, strings($test2)->length());
     $this->assertEquals(4, strings($test3)->length());
@@ -252,17 +252,17 @@ test('[strings] shortcode', function () {
     $this->assertEquals("foofoofoo", parsers()->shortcodes()->parse('[strings repeat=3]foo[/strings]'));
 
     // replace
-    $this->assertEquals("bar baz", parsers()->shortcodes()->parse('[strings replace=foo|bar]foo baz[/strings]'));
+    $this->assertEquals("bar baz", parsers()->shortcodes()->parse('[strings replace=foo,bar]foo baz[/strings]'));
 
     // replaceDashes
     $this->assertEquals("foobarbaz", parsers()->shortcodes()->parse('[strings replaceDashes]foo-bar-baz[/strings]'));
     $this->assertEquals("foo_bar_baz", parsers()->shortcodes()->parse('[strings replaceDashes="_"]foo-bar-baz[/strings]'));
 
     // replaceFirst
-    $this->assertEquals("bar foo bar", parsers()->shortcodes()->parse('[strings replaceFirst=foo|bar]foo foo bar[/strings]'));
+    $this->assertEquals("bar foo bar", parsers()->shortcodes()->parse('[strings replaceFirst=foo,bar]foo foo bar[/strings]'));
 
     // replaceLast
-    $this->assertEquals("foo bar bar", parsers()->shortcodes()->parse('[strings replaceLast=foo|bar]foo foo bar[/strings]'));
+    $this->assertEquals("foo bar bar", parsers()->shortcodes()->parse('[strings replaceLast=foo,bar]foo foo bar[/strings]'));
 
     // replaceNonAlpha
     $this->assertEquals("foo  baz  bar", parsers()->shortcodes()->parse('[strings replaceNonAlpha]foo 123 baz 345 bar[/strings]'));
@@ -278,7 +278,7 @@ test('[strings] shortcode', function () {
 
     // segement
     $this->assertEquals("foo", parsers()->shortcodes()->parse('[strings segment=0]foo bar baz[/strings]'));
-    $this->assertEquals("foo", parsers()->shortcodes()->parse('[strings segment="0|/"]foo/bar/baz[/strings]'));
+    $this->assertEquals("foo", parsers()->shortcodes()->parse('[strings segment="0,/"]foo/bar/baz[/strings]'));
 
     // segements
     $this->assertEquals('["foo","bar","baz"]', parsers()->shortcodes()->parse('[strings segments]foo bar baz[/strings]'));

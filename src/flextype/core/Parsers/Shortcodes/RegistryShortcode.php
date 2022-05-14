@@ -27,7 +27,7 @@ parsers()->shortcodes()->addHandler('registry', static function (ShortcodeInterf
         return '';
     }
 
-    $varsDelimeter = $s->getParameter('varsDelimeter') ?: '|';
+    $varsDelimeter = $s->getParameter('varsDelimeter') ?: ',';
 
     if ($s->getParameter('get') != null) {
 

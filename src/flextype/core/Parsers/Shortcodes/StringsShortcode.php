@@ -27,8 +27,7 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
     }
     
     $content        = $s->getContent();
-    $varsDelimeter  = $s->getParameter('varsDelimeter') ?: '|';
-    $itemsDelimeter = $s->getParameter('itemsDelimeter') ?: ',';
+    $varsDelimeter  = $s->getParameter('varsDelimeter') ?: ',';
 
     foreach($s->getParameters() as $key => $value) {
 
@@ -115,15 +114,30 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         }
 
         if ($key == 'contains') {
-            $content = strings($content)->{'contains'}(isset($vars[0]) ? explode($itemsDelimeter, $vars[0]) : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : true) ? "true" : "false"; 
+            if (isset($vars[0])) {
+                parse_str($vars[0], $values);
+            } else {
+                $values = [];
+            }
+            $content = strings($content)->{'contains'}(array_keys($values), (isset($vars[1]) ? strings($vars[1])->toBoolean() : true)) ? "true" : "false"; 
         }
 
         if ($key == 'containsAll') {
-            $content = strings($content)->{'containsAll'}(isset($vars[0]) ? explode($itemsDelimeter, $vars[0]) : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : true) ? "true" : "false"; 
+            if (isset($vars[0])) {
+                parse_str($vars[0], $values);
+            } else {
+                $values = [];
+            }
+            $content = strings($content)->{'containsAll'}(array_keys($values), (isset($vars[1]) ? strings($vars[1])->toBoolean() : true)) ? "true" : "false"; 
         }
 
         if ($key == 'containsAny') {
-            $content = strings($content)->{'containsAny'}(isset($vars[0]) ? explode($itemsDelimeter, $vars[0]) : '', isset($vars[1]) ? strings($vars[1])->toBoolean() : true) ? "true" : "false"; 
+            if (isset($vars[0])) {
+                parse_str($vars[0], $values);
+            } else {
+                $values = [];
+            }
+            $content = strings($content)->{'containsAny'}(array_keys($values), isset($vars[1]) ? strings($vars[1])->toBoolean() : true) ? "true" : "false"; 
         }
 
         if ($key == 'count') {
@@ -151,7 +165,7 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         }
 
         if ($key == 'format') {
-            $formatVars = isset($vars[0]) ? explode($itemsDelimeter, $vars[0]) : [];
+            $formatVars = $vars;
             if (count($formatVars) > 0) {
                 $content = strings($content)->{'format'}(...$formatVars)->toString();
             }

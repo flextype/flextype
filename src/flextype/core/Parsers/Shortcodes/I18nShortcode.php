@@ -27,7 +27,7 @@ parsers()->shortcodes()->addHandler('tr', static function (ShortcodeInterface $s
         return '';
     }
 
-    $varsDelimeter = $s->getParameter('varsDelimeter') ?: '|';
+    $varsDelimeter = $s->getParameter('varsDelimeter') ?: ',';
 
     if ($s->getParameter('find') != null) {
 
