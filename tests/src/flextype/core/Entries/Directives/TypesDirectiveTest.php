@@ -22,6 +22,7 @@ test('types directive', function () {
     entries()->create('type-array-4', ['foo' => '@type(array) foo']);
     entries()->create('type-collection', ['foo' => '@type(collection) foo']);
     entries()->create('type-null', ['foo' => '@type(null) foo']);
+    entries()->create('type-string', ['foo' => '@type(string) foo']);
     entries()->create('type-json', ['foo' => '@type(json) foo=Foo']);
     entries()->create('type-json-2', ['foo' => '@type(json) {"foo": "Foo"}']);
     entries()->create('type-json-3', ['foo' => '@type(json) [1,2,3,4,5]']);
@@ -36,6 +37,7 @@ test('types directive', function () {
     $this->assertEquals(['foo' => 'Foo'], entries()->fetch('type-array-3')['foo']);
     $this->assertEquals(['foo' => ''], entries()->fetch('type-array-4')['foo']);
     $this->assertEquals(null, entries()->fetch('type-null')['foo']);
+    $this->assertEquals('foo', entries()->fetch('type-string')['foo']);
     $this->assertEquals('{"foo":"Foo"}', entries()->fetch('type-json')['foo']);
     $this->assertEquals('{"foo": "Foo"}', entries()->fetch('type-json-2')['foo']);
     $this->assertEquals('[1,2,3,4,5]', entries()->fetch('type-json-3')['foo']);
