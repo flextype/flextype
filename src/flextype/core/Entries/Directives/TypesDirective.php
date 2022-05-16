@@ -58,7 +58,7 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
                 $field['value'] = collectionFromQueryString($field['value']->toString());
             }
         } elseif (strings($field['value'])->contains('@type(string)')) {
-            $field['value'] = (string) $field['value'];
+            $field['value'] = strings(strings($field['value'])->replace('@type(string)', '')->trim())->toString();
         } elseif (strings($field['value'])->contains('@type(null)')) {
             $field['value'] = null;
         }
