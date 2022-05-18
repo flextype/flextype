@@ -29,7 +29,7 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
 
 emitter()->addListener('onEntriesCreate', static function (): void {
 
-    if (! registry()->get('flextype.settings.entries.collections.default.fields.created_at.enabled')) {
+    if (! registry()->get('methods.fetch.collection.fields.created_at.enabled')) {
         return;
     }
 
