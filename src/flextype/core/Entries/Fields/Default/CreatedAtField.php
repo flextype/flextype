@@ -16,10 +16,16 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
+    // Determine is the current field is set and enabled.
     if (! entries()->registry()->get('methods.fetch.collection.fields.created_at.enabled')) {
         return;
     }
 
+    // Determine is the current field file path is the same.
+    if (! strings(__FILE__)->replace(ROOT_DIR, '')->isEqual(entries()->registry()->get('methods.fetch.collection.fields.created_at.path'))) {
+        return;
+    }
+    
     if (entries()->registry()->get('methods.fetch.result.created_at') === null) {
         entries()->registry()->set('methods.fetch.result.created_at', (int) filesystem()->file(entries()->getFileLocation(entries()->registry()->get('methods.fetch.params.id')))->lastModified());
     } else {
@@ -29,10 +35,17 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
 
 emitter()->addListener('onEntriesCreate', static function (): void {
 
+    // Determine is the current field is set and enabled.
     if (! registry()->get('methods.fetch.collection.fields.created_at.enabled')) {
         return;
     }
 
+    // Determine is the current field file path is the same.
+    if (! strings(__FILE__)->replace(ROOT_DIR, '')->isEqual(entries()->registry()->get('methods.create.collection.fields.created_at.path'))) {
+        return;
+    }
+    
+    // Determine is the current field is not null.
     if (entries()->registry()->get('methods.create.params.data.created_at') !== null) {
         return;
     }

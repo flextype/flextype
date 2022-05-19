@@ -16,7 +16,13 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
+    // Determine is the current field is set and enabled.
     if (! entries()->registry()->get('methods.fetch.collection.fields.published_at.enabled')) {
+        return;
+    }
+
+    // Determine is the current field file path is the same.
+    if (! strings(__FILE__)->replace(ROOT_DIR, '')->isEqual(entries()->registry()->get('methods.fetch.collection.fields.published_at.path'))) {
         return;
     }
 
@@ -29,10 +35,17 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
 
 emitter()->addListener('onEntriesCreate', static function (): void {
 
+    // Determine is the current field is set and enabled.
     if (! entries()->registry()->get('methods.create.collection.fields.published_at.enabled')) {
         return;
     }
 
+    // Determine is the current field file path is the same.
+    if (! strings(__FILE__)->replace(ROOT_DIR, '')->isEqual(entries()->registry()->get('methods.create.collection.fields.published_at.path'))) {
+        return;
+    }
+
+    // Determine is the current field is not null.
     if (entries()->registry()->get('methods.create.params.data.published_at') !== null) {
         return;
     }

@@ -16,13 +16,20 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
+    // Determine is the current field is set and enabled.
     if (! entries()->registry()->get('methods.fetch.collection.fields.id.enabled')) {
         return;
     }
-    
-    if (entries()->registry()->get('methods.fetch.result.id') !== null) {
+
+    // Determine is the current field file path is the same.
+    if (! strings(__FILE__)->replace(ROOT_DIR, '')->isEqual(entries()->registry()->get('methods.fetch.collection.fields.id.path'))) {
         return;
     }
 
+    // Determine is the current field is not null.
+    if (entries()->registry()->get('methods.fetch.result.id') !== null) {
+        return;
+    }
+    
     entries()->registry()->set('methods.fetch.result.id', strings(entries()->registry()->get('methods.fetch.params.id'))->trimSlashes()->toString());
 });

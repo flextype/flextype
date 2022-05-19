@@ -16,10 +16,17 @@ declare(strict_types=1);
 
 emitter()->addListener('onEntriesCreate', static function (): void {
     
+    // Determine is the current field is set and enabled.
     if (! entries()->registry()->get('methods.create.collection.fields.state.enabled')) {
         return;
     }
 
+    // Determine is the current field file path is the same.
+    if (! strings(__FILE__)->replace(ROOT_DIR, '')->isEqual(entries()->registry()->get('methods.fetch.collection.fields.state.path'))) {
+        return;
+    }
+    
+    // Determine is the current field is not null.
     if (entries()->registry()->get('methods.create.params.data.state') !== null) {
         return;
     }

@@ -14,24 +14,22 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-use Ramsey\Uuid\Uuid;
-
-emitter()->addListener('onEntriesCreate', static function (): void {
+emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
     // Determine is the current field is set and enabled.
-    if (! entries()->registry()->get('methods.create.collection.fields.uuid.enabled')) {
+    if (! entries()->registry()->get('methods.fetch.collection.fields.id.enabled')) {
         return;
     }
 
     // Determine is the current field file path is the same.
-    if (! strings(__FILE__)->replace(ROOT_DIR, '')->isEqual(entries()->registry()->get('methods.fetch.collection.fields.uuid.path'))) {
-        return;
-    }
-    
-    // Determine is the current field is not null.
-    if (entries()->registry()->get('methods.create.params.data.uuid') !== null) {
+    if (! strings(__FILE__)->replace(ROOT_DIR, '')->isEqual(entries()->registry()->get('methods.fetch.collection.fields.id.path'))) {
         return;
     }
 
-    entries()->registry()->set('methods.create.params.data.uuid', Uuid::uuid4()->toString());
+    // Determine is the current field is not null.
+    if (entries()->registry()->get('methods.fetch.result.id') !== null) {
+        return;
+    }
+    
+    entries()->registry()->set('methods.fetch.result.id', strings(entries()->registry()->get('methods.fetch.params.id'))->replace('tokens', '')->trimSlashes()->toString());
 });
