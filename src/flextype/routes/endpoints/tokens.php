@@ -73,7 +73,8 @@ app()->post('/api/v0/tokens/verify-hash', [Tokens::class, 'verifyHash'])->setNam
  * Body:
  * token        - [REQUIRED] - Valid public token.
  * access_token - [REQUIRED] - Valid private access token.
- * 
+ * data         - [OPTIONAL] - Data to store for the token.
+ *
  * Returns:
  * Token entry object with the token entry that was just created.
  */

@@ -25,7 +25,7 @@ use function filesystem;
 class Tokens extends Api
 {
     /**
-     * Generate token
+     * Generate token.
      *
      * @param ServerRequestInterface $request  PSR7 request.
      * @param ResponseInterface      $response PSR7 response.
@@ -124,6 +124,9 @@ class Tokens extends Api
      */
     public function create(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
+        // Get Request Parsed Body
+        $requestParsedBody = $request->getParsedBody();
+
         // Validate Api Request
         if (
             count($result = $this->validateApiRequest([
@@ -142,7 +145,7 @@ class Tokens extends Api
         ! entries()->has('tokens') and entries()->create('tokens', ['title' => 'Tokens']);
 
         // Create new entry
-        entries()->create('tokens/' . $token, array_merge($requestParsedBody['data'], ['hashed_access_token' => $hashed_access_token]));
+        entries()->create('tokens/' . $token, array_merge($requestParsedBody['data'] ?? [], ['hashed_access_token' => $hashed_access_token]));
 
         // Fetch entry
         $entryData = entries()->fetch('tokens/' . $token)->toArray();
@@ -207,18 +210,20 @@ class Tokens extends Api
             count($result = $this->validateApiRequest([
                 'request' => $request,
                 'api' => 'tokens',
-                'params' => ['token', 'id', 'access_token'],
+                'params' => ['token', 'id', 'access_token', 'data'],
             ])) > 0
         ) {
             return $this->getApiResponse($response, $this->getStatusCodeMessage($result['http_status_code']), $result['http_status_code']);
         }
 
         // Update entry
-        entries()->update('tokens/' . $requestParsedBody['id'], $requestParsedBody['data'] ?? []);
+        entries()->update('tokens/' . $requestParsedBody['id'], $requestParsedBody['data']);
 
         // Fetch entry
         $entryData = entries()->fetch('tokens/' . $requestParsedBody['id'])->toArray();
 
+        dd($entryData);
+        
         // Return response
         if (count($entryData) > 0) {
             return $this->getApiResponse($response, $entryData, 200);
