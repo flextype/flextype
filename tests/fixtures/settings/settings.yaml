@@ -196,7 +196,7 @@ entries:
           path: "/src/flextype/core/Entries/Fields/Default/UuidField.php"
         id:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/IdField.php"
+          path: "/src/flextype/core/Entries/Fields/Tokens/Items/IdField.php"
         calls:
           enabled: true
           path: "/src/flextype/core/Entries/Fields/Tokens/Items/CallsField.php"

@@ -24,7 +24,7 @@ emitter()->addListener('onEntriesCreate', static function (): void {
     }
 
     // Determine is the current field file path is the same.
-    if (! strings(__FILE__)->replace(ROOT_DIR, '')->isEqual(entries()->registry()->get('methods.fetch.collection.fields.uuid.path'))) {
+    if (! strings(__FILE__)->replace(ROOT_DIR, '')->isEqual(entries()->registry()->get('methods.create.collection.fields.uuid.path'))) {
         return;
     }
     
