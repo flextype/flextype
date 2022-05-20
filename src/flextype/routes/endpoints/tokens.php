@@ -68,7 +68,7 @@ app()->post('/api/v0/tokens/verify-hash', [Tokens::class, 'verifyHash'])->setNam
 /**
  * Create token entry
  *
- * endpoint: POST /api/v0/tokens/create-token
+ * endpoint: POST /api/v0/tokens
  *
  * Body:
  * token        - [REQUIRED] - Valid public token.

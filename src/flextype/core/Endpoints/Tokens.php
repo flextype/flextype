@@ -32,7 +32,7 @@ class Tokens extends Api
      *
      * @return ResponseInterface Response.
      */
-    public function generateToken(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function generate(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         // Validate Api Request
         if (
@@ -60,7 +60,7 @@ class Tokens extends Api
      *
      * @return ResponseInterface Response.
      */
-    public function generateTokenHash(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function generateHash(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         // Get Request Parsed Body
         $requestParsedBody = $request->getParsedBody();
@@ -91,7 +91,7 @@ class Tokens extends Api
      *
      * @return ResponseInterface Response.
      */
-    public function verifyTokenHash(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function verifyHash(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         // Get Request Parsed Body
         $requestParsedBody = $request->getParsedBody();
@@ -221,8 +221,6 @@ class Tokens extends Api
 
         // Fetch entry
         $entryData = entries()->fetch('tokens/' . $requestParsedBody['id'])->toArray();
-
-        dd($entryData);
         
         // Return response
         if (count($entryData) > 0) {
