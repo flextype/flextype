@@ -17,7 +17,10 @@ declare(strict_types=1);
 namespace Flextype\Parsers;
 
 use Exception;
+
 use Thunder\Shortcode\ShortcodeFacade;
+use Thunder\Shortcode\Syntax\Syntax;
+use Thunder\Shortcode\Parser\RegularParser;
 
 use function cache;
 use function count;
@@ -60,8 +63,9 @@ final class Shortcodes
     protected function __construct()
     {
         $this->shortcodeFacade = new ShortcodeFacade();
+        $this->shortcodeFacade->setParser((new RegularParser((new Syntax('(', ')', '/', ':', '"')))));
     }
-
+    
     /**
      * Gets the instance via lazy initialization (created on first usage).
      */
