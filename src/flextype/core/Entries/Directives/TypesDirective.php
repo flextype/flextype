@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 use Glowy\Arrays\Arrays as Collection;
 
-// Directive: @type()
+// Directive: @type[)
 emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     if (! registry()->get('flextype.settings.entries.directives.types.enabled')) {
@@ -26,40 +26,40 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
     $field = entries()->registry()->get('methods.fetch.field');
 
     if (is_string($field['value'])) {
-        if (strings($field['value'])->contains('@type(integer)')) {
-            $field['value'] = strings(strings($field['value'])->replace('@type(integer)', '')->trim())->toInteger();
-        } elseif (strings($field['value'])->contains('@type(int)')) {
-            $field['value'] = strings(strings($field['value'])->replace('@type(int)', '')->trim())->toInteger();
-        } elseif (strings($field['value'])->contains('@type(float)')) {
-            $field['value'] = strings(strings($field['value'])->replace('@type(float)', '')->trim())->toFloat();
-        } elseif (strings($field['value'])->contains('@type(boolean)')) {
-            $field['value'] = strings(strings($field['value'])->replace('@type(boolean)', '')->trim())->toBoolean();
-        } elseif (strings($field['value'])->contains('@type(bool)')) {
-            $field['value'] = strings(strings($field['value'])->replace('@type(bool)', '')->trim())->toBoolean();
-        } elseif (strings($field['value'])->contains('@type(json)')) {
-            $field['value'] = strings($field['value'])->replace('@type(json)', '')->trim();
+        if (strings($field['value'])->contains('@type[integer]')) {
+            $field['value'] = strings(strings($field['value'])->replace('@type[integer]', '')->trim())->toInteger();
+        } elseif (strings($field['value'])->contains('@type[int]')) {
+            $field['value'] = strings(strings($field['value'])->replace('@type[int]', '')->trim())->toInteger();
+        } elseif (strings($field['value'])->contains('@type[float]')) {
+            $field['value'] = strings(strings($field['value'])->replace('@type[float]', '')->trim())->toFloat();
+        } elseif (strings($field['value'])->contains('@type[boolean]')) {
+            $field['value'] = strings(strings($field['value'])->replace('@type[boolean]', '')->trim())->toBoolean();
+        } elseif (strings($field['value'])->contains('@type[bool]')) {
+            $field['value'] = strings(strings($field['value'])->replace('@type[bool]', '')->trim())->toBoolean();
+        } elseif (strings($field['value'])->contains('@type[json]')) {
+            $field['value'] = strings($field['value'])->replace('@type[json]', '')->trim();
             if (strings($field['value'])->isJson()) {
                 $field['value'] = $field['value'];
             } else {
                 $field['value'] = collectionFromQueryString($field['value']->toString())->toJson();
             }
-        } elseif (strings($field['value'])->contains('@type(array)')) {
-            $field['value'] = strings($field['value'])->replace('@type(array)', '')->trim();
+        } elseif (strings($field['value'])->contains('@type[array]')) {
+            $field['value'] = strings($field['value'])->replace('@type[array]', '')->trim();
             if (strings($field['value'])->isJson()) {
                 $field['value'] = serializers()->json()->decode($field['value']->toString());
             } else {
                 $field['value'] = collectionFromQueryString($field['value']->toString())->toArray();
             }
-        } elseif (strings($field['value'])->contains('@type(collection)')) {
-            $field['value'] = strings($field['value'])->replace('@type(collection)', '')->trim();
+        } elseif (strings($field['value'])->contains('@type[collection]')) {
+            $field['value'] = strings($field['value'])->replace('@type[collection]', '')->trim();
             if (strings($field['value'])->isJson()) {
                 $field['value'] = collection(serializers()->json()->decode($field['value']->toString()));
             } else {
                 $field['value'] = collectionFromQueryString($field['value']->toString());
             }
-        } elseif (strings($field['value'])->contains('@type(string)')) {
-            $field['value'] = strings(strings($field['value'])->replace('@type(string)', '')->trim())->toString();
-        } elseif (strings($field['value'])->contains('@type(null)')) {
+        } elseif (strings($field['value'])->contains('@type[string]')) {
+            $field['value'] = strings(strings($field['value'])->replace('@type[string]', '')->trim())->toString();
+        } elseif (strings($field['value'])->contains('@type[null]')) {
             $field['value'] = null;
         }
     }

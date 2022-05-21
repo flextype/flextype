@@ -11,8 +11,8 @@ afterEach(function (): void {
 });
 
 test('constants directive', function () {
-    entries()->create('const-root-dir', ['path' => '@const(ROOT_DIR)']);
-    entries()->create('const-root-dir-2', ['path' => '@const(PATH_PROJECT)']);
+    entries()->create('const-root-dir', ['path' => '@const[ROOT_DIR]']);
+    entries()->create('const-root-dir-2', ['path' => '@const[PATH_PROJECT]']);
 
     $this->assertEquals(ROOT_DIR, entries()->fetch('const-root-dir')['path']);
     $this->assertEquals(PATH['project'], entries()->fetch('const-root-dir-2')['path']);

@@ -28,7 +28,7 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
     $result = entries()->registry()->get('methods.fetch.result');
 
     if (is_string($field['value'])) {
-        $field['value'] = preg_replace_callback('/@calc\((.*?)\)/s', function($matches) use ($result) {
+        $field['value'] = preg_replace_callback('/@calc\[(.*?)\]/s', function($matches) use ($result) {
             return (new StringCalc())->calculate($matches[1]); 
         }, $field['value']);
     }

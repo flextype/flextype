@@ -27,8 +27,8 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     if (is_string($field['value'])) {
         $field['value'] = strings($field['value'])
-                    ->replace('@const(ROOT_DIR)', ROOT_DIR)
-                    ->replace('@const(PATH_PROJECT)', PATH['project'])
+                    ->replace('@const[ROOT_DIR]', ROOT_DIR)
+                    ->replace('@const[PATH_PROJECT]', PATH['project'])
                     ->toString();
     }
 

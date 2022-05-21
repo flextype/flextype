@@ -11,6 +11,6 @@ afterEach(function (): void {
 });
 
 test('fields directive', function () {
-    entries()->create('field', ['foo' => '@field(id)']);
+    entries()->create('field', ['foo' => '@field[id]']);
     $this->assertEquals('field', entries()->fetch('field')['foo']);
 });

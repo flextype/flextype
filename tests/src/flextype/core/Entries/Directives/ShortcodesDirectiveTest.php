@@ -11,7 +11,7 @@ afterEach(function (): void {
 });
 
 test('shortcodes directive', function () {
-    entries()->create('shortcodes', ['foo' => '@shortcodes [strings prepend="Hello "]World[/strings]']);
+    entries()->create('shortcodes', ['foo' => '@shortcodes (strings prepend:"Hello ")World(/strings)']);
 
     $this->assertEquals('Hello World', entries()->fetch('shortcodes')['foo']);
 });

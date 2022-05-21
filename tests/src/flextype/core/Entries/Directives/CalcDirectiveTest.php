@@ -11,6 +11,7 @@ afterEach(function (): void {
 });
 
 test('calc directive', function () {
-    entries()->create('field', ['foo' => '@calc(2+2)']);
+    // (calc:1+1)
+    entries()->create('field', ['foo' => '@calc[2+2]']);
     $this->assertEquals(4, entries()->fetch('field')['foo']);
 });

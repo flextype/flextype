@@ -11,7 +11,7 @@ afterEach(function (): void {
 });
 
 test('vars directive', function () {
-    entries()->create('type-vars', ['vars' => ['foo' => 'Foo'], 'title' => '@var(foo)']);
+    entries()->create('type-vars', ['vars' => ['foo' => 'Foo'], 'title' => '@var[foo]']);
 
     $this->assertEquals('Foo', entries()->fetch('type-vars')['title']);
 });
