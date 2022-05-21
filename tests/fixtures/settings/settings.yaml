@@ -100,6 +100,9 @@ entries:
     textile:
       enabled: true
       path: "/src/flextype/core/Entries/Directives/TextileDirective.php"
+    php:
+      enabled: true
+      path: "/src/flextype/core/Entries/Directives/PhpDirective.php"
   macros:
     debug: false
     vars:
@@ -600,7 +603,7 @@ parsers:
       uuid:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/UuidShortcode.php"
-          
+
 # CORS
 #
 # CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.
