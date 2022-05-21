@@ -39,7 +39,7 @@ class TokensFetchCommand extends Command
         $this->addOption('find-depth-from', null, InputOption::VALUE_OPTIONAL, 'Restrict the tokens entries files depth of traversing from.');
         $this->addOption('find-depth-to', null, InputOption::VALUE_OPTIONAL, 'Restrict the tokens entries files depth of traversing to.');
         $this->addOption('find-date-from', null, InputOption::VALUE_OPTIONAL, 'Restrict the tokens entries files by a date range from.');
-        $this->addOption('find-date-to', null, InputOption::VALUE_OPTIONAL, 'Restrict the tokens entries filesby a date range to.');
+        $this->addOption('find-date-to', null, InputOption::VALUE_OPTIONAL, 'Restrict the tokens entries files by a date range to.');
         $this->addOption('find-size-from', null, InputOption::VALUE_OPTIONAL, 'Restrict the tokens entries files by a size range from.');
         $this->addOption('find-size-to', null, InputOption::VALUE_OPTIONAL, 'Restrict the tokens entries files by a size range to.');
         $this->addOption('find-exclude', null, InputOption::VALUE_OPTIONAL, 'Exclude directories from matching.');
@@ -120,7 +120,7 @@ class TokensFetchCommand extends Command
         $innerData = [];
         $innerDataString = '';
         
-        $data = entries()->fetch($id, $options);
+        $data = entries()->fetch('tokens/' . $id, $options);
 
         if (count($data) > 0) {
             if (isset($options['collection']) && $options['collection'] == true) {
