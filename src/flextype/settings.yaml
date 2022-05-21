@@ -608,7 +608,10 @@ parsers:
       if:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/IfShortcode.php"
-
+      uuid:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/UuidShortcode.php"
+        
 # CORS
 #
 # CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.
