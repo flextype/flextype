@@ -17,9 +17,7 @@ declare(strict_types=1);
 namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
-use Flextype\Entries\Entries;
 
-use function entries;
 use function parsers;
 use function registry;
 
