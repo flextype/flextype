@@ -605,7 +605,9 @@ parsers:
       i18n:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/I18nShortcode.php"
-        
+      if:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/IfShortcode.php"
 
 # CORS
 #
