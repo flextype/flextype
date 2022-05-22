@@ -76,9 +76,9 @@
 
 * **entries**: Added ability to set custom events for each entries collections.
 
-* **entries**: Added ability to set custom entries directives. Built-in directives: `@type`, `@parsers`, `const`.
+* **entries**: Added entries fields directives. Built-in directives: `@type`, `@markdown`, `shortcodes`, `textile`, `@const`, `@var`, `field`, `@calc`, `@php`.
 
-* **entries**: Added ability to set custom entries macros. Built-in macros: `entries`, `php`, `registry`.
+* **entries**: Added ability to create custom entries macros. Built-in macros: `entries`, `php`, `registry`.
 
 * **entries**: Added new method `getOptions` to get entries options.
 
@@ -144,6 +144,8 @@
 
 * **csrf**: Added Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
+* **frontmatter**: Added ability to define custom frontmatter header parsers for entries. Example: instead of first `---` you may set serializer `---json`, `---json5` `---yaml` or `---neon`. 
+
 * **serializers**: Added new serializer `Neon`. 
 
     Documentation [here](https://doc.nette.org/en/3.1/neon).
@@ -154,6 +156,15 @@
     ```yaml
     serializers:
       json: 
+        decode:
+          cache: true
+          assoc: true
+          depth: 512
+          flags: 0
+        encode: 
+          options: 0
+          depth: 512
+      json5: 
         decode:
           cache: true
           assoc: true
@@ -176,26 +187,22 @@
           cache: true
           header:
             serializer: yaml
-            allowed: ['yaml', 'json', 'neon']
+            allowed: ['yaml', 'json', 'json5', 'neon']
         encode:    
           header:
             serializer: yaml
-            allowed: ['yaml', 'json', 'neon']
+            allowed: ['yaml', 'json', 'json5', 'neon']
       neon:
         decode:
           cache: true
         encode:
-          flags: 1
+          blockMode: false
+          indentation: "\t"
       phparray:
         decode:
           cache: true
         encode:
           wrap: true
-      phpcode:
-        decode:
-          cache: true
-        encode:
-          wrap: false
     ```
 
 * **serializers**: Added ability to set specific header serializer for `Frontmatter` serializer (default is YAML).
@@ -207,14 +214,16 @@
         cache: true
         header:
           serializer: yaml
-          allowed: ['yaml', 'json', 'neon']
+          allowed: ['yaml', 'json', 'json5', 'neon']
       encode:    
         header:
           serializer: yaml
-          allowed: ['yaml', 'json', 'neon']
+          allowed: ['yaml', 'json', 'json5', 'neon']
     ```
 
 * **parsers**: Markdown parser [Commonmark updated to v2](https://commonmark.thephpleague.com/2.0/upgrading/)
+
+* **parsers**: Added new Textile parser.
 
 * **parsers**: Added ability to set global settings for all parsers. 
 
@@ -239,24 +248,64 @@
           max_nesting_level: 9223372036854775807
           slug_normalizer:
             max_length: 255
+      textile:
+        cache: true
+        restricted: false
+        document_type: 'xhtml'
+        document_root_directory: ''
+        lite: false
+        images: true
+        link_relation_ship: ''
+        raw_blocks: false
+        block_tags: true
+        line_wrap: true
+        image_prefix: ''
+        link_prefix: ''
+        symbol: []
+        dimensionless_images: true
       shortcodes:
         cache: true
         shortcodes:
-          media:
+          entries:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/MediaShortcode.php"
-          content:
+            path: "/src/flextype/core/Parsers/Shortcodes/EntriesShortcode.php"
+            fetch:
+              enabled: true
+          php:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/ContentShortcode.php"
+            path: "/src/flextype/core/Parsers/Shortcodes/PhpShortcode.php"
           raw:
             enabled: true
             path: "/src/flextype/core/Parsers/Shortcodes/RawShortcode.php"
+          textile:
+            enabled: true
+            path: "/src/flextype/core/Parsers/Shortcodes/TextileShortcode.php"
+          markdown:
+            enabled: true
+            path: "/src/flextype/core/Parsers/Shortcodes/MarkdownShortcode.php"
           registry:
             enabled: true
             path: "/src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
           url:
             enabled: true
             path: "/src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
+          strings:
+            enabled: true
+            path: "/src/flextype/core/Parsers/Shortcodes/StringsShortcode.php"
+          filesystem:
+            enabled: true
+            path: "/src/flextype/core/Parsers/Shortcodes/FilesystemShortcode.php"
+            get:
+              enabled: true
+          i18n:
+            enabled: true
+            path: "/src/flextype/core/Parsers/Shortcodes/I18nShortcode.php"
+          if:
+            enabled: true
+            path: "/src/flextype/core/Parsers/Shortcodes/IfShortcode.php"
+          uuid:
+            enabled: true
+            path: "/src/flextype/core/Parsers/Shortcodes/UuidShortcode.php"
     ```
 
 * **parsers**: Added ability to override logic for built-in shortcodes.
@@ -298,31 +347,39 @@
 
 * **routes** Added ability to set custom projects routes in `/projects/routes/routes.php`.
 
-* **shortcodes**: Added new shortcode `[uuid1]` to generate uuid1.
+* **shortcodes**: Added new shortcode `(entries)` to fetch entry (or entries collection) or specific field.
 
-* **shortcodes**: Added new shortcode `[uuid2]` to generate uuid2.
+* **shortcodes**: Added new shortcode `(uuid1)` to generate uuid1.
 
-* **shortcodes**: Added new shortcode `[uuid3]` to generate uuid3 .
+* **shortcodes**: Added new shortcode `(uuid2)` to generate uuid2.
 
-* **shortcodes**: Added new shortcode `[uuid4]` to generate uuid4.
+* **shortcodes**: Added new shortcode `(uuid3)` to generate uuid3 .
 
-* **shortcodes**: Added new shortcode `[strings]` for strings manipulation.
+* **shortcodes**: Added new shortcode `(uuid4)` to generate uuid4.
 
-* **shortcodes**: Added new shortcode `[php]` to execute php code.
+* **shortcodes**: Added new shortcode `(strings)` for strings manipulation.
 
-* **shortcodes**: Added new shortcode `[markdown]` to parse markdown text.
+* **shortcodes**: Added new shortcode `(textile)` to parse textile text.
 
-* **shortcodes**: Added new shortcode `[getBaseUrl]` to get base url.
+* **shortcodes**: Added new shortcode `(php)` to execute php code.
 
-* **shortcodes**: Added new shortcode `[getBasePath]` to get base path.
+* **shortcodes**: Added new shortcode `(markdown)` to parse markdown text.
 
-* **shortcodes**: Added new shortcode `[getAbsoluteUrl]` to get absolute url.
+* **shortcodes**: Added new shortcode `(getBaseUrl)` to get base url.
 
-* **shortcodes**: Added new shortcode `[urlFor]` to get url for route.
+* **shortcodes**: Added new shortcode `(getBasePath)` to get base path.
 
-* **shortcodes**: Added new shortcode `[getUriString]` to get uri string.
+* **shortcodes**: Added new shortcode `(getAbsoluteUrl)` to get absolute url.
 
-* **shortcodes**: Added new shortcode `[filesystem]`.
+* **shortcodes**: Added new shortcode `(urlFor)` to get url for route.
+
+* **shortcodes**: Added new shortcode `(getUriString)` to get uri string.
+
+* **shortcodes**: Added new shortcode `(filesystem)` to do filesytem manipulations.
+
+* **shortcodes**: Added new shortcode `(tr)` to returns translation of a string. 
+
+* **shortcodes**: Added new shortcode `(if)` to use logical if conditions.
 
 * **cache**: Added new cache driver `Phparray` to store cache data in raw php arrays files.
 
