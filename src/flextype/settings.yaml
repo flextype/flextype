@@ -83,9 +83,6 @@ entries:
     shortcodes:
       enabled: true
       path: "/src/flextype/core/Entries/Directives/ShortcodesDirective.php"
-    types:
-      enabled: true
-      path: "/src/flextype/core/Entries/Directives/TypesDirective.php"
     constants:
       enabled: true
       path: "/src/flextype/core/Entries/Directives/ConstantsDirective.php"
@@ -107,6 +104,9 @@ entries:
     php:
       enabled: true
       path: "/src/flextype/core/Entries/Directives/PhpDirective.php"
+    types:
+      enabled: true
+      path: "/src/flextype/core/Entries/Directives/TypesDirective.php"
   macros:
     debug: false
     vars:
