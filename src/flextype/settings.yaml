@@ -573,6 +573,11 @@ parsers:
     dimensionless_images: true
   shortcodes:
     cache: true
+    opening_tag: "("
+    closing_tag: ")"
+    closing_tag_marker: "/"
+    parameter_value_separator: ":"
+    parameter_value_delimiter: '"'
     shortcodes:
       entries:
         enabled: true
