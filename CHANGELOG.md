@@ -572,6 +572,15 @@
 
 ### BREAKING CHANGES
 
+* **shortcodes** New default shortcodes syntax.
+  ```yaml
+    opening_tag: "("
+    closing_tag: ")"
+    closing_tag_marker: "/"
+    parameter_value_separator: ":"
+    parameter_value_delimiter: '"'
+  ```
+
 * **helpers** Use new helpers functions to access Flextype Services.
 
   * use `entries()` instead of `flextype('entries')`
