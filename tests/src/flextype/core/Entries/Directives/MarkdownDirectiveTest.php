@@ -15,3 +15,10 @@ test('markdown directive', function () {
 
     $this->assertEquals('<p> <strong>Hello world!</strong></p>', entries()->fetch('markdown')['foo']);
 });
+
+test('markdown directive disabled', function () {
+    registry()->set('flextype.settings.entries.directives.markdown.enabled', false);
+    entries()->create('markdown', ['foo' => '@markdown **Hello world!**']);
+    $this->assertEquals('@markdown **Hello world!**', entries()->fetch('markdown')['foo']);
+    registry()->set('flextype.settings.entries.directives.markdown.enabled', true);
+});

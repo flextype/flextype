@@ -14,3 +14,10 @@ test('fields directive', function () {
     entries()->create('field', ['foo' => '@field[id]']);
     $this->assertEquals('field', entries()->fetch('field')['foo']);
 });
+
+test('fields directive disabled', function () {
+    registry()->set('flextype.settings.entries.directives.fields.enabled', false);
+    entries()->create('field', ['foo' => '@field[id]']);
+    $this->assertEquals('@field[id]', entries()->fetch('field')['foo']);
+    registry()->set('flextype.settings.entries.directives.fields.enabled', true);
+});

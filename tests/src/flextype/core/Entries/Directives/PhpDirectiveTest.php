@@ -15,3 +15,10 @@ test('php directive', function () {
 
     $this->assertEquals('Foo', entries()->fetch('type-php')['title']);
 });
+
+test('php directive disabled', function () {
+    registry()->set('flextype.settings.entries.directives.php.enabled', false);
+    entries()->create('type-php', ['title' => '@php echo "Foo";']);
+    $this->assertEquals('@php echo "Foo";', entries()->fetch('type-php')['title']);
+    registry()->set('flextype.settings.entries.directives.php.enabled', true);
+});

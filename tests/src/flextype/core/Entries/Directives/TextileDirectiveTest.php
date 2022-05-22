@@ -15,3 +15,10 @@ test('textile directive', function () {
 
     $this->assertEquals('<p> <b>Hello world!</b></p>', entries()->fetch('textile')['foo']);
 });
+
+test('textile directive disabled', function () {
+    registry()->set('flextype.settings.entries.directives.textile.enabled', false);
+    entries()->create('textile', ['foo' => '@textile **Hello world!**']);
+    $this->assertEquals('@textile **Hello world!**', entries()->fetch('textile')['foo']);
+    registry()->set('flextype.settings.entries.directives.textile.enabled', true);
+});

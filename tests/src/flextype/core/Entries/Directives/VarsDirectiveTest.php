@@ -15,3 +15,10 @@ test('vars directive', function () {
 
     $this->assertEquals('Foo', entries()->fetch('type-vars')['title']);
 });
+
+test('vars directive disabled', function () {
+    registry()->set('flextype.settings.entries.directives.vars.enabled', false);
+    entries()->create('type-vars', ['vars' => ['foo' => 'Foo'], 'title' => '@var[foo]']);
+    $this->assertEquals('@var[foo]', entries()->fetch('type-vars')['title']);
+    registry()->set('flextype.settings.entries.directives.vars.enabled', true);
+});

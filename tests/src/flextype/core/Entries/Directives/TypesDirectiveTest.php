@@ -42,3 +42,10 @@ test('types directive', function () {
     $this->assertEquals('{"foo": "Foo"}', entries()->fetch('type-json-2')['foo']);
     $this->assertEquals('[1,2,3,4,5]', entries()->fetch('type-json-3')['foo']);
 });
+
+test('types directive disabled', function () {
+    registry()->set('flextype.settings.entries.directives.types.enabled', false);
+    entries()->create('field', ['foo' => '@type[int] 100']);
+    $this->assertEquals('@type[int] 100', entries()->fetch('field')['foo']);
+    registry()->set('flextype.settings.entries.directives.types.enabled', true);
+});
