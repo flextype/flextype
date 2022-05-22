@@ -62,7 +62,7 @@ final class Shortcodes
      */
     protected function __construct()
     {
-        $settings = registry()->get('flextype.settings.shortcodes');
+        $settings = registry()->get('flextype.settings.parsers.shortcodes');
         $this->shortcodeFacade = new ShortcodeFacade();
         $this->shortcodeFacade->setParser((new RegularParser((new Syntax($settings['opening_tag'], 
                                                                          $settings['closing_tag'], 
