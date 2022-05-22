@@ -89,6 +89,12 @@ test('get cache ID for entry with cache enabled true', function () {
     expect(strlen(entries()->getCacheID('foo')))->toEqual(32);
 });
 
+test('get cache ID for entry with cache enabled true and with salt', function () {
+    registry()->set('flextype.settings.cache.enabled', true);
+    expect(entries()->create('foo', []))->toBeTrue();
+    expect(strlen(entries()->getCacheID('foo', 'Foo')))->toEqual(32);
+});
+
 test('registry for entry', function() {
     entries()->registry()->set('foo', ['title' => 'Foo']);
     expect(entries()->registry()->get('foo.title'))->toEqual('Foo');
