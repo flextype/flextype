@@ -36,6 +36,7 @@ test('types directive', function () {
     $this->assertEquals([1,2,3,4,5], entries()->fetch('type-array-2')['foo']);
     $this->assertEquals(['foo' => 'Foo'], entries()->fetch('type-array-3')['foo']);
     $this->assertEquals(['foo' => ''], entries()->fetch('type-array-4')['foo']);
+    $this->assertEquals(['foo' => ''], entries()->fetch('type-collection')['foo']->toArray());
     $this->assertEquals(null, entries()->fetch('type-null')['foo']);
     $this->assertEquals('foo', entries()->fetch('type-string')['foo']);
     $this->assertEquals('{"foo":"Foo"}', entries()->fetch('type-json')['foo']);
