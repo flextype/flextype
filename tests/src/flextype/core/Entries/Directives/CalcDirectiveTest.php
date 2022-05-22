@@ -11,7 +11,14 @@ afterEach(function (): void {
 });
 
 test('calc directive', function () {
-    // (calc:1+1)
+    registry()->set('flextype.settings.entries.directives.calc.enabled', true);
+    entries()->create('field', ['foo' => '@type[int] @calc[2+2]']);
+    expect(entries()->fetch('field')['foo'])->toBe(4);
+});
+
+test('calc directive disabled', function () {
+    registry()->set('flextype.settings.entries.directives.calc.enabled', false);
     entries()->create('field', ['foo' => '@calc[2+2]']);
-    $this->assertEquals(4, entries()->fetch('field')['foo']);
+    expect(entries()->fetch('field')['foo'])->toBe('@calc[2+2]');
+    registry()->set('flextype.settings.entries.directives.calc.enabled', true);
 });
