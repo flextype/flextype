@@ -1,6 +1,7 @@
 <?php
 
 use Glowy\Arrays\Arrays;
+use Flextype\Entries\Entries;
 
 beforeEach(function() {
     filesystem()->directory(PATH['project'] . '/entries')->ensureExists(0755, true);
@@ -8,6 +9,10 @@ beforeEach(function() {
 
 afterEach(function () {
     filesystem()->directory(PATH['project'] . '/entries')->delete();
+});
+
+test('entry construct', function () {
+    expect(new Entries(registry()->get('flextype.settings.entries')))->toBeInstanceOf(Entries::class);
 });
 
 test('create new entry', function () {
@@ -87,6 +92,7 @@ test('get cache ID for entry with cache enabled true', function () {
     registry()->set('flextype.settings.cache.enabled', true);
     expect(entries()->create('foo', []))->toBeTrue();
     expect(strlen(entries()->getCacheID('foo')))->toEqual(32);
+    expect(strlen(entries()->getCacheID('foo2')))->toEqual(32);
 });
 
 test('get cache ID for entry with cache enabled true and with salt', function () {
