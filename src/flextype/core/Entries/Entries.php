@@ -146,7 +146,7 @@ class Entries
     }
 
     /** 
-     * Load Collections Events
+     * Load events for current collection.
      *
      * @access public
      */
@@ -189,7 +189,7 @@ class Entries
     }
 
     /** 
-     * Load Collections Fields
+     * Load fields for current collection.
      *
      * @access public
      */
