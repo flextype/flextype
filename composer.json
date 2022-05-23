@@ -41,7 +41,7 @@
         "phpfastcache/phpfastcache": "^8.1.2",
 
         "respect/validation": "^2.2.3",
-        "monolog/monolog": "^2.4.0",
+        "monolog/monolog": "^2.6.0",
         "cocur/slugify": "^4.1.0",
         "ramsey/uuid": "4.2.3",
         "symfony/yaml": "^5.4.3",
@@ -51,17 +51,17 @@
 
         "composer/semver": "^3.3.2",
         "slim/psr7": "^1.5",
-        "php-di/php-di": "^6.3.5",
+        "php-di/php-di": "^6.4.0",
         "php-di/slim-bridge": "^3.2.0",
         "nette/neon": "^3.3.3", 
-        "league/commonmark": "^2.2.3",
+        "league/commonmark": "^2.3.1",
         "siriusphp/upload": "^3.0.1",
 
         "filp/whoops": "^2.14.5",
-        "symfony/console": "^5.4.3",
-        "symfony/var-exporter": "^5.4.3",
+        "symfony/console": "^5.4.8",
+        "symfony/var-exporter": "^5.4.8",
         "thermage/thermage": "^0.19.0",
-        "colinodell/json5": "^2.2",
+        "colinodell/json5": "^2.2.2",
         "netcarver/textile": "^3.7",
         "chriskonnertz/string-calc": "^1.0"
     },
@@ -82,9 +82,9 @@
     },
     "require-dev": {
         "doctrine/coding-standard": "9.0.0",
-        "pestphp/pest": "^1.21.2",
-        "phpstan/phpstan": "^1.4.4",
-        "symfony/var-dumper": "^5.4.3",
+        "pestphp/pest": "^1.21.3",
+        "phpstan/phpstan": "^1.7.4",
+        "symfony/var-dumper": "^5.4.8",
         "victorjonsson/markdowndocs": "^1.3.8"
     },
     "config": {
