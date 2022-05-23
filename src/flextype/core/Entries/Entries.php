@@ -80,8 +80,8 @@ class Entries
 
         $this->setRegistry($registry);
         $this->setOptions($options);
-        $this->loadCollectionsDirectives();
-        $this->loadCollectionsMacros();
+        $this->initFieldsDirectives(registry()->get('flextype.settings.entries.directives'));
+        $this->initFieldsMacros(registry()->get('flextype.settings.entries.macros'));
         $this->loadCollectionsEvents();
         $this->loadCollectionsFields();
     }
@@ -110,13 +110,15 @@ class Entries
     }
 
     /** 
-     * Load Collections Macros
+     * Init Fields Macros
      *
+     * @param array $macros Macros to init.
+     * 
      * @access public
      */
-    private function loadCollectionsMacros(): void
+    private function initFieldsMacros(array $macros): void
     {
-        foreach (registry()->get('flextype.settings.entries.macros') as $key => $value) {
+        foreach ($macros as $key => $value) {
             if ($key == 'debug') {
                 continue;
             }
@@ -128,13 +130,15 @@ class Entries
     }
 
     /** 
-     * Load Collections Directives
+     * Init Fields Directives
      *
+     * @param array $directives Directives to init.
+     * 
      * @access public
      */
-    private function loadCollectionsDirectives(): void
+    private function initFieldsDirectives(array $directives): void
     {
-        foreach (registry()->get('flextype.settings.entries.directives') as $key => $value) {
+        foreach ($directives as $key => $value) {
             if (filesystem()->file(ROOT_DIR . $value['path'])->exists()) {
                 include_once ROOT_DIR . $value['path']; 
             }
