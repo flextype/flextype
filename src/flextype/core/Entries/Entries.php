@@ -80,8 +80,8 @@ class Entries
 
         $this->setRegistry($registry);
         $this->setOptions($options);
-        $this->initFieldsDirectives(registry()->get('flextype.settings.entries.directives'));
-        $this->initFieldsMacros(registry()->get('flextype.settings.entries.macros'));
+        $this->initDirectives(registry()->get('flextype.settings.entries.directives'));
+        $this->initMacros(registry()->get('flextype.settings.entries.macros'));
         $this->loadCollectionsEvents();
         $this->loadCollectionsFields();
     }
@@ -110,7 +110,7 @@ class Entries
     }
 
     /** 
-     * Init Fields Macros
+     * Init Macros
      *
      * @param array $macros Macros to init.
      * 
@@ -130,7 +130,7 @@ class Entries
     }
 
     /** 
-     * Init Fields Directives
+     * Init Directives
      *
      * @param array $directives Directives to init.
      * 
