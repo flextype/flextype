@@ -116,7 +116,7 @@ class Entries
      * 
      * @access public
      */
-    private function initMacros(array $macros): void
+    public function initMacros(array $macros): void
     {
         foreach ($macros as $key => $value) {
             if ($key == 'debug') {
@@ -136,7 +136,7 @@ class Entries
      * 
      * @access public
      */
-    private function initDirectives(array $directives): void
+    public function initDirectives(array $directives): void
     {
         foreach ($directives as $key => $value) {
             if (filesystem()->file(ROOT_DIR . $value['path'])->exists()) {
