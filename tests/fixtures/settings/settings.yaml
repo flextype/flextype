@@ -70,14 +70,12 @@ errors:
 # Entries
 entries:
   directory: '/entries'
-  parsers:
-    shortcodes:
-      enabled: true
   vars:
     debug: false
   directives:
     shortcodes:
       enabled: true
+      enabled_globally: true
       path: "/src/flextype/core/Entries/Directives/ShortcodesDirective.php"
     constants:
       enabled: true

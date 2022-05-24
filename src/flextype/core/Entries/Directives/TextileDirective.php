@@ -28,6 +28,8 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
     if (is_string($field['value'])) {
         if (strings($field['value'])->contains('@textile')) {
             $field['value'] = strings(parsers()->textile()->parse($field['value']))->replace('@textile', '')->trim()->toString();
+        } elseif (registry()->get('flextype.settings.entries.directives.textile.enabled_globally')) {
+            $field['value'] = parsers()->textile()->parse($field['value']);
         }
     }
     

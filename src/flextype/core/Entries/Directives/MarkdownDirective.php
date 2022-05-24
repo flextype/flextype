@@ -28,6 +28,8 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
     if (is_string($field['value'])) {
         if (strings($field['value'])->contains('@markdown')) {
             $field['value'] = strings(parsers()->markdown()->parse($field['value']))->replace('@markdown', '')->trim()->toString();
+        } elseif (registry()->get('flextype.settings.entries.directives.markdown.enabled_globally')) {
+            $field['value'] = parsers()->markdown()->parse($field['value']);
         }
     }
     

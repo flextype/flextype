@@ -24,11 +24,11 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
     }
 
     $field = entries()->registry()->get('methods.fetch.field');
-
+    
     if (is_string($field['value'])) {
         if (strings($field['value'])->contains('@shortcodes')) {
             $field['value'] = strings(parsers()->shortcodes()->parse($field['value']))->replace('@shortcodes', '')->trim()->toString();
-        } elseif (registry()->get('flextype.settings.entries.parsers.shortcodes.enabled') !== false) {
+        } elseif (registry()->get('flextype.settings.entries.directives.shortcodes.enabled_globally')) {
             $field['value'] = parsers()->shortcodes()->parse($field['value']);
         }
     }

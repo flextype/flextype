@@ -30,6 +30,10 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
             ob_start();
             eval(strings($field['value'])->replace('@php', '')->trim()->toString());
             $field['value'] = ob_get_clean();
+        } elseif (registry()->get('flextype.settings.entries.directives.php.enabled_globally')) {
+            ob_start();
+            eval(strings($field['value'])->replace('@php', '')->trim()->toString());
+            $field['value'] = ob_get_clean();
         }
     }
     
