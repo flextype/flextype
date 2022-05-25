@@ -23,13 +23,14 @@ use function entries;
 use function parsers;
 use function registry;
 
-// Shortcode: [entries]
+// Shortcode: entries
+// Usage: (entries fetch:'blog/post-1' field:'title')
 parsers()->shortcodes()->addHandler('entries', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.entries.enabled')) {
         return '';
     }
 
-    $varsDelimeter = $s->getParameter('varsDelimeter') ?: ',';
+    $varsDelimeter  = ($s->getParameter('varsDelimeter') != null) ? parsers()->shortcodes()->parse($s->getParameter('varsDelimeter')) : ',';
     $result = '';
 
     foreach($s->getParameters() as $key => $value) {
@@ -37,6 +38,9 @@ parsers()->shortcodes()->addHandler('entries', static function (ShortcodeInterfa
         if ($key == 'fetch' && registry()->get('flextype.settings.parsers.shortcodes.shortcodes.entries.fetch.enabled') === true) {
 
             $vars = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [];
+
+            // Parse shortcodes for each var.
+            $vars = array_map(fn($v) => parsers()->shortcodes()->parse(is_string($v) ? $v : ''), $vars);
 
             // Set options
             if (isset($vars[1])) {
@@ -79,6 +83,9 @@ parsers()->shortcodes()->addHandler('entries', static function (ShortcodeInterfa
 
             $vars = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [''];
 
+            // Parse shortcodes for each var.
+            $vars = array_map(fn($v) => parsers()->shortcodes()->parse(is_string($v) ? $v : ''), $vars);
+        
             $result = collectionFromJson($result)->get($vars[0], $vars[1] ?? '');
         }
     }

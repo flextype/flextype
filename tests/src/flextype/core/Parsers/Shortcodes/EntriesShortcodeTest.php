@@ -10,7 +10,7 @@ afterEach(function () {
     filesystem()->directory(PATH['project'] . '/entries')->delete();
 });
 
-test('(entries-fetch] shortcode', function () {
+test('entries shortcode', function () {
     $this->assertTrue(entries()->create('blog', ['title' => 'Blog', 'categories' => "@type[array] (entries fetch:'blog,collection=true&filter[sort_by][key]=date&filter[sort_by][direction]=ASC' /)"]));
     $this->assertTrue(entries()->create('blog/post-1', ['title' => 'Post 1']));
     $this->assertTrue(entries()->create('blog/post-2', ['title' => 'Post 2']));
@@ -26,4 +26,8 @@ test('(entries-fetch] shortcode', function () {
 
     $this->assertTrue(entries()->create('blog-3', ['title' => 'Blog', 'category-cat' => "(entries fetch:'categories/cat' field:'title2,Foo' /)"]));
     expect(entries()->fetch('blog-3')['category-cat'])->toBe('Foo');
+
+    $this->assertTrue(entries()->create('shop', ['vars' => ['id' => 'shop', 'options' => 'collection=true', 'field' => 'title'], 'title' => 'Shop', 'products' => "@type[array] (entries fetch:'(var:id),(var:options)' field:'(var:field)' /)"]));
+    $this->assertTrue(entries()->create('shop/product-1', ['title' => 'Product 1']));
+    expect(count(entries()->fetch('shop')['products']))->toBe(1);
 });
