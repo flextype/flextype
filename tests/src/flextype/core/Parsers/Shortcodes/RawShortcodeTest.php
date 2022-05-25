@@ -12,6 +12,6 @@ afterEach(function () {
 
 test('[raw] shortcode', function () {
     $this->assertTrue(entries()->create('foo', ['title' => 'Foo']));
-    $this->assertEquals('(entries fetch:"foo" field:"title")',
-                        parsers()->shortcodes()->parse('(raw)(entries fetch:"foo" field:"title")(/raw)'));
+    $this->assertEquals("(entries fetch:'foo' field:'title')",
+                        parsers()->shortcodes()->parse("(raw)(entries fetch:'foo' field:'title')(/raw)"));
 });

@@ -23,5 +23,5 @@ test('(getUriString) shortcode', function () {
 });
 
 test('(urlFor) shortcode', function () {
-    $this->assertStringContainsString('', parsers()->shortcodes()->parse('(urlFor routeName="test-route" queryParams=\'{"foo": "Foo"}\')'));
+    $this->assertStringContainsString('', parsers()->shortcodes()->parse("(urlFor routeName='test-route' queryParams='{\"foo\": \"Foo\"}')"));
 });
