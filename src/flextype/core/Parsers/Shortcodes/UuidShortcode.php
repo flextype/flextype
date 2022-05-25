@@ -22,39 +22,22 @@ use function app;
 use function parsers;
 use function registry;
 
-// Shortcode: [uuid1]
-parsers()->shortcodes()->addHandler('uuid1', static function () {
+// Shortcode: uuid
+// Usage: (uuid) (uuid:4)
+parsers()->shortcodes()->addHandler('uuid', static function () {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.uuid.enabled')) {
         return '';
     }
 
-    return Uuid::uuid1()->toString();
-});
-
-// Shortcode: [uuid2]
-parsers()->shortcodes()->addHandler('uuid2', static function () {
-    if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.uuid.enabled')) {
-        return '';
+    $result = '';
+    $uuid   = ($s->getBbCode() != null) ? strings(parsers()->shortcodes()->parse($s->getBbCode()))->toInteger() : 4;
+    
+    switch ($uuid) {
+        case 4:
+        default:
+            $result = Uuid::uuid4()->toString();
+            break;
     }
 
-    return Uuid::uuid2()->toString();
-});
-
-// Shortcode: [uuid3]
-parsers()->shortcodes()->addHandler('uuid3', static function () {
-    if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.uuid.enabled')) {
-        return '';
-    }
-
-    return Uuid::uuid3()->toString();
-});
-
-
-// Shortcode: [uuid4]
-parsers()->shortcodes()->addHandler('uuid4', static function () {
-    if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.uuid.enabled')) {
-        return '';
-    }
-
-    return Uuid::uuid4()->toString();
+    return $result;
 });
