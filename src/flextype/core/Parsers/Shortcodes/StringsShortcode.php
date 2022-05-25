@@ -20,18 +20,22 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use function parsers;
 use function registry;
 
-// Shortcode: [strings] strings to modify [/strings]
+// Shortcode: strings
+// Usage: (strings) strings to modify (/strings)
 parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.strings.enabled')) {
         return '';
     }
     
-    $content        = $s->getContent();
-    $varsDelimeter  = $s->getParameter('varsDelimeter') ?: ',';
+    $content        = ($s->getContent() != null) ? parsers()->shortcodes()->parse($s->getContent()) : '';
+    $varsDelimeter  = ($s->getParameter('varsDelimeter') != null) ? parsers()->shortcodes()->parse($s->getParameter('varsDelimeter')) : ',';
 
     foreach($s->getParameters() as $key => $value) {
 
         $vars = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [];
+
+        // Parse shortcodes for each var.
+        $vars = array_map(fn($v) => parsers()->shortcodes()->parse(is_string($v) ? $v : ''), $vars);
 
         if ($key == 'append') {
             if (is_iterable($vars)) {

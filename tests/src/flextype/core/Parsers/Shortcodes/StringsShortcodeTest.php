@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-test('(strings) shortcode', function () {
+test('strings shortcode', function () {
 
     // lower
     $this->assertEquals("zed foo bar", parsers()->shortcodes()->parse("(strings lower)zed foo bar(/strings)"));
@@ -340,4 +340,8 @@ test('(strings) shortcode', function () {
 
     // wordsFrequency
     $this->assertEquals('{"foo":"33.33","bar":"33.33","baz":"33.33"}', parsers()->shortcodes()->parse("(strings wordsFrequency)foo bar baz(/strings)"));
+});
+
+test('strings nested shortcode', function () {
+    expect(parsers()->shortcodes()->parse("(strings append:'(strings hash)(strings random:10 /)(/strings)')Hash: (/strings)"))->toBe('Hash: 66e51cf9114bf1eef8f1793ad1c0e8a1');
 });
