@@ -21,20 +21,24 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use function parsers;
 use function registry;
 
-// Shortcode: [registry]
+// Shortcode: registry
+// Usage: (registry get:flextype.manifest.version)
 parsers()->shortcodes()->addHandler('registry', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.registry.enabled')) {
         return '';
     }
 
-    $varsDelimeter = $s->getParameter('varsDelimeter') ?: ',';
+    $varsDelimeter = ($s->getParameter('varsDelimeter') != null) ? parsers()->shortcodes()->parse($s->getParameter('varsDelimeter')) : ',';
 
     if ($s->getParameter('get') != null) {
 
+        $value = $s->getParameter('get');
+
         // Get vars
-        foreach($s->getParameters() as $key => $value) {
-            $vars = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [];
-        }
+        $vars  = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [];
+        
+        // Parse shortcodes for each var.
+        $vars = array_map(fn($v) => parsers()->shortcodes()->parse(is_string($v) ? $v : ''), $vars);
         
         $result = registry()->get($vars[0], $vars[1] ?? null);
 
