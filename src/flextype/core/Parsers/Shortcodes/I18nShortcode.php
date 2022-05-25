@@ -33,10 +33,10 @@ parsers()->shortcodes()->addHandler('tr', static function (ShortcodeInterface $s
     if ($s->getBbCode() != null) {
 
         // Get vars
-        foreach($s->getParameters() as $key => $value) {
-            $vars = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [];
-        }
-        
+        $value = $s->getBbCode();
+    
+        $vars = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [];
+    
         // Parse shortcodes for each var.
         $vars = array_map(fn($v) => parsers()->shortcodes()->parse(is_string($v) ? $v : ''), $vars);
 
