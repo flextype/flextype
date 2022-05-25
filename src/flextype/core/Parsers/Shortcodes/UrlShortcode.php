@@ -21,7 +21,8 @@ use function app;
 use function parsers;
 use function registry;
 
-// Shortcode: [getBaseUrl]
+// Shortcode: getBaseUrl
+// Usage: (getBaseUrl)
 parsers()->shortcodes()->addHandler('getBaseUrl', static function () {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.url.enabled')) {
         return '';
@@ -30,7 +31,8 @@ parsers()->shortcodes()->addHandler('getBaseUrl', static function () {
     return getBaseUrl();
 });
 
-// Shortcode: [getBasePath]
+// Shortcode: getBasePath
+// Usage: (getBasePath)
 parsers()->shortcodes()->addHandler('getBasePath', static function () {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.url.enabled')) {
         return '';
@@ -39,7 +41,8 @@ parsers()->shortcodes()->addHandler('getBasePath', static function () {
     return getBasePath();
 });
 
-// Shortcode: [getAbsoluteUrl]
+// Shortcode: getAbsoluteUrl
+// Usage: (getAbsoluteUrl)
 parsers()->shortcodes()->addHandler('getAbsoluteUrl', static function () {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.url.enabled')) {
         return '';
@@ -48,7 +51,8 @@ parsers()->shortcodes()->addHandler('getAbsoluteUrl', static function () {
     return getAbsoluteUrl();
 });
 
-// Shortcode: [getUriString]
+// Shortcode: getUriString
+// Usage: (getUriString)
 parsers()->shortcodes()->addHandler('getUriString', static function () {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.url.enabled')) {
         return '';
@@ -57,14 +61,14 @@ parsers()->shortcodes()->addHandler('getUriString', static function () {
     return getUriString();
 });
 
-// Shortcode: [urlFor routeName="STRING" data="STRING(JSON)" queryParams="STRING(JSON)"]
-// Example: [urlFor routeName="route-name" data='{"foo": "Foo"}' queryParams='{"foo": "Foo"}']
+// Shortcode: urlFor
+// Usage: (urlFor routeName='route-name' data='{"foo": "Foo"}' queryParams='{"foo": "Foo"}')
 parsers()->shortcodes()->addHandler('urlFor', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.url.enabled')) {
         return '';
     }
 
     return urlFor($s->getParameter('routeName'), 
-                  $s->getParameter('data') != null ? serializers()->json()->decode($s->getParameter('data')) : [],
-                  $s->getParameter('queryParams') != null ? serializers()->json()->decode($s->getParameter('queryParams')) : [],);
+                  $s->getParameter('data') != null ? serializers()->json()->decode(parsers()->shortcodes()->parse($s->getParameter('data'))) : [],
+                  $s->getParameter('queryParams') != null ? serializers()->json()->decode(parsers()->shortcodes()->parse($s->getParameter('queryParams'))) : [],);
 });
