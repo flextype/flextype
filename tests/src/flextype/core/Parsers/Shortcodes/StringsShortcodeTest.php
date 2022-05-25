@@ -300,10 +300,10 @@ test('(strings) shortcode', function () {
     $this->assertEquals("foo_bar", parsers()->shortcodes()->parse("(strings snake)fooBar(/strings)"));
 
     // start
-    $this->assertEquals("/movies/sg-1/season-5/episode-21/", parsers()->shortcodes()->parse("(strings start:"/")movies/sg-1/season-5/episode-21/(/strings)"));
+    $this->assertEquals("/movies/sg-1/season-5/episode-21/", parsers()->shortcodes()->parse("(strings start:'/')movies/sg-1/season-5/episode-21/(/strings)"));
 
     // startsWith
-    $this->assertEquals("true", parsers()->shortcodes()->parse("(strings startsWith:"/")/foo/(/strings)"));
+    $this->assertEquals("true", parsers()->shortcodes()->parse("(strings startsWith:'/')/foo/(/strings)"));
 
     // stripQuotes
     $this->assertEquals("some text here", parsers()->shortcodes()->parse('(strings stripQuotes)some "text" here(/strings)'));
