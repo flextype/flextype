@@ -18,13 +18,12 @@ namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use Ramsey\Uuid\Uuid;
-use function app;
 use function parsers;
 use function registry;
 
 // Shortcode: uuid
 // Usage: (uuid) (uuid:4)
-parsers()->shortcodes()->addHandler('uuid', static function () {
+parsers()->shortcodes()->addHandler('uuid', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.uuid.enabled')) {
         return '';
     }
