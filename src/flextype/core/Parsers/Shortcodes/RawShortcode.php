@@ -22,7 +22,8 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 use function parsers;
 
-// Shortcode: [raw] shortcodes to escape [/raw]
+// Shortcode: raw
+// Usage: (raw) shortcodes to escape (/raw)
 parsers()->shortcodes()->addHandler('raw', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.raw.enabled')) {
         return '';
