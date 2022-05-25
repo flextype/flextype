@@ -19,11 +19,12 @@ namespace Flextype\Parsers\Shortcodes;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use function parsers;
 
-// Shortcode: [markdown] markdown text here [/markdown]
+// Shortcode: (markdown)
+// Usage: (markdown) markdown text here (/markdown)
 parsers()->shortcodes()->addHandler('markdown', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.markdown.enabled')) {
         return '';
     }
     
-    return parsers()->markdown()->parse($s->getContent());
+    return parsers()->markdown()->parse(parsers()->shortcodes()->parse($s->getContent()));
 });
