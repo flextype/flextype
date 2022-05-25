@@ -11,6 +11,6 @@ afterEach(function () {
 });
 
 test('var shortcode', function () {
-    expect(entries()->create('foo', ['var' => ['foo' => 'Foo'], 'title' => '(var:foo)']))->toBeTrue();
+    expect(entries()->create('foo', ['vars' => ['foo' => 'Foo'], 'title' => '(var:foo)']))->toBeTrue();
     expect(entries()->fetch('foo')['title'])->toBe('Foo');
 });
