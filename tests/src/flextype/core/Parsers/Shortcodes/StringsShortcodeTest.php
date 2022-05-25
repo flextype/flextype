@@ -343,5 +343,5 @@ test('strings shortcode', function () {
 });
 
 test('strings nested shortcode', function () {
-    expect(parsers()->shortcodes()->parse("(strings append:'(strings hash)(strings random:10 /)(/strings)')Hash: (/strings)"))->toBe('Hash: 66e51cf9114bf1eef8f1793ad1c0e8a1');
+    expect(parsers()->shortcodes()->parse("(strings append:'(strings hash)(strings upper)foo(/strings)(/strings)')Hash: (/strings)"))->toBe('Hash: 901890a8e9c8cf6d5a1a542b229febff');
 });
