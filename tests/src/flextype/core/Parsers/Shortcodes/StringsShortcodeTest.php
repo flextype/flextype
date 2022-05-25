@@ -200,7 +200,7 @@ test('(strings) shortcode', function () {
 
     // lastSegment
     $this->assertEquals("baz", parsers()->shortcodes()->parse("(strings lastSegment)foo bar baz(/strings)"));
-    $this->assertEquals("baz", parsers()->shortcodes()->parse("(strings lastSegment:"/")foo/bar/baz(/strings)"));
+    $this->assertEquals("baz", parsers()->shortcodes()->parse("(strings lastSegment:'/')foo/bar/baz(/strings)"));
     
     // length
     $this->assertEquals(11, parsers()->shortcodes()->parse("(strings length)foo bar baz(/strings)"));
