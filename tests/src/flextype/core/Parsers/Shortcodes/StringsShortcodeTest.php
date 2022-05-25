@@ -5,7 +5,7 @@ declare(strict_types=1);
 test('(strings) shortcode', function () {
 
     // lower
-    $this->assertEquals("zed foo bar", "(strings lower)zed foo bar(/strings)");
+    $this->assertEquals("zed foo bar", parsers()->shortcodes()->parse("(strings lower)zed foo bar(/strings)"));
 
     // upper
     $this->assertEquals("ZED FOO BAR", parsers()->shortcodes()->parse("(strings upper)zed foo bar(/strings)"));
