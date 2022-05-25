@@ -403,6 +403,11 @@ cli: true
 # Set to true to enable the Flextype Application
 app: true
 
+# View
+view:
+  directory: 'views'
+  extension: 'php'
+
 # Slugify
 slugify:
 

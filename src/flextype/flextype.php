@@ -18,6 +18,7 @@ namespace Flextype;
 
 use Glowy\Csrf\Csrf;
 use Glowy\Session\Session;
+use Glowy\View\View;
 use Cocur\Slugify\Slugify;
 use DateTimeZone;
 use Flextype\Entries\Entries;
@@ -366,6 +367,10 @@ function_exists('mb_internal_encoding') and mb_internal_encoding(registry()->get
 if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listIdentifiers())) {
     date_default_timezone_set(registry()->get('flextype.settings.timezone'));
 }
+
+// Set View
+View::setDirectory(PATH['project'] . '/' . registry()->get('flextype.settings.view.directory'));
+View::setExtension(registry()->get('flextype.settings.view.extension'));
 
 // Add Plugins Service
 container()->set('plugins', new Plugins());
