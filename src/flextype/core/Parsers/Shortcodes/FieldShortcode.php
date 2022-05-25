@@ -19,7 +19,7 @@ namespace Flextype\Parsers\Shortcodes;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use function registry;
 
-// Shortcode: title
+// Shortcode: field
 // Usage: (field:title)
 parsers()->shortcodes()->addHandler('field', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.field.enabled')) {
