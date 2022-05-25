@@ -612,7 +612,10 @@ parsers:
       field:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/FieldShortcode.php"  
-           
+      calc:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/CalcShortcode.php" 
+
 # CORS
 #
 # CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.
