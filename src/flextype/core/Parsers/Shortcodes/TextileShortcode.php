@@ -19,11 +19,12 @@ namespace Flextype\Parsers\Shortcodes;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use function parsers;
 
-// Shortcode: [textile] textile text here [/textile]
+// Shortcode: textile
+// Usage: (textile) textile text here (/textile)
 parsers()->shortcodes()->addHandler('textile', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.textile.enabled')) {
         return '';
     }
     
-    return parsers()->textile()->parse($s->getContent());
+    return parsers()->textile()->parse(parsers()->shortcodes()->parse($s->getContent()));
 });
