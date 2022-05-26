@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
-use ChrisKonnertz\StringCalc\StringCalc;
 use function registry;
+use function expression;
 
 // Shortcode: calc
 // Usage: (calc:2+2)
@@ -27,5 +27,5 @@ parsers()->shortcodes()->addHandler('calc', static function (ShortcodeInterface 
         return '';
     }
     
-    return (new StringCalc())->calculate(parsers()->shortcodes()->parse($s->getBBCode()));
+    return expression()->evaluate(parsers()->shortcodes()->parse($s->getBBCode()));
 });
