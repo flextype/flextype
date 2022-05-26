@@ -28,7 +28,7 @@ parsers()->shortcodes()->addHandler('registry', static function (ShortcodeInterf
         return '';
     }
 
-    if ($s->getParameter('get') != null) {
+    if ($s->getParameter('get') != null && registry()->get('flextype.settings.parsers.shortcodes.shortcodes.registry.get.enabled') === true) {
 
         $value   = parsers()->shortcodes()->parse($s->getParameter('get'));
         $default = ($s->getParameter('default') != null) ? parsers()->shortcodes()->parse($s->getParameter('default')) : null;
