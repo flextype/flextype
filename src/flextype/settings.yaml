@@ -605,6 +605,8 @@ parsers:
       registry:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
+        get:
+          enabled: true
       url:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
@@ -634,7 +636,7 @@ parsers:
       calc:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/CalcShortcode.php"  
-             
+
 # CORS
 #
 # CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.

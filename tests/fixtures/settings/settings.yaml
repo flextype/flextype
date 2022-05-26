@@ -586,6 +586,8 @@ parsers:
       registry:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
+        get:
+          enabled: true
       strings:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/StringsShortcode.php"
