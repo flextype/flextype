@@ -28,19 +28,11 @@ parsers()->shortcodes()->addHandler('registry', static function (ShortcodeInterf
         return '';
     }
 
-    $varsDelimeter = ($s->getParameter('varsDelimeter') != null) ? parsers()->shortcodes()->parse($s->getParameter('varsDelimeter')) : ',';
-
     if ($s->getParameter('get') != null) {
 
-        $value = $s->getParameter('get');
-
-        // Get vars
-        $vars  = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [];
-        
-        // Parse shortcodes for each var.
-        $vars = array_map(fn($v) => parsers()->shortcodes()->parse(is_string($v) ? $v : ''), $vars);
-        
-        $result = registry()->get($vars[0], $vars[1] ?? null);
+        $value   = parsers()->shortcodes()->parse($s->getParameter('get'));
+        $default = ($s->getParameter('default') != null) ? parsers()->shortcodes()->parse($s->getParameter('default')) : null;
+        $result  = registry()->get($value, $default);
 
         return is_array($result) ? serializers()->json()->encode($result) : $result;
     }
