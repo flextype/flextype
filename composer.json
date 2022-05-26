@@ -60,10 +60,10 @@
         "filp/whoops": "^2.14.5",
         "symfony/console": "^5.4.8",
         "symfony/var-exporter": "^5.4.8",
+        "symfony/expression-language": "^5.4.8",
         "thermage/thermage": "^0.19.0",
         "colinodell/json5": "^2.2.2",
-        "netcarver/textile": "^3.7",
-        "chriskonnertz/string-calc": "^1.0"
+        "netcarver/textile": "^3.7"
     },
     "suggest": {
         "ext-zend-opcache": "Recommended for better performance",

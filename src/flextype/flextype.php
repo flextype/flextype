@@ -47,6 +47,7 @@ use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Response;
 use Slim\Psr7\Stream;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Flextype\Middlewares\WhoopsMiddleware;
 use Flextype\Console\FlextypeConsole;
 
@@ -202,6 +203,9 @@ if (registry()->get('flextype.settings.router.cache')) {
     filesystem()->directory(PATH['tmp'] . '/routes')->ensureExists(0755, true);
     app()->getRouteCollector()->setCacheFile(PATH['tmp'] . '/routes/routes.php');
 }
+
+// Add Expression Service
+container()->set('expression', new ExpressionLanguage());
 
 // Add Session Service
 container()->set('session', new Session());

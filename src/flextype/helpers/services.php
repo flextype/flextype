@@ -34,6 +34,16 @@ if (! function_exists('container')) {
     }
 }
 
+if (! function_exists('expression')) {
+    /**
+     * Get Flextype Expression Service.
+     */
+    function expression()
+    {
+        return flextype()->container()->get('expression');
+    }
+}
+
 if (! function_exists('console')) {
     /**
      * Get Flextype Console Service.
