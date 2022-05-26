@@ -22,25 +22,18 @@ use function parsers;
 use function registry;
 
 // Shortcode: tr
-// Usage: (tr:foo)
+// Usage: (tr:foo values='foo=Foo' locale:'en_US')
 parsers()->shortcodes()->addHandler('tr', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.i18n.enabled')) {
         return '';
     }
 
-    $varsDelimeter = ($s->getParameter('varsDelimeter') != null) ? parsers()->shortcodes()->parse($s->getParameter('varsDelimeter')) : ',';
-
     if ($s->getBbCode() != null) {
-
-        // Get vars
-        $value = $s->getBbCode();
+        $translate = parsers()->shortcodes()->parse($s->getBbCode());
+        $values    = ($s->getParameter('values') != null) ? collectionFromQueryString(parsers()->shortcodes()->parse($s->getParameter('values')))->toArray() : [];
+        $locale    = ($s->getParameter('locale') != null) ? parsers()->shortcodes()->parse($s->getParameter('locale')) : null;
     
-        $vars = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [];
-    
-        // Parse shortcodes for each var.
-        $vars = array_map(fn($v) => parsers()->shortcodes()->parse(is_string($v) ? $v : ''), $vars);
-
-        return __($vars[0], collectionFromQueryString($vars[1] ?? '')->toArray(), $vars[2] ?? null);
+        return __($translate, $values, $locale);
    }
 
     return '';
