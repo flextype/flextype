@@ -20,6 +20,7 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 // Shortcode: php
 // Usage: (php) php code here (/php)
+//        (php) php code here
 parsers()->shortcodes()->addHandler('php', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.php.enabled')) {
         return '';
