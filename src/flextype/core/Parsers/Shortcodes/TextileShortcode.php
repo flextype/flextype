@@ -20,11 +20,16 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use function parsers;
 
 // Shortcode: textile
-// Usage: (textile) textile text here (/textile)
+// Usage: (textile) markdown text here (/textile)
+//        (textile) markdown text here
 parsers()->shortcodes()->addHandler('textile', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.textile.enabled')) {
         return '';
     }
     
-    return parsers()->textile()->parse(parsers()->shortcodes()->parse($s->getContent()));
+    if ($s->getContent() != null) {
+        return parsers()->textile()->parse(parsers()->shortcodes()->parse($s->getContent()));
+    }
+
+    return '@textile';
 });
