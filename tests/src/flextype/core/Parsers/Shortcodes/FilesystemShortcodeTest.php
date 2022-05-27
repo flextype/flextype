@@ -16,5 +16,5 @@ afterEach(function (): void {
 test('[filesystem] shortcode', function () {
     $filesystem = filesystem();
     $filesystem->file($this->tempDir . '/foo.txt')->put('Foo');
-    $this->assertEquals("Foo", parsers()->shortcodes()->parse("(filesystem get:'". $this->tempDir . "/foo.txt')"));
+    $this->assertEquals("Foo", parsers()->shortcodes()->parse("(filesystem get file:'". $this->tempDir . "/foo.txt')"));
 });
