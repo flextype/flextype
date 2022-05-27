@@ -27,10 +27,14 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
         return;
     }
 
+    $selfQuote  = fn ($text) => preg_replace('/(.)/us', '\\\\$0', $text);
+    $openingTag = registry()->get('flextype.settings.entries.directives.expressions.opening_tag');
+    $closingTag = registry()->get('flextype.settings.entries.directives.expressions.closing_tag');
+
     $field = entries()->registry()->get('methods.fetch.field');
     
     if (is_string($field['value'])) {
-        $field['value'] = preg_replace_callback('/\[\[ (.*?) \]\]/s', function($matches) {
+        $field['value'] = preg_replace_callback('/' . $selfQuote($openingTag)  . ' (.*?) ' . $selfQuote($closingTag) . '/s', function($matches) {
             return expression()->evaluate($matches[1]);
         }, $field['value']);
     }

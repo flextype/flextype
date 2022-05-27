@@ -77,6 +77,8 @@ entries:
       enabled: true
       enabled_globally: true
       path: "/src/flextype/core/Entries/Directives/ExpressionsDirective.php"
+      opening_tag: "[["
+      closing_tag: "]]"
     shortcodes:
       enabled: true
       enabled_globally: true
