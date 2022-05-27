@@ -77,6 +77,10 @@ entries:
   vars:
     debug: false
   directives:
+    expressions:
+      enabled: true
+      enabled_globally: true
+      path: "/src/flextype/core/Entries/Directives/ExpressionsDirective.php"
     shortcodes:
       enabled: true
       enabled_globally: true
@@ -630,6 +634,7 @@ parsers:
       type:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/TypeShortcode.php" 
+
 # CORS
 #
 # CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.
