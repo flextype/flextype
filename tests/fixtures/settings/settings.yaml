@@ -611,6 +611,9 @@ parsers:
       eval:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/EvalShortcode.php" 
+      type:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/TypeShortcode.php" 
 
 # CORS
 #
