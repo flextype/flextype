@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 use Glowy\Arrays\Arrays as Collection;
 
-// Directive: @type[)
+// Directive: @type[]
 emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     if (! registry()->get('flextype.settings.entries.directives.types.enabled')) {
