@@ -24,8 +24,12 @@ parsers()->shortcodes()->addHandler('php', static function (ShortcodeInterface $
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.php.enabled')) {
         return '';
     }
-    
-    ob_start();
-    eval($s->getContent());
-    return ob_get_clean();
+
+    if ($s->getContent() != null) {
+        ob_start();
+        eval($s->getContent());
+        return ob_get_clean();
+    }
+
+    return '@php';
 });
