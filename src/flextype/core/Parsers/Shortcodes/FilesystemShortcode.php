@@ -18,22 +18,22 @@ namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
-// Shortcode: [filesystem]
+// Shortcode: filesystem
+// Usage: (filesystem get file:'1.txt)
 parsers()->shortcodes()->addHandler('filesystem', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.filesystem.enabled')) {
         return '';
     }
 
-    $varsDelimeter = $s->getParameter('varsDelimeter') ?: '|';
+    $params = $s->getParameters();
 
-    if ($s->getParameter('get') != null && registry()->get('flextype.settings.parsers.shortcodes.shortcodes.filesystem.get.enabled') === true) {
+    if (collection(array_keys($params))->filter(fn ($v) => $v == 'get')->count() > 0 && 
+        isset($params['file']) && 
+        registry()->get('flextype.settings.parsers.shortcodes.shortcodes.filesystem.get.enabled') === true) {
 
-        // Get vars
-        foreach($s->getParameters() as $key => $value) {
-            $vars = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [];
-        }
+        $file = parsers()->shortcodes()->parse($params['file']);
 
-        return filesystem()->file($vars[0])->exists() ? filesystem()->file($vars[0])->get() : '';
+        return filesystem()->file($file)->exists() ? filesystem()->file($file)->get() : '';
     }
 
     return '';
