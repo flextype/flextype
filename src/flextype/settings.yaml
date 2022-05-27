@@ -81,18 +81,6 @@ entries:
       enabled: true
       enabled_globally: true
       path: "/src/flextype/core/Entries/Directives/ShortcodesDirective.php"
-    constants:
-      enabled: true
-      path: "/src/flextype/core/Entries/Directives/ConstantsDirective.php"
-    fields:
-      enabled: true
-      path: "/src/flextype/core/Entries/Directives/FieldsDirective.php"
-    vars:
-      enabled: true
-      path: "/src/flextype/core/Entries/Directives/VarsDirective.php"
-    calc:
-      enabled: true
-      path: "/src/flextype/core/Entries/Directives/CalcDirective.php"
     markdown:
       enabled: true
       enabled_globally: false
