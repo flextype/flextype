@@ -608,6 +608,9 @@ parsers:
       calc:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/CalcShortcode.php" 
+      eval:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/EvalShortcode.php" 
 
 # CORS
 #
