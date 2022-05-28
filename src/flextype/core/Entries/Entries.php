@@ -80,6 +80,7 @@ class Entries
 
         $this->setRegistry($registry);
         $this->setOptions($options);
+        $this->initExpressions(registry()->get('flextype.settings.entries.expressions'));
         $this->initDirectives(registry()->get('flextype.settings.entries.directives'));
         $this->initMacros(registry()->get('flextype.settings.entries.macros'));
         $this->loadCollectionsEvents();
@@ -143,6 +144,38 @@ class Entries
                 include_once ROOT_DIR . $value['path']; 
             }
         } 
+    }
+
+    /**
+     * Init Expressions
+     * 
+     * @param array $expressions Expressions to init.
+     * 
+     * @return void
+     */
+    public function initExpressions(array $expressions): void
+    {
+        if (count($expressions) <= 0) {
+            return;
+        }
+
+        foreach ($expressions as $expression) {
+            if (! isset($expression['enabled'])) {
+                continue;
+            }
+
+            if (! $expression['enabled']) {
+                continue;
+            }
+
+            if (! strings($expression['class'])->endsWith('Expression')) {
+                continue;
+            }
+
+            if (class_exists($expression['class'])) {
+                expression()->registerProvider(new $expression['class']());
+            }
+        }
     }
 
     /** 

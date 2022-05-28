@@ -76,6 +76,40 @@ entries:
   directory: '/entries'
   vars:
     debug: false
+  expressions:
+    actions:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\ActionsExpression"
+    registry:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\RegistryExpression"
+    entries:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\EntriesExpression"
+    filesystem:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\FilesystemExpression"
+    i18n:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\I18nExpression"
+    serializers:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\SerializersExpression"
+    parsers:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\ParsersExpression"
+    slugify:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\SlugifyExpression"
+    strings:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\StringsExpression"
+    collection:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\CollectionExpression"
+    csrf:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\CsrfExpression"
   directives:
     expressions:
       enabled: true
