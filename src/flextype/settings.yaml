@@ -116,6 +116,9 @@ entries:
     field:
       enabled: true
       class: "Flextype\\Entries\\Expressions\\FieldExpression"
+    const:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\ConstExpression"
   directives:
     expressions:
       enabled: true
