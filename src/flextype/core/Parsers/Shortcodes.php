@@ -94,7 +94,7 @@ final class Shortcodes
     /**
      * Init Shortcodes
      * 
-     * @param array $shortcodes Shortcoes to init.
+     * @param array $shortcodes Shortcodes to init.
      * 
      * @return void
      */
