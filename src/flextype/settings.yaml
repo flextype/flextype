@@ -661,6 +661,9 @@ parsers:
       uuid:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/UuidShortcode.php"
+      const:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/ConstShortcode.php"
       var:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/VarShortcode.php"
