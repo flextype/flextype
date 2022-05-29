@@ -106,6 +106,12 @@ entries:
     csrf:
       enabled: true
       class: "Flextype\\Entries\\Expressions\\CsrfExpression"
+    var:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\VarExpression"
+    field:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\FieldExpression"
   directives:
     expressions:
       enabled: true
