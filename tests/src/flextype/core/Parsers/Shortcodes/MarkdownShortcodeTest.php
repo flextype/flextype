@@ -16,3 +16,9 @@ test('markdown shortcode', function () {
     expect(entries()->create('md', ['test' => '(markdown) **Foo**']))->toBeTrue();
     expect(entries()->fetch('md')['test'])->toBe("<p> <strong>Foo</strong></p>");
 });
+
+test('markdown shortcode disabled', function () {
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.markdown.enabled', false);
+    expect(parsers()->shortcodes()->parse("(markdown)**Foo**(/markdown)"))->toBe('');
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.markdown.enabled', true);
+});

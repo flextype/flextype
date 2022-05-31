@@ -12,4 +12,4 @@ test('if shortcode disabled', function () {
     registry()->set('flextype.settings.parsers.shortcodes.shortcodes.if.enabled', false);
     expect(parsers()->shortcodes()->parse("(if:'2 > 1')yes(/if)"))->toBe('');
     registry()->set('flextype.settings.parsers.shortcodes.shortcodes.if.enabled', true);
- });
+});

@@ -16,3 +16,9 @@ test('php shortcode', function () {
     expect(entries()->create('bar', ['test' => '(php) echo "Bar";']))->toBeTrue();
     expect(entries()->fetch('bar')['test'])->toBe('Bar');
 });
+
+test('php shortcode disabled', function () {
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.php.enabled', false);
+    expect(parsers()->shortcodes()->parse("(php)**Foo**(/php)"))->toBe('');
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.php.enabled', true);
+});

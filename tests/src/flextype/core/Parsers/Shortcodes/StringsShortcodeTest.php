@@ -12,6 +12,7 @@ test('strings shortcode', function () {
 
     // append
     $this->assertEquals("zed foo bar", parsers()->shortcodes()->parse("(strings append:' bar')zed foo(/strings)"));
+    $this->assertEquals("zed foo bar zed", parsers()->shortcodes()->parse("(strings append:' bar, zed')zed foo(/strings)"));
 
     // prepend
     $this->assertEquals("zed foo bar", parsers()->shortcodes()->parse("(strings prepend:'zed ')foo bar(/strings)"));
@@ -65,6 +66,7 @@ test('strings shortcode', function () {
     // contains
     $this->assertEquals("true", parsers()->shortcodes()->parse("(strings contains:SG-1)SG-1 returns from an off-world mission to P9Y-3C3(/strings)"));
     $this->assertEquals("true", parsers()->shortcodes()->parse("(strings contains:SG-1,P9Y-3C3)SG-1 returns from an off-world mission to P9Y-3C3(/strings)"));
+    $this->assertEquals("false", parsers()->shortcodes()->parse("(strings contains:'')SG-1 returns from an off-world mission to P9Y-3C3(/strings)"));
     $this->assertEquals("false", parsers()->shortcodes()->parse("(strings contains:sg-1)SG-1 returns from an off-world mission to P9Y-3C3(/strings)"));
 
     // containsAll
@@ -344,4 +346,10 @@ test('strings shortcode', function () {
 
 test('strings nested shortcode', function () {
     expect(parsers()->shortcodes()->parse("(strings append:'(strings hash)(strings upper)foo(/strings)(/strings)')Hash: (/strings)"))->toBe('Hash: 901890a8e9c8cf6d5a1a542b229febff');
+});
+
+test('strings shortcode disabled', function () {
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.strings.enabled', false);
+    expect(parsers()->shortcodes()->parse("(strings ucfirst)foo(/strings)"))->toBe('');
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.strings.enabled', true);
 });
