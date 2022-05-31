@@ -28,12 +28,7 @@ parsers()->shortcodes()->addHandler('const', static function (ShortcodeInterface
 
     if ($s->getBBCode() !== null) {
         $const = parsers()->shortcodes()->parse($s->getBBCode());
-
-        if (defined($const)) {
-            return constant($const);
-        } else {
-            return '';
-        }
+        return defined($const) ? constant($const) : '';
     }
 
     return '';
