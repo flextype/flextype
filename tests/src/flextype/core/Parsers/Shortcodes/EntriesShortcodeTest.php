@@ -31,3 +31,10 @@ test('entries shortcode', function () {
     $this->assertTrue(entries()->create('shop/product-1', ['title' => 'Product 1']));
     expect(count(entries()->fetch('shop')['products']))->toBe(1);
 });
+
+test('entries shortcode disabled', function () {
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.entries.enabled', false);
+    expect(entries()->create('foo', ['test' => ""]))->toBeTrue();
+    expect(entries()->fetch('foo')['test'])->toBe('');
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.entries.enabled', true);
+});

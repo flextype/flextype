@@ -15,3 +15,11 @@ test('const shortcode', function () {
     expect(entries()->create('const', ['test' => '(const:foo)']))->toBeTrue();
     expect(entries()->fetch('const')['test'])->toBe('Foo');
 });
+
+
+test('const shortcode disabled', function () {
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.const.enabled', false);
+    expect(entries()->create('foo', ['test' => '(const:foo)']))->toBeTrue();
+    expect(entries()->fetch('foo')['test'])->toBe('');
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.const.enabled', true);
+});
