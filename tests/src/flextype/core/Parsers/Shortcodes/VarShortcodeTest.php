@@ -20,3 +20,9 @@ test('var shortcode', function () {
     expect(entries()->create('zed', ['title' => '(var set:zed)Zed(/var)(var:zed)']))->toBeTrue();
     expect(entries()->fetch('zed')['title'])->toBe('Zed');
 });
+
+test('var shortcode disabled', function () {
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.var.enabled', false);
+    expect(parsers()->shortcodes()->parse("(var set:bar value:Bar)"))->toBe('');
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.var.enabled', true);
+});

@@ -16,3 +16,9 @@ test('textile shortcode', function () {
     expect(entries()->create('textile', ['test' => '(textile) **Foo**']))->toBeTrue();
     expect(entries()->fetch('textile')['test'])->toBe("<p> <b>Foo</b></p>");
 });
+
+test('textile shortcode disabled', function () {
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.textile.enabled', false);
+    expect(parsers()->shortcodes()->parse("(textile)foo(/textile)"))->toBe('');
+    registry()->set('flextype.settings.parsers.shortcodes.shortcodes.textile.enabled', true);
+});
