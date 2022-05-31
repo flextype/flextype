@@ -17,12 +17,14 @@ test('expressions directive', function () {
 
 test('expressions directive disabled', function () {
     registry()->set('flextype.settings.entries.directives.expressions.enabled', false);
+    entries()->create('expressions', ['test' => '[[ 1+1 ]]']);
     expect(entries()->fetch('expressions')['test'])->toBe('[[ 1+1 ]]');
     registry()->set('flextype.settings.entries.directives.expressions.enabled', true);
 });
 
 test('expressions directive disabled globaly', function () {
-    registry()->set('flextype.settings.entries.directives.expressions.enabled_globaly', false);
+    registry()->set('flextype.settings.entries.directives.expressions.enabled_globally', false);
+    entries()->create('expressions', ['test' => '[[ 1+1 ]]']);
     expect(entries()->fetch('expressions')['test'])->toBe('[[ 1+1 ]]');
-    registry()->set('flextype.settings.entries.directives.expressions.enabled_globaly', true);
+    registry()->set('flextype.settings.entries.directives.expressions.enabled_globally', true);
 });
