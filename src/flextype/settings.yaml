@@ -661,6 +661,12 @@ parsers:
       if:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/IfShortcode.php"
+      when:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/WhenShortcode.php"
+      unless:
+        enabled: true
+        path: "/src/flextype/core/Parsers/Shortcodes/UnlessShortcode.php"
       uuid:
         enabled: true
         path: "/src/flextype/core/Parsers/Shortcodes/UuidShortcode.php"
