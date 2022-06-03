@@ -22,17 +22,22 @@ use function parsers;
 use function registry;
 
 // Shortcode: registry
-// Usage: (registry get:flextype.manifest.version)
+// Usage: (registry get id:'flextype.manifest.version')
 parsers()->shortcodes()->addHandler('registry', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.registry.enabled')) {
         return '';
     }
+    
+    $result = '';
+    $params = $s->getParameters();
 
-    if ($s->getParameter('get') != null && registry()->get('flextype.settings.parsers.shortcodes.shortcodes.registry.get.enabled') === true) {
+    if (collection(array_keys($params))->filter(fn ($v) => $v == 'get')->count() > 0 && 
+        isset($params['id']) && 
+        registry()->get('flextype.settings.parsers.shortcodes.shortcodes.registry.get.enabled') === true) {
 
-        $value   = parsers()->shortcodes()->parse($s->getParameter('get'));
-        $default = ($s->getParameter('default') != null) ? parsers()->shortcodes()->parse($s->getParameter('default')) : null;
-        $result  = registry()->get($value, $default);
+        $id      = parsers()->shortcodes()->parse($params['id']);
+        $default = (isset($params['default'])) ? parsers()->shortcodes()->parse($params['default']) : null;
+        $result  = registry()->get($id, $default);
 
         return is_array($result) ? serializers()->json()->encode($result) : $result;
     }
