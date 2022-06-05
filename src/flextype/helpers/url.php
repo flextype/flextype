@@ -208,15 +208,17 @@ if (! function_exists('redirect')) {
     /**
      * Redirect.
      *
-     * @param string                $routeName   Route name
-     * @param array<string, string> $data        Route placeholders
-     * @param array<string, string> $queryParams Query parameters
+     * @param string                $routeName   Route name.
+     * @param array<string, string> $data        Route placeholders.
+     * @param array<string, string> $queryParams Query parameters.
+     * @param int                   $status      Status code.
      *
      * @return Response 
      */
-    function redirect(string $routeName, array $data = [], array $queryParams = []): Response
+    function redirect(string $routeName, array $data = [], array $queryParams = [], int $status = 301): Response
     {
         $response = new Response();
+        $response = $response->withStatus($status);
         $response = $response->withHeader('Location', urlFor($routeName, $data, $queryParams));
 
         return $response;
