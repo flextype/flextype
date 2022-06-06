@@ -37,7 +37,7 @@ APC, APCu, XCache, Memcached, or Redis for better performance.
 ## QUICK INSTALLATION
 
 1. [Download the latest version of Flextype](https://awilum.github.io/flextype/downloads).
-2. Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, create directory <code>/project</code> and be sure to chmod the following directory to <code>755</code> (or <code>777</code>), so it is readable and writable by Flextype.
+2. Unzip the contents to a new folder on your local computer, and upload to your webhost using the (S)FTP client of your choice. After you’ve done this, create directory <code>project</code> and be sure to chmod the following directory to <code>755</code> (or <code>777</code>), so it is readable and writable by Flextype.
 
 [read the documentation](https://awilum.github.io/flextype/documentation)
 
@@ -52,7 +52,7 @@ You may use GitHub Discussions to start discussion about core, plugin and themes
 
 Got a question about setting up or using Flextype? We'll do our best to help you out. Also here you may start discussions about core, plugin and themes development.
 
-#### [Twitter](https://twitter.com/getflextype)
+#### [Twitter](https://twitter.com/_flextype)
 
 Follow Flextype on Twitter to get real-time news regarding the development and all events we are attending.
 
