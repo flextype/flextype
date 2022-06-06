@@ -269,6 +269,7 @@ class Plugins
      */
     public function getValidPluginsDependencies(array $plugins): array
     {
+
         // Set verified plugins array
         $verifiedPlugins = [];
 
@@ -291,7 +292,7 @@ class Plugins
 
                             // Remove plugin where it is require this dependency
                             foreach ($plugins as $_plugin_name => $_pluginData) {
-                                if (! $_pluginData['manifest']['dependencies'][$pluginName]) {
+                                if (! isset($_pluginData['manifest']['dependencies'][$pluginName])) {
                                     continue;
                                 }
 
@@ -320,7 +321,7 @@ class Plugins
 
                                 // Remove plugin where it is require this dependency
                                 foreach ($plugins as $_plugin_name => $_pluginData) {
-                                    if (! $_pluginData['manifest']['dependencies'][$pluginName]) {
+                                    if (! isset($_pluginData['manifest']['dependencies'][$pluginName])) {
                                         continue;
                                     }
 
