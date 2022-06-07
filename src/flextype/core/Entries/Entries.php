@@ -474,7 +474,7 @@ class Entries
         }
 
         // Determine if collection exists
-        if (! $this->has($this->registry()->get('methods.fetch.params.id'))) {
+        if (! $this->has($this->registry()->get('methods.fetch.params.id')) && $this->registry()->get('methods.fetch.params.id') != '') {
 
             // Run event
             emitter()->emit('onEntriesFetchCollectionNoResult');
