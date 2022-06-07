@@ -442,7 +442,6 @@ app: true
 
 # View
 view:
-  directory: 'views'
   extension: 'php'
 
 # Slugify

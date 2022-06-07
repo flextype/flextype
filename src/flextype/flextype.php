@@ -373,7 +373,7 @@ if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listId
 }
 
 // Set View
-View::setDirectory(PATH['project'] . '/' . registry()->get('flextype.settings.view.directory'));
+View::setDirectory(PATH['project']);
 View::setExtension(registry()->get('flextype.settings.view.extension'));
 
 // Add Plugins Service
