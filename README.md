@@ -1,7 +1,7 @@
 <img src="https://images2.imgbox.com/49/8d/4ipHqUcj_o.jpg" alt="Flextype" align="center">
 
 <p align="center">
-<img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black&style=for-the-badge" alt="License MIT"> <img src="http://poser.pugx.org/flextype/flextype/require/php?style=for-the-badge"> <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/flextype/flextype?style=for-the-badge"> <img alt="GitHub forks" src="https://img.shields.io/github/forks/flextype/flextype?style=for-the-badge">
+<img src="https://img.shields.io/badge/license-MIT-blue.svg?color=black&style=for-the-badge" alt="License MIT"> <img src="http://poser.pugx.org/flextype/flextype/require/php?style=for-the-badge&color=black"> <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/flextype/flextype?style=for-the-badge&color=black"> <img alt="GitHub forks" src="https://img.shields.io/github/forks/flextype/flextype?style=for-the-badge&color=black"> <a href="https://discord.gg/ewQkqgfBAc"><img src="https://img.shields.io/discord/423097982498635778.svg?logo=discord&color=black&label=Discord%20Chat&style=for-the-badge" alt="Discord"></a>
 </p>
 <br>
 
