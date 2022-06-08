@@ -76,7 +76,7 @@ class Entries
      */
     public function __construct($options = null, $registry = null)
     {
-        filesystem()->directory(PATH['project'] . registry()->get('flextype.settings.entries.directory'))->ensureExists(0755, true);
+        filesystem()->directory(PATH['project'] . '/' . registry()->get('flextype.settings.entries.directory'))->ensureExists(0755, true);
 
         $this->setRegistry($registry);
         $this->setOptions($options);
@@ -125,7 +125,7 @@ class Entries
             }
             
             if (filesystem()->file(ROOT_DIR . $value['path'])->exists()) {
-                include_once ROOT_DIR . $value['path']; 
+                include_once ROOT_DIR . '/' . $value['path']; 
             }
         } 
     }
@@ -141,7 +141,7 @@ class Entries
     {
         foreach ($directives as $key => $value) {
             if (filesystem()->file(ROOT_DIR . $value['path'])->exists()) {
-                include_once ROOT_DIR . $value['path']; 
+                include_once ROOT_DIR . '/' . $value['path']; 
             }
         } 
     }
@@ -208,7 +208,7 @@ class Entries
                     continue;
                 }
 
-                $events[] = ROOT_DIR . $event['path'];
+                $events[] = ROOT_DIR . '/' . $event['path'];
             }
         }
 
@@ -249,7 +249,7 @@ class Entries
                     continue;
                 }
 
-                $fields[] = ROOT_DIR . $field['path'];
+                $fields[] = ROOT_DIR . '/' . $field['path'];
             }
         }
 

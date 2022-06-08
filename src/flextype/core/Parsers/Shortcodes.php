@@ -121,7 +121,7 @@ final class Shortcodes
                 continue;
             }
 
-            include_once ROOT_DIR . $shortcode['path'];
+            include_once ROOT_DIR . '/' . $shortcode['path'];
         }
     }
 

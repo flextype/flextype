@@ -69,7 +69,7 @@ errors:
 
 # Entries
 entries:
-  directory: '/entries'
+  directory: 'entries'
   vars:
     debug: false
   expressions:
@@ -119,44 +119,44 @@ entries:
     expressions:
       enabled: true
       enabled_globally: true
-      path: "/src/flextype/core/Entries/Directives/ExpressionsDirective.php"
+      path: "src/flextype/core/Entries/Directives/ExpressionsDirective.php"
       opening_tag: "[["
       closing_tag: "]]"
     shortcodes:
       enabled: true
       enabled_globally: true
-      path: "/src/flextype/core/Entries/Directives/ShortcodesDirective.php"
+      path: "src/flextype/core/Entries/Directives/ShortcodesDirective.php"
     markdown:
       enabled: true
       enabled_globally: false
-      path: "/src/flextype/core/Entries/Directives/MarkdownDirective.php"
+      path: "src/flextype/core/Entries/Directives/MarkdownDirective.php"
     textile:
       enabled: true
       enabled_globally: false
-      path: "/src/flextype/core/Entries/Directives/TextileDirective.php"
+      path: "src/flextype/core/Entries/Directives/TextileDirective.php"
     php:
       enabled: true
       enabled_globally: false
-      path: "/src/flextype/core/Entries/Directives/PhpDirective.php"
+      path: "src/flextype/core/Entries/Directives/PhpDirective.php"
     types:
       enabled: true
-      path: "/src/flextype/core/Entries/Directives/TypesDirective.php"
+      path: "src/flextype/core/Entries/Directives/TypesDirective.php"
   macros:
     debug: false
     vars:
       enabled: true
-      path: "/src/flextype/core/Entries/Macros/VarsMacros.php"
+      path: "src/flextype/core/Entries/Macros/VarsMacros.php"
     php:
       enabled: true
-      path: "/src/flextype/core/Entries/Macros/PhpMacros.php"
+      path: "src/flextype/core/Entries/Macros/PhpMacros.php"
     registry:
       enabled: true
-      path: "/src/flextype/core/Entries/Macros/RegistryMacros.php"
+      path: "src/flextype/core/Entries/Macros/RegistryMacros.php"
       get:
         enabled: true
     entries:
       enabled: true
-      path: "/src/flextype/core/Entries/Macros/EntriesMacros.php"
+      path: "src/flextype/core/Entries/Macros/EntriesMacros.php"
       fetch:
         enabled: true
         type: array
@@ -168,34 +168,34 @@ entries:
       fields:
         slug:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/SlugField.php"
+          path: "src/flextype/core/Entries/Fields/Default/SlugField.php"
         published_at:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/PublishedAtField.php"
+          path: "src/flextype/core/Entries/Fields/Default/PublishedAtField.php"
         published_by:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/PublishedByField.php"
+          path: "src/flextype/core/Entries/Fields/Default/PublishedByField.php"
         modified_at:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/ModifiedAtField.php"
+          path: "src/flextype/core/Entries/Fields/Default/ModifiedAtField.php"
         created_at:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/CreatedAtField.php"
+          path: "src/flextype/core/Entries/Fields/Default/CreatedAtField.php"
         created_by:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/CreatedByField.php"
+          path: "src/flextype/core/Entries/Fields/Default/CreatedByField.php"
         routable:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/RoutableField.php"
+          path: "src/flextype/core/Entries/Fields/Default/RoutableField.php"
         visibility:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/VisibilityField.php"
+          path: "src/flextype/core/Entries/Fields/Default/VisibilityField.php"
         uuid:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/UuidField.php"
+          path: "src/flextype/core/Entries/Fields/Default/UuidField.php"
         id:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/IdField.php"
+          path: "src/flextype/core/Entries/Fields/Default/IdField.php"
     tokens:
       pattern: tokens
       filename: token
@@ -204,19 +204,19 @@ entries:
       fields: 
         modified_at:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/ModifiedAtField.php"
+          path: "src/flextype/core/Entries/Fields/Default/ModifiedAtField.php"
         created_at:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/CreatedAtField.php"
+          path: "src/flextype/core/Entries/Fields/Default/CreatedAtField.php"
         created_by:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/CreatedByField.php"
+          path: "src/flextype/core/Entries/Fields/Default/CreatedByField.php"
         uuid:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/UuidField.php"
+          path: "src/flextype/core/Entries/Fields/Default/UuidField.php"
         id:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/IdField.php"
+          path: "src/flextype/core/Entries/Fields/Default/IdField.php"
     tokens_item:
       pattern: tokens/([a-zA-Z0-9_-]+)
       filename: token
@@ -225,28 +225,28 @@ entries:
       fields: 
         modified_at:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/ModifiedAtField.php"
+          path: "src/flextype/core/Entries/Fields/Default/ModifiedAtField.php"
         created_at:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/CreatedAtField.php"
+          path: "src/flextype/core/Entries/Fields/Default/CreatedAtField.php"
         created_by:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/CreatedByField.php"
+          path: "src/flextype/core/Entries/Fields/Default/CreatedByField.php"
         uuid:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Default/UuidField.php"
+          path: "src/flextype/core/Entries/Fields/Default/UuidField.php"
         id:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Tokens/Items/IdField.php"
+          path: "src/flextype/core/Entries/Fields/Tokens/Items/IdField.php"
         calls:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Tokens/Items/CallsField.php"
+          path: "src/flextype/core/Entries/Fields/Tokens/Items/CallsField.php"
         limit_calls:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Tokens/Items/LimitCallsField.php"
+          path: "src/flextype/core/Entries/Fields/Tokens/Items/LimitCallsField.php"
         state:
           enabled: true
-          path: "/src/flextype/core/Entries/Fields/Tokens/Items/StateField.php"
+          path: "src/flextype/core/Entries/Fields/Tokens/Items/StateField.php"
 
 
 # Cache
@@ -612,70 +612,70 @@ parsers:
     shortcodes:
       entries:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/EntriesShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/EntriesShortcode.php"
         fetch:
           enabled: true
       php:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/PhpShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/PhpShortcode.php"
       raw:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/RawShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/RawShortcode.php"
       textile:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/TextileShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/TextileShortcode.php"
       markdown:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/MarkdownShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/MarkdownShortcode.php"
       registry:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
         get:
           enabled: true
       strings:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/StringsShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/StringsShortcode.php"
       url:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
       filesystem:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/FilesystemShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/FilesystemShortcode.php"
         get:
           enabled: true
       i18n:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/I18nShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/I18nShortcode.php"
       if:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/IfShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/IfShortcode.php"
       when:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/WhenShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/WhenShortcode.php"
       unless:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/UnlessShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/UnlessShortcode.php"
       uuid:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/UuidShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/UuidShortcode.php"
       const:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/ConstShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/ConstShortcode.php"
       var:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/VarShortcode.php"
+        path: "src/flextype/core/Parsers/Shortcodes/VarShortcode.php"
       field:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/FieldShortcode.php"  
+        path: "src/flextype/core/Parsers/Shortcodes/FieldShortcode.php"  
       calc:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/CalcShortcode.php" 
+        path: "src/flextype/core/Parsers/Shortcodes/CalcShortcode.php" 
       eval:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/EvalShortcode.php" 
+        path: "src/flextype/core/Parsers/Shortcodes/EvalShortcode.php" 
       type:
         enabled: true
-        path: "/src/flextype/core/Parsers/Shortcodes/TypeShortcode.php" 
+        path: "src/flextype/core/Parsers/Shortcodes/TypeShortcode.php" 
 
 # CORS
 #
@@ -723,7 +723,7 @@ cors:
 upload:
 
   # Uploads directory
-  directory: '/uploads'
+  directory: 'uploads'
 
   # Overwrite existing files.
   overwrite: true
