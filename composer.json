@@ -81,6 +81,8 @@
         "victorjonsson/markdowndocs": "^1.3.8"
     },
     "config": {
+        "apcu-autoloader": true,
+        "optimize-autoloader": true,
         "platform-check": false,
         "sort-packages": true,
         "allow-plugins": {

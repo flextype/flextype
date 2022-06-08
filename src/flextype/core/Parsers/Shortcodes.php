@@ -117,7 +117,7 @@ final class Shortcodes
                 continue;
             }
 
-            if (! file_exists(ROOT_DIR . $shortcode['path'])) {
+            if (! file_exists(ROOT_DIR . '/' . $shortcode['path'])) {
                 continue;
             }
 

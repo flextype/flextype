@@ -22,7 +22,7 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
     }
 
     // Determine is the current field file path is the same.
-    if (! strings(__FILE__)->replace(ROOT_DIR, '')->isEqual(entries()->registry()->get('methods.fetch.collection.fields.id.path'))) {
+    if (! strings(__FILE__)->replace(ROOT_DIR, '')->replaceFirst('/', '')->isEqual(entries()->registry()->get('methods.fetch.collection.fields.id.path'))) {
         return;
     }
 

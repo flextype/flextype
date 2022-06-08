@@ -124,7 +124,7 @@ class Entries
                 continue;
             }
             
-            if (filesystem()->file(ROOT_DIR . $value['path'])->exists()) {
+            if (filesystem()->file(ROOT_DIR . '/' . $value['path'])->exists()) {
                 include_once ROOT_DIR . '/' . $value['path']; 
             }
         } 
@@ -140,7 +140,7 @@ class Entries
     public function initDirectives(array $directives): void
     {
         foreach ($directives as $key => $value) {
-            if (filesystem()->file(ROOT_DIR . $value['path'])->exists()) {
+            if (filesystem()->file(ROOT_DIR . '/' . $value['path'])->exists()) {
                 include_once ROOT_DIR . '/' . $value['path']; 
             }
         } 
@@ -498,7 +498,7 @@ class Entries
 
                 $currentEntryID = strings($currenEntry->getPath())
                     ->replace('\\', '/')
-                    ->replace(PATH['project'] . $this->options['directory'] . '/', '')
+                    ->replace(PATH['project'] . '/' . $this->options['directory'] . '/', '')
                     ->trim('/')
                     ->toString();
 
@@ -893,7 +893,7 @@ class Entries
             return $this->registry()->get('methods.getFileLocation.result');
         }
 
-        return PATH['project'] . $this->options['directory'] . '/' . $this->registry()->get('methods.getFileLocation.params.id') . '/' . $this->registry()->get('methods.getFileLocation.collection.filename') . '.' . $this->registry()->get('methods.getFileLocation.collection.extension');
+        return PATH['project'] . '/' . $this->options['directory'] . '/' . $this->registry()->get('methods.getFileLocation.params.id') . '/' . $this->registry()->get('methods.getFileLocation.collection.filename') . '.' . $this->registry()->get('methods.getFileLocation.collection.extension');
     }
 
     /**
@@ -924,7 +924,7 @@ class Entries
             return $this->registry()->get('methods.getDirectoryLocation.result');
         }
 
-        return PATH['project'] . $this->options['directory'] . '/' . $this->registry()->get('methods.getDirectoryLocation.params.id');
+        return PATH['project'] . '/' . $this->options['directory'] . '/' . $this->registry()->get('methods.getDirectoryLocation.params.id');
     }
 
     /**
