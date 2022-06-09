@@ -622,7 +622,6 @@ parsers:
     cache: 
       enabled: true
       string: ""
-    cache_id_string: ""
     restricted: false
     document_type: 'xhtml'
     document_root_directory: ''

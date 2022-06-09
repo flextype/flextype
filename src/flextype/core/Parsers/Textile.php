@@ -57,7 +57,7 @@ final class Textile
     protected function __construct()
     {
         $parser = new Parser();
-        
+
         foreach (registry()->get('flextype.settings.parsers.textile') as $key => $value) {
             if ($key == 'cache') continue;
             if ($key == 'symbol') {

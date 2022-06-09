@@ -439,7 +439,7 @@ router:
   
 # Set to true to enable the Flextype CLI Application
 cli: 
-  enabled: true
+  enabled: false
 
 # Set to true to enable the Flextype Application
 app: 
@@ -622,7 +622,6 @@ parsers:
     cache: 
       enabled: true
       string: ""
-    cache_id_string: ""
     restricted: false
     document_type: 'xhtml'
     document_root_directory: ''
