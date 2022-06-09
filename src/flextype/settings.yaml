@@ -73,7 +73,7 @@ errors:
 
 # Entries
 entries:
-  directory: '/entries'
+  directory: 'entries'
   vars:
     debug: false
   expressions:
