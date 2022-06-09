@@ -23,6 +23,12 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
         return;
     }
 
+    // Save textile cache state to restore it later
+    $textileCacheState = registry()->get('flextype.settings.parsers.textile.cache');
+    
+    // Set textile cache to false
+    registry()->set('flextype.settings.parsers.textile.cache', false);
+
     $field = entries()->registry()->get('methods.fetch.field');
 
     if (is_string($field['value'])) {
@@ -35,4 +41,7 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
     
     entries()->registry()->set('methods.fetch.field.key', $field['key']);
     entries()->registry()->set('methods.fetch.field.value', $field['value']);
+
+    // Restore textile cache state
+    registry()->set('flextype.settings.parsers.textile.cache', $textileCacheState);
 });

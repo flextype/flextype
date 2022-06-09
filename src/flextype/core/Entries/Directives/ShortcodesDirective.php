@@ -23,6 +23,12 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
         return;
     }
 
+    // Save shortcodes cache state to restore it later
+    $shortcodesCacheState = registry()->get('flextype.settings.parsers.shortcodes.cache');
+    
+    // Set shortcodes cache to false
+    registry()->set('flextype.settings.parsers.shortcodes.cache', false);
+
     $field = entries()->registry()->get('methods.fetch.field');
     
     if (is_string($field['value'])) {
@@ -35,4 +41,7 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     entries()->registry()->set('methods.fetch.field.key', $field['key']);
     entries()->registry()->set('methods.fetch.field.value', $field['value']);
+
+    // Restore shortcodes cache state
+    registry()->set('flextype.settings.parsers.shortcodes.cache', $shortcodesCacheState);
 });
