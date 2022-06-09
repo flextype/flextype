@@ -7,18 +7,18 @@ use Glowy\Strings\Strings;
 
 beforeEach(function() {
     // Create sandbox plugin
-    filesystem()->directory(PATH['project'])->ensureExists(0755, true);
-    filesystem()->directory(PATH['project'] . '/plugins')->ensureExists(0755, true);
-    filesystem()->directory(PATH['project'] . '/plugins/sandbox')->create(0755, true);
-    filesystem()->directory(PATH['project'] . '/plugins/sandbox/lang/')->create(0755, true);
-    filesystem()->file(PATH['project'] . '/plugins/sandbox/lang/en_US.yaml')->put('sandbox_title: Sandbox');
-    filesystem()->file(PATH['project'] . '/plugins/sandbox/settings.yaml')->put('enabled: true');
-    filesystem()->file(PATH['project'] . '/plugins/sandbox/plugin.yaml')->put('name: Sandbox');
-    filesystem()->file(PATH['project'] . '/plugins/sandbox/plugin.php')->put('<?php ');
+    filesystem()->directory(PATH_PROJECT)->ensureExists(0755, true);
+    filesystem()->directory(PATH_PROJECT . '/plugins')->ensureExists(0755, true);
+    filesystem()->directory(PATH_PROJECT . '/plugins/sandbox')->create(0755, true);
+    filesystem()->directory(PATH_PROJECT . '/plugins/sandbox/lang/')->create(0755, true);
+    filesystem()->file(PATH_PROJECT . '/plugins/sandbox/lang/en_US.yaml')->put('sandbox_title: Sandbox');
+    filesystem()->file(PATH_PROJECT . '/plugins/sandbox/settings.yaml')->put('enabled: true');
+    filesystem()->file(PATH_PROJECT . '/plugins/sandbox/plugin.yaml')->put('name: Sandbox');
+    filesystem()->file(PATH_PROJECT . '/plugins/sandbox/plugin.php')->put('<?php ');
 });
 
 afterEach(function (): void {
-    filesystem()->directory(PATH['project'] . '/plugins/sandbox')->delete();
+    filesystem()->directory(PATH_PROJECT . '/plugins/sandbox')->delete();
 });
 
 test('get plugins list', function () {

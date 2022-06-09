@@ -20,11 +20,11 @@ use Cocur\Slugify\Slugify;
 use Glowy\Arrays\Arrays;
 
 beforeEach(function() {
-    filesystem()->directory(PATH['project'] . '/entries')->ensureExists(0755, true);
+    filesystem()->directory(PATH_PROJECT . '/entries')->ensureExists(0755, true);
 });
 
 afterEach(function () {
-    filesystem()->directory(PATH['project'] . '/entries')->delete();
+    filesystem()->directory(PATH_PROJECT . '/entries')->delete();
 });
 
 test('flextype helper', function () {
@@ -100,10 +100,10 @@ test('slugify helper', function () {
 
 test('find helper', function () {
     entries()->create('foo', []);
-    $this->assertTrue(find(PATH['project'] . '/entries')->hasResults());
-    $this->assertTrue(find(PATH['project'] . '/entries', [])->hasResults());
-    $this->assertTrue(find(PATH['project'] . '/entries', [], 'files')->hasResults());
-    $this->assertTrue(find(PATH['project'], [], 'directories')->hasResults());
+    $this->assertTrue(find(PATH_PROJECT . '/entries')->hasResults());
+    $this->assertTrue(find(PATH_PROJECT . '/entries', [])->hasResults());
+    $this->assertTrue(find(PATH_PROJECT . '/entries', [], 'files')->hasResults());
+    $this->assertTrue(find(PATH_PROJECT, [], 'directories')->hasResults());
 });
 
 test('generateToken helper', function () {

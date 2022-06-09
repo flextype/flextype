@@ -1304,11 +1304,11 @@
 
 * **entries**: Added new `move()` method instead of `rename()`
 
-* **core**: Added new `PATH['tmp']` constant ([#470](https://github.com/flextype/flextype/issues/470))
+* **core**: Added new `PATH_TMP` constant ([#470](https://github.com/flextype/flextype/issues/470))
 
     Now we have:
 
-    `PATH['tmp']` constant instead of `PATH['cache']` and `PATH['logs']`
+    `PATH_TMP` constant instead of `PATH['cache']` and `PATH['logs']`
 
 * **markdown**: Added markdown basic settings ([#471](https://github.com/flextype/flextype/issues/471))
 
@@ -1435,7 +1435,7 @@
     use Flextype\App\Foundation\Entries\Entries;
     ```
 
-* **core**: use new `PATH['tmp']` constant instead of `PATH['cache']` and `PATH['logs']` ([#470](https://github.com/flextype/flextype/issues/470))
+* **core**: use new `PATH_TMP` constant instead of `PATH['cache']` and `PATH['logs']` ([#470](https://github.com/flextype/flextype/issues/470))
 
 * **cache**: old cache config removed, use new config for PhpFastCache ([#457](https://github.com/flextype/flextype/issues/457))
 
@@ -1912,7 +1912,7 @@
 * **entries**: Wildcard * removed from parsers field.
 * **entries**: Cache setup removed from parsers field.
 * **settings**: `/project/config/settings.yaml` move to `/project/config/flextype/settings.yaml`
-* **constants** Removed constant `PATH['config']`, use - `PATH['project'] . '/config/'`
+* **constants** Removed constant `PATH['config']`, use - `PATH_PROJECT . '/config/'`
 * **core**: Removed Date Component from the system.
 * **core**: Removed Text Component from the system.
 * **cache**: removed methods clear() and clearAll(), use purge() and purgeAll() instead.
@@ -2013,7 +2013,7 @@
 * **core**: new `project` folder instead of `site`
 
     - rename folder `site` into `project`
-    - use new constant PATH['project'] instead of constant PATH['site']
+    - use new constant PATH_PROJECT instead of constant PATH['site']
 
 * **core**: removed constants
 

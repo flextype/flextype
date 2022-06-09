@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 beforeEach(function (): void {
-    filesystem()->directory(PATH['project'] . '/entries')->ensureExists(0755, true);
+    filesystem()->directory(PATH_PROJECT . '/entries')->ensureExists(0755, true);
 
     $this->tempDir = __DIR__ . '/tmp-foo';
     @mkdir($this->tempDir);
 });
 
 afterEach(function (): void {
-    filesystem()->directory(PATH['project'] . '/entries')->delete();
+    filesystem()->directory(PATH_PROJECT . '/entries')->delete();
     $filesystem = filesystem();
     $filesystem->directory($this->tempDir)->delete();
     unset($this->tempDir);

@@ -46,7 +46,7 @@ class Cache extends Api
         }
 
         // Clear cache
-        filesystem()->directory(PATH['tmp'])->delete();
+        filesystem()->directory(PATH_TMP)->delete();
 
         // Return success response
         return $this->getApiResponse($response, [], 204);

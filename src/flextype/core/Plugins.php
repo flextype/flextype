@@ -112,14 +112,14 @@ class Plugins
             foreach ($pluginsList as $plugin) {
 
                 // Set plugin settings directory
-                $projectPluginSettingsDir = PATH['project'] . '/config/plugins/' . $plugin['dirname'];
+                $projectPluginSettingsDir = PATH_PROJECT . '/config/plugins/' . $plugin['dirname'];
 
                 // Set default plugin settings and manifest files
-                $defaultPluginSettingsFile = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
-                $defaultPluginManifestFile = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
+                $defaultPluginSettingsFile = PATH_PROJECT . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $defaultPluginManifestFile = PATH_PROJECT . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
 
                 // Set project plugin settings file
-                $projectPluginSettingsFile = PATH['project'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $projectPluginSettingsFile = PATH_PROJECT . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
 
                 // Create project plugin settings directory
                 ! filesystem()->directory($projectPluginSettingsDir)->exists() and filesystem()->directory($projectPluginSettingsDir)->create(0755, true);
@@ -207,7 +207,7 @@ class Plugins
     public function getPluginsDictionary(array $pluginsList, string $locale): array
     {
         foreach ($pluginsList as $plugin) {
-            $languageFile = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
+            $languageFile = PATH_PROJECT . '/plugins/' . $plugin['dirname'] . '/lang/' . $locale . '.yaml';
 
             if (filesystem()->file($languageFile)->exists()) {
                 if (($content = filesystem()->file($languageFile)->get()) === false) {
@@ -244,9 +244,9 @@ class Plugins
         // Go through...
         if (is_array($pluginsList) && count($pluginsList) > 0) {
             foreach ($pluginsList as $plugin) {
-                $defaultPluginSettingsFile = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
-                $defaultPluginManifestFile = PATH['project'] . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
-                $projectPluginSettingsFile = PATH['project'] . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $defaultPluginSettingsFile = PATH_PROJECT . '/plugins/' . $plugin['dirname'] . '/settings.yaml';
+                $defaultPluginManifestFile = PATH_PROJECT . '/plugins/' . $plugin['dirname'] . '/plugin.yaml';
+                $projectPluginSettingsFile = PATH_PROJECT . '/config/plugins/' . $plugin['dirname'] . '/settings.yaml';
 
                 $f1 = filesystem()->file($defaultPluginSettingsFile)->exists() ? filemtime($defaultPluginSettingsFile) : '';
                 $f2 = filesystem()->file($defaultPluginManifestFile)->exists() ? filemtime($defaultPluginManifestFile) : '';
@@ -257,7 +257,7 @@ class Plugins
         }
 
         // Create Unique Cache ID for Plugins
-        return md5('plugins' . PATH['project'] . '/plugins/' . $_pluginsCacheID);
+        return md5('plugins' . PATH_PROJECT . '/plugins/' . $_pluginsCacheID);
     }
 
     /**
@@ -370,12 +370,12 @@ class Plugins
         // Get Plugins List
         $pluginsList = [];
 
-        if (filesystem()->directory(PATH['project'] . '/plugins/')->exists()) {
-            foreach (filesystem()->find()->in(PATH['project'] . '/plugins/')->directories()->depth(0) as $plugin) {
+        if (filesystem()->directory(PATH_PROJECT . '/plugins/')->exists()) {
+            foreach (filesystem()->find()->in(PATH_PROJECT . '/plugins/')->directories()->depth(0) as $plugin) {
                 $pluginName = $plugin->getBasename();
-                if (filesystem()->file(PATH['project'] . '/plugins/' . $pluginName . '/plugin.php')->exists() &&
-                    filesystem()->file(PATH['project'] . '/plugins/' . $pluginName . '/plugin.yaml')->exists() && 
-                    filesystem()->file(PATH['project'] . '/plugins/' . $pluginName . '/settings.yaml')->exists()) {
+                if (filesystem()->file(PATH_PROJECT . '/plugins/' . $pluginName . '/plugin.php')->exists() &&
+                    filesystem()->file(PATH_PROJECT . '/plugins/' . $pluginName . '/plugin.yaml')->exists() && 
+                    filesystem()->file(PATH_PROJECT . '/plugins/' . $pluginName . '/settings.yaml')->exists()) {
                     $pluginsList[$pluginName]['dirname']  = $plugin->getBasename();
                     $pluginsList[$pluginName]['pathname'] = $plugin->getPathname();
                 }
@@ -421,7 +421,7 @@ class Plugins
                 continue;
             }
 
-            require_once PATH['project'] . '/plugins/' . $pluginName . '/plugin.php';
+            require_once PATH_PROJECT . '/plugins/' . $pluginName . '/plugin.php';
         }
     }
 }

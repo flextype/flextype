@@ -5,11 +5,11 @@ use Flextype\Component\Filesystem\Filesystem;
 use Respect\Validation\Validator as v;
 
 beforeEach(function() {
-    filesystem()->directory(PATH['project'] . '/entries')->create();
+    filesystem()->directory(PATH_PROJECT . '/entries')->create();
 });
 
 afterEach(function (): void {
-    filesystem()->directory(PATH['project'] . '/entries')->delete();
+    filesystem()->directory(PATH_PROJECT . '/entries')->delete();
 });
 
 test('UuidField', function () {

@@ -29,10 +29,8 @@ define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
 /**
  * Define the PATH (without trailing slash).
  */
-define('PATH', [
-    'project' => ROOT_DIR . '/project',
-    'tmp'     => ROOT_DIR . '/var/tmp',
-]);
+define('PATH_PROJECT', ROOT_DIR . '/project');
+define('PATH_TMP', ROOT_DIR . '/var/tmp');
 
 /**
  * Ensure vendor libraries exist

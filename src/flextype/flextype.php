@@ -106,9 +106,9 @@ container()->set('actions', Actions::getInstance());
 // Init Flextype config (manifest and settings)
 $flextypeManifestFilePath        = ROOT_DIR . '/src/flextype/flextype.yaml';
 $defaultFlextypeSettingsFilePath = ROOT_DIR . '/src/flextype/settings.yaml';
-$customFlextypeSettingsFilePath  = PATH['project'] . '/config/flextype/settings.yaml';
-$preflightFlextypePath           = PATH['tmp'] . '/config/flextype/';
-$customFlextypeSettingsPath      = PATH['project'] . '/config/flextype/';
+$customFlextypeSettingsFilePath  = PATH_PROJECT . '/config/flextype/settings.yaml';
+$preflightFlextypePath           = PATH_TMP . '/config/flextype/';
+$customFlextypeSettingsPath      = PATH_PROJECT . '/config/flextype/';
 
 filesystem()->directory($preflightFlextypePath)->ensureExists(0755, true);
 filesystem()->directory($customFlextypeSettingsPath)->ensureExists(0755, true);
@@ -200,8 +200,8 @@ if (registry()->get('flextype.settings.output_buffering')) {
 
 // Add Router Cache
 if (registry()->get('flextype.settings.router.cache')) {
-    filesystem()->directory(PATH['tmp'] . '/routes')->ensureExists(0755, true);
-    app()->getRouteCollector()->setCacheFile(PATH['tmp'] . '/routes/routes.php');
+    filesystem()->directory(PATH_TMP . '/routes')->ensureExists(0755, true);
+    app()->getRouteCollector()->setCacheFile(PATH_TMP . '/routes/routes.php');
 }
 
 // Add Expression Service
@@ -211,7 +211,7 @@ container()->set('expression', new ExpressionLanguage());
 container()->set('session', new Session());
 
 // Add Logger Service
-container()->set('logger', (new Logger('flextype'))->pushHandler(new StreamHandler(PATH['tmp'] . '/logs/' . date('Y-m-d') . '.log')));
+container()->set('logger', (new Logger('flextype'))->pushHandler(new StreamHandler(PATH_TMP . '/logs/' . date('Y-m-d') . '.log')));
 
 // Add Emitter Service
 container()->set('emitter', new Emitter());
@@ -238,7 +238,7 @@ container()->set('cache', static function () {
 
         foreach (registry()->get('flextype.settings.cache.drivers.' . $driverName) as $key => $value) {
             if ($key === 'path' && in_array($driverName, ['files', 'sqlite', 'leveldb', 'phparray'])) {
-                $config['path'] = ! empty($value) ? PATH['tmp'] . '/' . $value : sys_get_temp_dir();
+                $config['path'] = ! empty($value) ? PATH_TMP . '/' . $value : sys_get_temp_dir();
             } else {
                 $config[strings($key)->camel()->toString()] = $value;
             }
@@ -373,7 +373,7 @@ if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listId
 }
 
 // Set View
-View::setDirectory(PATH['project']);
+View::setDirectory(PATH_PROJECT);
 View::setExtension(registry()->get('flextype.settings.view.extension'));
 
 // Add Plugins Service
