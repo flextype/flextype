@@ -438,10 +438,12 @@ router:
     enabled: true
   
 # Set to true to enable the Flextype CLI Application
-cli: true
+cli: 
+  enabled: true
 
 # Set to true to enable the Flextype Application
-app: true
+app: 
+  enabled: true
 
 # View
 view:

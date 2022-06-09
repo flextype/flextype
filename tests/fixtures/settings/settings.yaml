@@ -35,11 +35,15 @@ base_path: '/'
 #   m/d/Y h:i a - 02/02/2020 09:41 pm
 #   H:i d-m-Y - 09:41 02-02-2020
 #   h:i a m/d/Y - 09:41 pm 02/02/2020
-
-# Valid date format
 date_format: 'd-m-Y H:i'
 
 # Valid date format to display
+#
+#   d-m-Y H:i" - 02-02-2020 09:41
+#   Y-m-d H:i" - 2020-02-02 09:41
+#   m/d/Y h:i a - 02/02/2020 09:41 pm
+#   H:i d-m-Y - 09:41 02-02-2020
+#   h:i a m/d/Y - 09:41 pm 02/02/2020
 date_display_format: 'd-m-Y H:i'
 
 # Display errors
@@ -70,6 +74,8 @@ errors:
 # Entries
 entries:
   directory: 'entries'
+  cache:
+    string: ""
   vars:
     debug: false
   expressions:
@@ -428,13 +434,16 @@ router:
 
   # Caching the FastRoute routes for better perfomance. 
   # Set to true to enable the FastRoute cache system.
-  cache: true
+  cache: 
+    enabled: true
   
 # Set to true to enable the Flextype CLI Application
-cli: false
+cli: 
+  enabled: true
 
 # Set to true to enable the Flextype Application
-app: true
+app: 
+  enabled: true
 
 # View
 view:
@@ -498,12 +507,23 @@ slugify:
 # neon.encode.flags: The flag can be 1, which will create multiline output.
 #
 # phparray.decode.cache: Cache result data or no. Default is true.
-#
-# phpcode.decode.cache: Cache result data or no. Default is true.
 serializers:
   json: 
     decode:
-      cache: true
+      cache: 
+        enabled: true
+        string: ""
+      assoc: true
+      depth: 512
+      flags: 0
+    encode: 
+      options: 0
+      depth: 512
+  json5: 
+    decode:
+      cache: 
+        enabled: true
+        string: ""
       assoc: true
       depth: 512
       flags: 0
@@ -512,7 +532,9 @@ serializers:
       depth: 512
   yaml:
     decode:
-      cache: true
+      cache: 
+        enabled: true
+        string: ""
       native: true
       flags: 0
     encode:    
@@ -521,7 +543,10 @@ serializers:
       flags: 0
   frontmatter:
     decode:
-      cache: true
+      cache: 
+        enabled: true
+        string: ""
+      cache_id_string: ""
       header:
         serializer: yaml
         allowed: ['yaml', 'json', 'json5', 'neon']
@@ -531,15 +556,19 @@ serializers:
         allowed: ['yaml', 'json', 'json5', 'neon']
   neon:
     decode:
-      cache: true
+      cache: 
+        enabled: true
+        string: ""
     encode:
-      flags: 1
+      blockMode: false
+      indentation: "\t"
   phparray:
     decode:
-      cache: true
-  phpcode:
-    decode:
-      cache: true
+      cache: 
+        enabled: true
+        string: ""
+    encode:
+      wrap: true
 
 # Parsers
 #
@@ -570,7 +599,9 @@ serializers:
 # - markdown.commonmark.slug_normalizer.max_length: Limits the size of generated slugs (defaults to 255 characters)
 parsers:
   markdown:
-    cache: true
+    cache: 
+      enabled: true
+      string: ""
     commonmark:
       renderer:
         block_separator: "\n"
@@ -588,7 +619,10 @@ parsers:
       slug_normalizer:
         max_length: 255
   textile:
-    cache: true
+    cache: 
+      enabled: true
+      string: ""
+    cache_id_string: ""
     restricted: false
     document_type: 'xhtml'
     document_root_directory: ''
@@ -603,7 +637,10 @@ parsers:
     symbol: []
     dimensionless_images: true
   shortcodes:
-    cache: true
+    cache: 
+      enabled: true
+      string: ""
+    cache_id_string: ""
     opening_tag: "("
     closing_tag: ")"
     closing_tag_marker: "/"
@@ -632,12 +669,12 @@ parsers:
         path: "src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
         get:
           enabled: true
-      strings:
-        enabled: true
-        path: "src/flextype/core/Parsers/Shortcodes/StringsShortcode.php"
       url:
         enabled: true
         path: "src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
+      strings:
+        enabled: true
+        path: "src/flextype/core/Parsers/Shortcodes/StringsShortcode.php"
       filesystem:
         enabled: true
         path: "src/flextype/core/Parsers/Shortcodes/FilesystemShortcode.php"
@@ -669,7 +706,7 @@ parsers:
         path: "src/flextype/core/Parsers/Shortcodes/FieldShortcode.php"  
       calc:
         enabled: true
-        path: "src/flextype/core/Parsers/Shortcodes/CalcShortcode.php" 
+        path: "src/flextype/core/Parsers/Shortcodes/CalcShortcode.php"  
       eval:
         enabled: true
         path: "src/flextype/core/Parsers/Shortcodes/EvalShortcode.php" 

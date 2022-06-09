@@ -429,7 +429,7 @@ emitter()->emit('onFlextypeBeforeRun');
 
 // Run Flextype Application / Flexype CLI Application.
 if (php_sapi_name() === 'cli') {
-    registry()->get('flextype.settings.cli') and console()->run();
+    registry()->get('flextype.settings.cli.enabled') and console()->run();
 } else {
-    registry()->get('flextype.settings.app') and app()->run();
+    registry()->get('flextype.settings.app.enabled') and app()->run();
 }
