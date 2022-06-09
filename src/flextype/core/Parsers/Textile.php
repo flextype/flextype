@@ -103,7 +103,7 @@ final class Textile
      */
     public function parse(string $input)
     {
-        $cache = registry()->get('flextype.settings.parsers.textile.cache');
+        $cache = registry()->get('flextype.settings.parsers.textile.cache.enabled');
 
         if ($cache === true && registry()->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
@@ -124,14 +124,15 @@ final class Textile
     /**
      * Get Cache ID for textile.
      *
-     * @param  string $input Input.
+     * @param  string $input  Input.
+     * @param  string $string String to append to the Cache ID.
      *
      * @return string Cache ID.
      *
      * @access public
      */
-    public function getCacheID(string $input): string
+    public function getCacheID(string $input, string $string = ''): string
     {
-        return strings('textile' . $input)->hash()->toString();
+        return strings('textile' . $input . $string . registry()->get('flextype.settings.parsers.textile.cache.string'))->hash()->toString();
     }
 }

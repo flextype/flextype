@@ -56,7 +56,7 @@ class Neon
      */
     public function decode(string $input)
     {
-        $cache = registry()->get('flextype.settings.serializers.neon.decode.cache');
+        $cache = registry()->get('flextype.settings.serializers.neon.decode.cache.enabled');
 
         $decode = static function (string $input) {
             try {
@@ -87,14 +87,15 @@ class Neon
     /**
      * Get Cache ID for neon.
      *
-     * @param  string $input Input.
+     * @param  string $input  Input.
+     * @param  string $string String to append to the Cache ID.
      *
      * @return string Cache ID.
      *
      * @access public
      */
-    public function getCacheID(string $input): string
+    public function getCacheID(string $input, string $string = ''): string
     {
-        return strings('neon' . $input)->hash()->toString();
+        return strings('neon' . $input . $string . registry()->get('flextype.settings.serializers.neon.decode.cache.string'))->hash()->toString();
     }
 }

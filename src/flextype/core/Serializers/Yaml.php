@@ -82,7 +82,7 @@ class Yaml
      */
     public function decode(string $input)
     {
-        $cache  = registry()->get('flextype.settings.serializers.yaml.decode.cache');
+        $cache  = registry()->get('flextype.settings.serializers.yaml.decode.cache.enabled');
         $flags  = registry()->get('flextype.settings.serializers.yaml.decode.flags');
         $native = registry()->get('flextype.settings.serializers.yaml.decode.native');
 
@@ -134,14 +134,15 @@ class Yaml
     /**
      * Get Cache ID for YAML.
      *
-     * @param  string $input Input.
+     * @param  string $input  Input.
+     * @param  string $string String to append to the Cache ID.
      *
      * @return string Cache ID.
      *
      * @access public
      */
-    public function getCacheID(string $input): string
+    public function getCacheID(string $input, string $string = ''): string
     {
-        return strings('yaml' . $input)->hash()->toString();
+        return strings('yaml' . $input . $string . registry()->get('flextype.settings.serializers.yaml.decode.cache.string'))->hash()->toString();
     }
 }

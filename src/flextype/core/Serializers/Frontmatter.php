@@ -74,8 +74,8 @@ class Frontmatter
      */
     public function decode(string $input)
     {
+        $cache            = registry()->get('flextype.settings.serializers.frontmatter.decode.cache.enabled');
         $headerSerializer = registry()->get('flextype.settings.serializers.frontmatter.decode.header.serializer');
-        $cache            = registry()->get('flextype.settings.serializers.frontmatter.decode.cache');
         $allowed          = registry()->get('flextype.settings.serializers.frontmatter.encode.header.allowed');
 
         if ($headerSerializer === 'frontmatter') {
@@ -138,14 +138,15 @@ class Frontmatter
     /**
      * Get Cache ID for frontmatter.
      *
-     * @param  string $input Input.
+     * @param  string $input  Input.
+     * @param  string $string String to append to the Cache ID.
      *
      * @return string Cache ID.
      *
      * @access public
      */
-    public function getCacheID(string $input): string
+    public function getCacheID(string $input, string $string = ''): string
     {
-        return strings('frontmatter' . $input)->hash()->toString();
+        return strings('frontmatter' . $input . $string . registry()->get('flextype.settings.serializers.frontmatter.decode.cache.string'))->hash()->toString();
     }
 }

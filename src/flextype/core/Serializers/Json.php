@@ -75,7 +75,7 @@ class Json
      */
     public function decode(string $input)
     {
-        $cache = registry()->get('flextype.settings.serializers.json.decode.cache');
+        $cache = registry()->get('flextype.settings.serializers.json.decode.cache.enabled');
         $assoc = registry()->get('flextype.settings.serializers.json.decode.assoc');
         $depth = registry()->get('flextype.settings.serializers.json.decode.depth');
         $flags = registry()->get('flextype.settings.serializers.json.decode.flags');
@@ -109,14 +109,15 @@ class Json
     /**
      * Get Cache ID for JSON.
      *
-     * @param  string $input Input.
+     * @param  string $input  Input.
+     * @param  string $string String to append to the Cache ID.
      *
      * @return string Cache ID.
      *
      * @access public
      */
-    public function getCacheID(string $input): string
+    public function getCacheID(string $input, string $string = ''): string
     {
-        return strings('json' . $input)->hash()->toString();
+        return strings('json' . $input . $string . registry()->get('flextype.settings.serializers.json.decode.cache.string'))->hash()->toString();
     }
 }

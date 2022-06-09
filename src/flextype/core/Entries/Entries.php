@@ -930,21 +930,21 @@ class Entries
     /**
      * Get Cache ID for entry.
      *
-     * @param  string $id   Unique identifier of the Cache Entry Item.
-     * @param  string $salt Salt to append to the Cache ID.
+     * @param  string $id     Unique identifier of the Cache Entry Item.
+     * @param  string $string String to append to the Cache ID.
      *
      * @return string Cache ID.
      *
      * @access public
      */
-    public function getCacheID(string $id, string $salt = ''): string
+    public function getCacheID(string $id, string $string = ''): string
     {
         // Setup registry.
         $this->registry()->set('methods.getCacheID', [
                 'collection' => $this->getCollectionOptions($id),
                 'params' => [
                     'id' => $id,
-                    'salt' => $salt,
+                    'string' => $string . registry()->get('flextype.settings.entries.cache.string'),
                 ],
                 'result' => null,
             ]); 
@@ -964,10 +964,10 @@ class Entries
         $entryFile = $this->getFileLocation($this->registry()->get('methods.getCacheID.params.id'));
 
         if (filesystem()->file($entryFile)->exists()) {
-            return strings($this->options['directory'] . $entryFile . $salt . (filesystem()->file($entryFile)->lastModified() ?: ''))->hash()->toString();
+            return strings($this->options['directory'] . $entryFile . $string . (filesystem()->file($entryFile)->lastModified() ?: ''))->hash()->toString();
         }
 
-        return strings($this->options['directory'] . $entryFile . $salt)->hash()->toString();
+        return strings($this->options['directory'] . $entryFile . $string)->hash()->toString();
     }
 
     /**

@@ -172,7 +172,7 @@ final class Shortcodes
      */
     public function parse(string $input)
     {
-        $cache = registry()->get('flextype.settings.parsers.shortcodes.cache');
+        $cache = registry()->get('flextype.settings.parsers.shortcodes.cache.enabled');
 
         if ($cache === true && registry()->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
@@ -194,13 +194,14 @@ final class Shortcodes
      * Get Cache ID for shortcode.
      *
      * @param  string $input Input.
-     *
+     * @param  string $string String to append to the Cache ID.
+     * 
      * @return string Cache ID.
      *
      * @access public
      */
-    public function getCacheID(string $input): string
+    public function getCacheID(string $input, string $string = ''): string
     {
-        return strings('shortcode' . $input)->hash()->toString();
+        return strings('shortcode' . $input . $string . registry()->get('flextype.settings.parsers.shortcodes.cache.string'))->hash()->toString();
     }
 }

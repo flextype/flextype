@@ -109,7 +109,7 @@ final class Markdown
      */
     public function parse(string $input)
     {
-        $cache = registry()->get('flextype.settings.parsers.markdown.cache');
+        $cache = registry()->get('flextype.settings.parsers.markdown.cache.enabled');
 
         if ($cache === true && registry()->get('flextype.settings.cache.enabled') === true) {
             $key = $this->getCacheID($input);
@@ -131,13 +131,14 @@ final class Markdown
      * Get Cache ID for markdown.
      *
      * @param  string $input Input.
+     * @param  string $string String to append to the Cache ID.
      *
      * @return string Cache ID.
      *
      * @access public
      */
-    public function getCacheID(string $input): string
+    public function getCacheID(string $input, string $string = ''): string
     {
-        return strings('markdown' . $input)->hash()->toString();
+        return strings('markdown' . $input . $string . registry()->get('flextype.settings.parsers.markdown.cache.string'))->hash()->toString();
     }
 }
