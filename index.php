@@ -27,9 +27,14 @@ use function str_replace;
 define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
 
 /**
+ * Define the project name.
+ */
+define('PROJECT_NAME', 'project');
+
+/**
  * Define the PATH (without trailing slash).
  */
-define('PATH_PROJECT', ROOT_DIR . '/project');
+define('PATH_PROJECT', ROOT_DIR . '/' . PROJECT_NAME);
 define('PATH_TMP', ROOT_DIR . '/var/tmp');
 
 /**
