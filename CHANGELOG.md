@@ -62,6 +62,8 @@
       tokens:verify-hash     Verify token hash.
     ```
 
+* **core** Added new constants `PROJECT_NAME`, `PATH_PROJECT`, `PATH_TMP`. 
+
 * **core** Added ability to run Flextype in silent mode by disabling settings `app` and `cli`. 
 
 * **core**: Added Glowy PHP View Package.
@@ -349,19 +351,23 @@
 
 * **shortcodes**: Added new shortcode `(entries)` to fetch entry (or entries collection) or specific field.
 
-* **shortcodes**: Added new shortcode `(uuid1)` to generate uuid1.
+* **shortcodes**: Added new shortcode `(registry)` to fetch data from registry.
 
-* **shortcodes**: Added new shortcode `(uuid2)` to generate uuid2.
+* **shortcodes**: Added new shortcode `(filesystem)` to work with filesystem.
 
-* **shortcodes**: Added new shortcode `(uuid3)` to generate uuid3 .
-
-* **shortcodes**: Added new shortcode `(uuid4)` to generate uuid4.
+* **shortcodes**: Added new shortcode `(uuid)` to generate uuid.
 
 * **shortcodes**: Added new shortcode `(strings)` for strings manipulation.
 
 * **shortcodes**: Added new shortcode `(textile)` to parse textile text.
 
 * **shortcodes**: Added new shortcode `(php)` to execute php code.
+
+* **shortcodes**: Added new shortcode `(eval)` to eval expression.
+
+* **shortcodes**: Added new shortcode `(calc)` to calculate values.
+
+* **shortcodes**: Added new shortcode `(type)` to set field type.
 
 * **shortcodes**: Added new shortcode `(markdown)` to parse markdown text.
 
@@ -381,9 +387,39 @@
 
 * **shortcodes**: Added new shortcode `(if)` to use logical if conditions.
 
+* **shortcodes**: Added new shortcode `(when)` to use logical positive if conditions.
+
+* **shortcodes**: Added new shortcode `(unless)` to use logical negative if conditions.
+
+* **shortcodes**: Added new shortcode `(var)` to get and set entry variables values.
+
+* **shortcodes**: Added new shortcode `(field)` to get entry fields values.
+
+* **shortcodes**: Added new shortcode `(const)` to get defined costants.
+
+* **shortcodes**: Added new shortcode `(raw)` to ignore shortcodes processing.
+
+* **expressions** Added a new configurable and extendable expressions engine with a collection of predefined expressions.
+
+* **expressions** Added new expression function `actions` to get actions service.
+
+* **expressions** Added new expression function `collection` to create a new arrayable collection object from the given elements.
+
+* **expressions** Added new expression function `collectionFromJson` to create a new arrayable collection object from the given JSON string.
+
+* **expressions** Added new expression function `collectionFromString` to create a new arrayable collection object from the given string.
+
+* **expressions** Added new expression function `collectionWithRange` to create a new arrayable object with a range of elements.
+
+* **expressions** Added new expression function `collectionFromQueryString` to create a new arrayable object from the given query string.
+
+* **expressions** Added new expression function `filterCollection` to filter collection.
+
 * **cache**: Added new cache driver `Phparray` to store cache data in raw php arrays files.
 
 * **cache**: Added router cache.
+
+* **cache**: Added ability to set custom cache ID for `entries`, `parsers` and `serializers`.
 
 * **tokens** Added new Tokens API.
 
@@ -558,6 +594,8 @@
 
 ### Bug Fixes
 
+* **parsers** Fixed issue with double cashing.
+
 * **htaccess**: Security fixes for `.htaccess`
 
 * **entries**: Fixed issue when entries collection fetch returns empty result.
@@ -566,13 +604,17 @@
 
 * **plugins**: Fixed Plugins API initialization ([#551](https://github.com/flextype/flextype/issues/551))
 
+* **plugins**: Fixed Plugins API dependency initialization.
+
 * **plugins**: Fixed Plugins API issue with non valid plugins ([#551](https://github.com/flextype/flextype/issues/555))
 
 * **plugins**: Fixed Plugins API loader issue with disabled plugins.
 
 ### BREAKING CHANGES
 
-* **shortcodes** New default shortcodes syntax.
+* **core** use new constant `PATH_PROJECT` instead of `PATH['project']` and `PATH_TMP` instead of `PATH['tmp']`.
+
+* **shortcodes** New default shortcodes syntax and signatures changes for all shortocodes.
   ```yaml
     opening_tag: "("
     closing_tag: ")"
