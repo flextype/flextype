@@ -14,7 +14,7 @@
 * **core** Added Flextype CLI Application. 
 
     ```
-    Flextype CLI Application 0.10.0
+    Flextype CLI Application 1.0.0-alpha.1
 
     Usage:
       command [options] [arguments]
@@ -28,38 +28,40 @@
       -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
     Available commands:
-      completion             Dump the shell completion script
-      help                   Display help for a command
-      list                   List commands
+      completion                  Dump the shell completion script
+      help                        Display help for a command
+      list                        List commands
     cache
-      cache:clear            Clear cache.
-      cache:clear-config     Clear cache config.
-      cache:clear-data       Clear cache data.
-      cache:clear-routes     Clear cache routes.
-      cache:delete           Delete item.
-      cache:delete-multiple  Delete mutiple items.
-      cache:get              Get item.
-      cache:get-multiple     Get multiple items.
-      cache:has              Check whether cache item exists.
-      cache:set              Set item.
-      cache:set-multiple     Set multiple items.
+      cache:clear                 Clear cache.
+      cache:clear-config          Clear cache config.
+      cache:clear-data            Clear cache data.
+      cache:clear-routes          Clear cache routes.
+      cache:clear-site-static     Clear cache site static.
+      cache:clear-twig-templates  Clear cache twig templates.
+      cache:delete                Delete item.
+      cache:delete-multiple       Delete mutiple items.
+      cache:get                   Get item.
+      cache:get-multiple          Get multiple items.
+      cache:has                   Check whether cache item exists.
+      cache:set                   Set item.
+      cache:set-multiple          Set multiple items.
     entries
-      entries:copy           Copy entry.
-      entries:create         Create entry.
-      entries:delete         Delete entry.
-      entries:fetch          Fetch entry.
-      entries:has            Check whether entry exists.
-      entries:move           Move entry.
-      entries:update         Update entry.
+      entries:copy                Copy entry.
+      entries:create              Create entry.
+      entries:delete              Delete entry.
+      entries:fetch               Fetch entry.
+      entries:has                 Check whether entry exists.
+      entries:move                Move entry.
+      entries:update              Update entry.
     tokens
-      tokens:create          Create a new unique token.
-      tokens:delete          Delete token entry.
-      tokens:fetch           Fetch token entry.
-      tokens:generate        Generate token.
-      tokens:generate-hash   Generate token hash.
-      tokens:has             Check whether token entry exists.
-      tokens:update          Update tokens entry.
-      tokens:verify-hash     Verify token hash.
+      tokens:create               Create a new unique token.
+      tokens:delete               Delete token entry.
+      tokens:fetch                Fetch token entry.
+      tokens:generate             Generate token.
+      tokens:generate-hash        Generate token hash.
+      tokens:has                  Check whether token entry exists.
+      tokens:update               Update tokens entry.
+      tokens:verify-hash          Verify token hash.
     ```
 
 * **core** Added new constants `PROJECT_NAME`, `PATH_PROJECT`, `PATH_TMP`. 
