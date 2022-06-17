@@ -171,7 +171,7 @@ if (filesystem()->file($preflightFlextypePath . '/' . $cacheID . '.php')->exists
 registry()->set('flextype', $flextypeData);
 
 // Set Flextype Aplication base path
-setBasePath(registry()->get('flextype.settings.base_path'));
+setBasePath('/' . registry()->get('flextype.settings.base_path'));
 
 // Add Routing Middleware
 app()->add(new RoutingMiddleware(app()->getRouteResolver(), app()->getRouteCollector()->getRouteParser()));

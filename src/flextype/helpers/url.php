@@ -165,9 +165,9 @@ if (! function_exists('getBaseUrl')) {
 
         if ($url) {
             if ($isHttps) {
-                $url = 'https://' . $url;
+                $url = 'https://' . $url . '/';
             } else {
-                $url = 'http://' . $url;
+                $url = 'http://' . $url . '/';
             }
         }
 
