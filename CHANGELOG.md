@@ -1,5 +1,5 @@
-<a name="0.10.0"></a>
-# [0.10.0](https://github.com/flextype/flextype/compare/v0.9.16...v0.10.0) (2022-XX-XX)
+<a name="1.0.0-alpha.1"></a>
+# [1.0.0-alpha.1](https://github.com/flextype/flextype/compare/v0.9.16...v1.0.0-alpha.1) (2022-XX-XX)
 
 ### Features
 
