@@ -172,7 +172,9 @@
     serializers:
       json: 
         decode:
-          cache: true
+          cache: 
+            enabled: true
+            string: ""
           assoc: true
           depth: 512
           flags: 0
@@ -181,7 +183,9 @@
           depth: 512
       json5: 
         decode:
-          cache: true
+          cache: 
+            enabled: true
+            string: ""
           assoc: true
           depth: 512
           flags: 0
@@ -190,7 +194,9 @@
           depth: 512
       yaml:
         decode:
-          cache: true
+          cache: 
+            enabled: true
+            string: ""
           native: true
           flags: 0
         encode:    
@@ -199,7 +205,10 @@
           flags: 0
       frontmatter:
         decode:
-          cache: true
+          cache: 
+            enabled: true
+            string: ""
+          cache_id_string: ""
           header:
             serializer: yaml
             allowed: ['yaml', 'json', 'json5', 'neon']
@@ -209,13 +218,17 @@
             allowed: ['yaml', 'json', 'json5', 'neon']
       neon:
         decode:
-          cache: true
+          cache: 
+            enabled: true
+            string: ""
         encode:
           blockMode: false
           indentation: "\t"
       phparray:
         decode:
-          cache: true
+          cache: 
+            enabled: true
+            string: ""
         encode:
           wrap: true
     ```
@@ -226,7 +239,10 @@
     ```yaml
     frontmatter:
       decode:
-        cache: true
+        cache: 
+          enabled: true
+          string: ""
+        cache_id_string: ""
         header:
           serializer: yaml
           allowed: ['yaml', 'json', 'json5', 'neon']
@@ -246,7 +262,9 @@
     ```yaml
     parsers:
       markdown:
-        cache: true
+        cache: 
+          enabled: true
+          string: ""
         commonmark:
           renderer:
             block_separator: "\n"
@@ -264,7 +282,9 @@
           slug_normalizer:
             max_length: 255
       textile:
-        cache: true
+        cache: 
+          enabled: true
+          string: ""
         restricted: false
         document_type: 'xhtml'
         document_root_directory: ''
@@ -279,48 +299,82 @@
         symbol: []
         dimensionless_images: true
       shortcodes:
-        cache: true
+        cache: 
+          enabled: true
+          string: ""
+        cache_id_string: ""
+        opening_tag: "("
+        closing_tag: ")"
+        closing_tag_marker: "/"
+        parameter_value_separator: ":"
+        parameter_value_delimiter: "'"
         shortcodes:
           entries:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/EntriesShortcode.php"
+            path: "src/flextype/core/Parsers/Shortcodes/EntriesShortcode.php"
             fetch:
               enabled: true
           php:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/PhpShortcode.php"
+            path: "src/flextype/core/Parsers/Shortcodes/PhpShortcode.php"
           raw:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/RawShortcode.php"
+            path: "src/flextype/core/Parsers/Shortcodes/RawShortcode.php"
           textile:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/TextileShortcode.php"
+            path: "src/flextype/core/Parsers/Shortcodes/TextileShortcode.php"
           markdown:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/MarkdownShortcode.php"
+            path: "src/flextype/core/Parsers/Shortcodes/MarkdownShortcode.php"
           registry:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
+            path: "src/flextype/core/Parsers/Shortcodes/RegistryShortcode.php"
+            get:
+              enabled: true
           url:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
+            path: "src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
           strings:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/StringsShortcode.php"
+            path: "src/flextype/core/Parsers/Shortcodes/StringsShortcode.php"
           filesystem:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/FilesystemShortcode.php"
+            path: "src/flextype/core/Parsers/Shortcodes/FilesystemShortcode.php"
             get:
               enabled: true
           i18n:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/I18nShortcode.php"
+            path: "src/flextype/core/Parsers/Shortcodes/I18nShortcode.php"
           if:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/IfShortcode.php"
+            path: "src/flextype/core/Parsers/Shortcodes/IfShortcode.php"
+          when:
+            enabled: true
+            path: "src/flextype/core/Parsers/Shortcodes/WhenShortcode.php"
+          unless:
+            enabled: true
+            path: "src/flextype/core/Parsers/Shortcodes/UnlessShortcode.php"
           uuid:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/UuidShortcode.php"
+            path: "src/flextype/core/Parsers/Shortcodes/UuidShortcode.php"
+          const:
+            enabled: true
+            path: "src/flextype/core/Parsers/Shortcodes/ConstShortcode.php"
+          var:
+            enabled: true
+            path: "src/flextype/core/Parsers/Shortcodes/VarShortcode.php"
+          field:
+            enabled: true
+            path: "src/flextype/core/Parsers/Shortcodes/FieldShortcode.php"  
+          calc:
+            enabled: true
+            path: "src/flextype/core/Parsers/Shortcodes/CalcShortcode.php"  
+          eval:
+            enabled: true
+            path: "src/flextype/core/Parsers/Shortcodes/EvalShortcode.php" 
+          type:
+            enabled: true
+            path: "src/flextype/core/Parsers/Shortcodes/TypeShortcode.php" 
     ```
 
 * **parsers**: Added ability to override logic for built-in shortcodes.
@@ -625,7 +679,9 @@
 
 ### BREAKING CHANGES
 
-* **core** use new constant `PATH_PROJECT` instead of `PATH['project']` and `PATH_TMP` instead of `PATH['tmp']`.
+* **media** Media and Glide functionality removed from the flextype core due to security and perfomance reasons. Recomended to use imagekit or imgix instead.
+
+* **core** Use new constant `PATH_PROJECT` instead of `PATH['project']` and `PATH_TMP` instead of `PATH['tmp']`.
 
 * **shortcodes** New default shortcodes syntax and signatures changes for all shortocodes.
   ```yaml
