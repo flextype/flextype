@@ -92,5 +92,5 @@ If you need help with Git or our workflow, please ask in our community chat. We 
 You may help us to create amazing knowledge base for Flextype. Fix spelling, add code examples, help organize, write new articles, and etc...
 
 ## LICENSE
-[The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
+[The MIT License (MIT)](https://github.com/flextype/flextype/blob/1.x/LICENSE.txt)
 Copyright (c) [Sergey Romanenko](https://awilum.github.io)
