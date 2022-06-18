@@ -36,8 +36,6 @@
       cache:clear-config          Clear cache config.
       cache:clear-data            Clear cache data.
       cache:clear-routes          Clear cache routes.
-      cache:clear-site-static     Clear cache site static.
-      cache:clear-twig-templates  Clear cache twig templates.
       cache:delete                Delete item.
       cache:delete-multiple       Delete mutiple items.
       cache:get                   Get item.
@@ -502,7 +500,7 @@
 
 * **expressions** Added new expression function `strings` to get strings instance.
 
-* **expressions** Added new expression function `tr` to return translation of a string. If no translation exists, the original string will be returned. No parameters are replaced.
+* **expressions** Added new expression function `tr` to return translation of a string. If no translation exists, the original string will be returned.
 
 * **expressions** Added new expression function `parsers` to get parsers service.
 
@@ -516,7 +514,7 @@
 
 * **cache**: Added router cache.
 
-* **cache**: Added ability to set custom cache ID for `entries`, `parsers` and `serializers`.
+* **cache**: Added ability to set custom cache ID string for `entries`, `parsers` and `serializers`.
 
 * **tokens** Added new Tokens API.
 
@@ -531,8 +529,6 @@
 * **helpers**: Added helper function `cache` to get Flextype Cache Service.
 
 * **helpers**: Added helper function `entries` to get Flextype Entries Service.
-
-* **helpers**: Added helper function `media` to get Flextype Media Service.
 
 * **helpers**: Added helper function `parsers` to get Flextype Parsers Service.
 
@@ -574,7 +570,7 @@
 
 * **helpers**: Added helper function `upload` to upload files and process uloaded images.
 
-* **uploder**: Added Sirius Uploader for file upload. 
+* **uploder**: Added Configurable Sirius Uploader for file upload. 
 
     ```yaml
     # Upload
@@ -656,7 +652,7 @@
     ```php
     // Set new action entries.update
     actions()->set('entries.update', function($id, $data) {
-      if (flextype('entries')->update($id, $data)) {
+      if (entries()->update($id, $data)) {
         logger()->info("Content {$id} successfully updated");
         cache()->delete($id);
       } else {
