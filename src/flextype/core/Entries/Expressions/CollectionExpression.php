@@ -27,8 +27,9 @@ class CollectionExpression implements ExpressionFunctionProviderInterface
             new ExpressionFunction('collection', fn($items = null) => 'collection($items)', fn($arguments, $items = null) => collection($items)),
             new ExpressionFunction('collectionFromJson', fn(string $input, bool $assoc = true, int $depth = 512, int $flags = 0) => 'collectionFromJson($input, $assoc, $depth, $flags)', fn($arguments, string $input, bool $assoc = true, int $depth = 512, int $flags = 0) => collectionFromJson($input, $assoc, $depth, $flags)),
             new ExpressionFunction('collectionFromString', fn(string $string, string $separator) => 'collectionFromString($string, $separator)', fn($arguments, string $string, string $separator) => collectionFromString($string, $separator)),
-            new ExpressionFunction('collectionWithRange', fn($low, $high, int $step = 1) => 'collection($low, $high, $step)', fn($arguments, $low, $high, int $step = 1) => collectionWithRange($low, $high, $step)),
-            new ExpressionFunction('collectionFromQueryString', fn(string $string) => 'collection($string)', fn($arguments, string $string) => collectionFromQueryString($string)),
+            new ExpressionFunction('collectionWithRange', fn($low, $high, int $step = 1) => 'collectionWithRange($low, $high, $step)', fn($arguments, $low, $high, int $step = 1) => collectionWithRange($low, $high, $step)),
+            new ExpressionFunction('collectionFromQueryString', fn(string $string) => 'collectionFromQueryString($string)', fn($arguments, string $string) => collectionFromQueryString($string)),
+            new ExpressionFunction('filterCollection', fn($items = [], array $options = []) => 'filterCollection($items, $options)', fn($arguments, $items = [], array $options = []) => filterCollection($items, $options)),
         ];
     }
 }
