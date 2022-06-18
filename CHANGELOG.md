@@ -64,11 +64,13 @@
       tokens:verify-hash          Verify token hash.
     ```
 
+* **core**: Added `Thermage` library for better Flextype CLI Application styling. 
+
 * **core** Added new constants `PROJECT_NAME`, `PATH_PROJECT`, `PATH_TMP`. 
 
-* **core** Added ability to run Flextype in silent mode by disabling settings `app` and `cli`. 
+* **core** Added ability to run Flextype in silent mode by disabling `app` and `cli`. 
 
-* **core**: Added Glowy PHP View Package.
+* **core**: Added New Glowy PHP Packages `View`, `Macroable`, `Strings`, `Arrays`, `Csrf`, `Filesystem`, `Registry`, `Session`.
 
 * **core**: Added built-in I18n module.
 
@@ -160,6 +162,8 @@
 * **csrf**: Added Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
 * **frontmatter**: Added ability to define custom frontmatter header parsers for entries. Example: instead of first `---` you may set serializer `---json`, `---json5` `---yaml` or `---neon`. 
+
+* **serializers**: Added new serializer `Json5`. 
 
 * **serializers**: Added new serializer `Neon`. 
 
