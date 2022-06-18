@@ -80,7 +80,7 @@
 
 * **entries**: Added ability to set custom events for each entries collections.
 
-* **entries**: Added entries fields directives. Built-in directives: `@type`, `@markdown`, `shortcodes`, `textile`, `@const`, `@var`, `field`, `@calc`, `@php`.
+* **entries**: Added ability to create and use entries fields directives.
 
 * **entries**: Added ability to create custom entries macros. Built-in macros: `entries`, `php`, `registry`.
 
@@ -129,22 +129,33 @@
     ...
     ```
 
+* **directives** Added new directive `@type` to set field type.
+
+* **directives** Added new directive `@markdown` to parse markdown text inside current field.
+
+* **directives** Added new directive `@shortcodes` to parse shortcodes text inside current field.
+
+* **directives** Added new directive `@textile` to parse textile text inside current field.
+
+* **directives** Added new directive `@php` to execute php code text inside current field.
+
+* **directives** Added new directive `[[ ]]` to eval expression.
+
 * **endpoints** All Rest API Endpoints codebase was rewritten from scratch.
 
-* **endpoints** New Rest API Endpoint `/api/utils/cache/clear`.
+* **endpoints** Added new Rest API Endpoint `POST /api/v1/cache/clear` to clear cache.
 
-    ```
-    Clear cache
-    
-    endpoint: POST /api/utils/cache/clear
-    
-    Body:
-      token        - [REQUIRED] - Valid public token.
-      access_token - [REQUIRED] - Valid access token.
-    
-    Returns:
-      Returns an empty body with HTTP status 204
-    ```
+* **endpoints** Added new Rest API Endpoint `POST /api/v1/tokens/generate` to generate token hash.
+
+* **endpoints** Added new Rest API Endpoint `POST /api/v1/tokens/verify-hash` to verify token hash.
+
+* **endpoints** Added new Rest API Endpoint `POST /api/v1/tokens` to create token entry.
+
+* **endpoints** Added new Rest API Endpoint `PATCH /api/v1/tokens` to update token entry.
+
+* **endpoints** Added new Rest API Endpoint `DELETE /api/v1/tokens` to delete token entry.
+
+* **endpoints** Added new Rest API Endpoint `GET /api/v1/tokens` to fetch token entry.
 
 * **csrf**: Added Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
