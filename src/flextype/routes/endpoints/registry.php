@@ -23,7 +23,7 @@ use function app;
 /**
  * Get registry item
  *
- * endpoint: GET /api/v0/registry
+ * endpoint: GET /api/v1/registry
  *
  * Query:
  * id      - [REQUIRED] - Unique identifier of the registry item.
@@ -33,4 +33,4 @@ use function app;
  * Returns:
  * Registry object.
  */
-app()->get('/api/v0/registry', [Registry::class, 'get'])->setName('registry.get');
+app()->get('/api/v1/registry', [Registry::class, 'get'])->setName('registry.get');

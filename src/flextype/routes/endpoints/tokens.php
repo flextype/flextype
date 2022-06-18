@@ -23,7 +23,7 @@ use function app;
 /**
  * Generate token
  *
- * endpoint: POST /api/v0/tokens/generate
+ * endpoint: POST /api/v1/tokens/generate
  *
  * Body:
  * token        - [REQUIRED] - Valid public token.
@@ -32,12 +32,12 @@ use function app;
  * Returns:
  * Generated token object.
  */
-app()->post('/api/v0/tokens/generate', [Tokens::class, 'generate'])->setName('tokens.generate');
+app()->post('/api/v1/tokens/generate', [Tokens::class, 'generate'])->setName('tokens.generate');
 
 /**
  * Generate token hash
  *
- * endpoint: POST /api/v0/tokens/generate-hash
+ * endpoint: POST /api/v1/tokens/generate-hash
  *
  * Body:
  * token        - [REQUIRED] - Valid public token.
@@ -47,12 +47,12 @@ app()->post('/api/v0/tokens/generate', [Tokens::class, 'generate'])->setName('to
  * Returns:
  * Generated token hash object.
  */
-app()->post('/api/v0/tokens/generate-hash', [Tokens::class, 'generateHash'])->setName('tokens.generate-hash');
+app()->post('/api/v1/tokens/generate-hash', [Tokens::class, 'generateHash'])->setName('tokens.generate-hash');
 
 /**
  * Verify token hash
  *
- * endpoint: POST /api/v0/tokens/verify-hash
+ * endpoint: POST /api/v1/tokens/verify-hash
  *
  * Body:
  * token        - [REQUIRED] - Valid public token.
@@ -63,12 +63,12 @@ app()->post('/api/v0/tokens/generate-hash', [Tokens::class, 'generateHash'])->se
  * Returns:
  * Token verification object.
  */
-app()->post('/api/v0/tokens/verify-hash', [Tokens::class, 'verifyHash'])->setName('tokens.verify-hash');
+app()->post('/api/v1/tokens/verify-hash', [Tokens::class, 'verifyHash'])->setName('tokens.verify-hash');
 
 /**
  * Create token entry
  *
- * endpoint: POST /api/v0/tokens
+ * endpoint: POST /api/v1/tokens
  *
  * Body:
  * token        - [REQUIRED] - Valid public token.
@@ -78,12 +78,12 @@ app()->post('/api/v0/tokens/verify-hash', [Tokens::class, 'verifyHash'])->setNam
  * Returns:
  * Token entry object with the token entry that was just created.
  */
-app()->post('/api/v0/tokens', [Tokens::class, 'create'])->setName('tokens.create');
+app()->post('/api/v1/tokens', [Tokens::class, 'create'])->setName('tokens.create');
 
 /**
  * Update token entry
  *
- * endpoint: PATCH /api/v0/tokens
+ * endpoint: PATCH /api/v1/tokens
  *
  * Body:
  * id            - [REQUIRED] - Unique identifier of the token entry.
@@ -94,12 +94,12 @@ app()->post('/api/v0/tokens', [Tokens::class, 'create'])->setName('tokens.create
  * Returns:
  * Toeken entry object for the entry that was just updated.
  */
-app()->patch('/api/v0/tokens', [Tokens::class, 'update'])->setName('tokens.update');
+app()->patch('/api/v1/tokens', [Tokens::class, 'update'])->setName('tokens.update');
 
 /**
  * Delete token entry
  *
- * endpoint: DELETE /api/v0/tokens
+ * endpoint: DELETE /api/v1/tokens
  *
  * Body:
  * id           - [REQUIRED] - Unique identifier of the token entry.
@@ -109,12 +109,12 @@ app()->patch('/api/v0/tokens', [Tokens::class, 'update'])->setName('tokens.updat
  * Returns:
  * Empty body with HTTP status 204
  */
-app()->delete('/api/v0/tokens', [Tokens::class, 'delete'])->setName('tokens.delete');
+app()->delete('/api/v1/tokens', [Tokens::class, 'delete'])->setName('tokens.delete');
 
 /**
  * Fetch token entry
  *
- * endpoint: GET /api/v0/tokens
+ * endpoint: GET /api/v1/tokens
  *
  * Query:
  * id      - [REQUIRED] - Unique identifier of the token entry.
@@ -124,4 +124,4 @@ app()->delete('/api/v0/tokens', [Tokens::class, 'delete'])->setName('tokens.dele
  * Returns:
  * Entry object.
  */
-app()->get('/api/v0/tokens', [Tokens::class, 'fetch'])->setName('tokens.fetch');
+app()->get('/api/v1/tokens', [Tokens::class, 'fetch'])->setName('tokens.fetch');
