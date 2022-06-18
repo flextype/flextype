@@ -11,7 +11,7 @@
 
   See: [Usage Guide](https://php-di.org/doc/frameworks/slim.html)
 
-* **core** Added Flextype CLI Application. 
+* **console** Added Flextype CLI Application. 
 
     ```
     Flextype CLI Application 1.0.0-alpha.1
@@ -74,7 +74,7 @@
 
 * **core**: Added built-in I18n module.
 
-* **entries** Added new functionality for Virtual Entries with CRUD opertations.
+* **entries** Added new functionality for Virtual Entries by overriding default entries CRUD methods with the help of events.
 
 * **entries**: Added ability to create completely customizable high level collections for entries.
 
@@ -86,7 +86,9 @@
 
 * **entries**: Added ability to create custom entries macros. Built-in macros: `entries`, `php`, `registry`.
 
-* **entries**: Added new method `getOptions` to get entries options.
+* **entries**: Added new method `registry` to get entries registry.
+
+* **entries**: Added new method `options` to get entries options.
 
 * **entries**: Added new method `setOptions` to set entries options.
 
@@ -95,7 +97,7 @@
 * **entries**: Added ability to override logic for built-in custom fields.
 
     Example: 
-    If you want to have your custom logic for processing field `uuid` just update flextype settings.
+    If you want to have your custom logic for processing field `uuid` just update flextype project settings.
 
     from:
     ```yaml
@@ -107,7 +109,7 @@
           ...
           uuid:
             enabled: true
-            path: "/src/flextype/core/Entries/Fields/Default/UuidField.php"
+            path: "src/flextype/core/Entries/Fields/Default/UuidField.php"
           ...
         ...
       ...
@@ -124,7 +126,7 @@
           ...
           uuid:
             enabled: true
-            path: "/project/plugins/your-custom-plugin/Entries/Fields/Default/UuidField.php"
+            path: "project/plugins/your-custom-plugin/Entries/Fields/Default/UuidField.php"
           ...
         ...
       ...
@@ -159,7 +161,7 @@
 
 * **endpoints** Added new Rest API Endpoint `GET /api/v1/tokens` to fetch token entry.
 
-* **csrf**: Added Atomastic CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
+* **csrf**: Added Glowy CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
 * **frontmatter**: Added ability to define custom frontmatter header parsers for entries. Example: instead of first `---` you may set serializer `---json`, `---json5` `---yaml` or `---neon`. 
 
@@ -485,6 +487,30 @@
 * **expressions** Added new expression function `collectionFromQueryString` to create a new arrayable object from the given query string.
 
 * **expressions** Added new expression function `filterCollection` to filter collection.
+
+* **expressions** Added new expression function `const` to get defined constants.
+
+* **expressions** Added new expression function `var` to get current entry var.
+
+* **expressions** Added new expression function `field` to get current entry field.
+
+* **expressions** Added new expression function `csrf` to get csrf hidden input.
+
+* **expressions** Added new expression function `entries` to get entries service.
+
+* **expressions** Added new expression function `filesystem` to get filesystem instance.
+
+* **expressions** Added new expression function `strings` to get strings instance.
+
+* **expressions** Added new expression function `tr` to return translation of a string. If no translation exists, the original string will be returned. No parameters are replaced.
+
+* **expressions** Added new expression function `parsers` to get parsers service.
+
+* **expressions** Added new expression function `serializers` to get serializers service.
+
+* **expressions** Added new expression function `registry` to get registry service.
+
+* **expressions** Added new expression function `slugify` to get slugify service.
 
 * **cache**: Added new cache driver `Phparray` to store cache data in raw php arrays files.
 
