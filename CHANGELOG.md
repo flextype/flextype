@@ -3,15 +3,15 @@
 
 ### Features
 
-* **core**: Core updated from Slim 3 to Slim 4!
+* **core** Core application updated from Slim 3 to Slim 4!
 
-    See: [Upgrade Guide](https://www.slimframework.com/docs/v4/start/upgrade.html)
+  See: [Upgrade Guide](https://www.slimframework.com/docs/v4/start/upgrade.html)
 
-* **core**: PHP-DI added instead of Pimple DI.
+* **core** New PHP-DI added instead of Pimple DI.
 
   See: [Usage Guide](https://php-di.org/doc/frameworks/slim.html)
 
-* **console** Added Flextype CLI Application. 
+* **console** Added Extendable Flextype CLI Application.
 
     ```
     Flextype CLI Application 1.0.0-alpha.1
@@ -62,37 +62,39 @@
       tokens:verify-hash          Verify token hash.
     ```
 
-* **core**: Added `Thermage` library for better Flextype CLI Application styling. 
+* **core** Added `Thermage` library for better Flextype CLI Application styling.
 
-* **core** Added new constants `PROJECT_NAME`, `PATH_PROJECT`, `PATH_TMP`. 
+* **core** Added new core constants: `PROJECT_NAME`, `PATH_PROJECT`, `PATH_TMP`. 
 
 * **core** Added ability to run Flextype in silent mode by disabling `app` and `cli`. 
 
-* **core**: Added New Glowy PHP Packages `View`, `Macroable`, `Strings`, `Arrays`, `Csrf`, `Filesystem`, `Registry`, `Session`.
+* **core** Added New [Glowy PHP](https://awilum.github.io/glowyphp/) Packages `View`, `Macroable`, `Strings`, `Arrays`, `Csrf`, `Filesystem`, `Registry`, `Session`.
 
-* **core**: Added built-in I18n module.
+* **core** Added built-in I18n module.
 
-* **entries** Added new functionality for Virtual Entries by overriding default entries CRUD methods with the help of events.
+* **entries** Added new functionality that allows implementing Virtual Entries by overriding default entries CRUD methods with the help of events.
 
-* **entries**: Added ability to create completely customizable high level collections for entries.
+* **entries** Added ability to create completely customisable high-level collections for entries with their fields and various formats.
 
-    Example: https://github.com/flextype/flextype/issues/563
+* **entries** Added ability to set custom events for each entries collections.
 
-* **entries**: Added ability to set custom events for each entries collections.
+* **entries** Added ability to create and use entries fields directives. 
 
-* **entries**: Added ability to create and use entries fields directives.
+  See: [Documentation](https://awilum.github.io/flextype/documentation/core/entries#directives)
 
-* **entries**: Added ability to create custom entries macros. Built-in macros: `entries`, `php`, `registry`.
+* **entries** Added ability to create custom entries macros. 
 
-* **entries**: Added new method `registry` to get entries registry.
+  Built-in macros: `entries`, `php`, `registry`.
 
-* **entries**: Added new method `options` to get entries options.
+* **entries** Added new method `registry` to get entries registry.
 
-* **entries**: Added new method `setOptions` to set entries options.
+* **entries** Added new method `options` to get entries options.
 
-* **entries**: Added new method `setRegistry` to set entries registry.
+* **entries** Added new method `setOptions` to set entries options.
 
-* **entries**: Added ability to override logic for built-in custom fields.
+* **entries** Added new method `setRegistry` to set entries registry.
+
+* **entries** Added ability to override logic for built-in custom fields.
 
     Example: 
     If you want to have your custom logic for processing field `uuid` just update flextype project settings.
@@ -159,17 +161,20 @@
 
 * **endpoints** Added new Rest API Endpoint `GET /api/v1/tokens` to fetch token entry.
 
-* **csrf**: Added Glowy CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
+* **csrf** Added Glowy CSRF protection for Cross Site Request Forgery protection by comparing provided token with session token to ensure request validity.
 
-* **frontmatter**: Added ability to define custom frontmatter header parsers for entries. Example: instead of first `---` you may set serializer `---json`, `---json5` `---yaml` or `---neon`. 
+* **frontmatter** Added ability to define custom frontmatter header parsers for entries. Example: instead of first `---` you may set serializer `---json`, `---json5` `---yaml` or `---neon`. 
 
-* **serializers**: Added new serializer `Json5`. 
+* **serializers** Added new serializer `Json5`. 
 
-* **serializers**: Added new serializer `Neon`. 
+  See: [Documentation](https://awilum.github.io/flextype/documentation/core/serializers/json5)
 
-    Documentation [here](https://doc.nette.org/en/3.1/neon).
+* **serializers** Added new serializer `Neon`. 
 
-* **serializers**: Added ability to set global settings for all built-in serializers. 
+  See: [Documentation](https://awilum.github.io/flextype/documentation/core/serializers/neon)
+
+
+* **serializers** Added ability to set global settings for all built-in serializers. 
 
     `/src/flextype/settings.yaml`
     ```yaml
@@ -237,7 +242,7 @@
           wrap: true
     ```
 
-* **serializers**: Added ability to set specific header serializer for `Frontmatter` serializer (default is YAML).
+* **serializers** Added ability to set specific header serializer for `Frontmatter` serializer (default is YAML).
 
     `/src/flextype/settings.yaml`
     ```yaml
@@ -256,11 +261,11 @@
           allowed: ['yaml', 'json', 'json5', 'neon']
     ```
 
-* **parsers**: Markdown parser [Commonmark updated to v2](https://commonmark.thephpleague.com/2.0/upgrading/)
+* **parsers** Markdown parser [Commonmark updated to v2](https://commonmark.thephpleague.com/2.0/upgrading/)
 
-* **parsers**: Added new Textile parser.
+* **parsers** Added new Textile parser.
 
-* **parsers**: Added ability to set global settings for all parsers. 
+* **parsers** Added ability to set global settings for all parsers. 
 
     `/src/flextype/settings.yaml`
     ```yaml
@@ -381,7 +386,7 @@
             path: "src/flextype/core/Parsers/Shortcodes/TypeShortcode.php" 
     ```
 
-* **parsers**: Added ability to override logic for built-in shortcodes.
+* **parsers** Added ability to override logic for built-in shortcodes.
 
     Example: 
     If you want to have your custom logic for processing shortcode `url` just update flextype settings.
@@ -420,55 +425,55 @@
 
 * **routes** Added ability to set custom projects routes in `/projects/routes/routes.php`.
 
-* **shortcodes**: Added new shortcode `(entries)` to fetch entry (or entries collection) or specific field.
+* **shortcodes** Added new shortcode `(entries)` to fetch entry (or entries collection) or specific field.
 
-* **shortcodes**: Added new shortcode `(registry)` to fetch data from registry.
+* **shortcodes** Added new shortcode `(registry)` to fetch data from registry.
 
-* **shortcodes**: Added new shortcode `(filesystem)` to work with filesystem.
+* **shortcodes** Added new shortcode `(filesystem)` to work with filesystem.
 
-* **shortcodes**: Added new shortcode `(uuid)` to generate uuid.
+* **shortcodes** Added new shortcode `(uuid)` to generate uuid.
 
-* **shortcodes**: Added new shortcode `(strings)` for strings manipulation.
+* **shortcodes** Added new shortcode `(strings)` for strings manipulation.
 
-* **shortcodes**: Added new shortcode `(textile)` to parse textile text.
+* **shortcodes** Added new shortcode `(textile)` to parse textile text.
 
-* **shortcodes**: Added new shortcode `(php)` to execute php code.
+* **shortcodes** Added new shortcode `(php)` to execute php code.
 
-* **shortcodes**: Added new shortcode `(eval)` to eval expression.
+* **shortcodes** Added new shortcode `(eval)` to eval expression.
 
-* **shortcodes**: Added new shortcode `(calc)` to calculate values.
+* **shortcodes** Added new shortcode `(calc)` to calculate values.
 
-* **shortcodes**: Added new shortcode `(type)` to set field type.
+* **shortcodes** Added new shortcode `(type)` to set field type.
 
-* **shortcodes**: Added new shortcode `(markdown)` to parse markdown text.
+* **shortcodes** Added new shortcode `(markdown)` to parse markdown text.
 
-* **shortcodes**: Added new shortcode `(getBaseUrl)` to get base url.
+* **shortcodes** Added new shortcode `(getBaseUrl)` to get base url.
 
-* **shortcodes**: Added new shortcode `(getBasePath)` to get base path.
+* **shortcodes** Added new shortcode `(getBasePath)` to get base path.
 
-* **shortcodes**: Added new shortcode `(getAbsoluteUrl)` to get absolute url.
+* **shortcodes** Added new shortcode `(getAbsoluteUrl)` to get absolute url.
 
-* **shortcodes**: Added new shortcode `(urlFor)` to get url for route.
+* **shortcodes** Added new shortcode `(urlFor)` to get url for route.
 
-* **shortcodes**: Added new shortcode `(getUriString)` to get uri string.
+* **shortcodes** Added new shortcode `(getUriString)` to get uri string.
 
-* **shortcodes**: Added new shortcode `(filesystem)` to do filesytem manipulations.
+* **shortcodes** Added new shortcode `(filesystem)` to do filesytem manipulations.
 
-* **shortcodes**: Added new shortcode `(tr)` to returns translation of a string. 
+* **shortcodes** Added new shortcode `(tr)` to returns translation of a string. 
 
-* **shortcodes**: Added new shortcode `(if)` to use logical if conditions.
+* **shortcodes** Added new shortcode `(if)` to use logical if conditions.
 
-* **shortcodes**: Added new shortcode `(when)` to use logical positive if conditions.
+* **shortcodes** Added new shortcode `(when)` to use logical positive if conditions.
 
-* **shortcodes**: Added new shortcode `(unless)` to use logical negative if conditions.
+* **shortcodes** Added new shortcode `(unless)` to use logical negative if conditions.
 
-* **shortcodes**: Added new shortcode `(var)` to get and set entry variables values.
+* **shortcodes** Added new shortcode `(var)` to get and set entry variables values.
 
-* **shortcodes**: Added new shortcode `(field)` to get entry fields values.
+* **shortcodes** Added new shortcode `(field)` to get entry fields values.
 
-* **shortcodes**: Added new shortcode `(const)` to get defined costants.
+* **shortcodes** Added new shortcode `(const)` to get defined costants.
 
-* **shortcodes**: Added new shortcode `(raw)` to ignore shortcodes processing.
+* **shortcodes** Added new shortcode `(raw)` to ignore shortcodes processing.
 
 * **expressions** Added a new configurable and extendable expressions engine with a collection of predefined expressions.
 
@@ -510,67 +515,67 @@
 
 * **expressions** Added new expression function `slugify` to get slugify service.
 
-* **cache**: Added new cache driver `Phparray` to store cache data in raw php arrays files.
+* **cache** Added new cache driver `Phparray` to store cache data in raw php arrays files.
 
-* **cache**: Added router cache.
+* **cache** Added router cache.
 
-* **cache**: Added ability to set custom cache ID string for `entries`, `parsers` and `serializers`.
+* **cache** Added ability to set custom cache ID string for `entries`, `parsers` and `serializers`.
 
 * **tokens** Added new Tokens API.
 
-* **helpers**: All core helpers are located in the `/src/flextype/helpers/`.
+* **helpers** All core helpers are located in the `/src/flextype/helpers/`.
 
-* **helpers**: Added helper function `app` to get Flextype Application instance.
+* **helpers** Added helper function `app` to get Flextype Application instance.
 
-* **helpers**: Added helper function `container` to get Flextype Application Container instance.
+* **helpers** Added helper function `container` to get Flextype Application Container instance.
 
-* **helpers**: Added helper function `emitter` to get Flextype Emitter Service.
+* **helpers** Added helper function `emitter` to get Flextype Emitter Service.
 
-* **helpers**: Added helper function `cache` to get Flextype Cache Service.
+* **helpers** Added helper function `cache` to get Flextype Cache Service.
 
-* **helpers**: Added helper function `entries` to get Flextype Entries Service.
+* **helpers** Added helper function `entries` to get Flextype Entries Service.
 
-* **helpers**: Added helper function `parsers` to get Flextype Parsers Service.
+* **helpers** Added helper function `parsers` to get Flextype Parsers Service.
 
-* **helpers**: Added helper function `serializers` to get Flextype Serializers Service.
+* **helpers** Added helper function `serializers` to get Flextype Serializers Service.
 
-* **helpers**: Added helper function `logger` to get Flextype Logger Service.
+* **helpers** Added helper function `logger` to get Flextype Logger Service.
 
-* **helpers**: Added helper function `session` to get Flextype Session Service.
+* **helpers** Added helper function `session` to get Flextype Session Service.
 
-* **helpers**: Added helper function `csrf` to get Flextype CSRF Service.
+* **helpers** Added helper function `csrf` to get Flextype CSRF Service.
 
-* **helpers**: Added helper function `plugins` to get Flextype Plugins Service.
+* **helpers** Added helper function `plugins` to get Flextype Plugins Service.
 
-* **helpers**: Added helper function `console` to get Flextype Console Service.
+* **helpers** Added helper function `console` to get Flextype Console Service.
 
-* **helpers**: Added helper function `imageFile` to create a new image instance for image file.
+* **helpers** Added helper function `imageFile` to create a new image instance for image file.
 
-* **helpers**: Added helper function `imageCanvas` to create a new image canvas instance.
+* **helpers** Added helper function `imageCanvas` to create a new image canvas instance.
 
-* **helpers**: Added helper function `generateToken` to generate unique token.
+* **helpers** Added helper function `generateToken` to generate unique token.
 
-* **helpers**: Added helper function `generateTokenHash` to generate unique token hash.
+* **helpers** Added helper function `generateTokenHash` to generate unique token hash.
 
-* **helpers**: Added helper function `verifyTokenHash` to validate token hash.
+* **helpers** Added helper function `verifyTokenHash` to validate token hash.
 
-* **helpers**: Added helper function `urlFor` to get url for a named route.
+* **helpers** Added helper function `urlFor` to get url for a named route.
 
-* **helpers**: Added helper function `fullUrlFor` to get full url for a named route.
+* **helpers** Added helper function `fullUrlFor` to get full url for a named route.
 
-* **helpers**: Added helper function `isCurrentUrl` to determine is current url equal to route name.
+* **helpers** Added helper function `isCurrentUrl` to determine is current url equal to route name.
 
-* **helpers**: Added helper function `getCurrentUrl` to get current path on given Uri.
+* **helpers** Added helper function `getCurrentUrl` to get current path on given Uri.
 
-* **helpers**: Added helper function `getBasePath` to get base path.
+* **helpers** Added helper function `getBasePath` to get base path.
 
-* **helpers**: Added helper function `setBasePath` to set base path.
+* **helpers** Added helper function `setBasePath` to set base path.
 
-* **helpers**: Added helper function `redirect` to create redirect.
+* **helpers** Added helper function `redirect` to create redirect.
 
-* **helpers**: Added helper function `upload` to upload files and process uloaded images.
+* **helpers** Added helper function `upload` to upload files and process uloaded images.
 
-* **uploder**: Added Configurable Sirius Uploader for file upload. 
+* **uploder** Added Configurable Sirius Uploader for file upload. 
 
     ```yaml
     # Upload
@@ -629,9 +634,9 @@
           quality: 70
     ```
 
-* **macros**: All core macros are located in the `/src/flextype/macros/`.
+* **macros** All core macros are located in the `/src/flextype/macros/`.
 
-* **macros**: Added `onlyFromCollection` and `exceptFromCollection` macros for Arrays ([#553](https://github.com/flextype/flextype/issues/553))
+* **macros** Added `onlyFromCollection` and `exceptFromCollection` macros for Arrays ([#553](https://github.com/flextype/flextype/issues/553))
 
 * **actions** Added new Actions API ([#549](https://github.com/flextype/flextype/issues/549))
 
@@ -683,25 +688,23 @@
 
     The Flextype Actions API provides new capabilities to extend the Flextype core by registering and reusing useful code snippets from global actions namespace.
 
-    _**Note:** For security reason - actions should be executable only for PHP Backend and YAML Blueprints, and no possibility to execute them in the templates or inside entries entries._
-
 ### Bug Fixes
 
 * **parsers** Fixed issue with double cashing.
 
-* **htaccess**: Security fixes for `.htaccess`
+* **htaccess** Security fixes for `.htaccess`
 
-* **entries**: Fixed issue when entries collection fetch returns empty result.
+* **entries** Fixed issue when entries collection fetch returns empty result.
 
-* **plugins**: Fixed Plugins API translation loading process.
+* **plugins** Fixed Plugins API translation loading process.
 
-* **plugins**: Fixed Plugins API initialization ([#551](https://github.com/flextype/flextype/issues/551))
+* **plugins** Fixed Plugins API initialization ([#551](https://github.com/flextype/flextype/issues/551))
 
-* **plugins**: Fixed Plugins API dependency initialization.
+* **plugins** Fixed Plugins API dependency initialization.
 
-* **plugins**: Fixed Plugins API issue with non valid plugins ([#551](https://github.com/flextype/flextype/issues/555))
+* **plugins** Fixed Plugins API issue with non valid plugins ([#551](https://github.com/flextype/flextype/issues/555))
 
-* **plugins**: Fixed Plugins API loader issue with disabled plugins.
+* **plugins** Fixed Plugins API loader issue with disabled plugins.
 
 ### BREAKING CHANGES
 
@@ -732,18 +735,18 @@
   * use `logger()` instead of `flextype('logger')`
   * use `registry()` instead of `flextype('registry')`
 
-* **helpers**: Use helper function `app` to access Flextype Application instance instead of old helper function `flextype()`.
+* **helpers** Use helper function `app` to access Flextype Application instance instead of old helper function `flextype()`.
 
-* **helpers**: Use helper function `container` to access Flextype Application container instead of old helper function `flextype()` with container name argument.
+* **helpers** Use helper function `container` to access Flextype Application container instead of old helper function `flextype()` with container name argument.
 
   * use `container()->get('entries')` instead of `flextype('entries')`
   * use `container()->set('entries', new Entries())` instead of `flextype()['entries'] = new Entries()`
 
-* **helpers**: Use helper function `filterCollection` instead of old `filter`.
+* **helpers** Use helper function `filterCollection` instead of old `filter`.
 
-* **tokens**: Project tokens moved from `/project/tokens/` to `/project/entries/tokens/`.
+* **tokens** Project tokens moved from `/project/tokens/` to `/project/entries/tokens/`.
 
-* **entries**: Changes for etnries memory storage.
+* **entries** Changes for etnries memory storage.
 
   * use `entries()->registry()->get()` instead of `flextype('entries')->storage()->get()`
   * use `entries()->registry()->set()` instead of `flextype('entries')->storage()->set()`
@@ -755,17 +758,20 @@
 
 ### Refactoring
 
-* **core**: General code refactoring and improvements.
+* **core** General code refactoring and improvements.
 
-* **tests**: All unit tests were rewritten.
+* **tests** All unit tests were rewritten.
 
 <a name="0.9.16"></a>
 # [0.9.16](https://github.com/flextype/flextype/compare/v0.9.15...v0.9.16) (2021-01-14)
 
 ### Features
 
-* **parsers**: Added commonmark instead of parsedown ([#540](https://github.com/flextype/flextype/issues/540))
-* **shortcodes**: Added new shortcode - media_files_fetch
+* **parsers** Added commonmark instead of parsedown ([#540](https://github.com/flextype/flextype/issues/540))
+
+  See: [Documentation](https://awilum.github.io/flextype/documentation/core/parsers/markdown)
+
+* **shortcodes** Added new shortcode - media_files_fetch
 
     example:
 
@@ -775,29 +781,29 @@
 
 ### Bug Fixes
 
-* **bootstrap**: Fixed include path for dependencies.
+* **bootstrap** Fixed include path for dependencies.
 
 ### Refactoring
 
-* **core**: general code refactoring and improvements.
+* **core** general code refactoring and improvements.
 
 <a name="0.9.15"></a>
 # [0.9.15](https://github.com/flextype/flextype/compare/v0.9.14...v0.9.15) (2021-01-03)
 
 ### Features
 
-* **media**: Added method `has()` for Media Folders ([#534](https://github.com/flextype/flextype/issues/534))
-* **entries**: simplify functionality to work with online entries storage. ([#536](https://github.com/flextype/flextype/issues/536))
-* **parsers**: move markdown and shortcode settings under parsers setting. ([#539](https://github.com/flextype/flextype/issues/539))
+* **media** Added method `has()` for Media Folders ([#534](https://github.com/flextype/flextype/issues/534))
+* **entries** simplify functionality to work with online entries storage. ([#536](https://github.com/flextype/flextype/issues/536))
+* **parsers** move markdown and shortcode settings under parsers setting. ([#539](https://github.com/flextype/flextype/issues/539))
 
 ### Bug Fixes
 
-* **entries**: Fixed issue with individual entries cache field ([#537](https://github.com/flextype/flextype/issues/537))
-* **plugins**: Fixed issue with empty manifest and settings yaml files ([#538](https://github.com/flextype/flextype/issues/538))
+* **entries** Fixed issue with individual entries cache field ([#537](https://github.com/flextype/flextype/issues/537))
+* **plugins** Fixed issue with empty manifest and settings yaml files ([#538](https://github.com/flextype/flextype/issues/538))
 
 ### BREAKING CHANGES
 
-* **entries**: according to this ticket ([#536](https://github.com/flextype/flextype/issues/536)) we have several changes for entries storage.
+* **entries** according to this ticket ([#536](https://github.com/flextype/flextype/issues/536)) we have several changes for entries storage.
 
     * use `flextype('entries')->storage()->get()` instead of `flextype('entries')->getStorage()`
     * use `flextype('entries')->storage()->set()` instead of `flextype('entries')->setStorage()`
@@ -813,28 +819,28 @@
 
 ### Features
 
-* **core**: Moving to PHP 7.4.0 ([#524](https://github.com/flextype/flextype/issues/524))
+* **core** Moving to PHP 7.4.0 ([#524](https://github.com/flextype/flextype/issues/524))
 
-* **plugins**: Set default plugin priority 100 and SORT them ascending ([#523](https://github.com/flextype/flextype/issues/523))
+* **plugins** Set default plugin priority 100 and SORT them ascending ([#523](https://github.com/flextype/flextype/issues/523))
 
 ### Bug Fixes
 
-* **core**: Fixed issue with Rest API endpoints detection. ([#522](https://github.com/flextype/flextype/issues/522))
+* **core** Fixed issue with Rest API endpoints detection. ([#522](https://github.com/flextype/flextype/issues/522))
 
-* **entries**: Fixed issue with empty variable $data in fetch() method. ([#531](https://github.com/flextype/flextype/issues/531))
+* **entries** Fixed issue with empty variable $data in fetch() method. ([#531](https://github.com/flextype/flextype/issues/531))
 
-* **entries**: Fixed issue with deleteStorage() method return data.
+* **entries** Fixed issue with deleteStorage() method return data.
 
 ### Refactoring
 
-* **core**: general code refactoring and improvements.
+* **core** general code refactoring and improvements.
 
 <a name="0.9.13"></a>
 # [0.9.13](https://github.com/flextype/flextype/compare/v0.9.12...v0.9.13) (2020-12-20)
 
 ### Features
 
-* **media-files**: we will use `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#508](https://github.com/flextype/flextype/issues/508))
+* **media-files** we will use `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#508](https://github.com/flextype/flextype/issues/508))
 
     ```php
     /**
@@ -860,7 +866,7 @@
     $data = flextype('media')->files()-> fetchFromOtherStorage($id, $options);
     ```
 
-* **media-folders**: we will use `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#509](https://github.com/flextype/flextype/issues/509))
+* **media-folders** we will use `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#509](https://github.com/flextype/flextype/issues/509))
 
     ```php
     /**
@@ -886,7 +892,7 @@
     $data = flextype('media')->folders()-> fetchFromOtherStorage($id, $options);
     ```
 
-* **entries**: we will use `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#495](https://github.com/flextype/flextype/issues/495))
+* **entries** we will use `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#495](https://github.com/flextype/flextype/issues/495))
 
     ```php
     /**
@@ -914,7 +920,7 @@
 
 * **images** we will use `media/` folder instead of `uploads/entries/` ([#516](https://github.com/flextype/flextype/issues/516))
 
-* **serializers**: standardise serializers container names with macroable ability. ([#518](https://github.com/flextype/flextype/issues/518))
+* **serializers** standardise serializers container names with macroable ability. ([#518](https://github.com/flextype/flextype/issues/518))
 
     **New methods to access Serializers:**  
 
@@ -930,7 +936,7 @@
     flextype('serializers')::macro('NAME', CALLBACK_FUNCTION() {});
     ```
 
-* **parsers**: standardise parsers container names with macroable ability. ([#519](https://github.com/flextype/flextype/issues/519))
+* **parsers** standardise parsers container names with macroable ability. ([#519](https://github.com/flextype/flextype/issues/519))
 
     **New methods to access Parsers:**  
 
@@ -945,7 +951,7 @@
     flextype('parsers')::macro('NAME', CALLBACK_FUNCTION() {});
     ```
 
-* **media**: standardise media container names with macroable ability for Media API. ([#517](https://github.com/flextype/flextype/issues/517))
+* **media** standardise media container names with macroable ability for Media API. ([#517](https://github.com/flextype/flextype/issues/517))
 
     New macroable common class for all media - `class Media`  
 
@@ -1132,11 +1138,11 @@
     Valid values for setting **result** is **toObject** or **toArray**   
 
 
-* **entries**: Added new method `deleteStorage()` for Entries API ([#498](https://github.com/flextype/flextype/issues/498))
+* **entries** Added new method `deleteStorage()` for Entries API ([#498](https://github.com/flextype/flextype/issues/498))
 
-* **entries**: Added new method `hasStorage()` for Entries API ([#497](https://github.com/flextype/flextype/issues/497))
+* **entries** Added new method `hasStorage()` for Entries API ([#497](https://github.com/flextype/flextype/issues/497))
 
-* **core**: Added new method `isApiRequest` to Determine API Request in the basic core functionality. ([#507](https://github.com/flextype/flextype/issues/507))
+* **core** Added new method `isApiRequest` to Determine API Request in the basic core functionality. ([#507](https://github.com/flextype/flextype/issues/507))
 
 * **rest-api-entries** Added ability to send options for `fetch()` methods in Entries Rest API. ([#504](https://github.com/flextype/flextype/issues/504))
 
@@ -1226,31 +1232,31 @@
 
 * **fields** Fixed issue with slug field in Entries API ([#520](https://github.com/flextype/flextype/issues/520))
 
-* **core**: Fixed issue with invalid timezone setting ([#490](https://github.com/flextype/flextype/issues/490))
+* **core** Fixed issue with invalid timezone setting ([#490](https://github.com/flextype/flextype/issues/490))
 
-* **entries**: Fixed issue with not exists entries collections. ([#503](https://github.com/flextype/flextype/issues/503))
+* **entries** Fixed issue with not exists entries collections. ([#503](https://github.com/flextype/flextype/issues/503))
 
-* **entries**: Fixed issue with collisions in Entries API $storage for entries fetching. ([#496](https://github.com/flextype/flextype/issues/496))
+* **entries** Fixed issue with collisions in Entries API $storage for entries fetching. ([#496](https://github.com/flextype/flextype/issues/496))
 
 * **rest-api-entries** Fixed issue with 404 status code in Entries Rest API ([#502](https://github.com/flextype/flextype/issues/502))
 
-* **rest-api**: Fixed issue with Rest API endpoints initialisation. ([#506](https://github.com/flextype/flextype/issues/506))
+* **rest-api** Fixed issue with Rest API endpoints initialisation. ([#506](https://github.com/flextype/flextype/issues/506))
 
 ### BREAKING CHANGES
 
-* **media**: standardise media container names with macroable ability for Media API. ([#517](https://github.com/flextype/flextype/issues/517))
+* **media** standardise media container names with macroable ability for Media API. ([#517](https://github.com/flextype/flextype/issues/517))
 
     | NEW CONTAINER           | OLD CONTAINER              |   
     |------------------|------------------|
     | media      | media_files, media_files_meta, media_folders, media_folders_meta      |
 
-* **parsers**: standardise parsers container names with macroable ability. ([#519](https://github.com/flextype/flextype/issues/519))
+* **parsers** standardise parsers container names with macroable ability. ([#519](https://github.com/flextype/flextype/issues/519))
 
     | NEW CONTAINER           | OLD CONTAINER              |   
     |------------------|------------------|
     | parsers      | shortcode, markdown       |
 
-* **serializers**: standardise serializers container names with macroable ability. ([#518](https://github.com/flextype/flextype/issues/518))
+* **serializers** standardise serializers container names with macroable ability. ([#518](https://github.com/flextype/flextype/issues/518))
 
     | NEW CONTAINER           | OLD CONTAINER              |   
     |------------------|------------------|
@@ -1298,7 +1304,7 @@
 
 * **helpers** `filter` helper not support `count` and `exists`. ([#493](https://github.com/flextype/flextype/issues/493))
 
-* **entries**: we have changes in the events names for Entries API ([#499](https://github.com/flextype/flextype/issues/499))
+* **entries** we have changes in the events names for Entries API ([#499](https://github.com/flextype/flextype/issues/499))
 
     Events:
 
@@ -1317,7 +1323,7 @@
     **onEntriesCopy** instead of **onEntryCopy**  
     **onEntriesHas** instead of **onEntryHas**  
 
-* **entries**: Flextype EMS structure is changes because of issues with collisions ([#496](https://github.com/flextype/flextype/issues/496))
+* **entries** Flextype EMS structure is changes because of issues with collisions ([#496](https://github.com/flextype/flextype/issues/496))
 
     Updated structure:
 
@@ -1373,17 +1379,17 @@
     **old:** `/api/images/home/banner.jpg`
     **new:** `/api/images/entries/home/banner.jpg`
 
-* **entries**: we should use only `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#495](https://github.com/flextype/flextype/issues/495))
+* **entries** we should use only `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#495](https://github.com/flextype/flextype/issues/495))
 
     - method `fetchSingle()` removed. Use `fetch($id, $options)` method.
     - methods `fetchCollection` removed. Use  `fetch($id, ['collection' => true])` method.
 
-* **media-folders**: we should use only `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#509](https://github.com/flextype/flextype/issues/509))
+* **media-folders** we should use only `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#509](https://github.com/flextype/flextype/issues/509))
 
     - method `fetchSingle()` removed. Use `fetch($id, $options)` method.
     - methods `fetchCollection` removed. Use  `fetch($id, ['collection' => true])` method.
 
-* **media-files**: we should use only `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#508](https://github.com/flextype/flextype/issues/508))
+* **media-files** we should use only `fetch()` method as entry point to execute different methods with `fetch` prefix. ([#508](https://github.com/flextype/flextype/issues/508))
 
     - method `fetchSingle()` removed. Use `fetch($id, $options)` method.
     - methods `fetchCollection` removed. Use  `fetch($id, ['collection' => true])` method.
@@ -1392,7 +1398,7 @@
 # [0.9.12](https://github.com/flextype/flextype/compare/v0.9.11...v0.9.12) (2020-12-07)
 
 ### Features
-* **core**: Added Atomastic Components instead of Flextype Components ([#478](https://github.com/flextype/flextype/issues/478))
+* **core** Added Atomastic Components instead of Flextype Components ([#478](https://github.com/flextype/flextype/issues/478))
 
     Added:
     - atomastic/session
@@ -1401,7 +1407,7 @@
     - atomastic/registry
     - atomastic/strings
 
-* **entries**: Entries API return Arrays Object instead of plain array on fetch. ([#485](https://github.com/flextype/flextype/issues/485))
+* **entries** Entries API return Arrays Object instead of plain array on fetch. ([#485](https://github.com/flextype/flextype/issues/485))
 
     From no we have ability to work with entries singles and collections as with smart objects
     for further data manipulations with help of Atomastic Arrays Component.
@@ -1417,15 +1423,15 @@
                ->random();
     ```
 
-* **entries**: Standardize Entries API fetch. ([#486](https://github.com/flextype/flextype/issues/486))
+* **entries** Standardize Entries API fetch. ([#486](https://github.com/flextype/flextype/issues/486))
 
-* **entries**: Standardize Media Files API fetch. ([#487](https://github.com/flextype/flextype/issues/487))
+* **entries** Standardize Media Files API fetch. ([#487](https://github.com/flextype/flextype/issues/487))
 
-* **entries**: Standardize Media Folders API fetch. ([#488](https://github.com/flextype/flextype/issues/488))
+* **entries** Standardize Media Folders API fetch. ([#488](https://github.com/flextype/flextype/issues/488))
 
-* **entries**: Added ability to extend Core class with Macros. ([#489](https://github.com/flextype/flextype/issues/489))
+* **entries** Added ability to extend Core class with Macros. ([#489](https://github.com/flextype/flextype/issues/489))
 
-* **cache**: Added new cache engine - PHPFastCache instead of Doctrine Cache ([#457](https://github.com/flextype/flextype/issues/457))
+* **cache** Added new cache engine - PHPFastCache instead of Doctrine Cache ([#457](https://github.com/flextype/flextype/issues/457))
 
     #### New config for PhpFastCache
     https://github.com/flextype/flextype/blob/dev/src/flextype/settings.yaml#L127-L241  
@@ -1435,19 +1441,19 @@
     https://github.com/PHPSocialNetwork/phpfastcache   
 
 
-* **core**: Unit Test powered by PestPHP.
+* **core** Unit Test powered by PestPHP.
 
-* **media**: Added new `move()` method instead of `rename()`
+* **media** Added new `move()` method instead of `rename()`
 
-* **entries**: Added new `move()` method instead of `rename()`
+* **entries** Added new `move()` method instead of `rename()`
 
-* **core**: Added new `PATH_TMP` constant ([#470](https://github.com/flextype/flextype/issues/470))
+* **core** Added new `PATH_TMP` constant ([#470](https://github.com/flextype/flextype/issues/470))
 
     Now we have:
 
     `PATH_TMP` constant instead of `PATH['cache']` and `PATH['logs']`
 
-* **markdown**: Added markdown basic settings ([#471](https://github.com/flextype/flextype/issues/471))
+* **markdown** Added markdown basic settings ([#471](https://github.com/flextype/flextype/issues/471))
 
     ```yaml
     markdown:
@@ -1456,7 +1462,7 @@
       escape_markup: false
     ```
 
-* **markdown**: Added ability to access markdown parser instance ([#468](https://github.com/flextype/flextype/issues/468))
+* **markdown** Added ability to access markdown parser instance ([#468](https://github.com/flextype/flextype/issues/468))
 
     Usage:
 
@@ -1464,7 +1470,7 @@
     $markdown = flextype('markdown')->getInstance();
     ```
 
-* **entries**: Added new Flextype Entries Memory Storage (Flextype EMS). New private property `$storage` for storing current requested entry(or entries) data and all Entries CRUD operations data in memory with ability to change them dynamically on fly. New public methods `getStorage()` `setStorage()` ([#467](https://github.com/flextype/flextype/issues/467))
+* **entries** Added new Flextype Entries Memory Storage (Flextype EMS). New private property `$storage` for storing current requested entry(or entries) data and all Entries CRUD operations data in memory with ability to change them dynamically on fly. New public methods `getStorage()` `setStorage()` ([#467](https://github.com/flextype/flextype/issues/467))
 
     Structure (Flextype EMS):
 
@@ -1511,7 +1517,7 @@
     echo $entry['title'];
     ```
 
-* **entries**: Added new events: `onEntryHas`, `onEntryInitialized`, `onEntriesInitialized` ([#467](https://github.com/flextype/flextype/issues/467))
+* **entries** Added new events: `onEntryHas`, `onEntryInitialized`, `onEntriesInitialized` ([#467](https://github.com/flextype/flextype/issues/467))
 
 * **helpers** Added new support helper `find()` for files and directories searching instead of `find_filter()`
 
@@ -1519,17 +1525,17 @@
 
 ### Bug Fixes
 
-* **entries**: Fixed issue with `delete()` method ([#465](https://github.com/flextype/flextype/issues/465))
+* **entries** Fixed issue with `delete()` method ([#465](https://github.com/flextype/flextype/issues/465))
 
-* **media**: Fixed issue with `exif_read_data()` on files upload.
+* **media** Fixed issue with `exif_read_data()` on files upload.
 
 ### Refactoring
 
-* **entries**: Removed App from all core namespaces ([#469](https://github.com/flextype/flextype/issues/469))
+* **entries** Removed App from all core namespaces ([#469](https://github.com/flextype/flextype/issues/469))
 
 ### BREAKING CHANGES
 
-* **entries**: removed properties from Entries API ([#467](https://github.com/flextype/flextype/issues/467))
+* **entries** removed properties from Entries API ([#467](https://github.com/flextype/flextype/issues/467))
 
     ```php  
     $entry_id
@@ -1558,7 +1564,7 @@
     $title = flextype('entries')->getStorage('fetch.data.title');
     $title = flextype('entries')->getStorage('fetch.data')['title'];
     ```
-* **core**: Removed App from all core namespaces ([#469](https://github.com/flextype/flextype/issues/469))
+* **core** Removed App from all core namespaces ([#469](https://github.com/flextype/flextype/issues/469))
 
     **We should have**
 
@@ -1572,21 +1578,21 @@
     use Flextype\App\Foundation\Entries\Entries;
     ```
 
-* **core**: use new `PATH_TMP` constant instead of `PATH['cache']` and `PATH['logs']` ([#470](https://github.com/flextype/flextype/issues/470))
+* **core** use new `PATH_TMP` constant instead of `PATH['cache']` and `PATH['logs']` ([#470](https://github.com/flextype/flextype/issues/470))
 
-* **cache**: old cache config removed, use new config for PhpFastCache ([#457](https://github.com/flextype/flextype/issues/457))
+* **cache** old cache config removed, use new config for PhpFastCache ([#457](https://github.com/flextype/flextype/issues/457))
 
-* **cache**: use methods `has()` `set()` `get()` instead of `contains()` `save()` `fetch()` ([#457](https://github.com/flextype/flextype/issues/457))
+* **cache** use methods `has()` `set()` `get()` instead of `contains()` `save()` `fetch()` ([#457](https://github.com/flextype/flextype/issues/457))
 
-* **core**: Removed flextype-components/session ([#473](https://github.com/flextype/flextype/issues/473))
+* **core** Removed flextype-components/session ([#473](https://github.com/flextype/flextype/issues/473))
 
-* **core**: Removed flextype-components/cookie ([#473](https://github.com/flextype/flextype/issues/473))
+* **core** Removed flextype-components/cookie ([#473](https://github.com/flextype/flextype/issues/473))
 
-* **core**: Removed flextype-components/number ([#474](https://github.com/flextype/flextype/issues/474))
+* **core** Removed flextype-components/number ([#474](https://github.com/flextype/flextype/issues/474))
 
-* **core**: Removed flextype-components/filesystem ([#474](https://github.com/flextype/flextype/issues/474))
+* **core** Removed flextype-components/filesystem ([#474](https://github.com/flextype/flextype/issues/474))
 
-* **core**: Removed flextype-components/arrays ([#474](https://github.com/flextype/flextype/issues/474))
+* **core** Removed flextype-components/arrays ([#474](https://github.com/flextype/flextype/issues/474))
 
 
 <a name="0.9.11"></a>
@@ -1606,29 +1612,29 @@
 
 ### Bug Fixes
 
-* **core**: Fixed bug - Cannot access protected property Flextype\App\Foundation\Flextype::$container ([#462](https://github.com/flextype/flextype/issues/462))
-* **core**: Fixed bug - Cannot use object of type Flextype\App\Foundation\Flextype as array ([#461](https://github.com/flextype/flextype/issues/461))
-* **media**: Fixed Media exif_read_data warning - File not supported ([#464](https://github.com/flextype/flextype/issues/464))
+* **core** Fixed bug - Cannot access protected property Flextype\App\Foundation\Flextype::$container ([#462](https://github.com/flextype/flextype/issues/462))
+* **core** Fixed bug - Cannot use object of type Flextype\App\Foundation\Flextype as array ([#461](https://github.com/flextype/flextype/issues/461))
+* **media** Fixed Media exif_read_data warning - File not supported ([#464](https://github.com/flextype/flextype/issues/464))
 
 ### Refactoring
 
-* **plugins**: Removed $flextype variable from plugins init method.
-* **entries**: Updated return type for fetch() method.
-* **entries**: Added Addeditional check for getTimestamp() method in the getCacheID()
-* **entries**: Removed dead code from fetchCollection() method.
+* **plugins** Removed $flextype variable from plugins init method.
+* **entries** Updated return type for fetch() method.
+* **entries** Added Addeditional check for getTimestamp() method in the getCacheID()
+* **entries** Removed dead code from fetchCollection() method.
 
 ### Vendor Updates
 
-* **core**: Updated vendor flextype-components/filesystem to 2.0.8
-* **core**: Updated vendor ramsey/uuid to 4.1.1
+* **core** Updated vendor flextype-components/filesystem to 2.0.8
+* **core** Updated vendor ramsey/uuid to 4.1.1
 
 <a name="0.9.10"></a>
 # [0.9.10](https://github.com/flextype/flextype/compare/v0.9.9...v0.9.10) (2020-08-19)
 
 ### Features
 
-* **core**: Moving to PHP 7.3.0 ([#456](https://github.com/flextype/flextype/issues/456))
-* **core**: Added new class `Flextype` that extends `Slim\App` ([#458](https://github.com/flextype/flextype/issues/458))
+* **core** Moving to PHP 7.3.0 ([#456](https://github.com/flextype/flextype/issues/456))
+* **core** Added new class `Flextype` that extends `Slim\App` ([#458](https://github.com/flextype/flextype/issues/458))
 
     with methods:
 
@@ -1658,7 +1664,7 @@
     ...->only(['id', 'title'])->...
     ```
 
-* **entries**: Rename path to id in Entries API ([#453](https://github.com/flextype/flextype/issues/453))
+* **entries** Rename path to id in Entries API ([#453](https://github.com/flextype/flextype/issues/453))
 
     New implementation
     ```
@@ -1671,13 +1677,13 @@
     $new_id
     ```
 
-* **shortcode**: Added New Shortcode ([#454](https://github.com/flextype/flextype/issues/454))
+* **shortcode** Added New Shortcode ([#454](https://github.com/flextype/flextype/issues/454))
 
     ```
     [raw] Raw shortcode content [/raw]
     ```
 
-* **shortcode**: Added New Shortcode Methods ([#454](https://github.com/flextype/flextype/issues/454))
+* **shortcode** Added New Shortcode Methods ([#454](https://github.com/flextype/flextype/issues/454))
 
     ```
     // Get shortcode instance.
@@ -1695,14 +1701,14 @@
 
 ### Bug Fixes
 
-* **entries**: Fixed issue with entries paths on Windows ([#460](https://github.com/flextype/flextype/issues/460))
-* **cache**: Fixed issue with `purge()` method. ([#451](https://github.com/flextype/flextype/issues/451))
-* **entries**: Fixed wrong Implementation of Slug Field for Entries ([#452](https://github.com/flextype/flextype/issues/452))
-* **entries**: Added new entry field `id` ([#452](https://github.com/flextype/flextype/issues/452))
+* **entries** Fixed issue with entries paths on Windows ([#460](https://github.com/flextype/flextype/issues/460))
+* **cache** Fixed issue with `purge()` method. ([#451](https://github.com/flextype/flextype/issues/451))
+* **entries** Fixed wrong Implementation of Slug Field for Entries ([#452](https://github.com/flextype/flextype/issues/452))
+* **entries** Added new entry field `id` ([#452](https://github.com/flextype/flextype/issues/452))
 
 ### BREAKING CHANGES
 
-* **entries**: Rename path to id in Entries API ([#453](https://github.com/flextype/flextype/issues/453))
+* **entries** Rename path to id in Entries API ([#453](https://github.com/flextype/flextype/issues/453))
 
     Old Entry properties
     ```
@@ -1716,7 +1722,7 @@
     $entries_id
     ```
 
-* **entries**: Fixed wrong Implementation of Slug Field for Entries ([#452](https://github.com/flextype/flextype/issues/452))
+* **entries** Fixed wrong Implementation of Slug Field for Entries ([#452](https://github.com/flextype/flextype/issues/452))
 
     From now we have entry fields:
 
@@ -1734,7 +1740,7 @@
     blog/flextype-0.9.10
     ```
 
-* **shortcode**: We should use `process()` method instead of `parse()` for shortcode processing. ([#454](https://github.com/flextype/flextype/issues/454))
+* **shortcode** We should use `process()` method instead of `parse()` for shortcode processing. ([#454](https://github.com/flextype/flextype/issues/454))
 
     Example of new usage in PHP:
 
@@ -1742,7 +1748,7 @@
     ...->shortcode->process($input, $cache);
     ```
 
-* **core**: `$container`, `$flextype` and `$app` objects removed! ([#458](https://github.com/flextype/flextype/issues/458))
+* **core** `$container`, `$flextype` and `$app` objects removed! ([#458](https://github.com/flextype/flextype/issues/458))
 
     We should use new object `$flextype` as it is a consolidate entry point to all Flextype features.
 
@@ -1775,7 +1781,7 @@
     $flextype->container('registry')->get(....)
     ```
 
-* **core**: class `Container` removed! ([#458](https://github.com/flextype/flextype/issues/458))
+* **core** class `Container` removed! ([#458](https://github.com/flextype/flextype/issues/458))
 
     We should use `$flextype` object to access all Flextype features inside Service Controllers and Models.
 
@@ -1812,12 +1818,12 @@
 # [0.9.9](https://github.com/flextype/flextype/compare/v0.9.8...v0.9.9) (2020-08-05)
 
 ### Features
-* **core**: Moving to PHP 7.2.5 #444
-* **core**: Added PhpArrayFileAdapter and set PhpArrayFile Cache as a default fallback cache driver instead of Filesystem Cache driver. This new feature give us performance boost up to 25%
-* **core**: Added preflight to Flextype basic checks and performance boost.
-* **core**: Updated all namespaces and core infrastructure. #437
-* **core**: Added Symfony Finder Component and `find_filter()` helper.
-* **cache**: Cache API improvements
+* **core** Moving to PHP 7.2.5 #444
+* **core** Added PhpArrayFileAdapter and set PhpArrayFile Cache as a default fallback cache driver instead of Filesystem Cache driver. This new feature give us performance boost up to 25%
+* **core** Added preflight to Flextype basic checks and performance boost.
+* **core** Updated all namespaces and core infrastructure. #437
+* **core** Added Symfony Finder Component and `find_filter()` helper.
+* **cache** Cache API improvements
 
     * Cache ID generation enhancements
     * Added new public function `fetchMultiple(array $keys)`
@@ -1830,7 +1836,7 @@
     * Added new public function `getStats()`
     * Added new events `onCacheBeforePurgeAll`, `onCacheAfterPurgeAll`, `onCacheBeforePurge`, `onCacheAfterPurge`
 
-* **core**: New Media API for work with media uploads.
+* **core** New Media API for work with media uploads.
 
     New objects:
 
@@ -1843,7 +1849,7 @@
 
     See: http://docs.flextype.org/en/core/media
 
-* **core**: New simplified parsers and serializers functionality #438
+* **core** New simplified parsers and serializers functionality #438
 
     New objects:
 
@@ -1873,7 +1879,7 @@
     $flextype->frontmatter->encode($input) : string
     ```
 
-* **entries**: New simplified logic for entries methods: `fetch()` `fetchSingle()` and `fetchCollection()`
+* **entries** New simplified logic for entries methods: `fetch()` `fetchSingle()` and `fetchCollection()`
 
     We are stop doing unneeded things like extra scanning folders and files updates and etc... for fetching entries collections that's slowdowns the fetching process.
 
@@ -1890,7 +1896,7 @@
 
     See: http://docs.flextype.org/en/core/entries#methods
 
-* **entries**: New events Addeded for Entries API.
+* **entries** New events Addeded for Entries API.
 
     ```
     onEntryCreate
@@ -1903,7 +1909,7 @@
     onEntriesAfterInitialized
     ```
 
-* **entries**: New decoupled and configurable fields Addeded for entries instead of hardcoded.
+* **entries** New decoupled and configurable fields Addeded for entries instead of hardcoded.
 
     Entry fields decoupled into: `/flextype/Foundation/Entries/Fields/`
 
@@ -1933,7 +1939,7 @@
         enabled: true
     ```
 
-* **entries**: Added ability to set individual cache control for specific entries.
+* **entries** Added ability to set individual cache control for specific entries.
 
     ```
     cache:
@@ -1945,7 +1951,7 @@
       enabled: false
     ```
 
-* **entries**: Added new Entries API class properties.
+* **entries** Added new Entries API class properties.
 
     ```
     /**
@@ -1973,20 +1979,20 @@
     public $entry_update_data = [];
     ```
 
-* **collections**: New Collection functionality on top of Doctrine Collections.
+* **collections** New Collection functionality on top of Doctrine Collections.
 
     We are able to use collections for any type of items, not just for entries.
     New Collection are simple and powerful!
 
     See: http://docs.flextype.org/en/core/collections
 
-* **settings**: Set max_file_size 8mb for uploads.
+* **settings** Set max_file_size 8mb for uploads.
 
-* **yaml**: YAML set default inline = 5 and indent = 2
+* **yaml** YAML set default inline = 5 and indent = 2
 
-* **vendors**: New Arrays library for Accessing PHP Arrays via DOT notation.
+* **vendors** New Arrays library for Accessing PHP Arrays via DOT notation.
 
-* **rest-api**: New Files Rest API.
+* **rest-api** New Files Rest API.
 
     | Method | Endpoint | Description |
     | --- | --- | --- |
@@ -1999,7 +2005,7 @@
     | POST | /api/files/meta | Updates file meta information |
     | DELETE | /api/files/meta | Delete file meta information |
 
-* **rest-api**: New Folders Rest API.
+* **rest-api** New Folders Rest API.
 
     | Method | Endpoint | Description |
     | --- | --- | --- |
@@ -2011,56 +2017,56 @@
 
 ### Bug Fixes
 
-* **frontmatter**: Removed UTF-8 BOM if it exists.
-* **frontmatter**: Fixed line endings to Unix style.
-* **entries**: Fixed method `rename()` in Entries API #433
-* **entries**: Fixed issue with parsing content on entry fetch #441
-* **rest-api**: Fixed Rest API JSON Response #445
-* **core**: Fixed all namespaces #437
-* **core**: Fixed flextype config loading.
-* **serializers**: Fixed YAML native parser.
-* **plugins**: Fixed method `getPluginsCacheID()` for Plugins API
+* **frontmatter** Removed UTF-8 BOM if it exists.
+* **frontmatter** Fixed line endings to Unix style.
+* **entries** Fixed method `rename()` in Entries API #433
+* **entries** Fixed issue with parsing content on entry fetch #441
+* **rest-api** Fixed Rest API JSON Response #445
+* **core** Fixed all namespaces #437
+* **core** Fixed flextype config loading.
+* **serializers** Fixed YAML native parser.
+* **plugins** Fixed method `getPluginsCacheID()` for Plugins API
 
 ### Refactoring
 * **pimple** Removed unused $flextype variable and cleanup dependencies.
-* **yaml**: save and mute error_reporting for native YAML parser.
-* **cors**: Removed unused parameter $args
-* **plugins**:  Removed dead variables.
-* **shortcode**: Updated return type for shortcode Added() method.
-* **cache**: Updated $driver type for DoctrineCache.
+* **yaml** save and mute error_reporting for native YAML parser.
+* **cors** Removed unused parameter $args
+* **plugins**  Removed dead variables.
+* **shortcode** Updated return type for shortcode Added() method.
+* **cache** Updated $driver type for DoctrineCache.
 
 ### Vendor Updates
 
-* **core**: Updated vendor league/glide to 1.6.0
-* **core**: Updated vendor doctrine/cache to 1.10.2
-* **core**: Updated vendor doctrine/collections to 1.6.6
-* **core**: Updated vendor respect/validation to 2.0.16
-* **core**: Updated vendor monolog/monolog to 2.1.1
-* **core**: Updated vendor thunderer/shortcode to 0.7.4
-* **core**: Updated vendor flextype-components/filesystem to 2.0.7
-* **core**: Updated vendor flextype-components/registry to 3.0.0
-* **core**: Updated vendor flextype-components/number to 1.1.1
-* **core**: Updated vendor composer/semver to 3.0.0
-* **core**: Updated vendor symfony/yaml to 5.1.3
-* **core**: Updated vendor ramsey/uuid to 4.1.0
+* **core** Updated vendor league/glide to 1.6.0
+* **core** Updated vendor doctrine/cache to 1.10.2
+* **core** Updated vendor doctrine/collections to 1.6.6
+* **core** Updated vendor respect/validation to 2.0.16
+* **core** Updated vendor monolog/monolog to 2.1.1
+* **core** Updated vendor thunderer/shortcode to 0.7.4
+* **core** Updated vendor flextype-components/filesystem to 2.0.7
+* **core** Updated vendor flextype-components/registry to 3.0.0
+* **core** Updated vendor flextype-components/number to 1.1.1
+* **core** Updated vendor composer/semver to 3.0.0
+* **core** Updated vendor symfony/yaml to 5.1.3
+* **core** Updated vendor ramsey/uuid to 4.1.0
 
 ### BREAKING CHANGES
 
-* **entries**: Wildcard * removed from parsers field.
-* **entries**: Cache setup removed from parsers field.
-* **settings**: `/project/config/settings.yaml` move to `/project/config/flextype/settings.yaml`
+* **entries** Wildcard * removed from parsers field.
+* **entries** Cache setup removed from parsers field.
+* **settings** `/project/config/settings.yaml` move to `/project/config/flextype/settings.yaml`
 * **constants** Removed constant `PATH['config']`, use - `PATH_PROJECT . '/config/'`
-* **core**: Removed Date Component from the system.
-* **core**: Removed Text Component from the system.
-* **cache**: removed methods clear() and clearAll(), use purge() and purgeAll() instead.
-* **cache**: change return type for methods `save()`, `delete()` from void too bool.
+* **core** Removed Date Component from the system.
+* **core** Removed Text Component from the system.
+* **cache** removed methods clear() and clearAll(), use purge() and purgeAll() instead.
+* **cache** change return type for methods `save()`, `delete()` from void too bool.
 
 <a name="0.9.8"></a>
 # [0.9.8](https://github.com/flextype/flextype/compare/v0.9.7...v0.9.8) (2020-05-14)
 
 ### Features
-* **core**: New lightweight and powerful core for kickass Applications!
-* **core**: New Content Management API (CMA) for Entries. #421
+* **core** New lightweight and powerful core for kickass Applications!
+* **core** New Content Management API (CMA) for Entries. #421
 
     The Content Management API (CMA), is a read-write API for managing entries.
 
@@ -2082,7 +2088,7 @@
 
     API Tokens folder: /project/tokens/management/entries
 
-* **core**: New Images API.
+* **core** New Images API.
 
     | Method | Endpoint | Description |
     | --- | --- | --- |
@@ -2090,15 +2096,15 @@
 
     API Tokens folder: /project/tokens/images
 
-* **core**: New Access API to create secret tokens for Content Management API (CMA).
+* **core** New Access API to create secret tokens for Content Management API (CMA).
 
     API Tokens folder: /project/tokens/access
 
-* **core**: Added Container for extending Flextype Container instead of Controller(s)
-* **core**: Added Application URL `url` into the common Flextype settings #405
-* **core**: Added new improved plugins sorting in the Plugins API.
-* **core**: Added dependencies validation for Plugins API #411
-* **core**: Added configurable CORS (Cross-origin resource sharing).
+* **core** Added Container for extending Flextype Container instead of Controller(s)
+* **core** Added Application URL `url` into the common Flextype settings #405
+* **core** Added new improved plugins sorting in the Plugins API.
+* **core** Added dependencies validation for Plugins API #411
+* **core** Added configurable CORS (Cross-origin resource sharing).
 
     ```
     cors:
@@ -2110,21 +2116,21 @@
       credentials: false
     ```
 
-* **core**: Added manifest file `/src/flextype/config/flextype.yaml` for Flextype.
-* **core**: Added Serializer for data encoding/decoding and Parser for data parsing #424
+* **core** Added manifest file `/src/flextype/config/flextype.yaml` for Flextype.
+* **core** Added Serializer for data encoding/decoding and Parser for data parsing #424
 
 ### Bug Fixes
 
-* **core**: Fixed incorrect data merging of manifest and settings for plugins and themes #404
+* **core** Fixed incorrect data merging of manifest and settings for plugins and themes #404
 
 ### BREAKING CHANGES
 
-* **core**: core decoupled in the plugins, and moved out of the Flextype release package!
+* **core** core decoupled in the plugins, and moved out of the Flextype release package!
 
     Install all needed plugins for your project by your self.
     Browse plugins: https://github.com/flextype-plugins
 
-* **core**: new way for data merging of manifest and settings for plugins and themes #404
+* **core** new way for data merging of manifest and settings for plugins and themes #404
 
     for e.g. this is a wrong code to access site title:
     ```
@@ -2135,7 +2141,7 @@
     ```
     {{ registry.get('plugins.site.settings.title')|e('html') }}
     ```
-* **core**: We should Added app `url` into the core instead of `base_url` and `site_url` #405
+* **core** We should Added app `url` into the core instead of `base_url` and `site_url` #405
 
     for e.g. this is a wrong code to access site url:
     ```
@@ -2147,12 +2153,12 @@
     {{ registry.get('flextype.settings.url') }}
     ```
 
-* **core**: new `project` folder instead of `site`
+* **core** new `project` folder instead of `site`
 
     - rename folder `site` into `project`
     - use new constant PATH_PROJECT instead of constant PATH['site']
 
-* **core**: removed constants
+* **core** removed constants
 
     - PATH['plugins']
     - PATH['themes']
@@ -2164,7 +2170,7 @@
     - PATH['accounts']
     - PATH['uploads']
 
-* **core**: removed Snippets functionality
+* **core** removed Snippets functionality
 
 ### Updated from Flextype 0.9.7 to Flextype 0.9.8
 
@@ -2192,7 +2198,7 @@
 # [0.9.7](https://github.com/flextype/flextype/compare/v0.9.6...v0.9.7) (2020-03-03)
 
 ### Features
-* **core**: Added Delivery API's for Entries, Images and Registry. #159
+* **core** Added Delivery API's for Entries, Images and Registry. #159
 
     Use Flextype as a Headless CMS with the full power of the Admin Panel.
     Build a Websites and Apps with a technology you are familiar with.
@@ -2204,9 +2210,9 @@
     /api/delivery/registry
     ```
 
-* **core**: Added new core constants `PATH['tokens']`, `PATH['accounts']`, `PATH['logs']`, `PATH['uploads']`
-* **core**: Added new locales support Persian, Indonesian, Galician #327
-* **core**: Added alternative comparison syntax for Entries API  
+* **core** Added new core constants `PATH['tokens']`, `PATH['accounts']`, `PATH['logs']`, `PATH['uploads']`
+* **core** Added new locales support Persian, Indonesian, Galician #327
+* **core** Added alternative comparison syntax for Entries API  
 
     Alternative comparison syntax:
     ```
@@ -2214,13 +2220,13 @@
     like - Contains the substring
     ```
 
-* **core**: set entries field `routable`=`true` on new entry creation #320
-* **core**: use `array_merge()` instead of `array_replace_recursive()` for entries Updated method.
-* **core**: initialize plugins before themes #323
-* **core**: Updated Cache to use adapter to retrieve driver object #341
-* **core**: load Shortcodes extensions based on `flextype.shortcodes.extensions` array #352
-* **core**: load Twig extensions based on flextype.twig.extensions array #351
-* **core**: Added new Global Vars `PATH_ACCOUNTS`, `PATH_UPLOADS`, `PATH_TOKENS`, `PATH_LOGS` for Twig.
+* **core** set entries field `routable`=`true` on new entry creation #320
+* **core** use `array_merge()` instead of `array_replace_recursive()` for entries Updated method.
+* **core** initialize plugins before themes #323
+* **core** Updated Cache to use adapter to retrieve driver object #341
+* **core** load Shortcodes extensions based on `flextype.shortcodes.extensions` array #352
+* **core** load Twig extensions based on flextype.twig.extensions array #351
+* **core** Added new Global Vars `PATH_ACCOUNTS`, `PATH_UPLOADS`, `PATH_TOKENS`, `PATH_LOGS` for Twig.
 * **default-theme:** Moving to Tailwind CSS from Twitter Bootstrap #356
 * **site-plugin:** Added ability to set custom site url, new shortcode `[site_url]` and twig var `{{ site_url }}`
 * **form-plugin:** Added new Form plugin for forms handling instead of core Forms API.
@@ -2289,19 +2295,19 @@
 
 ### Bug Fixes
 
-* **core**: Fixed discord server link #325
-* **core**: Fixed issue with system fields data types in the Entries API #383
+* **core** Fixed discord server link #325
+* **core** Fixed issue with system fields data types in the Entries API #383
 * **admin-plugin:** Fixed issue for creating entry process with same IDs #333
 * **admin-plugin:** Fixed redirect for entries after edit process.
 * **admin-plugin:** Fixed issues with routable field on entry edit process.
 
 ### Refactoring
 
-* **core**: move `/site/cache directory` to the `/var/cache` #347
-* **core**: Removed Forms API from Flextype core #360
+* **core** move `/site/cache directory` to the `/var/cache` #347
+* **core** Removed Forms API from Flextype core #360
 * **admin-plugin:** improve Gulp configuration for better assets building.
 * **default-theme:** improve Gulp configuration for better assets building.
-* **core**: simplify logic for themes initialization process, Removed extra checks for theme setting is `enabled` or not.
+* **core** simplify logic for themes initialization process, Removed extra checks for theme setting is `enabled` or not.
 * **admin-plugin:** move templates from `views` folder into the `templates` folder #347
 * **admin-plugin:** Removed unused namespaces in EntriesContoller #347
 * **admin-plugin:** Removed complex logic for themes activation process.
@@ -2312,26 +2318,26 @@
 * **default-theme:** Removed `enabled` option from theme settings.
 
 ### Vendor Updates
-* **core**: Updated vendor monolog/monolog to 2.0.2
-* **core**: Updated vendor cocur/slugify to 4.0.0
-* **core**: Updated vendor thunderer/shortcode to 0.7.3
-* **core**: Updated vendor ramsey/uuid to 3.9.2
+* **core** Updated vendor monolog/monolog to 2.0.2
+* **core** Updated vendor cocur/slugify to 4.0.0
+* **core** Updated vendor thunderer/shortcode to 0.7.3
+* **core** Updated vendor ramsey/uuid to 3.9.2
 
 ### BREAKING CHANGES
 
-* **core**: accounts moved to their specific folders.
+* **core** accounts moved to their specific folders.
 
     for e.g.
     ```
     /accounts/admin.yaml => /accounts/admin/profile.yaml
     ```
 
-* **core**: Removed Debug, Html and Form Flextype Components.
-* **core**: all images links should be updated
+* **core** Removed Debug, Html and Form Flextype Components.
+* **core** all images links should be updated
     ```
     http://docs.flextype.org/en/content/media
     ```
-* **core**: core and plugin settings keys renamed
+* **core** core and plugin settings keys renamed
     ```
     For all core settings:
     settings.* => flextype.*
@@ -2354,26 +2360,26 @@
 
 ### Features
 
-* **core**: Added ability to hide title for hidden fields #240
-* **core**: Added new public method delete() for Cache #308
-* **core**: Added CacheTwigExtension #309  
+* **core** Added ability to hide title for hidden fields #240
+* **core** Added new public method delete() for Cache #308
+* **core** Added CacheTwigExtension #309  
 
     usage in templates:
     ```
     {{ cache.CACHE_PUBLIC_METHOD }}
     ```
 
-* **core**: Added ability to override plugins default manifest and settings #224
-* **core**: Added ability to override themes default manifest and settings #256
-* **core**: Added ability to set help text for generated form controls #283  
+* **core** Added ability to override plugins default manifest and settings #224
+* **core** Added ability to override themes default manifest and settings #256
+* **core** Added ability to set help text for generated form controls #283  
 
     usage in fieldsets:
     ```
     help: "Help text here"
     ```
 
-* **core**: Added ability to store entry system fields in entries create method #247
-* **core**: Added alternative comparison syntax for Entries API  
+* **core** Added ability to store entry system fields in entries create method #247
+* **core** Added alternative comparison syntax for Entries API  
 
     Alternative comparison syntax:
     ```
@@ -2386,7 +2392,7 @@
     ```  
     docs: http://docs.flextype.org/en/themes/entries-fetch
 
-* **core**: Added `json_encode` and `json_decode` twig filter #289  
+* **core** Added `json_encode` and `json_decode` twig filter #289  
 
     usage in templates:
     ```
@@ -2397,9 +2403,9 @@
     {{ '{"title": "Hello World!"}'|json_decode.title }}
     ```
 
-* **core**: Added parser twig extension #262
-* **core**: Added new field property `default` instead of `value` #303
-* **core**: Added `yaml_encode` and `yaml_decode` twig filter #290  
+* **core** Added parser twig extension #262
+* **core** Added new field property `default` instead of `value` #303
+* **core** Added `yaml_encode` and `yaml_decode` twig filter #290  
 
     usage in templates:
     ```
@@ -2410,16 +2416,16 @@
     {{ 'title: Hello World!'|yaml_decode.title }}
     ```
 
-* **core**: Markdown parsing should be cached in production #287
-* **core**: YAML parsing will be cached in production #263
-* **core**: Refactor entries fetch methods naming #315  
+* **core** Markdown parsing should be cached in production #287
+* **core** YAML parsing will be cached in production #263
+* **core** Refactor entries fetch methods naming #315  
 
     we have:  
     `fetch` - for single and collection entries request  
     `fetchSingle` - for single entry request.   
     `fetchCollection` - for collection entries request.  
 
-* **core**: Added routable option for entries #284  
+* **core** Added routable option for entries #284  
 
     usage in entry:
     ```
@@ -2457,9 +2463,9 @@
 
 ### Performance Improvements
 
-* **core**: Added realpath_cache_size to .htaccess
-* **core**: improve Plugins API - locales loading and increase app performance #259
-* **core**: improve Cache on production and increase app performance #290 #263  
+* **core** Added realpath_cache_size to .htaccess
+* **core** improve Plugins API - locales loading and increase app performance #259
+* **core** improve Cache on production and increase app performance #290 #263  
 
 
 ### Bug Fixes
@@ -2467,32 +2473,32 @@
 * **admin-plugin:** Fixed issue with saving entry source #251
 * **admin-plugin:** Fixed file browser styles
 * **admin-plugin:** Fixed breadcrumbs for theme templates
-* **core**: Entries API - Fixed Collection Undefined Index(s) for fetchAll method #243
-* **core**: Fixed broken logic for form inputs without labels #274
-* **core**: Fixed default and site settings loading #297
-* **core**: Fixed id's names for all generated fields #277
-* **core**: Fixed notice undefined index: created_at in Entries API
-* **core**: Fixed notice undefined index: published_at in Entries API #265
-* **core**: Fixed Plugins API - createPluginsDictionary method and increase app perfomance #259
-* **core**: Fixed state of active tabs for all generated forms #276
-* **core**: Fixed state of aria-selected for all generated forms #275  
+* **core** Entries API - Fixed Collection Undefined Index(s) for fetchAll method #243
+* **core** Fixed broken logic for form inputs without labels #274
+* **core** Fixed default and site settings loading #297
+* **core** Fixed id's names for all generated fields #277
+* **core** Fixed notice undefined index: created_at in Entries API
+* **core** Fixed notice undefined index: published_at in Entries API #265
+* **core** Fixed Plugins API - createPluginsDictionary method and increase app perfomance #259
+* **core** Fixed state of active tabs for all generated forms #276
+* **core** Fixed state of aria-selected for all generated forms #275  
 
 
 ### Vendor Updates
-* **core**: Updated vendor flextype-components/date to 1.0.0
-* **core**: Updated vendor symfony/yaml to 4.4.0
-* **core**: Updated vendor doctrine/cache to 1.10.0
-* **core**: Updated vendor doctrine/collections to 1.6.4
-* **core**: Updated vendor monolog/monolog to 3.12.3
-* **core**: Updated vendor bootstrap to 4.4.1
+* **core** Updated vendor flextype-components/date to 1.0.0
+* **core** Updated vendor symfony/yaml to 4.4.0
+* **core** Updated vendor doctrine/cache to 1.10.0
+* **core** Updated vendor doctrine/collections to 1.6.4
+* **core** Updated vendor monolog/monolog to 3.12.3
+* **core** Updated vendor bootstrap to 4.4.1
 * **admin-plugin:** Updated vendor bootstrap to 4.4.1
 * **admin-plugin:** Updated vendor trumbowyg to 2.20.0  
 
 
 ### BREAKING CHANGES
 
-* **core**: method fetchAll removed! please use `fetch`, `fetchSingle` or `fetchCollection`
-* **core**: changed and_where & or_where execution in the templates  
+* **core** method fetchAll removed! please use `fetch`, `fetchSingle` or `fetchCollection`
+* **core** changed and_where & or_where execution in the templates  
 
     FROM
 
@@ -2522,24 +2528,24 @@
     ]
     ```
 
-* **core**: Rename property `value` to `default` for all fieldsets where it is used.
+* **core** Rename property `value` to `default` for all fieldsets where it is used.
 
 <a name="0.9.5"></a>
 # [0.9.5](https://github.com/flextype/flextype/compare/v0.9.4...v0.9.5) (2019-09-21)
 ### Bug Fixes
 
-* **core**: issue with cache in the Entries API - fetchAll method #234 2779777
-* **core**: issue with emitter twig function #234 426a073
-* **core**: issue with empty entries folder Entries API - fetchAll method #234 cf61f2d
-* **core**: issue with Cache ID for Themes list #234 594f4a3
+* **core** issue with cache in the Entries API - fetchAll method #234 2779777
+* **core** issue with emitter twig function #234 426a073
+* **core** issue with empty entries folder Entries API - fetchAll method #234 cf61f2d
+* **core** issue with Cache ID for Themes list #234 594f4a3
 * **admin-plugin:** issue with active button styles on Themes Manager page #234 434f336
 * **admin-plugin:** issue with emitter twig function #234 806b18e
 * **admin-plugin:** Russian translations #233
 * **site-plugin:** notice for undefined $query['format'] #234 8bde8eb
 
 ### Code Refactoring
-* **core**: Removed $response from Forms render method #234
-* **core**: Added property forms to Flextype\EntriesController #234
+* **core** Removed $response from Forms render method #234
+* **core** Added property forms to Flextype\EntriesController #234
 
 ### BREAKING CHANGES
 Changed emitter execution in the templates
