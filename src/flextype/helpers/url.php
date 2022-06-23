@@ -119,7 +119,7 @@ if (! function_exists('getBaseUrl')) {
         $basePath = registry()->get('flextype.settings.base_path') ?? '';
 
         if ($baseUrl != '') {
-            return $baseUrl . $basePath;
+            return strings($baseUrl . '/' . $basePath)->reduceSlashes()->trimRight('/')->toString();
         }
 
         $getAuth = static function (): string {
@@ -165,9 +165,9 @@ if (! function_exists('getBaseUrl')) {
 
         if ($url) {
             if ($isHttps) {
-                $url = 'https://' . $url . '/';
+                $url = 'https://' . $url;
             } else {
-                $url = 'http://' . $url . '/';
+                $url = 'http://' . $url;
             }
         }
 
@@ -186,10 +186,27 @@ if (! function_exists('getAbsoluteUrl')) {
     function getAbsoluteUrl(): string
     {
         $url  = getBaseUrl();
+        $url .= '/';
         $url .= $_SERVER['REQUEST_URI'] ?? '';
 
         return $url;
     }
+}
+
+if (! function_exists('getProjectUrl')) {
+    /**
+     * Get the application project url.
+     *
+     * @return string Application project url.
+     */
+    function getProjectUrl(): string
+    {
+        $url  = getBaseUrl();
+        $url .= '/';
+        $url .= PROJECT_NAME;
+
+        return $url;
+    }   
 }
 
 if (! function_exists('getUriString')) {
