@@ -84,8 +84,8 @@ use function version_compare;
 use const DIRECTORY_SEPARATOR;
 use const PHP_VERSION;
 
-// Define the Flextype Application minimum supported PHP version.
-define('FLEXTYPE_MINIMUM_PHP', '7.4.0');
+// Get defines.
+require_once ROOT_DIR . '/src/flextype/defines.php';
 
 // Check PHP Version
 version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(sprintf('You are running PHP %s, but Flextype needs at least <strong>PHP %s</strong> to run.', $ver, $req));

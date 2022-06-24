@@ -22,20 +22,14 @@ use function sprintf;
 use function str_replace;
 
 /**
+ * Define the Flextype start time in current unix timestamp (microseconds).
+ */
+define('START_TIME', microtime(true));
+
+/**
  * Define the PATH to the root directory (without trailing slash).
  */
 define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
-
-/**
- * Define the project name.
- */
-define('PROJECT_NAME', 'project');
-
-/**
- * Define the PATH (without trailing slash).
- */
-define('PATH_PROJECT', ROOT_DIR . '/' . PROJECT_NAME);
-define('PATH_TMP', ROOT_DIR . '/var/tmp');
 
 /**
  * Ensure vendor libraries exist
