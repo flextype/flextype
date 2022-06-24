@@ -9,7 +9,7 @@
 
 ## INTRODUCTION
 
-**FLEXTYPE** is an open-source **Hybrid Content Management System** with the freedom of a headless CMS and with the full functionality of a traditional CMS. Building this Content Management System, we focused on simplicity. To achieve this, we implemented a simple but powerful API's.
+**Flextype** is an open-source **Hybrid Content Management System** with the freedom of a headless CMS and with the full functionality of a traditional CMS. Building this Content Management System, we focused on simplicity. To achieve this, we implemented a simple but powerful API's.
 
 With Flextype, you are in complete control. Design your data structure the way you want. Update and share your data with others and teams using version control. Flextype does not require MySQL database, because all the data are collected in a simple files. Perfect portability when changing your hosting provider. Just copy all the files from one server to another.
 
@@ -58,7 +58,7 @@ Got a question about setting up or using Flextype? We'll do our best to help you
 
 Follow Flextype on Twitter to get real-time news regarding the development and all events we are attending.
 
-## SUPPORTING FLEXTYPE
+## SUPPORTING Flextype
 
 Flextype is an open source project and community contributions are essential to its growing and success.
 
