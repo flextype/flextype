@@ -51,6 +51,16 @@ parsers()->shortcodes()->addHandler('getAbsoluteUrl', static function () {
     return getAbsoluteUrl();
 });
 
+// Shortcode: getProjectUrl
+// Usage: (getProjectUrl)
+parsers()->shortcodes()->addHandler('getProjectUrl', static function () {
+    if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.url.enabled')) {
+        return '';
+    }
+    
+    return getProjectUrl();
+});
+
 // Shortcode: getUriString
 // Usage: (getUriString)
 parsers()->shortcodes()->addHandler('getUriString', static function () {
