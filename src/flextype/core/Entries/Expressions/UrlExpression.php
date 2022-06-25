@@ -30,8 +30,6 @@ class UrlExpression implements ExpressionFunctionProviderInterface
             new ExpressionFunction('getCurrentUrl', fn(Psr\Http\Message\ServerRequestInterface $request, bool $withQueryString = false) => 'getCurrentUrl($request, $withQueryString)', fn(Psr\Http\Message\ServerRequestInterface $request, bool $withQueryString = false) => getCurrentUrl($request, $withQueryString)),
             new ExpressionFunction('getBasePath', fn() => 'getBasePath()', fn() => getBasePath()),
             new ExpressionFunction('getBaseUrl', fn() => 'getBaseUrl()', fn() => getBaseUrl()),
-            new ExpressionFunction('setBasePath', fn(string $basePath) => 'setBasePath($basePath)', fn(string $basePath) => setBasePath($basePath)),
-            new ExpressionFunction('getBaseUrl', fn() => 'getBaseUrl()', fn() => getBaseUrl()),
             new ExpressionFunction('getAbsoluteUrl', fn() => 'getAbsoluteUrl()', fn() => getAbsoluteUrl()),
             new ExpressionFunction('getProjectUrl', fn() => 'getProjectUrl()', fn() => getProjectUrl()),
             new ExpressionFunction('getUriString', fn() => 'getUriString()', fn() => getUriString()),
