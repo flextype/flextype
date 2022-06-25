@@ -171,7 +171,7 @@ if (! function_exists('getBaseUrl')) {
             }
         }
 
-        $url .= $basePath;
+        $url .=  '/' . $basePath;
 
         return $url;
     }
