@@ -32,7 +32,7 @@ class AboutCommand extends Command
     protected function configure(): void
     {
         $this->setName('about');
-        $this->setDescription('Get information about Flextype');
+        $this->setDescription('Get information about Flextype.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
