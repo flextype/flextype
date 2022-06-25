@@ -121,6 +121,9 @@ entries:
     const:
       enabled: true
       class: "Flextype\\Entries\\Expressions\\ConstExpression"
+    url:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\UrlExpression"
   directives:
     expressions:
       enabled: true
