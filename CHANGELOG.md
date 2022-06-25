@@ -72,6 +72,8 @@
 
 * **core** Added built-in I18n module.
 
+* **core** Added ability to override core defines.
+
 * **entries** Added new functionality that allows implementing Virtual Entries by overriding default entries CRUD methods with the help of events.
 
 * **entries** Added ability to create completely customisable high-level collections for entries with their fields and various formats.
@@ -507,6 +509,8 @@
 
 * **expressions** Added new expression function `tr` to return translation of a string. If no translation exists, the original string will be returned.
 
+* **expressions** Added new expression function `__` to return translation of a string. If no translation exists, the original string will be returned.
+
 * **expressions** Added new expression function `parsers` to get parsers service.
 
 * **expressions** Added new expression function `serializers` to get serializers service.
@@ -514,6 +518,26 @@
 * **expressions** Added new expression function `registry` to get registry service.
 
 * **expressions** Added new expression function `slugify` to get slugify service.
+
+* **expressions** Added new expression function `urlFor` to get the url for a named route.
+
+* **expressions** Added new expression function `fullUrlFor` to get the full url for a named route.
+
+* **expressions** Added new expression function `isCurrentUrl` to determine is current url equal to route name.
+
+* **expressions** Added new expression function `getCurrentUrl` to get current path on given Uri.
+
+* **expressions** Added new expression function `getBasePath` to get the base path.
+
+* **expressions** Added new expression function `getBaseUrl` to get the base url.
+
+* **expressions** Added new expression function `getAbsoluteUrl` to get the absolute url.
+
+* **expressions** Added new expression function `getProjectUrl` to get the project url.
+
+* **expressions** Added new expression function `getUriString` to get the uri string.
+
+* **expressions** Added new expression function `redirect` to get create redirect.
 
 * **cache** Added new cache driver `Phparray` to store cache data in raw php arrays files.
 
