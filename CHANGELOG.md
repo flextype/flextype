@@ -537,7 +537,7 @@
 
 * **expressions** Added new expression function `getUriString` to get the uri string.
 
-* **expressions** Added new expression function `redirect` to get create redirect.
+* **expressions** Added new expression function `redirect` to create redirect.
 
 * **cache** Added new cache driver `Phparray` to store cache data in raw php arrays files.
 
