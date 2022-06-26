@@ -180,7 +180,7 @@
 
 * **serializers** Added ability to set global settings for all built-in serializers. 
 
-    `/src/flextype/settings.yaml`
+    `src/flextype/settings.yaml`
     ```yaml
     serializers:
       json: 
@@ -248,7 +248,7 @@
 
 * **serializers** Added ability to set specific header serializer for `Frontmatter` serializer (default is YAML).
 
-    `/src/flextype/settings.yaml`
+    `src/flextype/settings.yaml`
     ```yaml
     frontmatter:
       decode:
@@ -271,7 +271,7 @@
 
 * **parsers** Added ability to set global settings for all parsers. 
 
-    `/src/flextype/settings.yaml`
+    `src/flextype/settings.yaml`
     ```yaml
     parsers:
       markdown:
@@ -404,7 +404,7 @@
           ...
           url:
             enabled: true
-            path: "/src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
+            path: "src/flextype/core/Parsers/Shortcodes/UrlShortcode.php"
           ...
         ...
       ...
@@ -420,7 +420,7 @@
           ...
           url:
             enabled: true
-            path: "/project/plugins/your-custom-plugin/Parsers/Shortcodes/UrlShortcode.php"
+            path: "project/plugins/your-custom-plugin/Parsers/Shortcodes/UrlShortcode.php"
           ...
         ...
       ...
@@ -549,7 +549,7 @@
 
 * **tokens** Added new Tokens API.
 
-* **helpers** All core helpers are located in the `/src/flextype/helpers/`.
+* **helpers** All core helpers are located in the `src/flextype/helpers/`.
 
 * **helpers** Added helper function `app` to get Flextype Application instance.
 
@@ -660,7 +660,7 @@
           quality: 70
     ```
 
-* **macros** All core macros are located in the `/src/flextype/macros/`.
+* **macros** All core macros are located in the `src/flextype/macros/`.
 
 * **macros** Added `onlyFromCollection` and `exceptFromCollection` macros for Arrays ([#553](https://github.com/flextype/flextype/issues/553))
 
@@ -770,7 +770,7 @@
 
 * **helpers** Use helper function `filterCollection` instead of old `filter`.
 
-* **tokens** Project tokens moved from `/project/tokens/` to `/project/entries/tokens/`.
+* **tokens** Project tokens moved from `project/tokens` to `project/entries/tokens`.
 
 * **entries** Changes for etnries memory storage.
 
