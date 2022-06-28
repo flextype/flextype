@@ -75,7 +75,7 @@
 
 * **core** Added built-in I18n module.
 
-* **core** Added ability to override core defines.
+* **core** Added ability to override default constants
 
 * **entries** Added new functionality that allows implementing Virtual Entries by overriding default entries CRUD methods with the help of events.
 
@@ -780,8 +780,8 @@
   * use `entries()->registry()->has()` instead of `flextype('entries')->storage()->has()`
   * use `entries()->registry()->delete()` instead of `flextype('entries')->storage()->delete()`
 
-  note: all method from Atomastic Arrays are available for Arrays Storage Object manipulations
-  docs: https://github.com/atomastic/arrays
+  note: all method from Glowy PHP Arrays are available for Arrays Storage Object manipulations
+  docs: https://github.com/glowyphp/arrays
 
 ### Refactoring
 
