@@ -376,10 +376,16 @@ if (in_array(registry()->get('flextype.settings.timezone'), DateTimeZone::listId
 View::setDirectory(PATH_PROJECT);
 View::setExtension(registry()->get('flextype.settings.view.extension'));
 
+// Add bootstrap file before plugins intialization.
+require_once ROOT_DIR . '/src/flextype/bootstrap/before-plugins.php';
+
 // Add Plugins Service
 container()->set('plugins', new Plugins());
 
-// Add Routes
+// Add bootstrap file before plugins intialization.
+require_once ROOT_DIR . '/src/flextype/bootstrap/after-plugins.php';
+
+// Add Routes file.
 require_once ROOT_DIR . '/src/flextype/routes/routes.php';
 
 // Enable lazy CORS
