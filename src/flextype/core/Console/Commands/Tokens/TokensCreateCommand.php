@@ -55,16 +55,16 @@ class TokensCreateCommand extends Command
         if (entries()->create('tokens/' . $token, array_merge($dataToSave, ['hashed_access_token' => $hashed_access_token]))) {
             $output->write(
                 renderToString(
-                    div('Success: Token [b]' . $token . '[/b] with secret access token [b]' . $access_token . '[/b] created.', 
-                        'bg-success px-2 py-1')
+                    div('Token [b]' . $token . '[/b] with secret access token [b]' . $access_token . '[/b] created.', 
+                        'color-success px-2 py-1')
                 )
             );
             return Command::SUCCESS;
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Token wasn\'t created.', 
-                        'bg-danger px-2 py-1')
+                    div('Token wasn\'t created.', 
+                        'color-danger px-2 py-1')
                 )
             );
             return Command::FAILURE;

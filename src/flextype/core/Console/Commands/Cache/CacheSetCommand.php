@@ -43,16 +43,16 @@ class CacheSetCommand extends Command
         if (cache()->set($key, $value, $ttl)) {
             $output->write(
                 renderToString(
-                    div('Success: Cache item with key ' . $key . ' created.', 
-                        'bg-success px-2 py-1')
+                    div('Cache item with key ' . $key . ' created.', 
+                        'color-success px-2 py-1')
                 )
             );
             return Command::SUCCESS;
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Cache item with key ' . $key . ' wasn\'t created.', 
-                        'bg-danger px-2 py-1')
+                    div('Cache item with key ' . $key . ' wasn\'t created.', 
+                        'color-danger px-2 py-1')
                 )
             );
             return Command::FAILURE;

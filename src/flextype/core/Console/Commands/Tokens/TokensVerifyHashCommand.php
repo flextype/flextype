@@ -36,11 +36,12 @@ class TokensVerifyHashCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (verrifyTokenHash($input->getArgument('token'), $input->getArgument('token-hash') )) {
+        dd($input->getArgument('token-hash'));
+        if (verifyTokenHash($input->getArgument('token'), $input->getArgument('token-hash'))) {
             $output->write(
                 renderToString(
-                    div('Success: Token [b]' . $input->getArgument('token') . ' is verified', 
-                        'bg-success px-2 py-1')
+                    div('Token [b]' . $input->getArgument('token') . ' is verified', 
+                        'color-success px-2 py-1')
                 )
             );
 
@@ -48,8 +49,8 @@ class TokensVerifyHashCommand extends Command
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Token [b]' . $input->getArgument('token') . ' isn\'t verified', 
-                        'bg-success px-2 py-1')
+                    div('Token [b]' . $input->getArgument('token') . ' isn\'t verified', 
+                        'color-danger px-2 py-1')
                 )
             );
 

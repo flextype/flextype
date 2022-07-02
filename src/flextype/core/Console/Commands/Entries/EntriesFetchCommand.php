@@ -151,8 +151,8 @@ class EntriesFetchCommand extends Command
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Entry [b]' . $id . '[/b] doesn\'t exists.', 
-                        'bg-danger px-2 py-1')
+                    div('Entry [b]' . $id . '[/b] doesn\'t exists.', 
+                        'color-danger px-2 py-1')
                 )
             );
             return Command::FAILURE;

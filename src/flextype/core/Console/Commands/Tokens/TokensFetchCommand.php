@@ -151,8 +151,8 @@ class TokensFetchCommand extends Command
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Token entry [b]' . $id . '[/b] doesn\'t exists.', 
-                        'bg-danger px-2 py-1')
+                    div('Token entry [b]' . $id . '[/b] doesn\'t exists.', 
+                        'color-danger px-2 py-1')
                 )
             );
             return Command::FAILURE;

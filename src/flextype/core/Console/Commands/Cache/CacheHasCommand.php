@@ -39,16 +39,16 @@ class CacheHasCommand extends Command
         if (cache()->has($key)) {
             $output->write(
                 renderToString(
-                    div('Success: Cache item with key [b]' . $key . '[/b] exists.', 
-                        'bg-success px-2 py-1')
+                    div('Cache item with key [b]' . $key . '[/b] exists.', 
+                        'color-success px-2 py-1')
                 )
             );
             return Command::SUCCESS;
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Cache item with key [b]' . $key . '[/b] doesn\'t exists.', 
-                        'bg-success px-2 py-1')
+                    div('Cache item with key [b]' . $key . '[/b] doesn\'t exists.', 
+                        'color-success px-2 py-1')
                 )
             );
             return Command::FAILURE;

@@ -39,16 +39,16 @@ class CacheDeleteCommand extends Command
         if (cache()->delete($key)) {
             $output->write(
                 renderToString(
-                    div('Success: Cache item with key ' . $key . ' deleted.', 
-                        'bg-success px-2 py-1')
+                    div('Cache item with key ' . $key . ' deleted.', 
+                        'color-success px-2 py-1')
                 )
             );
             return Command::SUCCESS;
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Cache item with key ' . $key . ' wasn\'t deleted.', 
-                        'bg-danger px-2 py-1')
+                    div('Cache item with key ' . $key . ' wasn\'t deleted.', 
+                        'color-danger px-2 py-1')
                 )
             );
             return Command::FAILURE;

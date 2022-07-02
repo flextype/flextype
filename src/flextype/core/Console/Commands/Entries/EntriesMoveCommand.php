@@ -41,8 +41,8 @@ class EntriesMoveCommand extends Command
         if (! entries()->has($id)) {
             $output->write(
                 renderToString(
-                    div('Failure: Entry [b]' . $id . '[/b] doesn\'t exists.', 
-                        'bg-danger px-2 py-1')
+                    div('Entry [b]' . $id . '[/b] doesn\'t exists.', 
+                        'color-danger px-2 py-1')
                 )
             );
             return Command::FAILURE;
@@ -51,16 +51,16 @@ class EntriesMoveCommand extends Command
         if (entries()->move($id, $newID)) {
             $output->write(
                 renderToString(
-                    div('Success: Entry [b]' . $id . '[/b] moved to [b]' . $newID . '[/b]',
-                        'bg-success px-2 py-1')
+                    div('Entry [b]' . $id . '[/b] moved to [b]' . $newID . '[/b]',
+                        'color-success px-2 py-1')
                 )
             );
             return Command::SUCCESS;
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Entry [b]' . $id . '[/b] wasn\'t moved to [b]' . $newID . '[/b]', 
-                        'bg-danger px-2 py-1')
+                    div('Entry [b]' . $id . '[/b] wasn\'t moved to [b]' . $newID . '[/b]', 
+                        'color-danger px-2 py-1')
                 )
             );
             return Command::FAILURE;

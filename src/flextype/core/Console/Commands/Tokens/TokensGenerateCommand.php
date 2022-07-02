@@ -36,8 +36,8 @@ class TokensGenerateCommand extends Command
     {
         $output->write(
             renderToString(
-                div('Success: Token [b]' . generateToken($input->getArgument('length') ?? 16) . '[/b] generated.', 
-                    'bg-success px-2 py-1')
+                div('Token [b]' . generateToken($input->getArgument('length') ?? 16) . '[/b] generated.', 
+                    'color-success px-2 py-1')
             )
         );
 

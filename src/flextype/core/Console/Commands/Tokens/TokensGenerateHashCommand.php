@@ -38,8 +38,8 @@ class TokensGenerateHashCommand extends Command
 
         $output->write(
             renderToString(
-                div('Success: Hash [b]' . generateTokenHash($token) . '[/b] for token [b]' . $token . '[/b] generated.', 
-                    'bg-success px-2 py-1')
+                div('Hash [b]' . generateTokenHash($token) . '[/b] for token [b]' . $token . '[/b] generated.', 
+                    'color-success px-2 py-1')
             )
         );
 

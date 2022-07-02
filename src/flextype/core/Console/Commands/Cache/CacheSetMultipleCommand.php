@@ -46,16 +46,16 @@ class CacheSetMultipleCommand extends Command
         if (cache()->setMultiple($values, $ttl)) {
             $output->write(
                 renderToString(
-                    div('Success: Cache items with keys [b]' . implode('[/b], [b]', array_keys($values)) . '[/b] created.', 
-                        'bg-success px-2 py-1')
+                    div('Cache items with keys [b]' . implode('[/b], [b]', array_keys($values)) . '[/b] created.', 
+                        'color-success px-2 py-1')
                 )
             );
             return Command::SUCCESS;
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Cache items with keys [b]' . implode('[/b], [b]', array_keys($values)) . '[/b] wasn\'t created.', 
-                        'bg-success px-2 py-1')
+                    div('Cache items with keys [b]' . implode('[/b], [b]', array_keys($values)) . '[/b] wasn\'t created.', 
+                        'color-success px-2 py-1')
                 )
             );
             return Command::FAILURE;

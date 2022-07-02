@@ -40,16 +40,16 @@ class EntriesHasCommand extends Command
         if (entries()->has($id)) {
             $output->write(
                 renderToString(
-                    div('Success: Entry [b]' . $id . '[/b] exists.', 
-                        'bg-success px-2 py-1')
+                    div('Entry [b]' . $id . '[/b] exists.', 
+                        'color-success px-2 py-1')
                 )
             );
             return Command::SUCCESS;
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Entry [b]' . $id . '[/b] doesn\'t exists.', 
-                        'bg-danger px-2 py-1')
+                    div('Entry [b]' . $id . '[/b] doesn\'t exists.', 
+                        'color-danger px-2 py-1')
                 )
             );
             return Command::FAILURE;

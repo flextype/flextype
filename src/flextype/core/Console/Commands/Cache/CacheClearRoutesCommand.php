@@ -42,16 +42,16 @@ class CacheClearRoutesCommand extends Command
             if (filesystem()->directory($routesPath)->delete()) {
                 $output->write(
                     renderToString(
-                        div('Success: Routes were successfully cleared from the cache.', 
-                            'bg-success px-2 py-1')
+                        div('Routes were successfully cleared from the cache.', 
+                            'color-success px-2 py-1')
                     )
                 );
                 $result = Command::SUCCESS;
             } else {
                 $output->write(
                     renderToString(
-                        div('Failure: Routes cache wasn\'t cleared.', 
-                            'bg-danger px-2 py-1')
+                        div('Routes cache wasn\'t cleared.', 
+                            'color-danger px-2 py-1')
                     )
                 );
                 $result = Command::FAILURE;
@@ -59,8 +59,8 @@ class CacheClearRoutesCommand extends Command
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Routes cache directory ' . $routesPath . ' doesn\'t exist.', 
-                        'bg-danger px-2 py-1')
+                    div('Routes cache directory ' . $routesPath . ' doesn\'t exist.', 
+                        'color-danger px-2 py-1')
                 )
             );
             $result = Command::FAILURE;

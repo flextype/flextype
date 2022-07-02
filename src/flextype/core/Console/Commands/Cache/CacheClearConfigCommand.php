@@ -39,16 +39,16 @@ class CacheClearConfigCommand extends Command
             if (filesystem()->directory($configPath)->delete()) {
                 $output->write(
                     renderToString(
-                        div('Success: Config were successfully cleared from the cache.', 
-                            'bg-success px-2 py-1')
+                        div('Config were successfully cleared from the cache.', 
+                            'color-success px-2 py-1')
                     )
                 );
                 $result = Command::SUCCESS;
             } else {
                 $output->write(
                     renderToString(
-                        div('Failure: Config cache wasn\'t cleared.', 
-                            'bg-danger px-2 py-1')
+                        div('Config cache wasn\'t cleared.', 
+                            'color-danger px-2 py-1')
                     )
                 );
                 $result = Command::FAILURE;
@@ -56,8 +56,8 @@ class CacheClearConfigCommand extends Command
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Config cache directory ' . $configPath . ' doesn\'t exist.', 
-                        'bg-danger px-2 py-1')
+                    div('Config cache directory ' . $configPath . ' doesn\'t exist.', 
+                        'color-danger px-2 py-1')
                 )
             );
             $result = Command::FAILURE;

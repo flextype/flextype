@@ -39,8 +39,8 @@ class TokensDeleteCommand extends Command
         if (! entries()->has($id)) {
             $output->write(
                 renderToString(
-                    div('Failure: Token entry [b]' . $id . '[/b] doesn\'t exists.', 
-                        'bg-danger px-2 py-1')
+                    div('Token entry [b]' . $id . '[/b] doesn\'t exists.', 
+                        'color-danger px-2 py-1')
                 )
             );
             return Command::FAILURE;
@@ -49,16 +49,16 @@ class TokensDeleteCommand extends Command
         if (entries()->delete($id)) {
             $output->write(
                 renderToString(
-                    div('Success: Token entry [b]' . $id . '[/b] deleted.', 
-                        'bg-success px-2 py-1')
+                    div('Token entry [b]' . $id . '[/b] deleted.', 
+                        'color-success px-2 py-1')
                 )
             );
             return Command::SUCCESS;
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Token entry [b]' . $id . '[/b] wasn\'t deleted.', 
-                        'bg-danger px-2 py-1')
+                    div('Token entry [b]' . $id . '[/b] wasn\'t deleted.', 
+                        'color-danger px-2 py-1')
                 )
             );
             return Command::FAILURE;

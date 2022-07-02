@@ -42,16 +42,16 @@ class CacheClearDataCommand extends Command
             if (filesystem()->directory($routesData)->delete()) {
                 $output->write(
                     renderToString(
-                        div('Success: Data were successfully cleared from the cache.', 
-                            'bg-success px-2 py-1')
+                        div('Data were successfully cleared from the cache.', 
+                            'color-success px-2 py-1')
                     )
                 );
                 $result = Command::SUCCESS;
             } else {
                 $output->write(
                     renderToString(
-                        div('Failure: Data cache wasn\'t cleared.', 
-                            'bg-danger px-2 py-1')
+                        div('Data cache wasn\'t cleared.', 
+                            'color-danger px-2 py-1')
                     )
                 );
                 $result = Command::FAILURE;
@@ -59,8 +59,8 @@ class CacheClearDataCommand extends Command
         } else {
             $output->write(
                 renderToString(
-                    div('Failure: Data cache directory ' . $routesData . ' doesn\'t exist.', 
-                        'bg-danger px-2 py-1')
+                    div('Data cache directory ' . $routesData . ' doesn\'t exist.', 
+                        'color-danger px-2 py-1')
                 )
             );
             $result = Command::FAILURE;

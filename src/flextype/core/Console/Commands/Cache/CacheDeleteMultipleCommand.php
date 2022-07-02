@@ -44,7 +44,7 @@ class CacheDeleteMultipleCommand extends Command
             $output->write(
                 renderToString(
                     div('Cache items with keys [b]' . implode('[/b], [b]', $keys) . '[/b] deleted.', 
-                        'bg-success px-2 py-1')
+                        'color-success px-2 py-1')
                 )
             );
             return Command::SUCCESS;
@@ -52,7 +52,7 @@ class CacheDeleteMultipleCommand extends Command
             $output->write(
                 renderToString(
                     div('Cache items with keys [b]' . implode('[/b], [b]', $keys) . '[/b] wasn\'t deleted.', 
-                        'bg-danger px-2 py-1')
+                        'color-danger px-2 py-1')
                 )
             );
             return Command::FAILURE;
