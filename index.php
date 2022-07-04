@@ -24,7 +24,7 @@ use function str_replace;
 /**
  * Define the Flextype start time in current unix timestamp (microseconds).
  */
-define('START_TIME', microtime(true));
+define('FLEXTYPE_START_TIME', microtime(true));
 
 /**
  * Define the PATH to the root directory (without trailing slash).
