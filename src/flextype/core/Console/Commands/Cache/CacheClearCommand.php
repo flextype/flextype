@@ -33,7 +33,7 @@ class CacheClearCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $path = PATH_TMP;
+        $path = FLEXTYPE_PATH_TMP;
 
         if (filesystem()->directory($path)->exists()) {
             if (filesystem()->directory($path)->delete()) {

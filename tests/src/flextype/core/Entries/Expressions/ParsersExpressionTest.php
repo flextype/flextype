@@ -3,11 +3,11 @@
 use Flextype\Component\Filesystem\Filesystem;
 
 beforeEach(function() {
-    filesystem()->directory(PATH_PROJECT . '/entries')->create();
+    filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/entries')->create();
 });
 
 afterEach(function (): void {
-    filesystem()->directory(PATH_PROJECT . '/entries')->delete();
+    filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/entries')->delete();
 });
 
 test('parsers expression', function () {

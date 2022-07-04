@@ -33,7 +33,7 @@ class CacheClearConfigCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $configPath = PATH_TMP . '/config';
+        $configPath = FLEXTYPE_PATH_TMP . '/config';
 
         if (filesystem()->directory($configPath)->exists()) {
             if (filesystem()->directory($configPath)->delete()) {

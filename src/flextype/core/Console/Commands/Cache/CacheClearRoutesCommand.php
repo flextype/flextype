@@ -36,7 +36,7 @@ class CacheClearRoutesCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $routesPath = PATH_TMP . '/routes';
+        $routesPath = FLEXTYPE_PATH_TMP . '/routes';
 
         if (filesystem()->directory($routesPath)->exists()) {
             if (filesystem()->directory($routesPath)->delete()) {

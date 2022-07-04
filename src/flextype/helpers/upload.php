@@ -18,7 +18,7 @@ if (! function_exists('upload')) {
     {
         $settings = registry()->get('flextype.settings.upload');
 
-        $uploadFolder = strings(PATH_PROJECT  . '/' . $settings['directory'] . '/' . $folder . '/')->reduceSlashes()->toString();
+        $uploadFolder = strings(FLEXTYPE_PATH_PROJECT  . '/' . $settings['directory'] . '/' . $folder . '/')->reduceSlashes()->toString();
 
         filesystem()->directory($uploadFolder)->ensureExists(0755, true);
 

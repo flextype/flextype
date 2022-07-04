@@ -67,7 +67,7 @@
 
 * **core** Added `Thermage` library for better Flextype CLI Application styling.
 
-* **core** Added new core constants: `PROJECT_NAME`, `PATH_PROJECT`, `PATH_TMP`. 
+* **core** Added new core constants: `FLEXTYPE_PROJECT_NAME`, `FLEXTYPE_PATH_PROJECT`, `FLEXTYPE_PATH_TMP`. 
 
 * **core** Added ability to run Flextype in silent mode by disabling `app` and `cli`. 
 
@@ -737,7 +737,7 @@
 
 * **media** Media and Glide functionality removed from the flextype core due to security and perfomance reasons. Recomended to use imagekit or imgix instead.
 
-* **core** Use new constant `PATH_PROJECT` instead of `PATH['project']` and `PATH_TMP` instead of `PATH['tmp']`.
+* **core** Use new constant `FLEXTYPE_PATH_PROJECT` instead of `PATH['project']` and `FLEXTYPE_PATH_TMP` instead of `PATH['tmp']`.
 
 * **shortcodes** New default shortcodes syntax and signatures changes for all shortocodes.
   ```yaml

@@ -7,18 +7,18 @@ use Glowy\Strings\Strings;
 
 beforeEach(function() {
     // Create sandbox plugin
-    filesystem()->directory(PATH_PROJECT)->ensureExists(0755, true);
-    filesystem()->directory(PATH_PROJECT . '/plugins')->ensureExists(0755, true);
-    filesystem()->directory(PATH_PROJECT . '/plugins/sandbox')->create(0755, true);
-    filesystem()->directory(PATH_PROJECT . '/plugins/sandbox/lang/')->create(0755, true);
-    filesystem()->file(PATH_PROJECT . '/plugins/sandbox/lang/en_US.yaml')->put('sandbox_title: Sandbox');
-    filesystem()->file(PATH_PROJECT . '/plugins/sandbox/settings.yaml')->put('enabled: true');
-    filesystem()->file(PATH_PROJECT . '/plugins/sandbox/plugin.yaml')->put('name: Sandbox');
-    filesystem()->file(PATH_PROJECT . '/plugins/sandbox/plugin.php')->put('<?php ');
+    filesystem()->directory(FLEXTYPE_PATH_PROJECT)->ensureExists(0755, true);
+    filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/plugins')->ensureExists(0755, true);
+    filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/plugins/sandbox')->create(0755, true);
+    filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/plugins/sandbox/lang/')->create(0755, true);
+    filesystem()->file(FLEXTYPE_PATH_PROJECT . '/plugins/sandbox/lang/en_US.yaml')->put('sandbox_title: Sandbox');
+    filesystem()->file(FLEXTYPE_PATH_PROJECT . '/plugins/sandbox/settings.yaml')->put('enabled: true');
+    filesystem()->file(FLEXTYPE_PATH_PROJECT . '/plugins/sandbox/plugin.yaml')->put('name: Sandbox');
+    filesystem()->file(FLEXTYPE_PATH_PROJECT . '/plugins/sandbox/plugin.php')->put('<?php ');
 });
 
 afterEach(function (): void {
-    filesystem()->directory(PATH_PROJECT . '/plugins/sandbox')->delete();
+    filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/plugins/sandbox')->delete();
 });
 
 test('get plugins list', function () {

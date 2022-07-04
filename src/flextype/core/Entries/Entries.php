@@ -76,7 +76,7 @@ class Entries
      */
     public function __construct($options = null, $registry = null)
     {
-        filesystem()->directory(PATH_PROJECT . '/' . registry()->get('flextype.settings.entries.directory'))->ensureExists(0755, true);
+        filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/' . registry()->get('flextype.settings.entries.directory'))->ensureExists(0755, true);
 
         $this->setRegistry($registry);
         $this->setOptions($options);
@@ -498,7 +498,7 @@ class Entries
 
                 $currentEntryID = strings($currenEntry->getPath())
                     ->replace('\\', '/')
-                    ->replace(PATH_PROJECT . '/' . $this->options['directory'] . '/', '')
+                    ->replace(FLEXTYPE_PATH_PROJECT . '/' . $this->options['directory'] . '/', '')
                     ->trim('/')
                     ->toString();
 
@@ -893,7 +893,7 @@ class Entries
             return $this->registry()->get('methods.getFileLocation.result');
         }
 
-        return PATH_PROJECT . '/' . $this->options['directory'] . '/' . $this->registry()->get('methods.getFileLocation.params.id') . '/' . $this->registry()->get('methods.getFileLocation.collection.filename') . '.' . $this->registry()->get('methods.getFileLocation.collection.extension');
+        return FLEXTYPE_PATH_PROJECT . '/' . $this->options['directory'] . '/' . $this->registry()->get('methods.getFileLocation.params.id') . '/' . $this->registry()->get('methods.getFileLocation.collection.filename') . '.' . $this->registry()->get('methods.getFileLocation.collection.extension');
     }
 
     /**
@@ -924,7 +924,7 @@ class Entries
             return $this->registry()->get('methods.getDirectoryLocation.result');
         }
 
-        return PATH_PROJECT . '/' . $this->options['directory'] . '/' . $this->registry()->get('methods.getDirectoryLocation.params.id');
+        return FLEXTYPE_PATH_PROJECT . '/' . $this->options['directory'] . '/' . $this->registry()->get('methods.getDirectoryLocation.params.id');
     }
 
     /**

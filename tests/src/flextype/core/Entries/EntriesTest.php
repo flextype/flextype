@@ -4,11 +4,11 @@ use Glowy\Arrays\Arrays;
 use Flextype\Entries\Entries;
 
 beforeEach(function() {
-    filesystem()->directory(PATH_PROJECT . '/entries')->ensureExists(0755, true);
+    filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/entries')->ensureExists(0755, true);
 });
 
 afterEach(function () {
-    filesystem()->directory(PATH_PROJECT . '/entries')->delete();
+    filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/entries')->delete();
 });
 
 test('entry construct', function () {

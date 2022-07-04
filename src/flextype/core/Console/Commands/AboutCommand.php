@@ -51,10 +51,10 @@ class AboutCommand extends Command
                     div('[b][color=success]Enabled[/color][/b]: ' . implode(', ', array_keys(registry()->get('plugins'))), '') .
 
                     hr('[b]Constants[/b]', 'my-1') . 
-                    div('[b][color=success]PROJECT_NAME[/color][/b]: ' . PROJECT_NAME, '') .
+                    div('[b][color=success]FLEXTYPE_PROJECT_NAME[/color][/b]: ' . FLEXTYPE_PROJECT_NAME, '') .
                     div('[b][color=success]ROOT_DIR[/color][/b]: ' . ROOT_DIR, '') .
-                    div('[b][color=success]PATH_PROJECT[/color][/b]: ' . PATH_PROJECT, '') .
-                    div('[b][color=success]PATH_TMP[/color][/b]: ' . PATH_TMP, '') .
+                    div('[b][color=success]FLEXTYPE_PATH_PROJECT[/color][/b]: ' . FLEXTYPE_PATH_PROJECT, '') .
+                    div('[b][color=success]FLEXTYPE_PATH_TMP[/color][/b]: ' . FLEXTYPE_PATH_TMP, '') .
                     div('[b][color=success]FLEXTYPE_MINIMUM_PHP[/color][/b]: ' . FLEXTYPE_MINIMUM_PHP, '') .
 
                     hr('[b]PHP Information[/b]', 'my-1') .

@@ -36,7 +36,7 @@ class CacheClearDataCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $routesData = PATH_TMP . '/data';
+        $routesData = FLEXTYPE_PATH_TMP . '/data';
 
         if (filesystem()->directory($routesData)->exists()) {
             if (filesystem()->directory($routesData)->delete()) {

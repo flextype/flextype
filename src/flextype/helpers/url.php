@@ -203,7 +203,7 @@ if (! function_exists('getProjectUrl')) {
     {
         $url  = getBaseUrl();
         $url .= '/';
-        $url .= PROJECT_NAME;
+        $url .= FLEXTYPE_PROJECT_NAME;
 
         return $url;
     }   

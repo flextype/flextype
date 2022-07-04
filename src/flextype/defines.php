@@ -23,23 +23,23 @@ if (! defined('FLEXTYPE_MINIMUM_PHP')) {
     define('FLEXTYPE_MINIMUM_PHP', '7.4.0');
 }
 
-if (! defined('PROJECT_NAME')) {
+if (! defined('FLEXTYPE_PROJECT_NAME')) {
     /**
      * Define the project name.
      */
-    define('PROJECT_NAME', 'project');
+    define('FLEXTYPE_PROJECT_NAME', 'project');
 }
 
-if (! defined('PATH_PROJECT')) {
+if (! defined('FLEXTYPE_PATH_PROJECT')) {
     /**
      * Define the project path (without trailing slash).
      */
-    define('PATH_PROJECT', ROOT_DIR . '/' . PROJECT_NAME);
+    define('FLEXTYPE_PATH_PROJECT', ROOT_DIR . '/' . FLEXTYPE_PROJECT_NAME);
 }
 
-if (! defined('PATH_TMP')) {
+if (! defined('FLEXTYPE_PATH_TMP')) {
     /**
      * Define the project tmp path (without trailing slash).
      */
-    define('PATH_TMP', ROOT_DIR . '/var/tmp');
+    define('FLEXTYPE_PATH_TMP', ROOT_DIR . '/var/tmp');
 }
