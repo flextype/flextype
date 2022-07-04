@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
-use function registry;
+use function Glowy\Registry\registry;
 
 // Shortcode: var
 // Usage: (var:foo) 

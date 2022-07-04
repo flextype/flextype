@@ -23,10 +23,10 @@ use RuntimeException;
 
 use function array_diff_key;
 use function array_replace_recursive;
-use function arrays;
+use function Glowy\Arrays\arrays;
 use function count;
 use function filemtime;
-use function filesystem;
+use function Glowy\Filesystem\filesystem;
 use function flextype;
 use function is_array;
 use function md5;

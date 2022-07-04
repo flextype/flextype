@@ -20,6 +20,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\Finder\Finder;
 use Glowy\Arrays\Arrays as Collection;
+use function Glowy\Filesystem\filesystem;
 use Glowy\Macroable\Macroable;
 
 class FilesystemExpression implements ExpressionFunctionProviderInterface

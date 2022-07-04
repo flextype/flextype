@@ -26,6 +26,7 @@ use Symfony\Component\Console\Helper\Table;
 use function Thermage\div;
 use function Thermage\span;
 use function Thermage\renderToString;
+use function Glowy\Strings\strings;
 
 class TokensFetchCommand extends Command
 {

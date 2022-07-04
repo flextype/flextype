@@ -313,17 +313,6 @@ cache:
       ssl_enabled: false
       ssl_verify: false
       default_ttl: 900
-    cookie:
-      aware_of_untrustable_data: false
-      limited_memory_by_object: 4096
-      default_ttl: 900
-    couchbase:
-      host: '127.0.0.1'
-      port: 8091
-      username: ''
-      password: ''
-      bucket_name: default
-      default_ttl: 900
     couchdb:
       database: 'flextype'
       path: '/'
@@ -336,8 +325,6 @@ cache:
       timeout: 10
       default_ttl: 900
     devnull: {}
-    devfalse: {}
-    devtrue: {}
     phparray:
       path: '/data'
       security_key: 'auto'
@@ -400,11 +387,6 @@ cache:
       timeout: 5
       database: 0
       opt_prefix: ''
-      default_ttl: 900
-    riak:
-      host: '127.0.0.1'
-      port: 8098
-      prefix: 'riak'
       default_ttl: 900
     sqlite:
       path: '/data'

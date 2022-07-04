@@ -20,7 +20,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function count;
-use function filesystem;
+use function Glowy\Filesystem\filesystem;
 
 class Cache extends Api
 {

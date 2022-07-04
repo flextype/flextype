@@ -22,6 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use function Thermage\div;
 use function Thermage\renderToString;
+use function Glowy\Filesystem\filesystem;
 
 class CacheClearCommand extends Command
 {

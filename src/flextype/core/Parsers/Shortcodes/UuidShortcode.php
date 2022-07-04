@@ -19,7 +19,8 @@ namespace Flextype\Parsers\Shortcodes;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use Ramsey\Uuid\Uuid;
 use function parsers;
-use function registry;
+use function Glowy\Registry\registry;
+use function Glowy\Strings\strings;
 
 // Shortcode: uuid
 // Usage: (uuid) (uuid:4)

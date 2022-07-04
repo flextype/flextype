@@ -26,7 +26,6 @@ use function is_string;
 use function password_verify;
 use function registry;
 use function serializers;
-use function tokens;
 
 class Api
 {

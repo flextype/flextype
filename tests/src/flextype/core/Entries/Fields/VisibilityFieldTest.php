@@ -2,6 +2,8 @@
 
 use Flextype\Component\Filesystem\Filesystem;
 
+use function Glowy\Filesystem\filesystem;
+
 beforeEach(function() {
     filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/entries')->create();
 });

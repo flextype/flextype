@@ -20,7 +20,7 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 use function parsers;
-use function registry;
+use function Glowy\Registry\registry;
 
 // Shortcode: when
 // Usage: (when:'(var:score) < (var:level1)') Show something... (/when)

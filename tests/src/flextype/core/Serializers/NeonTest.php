@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use function Glowy\Filesystem\filesystem;
+
 test('encode', function () {
     $string = filesystem()->file(ROOT_DIR . '/tests/fixtures/serializers/neon.neon')->get();
     $this->assertEquals(trim("{" . $string . "}"),

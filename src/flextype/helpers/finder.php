@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use Symfony\Component\Finder\Finder;
 
+use function Glowy\Filesystem\filesystem;
+
 if (! function_exists('find')) {
     /**
      * Create a Finder instance with predefined filter params or without them.

@@ -18,7 +18,8 @@ namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use function parsers;
-use function registry;
+use function Glowy\Registry\registry;
+use function Glowy\Strings\strings;
 
 // Shortcode: strings
 // Usage: (strings) strings to modify (/strings)
@@ -188,7 +189,7 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         }
 
         if ($key == 'increment') {
-            $content = strings($content)->{'increment'}(isset($vars[0]) ? (int) $vars[0] : 1, isset($vars[1]) ? (string) $vars[1] : '_')->toString();
+            $content = strings($content)->{'increment'}(isset($vars[1]) ? (string) $vars[1] : '_', isset($vars[0]) ? (int) $vars[0] : 1)->toString();
         }
 
         if ($key == 'indexOf') {

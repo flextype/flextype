@@ -24,8 +24,8 @@ use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\MarkdownConverter;
 
 use function cache;
-use function registry;
-use function strings;
+use function Glowy\Registry\registry;
+use function Glowy\Strings\strings;
 
 final class Markdown
 {

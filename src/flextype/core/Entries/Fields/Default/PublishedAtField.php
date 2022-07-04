@@ -14,6 +14,9 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
+use function Glowy\Strings\strings;
+use function Glowy\Filesystem\filesystem;
+
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
     // Determine is the current field is set and enabled.

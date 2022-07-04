@@ -19,7 +19,7 @@ namespace Flextype\Parsers\Shortcodes;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 use function parsers;
-use function registry;
+use function Glowy\Registry\registry;
 
 // Shortcode: tr
 // Usage: (tr:foo values='foo=Foo' locale:'en_US')

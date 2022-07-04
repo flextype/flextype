@@ -18,6 +18,8 @@ use Monolog\Logger;
 use Glowy\Csrf\Csrf;
 use Cocur\Slugify\Slugify;
 use Glowy\Arrays\Arrays;
+use function Glowy\Filesystem\filesystem;
+use function Glowy\Strings\strings;
 
 beforeEach(function() {
     filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/entries')->ensureExists(0755, true);

@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace Flextype\Serializers;
 
 use function array_slice;
-use function arrays;
+use function Glowy\Arrays\arrays;
 use function cache;
 use function count;
 use function implode;
@@ -27,7 +27,7 @@ use function preg_replace;
 use function preg_split;
 use function registry;
 use function serializers;
-use function strings;
+use function Glowy\Strings\strings;
 
 use const PHP_EOL;
 

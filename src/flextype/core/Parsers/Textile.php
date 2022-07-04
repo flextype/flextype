@@ -20,8 +20,8 @@ use Exception;
 use Netcarver\Textile\Parser;
 
 use function cache;
-use function registry;
-use function strings;
+use function Glowy\Registry\registry;
+use function Glowy\Strings\strings;
 
 final class Textile
 {

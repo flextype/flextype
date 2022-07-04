@@ -23,6 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputOption;
 use function Thermage\div;
 use function Thermage\renderToString;
+use function Glowy\Filesystem\filesystem;
 
 class CacheClearRoutesCommand extends Command
 {

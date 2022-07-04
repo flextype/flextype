@@ -21,7 +21,8 @@ use Flextype\Entries\Entries;
 
 use function entries;
 use function parsers;
-use function registry;
+use function Glowy\Registry\registry;
+use function Glowy\Strings\strings;
 
 // Shortcode: entries
 // Usage: (entries fetch:'blog/post-1' field:'title')

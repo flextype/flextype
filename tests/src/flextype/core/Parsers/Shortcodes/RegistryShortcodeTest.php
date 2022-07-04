@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use function Glowy\Strings\strings;
+
 test('registry shortcode', function () {
     expect(strings(parsers()->shortcodes()->parse("(registry get id:'flextype.manifest')"))->isJson())->toBeTrue();
     expect(parsers()->shortcodes()->parse("(registry get id:'flextype.manifest.name')"))->toBe('Flextype');

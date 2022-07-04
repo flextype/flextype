@@ -25,7 +25,7 @@ use function json_encode;
 use function json_last_error;
 use function json_last_error_msg;
 use function registry;
-use function strings;
+use function Glowy\Strings\strings;
 
 use const JSON_PRESERVE_ZERO_FRACTION;
 use const JSON_PRETTY_PRINT;

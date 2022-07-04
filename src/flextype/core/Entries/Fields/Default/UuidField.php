@@ -15,6 +15,7 @@ declare(strict_types=1);
  */
 
 use Ramsey\Uuid\Uuid;
+use function Glowy\Strings\strings;
 
 emitter()->addListener('onEntriesCreate', static function (): void {
 

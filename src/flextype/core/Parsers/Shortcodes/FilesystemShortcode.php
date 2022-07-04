@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
+use function Glowy\Filesystem\filesystem;
 
 // Shortcode: filesystem
 // Usage: (filesystem get file:'1.txt)

@@ -22,6 +22,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use function Thermage\div;
 use function Thermage\renderToString;
+use function Glowy\Strings\strings;
 
 class EntriesUpdateCommand extends Command
 {

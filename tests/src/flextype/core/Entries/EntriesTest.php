@@ -3,6 +3,8 @@
 use Glowy\Arrays\Arrays;
 use Flextype\Entries\Entries;
 
+use function Glowy\Filesystem\filesystem;
+
 beforeEach(function() {
     filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/entries')->ensureExists(0755, true);
 });

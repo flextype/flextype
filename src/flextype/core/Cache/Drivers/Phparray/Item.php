@@ -16,45 +16,15 @@ declare(strict_types=1);
 
 namespace Phpfastcache\Drivers\Phparray;
 
-use Phpfastcache\Core\Item\{ExtendedCacheItemInterface, ItemBaseTrait};
-use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
-use Phpfastcache\Drivers\Phparray\Driver as PhparrayDriver;
-use Phpfastcache\Exceptions\{PhpfastcacheInvalidArgumentException};
+use Phpfastcache\Core\Item\ExtendedCacheItemInterface;
+use Phpfastcache\Core\Item\TaggableCacheItemTrait;
 
-/**
- * Class Item
- * @package phpFastCache\Drivers\Phparray
- */
 class Item implements ExtendedCacheItemInterface
 {
-    use ItemBaseTrait {
-        ItemBaseTrait::__construct as __BaseConstruct;
-    }
+    use TaggableCacheItemTrait;
 
-    /**
-     * Item constructor.
-     * @param Driver $driver
-     * @param $key
-     * @throws PhpfastcacheInvalidArgumentException
-     */
-    public function __construct(PhparrayDriver $driver, $key)
+    protected function getDriverClass(): string
     {
-        $this->__BaseConstruct($driver, $key);
-    }
-
-    /**
-     * @param ExtendedCacheItemPoolInterface $driver
-     * @return static
-     * @throws PhpfastcacheInvalidArgumentException
-     */
-    public function setDriver(ExtendedCacheItemPoolInterface $driver)
-    {
-        if ($driver instanceof PhparrayDriver) {
-            $this->driver = $driver;
-
-            return $this;
-        }
-
-        throw new PhpfastcacheInvalidArgumentException('Invalid driver instance');
+        return Driver::class;
     }
 }

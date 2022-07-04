@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use function Glowy\Filesystem\filesystem;
+
 beforeEach(function() {
     filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/entries')->ensureExists(0755, true);
 });

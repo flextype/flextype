@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use function Glowy\Strings\strings;
+
 test('strings shortcode', function () {
 
     // lower

@@ -27,7 +27,7 @@ use function function_exists;
 use function ini_get;
 use function ini_set;
 use function registry;
-use function strings;
+use function Glowy\Strings\strings;
 
 class Yaml
 {

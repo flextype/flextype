@@ -20,18 +20,18 @@ use Glowy\Arrays\Arrays as Collection;
 use Glowy\Macroable\Macroable;
 
 use function array_merge;
-use function arrays;
+use function Glowy\Arrays\arrays;
 use function cache;
 use function count;
 use function emitter;
 use function file_exists;
-use function filesystem;
-use function filter;
+use function Glowy\Filesystem\filesystem;
+use function filterCollection;
 use function find;
 use function is_array;
-use function registry;
+use function Glowy\Registry\registry;
 use function serializers;
-use function strings;
+use function Glowy\Strings\strings;
 
 class Entries
 {

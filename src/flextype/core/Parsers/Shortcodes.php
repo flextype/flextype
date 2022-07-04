@@ -26,8 +26,8 @@ use function cache;
 use function count;
 use function file_exists;
 use function is_array;
-use function registry;
-use function strings;
+use function Glowy\Registry\registry;
+use function Glowy\Strings\strings;
 
 final class Shortcodes
 {

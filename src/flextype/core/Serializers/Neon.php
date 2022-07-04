@@ -22,7 +22,7 @@ use RuntimeException;
 
 use function cache;
 use function registry;
-use function strings;
+use function Glowy\Strings\strings;
 
 class Neon
 {

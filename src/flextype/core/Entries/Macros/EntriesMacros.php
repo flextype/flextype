@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 use Glowy\Arrays\Arrays as Collection;
 
+use function Glowy\Registry\registry;
+
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 
     if (! registry()->get('flextype.settings.entries.macros.entries.enabled')) {

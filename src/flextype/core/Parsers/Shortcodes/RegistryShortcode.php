@@ -19,7 +19,7 @@ namespace Flextype\Parsers\Shortcodes;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 use function parsers;
-use function registry;
+use function Glowy\Registry\registry;
 
 // Shortcode: registry
 // Usage: (registry get id:'flextype.manifest.version')

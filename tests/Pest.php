@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use function Glowy\Filesystem\filesystem;
+
 define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
 
 /**

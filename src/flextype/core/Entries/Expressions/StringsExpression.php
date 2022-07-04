@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Flextype\Entries\Expressions;
 
+use function Glowy\Strings\strings;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 

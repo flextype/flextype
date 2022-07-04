@@ -15,6 +15,7 @@ declare(strict_types=1);
  */
 
 use Glowy\Arrays\Arrays as Collection;
+use function Glowy\Strings\strings;
 
 // Directive: @markdown
 emitter()->addListener('onEntriesFetchSingleField', static function (): void {

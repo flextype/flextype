@@ -14,6 +14,8 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
+use function Glowy\Registry\registry;
+
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
     if (! registry()->get('flextype.settings.entries.macros.php.enabled')) {
         return;

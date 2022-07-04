@@ -62,7 +62,7 @@ use function emitter;
 use function extension_loaded;
 use function file_exists;
 use function filemtime;
-use function filesystem;
+use function Glowy\Filesystem\filesystem;
 use function flextype;
 use function function_exists;
 use function implode;
@@ -74,9 +74,9 @@ use function md5;
 use function parsers;
 use function plugins;
 use function register_shutdown_function;
-use function registry;
+use function Glowy\Registry\registry;
 use function session;
-use function strings;
+use function Glowy\Strings\strings;
 use function sys_get_temp_dir;
 use function trim;
 use function var_export;
@@ -268,23 +268,8 @@ container()->set('cache', static function () {
         case 'cassandra':
             $config = new \Phpfastcache\Drivers\Cassandra\Config(getDriverConfig($driverName));
             break;
-        case 'cookie':
-            $config = new \Phpfastcache\Drivers\Cookie\Config(getDriverConfig($driverName));
-            break;
-        case 'couchbase':
-            $config = new \Phpfastcache\Drivers\Couchbase\Config(getDriverConfig($driverName));
-            break;
-        case 'couchdb':
-            $config = new \Phpfastcache\Drivers\Couchdb\Config(getDriverConfig($driverName));
-            break;
-        case 'devfalse':
-            $config = new \Phpfastcache\Drivers\Devfalse\Config(getDriverConfig($driverName));
-            break;
         case 'devnull':
             $config = new \Phpfastcache\Drivers\Devnull\Config(getDriverConfig($driverName));
-            break;
-        case 'devtrue':
-            $config = new \Phpfastcache\Drivers\Devtrue\Config(getDriverConfig($driverName));
             break;
         case 'files':
             $config = new \Phpfastcache\Drivers\Files\Config(getDriverConfig($driverName));
@@ -312,9 +297,6 @@ container()->set('cache', static function () {
             break;
         case 'redis':
             $config = new \Phpfastcache\Drivers\Redis\Config(getDriverConfig($driverName));
-            break;
-        case 'riak':
-            $config = new \Phpfastcache\Drivers\Riak\Config(getDriverConfig($driverName));
             break;
         case 'sqlite':
             $config = new \Phpfastcache\Drivers\Sqlite\Config(getDriverConfig($driverName));

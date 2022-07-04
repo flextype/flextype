@@ -4,6 +4,7 @@ parameters:
   paths:
     - src
   ignoreErrors:
+    - '#Undefined variable: \$this.*#'
     - '/Constant PATH not found./'
     - '/Constant ROOT_DIR not found./'
     - '/Variable \$api_errors might not be defined./'

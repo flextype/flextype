@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 use Slim\Interfaces\RouteParserInterface;
 use Psr\Http\Message\UriInterface;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\Psr7\Response;
+use function Glowy\Strings\strings;
 
 if (! function_exists('urlFor')) {
     /**

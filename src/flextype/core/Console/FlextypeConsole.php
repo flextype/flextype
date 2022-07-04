@@ -51,7 +51,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FlextypeConsole extends ConsoleApplication
 {
-    public function run(InputInterface $input = null, OutputInterface $output = null)
+    public function run(InputInterface $input = null, OutputInterface $output = null): int
     {
         // Add Console Commands
         console()->add(new AboutCommand());
@@ -82,6 +82,6 @@ class FlextypeConsole extends ConsoleApplication
         console()->add(new TokensHasCommand());
         console()->add(new TokensFetchCommand());
 
-        parent::run();
+        return parent::run();
     }
 }
