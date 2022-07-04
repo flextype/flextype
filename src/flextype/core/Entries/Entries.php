@@ -124,8 +124,8 @@ class Entries
                 continue;
             }
             
-            if (filesystem()->file(ROOT_DIR . '/' . $value['path'])->exists()) {
-                include_once ROOT_DIR . '/' . $value['path']; 
+            if (filesystem()->file(FLEXTYPE_ROOT_DIR . '/' . $value['path'])->exists()) {
+                include_once FLEXTYPE_ROOT_DIR . '/' . $value['path']; 
             }
         } 
     }
@@ -140,8 +140,8 @@ class Entries
     public function initDirectives(array $directives): void
     {
         foreach ($directives as $key => $value) {
-            if (filesystem()->file(ROOT_DIR . '/' . $value['path'])->exists()) {
-                include_once ROOT_DIR . '/' . $value['path']; 
+            if (filesystem()->file(FLEXTYPE_ROOT_DIR . '/' . $value['path'])->exists()) {
+                include_once FLEXTYPE_ROOT_DIR . '/' . $value['path']; 
             }
         } 
     }
@@ -208,7 +208,7 @@ class Entries
                     continue;
                 }
 
-                $events[] = ROOT_DIR . '/' . $event['path'];
+                $events[] = FLEXTYPE_ROOT_DIR . '/' . $event['path'];
             }
         }
 
@@ -249,7 +249,7 @@ class Entries
                     continue;
                 }
 
-                $fields[] = ROOT_DIR . '/' . $field['path'];
+                $fields[] = FLEXTYPE_ROOT_DIR . '/' . $field['path'];
             }
         }
 

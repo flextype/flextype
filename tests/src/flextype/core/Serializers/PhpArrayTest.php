@@ -12,7 +12,7 @@ test('encode', function () {
 });
 
 test('decode', function () {
-    $this->assertEquals(['title' => 'Foo', 'content' => 'Bar'], serializers()->phparray()->decode(ROOT_DIR . '/tests/fixtures/serializers/phparray.php'));
+    $this->assertEquals(['title' => 'Foo', 'content' => 'Bar'], serializers()->phparray()->decode(FLEXTYPE_ROOT_DIR . '/tests/fixtures/serializers/phparray.php'));
 });
 
 test('get cache ID', function () {

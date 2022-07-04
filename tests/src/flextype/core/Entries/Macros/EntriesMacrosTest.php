@@ -13,9 +13,9 @@ afterEach(function (): void {
 });
 
 test('EntriesMacros for blog', function () {
-    entries()->create('blog', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/blog/blog.yaml')->get()));
-    entries()->create('blog/post-1', serializers()->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/blog/post-1/post.md')->get()));
-    entries()->create('blog/post-2', serializers()->frontmatter()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/blog/post-2/post.md')->get()));
+    entries()->create('blog', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/blog/blog.yaml')->get()));
+    entries()->create('blog/post-1', serializers()->frontmatter()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/blog/post-1/post.md')->get()));
+    entries()->create('blog/post-2', serializers()->frontmatter()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/blog/post-2/post.md')->get()));
 
     $blog = entries()->fetch('blog');
     $posts = entries()->fetch('blog', ['collection' => true]);
@@ -26,8 +26,8 @@ test('EntriesMacros for blog', function () {
 
 test('EntriesMacros for shop', function() {
     filesystem()
-        ->directory(ROOT_DIR . '/tests/fixtures/entries/shop')
-        ->copy(ROOT_DIR . '/project/entries/shop');
+        ->directory(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/shop')
+        ->copy(FLEXTYPE_ROOT_DIR . '/project/entries/shop');
 
     $shop = entries()->fetch('shop');
 
@@ -40,10 +40,10 @@ test('EntriesMacros for shop', function() {
 test('EntriesMacros for catalog', function () {
 
     // Create catalog
-    entries()->create('catalog', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/catalog/entry.yaml')->get()));
-    entries()->create('catalog/bikes', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/catalog/bikes/entry.yaml')->get()));
-    entries()->create('catalog/bikes/gt', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/catalog/bikes/gt/entry.yaml')->get()));
-    entries()->create('catalog/bikes/norco', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/catalog/bikes/norco/entry.yaml')->get()));
+    entries()->create('catalog', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/catalog/entry.yaml')->get()));
+    entries()->create('catalog/bikes', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/catalog/bikes/entry.yaml')->get()));
+    entries()->create('catalog/bikes/gt', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/catalog/bikes/gt/entry.yaml')->get()));
+    entries()->create('catalog/bikes/norco', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/catalog/bikes/norco/entry.yaml')->get()));
     entries()->create('catalog/bikes/foo', ['title' => 'foo']);
     entries()->create('catalog/bikes/foo/bar', ['title' => 'bar']);
 
@@ -81,11 +81,11 @@ test('EntriesMacros for catalog', function () {
 });
 
 test('EntriesMacros for albmus', function () {
-    entries()->create('root', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/root/entry.yaml')->get()));
+    entries()->create('root', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/root/entry.yaml')->get()));
 
-    entries()->create('albums', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/root/albums/entry.yaml')->get()));
-    entries()->create('albums/category-1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/root/albums/category-1/entry.yaml')->get()));
-    entries()->create('albums/category-1/album-1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/root/albums/category-1/album-1/entry.yaml')->get()));
+    entries()->create('albums', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/root/albums/entry.yaml')->get()));
+    entries()->create('albums/category-1', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/root/albums/category-1/entry.yaml')->get()));
+    entries()->create('albums/category-1/album-1', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/root/albums/category-1/album-1/entry.yaml')->get()));
 
     entries()->create('banners', ['title' => 'Banners']);
     entries()->create('banners/1', ['title' => 'Banner1']);
@@ -97,10 +97,10 @@ test('EntriesMacros for albmus', function () {
 });
 
 test('EntriesMacros for long nested entries', function () {
-    entries()->create('level1', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/level1/entry.yaml')->get()));
-    entries()->create('level1/level2', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/level1/level2/entry.yaml')->get()));
-    entries()->create('level1/level2/level3', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/level1/level2/level3/entry.yaml')->get()));
-    entries()->create('level1/level2/level3/level4', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/level1/level2/level3/level4/entry.yaml')->get()));
+    entries()->create('level1', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/level1/entry.yaml')->get()));
+    entries()->create('level1/level2', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/level1/level2/entry.yaml')->get()));
+    entries()->create('level1/level2/level3', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/level1/level2/level3/entry.yaml')->get()));
+    entries()->create('level1/level2/level3/level4', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/level1/level2/level3/level4/entry.yaml')->get()));
 
     $level = entries()->fetch('level1');
 

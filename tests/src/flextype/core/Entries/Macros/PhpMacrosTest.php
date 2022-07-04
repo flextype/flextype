@@ -13,7 +13,7 @@ afterEach(function (): void {
 });
 
 test('PhpMacros', function () {
-    entries()->create('blog', serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/tests/fixtures/entries/blog-php-macros/entry.yaml')->get()));
+    entries()->create('blog', serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/entries/blog-php-macros/entry.yaml')->get()));
     $this->assertTrue(entries()->create('blog/post-1', ['title' => 'Post 1']));
     $this->assertTrue(entries()->create('blog/post-2', ['title' => 'Post 2']));
     $this->assertTrue(entries()->create('blog/post-3', ['title' => 'Post 3']));

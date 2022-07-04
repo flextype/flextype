@@ -117,11 +117,11 @@ final class Shortcodes
                 continue;
             }
 
-            if (! file_exists(ROOT_DIR . '/' . $shortcode['path'])) {
+            if (! file_exists(FLEXTYPE_ROOT_DIR . '/' . $shortcode['path'])) {
                 continue;
             }
 
-            include_once ROOT_DIR . '/' . $shortcode['path'];
+            include_once FLEXTYPE_ROOT_DIR . '/' . $shortcode['path'];
         }
     }
 

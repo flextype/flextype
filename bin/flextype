@@ -23,12 +23,12 @@ define('FLEXTYPE_START_TIME', microtime(true));
 /**
  * Define the PATH to the root directory (without trailing slash).
  */
-define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
+define('FLEXTYPE_ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
 
 /**
  * Ensure vendor libraries exist
  */
-! is_file($flextypeAutoload = ROOT_DIR . '/vendor/autoload.php') and exit('Please run: <i>composer install</i> for flextype');
+! is_file($flextypeAutoload = FLEXTYPE_ROOT_DIR . '/vendor/autoload.php') and exit('Please run: <i>composer install</i> for flextype');
 
 /**
  * Register The Auto Loader
@@ -49,4 +49,4 @@ $flextypeLoader = require_once $flextypeAutoload;
  * the responses back to the browser and delight our users.
  */
 
-require_once ROOT_DIR . '/src/flextype/flextype.php';
+require_once FLEXTYPE_ROOT_DIR . '/src/flextype/flextype.php';

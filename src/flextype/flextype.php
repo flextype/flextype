@@ -85,7 +85,7 @@ use const DIRECTORY_SEPARATOR;
 use const PHP_VERSION;
 
 // Get defines.
-require_once ROOT_DIR . '/src/flextype/defines.php';
+require_once FLEXTYPE_ROOT_DIR . '/src/flextype/defines.php';
 
 // Check PHP Version
 version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(sprintf('You are running PHP %s, but Flextype needs at least <strong>PHP %s</strong> to run.', $ver, $req));
@@ -104,8 +104,8 @@ container()->set('registry', registry());
 container()->set('actions', Actions::getInstance());
 
 // Init Flextype config (manifest and settings)
-$flextypeManifestFilePath        = ROOT_DIR . '/src/flextype/flextype.yaml';
-$defaultFlextypeSettingsFilePath = ROOT_DIR . '/src/flextype/settings.yaml';
+$flextypeManifestFilePath        = FLEXTYPE_ROOT_DIR . '/src/flextype/flextype.yaml';
+$defaultFlextypeSettingsFilePath = FLEXTYPE_ROOT_DIR . '/src/flextype/settings.yaml';
 $customFlextypeSettingsFilePath  = FLEXTYPE_PATH_PROJECT . '/config/flextype/settings.yaml';
 $preflightFlextypePath           = FLEXTYPE_PATH_TMP . '/config/flextype/';
 $customFlextypeSettingsPath      = FLEXTYPE_PATH_PROJECT . '/config/flextype/';
@@ -359,16 +359,16 @@ View::setDirectory(FLEXTYPE_PATH_PROJECT);
 View::setExtension(registry()->get('flextype.settings.view.extension'));
 
 // Add bootstrap file before plugins intialization.
-require_once ROOT_DIR . '/src/flextype/bootstrap/before-plugins.php';
+require_once FLEXTYPE_ROOT_DIR . '/src/flextype/bootstrap/before-plugins.php';
 
 // Add Plugins Service
 container()->set('plugins', new Plugins());
 
 // Add bootstrap file before plugins intialization.
-require_once ROOT_DIR . '/src/flextype/bootstrap/after-plugins.php';
+require_once FLEXTYPE_ROOT_DIR . '/src/flextype/bootstrap/after-plugins.php';
 
 // Add Routes file.
-require_once ROOT_DIR . '/src/flextype/routes/routes.php';
+require_once FLEXTYPE_ROOT_DIR . '/src/flextype/routes/routes.php';
 
 // Enable lazy CORS
 //

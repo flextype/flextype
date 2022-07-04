@@ -34,12 +34,12 @@ if (! defined('FLEXTYPE_PATH_PROJECT')) {
     /**
      * Define the project path (without trailing slash).
      */
-    define('FLEXTYPE_PATH_PROJECT', ROOT_DIR . '/' . FLEXTYPE_PROJECT_NAME);
+    define('FLEXTYPE_PATH_PROJECT', FLEXTYPE_ROOT_DIR . '/' . FLEXTYPE_PROJECT_NAME);
 }
 
 if (! defined('FLEXTYPE_PATH_TMP')) {
     /**
      * Define the project tmp path (without trailing slash).
      */
-    define('FLEXTYPE_PATH_TMP', ROOT_DIR . '/var/tmp');
+    define('FLEXTYPE_PATH_TMP', FLEXTYPE_ROOT_DIR . '/var/tmp');
 }

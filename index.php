@@ -29,7 +29,7 @@ define('FLEXTYPE_START_TIME', microtime(true));
 /**
  * Define the PATH to the root directory (without trailing slash).
  */
-define('ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
+define('FLEXTYPE_ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
 
 /**
  * Ensure vendor libraries exist

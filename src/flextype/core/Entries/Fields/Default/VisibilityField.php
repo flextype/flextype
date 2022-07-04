@@ -24,7 +24,7 @@ emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void
     }
 
     // Determine is the current field file path is the same.
-    if (! strings(__FILE__)->replace(ROOT_DIR, '')->replaceFirst('/', '')->isEqual(entries()->registry()->get('methods.fetch.collection.fields.visibility.path'))) {
+    if (! strings(__FILE__)->replace(FLEXTYPE_ROOT_DIR, '')->replaceFirst('/', '')->isEqual(entries()->registry()->get('methods.fetch.collection.fields.visibility.path'))) {
         return;
     }
     
@@ -49,7 +49,7 @@ emitter()->addListener('onEntriesCreate', static function (): void {
     }
 
     // Determine is the current field file path is the same.
-    if (! strings(__FILE__)->replace(ROOT_DIR, '')->isEqual(entries()->registry()->get('methods.create.collection.fields.visibility.path'))) {
+    if (! strings(__FILE__)->replace(FLEXTYPE_ROOT_DIR, '')->isEqual(entries()->registry()->get('methods.create.collection.fields.visibility.path'))) {
         return;
     }
     

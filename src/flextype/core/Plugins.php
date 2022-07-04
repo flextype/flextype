@@ -50,7 +50,7 @@ class Plugins
      */
     public function __construct()
     {
-        $this->locales = serializers()->yaml()->decode(filesystem()->file(ROOT_DIR . '/src/flextype/locales.yaml')->get());
+        $this->locales = serializers()->yaml()->decode(filesystem()->file(FLEXTYPE_ROOT_DIR . '/src/flextype/locales.yaml')->get());
         $this->init();
     }
 
