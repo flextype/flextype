@@ -23,6 +23,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use function Thermage\div;
 use function Thermage\renderToString;
+use function Flextype\cache;
+use function Flextype\collectionFromString;
 
 class CacheGetMultipleCommand extends Command
 {

@@ -18,13 +18,14 @@ namespace Flextype\Entries\Expressions;
 
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use function Flextype\parsers;
 
 class ParsersExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
         return [
-            new ExpressionFunction('parsers', fn() => 'parsers()', fn($arguments) => parsers())
+            new ExpressionFunction('parsers', fn() => '\Flextype\parsers()', fn($arguments) => parsers())
         ];
     }
 }

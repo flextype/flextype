@@ -21,17 +21,19 @@ use Glowy\Macroable\Macroable;
 
 use function array_merge;
 use function Glowy\Arrays\arrays;
-use function cache;
+use function Flextype\cache;
 use function count;
-use function emitter;
+use function Flextype\emitter;
 use function file_exists;
 use function Glowy\Filesystem\filesystem;
-use function filterCollection;
-use function find;
+use function Flextype\find;
 use function is_array;
-use function Glowy\Registry\registry;
-use function serializers;
+use function Flextype\registry;
+use function Flextype\serializers;
 use function Glowy\Strings\strings;
+use function Flextype\filterCollection;
+use function Flextype\collection;
+use function Flextype\expression;
 
 class Entries
 {

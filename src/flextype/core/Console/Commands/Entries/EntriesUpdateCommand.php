@@ -23,6 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function Thermage\div;
 use function Thermage\renderToString;
 use function Glowy\Strings\strings;
+use function Flextype\entries;
+use function Flextype\serializers;
 
 class EntriesUpdateCommand extends Command
 {

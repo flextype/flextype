@@ -18,13 +18,14 @@ namespace Flextype\Entries\Expressions;
 
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use function Flextype\entries;
 
 class VarExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
         return [
-            new ExpressionFunction('var', fn(string $var) => "entries()->registry()->get('methods.fetch.result.vars.' . $var . ')'", fn($arguments, string $var) => entries()->registry()->get('methods.fetch.result.vars.' . $var))
+            new ExpressionFunction('var', fn(string $var) => "\Flextype\entries()->registry()->get('methods.fetch.result.vars.' . $var . ')'", fn($arguments, string $var) => entries()->registry()->get('methods.fetch.result.vars.' . $var))
         ];
     }
 }

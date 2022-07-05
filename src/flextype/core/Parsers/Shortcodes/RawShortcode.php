@@ -20,7 +20,8 @@ use Thunder\Shortcode\EventHandler\FilterRawEventHandler;
 use Thunder\Shortcode\Events;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
-use function parsers;
+use function Flextype\parsers;
+use function Flextype\registry;
 
 // Shortcode: raw
 // Usage: (raw) shortcodes to escape (/raw)

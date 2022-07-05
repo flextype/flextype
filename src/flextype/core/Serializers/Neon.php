@@ -20,8 +20,8 @@ use Nette\Neon\Exception;
 use Nette\Neon\Neon as NeonSerializer;
 use RuntimeException;
 
-use function cache;
-use function registry;
+use function Flextype\cache;
+use function Flextype\registry;
 use function Glowy\Strings\strings;
 
 class Neon

@@ -16,6 +16,9 @@ declare(strict_types=1);
 
 use function Glowy\Strings\strings;
 use function Glowy\Filesystem\filesystem;
+use function Flextype\registry;
+use function Flextype\emitter;
+use function Flextype\entries;
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 

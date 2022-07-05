@@ -21,12 +21,12 @@ use Symfony\Component\Yaml\Exception\DumpException as SymfonyYamlDumpException;
 use Symfony\Component\Yaml\Exception\ParseException as SymfonyYamlParseException;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
-use function cache;
+use function Flextype\cache;
 use function error_reporting;
 use function function_exists;
 use function ini_get;
 use function ini_set;
-use function registry;
+use function Flextype\registry;
 use function Glowy\Strings\strings;
 
 class Yaml

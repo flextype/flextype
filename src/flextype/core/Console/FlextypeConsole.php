@@ -48,6 +48,7 @@ use Flextype\Console\Commands\Tokens\TokensMoveCommand;
 use Flextype\Console\Commands\Tokens\TokensHasCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use function Flextype\console;
 
 class FlextypeConsole extends ConsoleApplication
 {

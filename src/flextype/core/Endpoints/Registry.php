@@ -20,7 +20,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function count;
-use function registry;
+use function Flextype\registry;
 
 class Registry extends Api
 {

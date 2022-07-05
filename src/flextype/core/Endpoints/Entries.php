@@ -19,7 +19,7 @@ namespace Flextype\Endpoints;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use function entries;
+use function Flextype\entries;
 use function count;
 
 class Entries extends Api

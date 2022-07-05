@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use function Glowy\Filesystem\filesystem;
 
+use function Flextype\serializers;
+
 test('encode', function () {
     $string = filesystem()->file(FLEXTYPE_ROOT_DIR . '/tests/fixtures/serializers/neon.neon')->get();
     $this->assertEquals(trim("{" . $string . "}"),

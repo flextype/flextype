@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Flextype\Flextype;
 use Glowy\Strings\Strings;
 use function Glowy\Filesystem\filesystem;
+use function Flextype\parsers;
+use function Flextype\plugins;
 
 beforeEach(function() {
     // Create sandbox plugin

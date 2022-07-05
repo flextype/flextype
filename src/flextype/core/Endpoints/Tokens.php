@@ -21,6 +21,10 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use function count;
 use function Glowy\Filesystem\filesystem;
+use function Flextype\generateToken;
+use function Flextype\generateTokenHash;
+use function Flextype\verifyTokenHash;
+use function Flextype\entries;
 
 class Tokens extends Api
 {

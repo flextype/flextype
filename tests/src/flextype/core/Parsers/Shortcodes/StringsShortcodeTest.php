@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use function Glowy\Strings\strings;
+use function Flextype\parsers;
+use function Flextype\registry;
 
 test('strings shortcode', function () {
 

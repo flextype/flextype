@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use Flextype\Actions;
+use function Flextype\actions;
 
 test('test getInstance() method', function() {
     $this->assertInstanceOf(Actions::class, Actions::getInstance());

@@ -18,13 +18,14 @@ namespace Flextype\Entries\Expressions;
 
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use function Flextype\serializers;
 
 class SerializersExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
         return [
-            new ExpressionFunction('serializers', fn() => 'serializers()', fn($arguments) => serializers())
+            new ExpressionFunction('serializers', fn() => '\Flextype\serializers()', fn($arguments) => serializers())
         ];
     }
 }

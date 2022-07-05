@@ -18,15 +18,16 @@ namespace Flextype\Serializers;
 
 use function array_slice;
 use function Glowy\Arrays\arrays;
-use function cache;
+use function Flextype\cache;
 use function count;
 use function implode;
 use function in_array;
 use function ltrim;
 use function preg_replace;
 use function preg_split;
-use function registry;
-use function serializers;
+use function Flextype\registry;
+use function Flextype\serializers;
+use function Flextype\collection;
 use function Glowy\Strings\strings;
 
 use const PHP_EOL;

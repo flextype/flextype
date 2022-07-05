@@ -19,8 +19,9 @@ namespace Flextype\Parsers\Shortcodes;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-use function parsers;
-use function Glowy\Registry\registry;
+use function Flextype\parsers;
+use function Flextype\registry;
+use function Flextype\expression;
 
 // Shortcode: if
 // Usage: (if:'(var:score) < (var:level1)') Show something... (/if)

@@ -27,6 +27,9 @@ use function Thermage\div;
 use function Thermage\span;
 use function Thermage\renderToString;
 use function Glowy\Strings\strings;
+use function Flextype\entries;
+use function Flextype\serializers;
+use function Flextype\collection;
 
 class EntriesFetchCommand extends Command
 {

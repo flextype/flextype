@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use function Flextype\serializers;
+
 test('encode', function () {
     $this->assertEquals("title: Foo\ncontent: Bar\n",
                         serializers()->yaml()

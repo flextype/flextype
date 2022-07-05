@@ -23,6 +23,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use function Thermage\div;
 use function Thermage\renderToString;
+use function Flextype\verifyTokenHash;
 
 class TokensVerifyHashCommand extends Command
 {

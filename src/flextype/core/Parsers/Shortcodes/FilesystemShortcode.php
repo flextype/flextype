@@ -18,6 +18,9 @@ namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use function Glowy\Filesystem\filesystem;
+use function Flextype\parsers;
+use function Flextype\registry;
+use function Flextype\collection;
 
 // Shortcode: filesystem
 // Usage: (filesystem get file:'1.txt)

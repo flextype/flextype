@@ -16,6 +16,9 @@ declare(strict_types=1);
 
 use Glowy\Arrays\Arrays as Collection;
 use function Glowy\Strings\strings;
+use function Flextype\emitter;
+use function Flextype\entries;
+use function Flextype\registry;
 
 // Directive: @php
 emitter()->addListener('onEntriesFetchSingleField', static function (): void {

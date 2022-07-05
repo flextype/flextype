@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use function Flextype\registry;
+use function Flextype\parsers;
+
 test('when shortcode', function () {
     expect(parsers()->shortcodes()->parse("(when:'2 > 1')yes(/when)"))->toBe("yes");
     expect(parsers()->shortcodes()->parse("(when:'2>1')yes(/when)"))->toBe("yes");

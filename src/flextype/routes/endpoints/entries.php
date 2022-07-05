@@ -18,7 +18,7 @@ namespace Flextype;
 
 use Flextype\Endpoints\Entries;
 
-use function app;
+use function Flextype\app;
 
 /**
  * Fetch entry

@@ -18,13 +18,14 @@ namespace Flextype\Entries\Expressions;
 
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use function Flextype\actions;
 
 class ActionsExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
         return [
-            new ExpressionFunction('actions', fn() => 'actions()', fn($arguments) => actions())
+            new ExpressionFunction('actions', fn() => '\Flextype\actions()', fn($arguments) => actions())
         ];
     }
 }

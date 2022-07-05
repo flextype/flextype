@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use function Flextype\parsers;
+
 test('get markdown instance', function () {
     $this->assertInstanceOf(Flextype\Parsers\Markdown::class, parsers()->markdown()->getInstance());
 });

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Flextype;
+
 use function Glowy\Filesystem\filesystem;
 
 // Add endpoints routes

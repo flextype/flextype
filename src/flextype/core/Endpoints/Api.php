@@ -24,8 +24,10 @@ use function count;
 use function in_array;
 use function is_string;
 use function password_verify;
-use function registry;
-use function serializers;
+use function Flextype\serializers;
+use function Flextype\verifyTokenHash;
+use function Flextype\registry;
+use function Flextype\entries;
 
 class Api
 {

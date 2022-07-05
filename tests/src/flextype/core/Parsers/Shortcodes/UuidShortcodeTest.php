@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use function Glowy\Strings\strings;
+use function Flextype\registry;
+use function Flextype\parsers;
 
 test('uuid shortcode', function () {
     expect(strings(parsers()->shortcodes()->parse('(uuid)'))->length() > 0)->toBeTrue();

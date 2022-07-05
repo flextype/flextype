@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Flextype;
+
 use Glowy\Arrays\Arrays as Collection;
 
 if (! function_exists('collection')) {

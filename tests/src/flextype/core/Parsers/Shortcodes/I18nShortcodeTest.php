@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use function Flextype\parsers;
+use function Flextype\registry;
+
 test('tr shortcode', function () {
    expect(parsers()->shortcodes()->parse('(tr:foo)'))->toBe('foo');
 });

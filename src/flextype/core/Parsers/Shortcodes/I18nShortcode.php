@@ -18,8 +18,10 @@ namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
-use function parsers;
-use function Glowy\Registry\registry;
+use function Flextype\parsers;
+use function Flextype\registry;
+use function Flextype\collectionFromQueryString;
+use function Flextype\__;
 
 // Shortcode: tr
 // Usage: (tr:foo values='foo=Foo' locale:'en_US')

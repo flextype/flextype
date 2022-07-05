@@ -18,13 +18,14 @@ namespace Flextype\Entries\Expressions;
 
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use function Flextype\registry;
 
 class RegistryExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
         return [
-            new ExpressionFunction('registry', fn() => 'registry()', fn($arguments) => registry())
+            new ExpressionFunction('registry', fn() => '\Flextype\registry()', fn($arguments) => registry())
         ];
     }
 }

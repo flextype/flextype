@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+namespace Flextype;
+
+use Closure;
 use Intervention\Image\ImageManagerStatic as Image;
 
 if (! function_exists('imageFile')) {

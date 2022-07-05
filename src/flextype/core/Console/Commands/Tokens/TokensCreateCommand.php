@@ -23,6 +23,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use function Thermage\div;
 use function Thermage\renderToString;
 use function Glowy\Strings\strings;
+use function Flextype\generateToken;
+use function Flextype\serializers;
+use function Flextype\entries;
+use function Flextype\generateTokenHash;
+
 
 class TokensCreateCommand extends Command
 {

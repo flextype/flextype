@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Flextype;
+
 use Flextype\I18n;
 
 if ( ! function_exists('__')) {

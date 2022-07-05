@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+use function Flextype\collection;
+use function Flextype\collectionFromJson;
+use function Flextype\collectionFromString;
+use function Flextype\collectionWithRange;
+use function Flextype\filterCollection;
 
 test('collection helper', function () {
     $this->assertEquals([], collection([])->toArray());

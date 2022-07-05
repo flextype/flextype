@@ -23,6 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use function Thermage\div;
 use function Thermage\renderToString;
+use function Flextype\entries;
 
 class EntriesHasCommand extends Command
 {

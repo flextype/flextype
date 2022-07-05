@@ -15,6 +15,8 @@ declare(strict_types=1);
  */
 
 use function Glowy\Strings\strings;
+use function Flextype\emitter;
+use function Flextype\entries;
 
 emitter()->addListener('onEntriesCreate', static function (): void {
     

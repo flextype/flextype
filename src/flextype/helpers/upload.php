@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+namespace Flextype;
+
+use Throwable;
 use Sirius\Upload\Handler as UploadHandler;
 use Sirius\Upload\Result\File as UploadResultFile;
 use function Glowy\Strings\strings;

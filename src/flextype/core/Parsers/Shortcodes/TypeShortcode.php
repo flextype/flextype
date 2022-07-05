@@ -17,7 +17,8 @@ declare(strict_types=1);
 namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
-use function Glowy\Registry\registry;
+use function Flextype\registry;
+use function Flextype\parsers;
 
 // Shortcode: type
 // Usage: (type:string)

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Flextype;
+
 use Slim\Interfaces\RouteParserInterface;
 use Psr\Http\Message\UriInterface;
 use Psr\Http\Message\ServerRequestInterface;

@@ -26,6 +26,7 @@ use function Thermage\div;
 use function Thermage\span;
 use function Thermage\hr;
 use function Thermage\renderToString;
+use function Flextype\registry;
 
 class AboutCommand extends Command
 {

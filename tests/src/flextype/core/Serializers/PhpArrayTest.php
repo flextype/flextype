@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use function Glowy\Strings\strings;
+use function Flextype\serializers;
+use function Flextype\registry;
 
 test('encode', function () {
     $this->assertEquals(65, strings(serializers()->phparray()->encode(['title' => 'Foo', 'content' => 'Bar']))->length());

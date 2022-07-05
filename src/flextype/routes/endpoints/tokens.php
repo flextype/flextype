@@ -18,7 +18,7 @@ namespace Flextype;
 
 use Flextype\Endpoints\Tokens;
 
-use function app;
+use function Flextype\app;
 
 /**
  * Generate token

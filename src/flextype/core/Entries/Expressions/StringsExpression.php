@@ -25,7 +25,7 @@ class StringsExpression implements ExpressionFunctionProviderInterface
     public function getFunctions()
     {
         return [
-            new ExpressionFunction('strings', fn($str) => 'strings($str)', fn($arguments, $str) => strings($str))
+            new ExpressionFunction('strings', fn($str) => '\Glowy\Strings\strings($str)', fn($arguments, $str) => strings($str))
         ];
     }
 }

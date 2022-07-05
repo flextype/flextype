@@ -4,6 +4,7 @@ use Flextype\Component\Filesystem\Filesystem;
 
 use function Glowy\Filesystem\filesystem;
 use function Glowy\Strings\strings;
+use function Flextype\entries;
 
 beforeEach(function() {
     filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/entries')->create();

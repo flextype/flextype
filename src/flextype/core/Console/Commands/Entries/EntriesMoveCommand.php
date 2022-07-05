@@ -22,6 +22,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use function Thermage\div;
 use function Thermage\renderToString;
+use function Flextype\entries;
 
 class EntriesMoveCommand extends Command
 {

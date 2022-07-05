@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use function Flextype\parsers;
+
 test('get textile instance', function () {
     $this->assertInstanceOf(Flextype\Parsers\Textile::class, parsers()->textile()->getInstance());
 });

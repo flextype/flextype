@@ -18,13 +18,13 @@ namespace Flextype\Serializers;
 
 use RuntimeException;
 
-use function cache;
+use function Flextype\cache;
 use function defined;
 use function json_decode;
 use function json_encode;
 use function json_last_error;
 use function json_last_error_msg;
-use function registry;
+use function Flextype\registry;
 use function Glowy\Strings\strings;
 
 use const JSON_PRESERVE_ZERO_FRACTION;

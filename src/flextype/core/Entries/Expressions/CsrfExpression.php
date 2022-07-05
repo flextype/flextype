@@ -18,6 +18,7 @@ namespace Flextype\Entries\Expressions;
 
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use function Flextype\csrf;
 
 class CsrfExpression implements ExpressionFunctionProviderInterface
 {

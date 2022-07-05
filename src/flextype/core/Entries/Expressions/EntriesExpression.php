@@ -20,6 +20,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Glowy\Arrays\Arrays as Collection;
 use Glowy\Macroable\Macroable;
+use function Flextype\entries;
 
 class EntriesExpression implements ExpressionFunctionProviderInterface
 {

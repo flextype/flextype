@@ -16,7 +16,10 @@ declare(strict_types=1);
 
 use Glowy\Arrays\Arrays as Collection;
 
-use function Glowy\Registry\registry;
+use function Flextype\registry;
+use function Flextype\emitter;
+use function Flextype\entries;
+use function Flextype\collection;
 
 emitter()->addListener('onEntriesFetchSingleHasResult', static function (): void {
 

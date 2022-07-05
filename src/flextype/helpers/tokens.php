@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Flextype;
+
 if (! function_exists('generateToken')) {
     /**
      * Generate token.

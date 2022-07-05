@@ -22,11 +22,11 @@ use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Syntax\Syntax;
 use Thunder\Shortcode\Parser\RegularParser;
 
-use function cache;
+use function Flextype\cache;
 use function count;
 use function file_exists;
 use function is_array;
-use function Glowy\Registry\registry;
+use function Flextype\registry;
 use function Glowy\Strings\strings;
 
 final class Shortcodes

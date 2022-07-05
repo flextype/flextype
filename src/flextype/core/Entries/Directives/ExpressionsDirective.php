@@ -15,6 +15,10 @@ declare(strict_types=1);
  */
 
 use Glowy\Arrays\Arrays as Collection;
+use function Flextype\emitter;
+use function Flextype\registry;
+use function Flextype\entries;
+use function Flextype\expression;
 
 // Directive: [[  ]]
 emitter()->addListener('onEntriesFetchSingleField', static function (): void {

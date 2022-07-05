@@ -18,13 +18,14 @@ namespace Flextype\Entries\Expressions;
 
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use function Flextype\entries;
 
 class FieldExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
         return [
-            new ExpressionFunction('field', fn(string $field) => "entries()->registry()->get('methods.fetch.result.' . $field . ')'", fn($arguments, string $field) => entries()->registry()->get('methods.fetch.result.' . $field))
+            new ExpressionFunction('field', fn(string $field) => "\Flextype\entries()->registry()->get('methods.fetch.result.' . $field . ')'", fn($arguments, string $field) => entries()->registry()->get('methods.fetch.result.' . $field))
         ];
     }
 }

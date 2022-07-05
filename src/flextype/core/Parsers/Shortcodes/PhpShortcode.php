@@ -17,6 +17,8 @@ declare(strict_types=1);
 namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
+use function Flextype\registry;
+use function Flextype\parsers;
 
 // Shortcode: php
 // Usage: (php) php code here (/php)

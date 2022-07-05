@@ -23,6 +23,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use function Thermage\div;
 use function Thermage\renderToString;
 use function Glowy\Strings\strings;
+use function Flextype\entries;
+use function Flextype\serializers;
 
 class EntriesCreateCommand extends Command
 {

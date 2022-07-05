@@ -19,8 +19,8 @@ namespace Flextype\Parsers;
 use Exception;
 use Netcarver\Textile\Parser;
 
-use function cache;
-use function Glowy\Registry\registry;
+use function Flextype\cache;
+use function Flextype\registry;
 use function Glowy\Strings\strings;
 
 final class Textile

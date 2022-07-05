@@ -21,8 +21,8 @@ use Symfony\Component\VarExporter\VarExporter;
 use RuntimeException;
 use Exception;
 
-use function cache;
-use function registry;
+use function Flextype\cache;
+use function Flextype\registry;
 use function Glowy\Strings\strings;
 use function var_export;
 

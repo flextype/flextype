@@ -7,6 +7,8 @@ use Thunder\Shortcode\EventHandler\FilterRawEventHandler;
 use Thunder\Shortcode\Events;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
+use function Flextype\parsers;
+
 test('get shortcodes instance', function () {
     $this->assertInstanceOf(Flextype\Parsers\Shortcodes::class, parsers()->shortcodes()->getInstance());
 });

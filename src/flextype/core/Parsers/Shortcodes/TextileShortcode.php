@@ -17,7 +17,8 @@ declare(strict_types=1);
 namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
-use function parsers;
+use function Flextype\parsers;
+use function Flextype\registry;
 
 // Shortcode: textile
 // Usage: (textile) markdown text here (/textile)

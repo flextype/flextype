@@ -19,9 +19,11 @@ namespace Flextype\Parsers\Shortcodes;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use Flextype\Entries\Entries;
 
-use function entries;
-use function parsers;
-use function Glowy\Registry\registry;
+use function Flextype\entries;
+use function Flextype\parsers;
+use function Flextype\registry;
+use function Flextype\collection;
+use function Flextype\collectionFromJson;
 use function Glowy\Strings\strings;
 
 // Shortcode: entries

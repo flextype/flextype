@@ -23,8 +23,8 @@ use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\MarkdownConverter;
 
-use function cache;
-use function Glowy\Registry\registry;
+use function Flextype\cache;
+use function Flextype\registry;
 use function Glowy\Strings\strings;
 
 final class Markdown

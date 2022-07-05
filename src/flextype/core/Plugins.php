@@ -27,7 +27,6 @@ use function Glowy\Arrays\arrays;
 use function count;
 use function filemtime;
 use function Glowy\Filesystem\filesystem;
-use function flextype;
 use function is_array;
 use function md5;
 use function trim;

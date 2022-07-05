@@ -18,7 +18,7 @@ namespace Flextype;
 
 use Flextype\Endpoints\Registry;
 
-use function app;
+use function Flextype\app;
 
 /**
  * Get registry item

@@ -17,8 +17,9 @@ declare(strict_types=1);
 namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
-use function Glowy\Registry\registry;
-use function expression;
+use function Flextype\registry;
+use function Flextype\expression;
+use function Flextype\parsers;
 
 // Shortcode: eval
 // Usage: (eval:2+2) 

@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use function Flextype\parsers;
+use function Flextype\registry;
+use function Flextype\app;
+
 test('getBaseUrl shortcode', function () {
     registry()->set('flextype.settings.base_url', 'https://awilum.github.io/flextype');
 

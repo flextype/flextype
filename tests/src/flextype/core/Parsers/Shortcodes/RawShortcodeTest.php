@@ -3,6 +3,9 @@
 declare(strict_types=1);
 
 use function Glowy\Filesystem\filesystem;
+use function Flextype\parsers;
+use function Flextype\registry;
+use function Flextype\entries;
 
 beforeEach(function() {
     filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/entries')->ensureExists(0755, true);

@@ -20,6 +20,24 @@ use Cocur\Slugify\Slugify;
 use Glowy\Arrays\Arrays;
 use function Glowy\Filesystem\filesystem;
 use function Glowy\Strings\strings;
+use function Flextype\flextype;
+use function Flextype\parsers;
+use function Flextype\serializers;
+use function Flextype\generateTokenHash;
+use function Flextype\logger;
+use function Flextype\app;
+use function Flextype\container;
+use function Flextype\emitter;
+use function Flextype\registry;
+use function Flextype\session;
+use function Flextype\console;
+use function Flextype\cache;
+use function Flextype\entries;
+use function Flextype\generateToken;
+use function Flextype\find;
+use function Flextype\slugify;
+use function Flextype\csrf;
+use function Flextype\verifyTokenHash;
 
 beforeEach(function() {
     filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/entries')->ensureExists(0755, true);

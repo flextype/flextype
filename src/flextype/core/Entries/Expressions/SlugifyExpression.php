@@ -18,13 +18,14 @@ namespace Flextype\Entries\Expressions;
 
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use function Flextype\slugify;
 
 class SlugifyExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
         return [
-            new ExpressionFunction('slugify', fn() => 'slugify()', fn($arguments) => slugify())
+            new ExpressionFunction('slugify', fn() => '\Flextype\slugify()', fn($arguments) => slugify())
         ];
     }
 }
