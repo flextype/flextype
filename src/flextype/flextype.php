@@ -51,6 +51,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Flextype\Middlewares\WhoopsMiddleware;
 use Flextype\Console\FlextypeConsole;
 
+use function Flextype\setBasePath;
 use function Flextype\app;
 use function array_replace_recursive;
 use function Flextype\container;
