@@ -34,7 +34,7 @@ final class Flextype
      *
      * @var Flextype|null
      */
-    private static ?Flextype $instance = null;
+    private static Flextype|null $instance = null;
 
     /**
      * The Flextype Application.
