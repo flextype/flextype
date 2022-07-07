@@ -20,7 +20,7 @@ The underlying architecture of Flextype is built using well established and best
 #### SYSTEM REQUIREMENTS
 Make sure your server meets the following requirements.
 
-* Webserver (Apache with Mod Rewrite)
+* Webserver (Apache, Nginx, etc.)
 * PHP 8.1 or higher
 
 #### PHP EXTENSIONS
