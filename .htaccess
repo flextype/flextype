@@ -62,9 +62,9 @@ RewriteRule .* index.php [L]
 # Block all direct access for these folders
 RewriteRule ^(\.git|src|var|tests)/(.*) error [F]
 # Block access to specific file types for these system folders
-RewriteRule ^(src|vendor)/(.*)\.(txt|xml|md|html|neon|json|yaml|yml|php|pl|py|cgi|twig|sh|bat|neon|json)$ error [F]
+RewriteRule ^(src|vendor)/(.*)\.(txt|xml|md|html|neon|json|json5|yaml|yml|php|pl|py|cgi|twig|sh|bat|neon|json)$ error [F]
 # Block access to specific file types for these project folders
-RewriteRule ^(project)/(.*)\.(txt|md|yaml|yml|neon|json|php|pl|py|cgi|twig|html|sh|bat|neon|json)$ error [F]
+RewriteRule ^(project)/(.*)\.(txt|md|yaml|yml|neon|json|json5|php|pl|py|cgi|twig|html|sh|bat|neon|json)$ error [F]
 # Block all direct access to .md files:
 RewriteRule \.md$ error [F]
 # Block all direct access to files and folders beginning with a dot
