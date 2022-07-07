@@ -532,7 +532,7 @@ class Entries
             // to avoid it's running inside filterCollection() helper.
             if ($this->registry()->has('methods.fetch.params.options.filter.only')) {
                 $data = [];
-                foreach ($this->registry()->get('methods.fetch.result') as $key => $value) {
+                foreach ($this->registry()->get('methods.fetch.result', []) as $key => $value) {
                     $data[$key] = collection($value)->only($this->registry()->get('methods.fetch.params.options.filter.only'))->toArray();
                 }
                 $this->registry()->delete('methods.fetch.params.options.filter.only');
@@ -544,7 +544,7 @@ class Entries
             // to avoid it's running inside filterCollection() helper.
             if ($this->registry()->has('methods.fetch.params.options.filter.except')) {
                 $data = [];
-                foreach ($this->registry()->get('methods.fetch.result') as $key => $value) {
+                foreach ($this->registry()->get('methods.fetch.result', []) as $key => $value) {
                     $data[$key] = collection($value)->except($this->registry()->get('methods.fetch.params.options.filter.except'))->toArray();
                 }
                 $this->registry()->delete('methods.fetch.params.options.filter.except');

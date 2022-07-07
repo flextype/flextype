@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Closure;
-use Intervention\Image\ImageManagerStatic as Image;
 
 use function count;
 use function function_exists;
@@ -16,11 +15,11 @@ if (! function_exists('imageFile')) {
     /**
      * Create a new image instance for image file.
      *
-     * @param  string $file    Image file.
+     * @param  string $file Image file.
      */
-    function imageFile(string $file): Image
+    function imageFile(string $file): \Intervention\Image\Image
     {
-        return Image::make($file);
+        return \Intervention\Image\ImageManagerStatic::make($file);
     }
 }
 
@@ -31,9 +30,9 @@ if (! function_exists('imageProcessFile')) {
      * @param  string $file    Image file.
      * @param  array  $options Options array.
      */
-    function imageProcessFile(string $file, array $options = [])
+    function imageProcessFile(string $file, array $options = []): mixed
     {
-        $image = Image::make($file);
+        $image = \Intervention\Image\ImageManagerStatic::make($file);
 
         if (count($options) === 0) {
             return $image;
@@ -41,7 +40,7 @@ if (! function_exists('imageProcessFile')) {
 
         if (isset($options['driver'])) {
             if (in_array($options['driver'], ['imagick', 'gd'])) {
-                Image::configure(['driver' => $options['driver']]);
+                \Intervention\Image\ImageManagerStatic::configure(['driver' => $options['driver']]);
             }
         }
 
@@ -167,6 +166,8 @@ if (! function_exists('imageProcessFile')) {
 
         $image->save($file, $options['quality'] ?? 70);
         $image->destroy();
+
+        return true;
     }
 }
 
@@ -178,11 +179,11 @@ if (! function_exists('imageCanvas')) {
      * @param  int   $height     Canvas height.
      * @param  mixed $background Canvas background.
      *
-     * @return Image Image canvas instance.
+     * @return \Intervention\Image\Image Image canvas instance.
      */
-    function imageCanvas(int $width, int $height, mixed $background = null): Image
+    function imageCanvas(int $width, int $height, mixed $background = null): \Intervention\Image\Image
     {
-        return Image::canvas($width, $height, $background);
+        return \Intervention\Image\ImageManagerStatic::canvas($width, $height, $background);
     }
 }
 
@@ -198,6 +199,6 @@ if (! function_exists('imageCache')) {
      */
     function imageCache(Closure $callback, int $lifetime = 5, bool $returnObj = false): mixed
     {
-        return Image::cache($callback, $lifetime, $returnObj);
+        return \Intervention\Image\ImageManagerStatic::cache($callback, $lifetime, $returnObj);
     }
 }

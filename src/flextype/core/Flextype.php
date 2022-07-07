@@ -42,7 +42,7 @@ final class Flextype
     /**
      * The Flextype Application Container.
      */
-    private static Container $container;
+    private static ContainerInterface $container;
 
     /**
      * Flextype should not be cloneable.
@@ -87,11 +87,11 @@ final class Flextype
     /**
      * Get Flextype Application Container.
      *
-     * @return Container Returns Flextype Application Container.
+     * @return ContainerInterface Returns Flextype Application Container.
      *
      * @access public
      */
-    public function container(): Container
+    public function container(): ContainerInterface
     {
         return self::$container;
     }

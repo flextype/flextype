@@ -6,6 +6,7 @@ namespace Flextype;
 
 use Sirius\Upload\Handler as UploadHandler;
 use Sirius\Upload\Result\File as UploadResultFile;
+use Sirius\Upload\Result\ResultInterface;
 use Throwable;
 
 use function function_exists;
@@ -20,9 +21,9 @@ if (! function_exists('upload')) {
      * @param array  $file   Raw file data (multipart/form-data).
      * @param string $folder The folder you're targetting.
      *
-     * @return UploadResultFile Result file.
+     * @return \Sirius\Upload\Result\ResultInterface|array Result file or arrays with messages.
      */
-    function upload(array $file, string $folder): UploadResultFile
+    function upload(array $file, string $folder): \Sirius\Upload\Result\ResultInterface|array
     {
         $settings = registry()->get('flextype.settings.upload');
 

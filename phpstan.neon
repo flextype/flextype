@@ -1,5 +1,5 @@
 parameters:
-  level: 2
+  level: 3
   reportUnmatchedIgnoredErrors: false
   bootstrapFiles:
     - src/flextype/defines.php

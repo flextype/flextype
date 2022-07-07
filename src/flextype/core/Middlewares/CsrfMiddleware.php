@@ -16,8 +16,9 @@ declare(strict_types=1);
 
 namespace Flextype\Middlewares;
 
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Psr7\Response;
 
 use function Flextype\csrf;
@@ -27,10 +28,10 @@ class CsrfMiddleware
     /**
      * Invoke
      *
-     * @param  Request        $request PSR-7 request
-     * @param  RequestHandler $handler PSR-15 request handler
+     * @param  ServerRequestInterface  $request PSR-7 request
+     * @param  RequestHandlerInterface $handler PSR-15 request handler
      */
-    public function __invoke(Request $request, RequestHandler $handler): Response
+    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
         $data     = $request->getParsedBody();
