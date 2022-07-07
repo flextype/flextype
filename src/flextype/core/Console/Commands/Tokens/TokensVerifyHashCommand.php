@@ -38,7 +38,7 @@ class TokensVerifyHashCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        dd($input->getArgument('token-hash'));
+
         if (verifyTokenHash($input->getArgument('token'), $input->getArgument('token-hash'))) {
             $output->write(
                 renderToString(

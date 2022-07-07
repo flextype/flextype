@@ -31,8 +31,8 @@ parsers()->shortcodes()->addHandler('var', static function (ShortcodeInterface $
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.var.enabled')) {
         return '';
     }
-
-    $params = $s->getParameters() ?? '';
+    
+    $params = $s->getParameters();
 
     if (isset($params['set'])) {
         if (isset($params['value'])) {

@@ -23,7 +23,7 @@ if (! function_exists('find')) {
     {
         $find = filesystem()->find()->in($path);
 
-        isset($options['depth']) and $find->depth($options['depth']) or $find->depth(1);
+        isset($options['depth']) ? $find->depth($options['depth']) : $find->depth(1);
         isset($options['date']) and $find->date($options['date']);
         isset($options['size']) and $find->size($options['size']);
         isset($options['exclude']) and $find->exclude($options['exclude']);

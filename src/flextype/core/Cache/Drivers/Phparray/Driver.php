@@ -47,7 +47,7 @@ class Driver implements AggregatablePoolInterface
 {
     use IOHelperTrait;
 
-    private static string $ext = 'php';
+    protected static string $ext = 'php';
 
     /**
      * @throws PhpfastcacheIOException

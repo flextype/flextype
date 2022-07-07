@@ -566,9 +566,6 @@ class Entries
             // Return entries array
             return collection($this->registry()->get('methods.fetch.result'));
         }
-
-        // Return entries array
-        return collection($this->registry()->get('methods.fetch.result'));
     }
 
     /**

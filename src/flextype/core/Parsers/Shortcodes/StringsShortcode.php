@@ -44,22 +44,14 @@ parsers()->shortcodes()->addHandler('strings', static function (ShortcodeInterfa
         $vars = $value !== null ? strings($value)->contains($varsDelimeter) ? explode($varsDelimeter, $value) : [$value] : [];
 
         // Parse shortcodes for each var.
-        $vars = array_map(static fn ($v) => parsers()->shortcodes()->parse(is_string($v) ? $v : ''), $vars);
+        $vars = array_map(static fn ($v) => parsers()->shortcodes()->parse((string) $v), $vars);
 
         if ($key === 'append') {
-            if (is_iterable($vars)) {
-                $content = strings($content)->{'append'}(...$vars)->toString();
-            } else {
-                $content = strings($content)->{'append'}($vars[0])->toString();
-            }
+            $content = strings($content)->{'append'}(...$vars)->toString();
         }
 
         if ($key === 'prepend') {
-            if (is_iterable($vars)) {
-                $content = strings($content)->{'prepend'}(...$vars)->toString();
-            } else {
-                $content = strings($content)->{'prepend'}($vars[0])->toString();
-            }
+            $content = strings($content)->{'prepend'}(...$vars)->toString();
         }
 
         if ($key === 'after') {
