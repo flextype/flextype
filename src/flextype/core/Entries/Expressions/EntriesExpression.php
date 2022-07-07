@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace Flextype\Entries\Expressions;
 
-use Glowy\Arrays\Arrays as Collection;
+use Glowy\Arrays\Arrays;
 use Glowy\Macroable\Macroable;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
@@ -41,11 +41,11 @@ class EntriesTwigExpressionsMethods
      * @param string $id      Unique identifier of the entry.
      * @param array  $options Options array.
      *
-     * @return self Returns instance of The Arrays class.
+     * @return \Glowy\Arrays\Arrays Returns instance of The Arrays class.
      *
      * @access public
      */
-    public function fetch(string $id, array $options = []): Collection
+    public function fetch(string $id, array $options = []): \Glowy\Arrays\Arrays
     {
         return entries()->fetch($id, $options);
     }
@@ -53,11 +53,11 @@ class EntriesTwigExpressionsMethods
     /**
      * Get Entries Registry.
      *
-     * @return Collection Returns entries registry.
+     * @return \Glowy\Arrays\Arrays Returns entries registry.
      *
      * @access public
      */
-    public function registry(): Collection
+    public function registry(): \Glowy\Arrays\Arrays
     {
         return entries()->registry();
     }

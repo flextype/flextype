@@ -55,7 +55,7 @@ if (! function_exists('upload')) {
             $result->confirm();
 
             // If upload file is image, do image file processing
-            if ($result->name) {
+            if (property_exists($result, 'name')) {
                 $mediaFile = $uploadFolder . '/' . $result->name;
 
                 if (getimagesize($mediaFile)) {

@@ -777,7 +777,7 @@ class Entries
      * @param string $id    Unique identifier of the entry.
      * @param string $newID New Unique identifier of the entry.
      *
-     * @return boolы True on success, false on failure.
+     * @return bool True on success, false on failure.
      *
      * @access public
      */
@@ -987,7 +987,7 @@ class Entries
     /**
      * Set Entries registry.
      *
-     * @return void
+     * @return self
      *
      * @access public
      */
@@ -1001,7 +1001,7 @@ class Entries
     /**
      * Set Entries options.
      *
-     * @return void
+     * @return self
      *
      * @access public
      */
@@ -1015,7 +1015,7 @@ class Entries
     /**
      * Get Entries options.
      *
-     * @return array Returns entries options.
+     * @return Collection Returns entries options.
      *
      * @access public
      */

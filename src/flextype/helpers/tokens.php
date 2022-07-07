@@ -18,7 +18,7 @@ if (! function_exists('generateToken')) {
      *
      * @param int $length Token string length.
      *
-     * @return strings Token string.
+     * @return string Token string.
      */
     function generateToken(int $length = 16): string
     {
@@ -30,7 +30,6 @@ if (! function_exists('generateTokenHash')) {
     /**
      * Generate token hash.
      *
-     * @return strings Token string.
      * @return string Token string hashed.
      */
     function generateTokenHash(string $token): string

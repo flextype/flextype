@@ -23,12 +23,12 @@ class Actions extends Collection
     /**
      * Actions instance
      */
-    private static ?Actions $instance = null;
+    protected static Actions|null $instance = null;
 
     /**
      * Actions registry storage
      */
-    private static ?Collection $registry = null;
+    protected static Collection|null $registry = null;
 
     /**
      * Gets the instance via lazy initialization (created on first usage)

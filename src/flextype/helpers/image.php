@@ -17,7 +17,6 @@ if (! function_exists('imageFile')) {
      * Create a new image instance for image file.
      *
      * @param  string $file    Image file.
-     * @param  array  $options Options array.
      */
     function imageFile(string $file): Image
     {

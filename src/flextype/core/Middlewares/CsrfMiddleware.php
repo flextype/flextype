@@ -27,7 +27,7 @@ class CsrfMiddleware
     /**
      * Invoke
      *
-     * @param  ServerRequest  $request PSR-7 request
+     * @param  Request        $request PSR-7 request
      * @param  RequestHandler $handler PSR-15 request handler
      */
     public function __invoke(Request $request, RequestHandler $handler): Response

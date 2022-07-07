@@ -41,10 +41,10 @@ class I18n
      * New translation keys for `en_US` locale
      * I18n::add(['auth_login' => 'Login', 'auth_password' => 'Password'], 'en_US');
      *
-     * @param  string $translates Translation keys and values to add
-     * @param  string $locale     Locale
+     * @param  array       $translates Translation keys and values to add
+     * @param  string|null $locale     Locale
      */
-    public static function add(array $translates, ?string $locale = null): void
+    public static function add(array $translates, string|null $locale = null): void
     {
         $locale ??= self::$locale;
 
