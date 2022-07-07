@@ -19,7 +19,20 @@ if (! function_exists('imageFile')) {
      * @param  string $file    Image file.
      * @param  array  $options Options array.
      */
-    function imageFile(string $file, array $options = []): Image|null
+    function imageFile(string $file): Image
+    {
+        return Image::make($file);
+    }
+}
+
+if (! function_exists('imageProcessFile')) {
+    /**
+     * Process image file.
+     *
+     * @param  string $file    Image file.
+     * @param  array  $options Options array.
+     */
+    function imageProcessFile(string $file, array $options = [])
     {
         $image = Image::make($file);
 

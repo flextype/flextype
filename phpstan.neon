@@ -1,6 +1,8 @@
 parameters:
-  level: 0
+  level: 1
   reportUnmatchedIgnoredErrors: false
+  bootstrapFiles:
+    - src/flextype/defines.php
   paths:
     - src
   ignoreErrors:

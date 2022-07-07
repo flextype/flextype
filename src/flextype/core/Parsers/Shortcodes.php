@@ -100,8 +100,6 @@ final class Shortcodes
     public function initShortcodes(array $shortcodes): void
     {
         if (
-            ! isset($shortcodes) ||
-            ! is_array($shortcodes) ||
             count($shortcodes) <= 0
         ) {
             return;

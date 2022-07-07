@@ -111,6 +111,8 @@ class TokensFetchCommand extends Command
         if ($input->getOption('filter-where')) {
             $filterWhere = $input->getOption('filter-where');
 
+            $where = [];
+            
             foreach ($filterWhere as $key => $value) {
                 if (strings($value)->isJson()) {
                     $whereValues = serializers()->json()->decode($value);

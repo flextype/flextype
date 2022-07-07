@@ -59,7 +59,7 @@ if (! function_exists('upload')) {
                 $mediaFile = $uploadFolder . '/' . $result->name;
 
                 if (getimagesize($mediaFile)) {
-                    imageFile($mediaFile, $settings['process']['image']);
+                    imageProcessFile($mediaFile, $settings['process']['image']);
                 }
             }
         } catch (Throwable $e) {

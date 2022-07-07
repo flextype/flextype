@@ -69,7 +69,7 @@ use function version_compare;
 use const PHP_VERSION;
 
 // Get defines.
-require_once FLEXTYPE_ROOT_DIR . '/src/flextype/defines.php';
+require_once str_replace(DIRECTORY_SEPARATOR, '/', getcwd()) . '/src/flextype/defines.php';
 
 // Check PHP Version
 version_compare($ver = PHP_VERSION, $req = FLEXTYPE_MINIMUM_PHP, '<') and exit(sprintf('You are running PHP %s, but Flextype needs at least <strong>PHP %s</strong> to run.', $ver, $req));

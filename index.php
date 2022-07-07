@@ -18,23 +18,12 @@ namespace Flextype;
 
 use function getcwd;
 use function is_file;
-use function sprintf;
 use function str_replace;
-
-/**
- * Define the Flextype start time in current unix timestamp (microseconds).
- */
-define('FLEXTYPE_START_TIME', microtime(true));
-
-/**
- * Define the PATH to the root directory (without trailing slash).
- */
-define('FLEXTYPE_ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
 
 /**
  * Ensure vendor libraries exist
  */
-! is_file($flextypeAutoload = __DIR__ . '/vendor/autoload.php') and exit('Please run: <i>composer install</i> for flextype');
+! is_file($flextypeAutoload = str_replace(DIRECTORY_SEPARATOR, '/', getcwd()) . '/vendor/autoload.php') and exit('Please run: <i>composer install</i> for flextype');
 
 /**
  * Register The Auto Loader

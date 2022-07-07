@@ -19,11 +19,25 @@ namespace Flextype;
 use function define;
 use function defined;
 
+if (! defined('FLEXTYPE_START_TIME')) {
+    /**
+     * Define the Flextype start time in current unix timestamp (microseconds).
+     */
+    define('FLEXTYPE_START_TIME', microtime(true));
+}
+
+if (! defined('FLEXTYPE_ROOT_DIR')) {
+    /**
+     * Define the PATH to the root directory (without trailing slash).
+     */
+   define('FLEXTYPE_ROOT_DIR', str_replace(DIRECTORY_SEPARATOR, '/', getcwd()));
+}
+
 if (! defined('FLEXTYPE_MINIMUM_PHP')) {
     /**
      * Define the Flextype Application minimum supported PHP version.
      */
-    define('FLEXTYPE_MINIMUM_PHP', '7.4.0');
+    define('FLEXTYPE_MINIMUM_PHP', '8.1.0');
 }
 
 if (! defined('FLEXTYPE_PROJECT_NAME')) {

@@ -96,7 +96,7 @@ class Driver implements AggregatablePoolInterface
         $data     = $this->driverPreWrap($item);
 
         try {
-            return $this->writeFile($filePath, serializers()->phparray()->encode($data), $this->getConfig()->isSecureFileManipulation(), $this->getConfig()->isSecureFileManipulation());
+            return $this->writeFile($filePath, serializers()->phparray()->encode($data), $this->getConfig()->isSecureFileManipulation());
         } catch (Throwable) {
             return false;
         }
