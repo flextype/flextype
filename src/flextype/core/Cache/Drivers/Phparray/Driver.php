@@ -72,12 +72,12 @@ class Driver implements AggregatablePoolInterface
     {
         $filePath = $this->getFilePath($item->getKey(), true) . '.' . 'php';
 
-        $value = null;
-
-        set_error_handler(static function () {});
+        // mute errors handling 
+        set_error_handler(fn(): bool => true);
 
         $value = include $filePath;
         
+        // restore errors handling
         restore_error_handler();
 
         return ! is_bool($value) ? $value : null;
