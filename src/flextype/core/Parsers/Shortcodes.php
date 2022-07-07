@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -17,17 +17,16 @@ declare(strict_types=1);
 namespace Flextype\Parsers;
 
 use Exception;
-
+use Thunder\Shortcode\Parser\RegularParser;
 use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Syntax\Syntax;
-use Thunder\Shortcode\Parser\RegularParser;
 
-use function Flextype\cache;
 use function count;
 use function file_exists;
-use function is_array;
+use function Flextype\cache;
 use function Flextype\registry;
 use function Glowy\Strings\strings;
+use function is_array;
 
 final class Shortcodes
 {
@@ -62,15 +61,17 @@ final class Shortcodes
      */
     protected function __construct()
     {
-        $settings = registry()->get('flextype.settings.parsers.shortcodes');
+        $settings              = registry()->get('flextype.settings.parsers.shortcodes');
         $this->shortcodeFacade = new ShortcodeFacade();
-        $this->shortcodeFacade->setParser((new RegularParser((new Syntax($settings['opening_tag'], 
-                                                                         $settings['closing_tag'], 
-                                                                         $settings['closing_tag_marker'], 
-                                                                         $settings['parameter_value_separator'], 
-                                                                         $settings['parameter_value_delimiter'])))));
+        $this->shortcodeFacade->setParser((new RegularParser((new Syntax(
+            $settings['opening_tag'],
+            $settings['closing_tag'],
+            $settings['closing_tag_marker'],
+            $settings['parameter_value_separator'],
+            $settings['parameter_value_delimiter']
+        )))));
     }
-    
+
     /**
      * Gets the instance via lazy initialization (created on first usage).
      */
@@ -93,10 +94,8 @@ final class Shortcodes
 
     /**
      * Init Shortcodes
-     * 
+     *
      * @param array $shortcodes Shortcodes to init.
-     * 
-     * @return void
      */
     public function initShortcodes(array $shortcodes): void
     {
@@ -193,9 +192,9 @@ final class Shortcodes
     /**
      * Get Cache ID for shortcode.
      *
-     * @param  string $input Input.
+     * @param  string $input  Input.
      * @param  string $string String to append to the Cache ID.
-     * 
+     *
      * @return string Cache ID.
      *
      * @access public

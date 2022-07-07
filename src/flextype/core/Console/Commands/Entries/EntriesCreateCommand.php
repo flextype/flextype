@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -17,14 +17,16 @@ declare(strict_types=1);
 namespace Flextype\Console\Commands\Entries;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use function Thermage\div;
-use function Thermage\renderToString;
-use function Glowy\Strings\strings;
+
 use function Flextype\entries;
 use function Flextype\serializers;
+use function Glowy\Strings\strings;
+use function parse_str;
+use function Thermage\div;
+use function Thermage\renderToString;
 
 class EntriesCreateCommand extends Command
 {
@@ -54,19 +56,25 @@ class EntriesCreateCommand extends Command
         if (entries()->create($id, $dataToSave)) {
             $output->write(
                 renderToString(
-                    div('Entry [b]' . $id . '[/b] created.', 
-                        'color-success px-2 py-1')
+                    div(
+                        'Entry [b]' . $id . '[/b] created.',
+                        'color-success px-2 py-1'
+                    )
                 )
             );
+
             return Command::SUCCESS;
-        } else {
-            $output->write(
-                renderToString(
-                    div('Entry [b]' . $id . '[/b] wasn\'t created.', 
-                        'color-danger px-2 py-1')
-                )
-            );
-            return Command::FAILURE;
         }
+
+        $output->write(
+            renderToString(
+                div(
+                    'Entry [b]' . $id . '[/b] wasn\'t created.',
+                    'color-danger px-2 py-1'
+                )
+            )
+        );
+
+        return Command::FAILURE;
     }
 }

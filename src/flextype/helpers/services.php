@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
 namespace Flextype;
 
-use Flextype\Flextype;
+use function function_exists;
 
 if (! function_exists('flextype')) {
     /**

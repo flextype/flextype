@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -17,13 +17,16 @@ declare(strict_types=1);
 namespace Flextype\Console\Commands\Cache;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
+
+use function Flextype\cache;
+use function Flextype\collectionFromString;
+use function implode;
 use function Thermage\div;
 use function Thermage\renderToString;
-use function Flextype\collectionFromString;
-use function Flextype\cache;
+use function trim;
 
 class CacheDeleteMultipleCommand extends Command
 {
@@ -37,7 +40,7 @@ class CacheDeleteMultipleCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->getArgument('keys')) {
-            $keys = collectionFromString($input->getArgument('keys'), ',')->map(fn($key) => trim($key))->toArray();
+            $keys = collectionFromString($input->getArgument('keys'), ',')->map(static fn ($key) => trim($key))->toArray();
         } else {
             $keys = [];
         }
@@ -45,19 +48,25 @@ class CacheDeleteMultipleCommand extends Command
         if (cache()->deleteMultiple($keys)) {
             $output->write(
                 renderToString(
-                    div('Cache items with keys [b]' . implode('[/b], [b]', $keys) . '[/b] deleted.', 
-                        'color-success px-2 py-1')
+                    div(
+                        'Cache items with keys [b]' . implode('[/b], [b]', $keys) . '[/b] deleted.',
+                        'color-success px-2 py-1'
+                    )
                 )
             );
+
             return Command::SUCCESS;
-        } else {
-            $output->write(
-                renderToString(
-                    div('Cache items with keys [b]' . implode('[/b], [b]', $keys) . '[/b] wasn\'t deleted.', 
-                        'color-danger px-2 py-1')
-                )
-            );
-            return Command::FAILURE;
         }
+
+        $output->write(
+            renderToString(
+                div(
+                    'Cache items with keys [b]' . implode('[/b], [b]', $keys) . '[/b] wasn\'t deleted.',
+                    'color-danger px-2 py-1'
+                )
+            )
+        );
+
+        return Command::FAILURE;
     }
 }

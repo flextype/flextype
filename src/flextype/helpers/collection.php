@@ -1,10 +1,13 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
 namespace Flextype;
 
 use Glowy\Arrays\Arrays as Collection;
+
+use function function_exists;
+use function is_array;
 
 if (! function_exists('collection')) {
     /**
@@ -13,10 +16,8 @@ if (! function_exists('collection')) {
      * Initializes a Collection object and assigns $items the supplied values.
      *
      * @param  mixed $items Items
-     *
-     * @return Collection
      */
-    function collection($items = null): Collection
+    function collection(mixed $items = null): Collection
     {
         return Collection::create($items);
     }
@@ -30,8 +31,6 @@ if (! function_exists('collectionFromJson')) {
      * @param bool   $assoc Decode assoc. When TRUE, returned objects will be converted into associative array collection.
      * @param int    $depth Decode Depth. Set the maximum depth. Must be greater than zero.
      * @param int    $flags Bitmask consisting of decode options
-     *
-     * @return Collection
      */
     function collectionFromJson(string $input, bool $assoc = true, int $depth = 512, int $flags = 0): Collection
     {
@@ -45,8 +44,6 @@ if (! function_exists('collectionFromString')) {
      *
      * @param string $string    Input string.
      * @param string $separator Elements separator.
-     *
-     * @return Collection
      */
     function collectionFromString(string $string, string $separator): Collection
     {
@@ -62,10 +59,8 @@ if (! function_exists('collectionWithRange')) {
      * @param float|int|string $high The sequence is ended upon reaching the end value.
      * @param int              $step If a step value is given, it will be used as the increment between elements in the sequence.
      *                               step should be given as a positive number. If not specified, step will default to 1.
-     *
-     * @return Collection
      */
-    function collectionWithRange($low, $high, int $step = 1): Collection
+    function collectionWithRange(float|int|string $low, float|int|string $high, int $step = 1): Collection
     {
         return Collection::createWithRange($low, $high, $step);
     }
@@ -75,9 +70,7 @@ if (! function_exists('collectionFromQueryString')) {
     /**
      * Create a new arrayable object from the given query string.
      *
-     * @param string $string    Input query string.
-     *
-     * @return Collection
+     * @param string $string Input query string.
      */
     function collectionFromQueryString(string $string): Collection
     {
@@ -94,7 +87,7 @@ if (! function_exists('filterCollection')) {
      *
      * @return array
      */
-    function filterCollection($items = [], array $options = []): array
+    function filterCollection(mixed $items = [], array $options = []): array
     {
         $collection = collection($items);
 

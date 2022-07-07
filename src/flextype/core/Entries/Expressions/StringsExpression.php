@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -16,16 +16,15 @@ declare(strict_types=1);
 
 namespace Flextype\Entries\Expressions;
 
-use function Glowy\Strings\strings;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+
+use function Glowy\Strings\strings;
 
 class StringsExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
-        return [
-            new ExpressionFunction('strings', fn($str) => '\Glowy\Strings\strings($str)', fn($arguments, $str) => strings($str))
-        ];
+        return [new ExpressionFunction('strings', static fn ($str) => '\Glowy\Strings\strings($str)', static fn ($arguments, $str) => strings($str))];
     }
 }

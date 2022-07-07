@@ -1,14 +1,17 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
 namespace Flextype;
 
-use Throwable;
 use Sirius\Upload\Handler as UploadHandler;
 use Sirius\Upload\Result\File as UploadResultFile;
-use function Glowy\Strings\strings;
+use Throwable;
+
+use function function_exists;
+use function getimagesize;
 use function Glowy\Filesystem\filesystem;
+use function Glowy\Strings\strings;
 
 if (! function_exists('upload')) {
     /**
@@ -23,7 +26,7 @@ if (! function_exists('upload')) {
     {
         $settings = registry()->get('flextype.settings.upload');
 
-        $uploadFolder = strings(FLEXTYPE_PATH_PROJECT  . '/' . $settings['directory'] . '/' . $folder . '/')->reduceSlashes()->toString();
+        $uploadFolder = strings(FLEXTYPE_PATH_PROJECT . '/' . $settings['directory'] . '/' . $folder . '/')->reduceSlashes()->toString();
 
         filesystem()->directory($uploadFolder)->ensureExists(0755, true);
 
@@ -50,12 +53,11 @@ if (! function_exists('upload')) {
 
         try {
             $result->confirm();
-            
-            // If upload file is image, do image file processing  
+
+            // If upload file is image, do image file processing
             if ($result->name) {
-                
                 $mediaFile = $uploadFolder . '/' . $result->name;
-                
+
                 if (getimagesize($mediaFile)) {
                     imageFile($mediaFile, $settings['process']['image']);
                 }

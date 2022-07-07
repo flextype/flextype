@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -19,9 +19,11 @@ namespace Flextype\Parsers;
 use Exception;
 use Netcarver\Textile\Parser;
 
+use function count;
 use function Flextype\cache;
 use function Flextype\registry;
 use function Glowy\Strings\strings;
+use function is_array;
 
 final class Textile
 {
@@ -59,15 +61,20 @@ final class Textile
         $parser = new Parser();
 
         foreach (registry()->get('flextype.settings.parsers.textile') as $key => $value) {
-            if ($key == 'cache') continue;
-            if ($key == 'symbol') {
+            if ($key === 'cache') {
+                continue;
+            }
+
+            if ($key === 'symbol') {
                 if (count($value) > 0 && is_array($value)) {
                     foreach ($value as $name => $val) {
                         $parser->setSymbol($name, $val);
                     }
                 }
+
                 continue;
             }
+
             $parser->{'set' . strings($key)->camel()->ucfirst()}($value);
         }
 
@@ -101,7 +108,7 @@ final class Textile
      *
      * @return mixed The TEXTILE converted to a PHP value
      */
-    public function parse(string $input)
+    public function parse(string $input): mixed
     {
         $cache = registry()->get('flextype.settings.parsers.textile.cache.enabled');
 

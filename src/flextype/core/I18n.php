@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use function strtr;
+
 class I18n
 {
     /**
@@ -23,14 +25,12 @@ class I18n
      *
      * @var array
      */
-    public static $dictionary = [];
+    public static array $dictionary = [];
 
     /**
      * Default locale
-     *
-     * @var string
      */
-    public static $locale = 'en_US';
+    public static string $locale = 'en_US';
 
     /**
      * Add translation keys
@@ -43,16 +43,15 @@ class I18n
      *
      * @param  string $translates Translation keys and values to add
      * @param  string $locale     Locale
-     * @return void
      */
-    public static function add(array $translates, string $locale = null) : void
+    public static function add(array $translates, ?string $locale = null): void
     {
-        $locale = ($locale === null) ? I18n::$locale : $locale;
+        $locale ??= self::$locale;
 
-        if (isset(I18n::$dictionary[$locale])) {
-            I18n::$dictionary[$locale] += $translates;
+        if (isset(self::$dictionary[$locale])) {
+            self::$dictionary[$locale] += $translates;
         } else {
-            I18n::$dictionary[$locale] = $translates;
+            self::$dictionary[$locale] = $translates;
         }
     }
 
@@ -66,15 +65,14 @@ class I18n
      * @param  string $translate Translate to find
      * @param  array  $values    Values to replace in the translated text
      * @param  string $locale    Locale
-     * @return string
      */
-    public static function find(string $translate, array $values = [], string $locale = null) : string
+    public static function find(string $translate, array $values = [], ?string $locale = null): string
     {
-        $locale = ($locale === null) ? I18n::$locale : $locale;
+        $locale ??= self::$locale;
 
         // Search current string to translate in the Dictionary
-        if (isset(I18n::$dictionary[$locale][$translate])) {
-            $translate = I18n::$dictionary[$locale][$translate];
+        if (isset(self::$dictionary[$locale][$translate])) {
+            $translate = self::$dictionary[$locale][$translate];
             $translate = empty($values) ? $translate : strtr($translate, $values);
         } else {
             $translate = $translate;

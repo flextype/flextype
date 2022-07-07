@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -18,8 +18,6 @@ namespace Flextype;
 
 use Flextype\Endpoints\Tokens;
 
-use function Flextype\app;
-
 /**
  * Generate token
  *
@@ -28,7 +26,7 @@ use function Flextype\app;
  * Body:
  * token        - [REQUIRED] - Valid public token.
  * access_token - [REQUIRED] - Valid private access token.
- * 
+ *
  * Returns:
  * Generated token object.
  */
@@ -43,7 +41,7 @@ app()->post('/api/v1/tokens/generate', [Tokens::class, 'generate'])->setName('to
  * token        - [REQUIRED] - Valid public token.
  * access_token - [REQUIRED] - Valid private access token.
  * string       - [REQUIRED] - String to hash.
- * 
+ *
  * Returns:
  * Generated token hash object.
  */
@@ -59,7 +57,7 @@ app()->post('/api/v1/tokens/generate-hash', [Tokens::class, 'generateHash'])->se
  * access_token - [REQUIRED] - Valid private access token.
  * string       - [REQUIRED] - String to verify.
  * hash         - [REQUIRED] - Hash to verify.
- * 
+ *
  * Returns:
  * Token verification object.
  */

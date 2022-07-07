@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -17,12 +17,13 @@ declare(strict_types=1);
 namespace Flextype\Console\Commands\Tokens;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
+
+use function Flextype\generateToken;
 use function Thermage\div;
 use function Thermage\renderToString;
-use function Flextype\generateToken;
 
 class TokensGenerateCommand extends Command
 {
@@ -37,8 +38,10 @@ class TokensGenerateCommand extends Command
     {
         $output->write(
             renderToString(
-                div('Token [b]' . generateToken($input->getArgument('length') ?? 16) . '[/b] generated.', 
-                    'color-success px-2 py-1')
+                div(
+                    'Token [b]' . generateToken($input->getArgument('length') ?? 16) . '[/b] generated.',
+                    'color-success px-2 py-1'
+                )
             )
         );
 

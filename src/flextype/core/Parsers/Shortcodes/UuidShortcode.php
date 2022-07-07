@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -16,8 +16,9 @@ declare(strict_types=1);
 
 namespace Flextype\Parsers\Shortcodes;
 
-use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use Ramsey\Uuid\Uuid;
+use Thunder\Shortcode\Shortcode\ShortcodeInterface;
+
 use function Flextype\parsers;
 use function Flextype\registry;
 use function Glowy\Strings\strings;
@@ -30,8 +31,8 @@ parsers()->shortcodes()->addHandler('uuid', static function (ShortcodeInterface 
     }
 
     $result = '';
-    $uuid   = ($s->getBbCode() != null) ? strings(parsers()->shortcodes()->parse($s->getBbCode()))->toInteger() : 4;
-    
+    $uuid   = $s->getBbCode() !== null ? strings(parsers()->shortcodes()->parse($s->getBbCode()))->toInteger() : 4;
+
     switch ($uuid) {
         case 4:
         default:

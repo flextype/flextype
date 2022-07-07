@@ -328,20 +328,17 @@ cache:
     phparray:
       path: '/data'
       security_key: 'auto'
-      htaccess: true
       secure_file_manipulation: false
       default_ttl: 900
     files:
       path: '/data'
       security_key: 'auto'
-      htaccess: true
       secure_file_manipulation: false
       cache_file_extension: txt
       default_ttl: 900
     leveldb:
       path: '/data'
       security_key: 'auto'
-      htaccess: true
       default_ttl: 900
     memcache:
       host: '127.0.0.1'
@@ -391,7 +388,6 @@ cache:
     sqlite:
       path: '/data'
       security_key: auto
-      htaccess: true
       default_ttl: 900
     ssdb:
       host: 127.0.0.1

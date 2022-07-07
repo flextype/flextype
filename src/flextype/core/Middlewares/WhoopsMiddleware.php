@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -16,15 +16,14 @@ declare(strict_types=1);
 
 namespace Flextype\Middlewares;
 
+use Flextype\Whoops;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Flextype\Whoops;
 
-class WhoopsMiddleware implements MiddlewareInterface 
+class WhoopsMiddleware implements MiddlewareInterface
 {
-
     protected $settings = [];
     protected $handlers = [];
 
@@ -34,7 +33,7 @@ class WhoopsMiddleware implements MiddlewareInterface
      * @param array $settings
      * @param array $handlers
      */
-    public function __construct(array $settings = [], array $handlers = []) 
+    public function __construct(array $settings = [], array $handlers = [])
     {
         $this->settings = $settings;
         $this->handlers = $handlers;
@@ -42,12 +41,8 @@ class WhoopsMiddleware implements MiddlewareInterface
 
     /**
      * Handle the requests
-     *
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface 
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $whoopsGuard = new Whoops($this->settings);
         $whoopsGuard->setRequest($request);
@@ -56,5 +51,4 @@ class WhoopsMiddleware implements MiddlewareInterface
 
         return $handler->handle($request);
     }
-
 }

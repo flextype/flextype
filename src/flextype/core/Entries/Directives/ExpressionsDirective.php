@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -14,15 +14,13 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-use Glowy\Arrays\Arrays as Collection;
 use function Flextype\emitter;
-use function Flextype\registry;
 use function Flextype\entries;
 use function Flextype\expression;
+use function Flextype\registry;
 
 // Directive: [[  ]]
 emitter()->addListener('onEntriesFetchSingleField', static function (): void {
-
     if (! registry()->get('flextype.settings.entries.directives.expressions.enabled')) {
         return;
     }
@@ -36,9 +34,9 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
     $closingTag = registry()->get('flextype.settings.entries.directives.expressions.closing_tag');
 
     $field = entries()->registry()->get('methods.fetch.field');
-    
+
     if (is_string($field['value'])) {
-        $field['value'] = preg_replace_callback('/' . $selfQuote($openingTag)  . ' (.*?) ' . $selfQuote($closingTag) . '/s', function($matches) {
+        $field['value'] = preg_replace_callback('/' . $selfQuote($openingTag) . ' (.*?) ' . $selfQuote($closingTag) . '/s', function ($matches) {
             return expression()->evaluate($matches[1]);
         }, $field['value']);
     }

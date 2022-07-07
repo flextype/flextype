@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -17,14 +17,15 @@ declare(strict_types=1);
 namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
-use Flextype\Entries\Entries;
 
+use function array_keys;
+use function Flextype\collection;
+use function Flextype\collectionFromJson;
 use function Flextype\entries;
 use function Flextype\parsers;
 use function Flextype\registry;
-use function Flextype\collection;
-use function Flextype\collectionFromJson;
 use function Glowy\Strings\strings;
+use function parse_str;
 
 // Shortcode: entries
 // Usage: (entries fetch:'blog/post-1' field:'title')
@@ -35,11 +36,12 @@ parsers()->shortcodes()->addHandler('entries', static function (ShortcodeInterfa
 
     $result = '';
     $params = $s->getParameters();
-    
-    if (collection(array_keys($params))->filter(fn ($v) => $v == 'fetch')->count() > 0 && 
-        isset($params['id']) && 
-        registry()->get('flextype.settings.parsers.shortcodes.shortcodes.entries.fetch.enabled') === true) {
 
+    if (
+        collection(array_keys($params))->filter(static fn ($v) => $v === 'fetch')->count() > 0 &&
+        isset($params['id']) &&
+        registry()->get('flextype.settings.parsers.shortcodes.shortcodes.entries.fetch.enabled') === true
+    ) {
         $id = parsers()->shortcodes()->parse($params['id']);
 
         // Set options
@@ -50,24 +52,25 @@ parsers()->shortcodes()->addHandler('entries', static function (ShortcodeInterfa
         }
 
         // Prepare options
-        $options = collection($options)->dot()->map(function($value) {
-            if(strings($value)->isInteger()) {
+        $options = collection($options)->dot()->map(static function ($value) {
+            if (strings($value)->isInteger()) {
                 $value = strings($value)->toInteger();
-            } elseif(strings($value)->isFloat()) {
+            } elseif (strings($value)->isFloat()) {
                 $value = strings($value)->toFloat();
-            } elseif(strings($value)->isBoolean()) {
+            } elseif (strings($value)->isBoolean()) {
                 $value = strings($value)->toBoolean();
-            } elseif(strings($value)->isNull()) {
+            } elseif (strings($value)->isNull()) {
                 $value = strings($value)->toNull();
             } else {
                 $value = (string) $value;
             }
+
             return $value;
         })->undot()->toArray();
-        
+
         // Backup current entry data
         $original = entries()->registry()['methods.fetch'];
-        
+
         // Fetch entry
         $result = entries()->fetch($id, $options);
 
@@ -78,8 +81,8 @@ parsers()->shortcodes()->addHandler('entries', static function (ShortcodeInterfa
         $result = $result->toJson();
 
         // Get specific field value
-        if ($s->getParameter('field') != null) {
-            $result = collectionFromJson($result)->get(parsers()->shortcodes()->parse($s->getParameter('field')), ($s->getParameter('default') != null) ? parsers()->shortcodes()->parse($s->getParameter('default')) : '');
+        if ($s->getParameter('field') !== null) {
+            $result = collectionFromJson($result)->get(parsers()->shortcodes()->parse($s->getParameter('field')), $s->getParameter('default') !== null ? parsers()->shortcodes()->parse($s->getParameter('default')) : '');
         }
     }
 

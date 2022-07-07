@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -20,10 +20,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Input\InputOption;
+
+use function Glowy\Filesystem\filesystem;
 use function Thermage\div;
 use function Thermage\renderToString;
-use function Glowy\Filesystem\filesystem;
 
 class CacheClearDataCommand extends Command
 {
@@ -43,16 +43,20 @@ class CacheClearDataCommand extends Command
             if (filesystem()->directory($routesData)->delete()) {
                 $output->write(
                     renderToString(
-                        div('Data were successfully cleared from the cache.', 
-                            'color-success px-2 py-1')
+                        div(
+                            'Data were successfully cleared from the cache.',
+                            'color-success px-2 py-1'
+                        )
                     )
                 );
                 $result = Command::SUCCESS;
             } else {
                 $output->write(
                     renderToString(
-                        div('Data cache wasn\'t cleared.', 
-                            'color-danger px-2 py-1')
+                        div(
+                            'Data cache wasn\'t cleared.',
+                            'color-danger px-2 py-1'
+                        )
                     )
                 );
                 $result = Command::FAILURE;
@@ -60,8 +64,10 @@ class CacheClearDataCommand extends Command
         } else {
             $output->write(
                 renderToString(
-                    div('Data cache directory ' . $routesData . ' doesn\'t exist.', 
-                        'color-danger px-2 py-1')
+                    div(
+                        'Data cache directory ' . $routesData . ' doesn\'t exist.',
+                        'color-danger px-2 py-1'
+                    )
                 )
             );
             $result = Command::FAILURE;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Glowy\Arrays\Arrays as Collection;
+
 use function Glowy\Arrays\arrays as collection;
 
 if (! Collection::hasMacro('onlyFromCollection')) {

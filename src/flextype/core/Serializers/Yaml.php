@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -21,13 +21,13 @@ use Symfony\Component\Yaml\Exception\DumpException as SymfonyYamlDumpException;
 use Symfony\Component\Yaml\Exception\ParseException as SymfonyYamlParseException;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
-use function Flextype\cache;
 use function error_reporting;
+use function Flextype\cache;
+use function Flextype\registry;
 use function function_exists;
+use function Glowy\Strings\strings;
 use function ini_get;
 use function ini_set;
-use function Flextype\registry;
-use function Glowy\Strings\strings;
 
 class Yaml
 {
@@ -53,7 +53,7 @@ class Yaml
      *
      * @return string A YAML string representing the original PHP value.
      */
-    public function encode($input): string
+    public function encode(mixed $input): string
     {
         $inline = registry()->get('flextype.settings.serializers.yaml.encode.inline');
         $indent = registry()->get('flextype.settings.serializers.yaml.encode.indent');
@@ -80,7 +80,7 @@ class Yaml
      *
      * @throws RuntimeException If the YAML is not valid.
      */
-    public function decode(string $input)
+    public function decode(string $input): mixed
     {
         $cache  = registry()->get('flextype.settings.serializers.yaml.decode.cache.enabled');
         $flags  = registry()->get('flextype.settings.serializers.yaml.decode.flags');

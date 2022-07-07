@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -33,7 +33,7 @@ class Neon
      *
      * @return string A NEON string representing the original PHP value.
      */
-    public function encode($input): string
+    public function encode(mixed $input): string
     {
         $blockMode   = registry()->get('flextype.settings.serializers.neon.encode.blockMode');
         $indentation = registry()->get('flextype.settings.serializers.neon.encode.indentation');
@@ -54,7 +54,7 @@ class Neon
      *
      * @return mixed The NEON converted to a PHP value.
      */
-    public function decode(string $input)
+    public function decode(string $input): mixed
     {
         $cache = registry()->get('flextype.settings.serializers.neon.decode.cache.enabled');
 

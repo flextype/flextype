@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -17,17 +17,16 @@ declare(strict_types=1);
 namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
-use function Flextype\app;
-use function Flextype\parsers;
-use function Flextype\serializers;
-use function Flextype\registry;
-use function Flextype\getBaseUrl;
-use function Flextype\getBasePath;
+
 use function Flextype\getAbsoluteUrl;
+use function Flextype\getBasePath;
+use function Flextype\getBaseUrl;
 use function Flextype\getProjectUrl;
 use function Flextype\getUriString;
+use function Flextype\parsers;
+use function Flextype\registry;
+use function Flextype\serializers;
 use function Flextype\urlFor;
-
 
 // Shortcode: getBaseUrl
 // Usage: (getBaseUrl)
@@ -55,7 +54,7 @@ parsers()->shortcodes()->addHandler('getAbsoluteUrl', static function () {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.url.enabled')) {
         return '';
     }
-    
+
     return getAbsoluteUrl();
 });
 
@@ -65,7 +64,7 @@ parsers()->shortcodes()->addHandler('getProjectUrl', static function () {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.url.enabled')) {
         return '';
     }
-    
+
     return getProjectUrl();
 });
 
@@ -75,7 +74,7 @@ parsers()->shortcodes()->addHandler('getUriString', static function () {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.url.enabled')) {
         return '';
     }
-    
+
     return getUriString();
 });
 
@@ -86,7 +85,9 @@ parsers()->shortcodes()->addHandler('urlFor', static function (ShortcodeInterfac
         return '';
     }
 
-    return urlFor($s->getParameter('routeName'), 
-                  $s->getParameter('data') != null ? serializers()->json()->decode(parsers()->shortcodes()->parse($s->getParameter('data'))) : [],
-                  $s->getParameter('queryParams') != null ? serializers()->json()->decode(parsers()->shortcodes()->parse($s->getParameter('queryParams'))) : [],);
+    return urlFor(
+        $s->getParameter('routeName'),
+        $s->getParameter('data') !== null ? serializers()->json()->decode(parsers()->shortcodes()->parse($s->getParameter('data'))) : [],
+        $s->getParameter('queryParams') !== null ? serializers()->json()->decode(parsers()->shortcodes()->parse($s->getParameter('queryParams'))) : [],
+    );
 });

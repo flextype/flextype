@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -16,19 +16,18 @@ declare(strict_types=1);
 
 namespace Flextype\Serializers;
 
-use function array_slice;
-use function Glowy\Arrays\arrays;
+use function array_filter;
+use function array_values;
 use function Flextype\cache;
-use function count;
-use function implode;
+use function Flextype\collection;
+use function Flextype\registry;
+use function Flextype\serializers;
+use function Glowy\Strings\strings;
 use function in_array;
+use function is_array;
 use function ltrim;
 use function preg_replace;
 use function preg_split;
-use function Flextype\registry;
-use function Flextype\serializers;
-use function Flextype\collection;
-use function Glowy\Strings\strings;
 
 use const PHP_EOL;
 
@@ -41,7 +40,7 @@ class Frontmatter
      *
      * @return string A FRONTMATTER string representing the original PHP value.
      */
-    public function encode($input): string
+    public function encode(mixed $input): string
     {
         $headerSerializer = registry()->get('flextype.settings.serializers.frontmatter.encode.header.serializer');
         $allowed          = registry()->get('flextype.settings.serializers.frontmatter.encode.header.allowed');
@@ -73,7 +72,7 @@ class Frontmatter
      *
      * @return mixed The FRONTMATTER converted to a PHP value.
      */
-    public function decode(string $input)
+    public function decode(string $input): mixed
     {
         $cache            = registry()->get('flextype.settings.serializers.frontmatter.decode.cache.enabled');
         $headerSerializer = registry()->get('flextype.settings.serializers.frontmatter.decode.header.serializer');
@@ -102,18 +101,18 @@ class Frontmatter
                 unset($parts[0]);
                 $parts = array_values(array_filter($parts));
             }
-           
+
             // Check for custom frontmatter header serializers
             if (strings(strings($parts[0])->lines()[1])->trim()->contains('---')) {
                 $headerSerializer = strings(strings($parts[0])->lines()[1])->trim()->after('---')->toString();
-                
+
                 $parts[0] = strings($parts[0])->replaceFirst('---' . $headerSerializer, '')->toString();
 
                 if (! in_array($headerSerializer, $allowed)) {
                     $headerSerializer = 'yaml';
-                } 
+                }
             }
-    
+
             $frontmatter = serializers()->{$headerSerializer}()->decode(strings($parts[0])->trim()->toString(), false);
             $content     = ['content' => strings($parts[1] ?? '')->trim()->toString()];
 

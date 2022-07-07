@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -14,23 +14,21 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-use Glowy\Arrays\Arrays as Collection;
-use function Glowy\Strings\strings;
 use function Flextype\emitter;
-use function Flextype\registry;
 use function Flextype\entries;
 use function Flextype\parsers;
+use function Flextype\registry;
+use function Glowy\Strings\strings;
 
 // Directive: @markdown
 emitter()->addListener('onEntriesFetchSingleField', static function (): void {
-
     if (! registry()->get('flextype.settings.entries.directives.markdown.enabled')) {
         return;
     }
 
     // Save markdown cache state to restore it later
     $markdownCacheState = registry()->get('flextype.settings.parsers.markdown.cache');
-    
+
     // Set markdown cache to false
     registry()->set('flextype.settings.parsers.markdown.cache', false);
 
@@ -43,7 +41,7 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
             $field['value'] = parsers()->markdown()->parse($field['value']);
         }
     }
-    
+
     entries()->registry()->set('methods.fetch.field.key', $field['key']);
     entries()->registry()->set('methods.fetch.field.value', $field['value']);
 

@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -17,19 +17,23 @@ declare(strict_types=1);
 namespace Flextype\Console\Commands\Entries;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Helper\Table;
-use function Thermage\div;
-use function Thermage\span;
-use function Thermage\renderToString;
-use function Glowy\Strings\strings;
+
+use function array_push;
+use function count;
+use function Flextype\collection;
 use function Flextype\entries;
 use function Flextype\serializers;
-use function Flextype\collection;
+use function Glowy\Strings\strings;
+use function parse_str;
+use function Thermage\div;
+use function Thermage\renderToString;
+use function Thermage\span;
+
+use const PHP_EOL;
 
 class EntriesFetchCommand extends Command
 {
@@ -75,7 +79,7 @@ class EntriesFetchCommand extends Command
         }
 
         $input->getOption('collection') and $options['collection'] = true;
-        
+
         if ($input->getOption('find-depth-from') || $input->getOption('find-depth-to')) {
             $options['find']['depth'] = [];
             $input->getOption('find-depth-from') and array_push($options['find']['depth'], $input->getOption('find-depth-from'));
@@ -94,72 +98,76 @@ class EntriesFetchCommand extends Command
             $input->getOption('find-size-to') and array_push($options['find']['size'], $input->getOption('find-size-to'));
         }
 
-        $input->getOption('find-exclude') and $options['find']['exclude'] = $input->getOption('find-exclude');
-        $input->getOption('find-contains') and $options['find']['contains'] = $input->getOption('find-contains');
-        $input->getOption('find-not-contains') and $options['find']['not_contains'] = $input->getOption('find-not-contains');
-        $input->getOption('find-path') and $options['find']['path'] = $input->getOption('find-path');
-        $input->getOption('find-sort-by-key') and $options['find']['sort_by']['key'] = $input->getOption('find-sort-by-key');
+        $input->getOption('find-exclude') and $options['find']['exclude']                        = $input->getOption('find-exclude');
+        $input->getOption('find-contains') and $options['find']['contains']                      = $input->getOption('find-contains');
+        $input->getOption('find-not-contains') and $options['find']['not_contains']              = $input->getOption('find-not-contains');
+        $input->getOption('find-path') and $options['find']['path']                              = $input->getOption('find-path');
+        $input->getOption('find-sort-by-key') and $options['find']['sort_by']['key']             = $input->getOption('find-sort-by-key');
         $input->getOption('find-sort-by-direction') and $options['find']['sort_by']['direction'] = $input->getOption('find-sort-by-direction');
 
         $input->getOption('filter-group-by') and $options['filter']['group_by'] = $input->getOption('filter-group-by');
-        $input->getOption('filter-return') and $options['filter']['return'] = $input->getOption('filter-return');
- 
+        $input->getOption('filter-return') and $options['filter']['return']     = $input->getOption('filter-return');
+
         if ($input->getOption('filter-where')) {
             $filterWhere = $input->getOption('filter-where');
-            
-            foreach ($filterWhere as $key => $value) {
 
+            foreach ($filterWhere as $key => $value) {
                 if (strings($value)->isJson()) {
                     $whereValues = serializers()->json()->decode($value);
                 } else {
                     parse_str($value, $whereValues);
                 }
-        
+
                 $where[] = $whereValues;
             }
-            
+
             $options['filter']['where'] = $where;
         }
-        
-        $innerData = [];
+
+        $innerData       = [];
         $innerDataString = '';
-        
+
         $data = entries()->fetch($id, $options);
 
-        if (count($data) > 0) {
-            if (isset($options['collection']) && $options['collection'] == true) {
-                foreach ($data->toArray() as $item) {
-                    foreach(collection($item)->dot() as $key => $value) {
-                        $innerDataString .= renderToString(span('[b][color=success]' . $key . '[/color][/b]: ' . $value) . PHP_EOL);
-                    }
-                    $innerData[] = $innerDataString;
-                    $innerDataString = '';
-                }       
-            } else {
-                foreach(collection($data)->dot() as $key => $value) {
-                    $innerDataString .= renderToString(span('[b][color=success]' . $key . '[/color][/b]: ' . $value) . PHP_EOL);
-                }
-                $innerData[] = $innerDataString;
-                $innerDataString = '';
-            }
-
-            foreach ($innerData as $item) {
-                $output->write(
-                    renderToString(
-                        div($item, 'px-2 border-square border-color-success')
-                    )
-                );
-            }
-
-            return Command::SUCCESS;
-        } else {
+        if (count($data) <= 0) {
             $output->write(
                 renderToString(
-                    div('Entry [b]' . $id . '[/b] doesn\'t exists.', 
-                        'color-danger px-2 py-1')
+                    div(
+                        'Entry [b]' . $id . '[/b] doesn\'t exists.',
+                        'color-danger px-2 py-1'
+                    )
                 )
             );
+
             return Command::FAILURE;
         }
+
+        if (isset($options['collection']) && $options['collection'] === true) {
+            foreach ($data->toArray() as $item) {
+                foreach (collection($item)->dot() as $key => $value) {
+                    $innerDataString .= renderToString(span('[b][color=success]' . $key . '[/color][/b]: ' . $value) . PHP_EOL);
+                }
+
+                $innerData[]     = $innerDataString;
+                $innerDataString = '';
+            }
+        } else {
+            foreach (collection($data)->dot() as $key => $value) {
+                $innerDataString .= renderToString(span('[b][color=success]' . $key . '[/color][/b]: ' . $value) . PHP_EOL);
+            }
+
+            $innerData[]     = $innerDataString;
+            $innerDataString = '';
+        }
+
+        foreach ($innerData as $item) {
+            $output->write(
+                renderToString(
+                    div($item, 'px-2 border-square border-color-success')
+                )
+            );
+        }
+
+        return Command::SUCCESS;
     }
 }

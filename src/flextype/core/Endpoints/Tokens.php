@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -19,12 +19,12 @@ namespace Flextype\Endpoints;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function array_merge;
 use function count;
-use function Glowy\Filesystem\filesystem;
+use function Flextype\entries;
 use function Flextype\generateToken;
 use function Flextype\generateTokenHash;
 use function Flextype\verifyTokenHash;
-use function Flextype\entries;
 
 class Tokens extends Api
 {
@@ -68,9 +68,9 @@ class Tokens extends Api
     {
         // Get Request Parsed Body
         $requestParsedBody = $request->getParsedBody();
-        
+
         // Validate Api Request
-       if (
+        if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
                 'api' => 'tokens',
@@ -99,9 +99,9 @@ class Tokens extends Api
     {
         // Get Request Parsed Body
         $requestParsedBody = $request->getParsedBody();
-        
+
         // Validate Api Request
-       if (
+        if (
             count($result = $this->validateApiRequest([
                 'request' => $request,
                 'api' => 'tokens',
@@ -225,7 +225,7 @@ class Tokens extends Api
 
         // Fetch entry
         $entryData = entries()->fetch('tokens/' . $requestParsedBody['id'])->toArray();
-        
+
         // Return response
         if (count($entryData) > 0) {
             return $this->getApiResponse($response, $entryData, 200);
@@ -233,7 +233,6 @@ class Tokens extends Api
 
         return $this->getApiResponse($response, [], 404);
     }
-
 
     /**
      * Delete token entry.

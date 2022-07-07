@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -17,8 +17,11 @@ declare(strict_types=1);
 namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
-use function Flextype\registry;
+
 use function Flextype\parsers;
+use function Flextype\registry;
+use function ob_get_clean;
+use function ob_start;
 
 // Shortcode: php
 // Usage: (php) php code here (/php)
@@ -28,9 +31,10 @@ parsers()->shortcodes()->addHandler('php', static function (ShortcodeInterface $
         return '';
     }
 
-    if ($s->getContent() != null) {
+    if ($s->getContent() !== null) {
         ob_start();
         eval($s->getContent());
+
         return ob_get_clean();
     }
 

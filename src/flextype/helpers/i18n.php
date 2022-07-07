@@ -1,12 +1,12 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
 namespace Flextype;
 
-use Flextype\I18n;
+use function function_exists;
 
-if ( ! function_exists('__')) {
+if (! function_exists('__')) {
     /**
      * Global Translation/Internationalization function.
      * Accepts an translation key and returns its translation for selected language.
@@ -22,12 +22,11 @@ if ( ! function_exists('__')) {
      * // With parameter replacement
      * echo __('auth_welcome_message', [':username' => $username], 'en_US');
      *
-     * @param  string $translate Translate to find
-     * @param  array  $values    Values to replace in the translated text
-     * @param  string $locale    Locale
-     * @return string
+     * @param  string      $translate Translate to find
+     * @param  array       $values    Values to replace in the translated text
+     * @param  string|null $locale    Locale
      */
-    function __(string $translate, array $values = [], string $locale = null) : string
+    function __(string $translate, array $values = [], string|null $locale = null): string
     {
         return I18n::find($translate, $values, $locale);
     }

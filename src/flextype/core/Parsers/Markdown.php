@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -107,7 +107,7 @@ final class Markdown
      *
      * @return mixed The MARKDOWN converted to a PHP value
      */
-    public function parse(string $input)
+    public function parse(string $input): mixed
     {
         $cache = registry()->get('flextype.settings.parsers.markdown.cache.enabled');
 
@@ -130,7 +130,7 @@ final class Markdown
     /**
      * Get Cache ID for markdown.
      *
-     * @param  string $input Input.
+     * @param  string $input  Input.
      * @param  string $string String to append to the Cache ID.
      *
      * @return string Cache ID.

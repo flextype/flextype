@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -16,20 +16,18 @@ declare(strict_types=1);
 
 namespace Flextype\Entries\Expressions;
 
+use Glowy\Macroable\Macroable;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\Finder\Finder;
-use Glowy\Arrays\Arrays as Collection;
+
 use function Glowy\Filesystem\filesystem;
-use Glowy\Macroable\Macroable;
 
 class FilesystemExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
-        return [
-            new ExpressionFunction('filesystem', fn() => '(new FilesystemExpressionMethods())', fn($arguments) => (new FilesystemExpressionMethods()))
-        ];
+        return [new ExpressionFunction('filesystem', static fn () => '(new FilesystemExpressionMethods())', static fn ($arguments) => (new FilesystemExpressionMethods()))];
     }
 }
 
@@ -119,10 +117,8 @@ class FilesystemFileExpressionMethods
      * Path property
      *
      * Current file absolute path
-     *
-     * @var string|null
      */
-    public $path;
+    public ?string $path = null;
 
     /**
      * Constructor
@@ -139,7 +135,7 @@ class FilesystemFileExpressionMethods
      *
      * @return string|false The file contents or false on failure.
      */
-    public function get()
+    public function get(): string|false
     {
         return filesystem()->file($this->path)->get();
     }
@@ -293,10 +289,8 @@ class FilesystemDirectoryExpressionMethods
      * Path property
      *
      * Current directory path.
-     *
-     * @var string|null
      */
-    public $path;
+    public ?string $path = null;
 
     /**
      * Constructor

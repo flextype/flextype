@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -16,17 +16,25 @@ declare(strict_types=1);
 
 namespace Phpfastcache\Drivers\Phparray;
 
-use Exception;
 use FilesystemIterator;
 use Phpfastcache\Cluster\AggregatablePoolInterface;
-use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
-use Phpfastcache\Core\Pool\IO\IOHelperTrait;
 use Phpfastcache\Core\Item\ExtendedCacheItemInterface;
+use Phpfastcache\Core\Pool\IO\IOHelperTrait;
 use Phpfastcache\Exceptions\PhpfastcacheInvalidArgumentException;
 use Phpfastcache\Exceptions\PhpfastcacheIOException;
 use Phpfastcache\Exceptions\PhpfastcacheLogicException;
 use Phpfastcache\Util\Directory;
+use Throwable;
+
+use function clearstatcache;
+use function dirname;
+use function file_exists;
 use function Flextype\serializers;
+use function is_dir;
+use function is_writable;
+use function mkdir;
+use function rmdir;
+use function unlink;
 
 /**
  * @method Config getConfig()
@@ -39,8 +47,9 @@ class Driver implements AggregatablePoolInterface
 {
     use IOHelperTrait;
 
+    private static string $ext = 'php';
+
     /**
-     * @return bool
      * @throws PhpfastcacheIOException
      * @throws PhpfastcacheInvalidArgumentException
      */
@@ -49,35 +58,32 @@ class Driver implements AggregatablePoolInterface
         return is_writable($this->getPath()) || mkdir($concurrentDirectory = $this->getPath(), $this->getDefaultChmod(), true) || is_dir($concurrentDirectory);
     }
 
-    /**
-     * @return bool
-     */
     protected function driverConnect(): bool
     {
         return true;
     }
 
     /**
-     * @param ExtendedCacheItemInterface $item
      * @return ?array<string, mixed>
+     *
      * @throws PhpfastcacheIOException
      */
     protected function driverRead(ExtendedCacheItemInterface $item): ?array
     {
-        $filePath = $this->getFilePath($item->getKey(), true);
+        $filePath = $this->getFilePath($item->getKey(), true) . '.' . 'php';
 
-        try {
-            $content = $this->readFile($filePath);
-        } catch (PhpfastcacheIOException) {
-            return null;
-        }
+        $value = null;
 
-        return $this->decode($content);
+        set_error_handler(static function () {});
+
+        $value = include $filePath;
+        
+        restore_error_handler();
+
+        return ! is_bool($value) ? $value : null;
     }
 
     /**
-     * @param ExtendedCacheItemInterface $item
-     * @return bool
      * @throws PhpfastcacheIOException
      * @throws PhpfastcacheInvalidArgumentException
      * @throws PhpfastcacheLogicException
@@ -86,19 +92,17 @@ class Driver implements AggregatablePoolInterface
     {
         $this->assertCacheItemType($item, Item::class);
 
-        $filePath = $this->getFilePath($item->getKey());
-        $data = $this->encode($this->driverPreWrap($item));
+        $filePath = $this->getFilePath($item->getKey()) . '.' . 'php';
+        $data     = $this->driverPreWrap($item);
 
         try {
             return $this->writeFile($filePath, serializers()->phparray()->encode($data), $this->getConfig()->isSecureFileManipulation(), $this->getConfig()->isSecureFileManipulation());
-        } catch (Exception) {
+        } catch (Throwable) {
             return false;
         }
     }
 
     /**
-     * @param ExtendedCacheItemInterface $item
-     * @return bool
      * @throws PhpfastcacheIOException
      * @throws PhpfastcacheInvalidArgumentException
      */
@@ -106,13 +110,14 @@ class Driver implements AggregatablePoolInterface
     {
         $this->assertCacheItemType($item, Item::class);
 
-        $filePath = $this->getFilePath($item->getKey(), true);
-        if (\file_exists($filePath) && @\unlink($filePath)) {
-            \clearstatcache(true, $filePath);
-            $dir = \dirname($filePath);
-            if (!(new FilesystemIterator($dir))->valid()) {
-                \rmdir($dir);
+        $filePath = $this->getFilePath($item->getKey(), true) . '.' . 'php';;
+        if (file_exists($filePath) && @unlink($filePath)) {
+            clearstatcache(true, $filePath);
+            $dir = dirname($filePath);
+            if (! (new FilesystemIterator($dir))->valid()) {
+                rmdir($dir);
             }
+
             return true;
         }
 
@@ -120,8 +125,7 @@ class Driver implements AggregatablePoolInterface
     }
 
     /**
-     * @return bool
-     * @throws \Phpfastcache\Exceptions\PhpfastcacheIOException
+     * @throws PhpfastcacheIOException
      * @throws PhpfastcacheInvalidArgumentException
      */
     protected function driverClear(): bool

@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -31,22 +31,16 @@ final class Flextype
 
     /**
      * The Flextype instance.
-     *
-     * @var Flextype|null
      */
     private static Flextype|null $instance = null;
 
     /**
      * The Flextype Application.
-     * 
-     * @var App
      */
     private static App $app;
 
     /**
      * The Flextype Application Container.
-     * 
-     * @var Container
      */
     private static Container $container;
 

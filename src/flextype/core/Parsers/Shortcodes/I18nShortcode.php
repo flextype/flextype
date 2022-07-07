@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -18,10 +18,10 @@ namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
+use function Flextype\__;
+use function Flextype\collectionFromQueryString;
 use function Flextype\parsers;
 use function Flextype\registry;
-use function Flextype\collectionFromQueryString;
-use function Flextype\__;
 
 // Shortcode: tr
 // Usage: (tr:foo values='foo=Foo' locale:'en_US')
@@ -30,13 +30,13 @@ parsers()->shortcodes()->addHandler('tr', static function (ShortcodeInterface $s
         return '';
     }
 
-    if ($s->getBbCode() != null) {
+    if ($s->getBbCode() !== null) {
         $translate = parsers()->shortcodes()->parse($s->getBbCode());
-        $values    = ($s->getParameter('values') != null) ? collectionFromQueryString(parsers()->shortcodes()->parse($s->getParameter('values')))->toArray() : [];
-        $locale    = ($s->getParameter('locale') != null) ? parsers()->shortcodes()->parse($s->getParameter('locale')) : null;
-    
+        $values    = $s->getParameter('values') !== null ? collectionFromQueryString(parsers()->shortcodes()->parse($s->getParameter('values')))->toArray() : [];
+        $locale    = $s->getParameter('locale') !== null ? parsers()->shortcodes()->parse($s->getParameter('locale')) : null;
+
         return __($translate, $values, $locale);
-   }
+    }
 
     return '';
 });

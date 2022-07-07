@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -17,17 +17,19 @@ declare(strict_types=1);
 namespace Flextype\Console\Commands\Tokens;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
+
+use function array_merge;
+use function Flextype\entries;
+use function Flextype\generateToken;
+use function Flextype\generateTokenHash;
+use function Flextype\serializers;
+use function Glowy\Strings\strings;
+use function parse_str;
 use function Thermage\div;
 use function Thermage\renderToString;
-use function Glowy\Strings\strings;
-use function Flextype\generateToken;
-use function Flextype\serializers;
-use function Flextype\entries;
-use function Flextype\generateTokenHash;
-
 
 class TokensCreateCommand extends Command
 {
@@ -61,19 +63,25 @@ class TokensCreateCommand extends Command
         if (entries()->create('tokens/' . $token, array_merge($dataToSave, ['hashed_access_token' => $hashed_access_token]))) {
             $output->write(
                 renderToString(
-                    div('Token [b]' . $token . '[/b] with secret access token [b]' . $access_token . '[/b] created.', 
-                        'color-success px-2 py-1')
+                    div(
+                        'Token [b]' . $token . '[/b] with secret access token [b]' . $access_token . '[/b] created.',
+                        'color-success px-2 py-1'
+                    )
                 )
             );
+
             return Command::SUCCESS;
-        } else {
-            $output->write(
-                renderToString(
-                    div('Token wasn\'t created.', 
-                        'color-danger px-2 py-1')
-                )
-            );
-            return Command::FAILURE;
         }
+
+        $output->write(
+            renderToString(
+                div(
+                    'Token wasn\'t created.',
+                    'color-danger px-2 py-1'
+                )
+            )
+        );
+
+        return Command::FAILURE;
     }
 }

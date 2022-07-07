@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -17,12 +17,13 @@ declare(strict_types=1);
 namespace Flextype\Console\Commands\Cache;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
+
+use function Flextype\cache;
 use function Thermage\div;
 use function Thermage\renderToString;
-use function Flextype\cache;
 
 class CacheDeleteCommand extends Command
 {
@@ -40,19 +41,25 @@ class CacheDeleteCommand extends Command
         if (cache()->delete($key)) {
             $output->write(
                 renderToString(
-                    div('Cache item with key ' . $key . ' deleted.', 
-                        'color-success px-2 py-1')
+                    div(
+                        'Cache item with key ' . $key . ' deleted.',
+                        'color-success px-2 py-1'
+                    )
                 )
             );
+
             return Command::SUCCESS;
-        } else {
-            $output->write(
-                renderToString(
-                    div('Cache item with key ' . $key . ' wasn\'t deleted.', 
-                        'color-danger px-2 py-1')
-                )
-            );
-            return Command::FAILURE;
         }
+
+        $output->write(
+            renderToString(
+                div(
+                    'Cache item with key ' . $key . ' wasn\'t deleted.',
+                    'color-danger px-2 py-1'
+                )
+            )
+        );
+
+        return Command::FAILURE;
     }
 }

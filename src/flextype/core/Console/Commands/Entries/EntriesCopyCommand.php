@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -20,10 +20,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+
+use function Flextype\entries;
 use function Thermage\div;
 use function Thermage\renderToString;
-use function Flextype\entries;
 
 class EntriesCopyCommand extends Command
 {
@@ -43,29 +43,38 @@ class EntriesCopyCommand extends Command
         if (! entries()->has($id)) {
             $output->write(
                 renderToString(
-                    div('Entry [b]' . $id . '[/b] doesn\'t exists.', 
-                        'color-danger px-2 py-1')
+                    div(
+                        'Entry [b]' . $id . '[/b] doesn\'t exists.',
+                        'color-danger px-2 py-1'
+                    )
                 )
             );
+
             return Command::FAILURE;
         }
 
         if (entries()->copy($id, $newID)) {
             $output->write(
                 renderToString(
-                    div('Entry [b]' . $id . '[/b] coppied to [b]' . $newID . '[/b]',
-                        'color-success px-2 py-1')
+                    div(
+                        'Entry [b]' . $id . '[/b] coppied to [b]' . $newID . '[/b]',
+                        'color-success px-2 py-1'
+                    )
                 )
             );
+
             return Command::SUCCESS;
-        } else {
-            $output->write(
-                renderToString(
-                    div('Entry [b]' . $id . '[/b] wasn\'t coppied to [b]' . $newID . '[/b]',
-                        'color-success px-2 py-1')
-                )
-            );
-            return Command::FAILURE;
         }
+
+        $output->write(
+            renderToString(
+                div(
+                    'Entry [b]' . $id . '[/b] wasn\'t coppied to [b]' . $newID . '[/b]',
+                    'color-success px-2 py-1'
+                )
+            )
+        );
+
+        return Command::FAILURE;
     }
 }

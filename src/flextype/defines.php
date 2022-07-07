@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -15,6 +15,9 @@ declare(strict_types=1);
  */
 
 namespace Flextype;
+
+use function define;
+use function defined;
 
 if (! defined('FLEXTYPE_MINIMUM_PHP')) {
     /**

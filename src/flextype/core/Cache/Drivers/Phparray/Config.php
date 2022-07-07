@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -18,20 +18,10 @@ declare(strict_types=1);
 
 namespace Phpfastcache\Drivers\Phparray;
 
-use Phpfastcache\Config\IOConfigurationOptionInterface;
 use Phpfastcache\Config\IOConfigurationOption;
+use Phpfastcache\Config\IOConfigurationOptionInterface;
 
 class Config extends IOConfigurationOption implements IOConfigurationOptionInterface
 {
 
-    /**
-     * @param string $cacheFileExtension
-     * @return self
-     * @throws PhpfastcacheInvalidConfigurationException
-     */
-    public function setCacheFileExtension(string $cacheFileExtension): static
-    {
-        $this->cacheFileExtension = 'php';
-        return $this;
-    }
 }

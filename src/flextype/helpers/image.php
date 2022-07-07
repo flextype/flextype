@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -7,16 +7,19 @@ namespace Flextype;
 use Closure;
 use Intervention\Image\ImageManagerStatic as Image;
 
+use function count;
+use function function_exists;
+use function in_array;
+use function is_array;
+
 if (! function_exists('imageFile')) {
     /**
      * Create a new image instance for image file.
      *
      * @param  string $file    Image file.
      * @param  array  $options Options array.
-     *
-     * @return Image|void
      */
-    function imageFile(string $file, array $options = [])
+    function imageFile(string $file, array $options = []): Image|null
     {
         $image = Image::make($file);
 
@@ -162,10 +165,10 @@ if (! function_exists('imageCanvas')) {
      * @param  int   $width      Canvas width.
      * @param  int   $height     Canvas height.
      * @param  mixed $background Canvas background.
-     * 
+     *
      * @return Image Image canvas instance.
      */
-    function imageCanvas(int $width, int $height, $background = null): Image
+    function imageCanvas(int $width, int $height, mixed $background = null): Image
     {
         return Image::canvas($width, $height, $background);
     }
@@ -175,13 +178,13 @@ if (! function_exists('imageCache')) {
     /**
      * Create a new cached image instance.
      *
-     * @param  Closure $callback   A closure containing the operations on an image, defining the cached image.
-     * @param  int     $lifetime   The lifetime in minutes of the image callback in the cache.
-     * @param  bool    $returnObj  Decide if you want the method to return an Intervention Image instance or (by default) the image stream.
+     * @param  Closure $callback  A closure containing the operations on an image, defining the cached image.
+     * @param  int     $lifetime  The lifetime in minutes of the image callback in the cache.
+     * @param  bool    $returnObj Decide if you want the method to return an Intervention Image instance or (by default) the image stream.
      *
      * @return mixed Intervention Image instance as return value or just receive the image stream.
      */
-    function imageCache(Closure $callback, int $lifetime = 5, bool $returnObj = false)
+    function imageCache(Closure $callback, int $lifetime = 5, bool $returnObj = false): mixed
     {
         return Image::cache($callback, $lifetime, $returnObj);
     }

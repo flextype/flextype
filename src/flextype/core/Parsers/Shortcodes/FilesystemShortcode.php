@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -17,10 +17,12 @@ declare(strict_types=1);
 namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
-use function Glowy\Filesystem\filesystem;
+
+use function array_keys;
+use function Flextype\collection;
 use function Flextype\parsers;
 use function Flextype\registry;
-use function Flextype\collection;
+use function Glowy\Filesystem\filesystem;
 
 // Shortcode: filesystem
 // Usage: (filesystem get file:'1.txt)
@@ -31,10 +33,11 @@ parsers()->shortcodes()->addHandler('filesystem', static function (ShortcodeInte
 
     $params = $s->getParameters();
 
-    if (collection(array_keys($params))->filter(fn ($v) => $v == 'get')->count() > 0 && 
-        isset($params['file']) && 
-        registry()->get('flextype.settings.parsers.shortcodes.shortcodes.filesystem.get.enabled') === true) {
-
+    if (
+        collection(array_keys($params))->filter(static fn ($v) => $v === 'get')->count() > 0 &&
+        isset($params['file']) &&
+        registry()->get('flextype.settings.parsers.shortcodes.shortcodes.filesystem.get.enabled') === true
+    ) {
         $file = parsers()->shortcodes()->parse($params['file']);
 
         return filesystem()->file($file)->exists() ? filesystem()->file($file)->get() : '';

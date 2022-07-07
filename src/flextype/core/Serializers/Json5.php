@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -18,14 +18,14 @@ namespace Flextype\Serializers;
 
 use RuntimeException;
 
-use function Flextype\cache;
 use function defined;
-use function json_decode;
+use function Flextype\cache;
+use function Flextype\registry;
+use function Glowy\Strings\strings;
+use function json5_decode;
 use function json_encode;
 use function json_last_error;
 use function json_last_error_msg;
-use function Flextype\registry;
-use function Glowy\Strings\strings;
 
 use const JSON_PRESERVE_ZERO_FRACTION;
 use const JSON_PRETTY_PRINT;
@@ -45,7 +45,7 @@ class Json5
      *
      * @return mixed A JSON5 string representing the original PHP value.
      */
-    public function encode($input)
+    public function encode(mixed $input): mixed
     {
         $options = registry()->get('flextype.settings.serializers.json5.encode.options');
         $depth   = registry()->get('flextype.settings.serializers.json5.encode.depth');
@@ -73,7 +73,7 @@ class Json5
      *
      * @throws RuntimeException If the JSON5 is not valid.
      */
-    public function decode(string $input)
+    public function decode(string $input): mixed
     {
         $cache = registry()->get('flextype.settings.serializers.json5.decode.cache.enabeled');
         $assoc = registry()->get('flextype.settings.serializers.json5.decode.assoc');
@@ -81,7 +81,7 @@ class Json5
         $flags = registry()->get('flextype.settings.serializers.json5.decode.flags');
 
         $decode = static function (string $input, bool $assoc, int $depth, int $flags) {
-            return json5_decode($input, $assoc, $depth, $flags);;
+            return json5_decode($input, $assoc, $depth, $flags);
         };
 
         if ($cache === true && registry()->get('flextype.settings.cache.enabled') === true) {

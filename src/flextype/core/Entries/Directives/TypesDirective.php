@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -14,22 +14,20 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-use Glowy\Arrays\Arrays as Collection;
-use function Glowy\Strings\strings;
+use function Flextype\collection;
+use function Flextype\collectionFromQueryString;
 use function Flextype\emitter;
 use function Flextype\entries;
 use function Flextype\registry;
 use function Flextype\serializers;
-use function Flextype\collectionFromQueryString;
-use function Flextype\collection;
+use function Glowy\Strings\strings;
 
 // Directive: @type[]
 emitter()->addListener('onEntriesFetchSingleField', static function (): void {
-
     if (! registry()->get('flextype.settings.entries.directives.types.enabled')) {
         return;
     }
-    
+
     $field = entries()->registry()->get('methods.fetch.field');
 
     if (is_string($field['value'])) {

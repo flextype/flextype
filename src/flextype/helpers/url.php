@@ -1,14 +1,16 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
 namespace Flextype;
 
-use Slim\Interfaces\RouteParserInterface;
-use Psr\Http\Message\UriInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Psr7\Response;
+
+use function array_key_exists;
+use function function_exists;
 use function Glowy\Strings\strings;
+use function str_replace;
 
 if (! function_exists('urlFor')) {
     /**
@@ -46,17 +48,15 @@ if (! function_exists('fullUrlFor')) {
 if (! function_exists('isCurrentUrl')) {
     /**
      * Determine is current url equal to route name.
-     * 
-     * @param ServerRequestInterface $request     Servert request interface.
-     * @param string                 $routeName   Route name.
-     * @param array<string, string>  $data        Route placeholders.
      *
-     * @return bool
+     * @param ServerRequestInterface $request   Servert request interface.
+     * @param string                 $routeName Route name.
+     * @param array<string, string>  $data      Route placeholders.
      */
     function isCurrentUrl(ServerRequestInterface $request, string $routeName, array $data = []): bool
     {
         $currentUrl = getBasePath() . $request->getUri()->getPath();
-        $result = app()->getRouteCollector()->getRouteParser()->urlFor($routeName, $data);
+        $result     = app()->getRouteCollector()->getRouteParser()->urlFor($routeName, $data);
 
         return $result === $currentUrl;
     }
@@ -68,16 +68,14 @@ if (! function_exists('getCurrentUrl')) {
      *
      * @param ServerRequestInterface $request         Servert request interface.
      * @param bool                   $withQueryString Get query string for current path.
-     *
-     * @return string
      */
     function getCurrentUrl(ServerRequestInterface $request, bool $withQueryString = false): string
     {
         $currentUrl = getBasePath() . $request->getUri()->getPath();
-        $query = $request->getUri()->getQuery();
+        $query      = $request->getUri()->getQuery();
 
-        if ($withQueryString && !empty($query)) {
-            $currentUrl .= '?'.$query;
+        if ($withQueryString && ! empty($query)) {
+            $currentUrl .= '?' . $query;
         }
 
         return $currentUrl;
@@ -101,10 +99,8 @@ if (! function_exists('setBasePath')) {
      * Set the base path.
      *
      * @param string $basePath Base path.
-     *
-     * @return void
      */
-    function setBasePath(string $basePath)
+    function setBasePath(string $basePath): void
     {
         app()->setBasePath($basePath);
     }
@@ -121,7 +117,7 @@ if (! function_exists('getBaseUrl')) {
         $baseUrl  = registry()->get('flextype.settings.base_url') ?? '';
         $basePath = registry()->get('flextype.settings.base_path') ?? '';
 
-        if ($baseUrl != '') {
+        if ($baseUrl !== '') {
             return strings($baseUrl . '/' . $basePath)->reduceSlashes()->trimRight('/')->toString();
         }
 
@@ -142,9 +138,9 @@ if (! function_exists('getBaseUrl')) {
 
         $isHttps = static function (): bool {
             if (array_key_exists('HTTPS', $_SERVER)) {
-                return !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+                return ! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
             }
-    
+
             return false;
         };
 
@@ -153,7 +149,7 @@ if (! function_exists('getBaseUrl')) {
         $isHttps = $isHttps();
 
         $url .= $getAuth();
-      
+
         $serverData = collection($_SERVER);
 
         $host = (string) $serverData->get('HTTP_HOST');
@@ -162,7 +158,7 @@ if (! function_exists('getBaseUrl')) {
 
         if ($isHttps && $port !== 443) {
             $url .= $port ? ":{$port}" : '';
-        } elseif (!$isHttps && $port !== 80) {
+        } elseif (! $isHttps && $port !== 80) {
             $url .= $port ? ":{$port}" : '';
         }
 
@@ -174,9 +170,7 @@ if (! function_exists('getBaseUrl')) {
             }
         }
 
-        $url .=  '/' . $basePath;
-
-        return $url;
+        return $url . '/' . $basePath;
     }
 }
 
@@ -209,14 +203,12 @@ if (! function_exists('getProjectUrl')) {
         $url .= FLEXTYPE_PROJECT_NAME;
 
         return $url;
-    }   
+    }
 }
 
 if (! function_exists('getUriString')) {
     /**
      * Get uri string.
-     *
-     * @return string
      */
     function getUriString(): string
     {
@@ -232,8 +224,6 @@ if (! function_exists('redirect')) {
      * @param array<string, string> $data        Route placeholders.
      * @param array<string, string> $queryParams Query parameters.
      * @param int                   $status      Status code.
-     *
-     * @return Response 
      */
     function redirect(string $routeName, array $data = [], array $queryParams = [], int $status = 301): Response
     {

@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -17,16 +17,18 @@ declare(strict_types=1);
 namespace Flextype;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Whoops\Handler\JsonResponseHandler;
+use Whoops\Handler\PlainTextHandler;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Handler\XmlResponseHandler;
 use Whoops\Run as WhoopsRun;
 use Whoops\Util\Misc;
-use Whoops\Handler\PrettyPageHandler;
-use Whoops\Handler\PlainTextHandler;
-use Whoops\Handler\JsonResponseHandler;
-use Whoops\Handler\XmlResponseHandler;
+
+use function array_merge;
+use function method_exists;
 
 class Whoops
 {
-
     protected $settings = [];
     protected $request  = null;
     protected $handlers = [];
@@ -36,23 +38,20 @@ class Whoops
      *
      * @param array $settings
      */
-    public function __construct(array $settings = []) 
+    public function __construct(array $settings = [])
     {
         $this->settings = array_merge([
             'enable' => true,
             'editor' => 'vscode',
             'title'  => 'Error!',
-            'hadler' => 'plain'
+            'hadler' => 'plain',
         ], $settings);
     }
 
     /**
      * Set the server request object
-     *
-     * @param ServerRequestInterface $request
-     * @return void
      */
-    public function setRequest(ServerRequestInterface $request): void 
+    public function setRequest(ServerRequestInterface $request): void
     {
         $this->request = $request;
     }
@@ -61,26 +60,23 @@ class Whoops
      * Set the custom handlers for whoops
      *
      * @param array $handlers
-     * @return void
      */
-    public function setHandlers(array $handlers): void 
+    public function setHandlers(array $handlers): void
     {
         $this->handlers = $handlers;
     }
 
     /**
      * Install the whoops guard object
-     *
-     * @return WhoopsRun|null
      */
-    public function install(): ?WhoopsRun 
+    public function install(): ?WhoopsRun
     {
         if ($this->settings['enable'] === false) {
             return null;
         }
 
         // Set Whoops to default exception handler
-        $whoops = new \Whoops\Run;
+        $whoops = new WhoopsRun();
 
         switch ($this->settings['handler']) {
             case 'json':
@@ -128,19 +124,19 @@ class Whoops
                     'Port'            => $this->request->getUri()->getPort(),
                     'Host'            => $this->request->getUri()->getHost(),
                 ]);
-                
+
                 $whoops->pushHandler($prettyPageHandler);
                 break;
         }
 
         // Enable JsonResponseHandler when request is AJAX
-        if (Misc::isAjaxRequest() === true){
+        if (Misc::isAjaxRequest() === true) {
             $whoops->pushHandler(new JsonResponseHandler());
         }
 
         // Add each custom handler to whoops handler stack
         if (empty($this->handlers) === false) {
-            foreach($this->handlers as $handler) {
+            foreach ($this->handlers as $handler) {
                 $whoops->pushHandler($handler);
             }
         }

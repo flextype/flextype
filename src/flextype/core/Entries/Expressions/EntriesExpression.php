@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -16,19 +16,18 @@ declare(strict_types=1);
 
 namespace Flextype\Entries\Expressions;
 
-use Symfony\Component\ExpressionLanguage\ExpressionFunction;
-use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Glowy\Arrays\Arrays as Collection;
 use Glowy\Macroable\Macroable;
+use Symfony\Component\ExpressionLanguage\ExpressionFunction;
+use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+
 use function Flextype\entries;
 
 class EntriesExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
-        return [
-            new ExpressionFunction('entries', fn() => '(new EntriesTwigExpressionsMethods())', fn($arguments) => (new EntriesTwigExpressionsMethods()))
-        ];
+        return [new ExpressionFunction('entries', static fn () => '(new EntriesTwigExpressionsMethods())', static fn ($arguments) => (new EntriesTwigExpressionsMethods()))];
     }
 }
 
@@ -42,9 +41,9 @@ class EntriesTwigExpressionsMethods
      * @param string $id      Unique identifier of the entry.
      * @param array  $options Options array.
      *
-     * @access public
-     *
      * @return self Returns instance of The Arrays class.
+     *
+     * @access public
      */
     public function fetch(string $id, array $options = []): Collection
     {

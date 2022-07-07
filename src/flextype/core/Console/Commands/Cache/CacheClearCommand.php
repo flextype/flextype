@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -19,10 +19,10 @@ namespace Flextype\Console\Commands\Cache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
+
+use function Glowy\Filesystem\filesystem;
 use function Thermage\div;
 use function Thermage\renderToString;
-use function Glowy\Filesystem\filesystem;
 
 class CacheClearCommand extends Command
 {
@@ -40,16 +40,20 @@ class CacheClearCommand extends Command
             if (filesystem()->directory($path)->delete()) {
                 $output->write(
                     renderToString(
-                        div('All items were successfully cleared from the cache.', 
-                            'color-success px-2 py-1')
+                        div(
+                            'All items were successfully cleared from the cache.',
+                            'color-success px-2 py-1'
+                        )
                     )
                 );
                 $result = Command::SUCCESS;
             } else {
                 $output->write(
                     renderToString(
-                        div('Cache wasn\'t cleared.', 
-                            'color-danger px-2 py-1')
+                        div(
+                            'Cache wasn\'t cleared.',
+                            'color-danger px-2 py-1'
+                        )
                     )
                 );
                 $result = Command::FAILURE;
@@ -57,13 +61,15 @@ class CacheClearCommand extends Command
         } else {
             $output->write(
                 renderToString(
-                    div('Cache directory ' . $path . ' doesn\'t exist.', 
-                        'color-danger px-2 py-1')
+                    div(
+                        'Cache directory ' . $path . ' doesn\'t exist.',
+                        'color-danger px-2 py-1'
+                    )
                 )
             );
             $result = Command::FAILURE;
         }
-    
+
         return $result;
     }
 }

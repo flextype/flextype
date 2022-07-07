@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -18,10 +18,12 @@ namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
+use function array_keys;
+use function Flextype\collection;
 use function Flextype\parsers;
 use function Flextype\registry;
 use function Flextype\serializers;
-use function Flextype\collection;
+use function is_array;
 
 // Shortcode: registry
 // Usage: (registry get id:'flextype.manifest.version')
@@ -29,16 +31,17 @@ parsers()->shortcodes()->addHandler('registry', static function (ShortcodeInterf
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.registry.enabled')) {
         return '';
     }
-    
+
     $result = '';
     $params = $s->getParameters();
 
-    if (collection(array_keys($params))->filter(fn ($v) => $v == 'get')->count() > 0 && 
-        isset($params['id']) && 
-        registry()->get('flextype.settings.parsers.shortcodes.shortcodes.registry.get.enabled') === true) {
-
+    if (
+        collection(array_keys($params))->filter(static fn ($v) => $v === 'get')->count() > 0 &&
+        isset($params['id']) &&
+        registry()->get('flextype.settings.parsers.shortcodes.shortcodes.registry.get.enabled') === true
+    ) {
         $id      = parsers()->shortcodes()->parse($params['id']);
-        $default = (isset($params['default'])) ? parsers()->shortcodes()->parse($params['default']) : null;
+        $default = isset($params['default']) ? parsers()->shortcodes()->parse($params['default']) : null;
         $result  = registry()->get($id, $default);
 
         return is_array($result) ? serializers()->json()->encode($result) : $result;

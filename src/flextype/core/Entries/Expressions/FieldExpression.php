@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -18,14 +18,13 @@ namespace Flextype\Entries\Expressions;
 
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+
 use function Flextype\entries;
 
 class FieldExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
-        return [
-            new ExpressionFunction('field', fn(string $field) => "\Flextype\entries()->registry()->get('methods.fetch.result.' . $field . ')'", fn($arguments, string $field) => entries()->registry()->get('methods.fetch.result.' . $field))
-        ];
+        return [new ExpressionFunction('field', static fn (string $field) => "\Flextype\entries()->registry()->get('methods.fetch.result.' . $field . ')'", static fn ($arguments, string $field) => entries()->registry()->get('methods.fetch.result.' . $field))];
     }
 }

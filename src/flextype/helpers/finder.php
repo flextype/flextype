@@ -1,10 +1,12 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
 namespace Flextype;
 
 use Symfony\Component\Finder\Finder;
+
+use function function_exists;
 use function Glowy\Filesystem\filesystem;
 
 if (! function_exists('find')) {
@@ -14,7 +16,7 @@ if (! function_exists('find')) {
      * @param  string $path     Path.
      * @param  array  $options  Options array.
      * @param  string $searchIn Search in 'files' or 'directories'. Default is 'files'.
-     * 
+     *
      * @return Finder Finder instance.
      */
     function find(string $path = '', array $options = [], string $searchIn = 'files'): Finder

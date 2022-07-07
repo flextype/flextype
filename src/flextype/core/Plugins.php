@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -16,14 +16,12 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Glowy\Macroable\Macroable;
 use Composer\Semver\Semver;
-use Flextype\I18n;
+use Glowy\Macroable\Macroable;
 use RuntimeException;
 
 use function array_diff_key;
 use function array_replace_recursive;
-use function Glowy\Arrays\arrays;
 use function count;
 use function filemtime;
 use function Glowy\Filesystem\filesystem;
@@ -80,7 +78,7 @@ class Plugins
 
         // Get plugins list
         $pluginsList = $this->getPluginsList();
-       
+
         // Get plugins Cache ID
         $pluginsCacheID = $this->getPluginsCacheID($pluginsList);
 
@@ -109,7 +107,6 @@ class Plugins
 
             // Go through...
             foreach ($pluginsList as $plugin) {
-
                 // Set plugin settings directory
                 $projectPluginSettingsDir = FLEXTYPE_PATH_PROJECT . '/config/plugins/' . $plugin['dirname'];
 
@@ -129,8 +126,8 @@ class Plugins
                 }
 
                 // Get default plugin settings content
-                $defaultPluginSettingsFileContent   = filesystem()->file($defaultPluginSettingsFile)->get();
-                $defaultPluginSettings              = empty($defaultPluginSettingsFileContent) ? [] : serializers()->yaml()->decode($defaultPluginSettingsFileContent);
+                $defaultPluginSettingsFileContent = filesystem()->file($defaultPluginSettingsFile)->get();
+                $defaultPluginSettings            = empty($defaultPluginSettingsFileContent) ? [] : serializers()->yaml()->decode($defaultPluginSettingsFileContent);
 
                 // Create project plugin settings file
                 ! filesystem()->file($projectPluginSettingsFile)->exists() and filesystem()->file($projectPluginSettingsFile)->put($defaultPluginSettingsFileContent);
@@ -150,8 +147,8 @@ class Plugins
                 }
 
                 // Get default plugin manifest content
-                $defaultPluginManifestFileContent  = filesystem()->file($defaultPluginManifestFile)->get();
-                $defaultPluginManifest             = empty($defaultPluginManifestFileContent) ? [] : serializers()->yaml()->decode($defaultPluginManifestFileContent);
+                $defaultPluginManifestFileContent = filesystem()->file($defaultPluginManifestFile)->get();
+                $defaultPluginManifest            = empty($defaultPluginManifestFileContent) ? [] : serializers()->yaml()->decode($defaultPluginManifestFileContent);
 
                 // Merge plugin settings and manifest data
                 $plugins[$plugin['dirname']]['manifest'] = $defaultPluginManifest;
@@ -218,7 +215,7 @@ class Plugins
                 } else {
                     $translates = serializers()->yaml()->decode($content);
                 }
-                
+
                 I18n::add($translates, $locale);
             } else {
                 I18n::add([], registry()->get('flextype.settings.locale'));
@@ -268,7 +265,6 @@ class Plugins
      */
     public function getValidPluginsDependencies(array $plugins): array
     {
-
         // Set verified plugins array
         $verifiedPlugins = [];
 
@@ -372,12 +368,16 @@ class Plugins
         if (filesystem()->directory(FLEXTYPE_PATH_PROJECT . '/plugins/')->exists()) {
             foreach (filesystem()->find()->in(FLEXTYPE_PATH_PROJECT . '/plugins/')->directories()->depth(0) as $plugin) {
                 $pluginName = $plugin->getBasename();
-                if (filesystem()->file(FLEXTYPE_PATH_PROJECT . '/plugins/' . $pluginName . '/plugin.php')->exists() &&
-                    filesystem()->file(FLEXTYPE_PATH_PROJECT . '/plugins/' . $pluginName . '/plugin.yaml')->exists() && 
-                    filesystem()->file(FLEXTYPE_PATH_PROJECT . '/plugins/' . $pluginName . '/settings.yaml')->exists()) {
-                    $pluginsList[$pluginName]['dirname']  = $plugin->getBasename();
-                    $pluginsList[$pluginName]['pathname'] = $plugin->getPathname();
+                if (
+                    ! filesystem()->file(FLEXTYPE_PATH_PROJECT . '/plugins/' . $pluginName . '/plugin.php')->exists() ||
+                    ! filesystem()->file(FLEXTYPE_PATH_PROJECT . '/plugins/' . $pluginName . '/plugin.yaml')->exists() ||
+                    ! filesystem()->file(FLEXTYPE_PATH_PROJECT . '/plugins/' . $pluginName . '/settings.yaml')->exists()
+                ) {
+                    continue;
                 }
+
+                $pluginsList[$pluginName]['dirname']  = $plugin->getBasename();
+                $pluginsList[$pluginName]['pathname'] = $plugin->getPathname();
             }
         }
 
@@ -394,7 +394,7 @@ class Plugins
         $enabledPlugins = [];
 
         foreach ($plugins as $name => $plugin) {
-            if (! collection($plugin)->has('settings.enabled') || collection($plugin)->get('settings.enabled') == false) {
+            if (! collection($plugin)->has('settings.enabled') || collection($plugin)->get('settings.enabled') === false) {
                 continue;
             }
 
@@ -402,7 +402,7 @@ class Plugins
         }
 
         return $enabledPlugins;
-    } 
+    }
 
     /**
      * Include enabled plugins

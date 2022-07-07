@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -21,13 +21,12 @@ use Psr\Http\Message\ResponseInterface;
 use function array_keys;
 use function array_merge;
 use function count;
-use function in_array;
-use function is_string;
-use function password_verify;
+use function Flextype\entries;
+use function Flextype\registry;
 use function Flextype\serializers;
 use function Flextype\verifyTokenHash;
-use function Flextype\registry;
-use function Flextype\entries;
+use function in_array;
+use function is_string;
 
 class Api
 {

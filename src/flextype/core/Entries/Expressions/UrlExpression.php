@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -16,34 +16,36 @@ declare(strict_types=1);
 
 namespace Flextype\Entries\Expressions;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
-use function Flextype\urlFor;
+
 use function Flextype\fullUrlFor;
-use function Flextype\isCurrentUrl;
-use function Flextype\getCurrentUrl;
+use function Flextype\getAbsoluteUrl;
 use function Flextype\getBasePath;
 use function Flextype\getBaseUrl;
-use function Flextype\getAbsoluteUrl;
+use function Flextype\getCurrentUrl;
 use function Flextype\getProjectUrl;
 use function Flextype\getUriString;
+use function Flextype\isCurrentUrl;
 use function Flextype\redirect;
+use function Flextype\urlFor;
 
 class UrlExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
         return [
-            new ExpressionFunction('urlFor', fn(string $routeName, array $data = [], array $queryParams = []) => '\Flextype\urlFor($routeName, $data, $queryParams)', fn(string $routeName, array $data = [], array $queryParams = []) => urlFor($routeName, $data, $queryParams)),
-            new ExpressionFunction('fullUrlFor', fn(\Psr\Http\Message\ServerRequestInterface $request, string $routeName, array $data = [], array $queryParams = []) => '\Flextype\fullUrlFor($request, $routeName, $data, $queryParams)', fn(\Psr\Http\Message\ServerRequestInterface $request, string $routeName, array $data = [], array $queryParams = []) => fullUrlFor($request, $routeName, $data = [], $queryParams = [])),
-            new ExpressionFunction('isCurrentUrl', fn(\Psr\Http\Message\ServerRequestInterface $request, string $routeName, array $data = []) => '\Flextype\isCurrentUrl($request, $routeName, $data)', fn(\Psr\Http\Message\ServerRequestInterface $request, string $routeName, array $data = []) => isCurrentUrl($request, $routeName, $data = [])),
-            new ExpressionFunction('getCurrentUrl', fn(\Psr\Http\Message\ServerRequestInterface $request, bool $withQueryString = false) => '\Flextype\getCurrentUrl($request, $withQueryString)', fn(\Psr\Http\Message\ServerRequestInterface $request, bool $withQueryString = false) => getCurrentUrl($request, $withQueryString)),
-            new ExpressionFunction('getBasePath', fn() => '\Flextype\getBasePath()', fn() => getBasePath()),
-            new ExpressionFunction('getBaseUrl', fn() => '\Flextype\getBaseUrl()', fn() => getBaseUrl()),
-            new ExpressionFunction('getAbsoluteUrl', fn() => '\Flextype\getAbsoluteUrl()', fn() => getAbsoluteUrl()),
-            new ExpressionFunction('getProjectUrl', fn() => '\Flextype\getProjectUrl()', fn() => getProjectUrl()),
-            new ExpressionFunction('getUriString', fn() => '\Flextype\getUriString()', fn() => getUriString()),
-            new ExpressionFunction('redirect', fn(string $routeName, array $data = [], array $queryParams = [], int $status = 301) => '\Flextype\redirect($routeName, $data, $queryParams, $status)', fn(string $routeName, array $data = [], array $queryParams = [], int $status = 301) => redirect($routeName, $data, $queryParams, $status))
+            new ExpressionFunction('urlFor', static fn (string $routeName, array $data = [], array $queryParams = []) => '\Flextype\urlFor($routeName, $data, $queryParams)', static fn (string $routeName, array $data = [], array $queryParams = []) => urlFor($routeName, $data, $queryParams)),
+            new ExpressionFunction('fullUrlFor', static fn (ServerRequestInterface $request, string $routeName, array $data = [], array $queryParams = []) => '\Flextype\fullUrlFor($request, $routeName, $data, $queryParams)', static fn (ServerRequestInterface $request, string $routeName, array $data = [], array $queryParams = []) => fullUrlFor($request, $routeName, $data = [], $queryParams = [])),
+            new ExpressionFunction('isCurrentUrl', static fn (ServerRequestInterface $request, string $routeName, array $data = []) => '\Flextype\isCurrentUrl($request, $routeName, $data)', static fn (ServerRequestInterface $request, string $routeName, array $data = []) => isCurrentUrl($request, $routeName, $data = [])),
+            new ExpressionFunction('getCurrentUrl', static fn (ServerRequestInterface $request, bool $withQueryString = false) => '\Flextype\getCurrentUrl($request, $withQueryString)', static fn (ServerRequestInterface $request, bool $withQueryString = false) => getCurrentUrl($request, $withQueryString)),
+            new ExpressionFunction('getBasePath', static fn () => '\Flextype\getBasePath()', static fn () => getBasePath()),
+            new ExpressionFunction('getBaseUrl', static fn () => '\Flextype\getBaseUrl()', static fn () => getBaseUrl()),
+            new ExpressionFunction('getAbsoluteUrl', static fn () => '\Flextype\getAbsoluteUrl()', static fn () => getAbsoluteUrl()),
+            new ExpressionFunction('getProjectUrl', static fn () => '\Flextype\getProjectUrl()', static fn () => getProjectUrl()),
+            new ExpressionFunction('getUriString', static fn () => '\Flextype\getUriString()', static fn () => getUriString()),
+            new ExpressionFunction('redirect', static fn (string $routeName, array $data = [], array $queryParams = [], int $status = 301) => '\Flextype\redirect($routeName, $data, $queryParams, $status)', static fn (string $routeName, array $data = [], array $queryParams = [], int $status = 301) => redirect($routeName, $data, $queryParams, $status)),
         ];
     }
 }

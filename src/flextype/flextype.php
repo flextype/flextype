@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
  /**
- * Flextype - Hybrid Content Management System with the freedom of a headless CMS 
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
  * and with the full functionality of a traditional CMS!
- * 
+ *
  * Copyright (c) Sergey Romanenko (https://awilum.github.io)
  *
  * Licensed under The MIT License.
@@ -16,21 +16,17 @@ declare(strict_types=1);
 
 namespace Flextype;
 
+use Cocur\Slugify\Slugify;
+use DateTimeZone;
+use Flextype\Console\FlextypeConsole;
+use Flextype\Entries\Entries;
+use Flextype\Middlewares\WhoopsMiddleware;
+use Flextype\Parsers\Parsers;
+use Flextype\Serializers\Serializers;
 use Glowy\Csrf\Csrf;
 use Glowy\Session\Session;
 use Glowy\View\View;
-use Cocur\Slugify\Slugify;
-use DateTimeZone;
-use Flextype\Entries\Entries;
-use Flextype\Handlers\HttpErrorHandler;
-use Flextype\Handlers\ShutdownHandler;
-use Flextype\Parsers\Parsers;
-use Flextype\Serializers\Serializers;
-use Flextype\Tokens\Tokens;
-use Intervention\Image\ImageManager;
 use League\Event\Emitter;
-use League\Flysystem\Filesystem as Flysystem;
-use League\Flysystem\Local\LocalFilesystemAdapter as Local;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Phpfastcache\Drivers\Apcu\Config;
@@ -39,50 +35,37 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
-use Slim\Factory\ServerRequestCreatorFactory;
 use Slim\Middleware\ContentLengthMiddleware;
 use Slim\Middleware\OutputBufferingMiddleware;
 use Slim\Middleware\RoutingMiddleware;
 use Slim\Psr7\Factory\StreamFactory;
-use Slim\Psr7\Response;
-use Slim\Psr7\Stream;
-use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use Flextype\Middlewares\WhoopsMiddleware;
-use Flextype\Console\FlextypeConsole;
+use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
-use function Flextype\setBasePath;
-use function Flextype\app;
 use function array_replace_recursive;
-use function Flextype\container;
 use function count;
 use function date;
 use function date_default_timezone_set;
-use function define;
-use function Flextype\emitter;
 use function extension_loaded;
 use function file_exists;
 use function filemtime;
-use function Glowy\Filesystem\filesystem;
-use function Flextype\flextype;
 use function function_exists;
+use function Glowy\Filesystem\filesystem;
+use function Glowy\Registry\registry;
+use function Glowy\Strings\strings;
 use function implode;
 use function in_array;
 use function mb_internal_encoding;
 use function mb_language;
 use function mb_regex_encoding;
 use function md5;
-use function Flextype\parsers;
-use function Flextype\plugins;
-use function register_shutdown_function;
-use function Glowy\Registry\registry;
-use function Flextype\session;
-use function Glowy\Strings\strings;
+use function php_sapi_name;
+use function sprintf;
 use function sys_get_temp_dir;
 use function trim;
 use function var_export;
 use function version_compare;
-use const DIRECTORY_SEPARATOR;
+
 use const PHP_VERSION;
 
 // Get defines.
@@ -168,11 +151,12 @@ if (filesystem()->file($preflightFlextypePath . '/' . $cacheID . '.php')->exists
     filesystem()->file($preflightFlextypePath . $cacheID . '.php')->put("<?php\n return " . var_export($flextypeData, true) . ";\n");
 }
 
+
 // Store flextype merged data in the flextype registry.
 registry()->set('flextype', $flextypeData);
 
 // Set Flextype Aplication base path
-setBasePath('/' . registry()->get('flextype.settings.base_path'));
+setBasePath(registry()->get('flextype.settings.base_path'));
 
 // Add Routing Middleware
 app()->add(new RoutingMiddleware(app()->getRouteResolver(), app()->getRouteCollector()->getRouteParser()));
