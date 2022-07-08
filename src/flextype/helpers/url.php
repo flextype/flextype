@@ -182,7 +182,7 @@ if (! function_exists('getBaseUrl')) {
             }
         }
 
-        return $url . '/' . $basePath;
+        return strings($url . '/' . $basePath)->reduceSlashes()->trimRight('/')->toString();
     }
 }
 
@@ -198,7 +198,7 @@ if (! function_exists('getAbsoluteUrl')) {
         $url .= '/';
         $url .= $_SERVER['REQUEST_URI'] ?? '';
 
-        return $url;
+        return strings($url)->reduceSlashes()->trimRight('/')->toString();
     }
 }
 
@@ -214,7 +214,7 @@ if (! function_exists('getProjectUrl')) {
         $url .= '/';
         $url .= FLEXTYPE_PROJECT_NAME;
 
-        return $url;
+        return strings($url)->reduceSlashes()->trimRight('/')->toString();
     }
 }
 
@@ -227,6 +227,33 @@ if (! function_exists('getUriString')) {
         return $_SERVER['REQUEST_URI'] ?? '';
     }
 }
+
+if (! function_exists('url')) {
+    /**
+     * Build URl Strings.
+     *
+     * @return string URl Strings.
+     */
+    function url(string $string = '', string $prefix = 'base'): string
+    {
+        switch ($prefix) {
+            case 'project':
+                $url = getProjectUrl();
+                break;
+            
+            case 'base':
+            default:
+                $url = getBaseUrl();
+                break;
+        }
+
+        $url .= '/';
+        $url .= $string;
+
+        return strings($url)->reduceSlashes()->trimRight('/')->toString();
+    }
+}
+
 
 if (! function_exists('redirect')) {
     /**
