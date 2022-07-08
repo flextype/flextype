@@ -27,6 +27,17 @@ use function Flextype\parsers;
 use function Flextype\registry;
 use function Flextype\serializers;
 use function Flextype\urlFor;
+use function Flextype\url;
+
+// Shortcode: url
+// Usage: (url)
+parsers()->shortcodes()->addHandler('url', static function (ShortcodeInterface $s) {
+    if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.url.enabled')) {
+        return '';
+    }
+
+    return url($s->getBBCode() !== null ? $s->getBBCode() : '', $s->getParameter('prefix') !== null ? $s->getParameter('prefix') : 'base');
+});
 
 // Shortcode: getBaseUrl
 // Usage: (getBaseUrl)
