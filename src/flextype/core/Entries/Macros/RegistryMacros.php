@@ -14,6 +14,8 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
+namespace Flextype\Entries\Macros;
+
 use function Flextype\registry;
 use function Flextype\emitter;
 use function Flextype\collection;

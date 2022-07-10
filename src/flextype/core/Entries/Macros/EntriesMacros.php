@@ -14,6 +14,8 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
+namespace Flextype\Entries\Macros;
+
 use Glowy\Arrays\Arrays as Collection;
 
 use function Flextype\registry;

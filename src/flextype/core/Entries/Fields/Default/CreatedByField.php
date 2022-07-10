@@ -14,6 +14,8 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
+namespace Flextype\Entries\Fields;
+
 use function Glowy\Strings\strings;
 use function Flextype\emitter;
 use function Flextype\entries;

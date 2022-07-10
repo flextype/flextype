@@ -14,6 +14,8 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
+namespace Flextype\Entries\Directives;
+
 use function Flextype\collection;
 use function Flextype\collectionFromQueryString;
 use function Flextype\emitter;
