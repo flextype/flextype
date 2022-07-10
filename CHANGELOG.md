@@ -67,7 +67,12 @@
 
 * **core** Added `Thermage` library for better Flextype CLI Application styling.
 
-* **core** Added new core constants: `FLEXTYPE_PROJECT_NAME`, `FLEXTYPE_PATH_PROJECT`, `FLEXTYPE_PATH_TMP`. 
+* **core** Added ability to execute specific project related code.
+
+  - `before-plugins` to bootstrap file before plugins intialization.
+  - `after-plugins` to bootstrap file after plugins intialization.
+
+* **core** Added new core constants: `FLEXTYPE_PROJECT_NAME`, `FLEXTYPE_PATH_PROJECT`, `FLEXTYPE_PATH_TMP`, `FLEXTYPE_START_TIME`. 
 
 * **core** Added ability to run Flextype in silent mode by disabling `app` and `cli`. 
 
@@ -452,11 +457,15 @@
 
 * **shortcodes** Added new shortcode `(markdown)` to parse markdown text.
 
+* **shortcodes** Added new shortcode `(getProjectUrl)` to get project url.
+
 * **shortcodes** Added new shortcode `(getBaseUrl)` to get base url.
 
 * **shortcodes** Added new shortcode `(getBasePath)` to get base path.
 
 * **shortcodes** Added new shortcode `(getAbsoluteUrl)` to get absolute url.
+
+* **shortcodes** Added new shortcode `(url)` to get url.
 
 * **shortcodes** Added new shortcode `(urlFor)` to get url for route.
 
@@ -522,6 +531,8 @@
 
 * **expressions** Added new expression function `slugify` to get slugify service.
 
+* **expressions** Added new expression function `url` to get the url.
+
 * **expressions** Added new expression function `urlFor` to get the url for a named route.
 
 * **expressions** Added new expression function `fullUrlFor` to get the full url for a named route.
@@ -585,6 +596,8 @@
 * **helpers** Added helper function `generateTokenHash` to generate unique token hash.
 
 * **helpers** Added helper function `verifyTokenHash` to validate token hash.
+
+* **helpers** Added helper function `url` to get url.
 
 * **helpers** Added helper function `urlFor` to get url for a named route.
 
