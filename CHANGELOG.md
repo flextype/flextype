@@ -5,6 +5,8 @@
 
 ### Features
 
+* **core** Minimum PHP version required PHP 8.1.0.
+
 * **core** Core application updated from Slim 3 to Slim 4!
 
   See: [Upgrade Guide](https://www.slimframework.com/docs/v4/start/upgrade.html)
