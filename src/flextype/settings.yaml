@@ -79,6 +79,12 @@ entries:
   vars:
     debug: false
   expressions:
+    math:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\MathExpression"
+    date:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\DateExpression"
     actions:
       enabled: true
       class: "Flextype\\Entries\\Expressions\\ActionsExpression"
@@ -632,6 +638,9 @@ parsers:
         path: "src/flextype/core/Parsers/Shortcodes/EntriesShortcode.php"
         fetch:
           enabled: true
+      date:
+        enabled: true
+        path: "src/flextype/core/Parsers/Shortcodes/DateShortcode.php"
       php:
         enabled: true
         path: "src/flextype/core/Parsers/Shortcodes/PhpShortcode.php"
