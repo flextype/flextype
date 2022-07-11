@@ -473,6 +473,8 @@
 
 * **shortcodes** Added new shortcode `(filesystem)` to do filesytem manipulations.
 
+* **shortcodes** Added new shortcode `(date)` to get date.
+
 * **shortcodes** Added new shortcode `(tr)` to returns translation of a string. 
 
 * **shortcodes** Added new shortcode `(if)` to use logical if conditions.
@@ -523,6 +525,14 @@
 
 * **expressions** Added new expression function `__` to return translation of a string. If no translation exists, the original string will be returned.
 
+* **expressions** Added new expression function `max` to return the highest value in an array, or the highest value of several specified values.
+
+* **expressions** Added new expression function `min` to return the lowest value in an array, or the lowest value of several specified values.
+
+* **expressions** Added new expression function `ceil` to round a number up to the nearest integer.
+
+* **expressions** Added new expression function `floor` to round a number down to the nearest integer.
+
 * **expressions** Added new expression function `parsers` to get parsers service.
 
 * **expressions** Added new expression function `serializers` to get serializers service.
@@ -530,6 +540,8 @@
 * **expressions** Added new expression function `registry` to get registry service.
 
 * **expressions** Added new expression function `slugify` to get slugify service.
+
+* **expressions** Added new expression function `date` to get date.
 
 * **expressions** Added new expression function `url` to get the url.
 
