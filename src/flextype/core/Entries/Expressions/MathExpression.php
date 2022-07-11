@@ -26,8 +26,8 @@ class MathExpression implements ExpressionFunctionProviderInterface
     public function getFunctions()
     {
         return [
-            new ExpressionFunction('ceil', static fn (int|float $num): float => '\ceil($num)', static fn (array $arguments, int|float $num): float => \ceil($num)),
-            new ExpressionFunction('floor', static fn (int|float $num): float => '\floor($num)', static fn (array $arguments, int|float $num): float => \floor($num)),
+            new ExpressionFunction('ceil', static fn (int|float $num): mixed => '\ceil($num)', static fn (array $arguments, int|float $num): mixed => \ceil($num)),
+            new ExpressionFunction('floor', static fn (int|float $num): mixed => '\floor($num)', static fn (array $arguments, int|float $num): mixed => \floor($num)),
             new ExpressionFunction('min', static fn (mixed ...$values): mixed => '\min($values)', static fn (array $arguments, mixed ...$values): mixed => \min($values)),
             new ExpressionFunction('max', static fn (mixed ...$values): mixed => '\max($values)', static fn (array $arguments, mixed ...$values): mixed => \max($values)),
         ];

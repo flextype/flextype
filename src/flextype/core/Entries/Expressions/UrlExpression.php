@@ -37,7 +37,7 @@ class UrlExpression implements ExpressionFunctionProviderInterface
     public function getFunctions()
     {
         return [
-            new ExpressionFunction('url', static fn (string $string = '', string $prefix = 'base') => '\Flextype\url($string, $prefix)', static fn ($arguments, string $string = '', string $prefix = 'base') => urlFor($string, $prefix)),
+            new ExpressionFunction('url', static fn (string $string = '', string $prefix = 'base') => '\Flextype\url($string, $prefix)', static fn ($arguments, string $string = '', string $prefix = 'base') => url($string, $prefix)),
             new ExpressionFunction('urlFor', static fn (string $routeName, array $data = [], array $queryParams = []) => '\Flextype\urlFor($routeName, $data, $queryParams)', static fn ($arguments, string $routeName, array $data = [], array $queryParams = []) => urlFor($routeName, $data, $queryParams)),
             new ExpressionFunction('fullUrlFor', static fn (ServerRequestInterface $request, string $routeName, array $data = [], array $queryParams = []) => '\Flextype\fullUrlFor($request, $routeName, $data, $queryParams)', static fn ($arguments, ServerRequestInterface $request, string $routeName, array $data = [], array $queryParams = []) => fullUrlFor($request, $routeName, $data = [], $queryParams = [])),
             new ExpressionFunction('isCurrentUrl', static fn (ServerRequestInterface $request, string $routeName, array $data = []) => '\Flextype\isCurrentUrl($request, $routeName, $data)', static fn ($arguments, ServerRequestInterface $request, string $routeName, array $data = []) => isCurrentUrl($request, $routeName, $data = [])),
