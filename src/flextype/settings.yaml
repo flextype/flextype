@@ -60,7 +60,7 @@ date_display_format: 'd-m-Y H:i'
 errors:
 
   # Set true to display errors.
-  display: true
+  display: false
 
   # Editor (emacs, idea, macvim, phpstorm, sublime, textmate, xdebug, vscode, atom, espresso)
   editor: atom
@@ -150,7 +150,7 @@ entries:
       enabled_globally: false
       path: "src/flextype/core/Entries/Directives/TextileDirective.php"
     php:
-      enabled: true
+      enabled: false
       enabled_globally: false
       path: "src/flextype/core/Entries/Directives/PhpDirective.php"
     types:
@@ -162,7 +162,7 @@ entries:
       enabled: true
       path: "src/flextype/core/Entries/Macros/VarsMacros.php"
     php:
-      enabled: true
+      enabled: false
       path: "src/flextype/core/Entries/Macros/PhpMacros.php"
     registry:
       enabled: true
@@ -306,7 +306,7 @@ entries:
 #
 # - drivers.files.cache_slams_timeout: This option defines the cache slams timeout in seconds.
 cache:
-  enabled: false
+  enabled: true
   driver: auto
   drivers:
     apcu: {}
@@ -642,7 +642,7 @@ parsers:
         enabled: true
         path: "src/flextype/core/Parsers/Shortcodes/DateShortcode.php"
       php:
-        enabled: true
+        enabled: false
         path: "src/flextype/core/Parsers/Shortcodes/PhpShortcode.php"
       raw:
         enabled: true
