@@ -27,11 +27,11 @@ class EntriesExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
-        return [new ExpressionFunction('entries', static fn () => '(new EntriesTwigExpressionsMethods())', static fn ($arguments) => (new EntriesTwigExpressionsMethods()))];
+        return [new ExpressionFunction('entries', static fn () => '(new EntriesExpressionsMethods())', static fn ($arguments) => (new EntriesExpressionsMethods()))];
     }
 }
 
-class EntriesTwigExpressionsMethods
+class EntriesExpressionsMethods
 {
     use Macroable;
 
@@ -73,6 +73,6 @@ class EntriesTwigExpressionsMethods
      */
     public function has(string $id): bool
     {
-        return entries()->entries->has($id);
+        return entries()->has($id);
     }
 }
