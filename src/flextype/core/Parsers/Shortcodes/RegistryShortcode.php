@@ -35,6 +35,7 @@ parsers()->shortcodes()->addHandler('registry', static function (ShortcodeInterf
     $result = '';
     $params = $s->getParameters();
 
+    // get
     if (
         collection(array_keys($params))->filter(static fn ($v) => $v === 'get')->count() > 0 &&
         isset($params['id']) &&
@@ -47,5 +48,5 @@ parsers()->shortcodes()->addHandler('registry', static function (ShortcodeInterf
         return is_array($result) ? serializers()->json()->encode($result) : $result;
     }
 
-    return '';
+    return $result;
 });
