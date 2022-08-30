@@ -47,7 +47,16 @@ class EntriesExpressionsMethods
      */
     public function fetch(string $id, array $options = []): \Glowy\Arrays\Arrays
     {
-        return entries()->fetch($id, $options);
+        // Backup current entry data
+        $original = entries()->registry()->get('methods.fetch');
+
+        // Do fetch the data from the resource.
+        $result = entries()->fetch($id, $options);
+
+        // Restore original entry data
+        entries()->registry()->set('methods.fetch', $original);
+        
+        return $result;
     }
 
     /**
