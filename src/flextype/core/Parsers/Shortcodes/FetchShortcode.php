@@ -66,7 +66,7 @@ parsers()->shortcodes()->addHandler('fetch', static function (ShortcodeInterface
         })->undot()->toArray();
 
         // Backup current entry data
-        $original = entries()->registry()['methods.fetch'];
+        $original = entries()->registry()->get('methods.fetch');
 
         // Do fetch the data from the resource.
         $result = fetch($resource, $options);
