@@ -94,6 +94,9 @@ entries:
     entries:
       enabled: true
       class: "Flextype\\Entries\\Expressions\\EntriesExpression"
+    fetch:
+      enabled: true
+      class: "Flextype\\Entries\\Expressions\\FetchExpression"
     filesystem:
       enabled: true
       class: "Flextype\\Entries\\Expressions\\FilesystemExpression"
@@ -693,6 +696,9 @@ parsers:
       field:
         enabled: true
         path: "src/flextype/core/Parsers/Shortcodes/FieldShortcode.php"  
+      fetch:
+        enabled: true
+        path: "src/flextype/core/Parsers/Shortcodes/FetchShortcode.php"
       calc:
         enabled: true
         path: "src/flextype/core/Parsers/Shortcodes/CalcShortcode.php"  
