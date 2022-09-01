@@ -1,5 +1,17 @@
 # Release Notes for 1.x
 
+<a name="1.0.0-alpha.2"></a>
+# [1.0.0-alpha.2](https://github.com/flextype/flextype/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-09-xx)
+
+### Features
+
+* **core** Added new package Guzzle.
+* **core** Added New `fetch` helper function with ability to fetch data from different sources, entries, files, urls. [581](https://github.com/flextype/flextype/issues/581)
+
+### Bug Fixes
+
+* **expressions** fix Entries Expressions methods.
+
 <a name="1.0.0-alpha.1"></a>
 # [1.0.0-alpha.1](https://github.com/flextype/flextype/compare/v0.9.16...v1.0.0-alpha.1) (2022-07-12)
 
