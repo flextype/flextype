@@ -39,7 +39,7 @@ class FetchExpressionsMethods
      *
      * @param string $resource A resource that you wish to fetch.
      * @param array $options Options.
-     * @return Glowy\Arrays\Arrays|GuzzleHttp\Psr7\Response Returns the data from the resource or empty collection on failure.
+     * @return mixed Returns the data from the resource or empty collection on failure.
      */
     function fetch(string $resource, array $options = [])
     {
