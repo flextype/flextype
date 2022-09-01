@@ -6,7 +6,7 @@
 ### Features
 
 * **core** Added new package Guzzle.
-* **core** Added New `fetch` helper function with ability to fetch data from different sources, entries, files, urls. [581](https://github.com/flextype/flextype/issues/581)
+* **core** Added a new `fetch` helper, expression function and shortcode with the ability to fetch data from different sources, entries, files, and URLs. [581](https://github.com/flextype/flextype/issues/581)
 
 ### Bug Fixes
 
