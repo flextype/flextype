@@ -140,11 +140,11 @@ if (! function_exists('filterCollection')) {
         }
 
         if (isset($options['offset'])) {
-            $collection->offset(isset($options['offset']) ? (int) $options['offset'] : 0);
+            $collection->offset((int) $options['offset']);
         }
 
         if (isset($options['limit'])) {
-            $collection->limit(isset($options['limit']) ? (int) $options['limit'] : 0);
+            $collection->limit((int) $options['limit']);
         }
 
         switch ($options['return']) {
