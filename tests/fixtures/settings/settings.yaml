@@ -94,6 +94,20 @@ entries:
     entries:
       enabled: true
       class: "Flextype\\Entries\\Expressions\\EntriesExpression"
+      fetch:
+        enabled: true
+      has:
+        enabled: true
+      registry:
+        enabled: true
+      create:
+        enabled: false
+      move:
+        enabled: false
+      update:
+        enabled: false
+      delete:
+        enabled: false
     fetch:
       enabled: true
       class: "Flextype\\Entries\\Expressions\\FetchExpression"

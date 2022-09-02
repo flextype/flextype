@@ -21,7 +21,9 @@ use Glowy\Macroable\Macroable;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
+use function Flextype\registry;
 use function Flextype\entries;
+use function Flextype\collection;
 
 class EntriesExpression implements ExpressionFunctionProviderInterface
 {
@@ -47,6 +49,10 @@ class EntriesExpressionsMethods
      */
     public function fetch(string $id, array $options = []): \Glowy\Arrays\Arrays
     {
+        if (! registry()->get('flextype.settings.entries.expressions.entries.fetch.enabled')) {
+            return collection();
+        }
+
         // Backup current entry data
         $original = entries()->registry()->get('methods.fetch');
 
@@ -68,6 +74,10 @@ class EntriesExpressionsMethods
      */
     public function registry(): \Glowy\Arrays\Arrays
     {
+        if (! registry()->get('flextype.settings.entries.expressions.entries.registry.enabled')) {
+            return collection();
+        }
+
         return entries()->registry();
     }
 
@@ -82,6 +92,104 @@ class EntriesExpressionsMethods
      */
     public function has(string $id): bool
     {
+        if (! registry()->get('flextype.settings.entries.expressions.entries.has.enabled')) {
+            return false;
+        }
+
         return entries()->has($id);
+    }
+
+    /**
+     * Move entry.
+     *
+     * @param string $id    Unique identifier of the entry.
+     * @param string $newID New Unique identifier of the entry.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function move(string $id, string $newID): bool
+    {  
+        if (! registry()->get('flextype.settings.entries.expressions.entries.move.enabled')) {
+            return false;
+        }
+
+        return entries()->move($id, $newID);
+    }
+
+    /**
+     * Update entry.
+     *
+     * @param string $id   Unique identifier of the entry.
+     * @param array  $data Data to update for the entry.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function update(string $id, array $data): bool
+    {
+        if (! registry()->get('flextype.settings.entries.expressions.entries.update.enabled')) {
+            return false;
+        }
+
+        return entries()->update($id, $data);
+    }
+
+    /**
+     * Create entry.
+     *
+     * @param string $id   Unique identifier of the entry.
+     * @param array  $data Data to create for the entry.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function create(string $id, array $data = []): bool
+    {
+        if (! registry()->get('flextype.settings.entries.expressions.entries.create.enabled')) {
+            return false;
+        }
+
+        return entries()->create($id, $data);
+    }
+
+    /**
+     * Delete entry.
+     *
+     * @param string $id Unique identifier of the entry.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function delete(string $id): bool
+    {
+        if (! registry()->get('flextype.settings.entries.expressions.entries.delete.enabled')) {
+            return false;
+        }
+
+        return entries()->delete($id);
+    }
+
+    /**
+     * Copy entry.
+     *
+     * @param string $id    Unique identifier of the entry.
+     * @param string $newID New Unique identifier of the entry.
+     *
+     * @return bool True on success, false on failure.
+     *
+     * @access public
+     */
+    public function copy(string $id, string $newID): bool
+    {  
+        if (! registry()->get('flextype.settings.entries.expressions.entries.copy.enabled')) {
+            return false;
+        }
+
+        return entries()->copy($id, $newID);
     }
 }
