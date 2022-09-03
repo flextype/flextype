@@ -20,6 +20,7 @@ use function Flextype\emitter;
 use function Flextype\entries;
 use function Flextype\expression;
 use function Flextype\registry;
+use function Flextype\collection;
 
 // Directive: [[  ]]
 emitter()->addListener('onEntriesFetchSingleField', static function (): void {
@@ -39,7 +40,13 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     if (is_string($field['value'])) {
         $field['value'] = preg_replace_callback('/' . $selfQuote($openingTag) . ' (.*?) ' . $selfQuote($closingTag) . '/s', function ($matches) {
-            return expression()->evaluate($matches[1]);
+
+            // Prepare vars
+            foreach (json_decode(json_encode((object) entries()->registry()->get('methods.fetch.result')), false) as $key => $value) {
+                $vars[$key] = $value;
+            }
+
+            return expression()->evaluate($matches[1], $vars);
         }, $field['value']);
     }
 
