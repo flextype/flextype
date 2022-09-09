@@ -161,8 +161,6 @@ final class Expressions
      * Validates the syntax of an expression.
      *
      * @param array|null $names The list of acceptable variable names in the expression, or null to accept any names
-     *
-     * @throws SyntaxError When the passed expression is invalid
      */
     public function lint(string $expression, ?array $names): void
     {
@@ -202,8 +200,7 @@ final class Expressions
 
     public function registerExpressions(array $expressions) {
 
-        if (count($expressions) >= 0) {
-
+        if (count($expressions) > 0) {
             foreach ($expressions as $expression) {
                 if (! isset($expression['enabled'])) {
                     continue;
