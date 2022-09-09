@@ -31,9 +31,10 @@ test('entries shortcode', function () {
     $this->assertTrue(entries()->create('blog-3', ['title' => 'Blog', 'category-cat' => "(entries fetch id:'categories/cat' field:'title2' default:'Foo' /)"]));
     expect(entries()->fetch('blog-3')['category-cat'])->toBe('Foo');
 
-    $this->assertTrue(entries()->create('shop', ['vars' => ['id' => 'shop', 'options' => 'collection=true'], 'title' => 'Shop', 'products' => "@type[array] (entries fetch id:'(var:id)' options:'(var:options)' /)"]));
+    $this->assertTrue(entries()->create('shop', ['_vars' => ['id' => 'shop', 'options' => 'collection=true'], 'title' => 'Shop', 'products' => "@type[array] (entries fetch id:'(field:_vars.id)' options:'(field:_vars.options)' /)"]));
     $this->assertTrue(entries()->create('shop/product-1', ['title' => 'Product 1']));
-    expect(count(entries()->fetch('shop')['products']))->toBe(1);
+    $this->assertTrue(entries()->create('shop/product-2', ['title' => 'Product 2']));
+    expect(count(entries()->fetch('shop')['products']))->toBe(2);
 });
 
 test('entries shortcode disabled', function () {

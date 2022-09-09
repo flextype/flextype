@@ -34,7 +34,6 @@ parsers()->shortcodes()->addHandler('php', static function (ShortcodeInterface $
     if ($s->getContent() !== null) {
         ob_start();
         eval($s->getContent());
-
         return ob_get_clean();
     }
 

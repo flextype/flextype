@@ -33,7 +33,7 @@ use function Flextype\serializers;
 use function Glowy\Strings\strings;
 use function Flextype\filterCollection;
 use function Flextype\collection;
-use function Flextype\expression;
+use function Flextype\parsers;
 
 class Entries
 {
@@ -82,9 +82,8 @@ class Entries
 
         $this->setRegistry($registry);
         $this->setOptions($options);
-        $this->initExpressions(registry()->get('flextype.settings.entries.expressions'));
-        $this->initDirectives(registry()->get('flextype.settings.entries.directives'));
-        $this->initMacros(registry()->get('flextype.settings.entries.macros'));
+        $this->registerDirectives(registry()->get('flextype.settings.entries.directives'));
+        $this->registerMacros(registry()->get('flextype.settings.entries.macros'));
         $this->loadCollectionsEvents();
         $this->loadCollectionsFields();
     }
@@ -100,16 +99,29 @@ class Entries
      */
     private function removeSystemFields($data) 
     {
+        $result = [];
+
         if (is_array($data)) {
-            if (boolval(arrays($data)->get('macros.debug', registry()->get('flextype.settings.entries.macros.debug'))) === false) {
-                unset($data['macros']);
-            }
-            if (boolval(arrays($data)->get('vars.debug', registry()->get('flextype.settings.entries.vars.debug'))) === false) {
-                unset($data['vars']);
+            foreach ($data as $key => $value) {
+
+                // remove hidden fields
+                if (strings($key)->startsWith('_')) {
+                    continue;
+                }
+
+                // remove macros fields
+                if ($key == 'macros') {
+                    if (isset($value['debug']) && $value['debug'] == 'true') {
+                        // display macros...
+                    } else {
+                        continue;
+                    }
+                }
+                $result[$key] = $value;
             }
         }
 
-        return $data;
+        return $result;
     }
 
     /** 
@@ -119,7 +131,7 @@ class Entries
      * 
      * @access public
      */
-    public function initMacros(array $macros): void
+    public function registerMacros(array $macros): void
     {
         foreach ($macros as $key => $value) {
             if ($key == 'debug') {
@@ -139,45 +151,13 @@ class Entries
      * 
      * @access public
      */
-    public function initDirectives(array $directives): void
+    public function registerDirectives(array $directives): void
     {
         foreach ($directives as $key => $value) {
             if (filesystem()->file(FLEXTYPE_ROOT_DIR . '/' . $value['path'])->exists()) {
                 include_once FLEXTYPE_ROOT_DIR . '/' . $value['path']; 
             }
         } 
-    }
-
-    /**
-     * Init Expressions
-     * 
-     * @param array $expressions Expressions to init.
-     * 
-     * @return void
-     */
-    public function initExpressions(array $expressions): void
-    {
-        if (count($expressions) <= 0) {
-            return;
-        }
-
-        foreach ($expressions as $expression) {
-            if (! isset($expression['enabled'])) {
-                continue;
-            }
-
-            if (! $expression['enabled']) {
-                continue;
-            }
-
-            if (! strings($expression['class'])->endsWith('Expression')) {
-                continue;
-            }
-
-            if (class_exists($expression['class'])) {
-                expression()->registerProvider(new $expression['class']());
-            }
-        }
     }
 
     /** 

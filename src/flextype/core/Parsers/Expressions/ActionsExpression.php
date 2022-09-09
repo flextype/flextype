@@ -14,17 +14,17 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-namespace Flextype\Entries\Expressions;
+namespace Flextype\Parsers\Expressions;
 
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
-use function Flextype\parsers;
+use function Flextype\actions;
 
-class ParsersExpression implements ExpressionFunctionProviderInterface
+class ActionsExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
-        return [new ExpressionFunction('parsers', static fn () => '\Flextype\parsers()', static fn ($arguments) => parsers())];
+        return [new ExpressionFunction('actions', static fn () => '\Flextype\actions()', static fn ($arguments) => actions())];
     }
 }

@@ -26,6 +26,7 @@ use Flextype\Serializers\Serializers;
 use Glowy\Csrf\Csrf;
 use Glowy\Session\Session;
 use Glowy\View\View;
+use Glowy\Arrays\Arrays;
 use League\Event\Emitter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -39,7 +40,6 @@ use Slim\Middleware\ContentLengthMiddleware;
 use Slim\Middleware\OutputBufferingMiddleware;
 use Slim\Middleware\RoutingMiddleware;
 use Slim\Psr7\Factory\StreamFactory;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
 use function array_replace_recursive;
@@ -86,6 +86,9 @@ container()->set('registry', registry());
 
 // Add Actions Service.
 container()->set('actions', Actions::getInstance());
+
+// Add Vars Service.
+container()->set('vars', Vars::getInstance());
 
 // Init Flextype config (manifest and settings)
 $flextypeManifestFilePath        = FLEXTYPE_ROOT_DIR . '/src/flextype/flextype.yaml';
@@ -188,9 +191,6 @@ if (registry()->get('flextype.settings.router.cache.enabled')) {
     filesystem()->directory(FLEXTYPE_PATH_TMP . '/routes')->ensureExists(0755, true);
     app()->getRouteCollector()->setCacheFile(FLEXTYPE_PATH_TMP . '/routes/routes.php');
 }
-
-// Add Expression Service
-container()->set('expression', new ExpressionLanguage());
 
 // Add Session Service
 container()->set('session', new Session());

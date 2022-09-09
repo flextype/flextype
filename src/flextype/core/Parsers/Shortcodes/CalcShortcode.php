@@ -29,5 +29,5 @@ parsers()->shortcodes()->addHandler('calc', static function (ShortcodeInterface 
         return '';
     }
 
-    return expression()->evaluate(parsers()->shortcodes()->parse($s->getBBCode()));
+    return parsers()->expressions()->eval(parsers()->shortcodes()->parse($s->getBBCode()));
 });

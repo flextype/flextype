@@ -14,17 +14,17 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-namespace Flextype\Entries\Expressions;
+namespace Flextype\Parsers\Expressions;
 
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
-use function Flextype\entries;
+use function Flextype\csrf;
 
-class FieldExpression implements ExpressionFunctionProviderInterface
+class CsrfExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
-        return [new ExpressionFunction('field', static fn (string $field) => "\Flextype\entries()->registry()->get('methods.fetch.result.' . $field . ')'", static fn ($arguments, string $field) => entries()->registry()->get('methods.fetch.result.' . $field))];
+        return [new ExpressionFunction('csrf', static fn () => '<input type="hidden" name="' . csrf()->getTokenName() . '" value="' . csrf()->getTokenValue() . '">', static fn () => '<input type="hidden" name="' . csrf()->getTokenName() . '" value="' . csrf()->getTokenValue() . '">')];
     }
 }

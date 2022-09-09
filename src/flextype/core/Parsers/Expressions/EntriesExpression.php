@@ -14,7 +14,7 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-namespace Flextype\Entries\Expressions;
+namespace Flextype\Parsers\Expressions;
 
 use Glowy\Arrays\Arrays;
 use Glowy\Macroable\Macroable;
@@ -49,7 +49,7 @@ class EntriesExpressionsMethods
      */
     public function fetch(string $id, array $options = []): \Glowy\Arrays\Arrays
     {
-        if (! registry()->get('flextype.settings.entries.expressions.entries.fetch.enabled')) {
+        if (! registry()->get('flextype.settings.parsers.expressions.expressions.entries.fetch.enabled')) {
             return collection();
         }
 
@@ -74,7 +74,7 @@ class EntriesExpressionsMethods
      */
     public function registry(): \Glowy\Arrays\Arrays
     {
-        if (! registry()->get('flextype.settings.entries.expressions.entries.registry.enabled')) {
+        if (! registry()->get('flextype.settings.parsers.expressions.expressions.entries.registry.enabled')) {
             return collection();
         }
 
@@ -92,7 +92,7 @@ class EntriesExpressionsMethods
      */
     public function has(string $id): bool
     {
-        if (! registry()->get('flextype.settings.entries.expressions.entries.has.enabled')) {
+        if (! registry()->get('flextype.settings.parsers.expressions.expressions.entries.has.enabled')) {
             return false;
         }
 
@@ -111,7 +111,7 @@ class EntriesExpressionsMethods
      */
     public function move(string $id, string $newID): bool
     {  
-        if (! registry()->get('flextype.settings.entries.expressions.entries.move.enabled')) {
+        if (! registry()->get('flextype.settings.parsers.expressions.expressions.entries.move.enabled')) {
             return false;
         }
 
@@ -130,7 +130,7 @@ class EntriesExpressionsMethods
      */
     public function update(string $id, array $data): bool
     {
-        if (! registry()->get('flextype.settings.entries.expressions.entries.update.enabled')) {
+        if (! registry()->get('flextype.settings.parsers.expressions.expressions.entries.update.enabled')) {
             return false;
         }
 
@@ -149,7 +149,7 @@ class EntriesExpressionsMethods
      */
     public function create(string $id, array $data = []): bool
     {
-        if (! registry()->get('flextype.settings.entries.expressions.entries.create.enabled')) {
+        if (! registry()->get('flextype.settings.parsers.expressions.expressions.entries.create.enabled')) {
             return false;
         }
 
@@ -167,7 +167,7 @@ class EntriesExpressionsMethods
      */
     public function delete(string $id): bool
     {
-        if (! registry()->get('flextype.settings.entries.expressions.entries.delete.enabled')) {
+        if (! registry()->get('flextype.settings.parsers.expressions.expressions.entries.delete.enabled')) {
             return false;
         }
 
@@ -186,7 +186,7 @@ class EntriesExpressionsMethods
      */
     public function copy(string $id, string $newID): bool
     {  
-        if (! registry()->get('flextype.settings.entries.expressions.entries.copy.enabled')) {
+        if (! registry()->get('flextype.settings.parsers.expressions.expressions.entries.copy.enabled')) {
             return false;
         }
 

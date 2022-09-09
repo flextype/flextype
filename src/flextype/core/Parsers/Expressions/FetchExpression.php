@@ -14,7 +14,7 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-namespace Flextype\Entries\Expressions;
+namespace Flextype\Parsers\Expressions;
 
 use Glowy\Macroable\Macroable;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
@@ -26,7 +26,7 @@ class FetchExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
-        return [new ExpressionFunction('fetch', static fn (string $resource, array $options = []) => '(new \Flextype\Entries\Expressions\FetchExpressionsMethods())->fetch($resource, $options);', static fn ($arguments, string $resource, array $options = []) => (new \Flextype\Entries\Expressions\FetchExpressionsMethods())->fetch($resource, $options))];
+        return [new ExpressionFunction('fetch', static fn (string $resource, array $options = []) => '(new \Flextype\Parsers\Expressions\FetchExpressionsMethods())->fetch($resource, $options);', static fn ($arguments, string $resource, array $options = []) => (new \Flextype\Parsers\Expressions\FetchExpressionsMethods())->fetch($resource, $options))];
     }
 }
 

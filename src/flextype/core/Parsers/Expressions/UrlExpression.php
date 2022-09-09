@@ -14,7 +14,7 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-namespace Flextype\Entries\Expressions;
+namespace Flextype\Parsers\Expressions;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;

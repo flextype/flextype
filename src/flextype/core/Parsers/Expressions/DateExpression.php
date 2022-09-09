@@ -14,17 +14,17 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-namespace Flextype\Entries\Expressions;
+namespace Flextype\Parsers\Expressions;
 
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
-use function Flextype\actions;
+use function Flextype\registry;
 
-class ActionsExpression implements ExpressionFunctionProviderInterface
+class DateExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
-        return [new ExpressionFunction('actions', static fn () => '\Flextype\actions()', static fn ($arguments) => actions())];
+        return [new ExpressionFunction('date', static fn (string $format, ?int $timestamp = null): string => '\date($format, $timestamp)', static fn (array $arguments, string $format, ?int $timestamp = null): string => \date($format, $timestamp))];
     }
 }

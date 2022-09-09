@@ -21,6 +21,7 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 use function Flextype\entries;
 use function Flextype\parsers;
 use function Flextype\registry;
+use function Flextype\vars;
 
 // Shortcode: var
 // Usage: (var:foo)
@@ -31,9 +32,10 @@ parsers()->shortcodes()->addHandler('var', static function (ShortcodeInterface $
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.var.enabled')) {
         return '';
     }
-    
+        
     $params = $s->getParameters();
 
+    // set
     if (isset($params['set'])) {
         if (isset($params['value'])) {
             $value = $params['value'];
@@ -41,18 +43,32 @@ parsers()->shortcodes()->addHandler('var', static function (ShortcodeInterface $
             $value = $s->getContent() ?? '';
         }
 
-        entries()->registry()->set('methods.fetch.result.vars.' . parsers()->shortcodes()->parse($params['set']), parsers()->shortcodes()->parse($value));
+        vars()->set(parsers()->shortcodes()->parse($params['set']), parsers()->shortcodes()->parse($value));
 
         return '';
     }
 
+    // get
     if (isset($params['get'])) {
-        return entries()->registry()->get('methods.fetch.result.vars.' . parsers()->shortcodes()->parse($params['get']));
+        $default = isset($params['default']) ? $params['default'] : $s->getContent() ?? '';
+        return vars()->get(parsers()->shortcodes()->parse($params['get']), $default);
     }
 
     if ($s->getBBCode() !== null) {
-        return entries()->registry()->get('methods.fetch.result.vars.' . parsers()->shortcodes()->parse($s->getBBCode()));
+        return vars()->get(parsers()->shortcodes()->parse($s->getBBCode()));
     }
 
+    // unset
+    if (isset($params['unset'])) {
+        vars()->set(parsers()->shortcodes()->parse($params['unset']), null);
+        return '';
+    }
+
+    // delete
+    if (isset($params['delete'])) {
+        vars()->delete(parsers()->shortcodes()->parse($params['delete']));
+        return '';
+    }
+    
     return '';
 });

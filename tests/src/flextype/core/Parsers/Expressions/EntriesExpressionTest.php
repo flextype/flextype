@@ -33,9 +33,9 @@ test('entries expression', function () {
         'test' => '(type:bool) [[ entries().delete("foo") ]]',
     ]);
 
-    registry()->set('flextype.settings.entries.expressions.entries.delete.enabled', true);
+    registry()->set('flextype.settings.parsers.expressions.expressions.entries.delete.enabled', true);
     expect(entries()->fetch('delete')['test'])->toBeTrue();
-    registry()->set('flextype.settings.entries.expressions.entries.delete.enabled', false);
+    registry()->set('flextype.settings.parsers.expressions.expressions.entries.delete.enabled', false);
 
     // copy
     entries()->create('copy-foo');
@@ -43,9 +43,9 @@ test('entries expression', function () {
         'test' => '(type:bool) [[ entries().copy("copy-foo", "copy-foo-2") ]]',
     ]);
 
-    registry()->set('flextype.settings.entries.expressions.entries.copy.enabled', true);
+    registry()->set('flextype.settings.parsers.expressions.expressions.entries.copy.enabled', true);
     expect(entries()->fetch('copy')['test'])->toBeTrue();
-    registry()->set('flextype.settings.entries.expressions.entries.copy.enabled', false);
+    registry()->set('flextype.settings.parsers.expressions.expressions.entries.copy.enabled', false);
 
     // move
     entries()->create('move-foo');
@@ -53,9 +53,9 @@ test('entries expression', function () {
         'test' => '(type:bool) [[ entries().move("move-foo", "move-foo-2") ]]',
     ]);
 
-    registry()->set('flextype.settings.entries.expressions.entries.move.enabled', true);
+    registry()->set('flextype.settings.parsers.expressions.expressions.entries.move.enabled', true);
     expect(entries()->fetch('move')['test'])->toBeTrue();
-    registry()->set('flextype.settings.entries.expressions.entries.move.enabled', false);
+    registry()->set('flextype.settings.parsers.expressions.expressions.entries.move.enabled', false);
 
     // update
     entries()->create('update-foo');
@@ -63,8 +63,8 @@ test('entries expression', function () {
         'test' => '(type:bool) [[ entries().update("update-foo", {"title": "Foo"}) ]]',
     ]);
 
-    registry()->set('flextype.settings.entries.expressions.entries.update.enabled', true);
+    registry()->set('flextype.settings.parsers.expressions.expressions.entries.update.enabled', true);
     expect(entries()->fetch('update')['test'])->toBeTrue();
     expect(entries()->fetch('update-foo')['title'])->toBe('Foo');
-    registry()->set('flextype.settings.entries.expressions.entries.update.enabled', false);
+    registry()->set('flextype.settings.parsers.expressions.expressions.entries.update.enabled', false);
 });

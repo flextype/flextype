@@ -24,10 +24,53 @@ use function Flextype\registry;
 
 // Shortcode: field
 // Usage: (field:title)
+//        (field get:foo default:Foo)
+//        (field get:foo) Default (/field)
+//        (field set:foo value:Foo)
+//        (field set:foo) Foo (/field)
+//        (field unset:foo)
+//        (field delete:foo)
 parsers()->shortcodes()->addHandler('field', static function (ShortcodeInterface $s) {
     if (! registry()->get('flextype.settings.parsers.shortcodes.shortcodes.field.enabled')) {
         return '';
     }
+    
+    $params = $s->getParameters();
 
-    return entries()->registry()->get('methods.fetch.result.' . parsers()->shortcodes()->parse($s->getBBCode()));
+    // set
+    if (isset($params['set'])) {
+        if (isset($params['value'])) {
+            $value = $params['value'];
+        } else {
+            $value = $s->getContent() ?? '';
+        }
+
+        entries()->registry()->set('methods.fetch.result.' . parsers()->shortcodes()->parse($params['set']), parsers()->shortcodes()->parse($value));
+
+        return '';
+    }
+
+    // get
+    if (isset($params['get'])) {
+        $default = isset($params['default']) ? $params['default'] : $s->getContent() ?? '';
+        return entries()->registry()->get('methods.fetch.result.' . parsers()->shortcodes()->parse($params['get']), $default);
+    }
+
+    if ($s->getBBCode() !== null) {
+        return entries()->registry()->get('methods.fetch.result.' . parsers()->shortcodes()->parse($s->getBBCode()));
+    }
+
+    // unset
+    if (isset($params['unset'])) {
+        entries()->registry()->set('methods.fetch.result.' . parsers()->shortcodes()->parse($params['unset']), null);
+        return '';
+    }
+
+    // delete
+    if (isset($params['delete'])) {
+        entries()->registry()->delete('methods.fetch.result.' . parsers()->shortcodes()->parse($params['delete']));
+        return '';
+    }
+    
+    return '';
 });

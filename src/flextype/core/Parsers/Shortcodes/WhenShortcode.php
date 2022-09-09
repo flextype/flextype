@@ -29,5 +29,5 @@ parsers()->shortcodes()->addHandler('when', static function (ShortcodeInterface 
         return '';
     }
 
-    return expression()->evaluate(parsers()->shortcodes()->parse(($s->getBbCode() ?? ''))) === true ? parsers()->shortcodes()->parse($s->getContent()) : '';
+    return parsers()->expressions()->eval(parsers()->shortcodes()->parse(($s->getBbCode() ?? ''))) === true ? parsers()->shortcodes()->parse($s->getContent()) : '';
 });

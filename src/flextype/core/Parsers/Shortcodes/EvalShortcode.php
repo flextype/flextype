@@ -32,10 +32,15 @@ parsers()->shortcodes()->addHandler('eval', static function (ShortcodeInterface 
     }
 
     if ($s->getContent() !== null) {
-        return expression()->evaluate(parsers()->shortcodes()->parse($s->getContent()));
+        return parsers()->expressions()->eval(parsers()->shortcodes()->parse($s->getContent()));
     }
 
     if ($s->getBbCode() !== null) {
-        return expression()->evaluate(parsers()->shortcodes()->parse($s->getBBCode()));
+        return parsers()->expressions()->eval(parsers()->shortcodes()->parse($s->getBBCode()));
     }
 });
+
+parsers()->shortcodes()->addHandler('compile', static function (ShortcodeInterface $s) {
+   return expression()->compile(parsers()->shortcodes()->parse($s->getContent()));
+});
+

@@ -18,11 +18,11 @@ namespace Flextype\Entries\Directives;
 
 use function Flextype\emitter;
 use function Flextype\entries;
-use function Flextype\expression;
+use function Flextype\parsers;
 use function Flextype\registry;
 use function Flextype\collection;
 
-// Directive: [[  ]]
+// Directive: [[ ]] [% %] [# #]
 emitter()->addListener('onEntriesFetchSingleField', static function (): void {
     if (! registry()->get('flextype.settings.entries.directives.expressions.enabled')) {
         return;
@@ -32,22 +32,15 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
         return;
     }
 
-    $selfQuote  = fn ($text) => preg_replace('/(.)/us', '\\\\$0', $text);
-    $openingTag = registry()->get('flextype.settings.entries.directives.expressions.opening_tag');
-    $closingTag = registry()->get('flextype.settings.entries.directives.expressions.closing_tag');
-
     $field = entries()->registry()->get('methods.fetch.field');
 
+    // Convert entry fields to vars.
+    foreach (json_decode(json_encode((object) entries()->registry()->get('methods.fetch.result')), false) as $key => $value) {
+        $vars[$key] = $value;
+    }
+    
     if (is_string($field['value'])) {
-        $field['value'] = preg_replace_callback('/' . $selfQuote($openingTag) . ' (.*?) ' . $selfQuote($closingTag) . '/s', function ($matches) {
-
-            // Prepare vars
-            foreach (json_decode(json_encode((object) entries()->registry()->get('methods.fetch.result')), false) as $key => $value) {
-                $vars[$key] = $value;
-            }
-
-            return expression()->evaluate($matches[1], $vars);
-        }, $field['value']);
+        $field['value'] = parsers()->expressions()->parse($field['value'], $vars);
     }
 
     entries()->registry()->set('methods.fetch.field.key', $field['key']);

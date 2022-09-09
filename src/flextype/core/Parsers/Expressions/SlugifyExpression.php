@@ -14,17 +14,17 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  */
 
-namespace Flextype\Entries\Expressions;
+namespace Flextype\Parsers\Expressions;
 
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
-use function Flextype\serializers;
+use function Flextype\slugify;
 
-class SerializersExpression implements ExpressionFunctionProviderInterface
+class SlugifyExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
-        return [new ExpressionFunction('serializers', static fn () => '\Flextype\serializers()', static fn ($arguments) => serializers())];
+        return [new ExpressionFunction('slugify', static fn () => '\Flextype\slugify()', static fn ($arguments) => slugify())];
     }
 }

@@ -23,7 +23,7 @@ class Parsers
     use Macroable;
 
     /**
-     * Create a Shortcodes instance.
+     * Get a Shortcodes instance.
      */
     public function shortcodes(): Shortcodes
     {
@@ -31,7 +31,7 @@ class Parsers
     }
 
     /**
-     * Create a Markdown instance.
+     * Get a Markdown instance.
      */
     public function markdown(): Markdown
     {
@@ -39,10 +39,18 @@ class Parsers
     }
 
     /**
-     * Create a Textile instance.
+     * Get a Textile instance.
      */
     public function textile(): Textile
     {
         return Textile::getInstance();
+    }
+
+    /**
+     * Get a Expressions instance.
+     */
+    public function expressions(): Expressions
+    {
+        return Expressions::getInstance();
     }
 }
