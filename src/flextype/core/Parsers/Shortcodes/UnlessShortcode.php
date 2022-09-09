@@ -18,7 +18,7 @@ namespace Flextype\Parsers\Shortcodes;
 
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
-use function Flextype\expression;
+
 use function Flextype\parsers;
 use function Flextype\registry;
 
