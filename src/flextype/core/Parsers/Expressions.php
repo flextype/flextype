@@ -82,7 +82,7 @@ final class Expressions
     /**
      * Compiles an expression source code.
      */
-    public function compile(Expressions|string $expression, array $names = []): string
+    public function compile(string $expression, array $names = []): string
     {
         return $this->getCompiler()->compile($this->parseExpression($expression, $names)->getNodes())->getSource();
     }
@@ -90,7 +90,7 @@ final class Expressions
     /**
      * Evaluate an expression.
      */
-    public function eval(Expressions|string $expression, array $values = []): mixed
+    public function eval(string $expression, array $values = []): mixed
     {
         return $this->parseExpression($expression, array_keys($values))->getNodes()->evaluate($this->functions, $values);
     }
@@ -98,7 +98,7 @@ final class Expressions
     /**
      * Fallback method to evaluate an expression.
      */
-    public function evaluate(Expressions|string $expression, array $values = []): mixed
+    public function evaluate(string $expression, array $values = []): mixed
     {
         return $this->eval($expression, $values);
     }
@@ -106,12 +106,8 @@ final class Expressions
     /**
      * Parses text to evaluate or compile expressions.
      */
-    public function parse(Expressions|string $string, array $values = [], bool $compile = false)
+    public function parse(string $string, array $values = [], bool $compile = false)
     {   
-        if ($string instanceof Expressions) {
-            return $string;
-        }
-
         $selfQuote  = fn ($string) => preg_replace('/(.)/us', '\\\\$0', $string);
         $openingVariableTag = registry()->get('flextype.settings.parsers.expressions.opening_variable_tag');
         $closingVariableTag = registry()->get('flextype.settings.parsers.expressions.closing_variable_tag');
@@ -121,12 +117,12 @@ final class Expressions
         $closingCommentTag = registry()->get('flextype.settings.parsers.expressions.closing_comment_tag');
        
         // [# #] - comments 
-        $string = preg_replace_callback('/' . $selfQuote($openingCommentTag) . ' (.*?) ' . $selfQuote($closingCommentTag) . '/sx', function ($matches) use ($values, $compile, $string) {
+        $string = preg_replace_callback('/' . $selfQuote($openingCommentTag) . ' (.*?) ' . $selfQuote($closingCommentTag) . '/sx', function ($matches) {
             return '';
         }, $string);
 
         // [% %] - blocks 
-        $string = preg_replace_callback('/' . $selfQuote($openingBlockTag) . ' (.*?) ' . $selfQuote($closingBlockTag) . '/sx', function ($matches) use ($values, $compile, $string) {
+        $string = preg_replace_callback('/' . $selfQuote($openingBlockTag) . ' (.*?) ' . $selfQuote($closingBlockTag) . '/sx', function ($matches) use ($values, $compile) {
             $this->{$compile ? 'compile' : 'eval'}($matches[1], $values);
             return '';
         }, $string);
@@ -142,12 +138,8 @@ final class Expressions
     /**
      * Parses an expression.
      */
-    public function parseExpression(Expressions|string $expression, array $names): ParsedExpression
+    public function parseExpression(string $expression, array $names): ParsedExpression
     {
-        if ($expression instanceof ParsedExpression) {
-            return $expression;
-        }
-
         if (registry()->get('flextype.settings.parsers.expressions.cache.enabled') === true && 
             registry()->get('flextype.settings.cache.enabled') === true) {
 
@@ -172,12 +164,8 @@ final class Expressions
      *
      * @throws SyntaxError When the passed expression is invalid
      */
-    public function lint(Expressions|string $expression, ?array $names): void
+    public function lint(string $expression, ?array $names): void
     {
-        if ($expression instanceof ParsedExpression) {
-            return;
-        }
-
         $this->getParser()->lint($this->getLexer()->tokenize((string) $expression), $names);
     }
 
@@ -255,10 +243,6 @@ final class Expressions
 
     public function getExpressionCacheID(Expressions|string $expression, array $names, string $string = ''): string
     {
-        if ($expression instanceof ParsedExpression) {
-            return '';
-        }
-
         // Go through...
         asort($names);
 
