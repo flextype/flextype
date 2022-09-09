@@ -19,6 +19,7 @@ use Symfony\Component\ExpressionLanguage\Lexer;
 use Symfony\Component\ExpressionLanguage\Parser;
 use Symfony\Component\ExpressionLanguage\Compiler;
 use Symfony\Component\ExpressionLanguage\ParsedExpression;
+use Exception;
 
 use function Glowy\Strings\strings;
 use function Flextype\registry;
@@ -41,10 +42,6 @@ final class Expressions
 
     protected array $functions = [];
 
-
-    /**
-     * @param ExpressionFunctionProviderInterface[] $providers
-     */
     protected function __construct()
     {
         // Register default php functions
@@ -85,7 +82,7 @@ final class Expressions
     /**
      * Compiles an expression source code.
      */
-    public function compile(Expression|string $expression, array $names = []): string
+    public function compile(Expressions|string $expression, array $names = []): string
     {
         return $this->getCompiler()->compile($this->parseExpression($expression, $names)->getNodes())->getSource();
     }
@@ -93,7 +90,7 @@ final class Expressions
     /**
      * Evaluate an expression.
      */
-    public function eval(Expression|string $expression, array $values = []): mixed
+    public function eval(Expressions|string $expression, array $values = []): mixed
     {
         return $this->parseExpression($expression, array_keys($values))->getNodes()->evaluate($this->functions, $values);
     }
@@ -101,7 +98,7 @@ final class Expressions
     /**
      * Fallback method to evaluate an expression.
      */
-    public function evaluate(Expression|string $expression, array $values = []): mixed
+    public function evaluate(Expressions|string $expression, array $values = []): mixed
     {
         return $this->eval($expression, $values);
     }
@@ -109,9 +106,9 @@ final class Expressions
     /**
      * Parses text to evaluate or compile expressions.
      */
-    public function parse(Expression|string $string, array $values = [], bool $compile = false)
+    public function parse(Expressions|string $string, array $values = [], bool $compile = false)
     {   
-        if ($string instanceof Expression) {
+        if ($string instanceof Expressions) {
             return $string;
         }
 
@@ -145,7 +142,7 @@ final class Expressions
     /**
      * Parses an expression.
      */
-    public function parseExpression(Expression|string $expression, array $names): ParsedExpression
+    public function parseExpression(Expressions|string $expression, array $names): ParsedExpression
     {
         if ($expression instanceof ParsedExpression) {
             return $expression;
@@ -175,7 +172,7 @@ final class Expressions
      *
      * @throws SyntaxError When the passed expression is invalid
      */
-    public function lint(Expression|string $expression, ?array $names): void
+    public function lint(Expressions|string $expression, ?array $names): void
     {
         if ($expression instanceof ParsedExpression) {
             return;
@@ -256,7 +253,7 @@ final class Expressions
         return $this->compiler->reset();
     }
 
-    public function getExpressionCacheID(Expression|string $expression, array $names, string $string = ''): string
+    public function getExpressionCacheID(Expressions|string $expression, array $names, string $string = ''): string
     {
         if ($expression instanceof ParsedExpression) {
             return '';
