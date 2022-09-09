@@ -48,16 +48,6 @@ if (! function_exists('container')) {
     }
 }
 
-if (! function_exists('expression')) {
-    /**
-     * Get Flextype Expression Service.
-     */
-    function expression()
-    {
-        return flextype()->container()->get('expression');
-    }
-}
-
 if (! function_exists('console')) {
     /**
      * Get Flextype Console Service.
@@ -155,6 +145,16 @@ if (! function_exists('actions')) {
     function actions()
     {
         return flextype()->container()->get('actions');
+    }
+}
+
+if (! function_exists('vars')) {
+    /**
+     * Get Flextype Vars Service.
+     */
+    function vars()
+    {
+        return flextype()->container()->get('vars');
     }
 }
 
