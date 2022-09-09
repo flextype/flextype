@@ -41,6 +41,6 @@ parsers()->shortcodes()->addHandler('eval', static function (ShortcodeInterface 
 });
 
 parsers()->shortcodes()->addHandler('compile', static function (ShortcodeInterface $s) {
-   return expression()->compile(parsers()->shortcodes()->parse($s->getContent()));
+   return parsers()->expressions()->compile(parsers()->shortcodes()->parse($s->getContent()));
 });
 

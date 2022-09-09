@@ -34,6 +34,8 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     $field = entries()->registry()->get('methods.fetch.field');
 
+    $vars = [];
+        
     // Convert entry fields to vars.
     foreach (json_decode(json_encode((object) entries()->registry()->get('methods.fetch.result')), false) as $key => $value) {
         $vars[$key] = $value;
