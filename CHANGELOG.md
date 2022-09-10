@@ -5,12 +5,89 @@
 
 ### Features
 
-* **core** Added new package Guzzle.
+* **entries** Added new private fields functionality for entries [585](https://github.com/flextype/flextype/issues/585).
+  * Private field starts with `_` and evailable only in the current entry.
+
+  **entry.md**
+  ```yaml
+  ---
+  title: Product item
+  _message: Message...
+  _vars:
+    currency: "USD"
+    vat: "@type[int] [[ strings().random(2, 1234567890) ]]"
+  price: "[[ 100 + _vars.vat ]]"
+  price_with_currency: "[[ price ~ ' ' ~ _vars.currency ]]"
+  ---
+
+  [[ title ]] // Product item
+
+  [[ _message ]] // Message...
+  ```
+
+  **response**
+  ```yaml
+  {
+    "title": "Product item",
+    "price": "120",
+    "price_with_currency": "120 USD"
+    "content": "Product item \n Message..."
+  }
+  ```
+
+* **vars** Added new `Vars` service to store global variables.
+
+* **expressions** Expressions language as a part of Parsers [586](https://github.com/flextype/flextype/issues/586).
+  * From now Expressions are part of Parsers, configurable and available globally.
+  * Ability to configure opening/closing tags for variables, blocks and comments.
+  ```yaml
+    opening_variable_tag: "[["
+    closing_variable_tag: "]]"
+    opening_block_tag: "[%"
+    closing_block_tag: "%]"
+    opening_comment_tag: "[#"
+    closing_comment_tag: "#]"
+  ```
+  * Ability to write multiline expressions
+  ```yaml
+    [[ 
+      field1 ~
+      field2 ~
+      field2
+    ]]
+  ```
+  * Ability to store parsed expressions in the cache.
+  * Ability to quickly access current entries fields.
+  ```yaml
+    [[ field_name ]]
+  ``` 
+
+* **expressions** Added support for `Vars` service. [583](https://github.com/flextype/flextype/issues/583)
+  - New function `vars()` returns instance of `Vars` service.
+  - New function `var()` for quick access to variables stored in `Vars` service.
+
+* **shortcodes** Added support for `Vars` service. [583](https://github.com/flextype/flextype/issues/583)
+  - New shortcode `(var)` to get, set, unset and delete variables from `Vars` service.
+
+* **core** Added new package `Guzzle`.
+
 * **core** Added a new `fetch` helper, expression function and shortcode with the ability to fetch data from different sources, entries, files, and URLs. [581](https://github.com/flextype/flextype/issues/581)
 
 ### Bug Fixes
 
-* **expressions** fix Entries Expressions methods.
+* **expressions** Fixed `strings` expression function
+
+* **expressions** Fixed `Entries` Expressions methods.
+
+* **helpers** Fixed issue in `collection` helper with limit and offset double check.
+
+### BREAKING CHANGES
+ 
+ * **expressions** Configuration for expressions moved from entries to parsers section.
+
+ * **expressions** Use parsers()->expressions() instead of expressions() to access methods.
+
+ * **entries** local `vars` are replaced with global variables and local private fields.
 
 <a name="1.0.0-alpha.1"></a>
 # [1.0.0-alpha.1](https://github.com/flextype/flextype/compare/v0.9.16...v1.0.0-alpha.1) (2022-07-12)
