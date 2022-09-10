@@ -859,3 +859,9 @@ api:
 
     # Set to true to enable Cache API
     enabled: true
+
+  # Query API
+  query:
+
+    # Set to true to enable Query API
+    enabled: true
