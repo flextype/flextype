@@ -5,6 +5,8 @@
 
 ### Features
 
+* **rest-api** Added new Query API [587](https://github.com/flextype/flextype/issues/587).
+
 * **entries** Added new private fields functionality for entries [585](https://github.com/flextype/flextype/issues/585).
   * Private field starts with `_` and evailable only in the current entry.
 
