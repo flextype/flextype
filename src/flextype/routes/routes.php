@@ -23,6 +23,7 @@ require_once __DIR__ . '/endpoints/tokens.php';
 require_once __DIR__ . '/endpoints/cache.php';
 require_once __DIR__ . '/endpoints/entries.php';
 require_once __DIR__ . '/endpoints/registry.php';
+require_once __DIR__ . '/endpoints/query.php';
 
 // Add project routes
 if (filesystem()->file(FLEXTYPE_PATH_PROJECT . '/routes/routes.php')->exists()) {
