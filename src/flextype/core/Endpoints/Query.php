@@ -21,6 +21,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use function Glowy\Strings\strings;
 use function Flextype\parsers;
+use function Flextype\collection;
 use function count;
 
 class Query extends Api
@@ -51,8 +52,11 @@ class Query extends Api
 
         $data = [];
 
+        // Get flat representation of queries
+        $queries = collection($requestParsedBody['query'])->dot()->toArray();
+
         // Evaluate the queries
-        foreach ($requestParsedBody['query'] as $key => $value) {
+        foreach ($queries as $key => $value) {
             $evaluatedValue = parsers()->expressions()->eval($value);
        
             if ($evaluatedValue instanceof \Glowy\Arrays\Arrays) {
@@ -78,6 +82,9 @@ class Query extends Api
 
             $result[$key] = $value;
         }
+
+        // Unflat the result
+        $result = collection($result)->undot()->toArray();
 
         // Return response
         if (count($result) > 0) {
