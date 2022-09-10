@@ -97,7 +97,7 @@ final class Shortcodes
      *
      * @param array $shortcodes Shortcodes to init.
      */
-    public function initShortcodes(array $shortcodes): void
+    public function registerShortcodes(array $shortcodes): void
     {
         if (
             count($shortcodes) <= 0

@@ -310,7 +310,7 @@ container()->set('cache', static function () {
 container()->set('parsers', new Parsers());
 
 // Init Shortcodes
-parsers()->shortcodes()->initShortcodes(registry()->get('flextype.settings.parsers.shortcodes.shortcodes'));
+parsers()->shortcodes()->registerShortcodes(registry()->get('flextype.settings.parsers.shortcodes.shortcodes'));
 
 // Add Serializers Service
 container()->set('serializers', new Serializers());
