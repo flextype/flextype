@@ -50,10 +50,6 @@ Flextype is open source, community driven project, and maintained by community!
 
 You may use GitHub Discussions to start discussion about core, plugin and themes development or If you want to report a bug, you can use the GitHub Issues.
 
-#### [Discord](https://discord.com/invite/CCKPKVG)
-
-Got a question about setting up or using Flextype? We'll do our best to help you out. Also here you may start discussions about core, plugin and themes development.
-
 #### [Twitter](https://twitter.com/_flextype)
 
 Follow Flextype on Twitter to get real-time news regarding the development and all events we are attending.
