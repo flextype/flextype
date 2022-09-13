@@ -20,12 +20,12 @@ test('date expression', function () {
 
 test('time expression', function () {
     $time = time();
-    entries()->create('time', ['test' => '[[ time() ]]']);
+    entries()->create('time', ['test' => '@type[int] [[ time() ]]']);
     expect(entries()->fetch('time')['test'])->toBe($time);
 });
 
 test('strtotime expression', function () {
     $date = strtotime("10 September 2000");
-    entries()->create('strtotime', ['test' => '[[ strtotime("10 September 2000"); ]]']);
+    entries()->create('strtotime', ['test' => '[[ strtotime("10 September 2000") ]]']);
     expect(entries()->fetch('strtotime')['test'])->toBe($date);
 });

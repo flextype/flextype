@@ -18,9 +18,9 @@ test('when expression', function () {
         'title' => 'Title',
 
         'test-when-positive' => '[[ when(title == "Title", "Yes!") ]]',
-        'test-when-negative' => '[[ when(title == "Foo", "No!") ]]'
+        'test-when-negative' => '[[ when(title == "Foo", "Yes!") ]]'
     ]);
 
     expect(entries()->fetch('when')['test-when-positive'])->toBe('Yes!');
-    expect(entries()->fetch('when')['test-when-negative'])->toBe('No!');
+    expect(entries()->fetch('when')['test-when-negative'])->toBe('');
 });

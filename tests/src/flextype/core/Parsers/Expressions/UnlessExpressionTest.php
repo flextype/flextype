@@ -18,9 +18,9 @@ test('unless expression', function () {
         'title' => 'Title',
 
         'test-unless-positive' => '[[ unless(title == "Foo", "Yes!") ]]',
-        'test-unless-negative' => '[[ unless(title == "Title", "No!") ]]'
+        'test-unless-negative' => '[[ unless(title == "Title", "Yes!") ]]'
     ]);
 
     expect(entries()->fetch('unless')['test-unless-positive'])->toBe('Yes!');
-    expect(entries()->fetch('unless')['test-unless-negative'])->toBe('No!');
+    expect(entries()->fetch('unless')['test-unless-negative'])->toBe('');
 });
