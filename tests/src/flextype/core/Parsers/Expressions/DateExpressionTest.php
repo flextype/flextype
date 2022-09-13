@@ -17,3 +17,15 @@ test('date expression', function () {
     entries()->create('date', ['test' => '[[ date("F j, Y, g:i a") ]]']);
     expect(entries()->fetch('date')['test'])->toBe($date);
 });
+
+test('time expression', function () {
+    $time = time();
+    entries()->create('time', ['test' => '[[ time() ]]']);
+    expect(entries()->fetch('time')['test'])->toBe($time);
+});
+
+test('strtotime expression', function () {
+    $date = strtotime("10 September 2000");
+    entries()->create('strtotime', ['test' => '[[ strtotime("10 September 2000"); ]]']);
+    expect(entries()->fetch('strtotime')['test'])->toBe($date);
+});
