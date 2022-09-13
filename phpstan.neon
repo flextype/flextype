@@ -9,4 +9,4 @@ parameters:
     - '#Undefined variable: \$this.*#'
     - '/Variable \$api_errors might not be defined./'
     - '/Variable \$registry might not be defined./'
-    - 'Parameter #3 $mode of function round expects 1|2|3|4, int given.'
+    - '/\$mode of function round expects 1\|2\|3\|4, int given./'
