@@ -117,9 +117,9 @@
 
  * **shortcodes** Use `registerShortcodes()` instead of `initShortcodes()` to register custom shortcodes.
 
-* **shortcodes** Use `registerDirectives()` instead of `initDirectives()` to register custom directives.
+* **directives** Use `registerDirectives()` instead of `initDirectives()` to register custom directives.
 
-* **shortcodes** Use `initExpressions()` instead of `registerExpressions()` to register custom expressions.
+* **expressions** Use `registerExpressions()` instead of `initExpressions()` to register custom expressions.
 
 <a name="1.0.0-alpha.1"></a>
 # [1.0.0-alpha.1](https://github.com/flextype/flextype/compare/v0.9.16...v1.0.0-alpha.1) (2022-07-12)
