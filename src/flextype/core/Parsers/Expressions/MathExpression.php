@@ -20,15 +20,26 @@ use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
 use function Flextype\registry;
+use const PHP_ROUND_HALF_EVEN;
 use const PHP_ROUND_HALF_UP;
+use const PHP_ROUND_HALF_DOWN;
+use const PHP_ROUND_HALF_ODD;
 
+/**
+ * @phpstan-param self::ROUND_* $mode
+ */
 class MathExpression implements ExpressionFunctionProviderInterface
 {
+    public const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+	public const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+	public const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+	public const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+
     public function getFunctions()
     {
         return [
             new ExpressionFunction('abs', static fn (int|float $num) => '\abs($num)', static fn (array $arguments, int|float $num): mixed => \abs($num)),
-            new ExpressionFunction('round', static fn (int|float $num, int $precision = 0, int $mode = PHP_ROUND_HALF_UP): mixed => '\round($num, $precision, $mode)', static fn (array $arguments, int|float $num, int $precision = 0, int $mode = PHP_ROUND_HALF_UP): mixed => \round($num, $precision, $mode)),
+            new ExpressionFunction('round', static fn (int|float $num, int $precision = 0, int $mode = self::PHP_ROUND_HALF_UP): mixed => '\round($num, $precision, $mode)', static fn (array $arguments, int|float $num, int $precision = 0, int $mode = self::PHP_ROUND_HALF_UP): mixed => \round($num, $precision, $mode)),
             new ExpressionFunction('ceil', static fn (int|float $num) => '\ceil($num)', static fn (array $arguments, int|float $num): mixed => \ceil($num)),
             new ExpressionFunction('floor', static fn (int|float $num) => '\floor($num)', static fn (array $arguments, int|float $num): mixed => \floor($num)),
             new ExpressionFunction('min', static fn (mixed ...$values) => '\min($values)', static fn (array $arguments, mixed ...$values): mixed => \min($values)),
