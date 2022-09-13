@@ -26,9 +26,9 @@ class DateExpression implements ExpressionFunctionProviderInterface
     public function getFunctions()
     {
         return [
-            new ExpressionFunction('date', static fn (string $format, ?int $timestamp = null): string => '\date($format, $timestamp)', static fn (array $arguments, string $format, ?int $timestamp = null): string => \date($format, $timestamp)),
-            new ExpressionFunction('time', static fn (): string => '\time()', static fn (array $arguments): string => \time()),
-            new ExpressionFunction('strtotime', static fn (string $datetime, ?int $baseTimestamp = null): int|false => '\strtotime($datetime, $baseTimestamp)', static fn (array $arguments, string $datetime, ?int $baseTimestamp = null): int|false => \strtotime($datetime, $baseTimestamp))
+            new ExpressionFunction('date', static fn (string $format, ?int $timestamp = null) => '\date($format, $timestamp)', static fn (array $arguments, string $format, ?int $timestamp = null): string => \date($format, $timestamp)),
+            new ExpressionFunction('time', static fn () => '\time()', static fn (array $arguments): int => \time()),
+            new ExpressionFunction('strtotime', static fn (string $datetime, ?int $baseTimestamp = null) => '\strtotime($datetime, $baseTimestamp)', static fn (array $arguments, string $datetime, ?int $baseTimestamp = null): int|false => \strtotime($datetime, $baseTimestamp))
         ];
     }
 }
