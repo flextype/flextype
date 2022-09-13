@@ -39,6 +39,18 @@
 
 * **vars** Added new `Vars` service to store global variables.
 
+* **directives** Added ability to disable expressions using `!expressions`.
+
+* **directives** Added ability to disable shortcodes using `!shortcodes`.
+
+* **directives** Added ability to disable markdown using `!markdown`.
+
+* **directives** Added ability to disable textile using `!textile`.
+
+* **directives** Added ability to disable php using `!php`.
+
+* **directives** Added ability to disable types using `!types`.
+
 * **expressions** Expressions language as a part of Parsers [586](https://github.com/flextype/flextype/issues/586).
   * From now Expressions are part of Parsers, configurable and available globally.
   * Ability to configure opening/closing tags for variables, blocks and comments.
@@ -77,7 +89,7 @@
 
 ### Bug Fixes
 
-* **expressions** Fixed `strings` expression function
+* **expressions** Fixed `strings` expression function.
 
 * **expressions** Fixed `Entries` Expressions methods.
 
