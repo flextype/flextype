@@ -31,3 +31,13 @@ test('max expression', function () {
     entries()->create('max', ['test' => '[[ max(2, 3, 1, 6, 7) ]]']);
     expect(entries()->fetch('max')['test'])->toBe('7');
 });
+
+test('abs expression', function () {
+    entries()->create('abs', ['test' => '[[ abs(-4.2) ]]']);
+    expect(entries()->fetch('abs')['test'])->toBe('4.2');
+});
+
+test('round expression', function () {
+    entries()->create('round', ['test' => '[[ round(3.4) ]]']);
+    expect(entries()->fetch('round')['test'])->toBe('3');
+});

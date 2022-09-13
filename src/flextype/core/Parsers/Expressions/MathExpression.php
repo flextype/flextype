@@ -26,6 +26,8 @@ class MathExpression implements ExpressionFunctionProviderInterface
     public function getFunctions()
     {
         return [
+            new ExpressionFunction('abs', static fn (int|float $num): mixed => '\abs($num)', static fn (array $arguments, int|float $num): mixed => \abs($num)),
+            new ExpressionFunction('round', static fn (int|float $num, int $precision = 0, int $mode = 1): mixed => '\round($num, $precision, $mode)', static fn (array $arguments, int|float $num, int $precision = 0, int $mode = 1): mixed => \round($num, $precision, $mode)),
             new ExpressionFunction('ceil', static fn (int|float $num): mixed => '\ceil($num)', static fn (array $arguments, int|float $num): mixed => \ceil($num)),
             new ExpressionFunction('floor', static fn (int|float $num): mixed => '\floor($num)', static fn (array $arguments, int|float $num): mixed => \floor($num)),
             new ExpressionFunction('min', static fn (mixed ...$values): mixed => '\min($values)', static fn (array $arguments, mixed ...$values): mixed => \min($values)),
