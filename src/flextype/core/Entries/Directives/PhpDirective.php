@@ -29,6 +29,10 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     $field = entries()->registry()->get('methods.fetch.field');
 
+    if (is_string($field['value']) && strings($field['value'])->contains('!php')) {
+        return;
+    }
+
     if (is_string($field['value'])) {
         if (strings($field['value'])->contains('@php')) {
             ob_start();
