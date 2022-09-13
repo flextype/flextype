@@ -8,7 +8,7 @@ curl "https://github.com/flextype/$name/archive/refs/tags/v$version.zip" -L -O;
 unzip "v$version.zip";
 rm "v$version.zip";
 cd "$name-$version";
-composer update;
+composer install --no-dev;
 rm -rf __MACOSX;
 find . -name '.DS_Store' -type f -delete;
 zip -r "$name-$version.zip" . ;
