@@ -36,6 +36,10 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     $field = entries()->registry()->get('methods.fetch.field');
 
+    if (is_string($field['value']) && strings($field['value'])->contains('!shortcodes')) {
+        return;
+    }
+
     if (is_string($field['value'])) {
         if (strings($field['value'])->contains('@shortcodes')) {
             $field['value'] = strings(parsers()->shortcodes()->parse($field['value']))->replace('@shortcodes', '')->trim()->toString();
