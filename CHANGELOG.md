@@ -76,6 +76,18 @@
     [[ field_name ]]
   ``` 
 
+* **expressions** Added new expression function `when`.
+
+* **expressions** Added new expression function `unless`.
+
+* **expressions** Added new expression function `time`.
+
+* **expressions** Added new expression function `strtotime`.
+
+* **expressions** Added new expression function `round`.
+
+* **expressions** Added new expression function `abs`.
+
 * **expressions** Added support for `Vars` service. [583](https://github.com/flextype/flextype/issues/583)
   - New function `vars()` returns instance of `Vars` service.
   - New function `var()` for quick access to variables stored in `Vars` service.
