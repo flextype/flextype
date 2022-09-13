@@ -57,7 +57,7 @@
         "symfony/var-dumper": "^6.1.3",
         "symfony/var-exporter": "^6.1.3",
         "symfony/yaml": "^6.1.4",
-        "thermage/thermage": "^0.20.0",
+        "thermage/thermage": "^0.20.1",
         "thunderer/shortcode": "^0.7.5"
     },
     "suggest": {
