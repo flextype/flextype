@@ -32,6 +32,10 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     $field = entries()->registry()->get('methods.fetch.field');
 
+    if (is_string($field['value']) && strings($field['value'])->contains('!types')) {
+        return;
+    }
+
     if (is_string($field['value'])) {
         if (strings($field['value'])->contains('@type[integer]')) {
             $field['value'] = strings(strings($field['value'])->replace('@type[integer]', '')->trim())->toInteger();
