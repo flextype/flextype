@@ -725,6 +725,12 @@ parsers:
       url:
         enabled: true
         class: "Flextype\\Parsers\\Expressions\\UrlExpression"
+      when:
+        enabled: true
+        class: "Flextype\\Parsers\\Expressions\\WhenExpression"
+      unless:
+        enabled: true
+        class: "Flextype\\Parsers\\Expressions\\UnlessExpression"
 
 # CORS
 #

@@ -730,8 +730,8 @@ parsers:
         class: "Flextype\\Parsers\\Expressions\\WhenExpression"
       unless:
         enabled: true
-        class: "Flextype\\Parsers\\Expressions\\UnlessnExpression"
-        
+        class: "Flextype\\Parsers\\Expressions\\UnlessExpression"
+
 # CORS
 #
 # CORS (Cross-origin resource sharing) allows JavaScript web apps to make HTTP requests to other domains.

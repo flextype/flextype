@@ -26,6 +26,6 @@ test('time expression', function () {
 
 test('strtotime expression', function () {
     $date = strtotime("10 September 2000");
-    entries()->create('strtotime', ['test' => '[[ strtotime("10 September 2000") ]]']);
+    entries()->create('strtotime', ['test' => '@type[int] [[ strtotime("10 September 2000") ]]']);
     expect(entries()->fetch('strtotime')['test'])->toBe($date);
 });
