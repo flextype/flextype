@@ -36,6 +36,10 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     $field = entries()->registry()->get('methods.fetch.field');
 
+    if (is_string($field['value']) && strings($field['value'])->contains('!markdown')) {
+        return;
+    }
+
     if (is_string($field['value'])) {
         if (strings($field['value'])->contains('@markdown')) {
             $field['value'] = strings(parsers()->markdown()->parse($field['value']))->replace('@markdown', '')->trim()->toString();
