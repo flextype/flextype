@@ -36,6 +36,10 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
 
     $field = entries()->registry()->get('methods.fetch.field');
 
+    if (is_string($field['value']) && strings($field['value'])->contains('!textile')) {
+        return;
+    }
+
     if (is_string($field['value'])) {
         if (strings($field['value'])->contains('@textile')) {
             $field['value'] = strings(parsers()->textile()->parse($field['value']))->replace('@textile', '')->trim()->toString();
