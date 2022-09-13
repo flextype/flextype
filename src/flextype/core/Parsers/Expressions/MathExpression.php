@@ -35,6 +35,9 @@ class MathExpression implements ExpressionFunctionProviderInterface
 	public const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 	public const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
 
+    /**
+	 * @phpstan-param self::ROUND_* $mode
+	 */
     public function getFunctions()
     {
         return [
