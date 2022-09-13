@@ -99,9 +99,15 @@
  
  * **expressions** Configuration for expressions moved from entries to parsers section.
 
- * **expressions** Use parsers()->expressions() instead of expressions() to access methods.
+ * **expressions** Use `parsers()->expressions()` instead of `expressions()` to access methods.
 
- * **entries** local `vars` are replaced with global variables and local private fields.
+ * **entries** Local `vars` are replaced with global variables and local private fields.
+
+ * **shortcodes** Use `registerShortcodes()` instead of `initShortcodes()` to register custom shortcodes.
+
+* **shortcodes** Use `registerDirectives()` instead of `initDirectives()` to register custom directives.
+
+* **shortcodes** Use `initExpressions()` instead of `registerExpressions()` to register custom expressions.
 
 <a name="1.0.0-alpha.1"></a>
 # [1.0.0-alpha.1](https://github.com/flextype/flextype/compare/v0.9.16...v1.0.0-alpha.1) (2022-07-12)
