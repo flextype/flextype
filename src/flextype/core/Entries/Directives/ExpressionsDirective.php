@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Flextype\Entries\Directives;
 
+use function Glowy\Strings\strings;
 use function Flextype\emitter;
 use function Flextype\entries;
 use function Flextype\parsers;
@@ -24,6 +25,7 @@ use function Flextype\collection;
 
 // Directive: [[ ]] [% %] [# #]
 emitter()->addListener('onEntriesFetchSingleField', static function (): void {
+
     if (! registry()->get('flextype.settings.entries.directives.expressions.enabled')) {
         return;
     }
@@ -33,6 +35,10 @@ emitter()->addListener('onEntriesFetchSingleField', static function (): void {
     }
 
     $field = entries()->registry()->get('methods.fetch.field');
+
+    if (is_string($field['value']) && strings($field['value'])->contains('!expressions')) {
+        return;
+    }
 
     $vars = [];
         
