@@ -21,7 +21,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
 use Glowy\Macroable\Macroable;
 
-class WhenExpression implements ExpressionFunctionProviderInterface
+class UnlessExpression implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
