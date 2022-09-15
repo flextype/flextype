@@ -1,0 +1,10 @@
+title: Shop
+macros:
+  entries:
+    fetch:
+      catalog:
+        id: shop/catalog
+        result: toArray
+      discounts:
+        id: shop/discounts
+        result: toArray

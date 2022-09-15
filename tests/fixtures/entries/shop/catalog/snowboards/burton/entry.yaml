@@ -1,0 +1,9 @@
+title: Burton
+macros:
+  entries:
+    fetch:
+      items:
+        result: toArray
+        id: shop/catalog/snowboards/burton
+        options:
+          collection: true

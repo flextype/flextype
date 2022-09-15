@@ -1,0 +1,10 @@
+title: Level 2
+macros:
+  registry:
+    get:
+      flextype:
+        id: flextype.manifest.name
+      author.name:
+        id: flextype.manifest.author.name
+      license:
+        id: flextype.manifest.license

@@ -1,0 +1,9 @@
+title: Bikes
+macros:
+  entries:
+    fetch:
+      items:
+        result: toArray
+        id: shop/catalog/bikes
+        options:
+          collection: true

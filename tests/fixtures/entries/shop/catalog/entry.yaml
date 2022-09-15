@@ -1,0 +1,10 @@
+title: Catalog
+macros:
+  entries:
+    fetch:
+      bikes:
+        result: toArray
+        id: shop/catalog/bikes
+      snowboards:
+        result: toArray
+        id: shop/catalog/snowboards

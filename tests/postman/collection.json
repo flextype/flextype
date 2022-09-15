@@ -1,0 +1,397 @@
+{
+  "info": {
+    "_postman_id": "29d7e016-cea7-4386-84a2-4515e4958615",
+    "name": "Flextype API V0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Utils",
+      "item": [
+        {
+          "name": "Clear cache",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "id": "cc8dcc7c-c162-4106-a37a-756a573e1a0d",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"{{token}}\",\n    \"access_token\": \"{{access_token}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/api/v0/utils/cache/clear"
+          },
+          "response": []
+        }
+      ],
+      "id": "a33c6871-1019-4559-bd91-d922cf520ea1"
+    },
+    {
+      "name": "Entries",
+      "item": [
+        {
+          "name": "Fetch entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"verify title field\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.hasOwnProperty('title')).to.be.true;",
+                  "    pm.expect(jsonData.title).to.be.string;",
+                  "});",
+                  "",
+                  "pm.test(\"verify published_at field\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.hasOwnProperty('published_at')).to.be.true;",
+                  "    pm.expect(Number.isInteger(jsonData.published_at)).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"verify published_by field\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.hasOwnProperty('published_by')).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"verify created_at field\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.hasOwnProperty('created_at')).to.be.true;",
+                  "    pm.expect(Number.isInteger(jsonData.created_at)).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"verify created_by field\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.hasOwnProperty('created_by')).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"verify visibility field\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.hasOwnProperty('visibility')).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"verify visibility field\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.hasOwnProperty('visibility')).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"verify uuid field\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.hasOwnProperty('uuid')).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"verify slug field\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.hasOwnProperty('slug')).to.be.true;",
+                  "    pm.expect(jsonData.title).to.be.string;",
+                  "});",
+                  "",
+                  "pm.test(\"verify modified_at field\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.hasOwnProperty('modified_at')).to.be.true;",
+                  "    pm.expect(Number.isInteger(jsonData.modified_at)).to.be.true;",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ],
+          "id": "f2dd409b-c395-4610-8b50-493f6dab8571",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v0/entries?id={{entry_id}}&options{{entry_options}}&token={{token}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v0",
+                "entries"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{entry_id}}"
+                },
+                {
+                  "key": "options{{entry_options}}",
+                  "value": null
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"title field exists and eq Foo\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.title).to.eql(\"Foo\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "id": "38392a86-0dee-4d75-80fd-31d7504ebdf5",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"{{token}}\",\n    \"access_token\": \"{{access_token}}\",\n    \"id\": \"{{entry_id}}\",\n    \"data\": {\n        \"title\": \"{{entry_title}}\"\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/api/v0/entries"
+          },
+          "response": []
+        },
+        {
+          "name": "Update entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"title field exists and eq Foo\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.title).to.eql(\"Foo\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "id": "9f045111-f130-406e-a369-c6ca002b0d26",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"{{token}}\",\n    \"access_token\": \"{{access_token}}\",\n    \"id\": \"{{entry_id}}\",\n    \"data\": {\n        \"title\": \"{{entry_title}}\"\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/api/v0/entries"
+          },
+          "response": []
+        },
+        {
+          "name": "Move entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"title field exists and eq Foo\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.title).to.eql(\"Foo\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "id": "274afb61-dda3-4c06-b2f6-3e70d945520b",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"{{token}}\",\n    \"access_token\": \"{{access_token}}\",\n    \"id\": \"{{entry_id}}\",\n    \"new_id\": \"{{entry_new_id}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/api/v0/entries"
+          },
+          "response": []
+        },
+        {
+          "name": "Copy entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"title field exists and eq Foo\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.title).to.eql(\"Foo\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "id": "25d04444-9c92-4803-8565-c3c1e9778dfe",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"{{token}}\",\n    \"access_token\": \"{{access_token}}\",\n    \"id\": \"{{entry_id}}\",\n    \"new_id\": \"{{entry_new_id}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/api/v0/entries/copy"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete entry",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "id": "d38ae443-1d01-485d-b166-5ba694de497a",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"{{token}}\",\n    \"access_token\": \"{{access_token}}\",\n    \"id\": \"{{entry_id}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/api/v0/entries"
+          },
+          "response": []
+        }
+      ],
+      "id": "c9d106e8-8f90-4f61-af3f-9033043d73fb"
+    },
+    {
+      "name": "Registry",
+      "item": [
+        {
+          "name": "Get registry item",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"response status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"response json data should contain correct value for registry item key\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.value).to.eql('Flextype');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "id": "85a9bbea-c89e-46da-a574-3f0ec29a15b8",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v0/registry?key={{registry_item_key}}&token={{token}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v0",
+                "registry"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{registry_item_key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "07206fde-26e3-47d6-958f-cbbffd5b2eb9"
+    }
+  ],
+  "variable": [
+    {
+      "id": "defc4d8a-5a3e-44a4-8c38-c5362cf690a9",
+      "key": "entry_id",
+      "value": ""
+    }
+  ]
+}

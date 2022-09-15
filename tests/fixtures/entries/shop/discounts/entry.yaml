@@ -1,0 +1,9 @@
+title: Discounts
+macros:
+  entries:
+    fetch:
+      items:
+        result: toArray
+        id: shop/discounts
+        options:
+          collection: true

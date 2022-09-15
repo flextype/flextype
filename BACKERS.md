@@ -1,39 +1,58 @@
 <h1 align="center">Sponsors &amp; Backers</h1>
 
-Flextype is an MIT-licensed open source project and completely free to use..
+Flextype is an MIT-licensed open source project and completely free to use.
 
 However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing. You can support it's ongoing development by being a backer or a sponsor:
 
-* [Become a backer or sponsor on Patreon](https://www.patreon.com/awilum).
-* [One-time donation via PayPal, QIWI, Sberbank, Yandex](https://flextype.org/en/one-time-donation)
-* [Visit our Sponsors & Backers page](https://flextype.org/en/sponsors)
+* [Become a backer or sponsor](https://awilum.github.io/sponsors).
 
 ### Gold Sponsor
 
 ### Silver Sponsor
 
 ### Bronze Sponsor
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="#">
-         Jeremy Monroe
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
 
 ### Generous Backer
 
 ### Backers
-* Arseni Khramenkin
 
 ### Coffee Supporter
-* Roman
-* Viktoriya Kozyr
+* Anastasiia G.
 
 ### One-time donations
-* Alexander Greca
-* Izabela Sokołowska
+* Viktoriya Kozyr 
+* Izabela Sokołowska 
+* Anastasiia G. 
+* Joseph Newton 
+* Dylan Carlson 
+* Paul Masterson
+* Heinz Wüthrich 
+* Monstra Pro 
+* Izabela Sokołowska 
+* William Marshall 
+* dextra 
+* RomanArt 
+* Andrew 
+* Latham 
+* Moon Ant Radio 
+* ZenLabs 
+* AlxBuk 
+* Hmelex 
+* newbie 
+* dok2d 
+* KANekT 
+* kromverk 
+* AlexGor 
+* uptraff 
+* Knobloh Sergey (zaqwe) 
+* Илья Земсков (vimruler) 
+* Гриценко Екатерина 
+* sergeyterr 
+* vanchelo 
+* La Grande
+
+### Previous monthly supporters
+
+* Jeremy Monroe
+* web-easy
+* Arseni Khramenkin

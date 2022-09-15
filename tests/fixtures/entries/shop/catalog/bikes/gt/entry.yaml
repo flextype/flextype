@@ -1,0 +1,9 @@
+title: GT
+macros:
+  entries:
+    fetch:
+      items:
+        result: toArray
+        id: shop/catalog/bikes/gt
+        options:
+          collection: true

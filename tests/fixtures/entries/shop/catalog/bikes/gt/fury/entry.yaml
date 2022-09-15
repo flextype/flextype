@@ -1,0 +1,16 @@
+title: GT
+price: 2000
+macros:
+  entries:
+    fetch:
+      discounts_available:
+        result: toArray
+        id: shop/discounts
+        options:
+          collection: true
+          filter:
+            where:
+              -
+                key: category
+                operator: eq
+                value: bikes

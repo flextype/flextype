@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+ /**
+ * Flextype - Hybrid Content Management System with the freedom of a headless CMS
+ * and with the full functionality of a traditional CMS!
+ *
+ * Copyright (c) Sergey Romanenko (https://awilum.github.io)
+ *
+ * Licensed under The MIT License.
+ *
+ * For full copyright and license information, please see the LICENSE
+ * Redistributions of files must retain the above copyright notice.
+ */
+
+namespace Flextype\Parsers\Expressions;
+
+use Symfony\Component\ExpressionLanguage\ExpressionFunction;
+use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+
+use function Flextype\vars;
+use function Glowy\Strings\strings;
+
+class VarExpression implements ExpressionFunctionProviderInterface
+{
+    public function getFunctions()
+    {
+        return [
+            new ExpressionFunction('var', 
+                static function (string $name) {
+                    $name = strings($name)->stripQuotes()->toString();
+                    $code = "\Flextype\\vars()->get('$name');";
+                    return $code;
+                },
+                static fn ($arguments, string $name) => vars()->get($name)
+            ),
+            new ExpressionFunction('vars', 
+                                   static fn () => "\\Flextype\\vars()", 
+                                   static fn ($arguments) => vars()
+            )
+        ];
+    }
+}

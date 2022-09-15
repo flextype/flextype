@@ -1,0 +1,6 @@
+title: level1
+macros:
+  entries:
+    fetch:
+      root:
+        id: level1/level2

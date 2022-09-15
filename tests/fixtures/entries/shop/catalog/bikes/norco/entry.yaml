@@ -1,0 +1,9 @@
+title: Norco
+macros:
+  entries:
+    fetch:
+      items:
+        result: toArray
+        id: shop/catalog/bikes/norco
+        options:
+          collection: true
