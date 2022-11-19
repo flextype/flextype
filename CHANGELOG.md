@@ -1,5 +1,14 @@
 # Release Notes for 1.x
 
+<a name="1.0.0-alpha.3"></a>
+# [1.0.0-alpha.3](https://github.com/flextype/flextype/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-11-19)
+
+### Features
+
+* **core** Core packages updated.
+* **core** Added new package Glowy Benchmark.
+
+
 <a name="1.0.0-alpha.2"></a>
 # [1.0.0-alpha.2](https://github.com/flextype/flextype/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-09-13)
 

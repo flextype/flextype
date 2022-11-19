@@ -27,7 +27,7 @@ final class Flextype
     /**
      * Flextype version
      */
-    public const VERSION = '1.0.0-alpha.2';
+    public const VERSION = '1.0.0-alpha.3';
 
     /**
      * The Flextype instance.
