@@ -907,6 +907,103 @@ class Entries
     }
 
     /**
+     * Import.
+     * 
+     * @param string $file File with data to import.
+     */
+    public function import(string $file): bool
+    {
+        $extensions = [];
+        foreach (registry()->get('flextype.settings.serializers') as $name => $serializer) {
+            $extensions[$name] = $serializer['extension'];
+        }
+
+        $extension = filesystem()->file($file)->extension();
+
+        if (in_array($extension, $extensions)) {
+
+            $serializers = array_flip($extensions);
+
+            if ($extension == 'php') {
+                $data = serializers()->phparray()->decode($file);
+            } else {
+                $data = serializers()->{$serializers[$extension]}()->decode(filesystem()->file($file)->get());    
+            }
+
+            // single
+            if (isset($data['id'])) {
+                $id = $data['id'];
+                $data = collection($data)
+                    ->set('created_at', date(registry()->get('flextype.settings.date_format'), $data['created_at']))
+                    ->set('published_at', date(registry()->get('flextype.settings.date_format'), $data['published_at']))
+                    ->delete(['id', 'modified_at', 'slug'])
+                    ->toArray();
+                $this->create($id, $data);
+            } else { // collection
+                foreach ($data as $key => $entry) {
+                    $id = $entry['id'];
+                    $data = collection($entry)
+                        ->set('created_at', date(registry()->get('flextype.settings.date_format'), $entry['created_at']))
+                        ->set('published_at', date(registry()->get('flextype.settings.date_format'), $entry['published_at']))
+                        ->delete(['id', 'modified_at', 'slug'])
+                        ->toArray();
+                    if ($this->has($id)) {
+                        $this->update($id, $data);
+                    } else {
+                        $this->create($id, $data);
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Export.
+     * 
+     * @param string $id Entries ID to fetch data and export to file.
+     * @param array $options Export options.
+     */
+    public function export(string $id, array $options = []): bool
+    {
+        $path       = isset($options['path']) ? $options['path'] : registry()->get('flextype.settings.entries.export.path');
+        $filename   = isset($options['filename']) ? $options['filename'] : registry()->get('flextype.settings.entries.export.filename');
+        $serializer = isset($options['serializer']) ? $options['serializer'] : registry()->get('flextype.settings.entries.export.serializer');
+  
+        // prepare options 
+        $options = collection($options)->delete(['path', 'filename', 'extension', 'serializer'])->toArray();
+
+        // fetch data
+        $data = $this->fetch($id, $options);
+        
+        if ($path == '') {
+            $path = FLEXTYPE_ROOT_DIR . '/_export';
+        }
+    
+        if ($filename == '') {
+            $filename = 'export-' . time();
+        }
+
+        if (! in_array($serializer, array_keys(registry()->get('flextype.settings.serializers')))) {
+            $serializer = 'json';
+        }
+
+        $extensions = [];
+        foreach (registry()->get('flextype.settings.serializers') as $name => $value) {
+            $extensions[$name] = $value['extension'];
+        }
+
+        // create export directory
+        filesystem()->directory($path)->ensureExists(0755, true);
+
+        // save export
+        return (bool) filesystem()->file($path . '/' . $filename . '.' . $extensions[$serializer])->put(serializers()->{$serializer}()->encode($data->toArray()));
+    }
+
+    /**
      * Get Cache ID for entry.
      *
      * @param  string $id     Unique identifier of the Cache Entry Item.

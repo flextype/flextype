@@ -73,7 +73,11 @@ errors:
 
 # Entries
 entries:
-  directory: 'entries'
+  directory: "entries"
+  export: 
+    path: "_export"
+    filename: ""
+    serializer: "json"
   cache:
     string: ""
   directives:
@@ -437,6 +441,7 @@ slugify:
 # phparray.decode.cache: Cache result data or no. Default is true.
 serializers:
   json: 
+    extension: "json"
     decode:
       cache: 
         enabled: true
@@ -448,6 +453,7 @@ serializers:
       options: 0
       depth: 512
   json5: 
+    extension: "json5"
     decode:
       cache: 
         enabled: true
@@ -459,6 +465,7 @@ serializers:
       options: 0
       depth: 512
   yaml:
+    extension: "yaml"
     decode:
       cache: 
         enabled: true
@@ -470,6 +477,7 @@ serializers:
       indent: 2
       flags: 0
   frontmatter:
+    extension: "md"
     decode:
       cache: 
         enabled: true
@@ -483,6 +491,7 @@ serializers:
         serializer: yaml
         allowed: ['yaml', 'json', 'json5', 'neon']
   neon:
+    extension: "neon"
     decode:
       cache: 
         enabled: true
@@ -491,6 +500,7 @@ serializers:
       blockMode: false
       indentation: "\t"
   phparray:
+    extension: "php"
     decode:
       cache: 
         enabled: true

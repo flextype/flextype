@@ -37,12 +37,12 @@ use function Thermage\span;
 
 use const PHP_EOL;
 
-class EntriesFetchCommand extends Command
+class EntriesExportCommand extends Command
 {
     protected function configure(): void
     {
-        $this->setName('entries:fetch');
-        $this->setDescription('Fetch entry.');
+        $this->setName('entries:export');
+        $this->setDescription('Export entry.');
         $this->addArgument('id', InputArgument::OPTIONAL, 'Unique identifier of the entry.');
         $this->addArgument('options', InputArgument::OPTIONAL, 'Options array.');
         $this->addOption('collection', null, InputOption::VALUE_NONE, 'Set this flag to fetch entries collection.');
@@ -65,10 +65,10 @@ class EntriesFetchCommand extends Command
         $this->addOption('filter-sort-by-key', null, InputOption::VALUE_OPTIONAL, 'Sort array collection by key.');
         $this->addOption('filter-sort-by-direction', null, InputOption::VALUE_OPTIONAL, 'Sort array collection by direction. Order direction: DESC (descending) or ASC (ascending)');
         $this->addOption('filter-where', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Filters the array collection fields by a given condition.');
-        $this->addOption('export', null, InputOption::VALUE_NONE, 'Export entries.');
-        $this->addOption('export-path', null, InputOption::VALUE_OPTIONAL, 'Export entries.');
-        $this->addOption('export-filename', null, InputOption::VALUE_OPTIONAL, 'Export entries.');
-
+        $this->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Export path.');
+        $this->addOption('filename', null, InputOption::VALUE_OPTIONAL, 'Export filename.');
+        $this->addOption('extension', null, InputOption::VALUE_OPTIONAL, 'Export extension.');
+        $this->addOption('serializer', null, InputOption::VALUE_OPTIONAL, 'Export serializer.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -160,45 +160,16 @@ class EntriesFetchCommand extends Command
 
             return Command::FAILURE;
         }
+    
+        $exportPath = $input->getOption('export-path') ? $input->getOption('export-path') : registry()->get('flextype.settings.entries.export.path');
+        $exportFilename = $input->getOption('export-filename') ? $input->getOption('export-filename') : registry()->get('flextype.settings.entries.export.filename');
 
-        if ($input->getOption('export')) {
-            $exportPath = $input->getOption('export-path') ? $input->getOption('export-path') : registry()->get('flextype.settings.entries.export.path');
-            $exportFilename = $input->getOption('export-filename') ? $input->getOption('export-filename') : registry()->get('flextype.settings.entries.export.filename');
-
-            if ($exportFilename == '') {
-                $exportFilename = 'export-' . time();
-            }
-
-            filesystem()->directory($exportPath)->ensureExists(0755, true);
-            filesystem()->file($exportPath . '/' . $exportFilename . '.md')->put(serializers()->frontmatter()->encode($data->toArray()));
-            return Command::SUCCESS;
+        if ($exportFilename == '') {
+            $exportFilename = 'export-' . time();
         }
 
-        if (isset($options['collection']) && $options['collection'] === true) {
-            foreach ($data->toArray() as $item) {
-                foreach (collection($item)->dot() as $key => $value) {
-                    $innerDataString .= renderToString(span('[b][color=success]' . $key . '[/color][/b]: ' . $value) . PHP_EOL);
-                }
-
-                $innerData[]     = $innerDataString;
-                $innerDataString = '';
-            }
-        } else {
-            foreach (collection($data)->dot() as $key => $value) {
-                $innerDataString .= renderToString(span('[b][color=success]' . $key . '[/color][/b]: ' . $value) . PHP_EOL);
-            }
-
-            $innerData[]     = $innerDataString;
-            $innerDataString = '';
-        }
-
-        foreach ($innerData as $item) {
-            $output->write(
-                renderToString(
-                    div($item, 'px-2 border-square border-color-success')
-                )
-            );
-        }
+        filesystem()->directory($exportPath)->ensureExists(0755, true);
+        filesystem()->file($exportPath . '/' . $exportFilename . '.md')->put(serializers()->frontmatter()->encode($data->toArray()));
 
         return Command::SUCCESS;
     }
